@@ -6,7 +6,7 @@
             <p class="text-sm font-medium">{{ $t(`paymentDunning.paused.${props.service}`) }}</p>
             <p v-if="!canManage" class="text-sm mt-0.5 opacity-90">{{ $t('paymentDunning.paused.adminOnly') }}</p>
         </div>
-        <Tooltip v-if="canManage" :text="$t('paymentDunning.paused.updateCardHelp')" position="top" wrap>
+        <Tooltip v-if="canManage && !isDesktopApp" :text="$t('paymentDunning.paused.updateCardHelp')" position="top" wrap>
             <FormButton type="button" buttonStyle="primary" @click="navigateTo('/settings/subscription')">
                 {{ $t('paymentDunning.paused.updateCard') }}
             </FormButton>
@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+const isDesktopApp = useIsDesktopApp()
 /**
  * A failed AI or SMS top-up pauses that service only; the company is not closed.
  * The notice says which service and where to fix it. The API is what actually

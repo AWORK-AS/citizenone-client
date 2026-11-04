@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
+                "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",
@@ -13349,7 +13350,9 @@
                 "trialClicks": "Klick på prova gratis",
                 "askClicks": "Klick på be administratör",
                 "trialsStarted": "Provperioder startade",
-                "dismissed": "Stängt"
+                "dismissed": "Stängt",
+                "pushed": "Push skickade",
+                "pushOpened": "Push öppnade"
             },
             "form": {
                 "kind": "Typ",
@@ -13375,7 +13378,10 @@
                 "releaseNoteHint": "Meddelandet visas först när release noten är publicerad, så det aldrig kommer före koden.",
                 "preview": "Förhandsvisning",
                 "previewAppHint": "Visas som en köpare ser det. Medarbetare får knappen ”Be min administratör om den”.",
-                "frequencyHint": "Kunden får högst ett meddelande från CitizenOne om dagen, och aldrig två popupper samtidigt."
+                "frequencyHint": "Kunden får högst ett meddelande från CitizenOne om dagen, och aldrig två popupper samtidigt.",
+                "sendPush": "Skicka även som push till mobilappen",
+                "sendPushHint": "Bara till användare som själva har slagit på \"Nytt från CitizenOne\" under aviseringar. Skickas en gång, när meddelandet går live (vardagar 9-16), och högst en push i veckan per användare.",
+                "pushSent": "Skickad som push {date}"
             }
         },
         "supportAccess": {
@@ -17534,7 +17540,7 @@
             "open": "Öppna översikt"
         },
         "unassignedWon": "Vunna ärenden utan koordinator",
-        "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
+        "unassignedWonCount": "1 nytt ärende väntar på att fördelas | {count} nya ärenden väntar på att fördelas",
         "unassignedWonOpen": "Fördela ärenden",
         "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
@@ -17576,7 +17582,8 @@
             "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
         },
         "distribution": "Fördelning av insatser",
-        "distributionUnassigned": "{count} utan koordinator",
+        "distributionUnassigned": "1 aktiv @:terms.citizen{''} utan koordinator | {count} aktiva @:terms.citizens{''} utan koordinator",
+        "distributionUnassignedTooltip": "Alla aktiva @:terms.citizens{''} där ingen är primär-, sekundär- eller mottagningskoordinator",
         "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
         "distributionSecondary": "{count} sekundära",

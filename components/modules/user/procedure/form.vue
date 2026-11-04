@@ -49,7 +49,7 @@
                 </FormButton>
             </div>
         </div>
-        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
             @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -63,6 +63,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     error: {

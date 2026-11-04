@@ -19,6 +19,10 @@
                             <span class="font-semibold">{{ $t('citizens.contacts.form.companyName') }}:</span>
                             {{ contact?.company_name }}
                         </p>
+                        <p v-if="contact?.social_security_number">
+                            <span class="font-semibold">{{ $t('citizens.contacts.form.socialSecurityNumber') }}:</span>
+                            {{ contact?.social_security_number }}
+                        </p>
                         <p v-if="contact?.email">
                             <span class="font-semibold">{{ $t('citizens.contacts.form.email') }}:</span>
                             {{ contact?.email }}

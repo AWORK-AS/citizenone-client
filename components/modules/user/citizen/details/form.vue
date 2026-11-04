@@ -583,7 +583,7 @@
                             <p class="text-sm text-gray-600 max-w-xl">{{ $t('patient.staff.teaserText') }}</p>
                         </div>
                     </div>
-                    <FormButton type="button" buttonStyle="action"
+                    <FormButton v-if="!isDesktopApp" type="button" buttonStyle="action"
                         @click="navigateTo('/apps?type=other&generic_name=patient-access')">
                         {{ $t('patient.staff.teaserAction') }}
                     </FormButton>
@@ -1250,6 +1250,8 @@ import { employmentService } from '@/components/api/user/EmploymentService'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
+
+const isDesktopApp = useIsDesktopApp()
 
 const userStore = useUserStore() as any
 const { industryHasFeature } = useIndustryFeatures()

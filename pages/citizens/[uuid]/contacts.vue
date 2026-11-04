@@ -99,6 +99,9 @@
                                     </td>
                                     <td width="20%">
                                         <span>{{ contactDisplayName(contact) }}</span>
+                                        <div v-if="contact?.social_security_number" class="text-xs text-gray-500">
+                                            {{ $t('citizens.contacts.form.socialSecurityNumber') }}: {{ contact?.social_security_number }}
+                                        </div>
                                     </td>
                                     <td width="20%">
                                         <div class="space-y-1">

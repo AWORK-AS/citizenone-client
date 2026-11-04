@@ -77,7 +77,7 @@
                                             </div>
                                             <hr class="mt-5 mb-4" />
                                             <div class="space-y-5">
-                                                <div class="space-y-3">
+                                                <div v-if="!isDesktopApp" class="space-y-3">
                                                     <p class="text-xl">
                                                         {{ $t('support.needACourse') }}?
                                                     </p>
@@ -153,6 +153,8 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     isOpen: {
