@@ -12559,6 +12559,20 @@
                 "description": "Vælg hvilke af dine tilgængelige menupunkter der vises i din egen venstre sidemenu. Slår du et fra, gælder det kun for dig.",
                 "empty": "Der er ingen tilpasselige menupunkter tilgængelige for dig.",
                 "saved": "Din sidemenu er blevet opdateret."
+            },
+            "accountDeletion": {
+                "title": "Slet min konto",
+                "description": "Du kan anmode om at få din konto slettet. Vi bekræfter anmodningen med dig og din arbejdsplads, før kontoen slettes.",
+                "records": "Journaler og andre oplysninger, du har registreret, tilhører din arbejdsplads og kan være omfattet af opbevaringspligt. De slettes derfor ikke sammen med kontoen.",
+                "reasonLabel": "Begrundelse (valgfri)",
+                "reasonPlaceholder": "Fortæl os gerne hvorfor",
+                "button": "Anmod om sletning af konto",
+                "confirmTitle": "Anmod om sletning af konto?",
+                "confirmMessage": "Vi sender din anmodning til CitizenOne support, som kontakter dig. Din konto virker, indtil sletningen er gennemført.",
+                "confirmButton": "Send anmodning",
+                "sent": "Din anmodning er sendt. Support kontakter dig.",
+                "pending": "Du har anmodet om at få din konto slettet ({date}). Support kontakter dig.",
+                "failed": "Anmodningen kunne ikke sendes. Prøv igen."
             }
         },
         "settings": "Indstillinger",

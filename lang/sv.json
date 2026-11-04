@@ -12554,6 +12554,20 @@
                 "description": "Välj vilka av dina tillgängliga menyalternativ som visas i din egen vänstra sidomeny. Om du stänger av ett gäller det bara för dig.",
                 "empty": "Det finns inga anpassningsbara menyalternativ tillgängliga för dig.",
                 "saved": "Din sidomeny har uppdaterats."
+            },
+            "accountDeletion": {
+                "title": "Radera mitt konto",
+                "description": "Du kan begära att ditt konto raderas. Vi bekräftar begäran med dig och din arbetsplats innan kontot raderas.",
+                "records": "Journaler och andra uppgifter du har registrerat tillhör din arbetsplats och kan omfattas av en lagringsplikt. De raderas därför inte tillsammans med kontot.",
+                "reasonLabel": "Anledning (valfritt)",
+                "reasonPlaceholder": "Berätta gärna varför",
+                "button": "Begär radering av konto",
+                "confirmTitle": "Begära radering av konto?",
+                "confirmMessage": "Vi skickar din begäran till CitizenOne support, som kontaktar dig. Ditt konto fungerar tills raderingen är genomförd.",
+                "confirmButton": "Skicka begäran",
+                "sent": "Din begäran har skickats. Support kontaktar dig.",
+                "pending": "Du har begärt att ditt konto raderas ({date}). Support kontaktar dig.",
+                "failed": "Begäran kunde inte skickas. Försök igen."
             }
         },
         "settings": "Inställningar",
