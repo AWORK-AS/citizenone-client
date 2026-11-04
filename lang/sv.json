@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
+                "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",

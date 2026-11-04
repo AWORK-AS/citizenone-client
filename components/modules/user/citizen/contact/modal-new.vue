@@ -110,6 +110,7 @@ async function saveContact(contactDetails: any) {
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
                 lastname: contactDetails.lastname,
+                social_security_number: contactDetails.social_security_number?.trim() || null,
                 email: contactDetails.email,
                 phone: contactDetails.phone,
                 note: contactDetails.note,
