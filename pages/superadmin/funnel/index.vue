@@ -211,14 +211,14 @@
                                         <tr v-for="row in nudgeRows" :key="`${row.week}-${row.surface}`">
                                             <td class="py-2 pr-3 text-[#1F2533]">{{ row.week }}</td>
                                             <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${row.surface}`) }}</td>
-                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ row[col] }}</td>
+                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ nudgeCellText(state.nudges, row.surface, col, row[col]) }}</td>
                                         </tr>
                                     </tbody>
                                     <tfoot class="font-semibold">
                                         <tr v-for="surface in state.nudges.surfaces" :key="surface">
                                             <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
                                             <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${surface}`) }}</td>
-                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ state.nudges.totals?.[surface]?.[col] ?? 0 }}</td>
+                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ nudgeCellText(state.nudges, surface, col, state.nudges.totals?.[surface]?.[col]) }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -241,7 +241,7 @@ import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { usePermissions } from '@/composables/usePermissions'
 import { FUNNEL_STAGES, activeBuckets, biggestDrop, isSmallSample, referralPaidRate, shareOfSignups, stepRate, suggestionConversion, type FunnelRow } from '@/composables/growthFunnel'
-import { nudgeReportRows } from '@/composables/codyNudge'
+import { nudgeCellText, nudgeReportRows } from '@/composables/codyNudge'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -263,7 +263,10 @@ const state = reactive({
     error: {} as Error,
 })
 
+// "Seen" and "opened" come first: a loop at 0 sends says nothing until we know whether anyone saw it.
 const SUGGESTION_COLUMNS = [
+    { field: 'seen', label: 'seen' },
+    { field: 'opened', label: 'opened' },
     { field: 'sends', label: 'sends' },
     { field: 'recipients', label: 'recipients' },
     { field: 'suggested_apps', label: 'apps' },
@@ -271,16 +274,18 @@ const SUGGESTION_COLUMNS = [
     { field: 'open', label: 'open' },
 ] as const
 const REFERRAL_COLUMNS = [
+    { field: 'seen', label: 'seen' },
+    { field: 'opened', label: 'opened' },
     { field: 'shares', label: 'shares' },
     { field: 'signed_up', label: 'signedUp' },
     { field: 'paid', label: 'paid' },
 ] as const
 
-const NUDGE_COLUMNS = ['impressions', 'viewers', 'clicks', 'try_free', 'buy', 'companies', 'trial_started', 'bought'] as const
+const NUDGE_COLUMNS = ['impressions', 'viewers', 'clicks', 'try_free', 'buy', 'dismissed', 'companies', 'trial_started', 'bought'] as const
 const nudgeRows = computed(() => nudgeReportRows(state.nudges))
 
-const suggestionRows = computed(() => activeBuckets(state.loops?.suggestions?.buckets, ['sends', 'suggested_apps', 'converted']))
-const referralRows = computed(() => activeBuckets(state.loops?.referrals?.buckets, ['shares', 'signed_up', 'paid']))
+const suggestionRows = computed(() => activeBuckets(state.loops?.suggestions?.buckets, ['seen', 'opened', 'sends', 'suggested_apps', 'converted']))
+const referralRows = computed(() => activeBuckets(state.loops?.referrals?.buckets, ['seen', 'opened', 'shares', 'signed_up', 'paid']))
 
 function pct(value: number | null): string {
     return value === null ? '-' : `${value}%`
