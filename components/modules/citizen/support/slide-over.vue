@@ -55,8 +55,8 @@
                                                         </FormButton>
                                                     </div>
                                                 </div>
-                                                <hr />
-                                                <div class="space-y-3">
+                                                <hr v-if="!isDesktopApp" />
+                                                <div v-if="!isDesktopApp" class="space-y-3">
                                                     <p class="text-xl">
                                                         {{ $t('support.needACourse') }}?
                                                     </p>
@@ -85,6 +85,8 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     isOpen: {

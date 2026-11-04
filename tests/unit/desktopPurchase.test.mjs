@@ -66,4 +66,17 @@ describe('wiring', () => {
         assert.ok(users.length > 0)
         for (const route of users) assert.equal(isPurchaseRoute(route), true, route)
     })
+
+    test('course links to the pricing pages are hidden in the desktop app', () => {
+        const files = [
+            ...['user', 'dentist', 'citizen', 'relative'].map(m => `components/modules/${m}/support/slide-over.vue`),
+            ...['calendar', 'citizens', 'daily-overview', 'employees', 'end', 'welcome'].map(n => `components/modules/user/guided-tour/modal-${n}.vue`),
+        ]
+        for (const file of files) {
+            const src = read(file)
+            assert.match(src, /const isDesktopApp = useIsDesktopApp\(\)/, file)
+            assert.ok(src.includes('support.needACourse') ? /<div v-if="!isDesktopApp" class="space-y-3">\s*<p class="text-xl">\s*\{\{ \$t\('support\.needACourse'\)/.test(src) : true, file)
+            if (file.includes('guided-tour')) assert.match(src, /<FormButton v-if="!isDesktopApp" buttonStyle="primary"\s*@click="navigateToExternalLink\('https:\/\/citizenone\.dk\/priser-til-journalsystem\/kurser'\)"/, file)
+        }
+    })
 })
