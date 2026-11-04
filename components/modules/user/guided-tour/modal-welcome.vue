@@ -105,7 +105,7 @@
                                                         Book demo
                                                     </span>
                                                 </FormButton>
-                                                <FormButton buttonStyle="get-started" @click="navigateToSubscription()"
+                                                <FormButton v-if="!isDesktopApp" buttonStyle="get-started" @click="navigateToSubscription()"
                                                     class="w-fit">
                                                     <span v-if="language.locale.value === 'en'">
                                                         Get started
@@ -146,6 +146,8 @@ import { userService } from '@/components/api/user/UserService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     size: {

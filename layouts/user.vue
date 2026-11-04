@@ -524,7 +524,7 @@
                                     </MenuItem>
                                     <!-- Only an admin can switch an app on; for anyone else the
                                          store is a shop window onto something they cannot buy. -->
-                                    <MenuItem v-if="isAtLeast('Admin')">
+                                    <MenuItem v-if="isAtLeast('Admin') && !isDesktopApp">
                                         <div @click="navigateTo('/apps')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ic:baseline-apps" class="h-4 w-4 text-slate-400" />{{

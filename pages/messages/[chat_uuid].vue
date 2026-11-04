@@ -315,7 +315,7 @@
         <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
             :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
             @updateMessage="updateMessage" />
-        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
             @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />

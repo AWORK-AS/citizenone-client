@@ -2,7 +2,7 @@
     <!-- The plan that fits the team they told us about, shown only while they
          are on the free account. A suggestion with the reason next to it, never
          a wall: the free account keeps working. -->
-    <section v-if="plan" data-testid="plan-recommendation"
+    <section v-if="plan && !isDesktopApp" data-testid="plan-recommendation"
         class="rounded-2xl border border-slate-200 bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-start gap-4 min-w-0">
             <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-primary shrink-0">
@@ -24,6 +24,8 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
 import { isTeamSize, recommendedPlan } from '@/composables/teamSize'
+
+const isDesktopApp = useIsDesktopApp()
 
 const userStore = useUserStore() as any
 
