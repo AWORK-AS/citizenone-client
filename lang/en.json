@@ -16579,10 +16579,17 @@
             "messageSuccessfullySent": "Message successfully sent"
         },
         "form": {
+            "addImages": "Add images",
+            "attachImages": "Images (optional)",
+            "attachImagesHelp": "Add screenshots that show what you mean. Up to {max} images, max 10 MB each. You can also paste a screenshot here.",
             "describeTheFeature": "Describe the feature you wish to see",
+            "imageTooLarge": "The image is too large. Max 10 MB.",
+            "notAnImage": "Only PNG, JPG, GIF and WebP images can be added.",
             "pleaseDescribeTheFeature": "Please describe the feature you would like to have. Include any specific details or requirements you have in mind",
             "pleaseWriteHere": "Please write here",
-            "sendMessage": "Send message"
+            "removeImage": "Remove image",
+            "sendMessage": "Send message",
+            "tooManyImages": "You can add up to {max} images."
         },
         "confirmation": {
             "requestSent": "Request sent",

@@ -16494,10 +16494,17 @@
             "messageSuccessfullySent": "Meddelande skickad"
         },
         "form": {
+            "addImages": "Lägg till bilder",
+            "attachImages": "Bilder (valfritt)",
+            "attachImagesHelp": "Lägg till skärmbilder som visar vad du menar. Upp till {max} bilder, max 10 MB per bild. Du kan också klistra in en skärmbild här.",
             "describeTheFeature": "Beskriv den funktion, du vill se",
+            "imageTooLarge": "Bilden är för stor. Max 10 MB.",
+            "notAnImage": "Endast PNG-, JPG-, GIF- och WebP-bilder kan läggas till.",
             "pleaseDescribeTheFeature": "Beskriv vänligen den funktion, du gerne vill have. Inkluder eventuelle specifika detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv vänligen här",
-            "sendMessage": "Skicka meddelande"
+            "removeImage": "Ta bort bild",
+            "sendMessage": "Skicka meddelande",
+            "tooManyImages": "Du kan lägga till upp till {max} bilder."
         },
         "confirmation": {
             "requestSent": "Förfrågan skickad",
