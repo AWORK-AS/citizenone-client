@@ -3402,7 +3402,8 @@
                 "transport": "Transport",
                 "type": "Type",
                 "work": "Work",
-                "running": "Running"
+                "running": "Running",
+                "createdAt": "Created"
             },
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
@@ -12948,7 +12949,8 @@
             },
             "storage": {
                 "title": "What is taking up space?",
-                "body": "How much room your files use and what takes the most. Buy more space, or clear out the largest files."
+                "body": "How much room your files use and what takes the most. Buy more space, or clear out the largest files.",
+                "bodyDesktop": "How much space your files use and what takes up the most, so you can clear out the largest files."
             },
             "portalAccess": {
                 "title": "What is portal access?",
@@ -19895,12 +19897,14 @@
         "wall": {
             "pastDueTitle": "We could not collect your payment",
             "pastDueBody": "We were unable to charge your subscription. Enter a valid payment card to continue. The account will close in {days} days if the payment is not completed.",
+            "pastDueBodyNoClose": "We were unable to charge your subscription. Enter a valid payment card to continue.",
             "suspendedTitle": "Your subscription is suspended",
             "suspendedBody": "Your subscription is suspended because the payment could not be collected. Enter a valid payment card and we will reopen the account immediately."
         },
         "notice": {
             "title": "Payment outstanding",
-            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise."
+            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise.",
+            "bodyNoClose": "We were unable to charge your subscription. An administrator needs to update the payment card."
         },
         "renew": {
             "title": "Renew your subscription",
@@ -21909,5 +21913,9 @@
         "banner": "You are viewing the system as the role {role}.",
         "readOnly": "View only - nothing can be saved.",
         "end": "End preview"
+    },
+    "desktopApp": {
+        "notAvailable": "This is not available in the desktop app.",
+        "paymentNotAvailable": "The payment card cannot be updated in the desktop app. Contact support if you need help."
     }
 }

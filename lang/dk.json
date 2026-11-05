@@ -3402,7 +3402,8 @@
                 "transport": "Transportere",
                 "type": "Type",
                 "work": "Arbejdstid",
-                "running": "I gang"
+                "running": "I gang",
+                "createdAt": "Oprettet"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -12948,7 +12949,8 @@
             },
             "storage": {
                 "title": "Hvad fylder?",
-                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer."
+                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer.",
+                "bodyDesktop": "Hvor meget plads jeres filer bruger, og hvad der fylder mest, så I kan rydde op i de største filer."
             },
             "portalAccess": {
                 "title": "Hvad er portaladgang?",
@@ -19895,12 +19897,14 @@
         "wall": {
             "pastDueTitle": "Betalingen kunne ikke gennemføres",
             "pastDueBody": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte. Kontoen lukkes om {days} dage, hvis betalingen ikke gennemføres.",
+            "pastDueBodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte.",
             "suspendedTitle": "Abonnementet er sat på pause",
             "suspendedBody": "Jeres abonnement er sat på pause, fordi betalingen ikke kunne gennemføres. Indtast et gyldigt betalingskort, så åbner vi kontoen igen med det samme."
         },
         "notice": {
             "title": "Betalingen mangler",
-            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker."
+            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker.",
+            "bodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet."
         },
         "renew": {
             "title": "Forny jeres abonnement",
@@ -21909,5 +21913,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Kun visning - intet kan gemmes.",
         "end": "Afslut visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det er ikke tilgængeligt i desktop-appen.",
+        "paymentNotAvailable": "Betalingskortet kan ikke opdateres i desktop-appen. Kontakt support, hvis I har brug for hjælp."
     }
 }

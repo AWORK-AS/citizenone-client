@@ -35,9 +35,9 @@
                                     <div class="min-w-0 flex-1">
                                         <p class="text-sm font-semibold text-gray-900">{{ item.title }}</p>
                                         <p class="mt-0.5 text-sm text-gray-600">{{ item.body }}</p>
-                                        <button v-if="ctaText(item.cta)" type="button" @click="openAnnouncement(item)"
+                                        <button v-if="ctaText(ctaFor(item.cta, isDesktopApp))" type="button" @click="openAnnouncement(item)"
                                             class="mt-2 text-sm font-medium text-tertiary hover:underline">
-                                            {{ ctaText(item.cta)!.literal ?? $t(ctaText(item.cta)!.key, ctaText(item.cta)!.values ?? {}) }}
+                                            {{ ctaText(ctaFor(item.cta, isDesktopApp))!.literal ?? $t(ctaText(ctaFor(item.cta, isDesktopApp))!.key, ctaText(ctaFor(item.cta, isDesktopApp))!.values ?? {}) }}
                                         </button>
                                     </div>
                                 </li>
@@ -103,9 +103,11 @@
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/user/ReleaseNoteService'
 import { announcementService } from '@/components/api/user/AnnouncementService'
-import { ctaTarget, ctaText, type UserAnnouncement } from '@/composables/announcements'
+import { ctaFor, ctaTarget, ctaText, type UserAnnouncement } from '@/composables/announcements'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useVideoEmbed } from '@/composables/videoEmbed'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     isModalOpen: {

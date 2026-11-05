@@ -85,7 +85,9 @@ async function saveExpense(expenseDetails: any) {
         params.append('citizen_uuid', expenseDetails.citizen_uuid)
         params.append('expense_date', expenseDetails.expense_date)
         params.append('amount', expenseDetails.amount)
-        if (expenseDetails.receipt) {
+        // Only a chosen file: the empty {} the form starts with was posted as
+        // "[object Object]" and refused as "receipt skal være en fil.".
+        if (expenseDetails.receipt instanceof File) {
             params.append('receipt', expenseDetails.receipt)
         }
 

@@ -3402,7 +3402,8 @@
                 "transport": "Transportere",
                 "type": "Typ",
                 "work": "Arbetstid",
-                "running": "Pågår"
+                "running": "Pågår",
+                "createdAt": "Skapad"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tilldelning",
@@ -12943,7 +12944,8 @@
             },
             "storage": {
                 "title": "Vad tar plats?",
-                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna.",
+                "bodyDesktop": "Hur mycket utrymme era filer använder och vad som tar mest plats, så att ni kan rensa bland de största filerna."
             },
             "portalAccess": {
                 "title": "Vad är portalåtkomst?",
@@ -19810,12 +19812,14 @@
         "wall": {
             "pastDueTitle": "Betalningen kunde inte genomföras",
             "pastDueBody": "Vi kunde inte dra betalningen för er prenumeration. Ange ett giltigt betalkort för att fortsätta. Kontot stängs om {days} dagar om betalningen inte genomförs.",
+            "pastDueBodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. Ange ett giltigt betalkort för att fortsätta.",
             "suspendedTitle": "Prenumerationen är pausad",
             "suspendedBody": "Er prenumeration är pausad eftersom betalningen inte kunde genomföras. Ange ett giltigt betalkort så öppnar vi kontot igen direkt."
         },
         "notice": {
             "title": "Betalningen saknas",
-            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar."
+            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar.",
+            "bodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. En administratör behöver uppdatera betalkortet."
         },
         "renew": {
             "title": "Förnya er prenumeration",
@@ -21824,5 +21828,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Endast visning - inget kan sparas.",
         "end": "Avsluta visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
+        "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
     }
 }

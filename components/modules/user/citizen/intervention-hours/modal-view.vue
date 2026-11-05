@@ -223,6 +223,10 @@
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
                                     </td>
+                                    <td width="10%">
+                                        {{ inteventionHours?.created_at ?
+                                            formatDateTimeToReadable(inteventionHours?.created_at) : '' }}
+                                    </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
@@ -313,6 +317,7 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.totalHours', isTranslateName: true, },
         { name: 'citizens.interventionHours.table.type', isTranslateName: true, key: 'is_transportation' },
         { name: 'citizens.interventionHours.table.createdBy', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: '' },
     ],
     contributionMargin: {} as any,

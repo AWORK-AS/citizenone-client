@@ -124,6 +124,9 @@ async function downloadInterventionHours() {
             if (props?.filters?.is_transportation !== '') {
                 params.is_transportation = props?.filters?.is_transportation
             }
+            if (props?.filters?.hour_type_uuids?.length > 0) {
+                params['hour_type_uuids[]'] = [...props.filters.hour_type_uuids]
+            }
 
             if (state.onlyUnprocessed) {
                 params.only_unprocessed = 1
