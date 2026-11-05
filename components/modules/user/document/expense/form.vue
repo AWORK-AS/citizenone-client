@@ -26,7 +26,8 @@
                 <FormError :error="props?.error?.errors?.expense_category_uuid?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="citizen_uuid" :label="$t('expenses.form.citizen')" />
+                <FormLabel for="citizen_uuid"
+                    :label="citizenRequired ? `${$t('expenses.form.citizen')} *` : $t('expenses.form.citizen')" />
                 <FormSelect id="citizen_uuid" :options="state.options.citizens"
                     v-model="state.formExpense.citizen_uuid" />
                 <FormError :error="v$?.formExpense?.citizen_uuid?.$errors[0]?.$message.toString()" />
@@ -160,11 +161,12 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { expenseCategoryService } from '~/components/api/user/ExpenseCategoryService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     error: {
@@ -184,6 +186,10 @@ const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading'])
 const attachmentInput = ref<HTMLInputElement | null>(null)
 
 const { t } = useI18n()
+const userStore = useUserStore() as any
+// Settings -> Company: "Borger/indsats påkrævet på udgifter". The server refuses
+// an expense without a citizen either way; this only says so before sending.
+const citizenRequired = computed(() => userStore.getUser?.company?.expense_citizen_required_enabled === true)
 
 const state = reactive({
     error: {} as Error,
@@ -249,6 +255,9 @@ const rules = computed(() => {
             },
             expense_category_uuid: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            citizen_uuid: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => citizenRequired.value)),
             },
             description: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),

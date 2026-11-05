@@ -33,6 +33,12 @@ class ExpenseService extends BaseAPIService {
         return await this.request(`/user/expenses/${expenseUuid}`, 'DELETE')
     }
 
+    // The filtered list (search, status, citizen_uuid, sort) as a zip:
+    // an overview sheet plus every receipt, named to match its row.
+    async exportExpenses(params: object): Promise<Blob | null> {
+        return await this.requestBlob(`/user/expenses/export/zip`, 'GET', params)
+    }
+
     async downloadReceipt(expenseUuid: string): Promise<any> {
         return await this.request(`/user/expenses/${expenseUuid}/download`, 'GET')
     }

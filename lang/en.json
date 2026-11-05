@@ -8569,7 +8569,8 @@
             "receipt": "Receipt",
             "reimbursed": "Outlay paid",
             "rejected": "Rejected",
-            "status": "Status"
+            "status": "Status",
+            "citizen": "@.capitalize:terms.citizen{''}"
         },
         "viewExpense": {
             "amount": "Amount",
@@ -8581,6 +8582,17 @@
             "name": "Name",
             "receipt": "Receipt",
             "viewExpense": "View expense"
+        },
+        "filter": {
+            "status": "Status",
+            "statusAll": "All expenses",
+            "statusPending": "Not reimbursed",
+            "statusReimbursed": "Reimbursed",
+            "statusRejected": "Rejected",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "allCitizens": "All @:terms.citizens{''}",
+            "downloadWithReceipts": "Download with receipts",
+            "exportFileName": "expenses"
         }
     },
     "extraHoursTags": {
@@ -12523,7 +12535,9 @@
                 "portalPreviewPrescriptions": "The patient sees their current prescriptions and can ask the clinic to renew them. The request comes into the Prescription renewals inbox.",
                 "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}",
                 "contactWeeklyHours": "Hours a week per employee and @:terms.citizen{''}",
-                "contactWeeklyHoursHint": "When assigning, set how many hours a week the employee is to spend with a @:terms.citizen{''}. The employee sees the hours and what is used on My day"
+                "contactWeeklyHoursHint": "When assigning, set how many hours a week the employee is to spend with a @:terms.citizen{''}. The employee sees the hours and what is used on My day",
+                "expenseCitizenRequired": "@.capitalize:terms.citizen{''} required on expenses",
+                "expenseCitizenRequiredHint": "When on, an expense can only be saved with a @:terms.citizen{''}, on the web and in the app"
             }
         },
         "licenseOverview": {

@@ -14,10 +14,26 @@
 
             <div class="space-y-5">
                 <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
-                    <div class="flex items-center justify-end md:justify-start gap-x-3">
-
+                    <div class="flex flex-wrap items-center justify-end md:justify-start gap-3">
+                        <div class="w-48">
+                            <FormSelect id="expenseStatusFilter" :options="statusOptions" :searchable="false"
+                                :canClear="false" :canDeselect="false" :modelValue="state.statusFilter"
+                                :aria-label="$t('expenses.filter.status')"
+                                @update:modelValue="handleStatusFilter" />
+                        </div>
+                        <div class="w-60">
+                            <FormSelect id="expenseCitizenFilter" :options="state.citizenOptions"
+                                :placeholder="$t('expenses.filter.allCitizens')" :modelValue="state.dataFilter.citizen_uuid || null"
+                                :aria-label="$t('expenses.filter.citizen')"
+                                @update:modelValue="handleCitizenFilter" />
+                        </div>
                     </div>
                     <div class="flex flex-wrap items-center justify-end gap-3">
+                        <FormButton buttonStyle="action" :disabled="state.isExporting" @click="exportExpenses">
+                            <Icon :name="state.isExporting ? 'ph:spinner' : 'ph:download-simple'"
+                                :class="['h-4 w-4', state.isExporting ? 'animate-spin' : '']" aria-hidden="true" />
+                            {{ $t('expenses.filter.downloadWithReceipts') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isAddExpenseOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('expenses.addNewExpense') }}
@@ -42,6 +58,9 @@
                                                 {{ expense?.user?.firstname }} {{ expense?.user?.lastname }}
                                             </span>
                                         </div>
+                                    </td>
+                                    <td width="10%">
+                                        <span>{{ expense?.citizen ? `${expense.citizen.firstname ?? ''} ${expense.citizen.lastname ?? ''}`.trim() : '-' }}</span>
                                     </td>
                                     <td width="10%">
                                         <span>{{ expense?.name }}</span>
@@ -75,7 +94,7 @@
                                             {{ formatDateToReadable(expense?.expense_date) }}
                                         </span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('expenses.table.actions.view')">
                                                 <FormButton :aria-label="$t('expenses.table.actions.view')" type="button" buttonStyle="action"
@@ -151,6 +170,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { expenseService } from '@/components/api/user/ExpenseService'
+import { citizenService } from '@/components/api/user/CitizenService'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -178,6 +198,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'expenses.table.employee', isTranslateName: true, sorter: true },
+        { name: 'expenses.table.citizen', isTranslateName: true },
         { name: 'expenses.table.name', isTranslateName: true, },
         { name: 'expenses.table.category', isTranslateName: true, sorter: true, },
         { name: 'expenses.table.amount', isTranslateName: true, sorter: true, },
@@ -187,8 +208,13 @@ const state = reactive({
         { name: '' },
     ],
     dataFilter: {
-        search: ''
+        search: '' as any,
+        citizen_uuid: '',
     },
+    // 'all' | 'pending' | 'reimbursed' | 'rejected'; remembered per user.
+    statusFilter: 'all',
+    citizenOptions: [] as any[],
+    isExporting: false,
     error: {} as Error,
     isPageLoading: false,
     isTableLoading: false,
@@ -207,9 +233,94 @@ const state = reactive({
     },
 })
 
+const STATUS_FILTERS = ['all', 'pending', 'reimbursed', 'rejected']
+const statusOptions = computed(() => [
+    { value: 'all', label: t('expenses.filter.statusAll') },
+    { value: 'pending', label: t('expenses.filter.statusPending') },
+    { value: 'reimbursed', label: t('expenses.filter.statusReimbursed') },
+    { value: 'rejected', label: t('expenses.filter.statusRejected') },
+])
+
+// The chosen status is what the user sees next time, in this browser.
+function statusFilterKey() {
+    return `c1.expenses.statusFilter.${userStore?.user?.uuid ?? 'anonymous'}`
+}
+
+function readStoredStatusFilter(): string {
+    try {
+        const stored = localStorage.getItem(statusFilterKey())
+        return stored && STATUS_FILTERS.includes(stored) ? stored : 'all'
+    } catch {
+        return 'all'
+    }
+}
+
+function storeStatusFilter(value: string) {
+    try {
+        localStorage.setItem(statusFilterKey(), value)
+    } catch {
+        // Private mode or blocked storage: the filter still applies, just isn't remembered.
+    }
+}
+
 onMounted(() => {
+    state.statusFilter = readStoredStatusFilter()
     fetchExpenses()
+    fetchCitizenOptions()
 })
+
+function filterParams() {
+    return {
+        sortField: state.sortData.sortField,
+        sortOrder: state.sortData.sortOrder,
+        ...state.dataFilter,
+        status: state.statusFilter === 'all' ? '' : state.statusFilter,
+    }
+}
+
+function handleStatusFilter(value: any) {
+    const status = STATUS_FILTERS.includes(value) ? value : 'all'
+    state.statusFilter = status
+    storeStatusFilter(status)
+    currentTablePage = 1
+    fetchExpenses()
+}
+
+function handleCitizenFilter(value: any) {
+    state.dataFilter.citizen_uuid = value || ''
+    currentTablePage = 1
+    fetchExpenses()
+}
+
+async function fetchCitizenOptions() {
+    try {
+        const response = await citizenService.getAllCitizens({})
+        state.citizenOptions = (response?.data ?? [])
+            // The list starts with an "all citizens" entry; the placeholder covers that.
+            .filter((citizen: any) => citizen?.uuid && citizen.uuid !== 'all-citizens')
+            .map((citizen: any) => ({
+                value: citizen.uuid,
+                label: `${citizen?.firstname ?? ''} ${citizen?.lastname ?? ''}`.trim(),
+            }))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function exportExpenses() {
+    state.error = {}
+    state.isExporting = true
+    try {
+        const response = await expenseService.exportExpenses(filterParams())
+        if (response) {
+            const today = new Date().toISOString().slice(0, 10)
+            saveAs(response, `${t('expenses.filter.exportFileName')}-${today}.zip`)
+        }
+    } catch (error: any) {
+        state.error = { message: error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.') } as Error
+    }
+    state.isExporting = false
+}
 
 
 
@@ -219,9 +330,7 @@ async function fetchExpenses(folderUuid: any = null) {
     try {
         const params = {
             page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter,
+            ...filterParams(),
         }
         const response = await expenseService.getExpenses(params)
         if (response) {

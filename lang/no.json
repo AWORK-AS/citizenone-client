@@ -8569,7 +8569,8 @@
             "receipt": "Kvittering",
             "reimbursed": "Udlæg udbetalt",
             "rejected": "Avvist",
-            "status": "Status"
+            "status": "Status",
+            "citizen": "@.capitalize:terms.citizen{''}"
         },
         "viewExpense": {
             "amount": "Beløp",
@@ -8581,6 +8582,17 @@
             "name": "Navn",
             "receipt": "Kvittering",
             "viewExpense": "Se utgift"
+        },
+        "filter": {
+            "status": "Status",
+            "statusAll": "Alle utgifter",
+            "statusPending": "Ikke utbetalt",
+            "statusReimbursed": "Utbetalt",
+            "statusRejected": "Avvist",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "allCitizens": "Alle @:terms.citizens{''}",
+            "downloadWithReceipts": "Last ned med kvitteringer",
+            "exportFileName": "utgifter"
         }
     },
     "extraHoursTags": {
@@ -12518,7 +12530,9 @@
                 "portalPreviewPrescriptions": "Pasienten ser sine nåværende resepter og kan be klinikken om å fornye dem. Forespørselen kommer inn i innboksen Reseptfornyelser.",
                 "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}",
                 "contactWeeklyHours": "Timer per uke per medarbeider og @:terms.citizen{''}",
-                "contactWeeklyHoursHint": "Angi ved tildeling hvor mange timer per uke medarbeideren skal bruke med en @:terms.citizen{''}. Medarbeideren ser timene og forbruket på Min dag"
+                "contactWeeklyHoursHint": "Angi ved tildeling hvor mange timer per uke medarbeideren skal bruke med en @:terms.citizen{''}. Medarbeideren ser timene og forbruket på Min dag",
+                "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/innsats påkrevd på utgifter",
+                "expenseCitizenRequiredHint": "Når den er slått på, kan en utgift bare lagres med en @:terms.citizen{''}, både på web og i appen"
             }
         },
         "licenseOverview": {
