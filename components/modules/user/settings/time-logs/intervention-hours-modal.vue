@@ -15,6 +15,11 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.download.download') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" v-if="canSeeExportHistory"
+                        @click="state.modal.isExportHistoryOpen = true">
+                        <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('timeLogs.exportHistory.titleHours') }}
+                    </FormButton>
                     <!-- Months closed for payroll: Admins, where the company switched it on. -->
                     <FormButton buttonStyle="action" v-if="canManagePayrollMonths"
                         @click="state.modal.isPayrollMonthsOpen = true">
@@ -121,6 +126,8 @@
                 <ModulesUserSettingsTimeLogsInterventionHoursModalFilter @setFilter="setFilter"
                     :isModalOpen="state.modal.isFilterDutyScheduleOpen"
                     @close="state.modal.isFilterDutyScheduleOpen = false" />
+                <ModulesUserSettingsTimeLogsCareHourExportsModal v-if="canSeeExportHistory" kind="hours"
+                    :isModalOpen="state.modal.isExportHistoryOpen" @close="state.modal.isExportHistoryOpen = false" />
                 <ModulesUserSettingsTimeLogsPayrollMonthsModal v-if="canManagePayrollMonths"
                     :isModalOpen="state.modal.isPayrollMonthsOpen"
                     @close="state.modal.isPayrollMonthsOpen = false" @changed="fetchInterventionHours()" />
@@ -154,12 +161,14 @@ const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const userStore = useUserStore() as any
 const emit = defineEmits(['close', 'refreshCitizenDetails'])
 // The server answers 404 without the switch and 403 below Admin.
 const canManagePayrollMonths = computed(() => isAtLeast('Admin')
     && userStore.getUser?.company?.care_hour_payroll_lock_enabled === true)
+// The download history: the same people as the downloads (Admin or "read").
+const canSeeExportHistory = computed(() => isAtLeast('Admin') || can('read'))
 let currentTablePage = 1
 
 const state = reactive({
@@ -200,6 +209,7 @@ const state = reactive({
         isViewInterventionHourLogOpen: false,
         isFilterDutyScheduleOpen: false,
         isPayrollMonthsOpen: false,
+        isExportHistoryOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,

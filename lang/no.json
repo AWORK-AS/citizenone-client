@@ -16424,6 +16424,21 @@
             "employee": "Medarbeider",
             "locationInformation": "Placeringsinformation",
             "title": "Vis tidslogg"
+        },
+        "exportHistory": {
+            "titleHours": "Tidligere behandlede innsatstimer",
+            "titleMileage": "Tidligere behandlede kjøreturer",
+            "hint": "Hver nedlasting fra listen lagres her. Huk av for Behandlet når lønnen er utbetalt.",
+            "period": "Periode",
+            "downloaded": "Lastet ned",
+            "rows": "Rader",
+            "processed": "Behandlet",
+            "downloadAgain": "Last ned igjen",
+            "empty": "Ingen nedlastinger ennå.",
+            "employee": "Medarbeider: {name}",
+            "filtered": "Med filter",
+            "onlyUnprocessed": "Kun ikke-behandlede",
+            "onlyUnprocessedOption": "Kun ikke-behandlede"
         }
     },
     "timeRegistration": {

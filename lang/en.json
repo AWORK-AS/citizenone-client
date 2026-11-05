@@ -16509,6 +16509,21 @@
             "employee": "Employee",
             "locationInformation": "Location Information",
             "title": "View Time Log"
+        },
+        "exportHistory": {
+            "titleHours": "Previously processed care hours",
+            "titleMileage": "Previously processed trips",
+            "hint": "Every download from the list is kept here. Tick Processed once the salary has been paid.",
+            "period": "Period",
+            "downloaded": "Downloaded",
+            "rows": "Rows",
+            "processed": "Processed",
+            "downloadAgain": "Download again",
+            "empty": "No downloads yet.",
+            "employee": "Employee: {name}",
+            "filtered": "Filtered",
+            "onlyUnprocessed": "Only unprocessed",
+            "onlyUnprocessedOption": "Only unprocessed"
         }
     },
     "timeRegistration": {
