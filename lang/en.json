@@ -19880,12 +19880,14 @@
         "wall": {
             "pastDueTitle": "We could not collect your payment",
             "pastDueBody": "We were unable to charge your subscription. Enter a valid payment card to continue. The account will close in {days} days if the payment is not completed.",
+            "pastDueBodyNoClose": "We were unable to charge your subscription. Enter a valid payment card to continue.",
             "suspendedTitle": "Your subscription is suspended",
             "suspendedBody": "Your subscription is suspended because the payment could not be collected. Enter a valid payment card and we will reopen the account immediately."
         },
         "notice": {
             "title": "Payment outstanding",
-            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise."
+            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise.",
+            "bodyNoClose": "We were unable to charge your subscription. An administrator needs to update the payment card."
         },
         "renew": {
             "title": "Renew your subscription",

@@ -19795,12 +19795,14 @@
         "wall": {
             "pastDueTitle": "Betalingen kunne ikke gjennomføres",
             "pastDueBody": "Vi klarte ikke å trekke betalingen for abonnementet deres. Legg inn et gyldig betalingskort for å fortsette. Kontoen stenges om {days} dager hvis betalingen ikke gjennomføres.",
+            "pastDueBodyNoClose": "Vi kunne ikke trekke betalingen for abonnementet deres. Oppgi et gyldig betalingskort for å fortsette.",
             "suspendedTitle": "Abonnementet er satt på pause",
             "suspendedBody": "Abonnementet deres er satt på pause fordi betalingen ikke kunne gjennomføres. Legg inn et gyldig betalingskort, så åpner vi kontoen igjen med en gang."
         },
         "notice": {
             "title": "Betalingen mangler",
-            "body": "Vi klarte ikke å trekke betalingen for abonnementet deres. En administrator må oppdatere betalingskortet. Ellers stenges kontoen om {days} dager."
+            "body": "Vi klarte ikke å trekke betalingen for abonnementet deres. En administrator må oppdatere betalingskortet. Ellers stenges kontoen om {days} dager.",
+            "bodyNoClose": "Vi kunne ikke trekke betalingen for abonnementet deres. En administrator må oppdatere betalingskortet."
         },
         "renew": {
             "title": "Forny abonnementet deres",
