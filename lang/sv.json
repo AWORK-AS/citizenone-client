@@ -19797,12 +19797,14 @@
         "wall": {
             "pastDueTitle": "Betalningen kunde inte genomföras",
             "pastDueBody": "Vi kunde inte dra betalningen för er prenumeration. Ange ett giltigt betalkort för att fortsätta. Kontot stängs om {days} dagar om betalningen inte genomförs.",
+            "pastDueBodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. Ange ett giltigt betalkort för att fortsätta.",
             "suspendedTitle": "Prenumerationen är pausad",
             "suspendedBody": "Er prenumeration är pausad eftersom betalningen inte kunde genomföras. Ange ett giltigt betalkort så öppnar vi kontot igen direkt."
         },
         "notice": {
             "title": "Betalningen saknas",
-            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar."
+            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar.",
+            "bodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. En administratör behöver uppdatera betalkortet."
         },
         "renew": {
             "title": "Förnya er prenumeration",

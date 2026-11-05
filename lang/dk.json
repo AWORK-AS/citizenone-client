@@ -19882,12 +19882,14 @@
         "wall": {
             "pastDueTitle": "Betalingen kunne ikke gennemføres",
             "pastDueBody": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte. Kontoen lukkes om {days} dage, hvis betalingen ikke gennemføres.",
+            "pastDueBodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte.",
             "suspendedTitle": "Abonnementet er sat på pause",
             "suspendedBody": "Jeres abonnement er sat på pause, fordi betalingen ikke kunne gennemføres. Indtast et gyldigt betalingskort, så åbner vi kontoen igen med det samme."
         },
         "notice": {
             "title": "Betalingen mangler",
-            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker."
+            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker.",
+            "bodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet."
         },
         "renew": {
             "title": "Forny jeres abonnement",

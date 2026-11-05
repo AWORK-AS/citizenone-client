@@ -70,7 +70,9 @@
         <div class="min-w-0 flex-1">
             <p class="text-sm font-medium">{{ $t('paymentStatus.notice.title') }}</p>
             <p class="text-sm mt-0.5 opacity-90">
-                {{ $t('paymentStatus.notice.body', { days: state.status?.days_until_suspension ?? 0 }) }}
+                {{ hasCloseDate
+                    ? $t('paymentStatus.notice.body', { days: state.status?.days_until_suspension ?? 0 })
+                    : $t('paymentStatus.notice.bodyNoClose') }}
             </p>
         </div>
     </div>
@@ -106,6 +108,9 @@ const route = useRoute()
 const onPayPage = computed(() => route.path.startsWith('/subscription/pay/'))
 const mode = computed(() => wallMode(state.status, onPayPage.value))
 const isSuspended = computed(() => state.status?.status === 'suspended')
+// Null while past due: this case is not closed when grace runs out (support
+// invoices it instead), so there is no closing date to count down to.
+const hasCloseDate = computed(() => state.status?.days_until_suspension !== null && state.status?.days_until_suspension !== undefined)
 
 const heading = computed(() => {
     if (mode.value === 'contact_admin') return t('paymentDunning.suspended.contactTitle')
@@ -119,6 +124,7 @@ const body = computed(() => {
     // The card cannot be updated in the desktop app (its button is hidden), so it does not ask for that.
     if (isDesktopApp) return t('desktopApp.paymentNotAvailable')
     if (isSuspended.value) return t('paymentDunning.suspended.adminBody')
+    if (!hasCloseDate.value) return t('paymentStatus.wall.pastDueBodyNoClose')
     return t('paymentStatus.wall.pastDueBody', { days: state.status?.days_until_suspension ?? 0 })
 })
 
