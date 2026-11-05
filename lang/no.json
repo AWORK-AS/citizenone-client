@@ -10406,7 +10406,10 @@
             "selectCitizen": "Velg @:terms.citizen{''}",
             "startAddress": "Startadresse",
             "stopAddress": "Stoppadresse",
-            "useMyLocation": "Bruk min posisjon"
+            "useMyLocation": "Bruk min posisjon",
+            "vehicleRegistration": "Registreringsnummer på bil",
+            "vehicleRegistrationHelp": "Kreves av skattemyndigheten for skattefri kjøregodtgjørelse.",
+            "vehicleRegistrationInvalid": "Maks. 20 tegn: bokstaver, tall, mellomrom og bindestrek."
         },
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
@@ -10446,7 +10449,8 @@
             "employee": "Medarbeider",
             "flagged": "Merket",
             "needsReview": "Må gjennomgås",
-            "route": "Rute"
+            "route": "Rute",
+            "vehicleRegistrationShort": "Reg.nr."
         },
         "tracking": {
             "acquiringPosition": "Finner din posisjon …",
@@ -10499,6 +10503,7 @@
             "route": "Rute",
             "startAddress": "Startadresse",
             "stopAddress": "Stoppadresse",
+            "vehicleRegistration": "Registreringsnummer på bil",
             "viewTrip": "Vis tur"
         }
     },

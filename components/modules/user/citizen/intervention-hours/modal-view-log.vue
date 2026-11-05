@@ -61,6 +61,11 @@
                         <FormLabel :label="endAddressLabel" />
                         <p class="text-sm font-semibold text-gray-700">{{ props.selectedCareHour?.end_address }}</p>
                     </div>
+                    <div class="space-y-1 my-1"
+                        v-if="props.selectedCareHour?.is_transportation && props.selectedCareHour?.vehicle_registration">
+                        <FormLabel :label="$t('mileageLog.view.vehicleRegistration')" />
+                        <p class="text-sm font-semibold text-gray-700">{{ props.selectedCareHour.vehicle_registration }}</p>
+                    </div>
                     <div class="space-y-1 my-1" v-if="props.selectedCareHour?.is_transportation">
                         <FormLabel :label="$t('citizens.interventionHours.view.kilometers')" />
                         <p class="text-sm font-semibold text-gray-700">{{ formatNumber(locale,

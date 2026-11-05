@@ -113,6 +113,9 @@
                                     <span class="truncate" v-if="log?.date_time_start">
                                         {{ formatDateTimeToReadable(log?.date_time_start) }}
                                     </span>
+                                    <p class="text-xs text-gray-400" v-if="log?.vehicle_registration">
+                                        {{ $t('mileageLog.table.vehicleRegistrationShort') }} {{ log.vehicle_registration }}
+                                    </p>
                                 </td>
                                 <td width="30%">
                                     <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>

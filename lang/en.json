@@ -10406,7 +10406,10 @@
             "selectCitizen": "Select @:terms.citizen{''}",
             "startAddress": "Start address",
             "stopAddress": "Stop address",
-            "useMyLocation": "Use my location"
+            "useMyLocation": "Use my location",
+            "vehicleRegistration": "Car registration number",
+            "vehicleRegistrationHelp": "Required by the tax authority for tax-free mileage allowance.",
+            "vehicleRegistrationInvalid": "Max. 20 characters: letters, digits, spaces and hyphens."
         },
         "mileageLog": "Mileage Log",
         "mileageReport": "Mileage Report",
@@ -10446,7 +10449,8 @@
             "employee": "Employee",
             "flagged": "Flagged",
             "needsReview": "Needs review",
-            "route": "Route"
+            "route": "Route",
+            "vehicleRegistrationShort": "Reg. no."
         },
         "tracking": {
             "acquiringPosition": "Getting your position …",
@@ -10499,6 +10503,7 @@
             "route": "Route",
             "startAddress": "Start address",
             "stopAddress": "Stop address",
+            "vehicleRegistration": "Car registration number",
             "viewTrip": "View trip"
         }
     },

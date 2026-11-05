@@ -20,6 +20,12 @@ class MileageLogService extends BaseAPIService {
         return await this.request(`/user/mileage-logs/${mileageLogUuid}`, 'GET')
     }
 
+    // The signed-in user's most recently driven trip that has a car
+    // registration number -- used only to pre-fill new trip forms.
+    async getLastVehicleRegistration(): Promise<any> {
+        return await this.request(`/user/mileage-logs/last-vehicle-registration`, 'GET')
+    }
+
     async getMileageSummary(params: object): Promise<any> {
         return await this.request(`/user/mileage-logs/summary`, 'GET', params)
     }

@@ -37,6 +37,10 @@
                 </div>
             </div>
 
+            <ModulesUserMileageLogVehicleRegistrationField v-model="state.formMileageLog.vehicle_registration"
+                :error="v$?.formMileageLog?.vehicle_registration?.$errors[0]?.$message.toString()"
+                :serverError="props?.error?.errors?.vehicle_registration?.[0]" />
+
             <div class="space-y-1">
                 <FormLabel for="note" :label="$t('mileageLog.form.note')" />
                 <FormTextArea id="note" name="note" :placeholder="$t('mileageLog.form.note')"
@@ -79,6 +83,7 @@ import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useRoutePreview } from '@/composables/routePreview'
+import { fetchLastVehicleRegistration, normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -118,6 +123,7 @@ const state = reactive({
     formMileageLog: {
         date_time_start: moment().format('YYYY-MM-DD H:mm'),
         note: '',
+        vehicle_registration: '' as string,
         linkToCitizen: false,
         citizen_uuid: null as string | null,
     },
@@ -204,6 +210,7 @@ watch(() => props.selectedMileageLog, (selected: any) => {
         state.formMileageLog = {
             date_time_start: selected.date_time_start ?? '',
             note: selected.note ?? '',
+            vehicle_registration: selected.vehicle_registration ?? '',
             linkToCitizen: !!selected.citizen,
             citizen_uuid: selected.citizen?.uuid ?? null,
         }
@@ -223,6 +230,17 @@ watch(() => props.selectedMileageLog, (selected: any) => {
     }
 }, { immediate: true })
 
+// A new trip starts from the car the user last drove; an edited trip always
+// shows its own stored value. Only fills an empty field, so a value the user
+// already typed is never overwritten by a slow response.
+onMounted(async () => {
+    if (props.formType !== 'create') return
+    const last = await fetchLastVehicleRegistration()
+    if (last && !state.formMileageLog.vehicle_registration) {
+        state.formMileageLog.vehicle_registration = last
+    }
+})
+
 const rules = computed(() => {
     return {
         formMileageLog: {
@@ -235,6 +253,7 @@ const rules = computed(() => {
                     requiredIf(() => state.formMileageLog.linkToCitizen)
                 ),
             },
+            vehicle_registration: vehicleRegistrationRules(t),
         },
     }
 })
@@ -259,6 +278,7 @@ function submitForm() {
         emit('submitForm', {
             date_time_start: state.formMileageLog.date_time_start,
             note: state.formMileageLog.note,
+            vehicle_registration: normalizeVehicleRegistration(state.formMileageLog.vehicle_registration),
             citizen_uuid: state.formMileageLog.linkToCitizen ? state.formMileageLog.citizen_uuid : null,
             stops: state.stops,
         })

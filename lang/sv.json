@@ -10406,7 +10406,10 @@
             "selectCitizen": "Välj brukare",
             "startAddress": "Startadress",
             "stopAddress": "Stoppadress",
-            "useMyLocation": "Använd min plats"
+            "useMyLocation": "Använd min plats",
+            "vehicleRegistration": "Registreringsnummer på bilen",
+            "vehicleRegistrationHelp": "Krävs av Skatteverket för skattefri milersättning.",
+            "vehicleRegistrationInvalid": "Högst 20 tecken: bokstäver, siffror, mellanslag och bindestreck."
         },
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
@@ -10446,7 +10449,8 @@
             "employee": "Medarbetare",
             "flagged": "Flaggad",
             "needsReview": "Behöver granskas",
-            "route": "Rutt"
+            "route": "Rutt",
+            "vehicleRegistrationShort": "Reg.nr"
         },
         "tracking": {
             "acquiringPosition": "Hämtar din plats …",
@@ -10499,6 +10503,7 @@
             "route": "Rutt",
             "startAddress": "Startadress",
             "stopAddress": "Stoppadress",
+            "vehicleRegistration": "Registreringsnummer på bilen",
             "viewTrip": "Visa resa"
         }
     },
