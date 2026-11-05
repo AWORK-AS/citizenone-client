@@ -30,6 +30,12 @@ function closeModal() {
 // journals page deep link (also works when we're already on that page).
 function openNote(journalUuid: string) {
     closeModal()
-    navigateTo(`/citizens/${props.citizenUuid}/journals?open_journal=${encodeURIComponent(journalUuid)}`)
+    // Already on this citizen's journals page: the page drops the param again with a
+    // replace, so replace here too or Back needs two presses.
+    const journalsPath = `/citizens/${props.citizenUuid}/journals`
+    const route = useRoute()
+    navigateTo(`${journalsPath}?open_journal=${encodeURIComponent(journalUuid)}`, {
+        replace: route.path.replace(/\/$/, '') === journalsPath,
+    })
 }
 </script>

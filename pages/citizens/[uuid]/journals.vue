@@ -211,6 +211,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { translateMessage } from '@/composables/translateMessage'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -344,8 +345,18 @@ async function openJournalFromQuery(journalUuid: string) {
             state.modal.isEditJournalOpen = true
         }
     } catch (error: any) {
-        // 400 "Journal not found." covers no access, other company and internal notes.
-        state.error = { message: t('citizens.riskHistory.noteNotFound') } as any
+        // BaseAPIService throws: 404/403 with a status; the backend's 400 "Journal not found."
+        // (no access, other company, internal notes) with the backend message and no status
+        // or errorId; 500 and network/other failures with the generic apiErrors text (and an
+        // errorId when the response had one). Only the first two are "not found / no access";
+        // the rest keep their own error so support can use the errorId.
+        const generic = [
+            translateMessage('apiErrors.serverError', 'Server error. Please try again. If the problem persists, contact your system administrator'),
+            translateMessage('apiErrors.generic', 'Something went wrong. Please try again. If the problem persists, contact your system administrator'),
+        ]
+        const isNotFound = error?.status === 403 || error?.status === 404
+            || (error?.status === undefined && !error?.errorId && !generic.some(g => String(error?.message ?? '').startsWith(g)))
+        state.error = isNotFound ? { message: t('citizens.riskHistory.noteNotFound') } as any : error
     } finally {
         // Drop the param so a refresh, or closing the modal, doesn't reopen it.
         const { open_journal, ...rest } = router.currentRoute.value.query
