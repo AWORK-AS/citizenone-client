@@ -8570,7 +8570,8 @@
             "receipt": "Kvittering",
             "reimbursed": "Udlæg udbetalt",
             "rejected": "Afvist",
-            "status": "Status"
+            "status": "Status",
+            "citizen": "@.capitalize:terms.citizen{''}"
         },
         "viewExpense": {
             "amount": "Beløb",
@@ -8582,6 +8583,17 @@
             "name": "Navn",
             "receipt": "Kvittering",
             "viewExpense": "Se udgift"
+        },
+        "filter": {
+            "status": "Status",
+            "statusAll": "Alle udgifter",
+            "statusPending": "Ikke udbetalt",
+            "statusReimbursed": "Udbetalt",
+            "statusRejected": "Afvist",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "allCitizens": "Alle @:terms.citizens{''}",
+            "downloadWithReceipts": "Download med kvitteringer",
+            "exportFileName": "udgifter"
         }
     },
     "extraHoursTags": {
@@ -12524,7 +12536,9 @@
                 "portalPreviewPrescriptions": "Patienten ser sine nuværende recepter og kan bede klinikken om at forny dem. Anmodningen kommer ind i indbakken Receptfornyelser.",
                 "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}",
                 "contactWeeklyHours": "Timer om ugen pr. medarbejder og @:terms.citizen{''}",
-                "contactWeeklyHoursHint": "Angiv ved tildeling, hvor mange timer om ugen medarbejderen skal bruge med en @:terms.citizen{''}. Medarbejderen ser timerne og forbruget på Min dag"
+                "contactWeeklyHoursHint": "Angiv ved tildeling, hvor mange timer om ugen medarbejderen skal bruge med en @:terms.citizen{''}. Medarbejderen ser timerne og forbruget på Min dag",
+                "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/indsats påkrævet på udgifter",
+                "expenseCitizenRequiredHint": "Når den er slået til, kan en udgift kun gemmes med en @:terms.citizen{''}, både på web og i appen"
             }
         },
         "licenseOverview": {

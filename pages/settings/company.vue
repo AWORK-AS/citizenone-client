@@ -1012,6 +1012,16 @@
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.mileageRequiresTransportHint') }}.</p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.expense_citizen_required_enabled"
+                                        @toggleSwitch="state.formCompany.expense_citizen_required_enabled = !state.formCompany.expense_citizen_required_enabled" :label="$t('settings.company.form.expenseCitizenRequired')" />
+                                    <p>
+                                        {{ $t('settings.company.form.expenseCitizenRequired') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.expenseCitizenRequiredHint') }}.</p>
+                            </div>
                         </div>
                         </div>
                         </div>
@@ -1284,7 +1294,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.epikrise_enabled, state.formCompany.auto_ai_for_new_employees])
+const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.auto_ai_for_new_employees])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
 const otherTotal = computed(() => otherSwitches.value.length + 2)
@@ -1355,6 +1365,7 @@ const state = reactive({
         care_hour_types_enabled: false,
         contact_weekly_hours_enabled: false,
         registration_mileage_requires_transport_enabled: false,
+        expense_citizen_required_enabled: false,
         citizen_calendar_shift_enabled: false,
         inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
@@ -1528,6 +1539,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             contact_weekly_hours_enabled: newValue?.company?.contact_weekly_hours_enabled === true,
             registration_mileage_requires_transport_enabled: newValue?.company?.registration_mileage_requires_transport_enabled === true,
+            expense_citizen_required_enabled: newValue?.company?.expense_citizen_required_enabled === true,
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
             inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
@@ -1820,6 +1832,7 @@ async function submitForm() {
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 contact_weekly_hours_enabled: state.formCompany.contact_weekly_hours_enabled,
                 registration_mileage_requires_transport_enabled: state.formCompany.registration_mileage_requires_transport_enabled,
+                expense_citizen_required_enabled: state.formCompany.expense_citizen_required_enabled,
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
                 inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
