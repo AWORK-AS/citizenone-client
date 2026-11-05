@@ -3402,7 +3402,8 @@
                 "transport": "Transportere",
                 "type": "Type",
                 "work": "Arbeidstid",
-                "running": "Pågår"
+                "running": "Pågår",
+                "createdAt": "Opprettet"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",

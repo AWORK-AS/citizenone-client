@@ -151,7 +151,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { expenseCategoryService } from '~/components/api/user/ExpenseCategoryService'
@@ -270,6 +270,10 @@ const rules = computed(() => {
             },
             amount: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            // The server requires a receipt on a new expense; an edit keeps the one it has.
+            receipt: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => props.formType !== 'update')),
             },
         },
     }
