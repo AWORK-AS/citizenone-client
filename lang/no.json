@@ -2321,7 +2321,10 @@
             "noRisk": "Ingen risiko",
             "increasedRisk": "Økt risiko",
             "acuteIncreasedRisk": "Akutt økt risiko",
-            "notEnoughData": "Ikke nok data til å vise en utvikling ennå."
+            "notEnoughData": "Ikke nok data til å vise en utvikling ennå.",
+            "clickToReadNote": "Klikk for å lese notatet",
+            "quickAssessmentNoNote": "Hurtig risikovurdering – ingen notat",
+            "noteNotFound": "Notatet ble ikke funnet, eller du har ikke tilgang til det."
         },
         "addictions": "Rusmisbruk",
         "address": "Adresse",

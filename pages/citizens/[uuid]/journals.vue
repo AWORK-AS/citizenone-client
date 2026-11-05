@@ -326,7 +326,16 @@ onMounted(() => {
     }
 })
 
+// The risk-history graph links here while this page may already be open, so a
+// query change alone has to open the note too (onMounted only covers arriving).
+watch(() => router.currentRoute.value.query.open_journal, (journalUuid) => {
+    if (journalUuid) {
+        openJournalFromQuery(String(journalUuid))
+    }
+})
+
 async function openJournalFromQuery(journalUuid: string) {
+    state.error = {}
     try {
         const response = await journalService.getJournal(journalUuid)
         if (response?.data) {
@@ -335,7 +344,8 @@ async function openJournalFromQuery(journalUuid: string) {
             state.modal.isEditJournalOpen = true
         }
     } catch (error: any) {
-        state.error = error
+        // 400 "Journal not found." covers no access, other company and internal notes.
+        state.error = { message: t('citizens.riskHistory.noteNotFound') } as any
     } finally {
         // Drop the param so a refresh, or closing the modal, doesn't reopen it.
         const { open_journal, ...rest } = router.currentRoute.value.query

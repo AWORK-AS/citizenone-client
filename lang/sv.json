@@ -2321,7 +2321,10 @@
             "noRisk": "Ingen risk",
             "increasedRisk": "Ökad risk",
             "acuteIncreasedRisk": "Akut ökad risk",
-            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu."
+            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu.",
+            "clickToReadNote": "Klicka för att läsa anteckningen",
+            "quickAssessmentNoNote": "Snabb riskbedömning – ingen anteckning",
+            "noteNotFound": "Anteckningen hittades inte, eller så har du inte åtkomst till den."
         },
         "addictions": "Substansmissbruk",
         "address": "Adress",

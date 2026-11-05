@@ -2321,7 +2321,10 @@
             "noRisk": "Ingen risiko",
             "increasedRisk": "Øget risiko",
             "acuteIncreasedRisk": "Akut øget risiko",
-            "notEnoughData": "Ikke nok data til at vise en udvikling endnu."
+            "notEnoughData": "Ikke nok data til at vise en udvikling endnu.",
+            "clickToReadNote": "Klik for at læse notatet",
+            "quickAssessmentNoNote": "Hurtig risikovurdering – intet notat",
+            "noteNotFound": "Notatet blev ikke fundet, eller du har ikke adgang til det."
         },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
