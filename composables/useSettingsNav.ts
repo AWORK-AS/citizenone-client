@@ -1,4 +1,5 @@
 import { useUserStore } from '@/store/user'
+import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 import { usePermissions } from '@/composables/usePermissions'
 
 export interface SettingsNavItem {
@@ -73,7 +74,9 @@ export function useSettingsNav() {
             // The subscription, its licences, its storage and its invoices are the
             // company's account, so they sit with the company rather than beside the
             // reader's own profile. One entry: the four pages carry a tab row.
-            item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-billing-overview', 'settings-license-overview', 'settings-storage', 'settings-invoices', 'settings-ai-usage']),
+            // The desktop app shows no prices or payments (purchaseAccess.ts), so it has no
+            // billing entry at all.
+            ...(useIsDesktopApp() ? [] : [item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-billing-overview', 'settings-license-overview', 'settings-storage', 'settings-invoices', 'settings-ai-usage'])]),
             item('settings.tabs.import', '/settings/import', ['settings-import']),
             item('whistleblower.settings.title', '/settings/whistleblower', ['settings-whistleblower']),
             dailyOverview,

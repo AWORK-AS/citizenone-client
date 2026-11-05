@@ -12944,7 +12944,8 @@
             },
             "storage": {
                 "title": "Vad tar plats?",
-                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna.",
+                "bodyDesktop": "Hur mycket utrymme era filer använder och vad som tar mest plats, så att ni kan rensa bland de största filerna."
             },
             "portalAccess": {
                 "title": "Vad är portalåtkomst?",
@@ -21810,5 +21811,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Endast visning - inget kan sparas.",
         "end": "Avsluta visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
+        "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
     }
 }
