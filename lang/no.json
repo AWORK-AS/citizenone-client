@@ -5737,7 +5737,9 @@
             "skipped": "{count} vakt hoppet over fordi den ansatte allerede har den samme vakten. | {count} vakter hoppet over fordi den ansatte allerede har de samme vaktene.",
             "noneCreatedTitle": "Ingen vakter lagt til",
             "allSkipped": "Den ansatte har allerede de samme vaktene denne uken.",
-            "sourceEmpty": "Det er ingen vakter i uken du kopierte."
+            "sourceEmpty": "Det er ingen vakter i uken du kopierte.",
+            "dayAllSkipped": "Den ansatte har allerede de samme vaktene den dagen.",
+            "daySourceEmpty": "Det er ingen vakter på dagen du kopierte."
         },
         "custom": "Brugerdefineret",
         "date": "Vakt dato",

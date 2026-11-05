@@ -2980,12 +2980,15 @@ async function copyDutySchedule(params: object) {
             identifyTheProgressPercentage()
             fetchDutySchedule()
             state.modal.isAddShiftOpen = false
+            announceEmployeeCopyResult(response, 'day')
         }
     } catch (error: any) {
         state.copyShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        // Same as the week paste: the Alert at the top is out of view once scrolled.
+        errorAlert(language.t('alert.error'), error?.data?.message || error?.message || '')
     } finally {
         state.isPasting = false
     }
@@ -3081,8 +3084,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
 }
 
 // Says what a paste did. Shifts the target already has at the same times are
-// skipped, so without this a paste of an identical week showed nothing at all.
-function announceEmployeeCopyResult(response: any) {
+// skipped, so without this a paste of an identical week or day showed nothing at all.
+function announceEmployeeCopyResult(response: any, scope: 'week' | 'day' = 'week') {
     const meta = response?.meta
     const created = Number(meta?.created ?? response?.data?.length ?? 0)
     const skipped = Number(meta?.skipped_duplicates ?? 0)
@@ -3098,9 +3101,12 @@ function announceEmployeeCopyResult(response: any) {
     }
 
     // Older backends send no meta; an empty result then has no known reason.
+    const isDay = scope === 'day'
     const reason = sourceCount === 0
-        ? language.t('dutySchedules.copyPaste.sourceEmpty')
-        : skipped > 0 ? language.t('dutySchedules.copyPaste.allSkipped') : ''
+        ? language.t(isDay ? 'dutySchedules.copyPaste.daySourceEmpty' : 'dutySchedules.copyPaste.sourceEmpty')
+        : skipped > 0
+            ? language.t(isDay ? 'dutySchedules.copyPaste.dayAllSkipped' : 'dutySchedules.copyPaste.allSkipped')
+            : ''
     warningAlert(language.t('dutySchedules.copyPaste.noneCreatedTitle'), reason)
 }
 

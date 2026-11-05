@@ -5737,7 +5737,9 @@
             "skipped": "{count} pass hoppades över eftersom medarbetaren redan har samma pass. | {count} pass hoppades över eftersom medarbetaren redan har samma pass.",
             "noneCreatedTitle": "Inga pass tillagda",
             "allSkipped": "Medarbetaren har redan samma pass den här veckan.",
-            "sourceEmpty": "Det finns inga pass i veckan du kopierade."
+            "sourceEmpty": "Det finns inga pass i veckan du kopierade.",
+            "dayAllSkipped": "Medarbetaren har redan samma pass den dagen.",
+            "daySourceEmpty": "Det finns inga pass på dagen du kopierade."
         },
         "custom": "Brugerdefineret",
         "date": "Pass datum",
