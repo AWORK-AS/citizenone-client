@@ -37,6 +37,10 @@
             <FormError :error="v$?.formTransport?.start_address?.$errors[0]?.$message.toString()" />
             <FormError :error="state?.error?.errors?.start_address?.[0]" />
         </div>
+        <ModulesUserMileageLogVehicleRegistrationField id="transport_vehicle_registration"
+            v-model="state.formTransport.vehicle_registration"
+            :error="v$?.formTransport?.vehicle_registration?.$errors[0]?.$message.toString()"
+            :serverError="state?.error?.errors?.vehicle_registration?.[0]" />
         <div class="space-y-1">
             <div class="flex justify-between items-center py-0.5">
                 <FormLabel for="note" :label="$t('citizens.timeRegistration.registerTransport.form.note')" />
@@ -65,6 +69,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { fetchLastVehicleRegistration, normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -85,6 +90,7 @@ const state = reactive({
     formTransport: {
         start_address: '',
         note: '',
+        vehicle_registration: '' as string,
     }
 })
 
@@ -98,6 +104,7 @@ const rules = computed(() => {
             start_address: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
+            vehicle_registration: vehicleRegistrationRules(t),
         },
     }
 })
@@ -126,11 +133,23 @@ watch(() => props.startAddress, (newValue: any) => {
     }
 })
 
+// A transport check-in always starts a new trip: pre-fill with the car the
+// user last drove. Only fills an empty field; a failed lookup is ignored.
+onMounted(async () => {
+    const last = await fetchLastVehicleRegistration()
+    if (last && !state.formTransport.vehicle_registration) {
+        state.formTransport.vehicle_registration = last
+    }
+})
+
 function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitTransport', state.formTransport)
+        emit('submitTransport', {
+            ...state.formTransport,
+            vehicle_registration: normalizeVehicleRegistration(state.formTransport.vehicle_registration),
+        })
     }
 }
 

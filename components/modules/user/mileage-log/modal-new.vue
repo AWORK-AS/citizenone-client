@@ -79,6 +79,7 @@ async function saveMileageLog(tripDetails: any) {
             // check-in (see Citizen::isCheckedInToCitizen() on the backend).
             date_time_end: startDateTime,
             note: tripDetails.note,
+            vehicle_registration: tripDetails.vehicle_registration,
             citizen_uuid: tripDetails.citizen_uuid,
             ...routeFields,
             stops,

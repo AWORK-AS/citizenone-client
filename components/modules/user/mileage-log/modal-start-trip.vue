@@ -27,6 +27,10 @@
                         <FormSelect id="start-trip-citizen" :options="state.citizenOptions" v-model="state.citizenUuid" />
                     </div>
 
+                    <ModulesUserMileageLogVehicleRegistrationField id="start-trip-vehicle-registration"
+                        v-model="state.vehicleRegistration"
+                        :error="v$?.vehicleRegistration?.$errors[0]?.$message.toString()" />
+
                     <div class="flex justify-end gap-3">
                         <FormButton buttonStyle="cancel" @click="onClose">
                             {{ $t('cancel') }}
@@ -46,6 +50,8 @@ import { useI18n } from 'vue-i18n'
 import { useMileageTracking } from '@/composables/mileageTracking'
 import { useAlert } from '@/composables/alert'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { useVuelidate } from '@vuelidate/core'
+import { fetchLastVehicleRegistration, normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 
 const props = defineProps({
     show: {
@@ -66,7 +72,11 @@ const state = reactive({
     linkToCitizen: false,
     citizenUuid: null as string | null,
     citizenOptions: [] as any,
+    vehicleRegistration: '' as string,
 })
+
+const rules = computed(() => ({ vehicleRegistration: vehicleRegistrationRules(t) }))
+const v$ = useVuelidate(rules, state)
 
 const isAcquiring = computed(() =>
     ['requesting-permission', 'acquiring-start-fix', 'starting'].includes(tracking.status.value)
@@ -76,8 +86,20 @@ watch(() => props.show, (open) => {
     if (!open) return
     state.linkToCitizen = false
     state.citizenUuid = null
+    state.vehicleRegistration = ''
+    v$.value.$reset()
     fetchCitizenOptions()
+    prefillVehicleRegistration()
 })
+
+// Pre-fill with the car the user last drove; never overwrites a typed value
+// and a failed lookup leaves the field empty.
+async function prefillVehicleRegistration() {
+    const last = await fetchLastVehicleRegistration()
+    if (last && !state.vehicleRegistration) {
+        state.vehicleRegistration = last
+    }
+}
 
 async function fetchCitizenOptions() {
     try {
@@ -94,8 +116,12 @@ async function fetchCitizenOptions() {
 }
 
 async function onStart() {
+    if (!(await v$.value.$validate())) return
     try {
-        await tracking.start({ citizenUuid: state.linkToCitizen ? state.citizenUuid : null })
+        await tracking.start({
+            citizenUuid: state.linkToCitizen ? state.citizenUuid : null,
+            vehicleRegistration: normalizeVehicleRegistration(state.vehicleRegistration),
+        })
         successAlert(`${t('alert.success')}!`, t('mileageLog.tracking.alert.tripStarted'))
         emit('started')
     } catch {

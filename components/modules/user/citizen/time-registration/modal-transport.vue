@@ -126,6 +126,7 @@ function submitFormLogin(formDetails: any) {
         geo_start_lat: markerLat.value ? String(markerLat.value) : '',
         geo_start_lng: markerLng.value ? String(markerLng.value) : '',
         note: formDetails.note,
+        vehicle_registration: formDetails.vehicle_registration ?? null,
     }
     emit('submitTransportLogin', params)
     closeModal()
