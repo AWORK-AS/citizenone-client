@@ -22,6 +22,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+const route = useRoute()
+
 function closeModal() {
     emit('close')
 }
@@ -33,7 +35,6 @@ function openNote(journalUuid: string) {
     // Already on this citizen's journals page: the page drops the param again with a
     // replace, so replace here too or Back needs two presses.
     const journalsPath = `/citizens/${props.citizenUuid}/journals`
-    const route = useRoute()
     navigateTo(`${journalsPath}?open_journal=${encodeURIComponent(journalUuid)}`, {
         replace: route.path.replace(/\/$/, '') === journalsPath,
     })
