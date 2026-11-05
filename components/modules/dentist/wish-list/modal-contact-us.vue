@@ -5,7 +5,8 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div v-if="state.view === 'form'">
-                        <form @submit.prevent="sendMessage()">
+                        <!-- Paste anywhere in the form (also while typing the message) adds a screenshot. -->
+                        <form @submit.prevent="sendMessage()" @paste="onPaste">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div class="gap-y-3">
@@ -17,6 +18,30 @@
                                     <FormError
                                         :error="vContactUsWishList$?.formContactUs?.message?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.message?.[0]" />
+                                </div>
+                                <div class="space-y-2 mt-4">
+                                    <FormLabel for="wish-images" :label="$t('wish.form.attachImages')" />
+                                    <p class="text-xs text-gray-500">{{ $t('wish.form.attachImagesHelp', { max: MAX_IMAGES }) }}</p>
+                                    <div v-if="state.images.length" class="grid grid-cols-3 sm:grid-cols-5 gap-2"
+                                        data-testid="wish-image-previews">
+                                        <div v-for="(image, index) in state.images" :key="image.previewUrl"
+                                            class="relative aspect-square overflow-hidden rounded-md border border-gray-200 bg-gray-50">
+                                            <img :src="image.previewUrl" :alt="image.file.name" class="h-full w-full object-cover" />
+                                            <button type="button" @click="removeImage(index)"
+                                                :aria-label="$t('wish.form.removeImage')" :title="$t('wish.form.removeImage')"
+                                                class="absolute right-1 top-1 rounded-full bg-white/90 p-0.5 text-gray-600 shadow hover:text-red-600">
+                                                <Icon name="ph:x" class="h-3.5 w-3.5" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <input ref="fileInput" id="wish-images" type="file" class="hidden" multiple
+                                        accept="image/png,image/jpeg,image/gif,image/webp" @change="onFilesSelected" />
+                                    <FormButton v-if="state.images.length < MAX_IMAGES" type="button" buttonStyle="secondary"
+                                        buttonSize="sm" @click="fileInput?.click()">
+                                        <Icon name="ph:image" class="h-4 w-4" /> {{ $t('wish.form.addImages') }}
+                                    </FormButton>
+                                    <FormError :error="state.imageError" />
+                                    <FormError :error="imageServerError" />
                                 </div>
                             </div>
                             <div class="mt-6">
@@ -49,6 +74,13 @@
                                     <li v-for="(wish, index) in state.wishes" :key="index"
                                         class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 text-sm text-gray-700">
                                         {{ wish.message }}
+                                        <div v-if="wish.images?.length" class="mt-2 flex flex-wrap gap-2">
+                                            <a v-for="image in wish.images" :key="image.uuid" :href="image.url"
+                                                target="_blank" rel="noopener">
+                                                <img :src="image.url" :alt="image.file_name"
+                                                    class="h-12 w-12 rounded border border-gray-200 object-cover" />
+                                            </a>
+                                        </div>
                                     </li>
                                 </ul>
                             </LoadingSpinner>
@@ -80,12 +112,21 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
+// Must match ContactUsWish::MAX_IMAGES and the 10 MB rule in WishRequest on the backend.
+const MAX_IMAGES = 5
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024
+const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp']
+
+const fileInput = ref<HTMLInputElement | null>(null)
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isWishesLoading: false,
     view: 'form' as 'form' | 'confirmation',
     wishes: [] as any[],
+    images: [] as { file: File, previewUrl: string }[],
+    imageError: '',
     formContactUs: {
         message: '',
     },
@@ -94,6 +135,61 @@ const state = reactive({
 function closeModal() {
     emit('close')
 }
+
+// The server reports a rejected file as images.0, images.1 ... - show the first one.
+const imageServerError = computed(() => {
+    const errors = state.error?.errors ?? {}
+    const key = Object.keys(errors).find((k) => k === 'images' || k.startsWith('images.'))
+    return key ? errors[key]?.[0] : ''
+})
+
+function addImages(files: File[]) {
+    state.imageError = ''
+    for (const file of files) {
+        if (state.images.length >= MAX_IMAGES) {
+            state.imageError = t('wish.form.tooManyImages', { max: MAX_IMAGES })
+            break
+        }
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            state.imageError = t('wish.form.notAnImage')
+            continue
+        }
+        if (file.size > MAX_IMAGE_BYTES) {
+            state.imageError = t('wish.form.imageTooLarge')
+            continue
+        }
+        state.images.push({ file, previewUrl: URL.createObjectURL(file) })
+    }
+}
+
+function onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement
+    addImages(Array.from(input.files ?? []))
+    // Reset so picking the same file again (after removing it) still fires change.
+    input.value = ''
+}
+
+// Lets the user paste a screenshot straight from the clipboard.
+function onPaste(event: ClipboardEvent) {
+    const files = Array.from(event.clipboardData?.items ?? [])
+        .filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+        .map((item) => item.getAsFile())
+        .filter((file): file is File => !!file)
+    if (files.length) {
+        event.preventDefault()
+        addImages(files.map((file, i) => file.name && file.name !== 'image.png'
+            ? file
+            : new File([file], `screenshot-${Date.now()}-${i + 1}.${file.type.split('/')[1] || 'png'}`, { type: file.type })))
+    }
+}
+
+function removeImage(index: number) {
+    URL.revokeObjectURL(state.images[index].previewUrl)
+    state.images.splice(index, 1)
+    state.imageError = ''
+}
+
+onBeforeUnmount(() => state.images.forEach((image) => URL.revokeObjectURL(image.previewUrl)))
 
 const rulesContactUsWishList = computed(() => {
     return {
@@ -126,10 +222,10 @@ async function sendMessage() {
     vContactUsWishList$.value.$validate()
     if (!vContactUsWishList$.value.$error) {
         try {
-            const params = {
-                message: state.formContactUs.message,
-            }
-            const response = await contactUsService.sendWishMessage(params)
+            const formData = new FormData()
+            formData.append('message', state.formContactUs.message)
+            state.images.forEach((image) => formData.append('images[]', image.file, image.file.name))
+            const response = await contactUsService.sendWishMessage(formData)
             if (response) {
                 state.view = 'confirmation'
                 fetchWishes()

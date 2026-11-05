@@ -16494,10 +16494,17 @@
             "messageSuccessfullySent": "Melding sendt"
         },
         "form": {
+            "addImages": "Legg til bilder",
+            "attachImages": "Bilder (valgfritt)",
+            "attachImagesHelp": "Legg til skjermbilder som viser hva du mener. Opptil {max} bilder, maks. 10 MB per bilde. Du kan også lime inn et skjermbilde her.",
             "describeTheFeature": "Beskriv den funksjon, du ønsker at se",
+            "imageTooLarge": "Bildet er for stort. Maks. 10 MB.",
+            "notAnImage": "Bare PNG-, JPG-, GIF- og WebP-bilder kan legges til.",
             "pleaseDescribeTheFeature": "Beskriv vennligst den funksjon, du gerne vil ha. Inkluder eventuelle specifikke detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv vennligst her",
-            "sendMessage": "Send melding"
+            "removeImage": "Fjern bilde",
+            "sendMessage": "Send melding",
+            "tooManyImages": "Du kan legge til opptil {max} bilder."
         },
         "confirmation": {
             "requestSent": "Forespørsel sendt",

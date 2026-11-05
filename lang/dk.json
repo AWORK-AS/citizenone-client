@@ -16579,10 +16579,17 @@
             "messageSuccessfullySent": "Besked sendt"
         },
         "form": {
+            "addImages": "Tilføj billeder",
+            "attachImages": "Billeder (valgfrit)",
+            "attachImagesHelp": "Tilføj skærmbilleder, der viser, hvad du mener. Op til {max} billeder, maks. 10 MB pr. billede. Du kan også indsætte et skærmbillede her.",
             "describeTheFeature": "Beskriv den funktion, du ønsker at se",
+            "imageTooLarge": "Billedet er for stort. Maks. 10 MB.",
+            "notAnImage": "Kun PNG-, JPG-, GIF- og WebP-billeder kan tilføjes.",
             "pleaseDescribeTheFeature": "Beskriv venligst den funktion, du gerne vil have. Inkluder eventuelle specifikke detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv venligst her",
-            "sendMessage": "Send besked"
+            "removeImage": "Fjern billede",
+            "sendMessage": "Send besked",
+            "tooManyImages": "Du kan tilføje op til {max} billeder."
         },
         "confirmation": {
             "requestSent": "Anmodning sendt",
