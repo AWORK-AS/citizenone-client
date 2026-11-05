@@ -12903,7 +12903,8 @@
             },
             "storage": {
                 "title": "Vad tar plats?",
-                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna.",
+                "bodyDesktop": "Hur mycket utrymme era filer använder och vad som tar mest plats, så att ni kan rensa bland de största filerna."
             },
             "portalAccess": {
                 "title": "Vad är portalåtkomst?",

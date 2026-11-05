@@ -351,7 +351,8 @@
                         <ul class="co-points">
                             <li v-for="index in [0, 1, 2]" :key="index">{{ $t(`register.panel.${panelProfile}.points[${index}]`) }}</li>
                         </ul>
-                        <ul class="co-points">
+                        <!-- The desktop app sells nothing (purchaseAccess.ts): no word on cards or price. -->
+                        <ul v-if="!isDesktopApp" class="co-points">
                             <li>{{ $t('register.noCommitment') }}</li>
                         </ul>
                     </div>
@@ -362,7 +363,7 @@
                         <!-- This held three "Live aktivitet" counters whose numbers were made up in the
                              browser from the date and nudged every few seconds. Two promises that
                              are true instead: a signup page is the last place to invent a figure. -->
-                        <ul class="co-points">
+                        <ul v-if="!isDesktopApp" class="co-points">
                             <li>{{ $t('register.noCommitment') }}</li>
                             <li>{{ $t('register.youCanExplore') }}</li>
                         </ul>
@@ -399,6 +400,8 @@ import { useAlert } from '@/composables/alert'
 import { useGtag } from '@/composables/gTags'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()

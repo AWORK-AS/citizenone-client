@@ -12908,7 +12908,8 @@
             },
             "storage": {
                 "title": "Hvad fylder?",
-                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer."
+                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer.",
+                "bodyDesktop": "Hvor meget plads jeres filer bruger, og hvad der fylder mest, så I kan rydde op i de største filer."
             },
             "portalAccess": {
                 "title": "Hvad er portaladgang?",

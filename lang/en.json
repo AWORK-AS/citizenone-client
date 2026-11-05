@@ -12908,7 +12908,8 @@
             },
             "storage": {
                 "title": "What is taking up space?",
-                "body": "How much room your files use and what takes the most. Buy more space, or clear out the largest files."
+                "body": "How much room your files use and what takes the most. Buy more space, or clear out the largest files.",
+                "bodyDesktop": "How much space your files use and what takes up the most, so you can clear out the largest files."
             },
             "portalAccess": {
                 "title": "What is portal access?",

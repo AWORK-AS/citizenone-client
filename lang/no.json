@@ -12903,7 +12903,8 @@
             },
             "storage": {
                 "title": "Hva tar plass?",
-                "body": "Hvor mye plass filene deres bruker, og hva som tar mest. Kjøp mer plass, eller rydd i de største filene."
+                "body": "Hvor mye plass filene deres bruker, og hva som tar mest. Kjøp mer plass, eller rydd i de største filene.",
+                "bodyDesktop": "Hvor mye plass filene deres bruker, og hva som tar mest plass, så dere kan rydde i de største filene."
             },
             "portalAccess": {
                 "title": "Hva er portaltilgang?",

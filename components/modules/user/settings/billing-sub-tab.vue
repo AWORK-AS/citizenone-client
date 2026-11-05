@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import { isPurchaseRoute } from '@/composables/purchaseAccess'
 /**
  * The four billing views - the plan, the licences and storage it is measured in,
  * and the invoices for them - as one tab row inside the page.
@@ -16,14 +17,16 @@ function changeTab(href: string) {
     navigateTo(href)
 }
 
-// The desktop app does not open the subscription page (composables/purchaseAccess.ts).
+// The desktop app does not open the pages that sell or list payments
+// (composables/purchaseAccess.ts), so their tabs are left out there.
 const isDesktopApp = useIsDesktopApp()
-const tabs = [
-    ...(isDesktopApp ? [] : [{ name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] }]),
+const allTabs = [
+    { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
     { name: 'billingOverview.title', isTranslateName: true, href: '/settings/billing-overview', routeNames: ['settings-billing-overview'] },
     { name: 'settings.licenseOverview.licenseOverview', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview', 'settings-license-overview-caseworker', 'settings-license-overview-departments'] },
     { name: 'storage.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },
     { name: 'invoices.invoices', isTranslateName: true, href: '/settings/invoices', routeNames: ['settings-invoices', 'settings-invoices-invoice_uuid-invoice-details'] },
     { name: 'aiUsage.title', isTranslateName: true, href: '/settings/ai-usage', routeNames: ['settings-ai-usage'] },
 ]
+const tabs = isDesktopApp ? allTabs.filter(tab => !isPurchaseRoute(tab.href)) : allTabs
 </script>
