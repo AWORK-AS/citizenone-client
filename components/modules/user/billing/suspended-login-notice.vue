@@ -14,7 +14,7 @@
                 {{ $t('paymentDunning.invoiceOverdue.contact') }}
             </a>
         </Tooltip>
-        <Tooltip v-if="suspended.view === 'update_card' && suspended.token"
+        <Tooltip v-if="suspended.view === 'update_card' && suspended.token && !isDesktopApp"
             :text="$t('paymentDunning.suspended.updateCardHelp')" position="top" wrap class="!block mt-3">
             <button type="button"
                 class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C]"
@@ -28,6 +28,8 @@
 <script setup lang="ts">
 import { suspendedLogin } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
+
+const isDesktopApp = useIsDesktopApp()
 
 /**
  * Shown on the login page when the company is closed for non-payment. The API
@@ -45,7 +47,8 @@ const titleKey = computed(() => ({
     contact_admin: t('paymentDunning.suspended.contactTitle'),
 }[suspended.value?.view ?? 'contact_admin']))
 const bodyKey = computed(() => ({
-    update_card: t('paymentDunning.suspended.adminBody'),
+    // The card cannot be updated in the desktop app, so it does not ask for that there.
+    update_card: isDesktopApp ? t('desktopApp.paymentNotAvailable') : t('paymentDunning.suspended.adminBody'),
     invoice_overdue: t('paymentDunning.invoiceOverdue.body'),
     contact_admin: t('paymentDunning.suspended.contactBody'),
 }[suspended.value?.view ?? 'contact_admin']))

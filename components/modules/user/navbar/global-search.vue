@@ -157,6 +157,9 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useCitizenFirstPage } from '@/composables/citizenFirstPage'
+import { isPurchaseRoute } from '@/composables/purchaseAccess'
+
+const isDesktopApp = useIsDesktopApp()
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -236,6 +239,8 @@ const staticPageResults = computed(() => {
     if (!query || query.length < 2) return []
     return STATIC_PAGES.filter(p => {
         if (p.adminOnly && !isAtLeast('Admin')) return false
+        // The desktop app does not open purchase pages (composables/purchaseAccess.ts).
+        if (isDesktopApp && isPurchaseRoute(p.href)) return false
         return p.keywords.some(k => k.toLowerCase().includes(query)) ||
             t(p.titleKey).toLowerCase().includes(query)
     })

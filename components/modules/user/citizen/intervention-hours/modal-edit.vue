@@ -396,6 +396,7 @@ async function updateInterventionHours(interventionHoursDetails: any) {
             params.geo_end_lat = state.formData.geo_end_lat;
             params.geo_end_lng = state.formData.geo_end_lng;
             params.kilometers = interventionHoursDetails.kilometers;
+            params.vehicle_registration = interventionHoursDetails.vehicle_registration ?? null;
         }
 
         const response = await interventionHoursService.updateInterventionHours(

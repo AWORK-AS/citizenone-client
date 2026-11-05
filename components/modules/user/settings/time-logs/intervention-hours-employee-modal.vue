@@ -55,15 +55,16 @@
                                         </div>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="inteventionHours?.is_transportation"
-                                            class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.transport') }}</div>
-                                        <div v-else
-                                            class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.work') }}</div>
+                                        <div :class="inteventionHours?.is_transportation ? 'bg-green-100 text-green-800' : 'bg-teal-100 text-tertiary-800'"
+                                            class="rounded-xl px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ careHourTypeLabel(inteventionHours, $t('citizens.interventionHours.table.work'), $t('citizens.interventionHours.table.transport')) }}</div>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
+                                    </td>
+                                    <td width="10%">
+                                        {{ inteventionHours?.created_at ?
+                                            formatDateTimeToReadable(inteventionHours?.created_at) : '' }}
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
@@ -126,6 +127,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { careHourTypeLabel } from '@/composables/careHourFilters'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -156,6 +158,7 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.totalHours', isTranslateName: true, },
         { name: 'citizens.interventionHours.table.type', isTranslateName: true, key: 'is_transportation' },
         { name: 'citizens.interventionHours.table.createdBy', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: '' },
     ],
     contributionMargin: {} as any,
@@ -171,6 +174,7 @@ const state = reactive({
         citizen_uuids: [],
         user_uuids: [],
         is_transportation: '' as any,
+        hour_type_uuids: [] as string[],
         start_date: '',
         end_date: '',
     },
@@ -242,6 +246,9 @@ async function fetchInterventionHours() {
         }
         if (state.filter.is_transportation !== '') {
             params.is_transportation = state.filter.is_transportation
+        }
+        if (state.filter.hour_type_uuids?.length > 0) {
+            params['hour_type_uuids[]'] = [...state.filter.hour_type_uuids]
         }
         if (state.filter.start_date && state.filter.end_date) {
             params.start_date = state.filter.start_date
@@ -319,6 +326,7 @@ function setFilter(filter: any) {
     state.filter.citizen_uuids = filter.citizen_uuids
     state.filter.user_uuids = filter.employee_uuids
     state.filter.is_transportation = filter.employment_status.includes('transport') ? true : filter.employment_status.includes('work') ? false : ''
+    state.filter.hour_type_uuids = filter.hour_type_uuids ?? []
     state.filter.start_date = filter.date_range?.[0]
     state.filter.end_date = filter.date_range?.[1]
 

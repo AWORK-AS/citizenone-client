@@ -3402,7 +3402,8 @@
                 "transport": "Transportere",
                 "type": "Type",
                 "work": "Arbejdstid",
-                "running": "I gang"
+                "running": "I gang",
+                "createdAt": "Oprettet"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -8571,7 +8572,8 @@
             "receipt": "Kvittering",
             "reimbursed": "Udlæg udbetalt",
             "rejected": "Afvist",
-            "status": "Status"
+            "status": "Status",
+            "citizen": "@.capitalize:terms.citizen{''}"
         },
         "viewExpense": {
             "amount": "Beløb",
@@ -8583,6 +8585,17 @@
             "name": "Navn",
             "receipt": "Kvittering",
             "viewExpense": "Se udgift"
+        },
+        "filter": {
+            "status": "Status",
+            "statusAll": "Alle udgifter",
+            "statusPending": "Ikke udbetalt",
+            "statusReimbursed": "Udbetalt",
+            "statusRejected": "Afvist",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "allCitizens": "Alle @:terms.citizens{''}",
+            "downloadWithReceipts": "Download med kvitteringer",
+            "exportFileName": "udgifter"
         }
     },
     "extraHoursTags": {
@@ -10408,7 +10421,10 @@
             "selectCitizen": "Vælg @:terms.citizen{''}",
             "startAddress": "Startadresse",
             "stopAddress": "Stopadresse",
-            "useMyLocation": "Brug min placering"
+            "useMyLocation": "Brug min placering",
+            "vehicleRegistration": "Registreringsnummer på bil",
+            "vehicleRegistrationHelp": "Kræves af SKAT for skattefri kørselsgodtgørelse.",
+            "vehicleRegistrationInvalid": "Højst 20 tegn: bogstaver, tal, mellemrum og bindestreg."
         },
         "mileageLog": "Kørselsregnskab",
         "mileageReport": "Kørselsrapport",
@@ -10448,7 +10464,8 @@
             "employee": "Medarbejder",
             "flagged": "Markeret",
             "needsReview": "Skal gennemgås",
-            "route": "Rute"
+            "route": "Rute",
+            "vehicleRegistrationShort": "Reg.nr."
         },
         "tracking": {
             "acquiringPosition": "Finder din position …",
@@ -10501,6 +10518,7 @@
             "route": "Rute",
             "startAddress": "Startadresse",
             "stopAddress": "Stopadresse",
+            "vehicleRegistration": "Registreringsnummer på bil",
             "viewTrip": "Vis tur"
         }
     },
@@ -12525,7 +12543,9 @@
                 "portalPreviewPrescriptions": "Patienten ser sine nuværende recepter og kan bede klinikken om at forny dem. Anmodningen kommer ind i indbakken Receptfornyelser.",
                 "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}",
                 "contactWeeklyHours": "Timer om ugen pr. medarbejder og @:terms.citizen{''}",
-                "contactWeeklyHoursHint": "Angiv ved tildeling, hvor mange timer om ugen medarbejderen skal bruge med en @:terms.citizen{''}. Medarbejderen ser timerne og forbruget på Min dag"
+                "contactWeeklyHoursHint": "Angiv ved tildeling, hvor mange timer om ugen medarbejderen skal bruge med en @:terms.citizen{''}. Medarbejderen ser timerne og forbruget på Min dag",
+                "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/indsats påkrævet på udgifter",
+                "expenseCitizenRequiredHint": "Når den er slået til, kan en udgift kun gemmes med en @:terms.citizen{''}, både på web og i appen"
             }
         },
         "licenseOverview": {
@@ -12950,7 +12970,8 @@
             },
             "storage": {
                 "title": "Hvad fylder?",
-                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer."
+                "body": "Hvor meget plads jeres filer bruger, og hvad der fylder mest. Køb mere plads, eller ryd op i de største filer.",
+                "bodyDesktop": "Hvor meget plads jeres filer bruger, og hvad der fylder mest, så I kan rydde op i de største filer."
             },
             "portalAccess": {
                 "title": "Hvad er portaladgang?",
@@ -16509,6 +16530,21 @@
             "employee": "Medarbejder",
             "locationInformation": "Placeringsinformation",
             "title": "Vis tidslog"
+        },
+        "exportHistory": {
+            "titleHours": "Tidligere behandlede indsatstimer",
+            "titleMileage": "Tidligere behandlede kørsler",
+            "hint": "Hver download fra listen gemmes her. Sæt flueben i Behandlet, når lønnen er udbetalt.",
+            "period": "Periode",
+            "downloaded": "Downloadet",
+            "rows": "Rækker",
+            "processed": "Behandlet",
+            "downloadAgain": "Download igen",
+            "empty": "Ingen downloads endnu.",
+            "employee": "Medarbejder: {name}",
+            "filtered": "Med filter",
+            "onlyUnprocessed": "Kun ikke-behandlede",
+            "onlyUnprocessedOption": "Kun ikke-behandlede"
         }
     },
     "timeRegistration": {
@@ -19889,12 +19925,14 @@
         "wall": {
             "pastDueTitle": "Betalingen kunne ikke gennemføres",
             "pastDueBody": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte. Kontoen lukkes om {days} dage, hvis betalingen ikke gennemføres.",
+            "pastDueBodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. Indtast et gyldigt betalingskort for at fortsætte.",
             "suspendedTitle": "Abonnementet er sat på pause",
             "suspendedBody": "Jeres abonnement er sat på pause, fordi betalingen ikke kunne gennemføres. Indtast et gyldigt betalingskort, så åbner vi kontoen igen med det samme."
         },
         "notice": {
             "title": "Betalingen mangler",
-            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker."
+            "body": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet. Kontoen lukkes om {days} dage, hvis det ikke sker.",
+            "bodyNoClose": "Vi kunne ikke trække betalingen for jeres abonnement. En administrator skal opdatere betalingskortet."
         },
         "renew": {
             "title": "Forny jeres abonnement",
@@ -21903,5 +21941,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Kun visning - intet kan gemmes.",
         "end": "Afslut visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det er ikke tilgængeligt i desktop-appen.",
+        "paymentNotAvailable": "Betalingskortet kan ikke opdateres i desktop-appen. Kontakt support, hvis I har brug for hjælp."
     }
 }

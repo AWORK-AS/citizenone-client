@@ -69,8 +69,14 @@ export function useSettingsHints() {
         return entry ? hint(`catalog.${entry.group}`) : null
     }
 
+    // Notes that point at buying something read differently in the desktop app, which
+    // sells nothing (composables/purchaseAccess.ts).
+    const DESKTOP_BODY = new Set(['storage'])
+    const isDesktopApp = useIsDesktopApp()
+
     function hint(key: string): SettingsHint {
-        return { key, titleKey: `settings.hints.${key}.title`, bodyKey: `settings.hints.${key}.body` }
+        const body = isDesktopApp && DESKTOP_BODY.has(key) ? 'bodyDesktop' : 'body'
+        return { key, titleKey: `settings.hints.${key}.title`, bodyKey: `settings.hints.${key}.${body}` }
     }
 
     return { hintForRoute }

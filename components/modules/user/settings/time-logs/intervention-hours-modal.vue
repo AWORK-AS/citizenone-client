@@ -15,6 +15,11 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.download.download') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" v-if="canSeeExportHistory"
+                        @click="state.modal.isExportHistoryOpen = true">
+                        <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('timeLogs.exportHistory.titleHours') }}
+                    </FormButton>
                     <!-- Months closed for payroll: Admins, where the company switched it on. -->
                     <FormButton buttonStyle="action" v-if="canManagePayrollMonths"
                         @click="state.modal.isPayrollMonthsOpen = true">
@@ -61,15 +66,16 @@
                                         </div>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="inteventionHours?.is_transportation"
-                                            class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.transport') }}</div>
-                                        <div v-else
-                                            class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.work') }}</div>
+                                        <div :class="inteventionHours?.is_transportation ? 'bg-green-100 text-green-800' : 'bg-teal-100 text-tertiary-800'"
+                                            class="rounded-xl px-2 py-1 text-xs font-semibold text-center w-fit">
+                                            {{ careHourTypeLabel(inteventionHours, $t('citizens.interventionHours.table.work'), $t('citizens.interventionHours.table.transport')) }}</div>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
+                                    </td>
+                                    <td width="10%">
+                                        {{ inteventionHours?.created_at ?
+                                            formatDateTimeToReadable(inteventionHours?.created_at) : '' }}
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
@@ -120,6 +126,8 @@
                 <ModulesUserSettingsTimeLogsInterventionHoursModalFilter @setFilter="setFilter"
                     :isModalOpen="state.modal.isFilterDutyScheduleOpen"
                     @close="state.modal.isFilterDutyScheduleOpen = false" />
+                <ModulesUserSettingsTimeLogsCareHourExportsModal v-if="canSeeExportHistory" kind="hours"
+                    :isModalOpen="state.modal.isExportHistoryOpen" @close="state.modal.isExportHistoryOpen = false" />
                 <ModulesUserSettingsTimeLogsPayrollMonthsModal v-if="canManagePayrollMonths"
                     :isModalOpen="state.modal.isPayrollMonthsOpen"
                     @close="state.modal.isPayrollMonthsOpen = false" @changed="fetchInterventionHours()" />
@@ -138,6 +146,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
+import { careHourTypeLabel } from '@/composables/careHourFilters'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -152,12 +161,14 @@ const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const userStore = useUserStore() as any
 const emit = defineEmits(['close', 'refreshCitizenDetails'])
 // The server answers 404 without the switch and 403 below Admin.
 const canManagePayrollMonths = computed(() => isAtLeast('Admin')
     && userStore.getUser?.company?.care_hour_payroll_lock_enabled === true)
+// The download history: the same people as the downloads (Admin or "read").
+const canSeeExportHistory = computed(() => isAtLeast('Admin') || can('read'))
 let currentTablePage = 1
 
 const state = reactive({
@@ -169,6 +180,7 @@ const state = reactive({
         { name: 'citizens.interventionHours.table.totalHours', isTranslateName: true, },
         { name: 'citizens.interventionHours.table.type', isTranslateName: true, key: 'is_transportation' },
         { name: 'citizens.interventionHours.table.createdBy', isTranslateName: true, },
+        { name: 'citizens.interventionHours.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
         { name: '' },
     ],
     contributionMargin: {} as any,
@@ -184,6 +196,7 @@ const state = reactive({
         citizen_uuids: [],
         user_uuids: [],
         is_transportation: '' as any,
+        hour_type_uuids: [] as string[],
         start_date: '',
         end_date: '',
     },
@@ -196,6 +209,7 @@ const state = reactive({
         isViewInterventionHourLogOpen: false,
         isFilterDutyScheduleOpen: false,
         isPayrollMonthsOpen: false,
+        isExportHistoryOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,
@@ -256,6 +270,9 @@ async function fetchInterventionHours() {
         }
         if (state.filter.is_transportation !== '') {
             params.is_transportation = state.filter.is_transportation
+        }
+        if (state.filter.hour_type_uuids?.length > 0) {
+            params['hour_type_uuids[]'] = [...state.filter.hour_type_uuids]
         }
         if (state.filter.start_date && state.filter.end_date) {
             params.start_date = state.filter.start_date
@@ -333,6 +350,7 @@ function setFilter(filter: any) {
     state.filter.citizen_uuids = filter.citizen_uuids
     state.filter.user_uuids = filter.employee_uuids
     state.filter.is_transportation = filter.employment_status.includes('transport') ? true : filter.employment_status.includes('work') ? false : ''
+    state.filter.hour_type_uuids = filter.hour_type_uuids ?? []
     state.filter.start_date = filter.date_range?.[0]
     state.filter.end_date = filter.date_range?.[1]
 

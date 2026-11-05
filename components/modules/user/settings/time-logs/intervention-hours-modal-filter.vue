@@ -25,6 +25,12 @@
                                 <FormSelectMultiple id="citizen_uuids" :options="state.options.citizens"
                                     v-model="state.formFilter.citizen_uuids" />
                             </div>
+                            <div class="space-y-1" v-if="hourTypeOptions.length">
+                                <FormLabel for="hour_type_uuids"
+                                    :label="$t('citizens.interventionHours.filters.hourTypes')" />
+                                <FormSelectMultiple id="hour_type_uuids" :options="hourTypeOptions"
+                                    v-model="state.formFilter.hour_type_uuids" />
+                            </div>
                             <div class="space-y-1">
                                 <FormLabel for="employment_status"
                                     :label="$t('citizens.interventionHours.filter.type')" />
@@ -62,6 +68,8 @@ import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { citizenService } from '~/components/api/user/CitizenService'
+import { useCareHourTypes } from '@/composables/careHourTypeList'
+import { hourTypeFilterOptions } from '@/composables/careHourFilters'
 
 const props = defineProps({
     isModalOpen: {
@@ -75,6 +83,11 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'setFilter'])
+// The company's hour types (Settings > Timetyper); none unless switched on.
+const { types: hourTypes, loadHourTypes } = useCareHourTypes()
+const hourTypeOptions = computed(() => hourTypes.value.length
+    ? hourTypeFilterOptions(hourTypes.value, t('citizens.interventionHours.filters.withoutType'))
+    : [])
 
 const state = reactive({
     error: {} as Error,
@@ -83,6 +96,7 @@ const state = reactive({
         employment_status: [],
         employee_uuids: [],
         citizen_uuids: [],
+        hour_type_uuids: [] as string[],
         date_range: [] as any,
     },
     isPageLoading: false,
@@ -103,6 +117,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
         fetchAllDepartments()
         fetchAllUsers()
         fetchAllCitizens()
+        loadHourTypes()
     }
 })
 

@@ -79,4 +79,69 @@ describe('wiring', () => {
             if (file.includes('guided-tour')) assert.match(src, /<FormButton v-if="!isDesktopApp" buttonStyle="primary"\s*@click="navigateToExternalLink\('https:\/\/citizenone\.dk\/priser-til-journalsystem\/kurser'\)"/, file)
         }
     })
+
+    test('a blocked page tells the user why, in all four languages', () => {
+        assert.match(read('middleware/desktop-no-purchase.global.ts'), /desktopApp\.notAvailable/)
+        for (const lang of ['dk', 'en', 'no', 'sv']) {
+            const strings = JSON.parse(read(`lang/${lang}.json`)).desktopApp
+            assert.ok(strings?.notAvailable && strings?.paymentNotAvailable, lang)
+        }
+    })
+
+    test('every billing tab left in the desktop app opens a page the desktop app allows', () => {
+        const tabsFile = read('components/modules/user/settings/billing-sub-tab.vue')
+        const hrefs = [...tabsFile.matchAll(/href: '([^']+)'/g)].map(m => m[1])
+        const left = hrefs.filter(href => !isPurchaseRoute(href))
+        assert.deepEqual(left, ['/settings/license-overview', '/settings/storage', '/settings/ai-usage'])
+    })
+
+    test('Cody offers no purchase in the desktop app but admins can still assign seats', () => {
+        const chat = read('composables/useCodyChat.ts')
+        assert.match(chat, /canBuyCapacity = \(\) => !inDesktopApp &&/)
+        assert.equal((chat.match(/!inDesktopApp && error\?\.can_manage_licenses/g) ?? []).length, 2)
+        const prompt = read('components/modules/user/cody/access-prompt.vue')
+        assert.match(prompt, /useCanPurchase\(\{ allowInDesktopApp: true \}\)/)
+        assert.match(prompt, /isDesktopApp && result === 'buyer' \? 'hidden'/)
+    })
+})
+
+describe('pages that list prices and card payments', () => {
+    test('the billing overview, invoices and card transactions are closed in the desktop app', () => {
+        for (const p of ['/settings/billing-overview', '/settings/invoices', '/settings/invoices/abc/invoice-details', '/settings/transactions']) {
+            assert.equal(isPurchaseRoute(p), true, p)
+        }
+    })
+
+    test('licences, storage and Cody usage stay open, without their sales texts', () => {
+        for (const p of ['/settings/license-overview', '/settings/storage', '/settings/ai-usage']) {
+            assert.equal(isPurchaseRoute(p), false, p)
+        }
+        const licences = ['index', 'departments', 'caseworker'].map(f => read(`pages/settings/license-overview/${f}.vue`))
+        for (const page of licences) {
+            assert.match(page, /<p v-if="!isDesktopApp"[^>]*>\s*\{\{ \$t\('subscription\.noSubscription\.toEnjoyOurFullRangeOfServicesAndBenefits'\) \}\}/)
+        }
+        const panel = read('components/modules/user/settings/ai-usage-panel.vue')
+        assert.match(panel, /v-else-if="!isDesktopApp">\{\{ \$t\('aiUsage\.allowanceThenStop'\) \}\}/)
+        assert.match(panel, /<section v-else-if="!isDesktopApp"/)
+    })
+
+    test('the settings rail has no billing entry and the tab row no paid tabs in the desktop app', () => {
+        assert.match(read('composables/useSettingsNav.ts'), /\.\.\.\(useIsDesktopApp\(\) \? \[\] : \[item\('settings\.groups\.billing'/)
+        assert.match(read('components/modules/user/settings/billing-sub-tab.vue'), /isDesktopApp \? allTabs\.filter\(tab => !isPurchaseRoute\(tab\.href\)\) : allTabs/)
+    })
+
+    test('the storage note has a desktop wording in every language, and it does not say buy', () => {
+        const buy = { dk: /køb/i, en: /buy/i, no: /kjøp/i, sv: /köp/i }
+        for (const lang of ['dk', 'en', 'no', 'sv']) {
+            const text = JSON.parse(read(`lang/${lang}.json`)).settings.hints.storage.bodyDesktop
+            assert.equal(typeof text, 'string', lang)
+            assert.doesNotMatch(text, buy[lang], lang)
+        }
+    })
+
+    test('the signup panel says nothing about cards or price in the desktop app', () => {
+        const page = read('pages/register.vue')
+        const unguarded = page.match(/<ul class="co-points">\s*<li>\{\{ \$t\('register\.noCommitment'\)/g)
+        assert.equal(unguarded, null)
+    })
 })

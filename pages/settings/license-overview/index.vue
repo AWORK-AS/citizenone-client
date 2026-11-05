@@ -27,7 +27,7 @@
                                 $t('subscription.noSubscription.itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment')
                             }}.
                         </p>
-                        <p class="mt-2 text-sm text-gray-600 leading-6">
+                        <p v-if="!isDesktopApp" class="mt-2 text-sm text-gray-600 leading-6">
                             {{ $t('subscription.noSubscription.toEnjoyOurFullRangeOfServicesAndBenefits') }}.
                         </p>
                         <div class="mt-6">
