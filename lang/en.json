@@ -5792,7 +5792,9 @@
             "skipped": "{count} shift skipped because the employee already has the same shift. | {count} shifts skipped because the employee already has the same shifts.",
             "noneCreatedTitle": "No shifts added",
             "allSkipped": "The employee already has the same shifts this week.",
-            "sourceEmpty": "There are no shifts in the week you copied."
+            "sourceEmpty": "There are no shifts in the week you copied.",
+            "dayAllSkipped": "The employee already has the same shifts that day.",
+            "daySourceEmpty": "There are no shifts on the day you copied."
         },
         "custom": "Custom",
         "date": "Shift Date",
