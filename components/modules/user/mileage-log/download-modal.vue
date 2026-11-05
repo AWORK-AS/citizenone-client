@@ -18,6 +18,11 @@
                                 <FormSelect id="download_type" name="download_type"
                                     :options="state.options.downloadType" v-model="state.downloadForm.download_type" />
                             </div>
+                            <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
+                                <input type="checkbox" v-model="state.onlyUnprocessed"
+                                    class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                                {{ $t('timeLogs.exportHistory.onlyUnprocessedOption') }}
+                            </label>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -75,6 +80,8 @@ const state = reactive({
         date_range: [],
     },
     isPageLoading: false,
+    // Leave out trips in a download already ticked "Behandlet".
+    onlyUnprocessed: false,
     options: {
         downloadType: [
             { value: 'pdf', label: 'PDF' },
@@ -121,6 +128,10 @@ async function downloadMileageLog() {
             }
             if (props?.filters?.employee_uuids?.length > 0) {
                 params.user_uuids = props.filters.employee_uuids
+            }
+
+            if (state.onlyUnprocessed) {
+                params.only_unprocessed = 1
             }
 
             const response = props.employeeUuid

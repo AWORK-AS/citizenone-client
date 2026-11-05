@@ -16507,6 +16507,21 @@
             "employee": "Medarbejder",
             "locationInformation": "Placeringsinformation",
             "title": "Vis tidslog"
+        },
+        "exportHistory": {
+            "titleHours": "Tidligere behandlede indsatstimer",
+            "titleMileage": "Tidligere behandlede kørsler",
+            "hint": "Hver download fra listen gemmes her. Sæt flueben i Behandlet, når lønnen er udbetalt.",
+            "period": "Periode",
+            "downloaded": "Downloadet",
+            "rows": "Rækker",
+            "processed": "Behandlet",
+            "downloadAgain": "Download igen",
+            "empty": "Ingen downloads endnu.",
+            "employee": "Medarbejder: {name}",
+            "filtered": "Med filter",
+            "onlyUnprocessed": "Kun ikke-behandlede",
+            "onlyUnprocessedOption": "Kun ikke-behandlede"
         }
     },
     "timeRegistration": {
