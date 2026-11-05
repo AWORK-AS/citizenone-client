@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { announcementService } from '@/components/api/user/AnnouncementService'
-import { ctaTarget, ctaText, demandCount, eyebrowKey, queueLabel, showsImage, type UserAnnouncement } from '@/composables/announcements'
+import { ctaTarget, ctaText, demandCount, eyebrowKey, isSalesCta, queueLabel, showsImage, type UserAnnouncement } from '@/composables/announcements'
 
 /**
  * "Nyt fra CitizenOne" in the lower left corner: try the new app, a news item or a tip.
@@ -108,7 +108,10 @@ onBeforeUnmount(() => {
 async function load() {
     try {
         const response = await announcementService.getNext()
-        item.value = response?.data ?? null
+        const next = response?.data ?? null
+        // The desktop app offers nothing for sale (composables/purchaseAccess.ts). A message
+        // built around a trial or a purchase stays for the web and is not marked seen here.
+        item.value = next && useIsDesktopApp() && isSalesCta(next.cta) ? null : next
         queued.value = response?.queued ?? 0
     } catch {
         // A message from us must never get in the way of the work.

@@ -30,7 +30,8 @@
 
                 <p class="mt-3 text-xs text-gray-500">
                     {{ $t('aiUsage.allowanceExplainer') }}
-                    {{ hasBalance ? $t('aiUsage.allowanceThenBalance') : $t('aiUsage.allowanceThenStop') }}
+                    <template v-if="hasBalance">{{ $t('aiUsage.allowanceThenBalance') }}</template>
+                    <template v-else-if="!isDesktopApp">{{ $t('aiUsage.allowanceThenStop') }}</template>
                 </p>
             </section>
 
@@ -42,7 +43,7 @@
                     <div>
                         <h3 class="flex items-center gap-x-1.5 text-sm font-semibold text-gray-900">
                             {{ $t('aiUsage.balance') }}
-                            <Tooltip v-if="priceExample" :text="priceExample" wrap>
+                            <Tooltip v-if="priceExample && !isDesktopApp" :text="priceExample" wrap>
                             <Icon name="ph:info" class="h-4 w-4 text-gray-400 hover:text-primary" :aria-label="priceExample" />
                         </Tooltip>
                         </h3>
@@ -60,12 +61,13 @@
                 <p class="mt-3 text-xs text-gray-500">{{ $t('aiUsage.balanceExplainer') }}</p>
             </section>
 
-            <section v-else class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
+            <!-- The desktop app sells nothing (purchaseAccess.ts), so it has no offer to show. -->
+            <section v-else-if="!isDesktopApp" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div class="min-w-0 flex-1">
                         <h3 class="flex items-center gap-x-1.5 text-sm font-semibold text-gray-900">
                             {{ $t('aiUsage.offer.title') }}
-                            <Tooltip v-if="priceExample" :text="priceExample" wrap>
+                            <Tooltip v-if="priceExample && !isDesktopApp" :text="priceExample" wrap>
                             <Icon name="ph:info" class="h-4 w-4 text-gray-400 hover:text-primary" :aria-label="priceExample" />
                         </Tooltip>
                         </h3>

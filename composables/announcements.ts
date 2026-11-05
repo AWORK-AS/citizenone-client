@@ -45,6 +45,21 @@ export function ctaText(cta: AnnouncementCta | null | undefined): { key: string,
     }
 }
 
+/**
+ * A button that sells: start a trial, buy, or ask an admin to buy. The desktop app is sold
+ * through the Mac App Store, where paid add-ons may only be sold through In-App Purchase
+ * (App Review guideline 3.1.1), so it shows no such button and no popup built around one.
+ */
+export function isSalesCta(cta: AnnouncementCta | null | undefined): boolean {
+    return cta?.action === 'trial' || cta?.action === 'buy' || cta?.action === 'ask'
+}
+
+/** The button a reader gets: none in the desktop app when it sells something. */
+export function ctaFor(cta: AnnouncementCta | null | undefined, inDesktopApp: boolean): AnnouncementCta | null {
+    if (!cta) return null
+    return inDesktopApp && isSalesCta(cta) ? null : cta
+}
+
 /** The small label above the title. */
 export function eyebrowKey(kind: AnnouncementKind): string {
     if (kind === 'tip') return 'announcements.eyebrow.tip'
