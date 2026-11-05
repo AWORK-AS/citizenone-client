@@ -26,9 +26,14 @@ export function canPurchase(input: {
 // Pages that sell something: plans, add-ons and coupon codes, extra storage, unpaid invoices,
 // and the app store (paid apps, trials that turn into a charge).
 // The desktop app never opens them (middleware/desktop-no-purchase.global.ts).
+// The billing overview, invoices and card transactions list prices and card payments made
+// outside the App Store, so the desktop app does not open them either.
 // /subscription/suspended is not one: a suspended company is sent there from every request, and
 // the page itself hides its payment button in the desktop app.
-const PURCHASE_ROUTE_PREFIXES = ['/subscription', '/settings/subscription', '/storage/upgrade', '/apps']
+const PURCHASE_ROUTE_PREFIXES = [
+    '/subscription', '/settings/subscription', '/storage/upgrade', '/apps',
+    '/settings/billing-overview', '/settings/invoices', '/settings/transactions',
+]
 const NOT_PURCHASE_ROUTES = ['/subscription/suspended']
 
 export function isPurchaseRoute(path: string | null | undefined): boolean {

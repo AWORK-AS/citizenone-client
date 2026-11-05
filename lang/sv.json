@@ -3402,7 +3402,8 @@
                 "transport": "Transportere",
                 "type": "Typ",
                 "work": "Arbetstid",
-                "running": "Pågår"
+                "running": "Pågår",
+                "createdAt": "Skapad"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tilldelning",
@@ -8569,7 +8570,8 @@
             "receipt": "Kvitto",
             "reimbursed": "Utlägg udbetalt",
             "rejected": "Avvisad",
-            "status": "Status"
+            "status": "Status",
+            "citizen": "@.capitalize:terms.citizen{''}"
         },
         "viewExpense": {
             "amount": "Belopp",
@@ -8581,6 +8583,17 @@
             "name": "Namn",
             "receipt": "Kvitto",
             "viewExpense": "Se utgift"
+        },
+        "filter": {
+            "status": "Status",
+            "statusAll": "Alla utgifter",
+            "statusPending": "Ej utbetald",
+            "statusReimbursed": "Utbetald",
+            "statusRejected": "Avvisad",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "allCitizens": "Alla @:terms.citizens{''}",
+            "downloadWithReceipts": "Ladda ner med kvitton",
+            "exportFileName": "utgifter"
         }
     },
     "extraHoursTags": {
@@ -10406,7 +10419,10 @@
             "selectCitizen": "Välj brukare",
             "startAddress": "Startadress",
             "stopAddress": "Stoppadress",
-            "useMyLocation": "Använd min plats"
+            "useMyLocation": "Använd min plats",
+            "vehicleRegistration": "Registreringsnummer på bilen",
+            "vehicleRegistrationHelp": "Krävs av Skatteverket för skattefri milersättning.",
+            "vehicleRegistrationInvalid": "Högst 20 tecken: bokstäver, siffror, mellanslag och bindestreck."
         },
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
@@ -10446,7 +10462,8 @@
             "employee": "Medarbetare",
             "flagged": "Flaggad",
             "needsReview": "Behöver granskas",
-            "route": "Rutt"
+            "route": "Rutt",
+            "vehicleRegistrationShort": "Reg.nr"
         },
         "tracking": {
             "acquiringPosition": "Hämtar din plats …",
@@ -10499,6 +10516,7 @@
             "route": "Rutt",
             "startAddress": "Startadress",
             "stopAddress": "Stoppadress",
+            "vehicleRegistration": "Registreringsnummer på bilen",
             "viewTrip": "Visa resa"
         }
     },
@@ -12518,7 +12536,9 @@
                 "portalPreviewPrescriptions": "Patienten ser sina nuvarande recept och kan be kliniken förnya dem. Förfrågan kommer in i inkorgen Receptförnyelser.",
                 "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}",
                 "contactWeeklyHours": "Timmar per vecka per medarbetare och @:terms.citizen{''}",
-                "contactWeeklyHoursHint": "Ange vid tilldelning hur många timmar per vecka medarbetaren ska lägga på en @:terms.citizen{''}. Medarbetaren ser timmarna och förbrukningen på Min dag"
+                "contactWeeklyHoursHint": "Ange vid tilldelning hur många timmar per vecka medarbetaren ska lägga på en @:terms.citizen{''}. Medarbetaren ser timmarna och förbrukningen på Min dag",
+                "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/insats krävs på utgifter",
+                "expenseCitizenRequiredHint": "När den är påslagen kan en utgift bara sparas med en @:terms.citizen{''}, både på webben och i appen"
             }
         },
         "licenseOverview": {
@@ -12943,7 +12963,8 @@
             },
             "storage": {
                 "title": "Vad tar plats?",
-                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna.",
+                "bodyDesktop": "Hur mycket utrymme era filer använder och vad som tar mest plats, så att ni kan rensa bland de största filerna."
             },
             "portalAccess": {
                 "title": "Vad är portalåtkomst?",
@@ -16422,6 +16443,21 @@
             "employee": "Anställd",
             "locationInformation": "Placeringsinformation",
             "title": "Visa tidslogg"
+        },
+        "exportHistory": {
+            "titleHours": "Tidigare behandlade insatstimmar",
+            "titleMileage": "Tidigare behandlade körningar",
+            "hint": "Varje nedladdning från listan sparas här. Markera Behandlad när lönen har betalats ut.",
+            "period": "Period",
+            "downloaded": "Nedladdad",
+            "rows": "Rader",
+            "processed": "Behandlad",
+            "downloadAgain": "Ladda ner igen",
+            "empty": "Inga nedladdningar ännu.",
+            "employee": "Medarbetare: {name}",
+            "filtered": "Med filter",
+            "onlyUnprocessed": "Endast obehandlade",
+            "onlyUnprocessedOption": "Endast obehandlade"
         }
     },
     "timeRegistration": {
@@ -19795,12 +19831,14 @@
         "wall": {
             "pastDueTitle": "Betalningen kunde inte genomföras",
             "pastDueBody": "Vi kunde inte dra betalningen för er prenumeration. Ange ett giltigt betalkort för att fortsätta. Kontot stängs om {days} dagar om betalningen inte genomförs.",
+            "pastDueBodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. Ange ett giltigt betalkort för att fortsätta.",
             "suspendedTitle": "Prenumerationen är pausad",
             "suspendedBody": "Er prenumeration är pausad eftersom betalningen inte kunde genomföras. Ange ett giltigt betalkort så öppnar vi kontot igen direkt."
         },
         "notice": {
             "title": "Betalningen saknas",
-            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar."
+            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar.",
+            "bodyNoClose": "Vi kunde inte dra betalningen för ert abonnemang. En administratör behöver uppdatera betalkortet."
         },
         "renew": {
             "title": "Förnya er prenumeration",
@@ -21809,5 +21847,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Endast visning - inget kan sparas.",
         "end": "Avsluta visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
+        "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
     }
 }

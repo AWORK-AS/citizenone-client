@@ -49,6 +49,10 @@
                     v-model="state.formTransport.kilometers" />
                 <FormError :error="props?.error?.errors?.distance_km?.[0]" />
             </div>
+
+            <ModulesUserMileageLogVehicleRegistrationField v-model="state.formTransport.vehicle_registration"
+                :error="v$?.formTransport?.vehicle_registration?.$errors[0]?.$message.toString()"
+                :serverError="props?.error?.errors?.vehicle_registration?.[0]" />
         </div>
 
         <div class="space-y-3">
@@ -105,6 +109,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { useCareHourTypes } from '@/composables/careHourTypeList'
 import { defaultHourTypeUuid, hourTypeChoices, hourTypePayload } from '@/composables/careHourTypes'
+import { normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 
 const props = defineProps({
     error: {
@@ -142,6 +147,7 @@ const state = reactive({
         start_address: '',
         end_address: '',
         kilometers: '',
+        vehicle_registration: '' as string,
     }
 })
 
@@ -193,6 +199,7 @@ watch(() => props.selectedInterventionHours, (selectedInterventionHours: any) =>
                 start_address: selectedInterventionHours.start_address || '',
                 end_address: selectedInterventionHours.end_address || '',
                 kilometers: selectedInterventionHours.kilometers || '0',
+                vehicle_registration: selectedInterventionHours.vehicle_registration ?? '',
             }
         }
     }
@@ -207,6 +214,9 @@ const rules = computed(() => {
             date_time_end: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
+        },
+        formTransport: {
+            vehicle_registration: vehicleRegistrationRules(t),
         },
     }
 })
@@ -233,7 +243,12 @@ function submitForm() {
         const formData = {
             ...times,
             ...hourTypePayload(showsHourType.value, contract_hour_type_uuid),
-            ...(props.selectedInterventionHours?.is_transportation ? state.formTransport : {})
+            ...(props.selectedInterventionHours?.is_transportation
+                ? {
+                    ...state.formTransport,
+                    vehicle_registration: normalizeVehicleRegistration(state.formTransport.vehicle_registration),
+                }
+                : {})
         }
         emit('submitForm', formData)
     }

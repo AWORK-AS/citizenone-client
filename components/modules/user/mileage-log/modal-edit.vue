@@ -82,6 +82,7 @@ async function updateMileageLog(tripDetails: any) {
             // a citizen-linked trip never looks like an open check-in.
             date_time_end: startDateTime,
             note: tripDetails.note,
+            vehicle_registration: tripDetails.vehicle_registration,
             citizen_uuid: tripDetails.citizen_uuid,
             ...routeFields,
             stops,

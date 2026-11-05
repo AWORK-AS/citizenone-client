@@ -88,6 +88,11 @@
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.download.download') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" v-if="canSeeExportHistory"
+                            @click="state.modal.isExportHistoryOpen = true">
+                            <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('timeLogs.exportHistory.titleMileage') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="onStartTripClick" :disabled="!tracking.isIdle.value">
                             <Icon name="ph:car" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.tracking.startTrip') }}
@@ -113,6 +118,9 @@
                                     <span class="truncate" v-if="log?.date_time_start">
                                         {{ formatDateTimeToReadable(log?.date_time_start) }}
                                     </span>
+                                    <p class="text-xs text-gray-400" v-if="log?.vehicle_registration">
+                                        {{ $t('mileageLog.table.vehicleRegistrationShort') }} {{ log.vehicle_registration }}
+                                    </p>
                                 </td>
                                 <td width="30%">
                                     <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>
@@ -196,6 +204,8 @@
                     @setFilter="setFilter" />
                 <ModulesUserMileageLogDownloadModal :isModalOpen="state.modal.isDownloadOpen"
                     :filters="state.filter" @close="state.modal.isDownloadOpen = false" />
+                <ModulesUserSettingsTimeLogsCareHourExportsModal v-if="canSeeExportHistory" kind="mileage"
+                    :isModalOpen="state.modal.isExportHistoryOpen" @close="state.modal.isExportHistoryOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                     :message="`${$t('mileageLog.table.confirmation.deleteTripConfirmation')}?`"
                     @close="state.modal.isDeleteOpen = false" @confirm="deleteMileageLog" />
@@ -221,7 +231,7 @@ const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { t } = useI18n()
 const { successAlert } = useAlert()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const { distanceSourceLabel, reviewReasonLabel } = useMileageLabels()
 const tracking = useMileageTracking(t)
 // Admins/Managers get company-wide data on this page already (the backend
@@ -233,6 +243,8 @@ const canFilterByEmployee = isAtLeast('Manager')
 // drivers are later allowed to correct their own trips (see
 // backend/dev-mileage-manual-distance-correction.md).
 const canCorrectDistance = isAtLeast('Manager')
+// The download history: the same people as the downloads (Admin or "read").
+const canSeeExportHistory = isAtLeast('Admin') || can('read')
 let currentTablePage = 1
 
 const breadcrumbLinks = [
@@ -276,6 +288,7 @@ const state = reactive({
         isViewOpen: false,
         isStartTripOpen: false,
         isCorrectDistanceOpen: false,
+        isExportHistoryOpen: false,
     },
     selectedMileageLog: {} as any,
     sortData: {

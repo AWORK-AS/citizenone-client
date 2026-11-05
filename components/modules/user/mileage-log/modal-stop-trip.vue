@@ -42,6 +42,10 @@
                             <FormSelect id="stop-trip-citizen" :options="state.citizenOptions" v-model="state.citizenUuid" />
                         </div>
 
+                        <ModulesUserMileageLogVehicleRegistrationField id="stop-trip-vehicle-registration"
+                            v-model="state.vehicleRegistration"
+                            :error="v$?.vehicleRegistration?.$errors[0]?.$message.toString()" />
+
                         <div class="flex justify-end gap-3">
                             <FormButton buttonStyle="cancel" @click="state.confirmingCancel = true">
                                 {{ $t('mileageLog.tracking.cancelTrip') }}
@@ -125,6 +129,8 @@ import { useI18n } from 'vue-i18n'
 import { useMileageTracking } from '@/composables/mileageTracking'
 import { useMileageLabels } from '@/composables/mileageLabels'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { useVuelidate } from '@vuelidate/core'
+import { normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 
 const props = defineProps({
     show: {
@@ -149,7 +155,11 @@ const state = reactive({
     citizenUuid: null as string | null,
     citizenOptions: [] as any,
     confirmingCancel: false,
+    vehicleRegistration: '' as string,
 })
+
+const rules = computed(() => ({ vehicleRegistration: vehicleRegistrationRules(t) }))
+const v$ = useVuelidate(rules, state)
 
 watch(() => props.show, (open) => {
     if (!open) return
@@ -174,6 +184,11 @@ watch(() => props.show, (open) => {
     // the tracked trip.
     state.linkToCitizen = !!tracking.citizenUuid.value
     state.citizenUuid = tracking.citizenUuid.value
+    // Whatever was set at Start (the trip already exists server-side), so the
+    // driver can correct it before stopping. Not pre-filled from the last
+    // trip: this is an existing record, not a new one.
+    state.vehicleRegistration = tracking.activeTrip.value?.vehicle_registration ?? ''
+    v$.value.$reset()
     fetchCitizenOptions()
 })
 
@@ -226,6 +241,7 @@ const formattedElapsed = computed(() => {
 })
 
 async function onStop() {
+    if (!(await v$.value.$validate())) return
     try {
         // stop() itself now writes the final trip data into
         // tracking.activeTrip, which is what the summary phase reads —
@@ -233,6 +249,7 @@ async function onStop() {
         await tracking.stop({
             note: state.note,
             citizenUuid: state.linkToCitizen ? state.citizenUuid : null,
+            vehicleRegistration: normalizeVehicleRegistration(state.vehicleRegistration),
         })
         state.phase = 'summary'
     } catch {

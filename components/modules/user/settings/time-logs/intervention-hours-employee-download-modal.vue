@@ -13,6 +13,11 @@
                                     :placeholder="$t('citizens.interventionHours.download.filter.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
+                            <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
+                                <input type="checkbox" v-model="state.onlyUnprocessed"
+                                    class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                                {{ $t('timeLogs.exportHistory.onlyUnprocessedOption') }}
+                            </label>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -69,6 +74,8 @@ const state = reactive({
         date_range: [],
     },
     isPageLoading: false,
+    // Leave out rows in a download already ticked "Behandlet".
+    onlyUnprocessed: false,
     options: {
         tags: [],
     },
@@ -116,6 +123,12 @@ async function downloadInterventionHours() {
             }
             if (props?.filters?.is_transportation !== '') {
                 params.is_transportation = props?.filters?.is_transportation
+            }
+            if (state.onlyUnprocessed) {
+                params.only_unprocessed = 1
+            }
+            if (props?.filters?.hour_type_uuids?.length > 0) {
+                params['hour_type_uuids[]'] = [...props.filters.hour_type_uuids]
             }
             const response = await interventionHoursService.downloadInterventionHoursEmployeeReport(employeeUuid, params)
             if (response) {

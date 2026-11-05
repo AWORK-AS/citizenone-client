@@ -34,6 +34,11 @@
                         </p>
                     </div>
 
+                    <div class="space-y-1 my-1" v-if="props.selectedMileageLog?.vehicle_registration">
+                        <FormLabel :label="$t('mileageLog.view.vehicleRegistration')" />
+                        <p class="text-sm font-semibold text-gray-700">{{ props.selectedMileageLog.vehicle_registration }}</p>
+                    </div>
+
                     <div class="space-y-1 my-1" v-for="(stop, index) in routeStops" :key="index">
                         <FormLabel :label="stopLabel(index)" />
                         <p class="text-sm font-semibold text-gray-700">{{ stop.address }}</p>

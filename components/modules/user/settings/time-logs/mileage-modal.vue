@@ -74,6 +74,11 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('mileageLog.download.download') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" v-if="canSeeExportHistory"
+                        @click="state.modal.isExportHistoryOpen = true">
+                        <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('timeLogs.exportHistory.titleMileage') }}
+                    </FormButton>
                 </div>
                 <div class="mt-5 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -141,6 +146,8 @@
                     @close="state.modal.isFilterOpen = false" @setFilter="setFilter" />
                 <ModulesUserMileageLogDownloadModal :isModalOpen="state.modal.isDownloadOpen"
                     :filters="state.filter" @close="state.modal.isDownloadOpen = false" />
+                <ModulesUserSettingsTimeLogsCareHourExportsModal v-if="canSeeExportHistory" kind="mileage"
+                    :isModalOpen="state.modal.isExportHistoryOpen" @close="state.modal.isExportHistoryOpen = false" />
             </template>
         </Modal>
     </div>
@@ -152,6 +159,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import { useMileageLabels } from '@/composables/mileageLabels'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -166,6 +174,9 @@ const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter(
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { distanceSourceLabel, reviewReasonLabel } = useMileageLabels()
+const { isAtLeast, can } = usePermissions()
+// The download history: the same people as the downloads (Admin or "read").
+const canSeeExportHistory = isAtLeast('Admin') || can('read')
 let currentTablePage = 1
 
 const state = reactive({
@@ -193,6 +204,7 @@ const state = reactive({
     mileageLogs: [] as any,
     modal: {
         isDownloadOpen: false,
+        isExportHistoryOpen: false,
         isFilterOpen: false,
         isViewOpen: false,
     },

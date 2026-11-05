@@ -949,7 +949,8 @@ async function transportLogin(transportLoginDetails: any) {
                 geo_start_lat: transportLoginDetails.geo_start_lat,
                 geo_start_lng: transportLoginDetails.geo_start_lng,
                 start_address: transportLoginDetails.start_address,
-                note: transportLoginDetails.note
+                note: transportLoginDetails.note,
+                vehicle_registration: transportLoginDetails.vehicle_registration ?? null,
             }
             const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {

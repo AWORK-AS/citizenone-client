@@ -489,7 +489,7 @@ export function useMileageTracking(t?: (key: string) => string) {
         }
     }
 
-    async function start(opts: { citizenUuid?: string | null; note?: string } = {}) {
+    async function start(opts: { citizenUuid?: string | null; note?: string; vehicleRegistration?: string | null } = {}) {
         // 'reviewing' must NOT block a new trip. The trip it refers to was
         // already fully persisted by /stop — 'reviewing' is a purely
         // informational client-side screen ("here's what we saved"), not an
@@ -543,6 +543,7 @@ export function useMileageTracking(t?: (key: string) => string) {
                 start_address: resolvedAddress,
                 citizen_uuid: opts.citizenUuid ?? null,
                 note: opts.note ?? null,
+                vehicle_registration: opts.vehicleRegistration ?? null,
             })
 
             const trip = response?.data
@@ -611,7 +612,7 @@ export function useMileageTracking(t?: (key: string) => string) {
      * citizen before the trip is considered final; there is nothing further
      * to "save" server-side beyond that edit, since /stop already persisted it.
      */
-    async function stop(opts: { endAddress?: string | null; note?: string; citizenUuid?: string | null; useBreadcrumbs?: boolean } = {}) {
+    async function stop(opts: { endAddress?: string | null; note?: string; citizenUuid?: string | null; useBreadcrumbs?: boolean; vehicleRegistration?: string | null } = {}) {
         if (!isTracking.value || !activeTrip.value?.uuid) return null
         stateGeneration++
         isBusy.value = true
@@ -645,6 +646,9 @@ export function useMileageTracking(t?: (key: string) => string) {
                 note: opts.note ?? null,
                 citizen_uuid: opts.citizenUuid ?? citizenUuid.value ?? null,
                 use_breadcrumbs: opts.useBreadcrumbs ?? true,
+                // Only sent when the caller passes it; /stop leaves the
+                // stored value alone when the key is absent.
+                ...(opts.vehicleRegistration !== undefined ? { vehicle_registration: opts.vehicleRegistration } : {}),
             })
 
             // Write the final trip (correct kilometers, end_address, etc.)
