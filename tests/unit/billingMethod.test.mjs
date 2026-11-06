@@ -61,12 +61,12 @@ test('an unknown billing method falls back to card, never to invoice', () => {
 
 test('switching to card clears the invoice-only flags', () => {
     assert.deepEqual(
-        billingMethodPayload({ billing_method: 'card', invoice_card_security: true, leverandorservice: true, license_orders_follow_agreement: true }),
-        { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false },
+        billingMethodPayload({ billing_method: 'card', invoice_card_security: true, leverandorservice: true, license_orders_follow_agreement: true, billed_from_economic: true, economic_mirror_since: '2026-12-01' }),
+        { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false, billed_from_economic: false, economic_mirror_since: null },
     )
     assert.deepEqual(
-        billingMethodPayload({ billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true }),
-        { billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true },
+        billingMethodPayload({ billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true, billed_from_economic: false, economic_mirror_since: '2026-12-01' }),
+        { billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true, billed_from_economic: false, economic_mirror_since: null },
     )
 })
 
@@ -495,4 +495,17 @@ test('dates read the Danish way', () => {
 
 test('licence order refusals have their own messages', () => {
     assert.equal(errorMessageKey({ code: 'license_order_economic_missing' }), 'paymentDunning.errors.license_order_economic_missing')
+})
+
+test('billed from e-conomic carries its start date and both count as changes', () => {
+    const saved = normalizeCompanyBilling({ data: { billing_method: 'invoice' } })
+    assert.equal(saved.billed_from_economic, false)
+    assert.equal(saved.economic_mirror_since, null)
+    const form = { ...saved, billed_from_economic: true, economic_mirror_since: '2026-12-01' }
+    assert.equal(billingMethodDirty(saved, form), true)
+    assert.deepEqual(
+        { b: billingMethodPayload(form).billed_from_economic, d: billingMethodPayload(form).economic_mirror_since },
+        { b: true, d: '2026-12-01' },
+    )
+    assert.equal(normalizeCompanyBilling({ data: { economic_mirror_since: '' } }).economic_mirror_since, null)
 })
