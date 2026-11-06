@@ -138,6 +138,22 @@
 
                             <div class="space-y-2">
                                 <div class="space-y-5">
+                                    <fieldset v-if="canInvoice" class="bg-white shadow-md p-6 rounded-md" data-testid="storage-pay-by">
+                                        <legend class="text-sm font-semibold text-gray-700">{{ $t('subscription.addOnDeals.invoiceOrder.payBy') }}</legend>
+                                        <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <label v-for="option in (['card', 'invoice'] as const)" :key="option"
+                                                class="flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors"
+                                                :class="state.payBy === option ? 'border-[#0F4C75] bg-[#EEF4FB]' : 'border-gray-200 hover:bg-gray-50'">
+                                                <input type="radio" name="storage_pay_by" :value="option" v-model="state.payBy" />
+                                                <Icon :name="option === 'card' ? 'ph:credit-card' : 'ph:file-text'" class="w-4 h-4 text-gray-500" aria-hidden="true" />
+                                                <span class="text-sm font-medium text-gray-800">{{ $t(`subscription.addOnDeals.invoiceOrder.${option}`) }}</span>
+                                            </label>
+                                        </div>
+                                        <p v-if="state.payBy === 'invoice'" class="mt-2 text-xs text-gray-500">
+                                            {{ $t('storage.invoiceOrder.help') }}
+                                            <template v-if="!sentByEconomic">{{ $t('subscription.addOnDeals.invoiceOrder.sentByFinance') }}</template>
+                                        </p>
+                                    </fieldset>
                                     <div v-for="(deal, index) in state.storageDeals?.data" :key="index">
                                         <div
                                             class="bg-white shadow-md p-6 rounded-md flex justify-between items-center gap-x-3">
@@ -156,7 +172,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <FormButton @click="upgrade(deal)">
+                                                <FormButton @click="state.payBy === 'invoice' && canInvoice ? quoteInvoice(deal) : upgrade(deal)">
                                                     {{ $t('storage.upgrade') }}
                                                 </FormButton>
                                             </div>
@@ -177,6 +193,36 @@
                     </div>
                 </div>
             </LoadingSpinner>
+            <DialogConfirmation :isModalOpen="state.isInvoiceConfirmOpen"
+                :title="$t('storage.invoiceOrder.confirmTitle', { name: state.quote?.package })"
+                :message="$t('subscription.addOnDeals.invoiceOrder.confirmIntro')"
+                :confirmLabel="$t('subscription.addOnDeals.invoiceOrder.confirm')"
+                @close="state.isInvoiceConfirmOpen = false" @confirm="orderInvoice">
+                <template #extra>
+                    <dl v-if="state.quote" class="mt-4 space-y-2 text-sm" data-testid="storage-invoice-quote">
+                        <div class="flex justify-between gap-4">
+                            <dt class="text-gray-600">
+                                {{ $t('storage.invoiceOrder.restOfMonth', { from: danishDate(state.quote.period_from), to: danishDate(state.quote.period_to) }) }}
+                                <span class="block text-xs text-gray-500">
+                                    {{ formatAmount(state.quote.difference) }} / {{ state.quote.days_in_month }} × {{ state.quote.days }}
+                                </span>
+                            </dt>
+                            <dd class="text-gray-900">{{ formatAmount(state.quote.amount) }}</dd>
+                        </div>
+                        <div v-if="state.quote.fee > 0" class="flex justify-between gap-4">
+                            <dt class="text-gray-600">{{ $t('subscription.addOnDeals.invoiceOrder.fee') }}</dt>
+                            <dd class="text-gray-900">{{ formatAmount(state.quote.fee) }}</dd>
+                        </div>
+                        <div class="flex justify-between gap-4 font-semibold border-t border-gray-200 pt-2">
+                            <dt>{{ $t('subscription.addOnDeals.invoiceOrder.totalInclVat') }}</dt>
+                            <dd>{{ formatAmount(state.quote.total_amount) }}</dd>
+                        </div>
+                        <p class="pt-2 text-xs text-gray-500">
+                            {{ $t('storage.invoiceOrder.fromFirst', { amount: formatAmount(state.quote.next_month_total) }) }}
+                        </p>
+                    </dl>
+                </template>
+            </DialogConfirmation>
             <ModulesUserStorageModalContactUs :isModalOpen="state.modal.isContactUsOpen"
                 @close="state.modal.isContactUsOpen = false" />
             <Modal size="sm" :show="state.isInfoOpen" @close="state.isInfoOpen = false">
@@ -202,6 +248,9 @@
 
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
+import { billingService } from '@/components/api/user/BillingService'
+import { canOrderByInvoice, danishDate, errorMessageKey, type StorageOrderQuote } from '@/composables/billingMethod'
+import { useAlert } from '@/composables/alert'
 import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { storageService } from '@/components/api/user/StorageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -239,13 +288,70 @@ const state = reactive({
     usage: [] as any,
     oneDriveQuota: null as any,
     isInfoOpen: false,
+    // Invoice ordering, offered next to the card when the API says so.
+    billingStatus: null as any,
+    payBy: 'card' as 'card' | 'invoice',
+    quote: null as StorageOrderQuote | null,
+    quoteDealUuid: '',
+    orderKey: '',
+    isInvoiceConfirmOpen: false,
 })
+
+const { successAlert } = useAlert()
+const canInvoice = computed(() => canOrderByInvoice(state.billingStatus))
+const sentByEconomic = computed(() => state.billingStatus?.invoice_sent_by_economic !== false)
 
 onMounted(() => {
     fetchStorageDeals()
     fetchCitizenFileFolderCurrentUsage()
     fetchOneDriveQuota()
+    fetchBillingStatus()
 })
+
+async function fetchBillingStatus() {
+    try {
+        const response = await billingService.getStatus()
+        state.billingStatus = response?.data ?? response ?? null
+    } catch (_) {
+        state.billingStatus = null
+    }
+}
+
+function orderError(err: any): Error {
+    const key = errorMessageKey(err)
+    return { message: key ? language.t(key) : (err?.message || language.t('subscription.addOnDeals.invoiceOrder.failed')) } as Error
+}
+
+async function quoteInvoice(deal: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        state.quote = await billingService.getStorageOrderQuote(deal.uuid)
+        state.quoteDealUuid = deal.uuid
+        state.orderKey = crypto.randomUUID()
+        state.isInvoiceConfirmOpen = true
+    } catch (err: any) {
+        state.error = orderError(err)
+    }
+    state.isPageLoading = false
+}
+
+async function orderInvoice() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const result = await billingService.orderStorage({ add_on_deal_uuid: state.quoteDealUuid, idempotency_key: state.orderKey })
+        successAlert(`${language.t('alert.success')}!`, language.t(sentByEconomic.value ? 'storage.invoiceOrder.done' : 'storage.invoiceOrder.doneByFinance', {
+            number: result?.invoice_number ?? '', date: danishDate(result?.due_on),
+        }))
+        state.quote = null
+        state.orderKey = ''
+        await Promise.allSettled([fetchCitizenFileFolderCurrentUsage(), fetchStorageDeals()])
+    } catch (err: any) {
+        state.error = orderError(err)
+    }
+    state.isPageLoading = false
+}
 
 onUnmounted(() => {
     // Cleanup checkout instance when component is unmounted
