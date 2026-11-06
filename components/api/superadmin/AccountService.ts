@@ -19,6 +19,10 @@ class AccountService extends BaseAPIService {
 
     // Customer accounts are archived (true) or restored (false), never deleted,
     // so the employee's journals and history stay intact.
+    async getReopenSeats(accountUuid: any): Promise<any> {
+        return await this.request(`/superadmin/accounts/${accountUuid}/reopen-seats`, 'GET')
+    }
+
     async archiveAccount(accountUuid: any, archived: boolean): Promise<any> {
         return await this.request(`/superadmin/accounts/${accountUuid}/archive`, 'PUT', { archived })
     }

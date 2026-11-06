@@ -1399,6 +1399,14 @@
             "archivedGoals": "Arkiverede mål",
             "archivedPlans": "Arkiverede planer",
             "archivedSubgoals": "Arkiverede delmål"
+        },
+        "reopenEmployee": {
+            "title": "Genåbn medarbejder",
+            "freeSeats": "{name} får en af jeres ledige licenser. Der er {n} ledig licens. | {name} får en af jeres ledige licenser. Der er {n} ledige licenser.",
+            "noFreeSeats": "{name} skal have en licens, men I har ingen ledige.",
+            "reopen": "Genåbn",
+            "buyLicence": "Køb licens",
+            "reopenWithoutLicence": "Genåbn uden licens"
         }
     },
     "cody": {
