@@ -428,7 +428,7 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlertWithAction } = useAlert()
 const { can } = usePermissions()
 const { t } = useI18n()
 
@@ -748,9 +748,17 @@ async function archiveAccount() {
         const response = await accountService.archiveAccount(state.selectedAccount.uuid, archive)
         if (response?.data) {
             fetchAccounts()
-            successAlert(`${t('alert.success')}!`, `${t(archive
-                ? 'superadmin.accounts.alert.archivedSuccessfully'
-                : 'superadmin.accounts.alert.restoredSuccessfully')}.`)
+            // Restored, but the company had no free user licence left.
+            if (!archive && response.warning?.code === 'no_user_license') {
+                warningAlertWithAction(t('alert.warning'), response.warning.message, {
+                    label: t('superadmin.sidebar.licenses'),
+                    run: () => navigateTo(`/superadmin/companies/${companyUuid}/license-overview`),
+                })
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t(archive
+                    ? 'superadmin.accounts.alert.archivedSuccessfully'
+                    : 'superadmin.accounts.alert.restoredSuccessfully')}.`)
+            }
         }
     } catch (error: any) {
         state.error = error

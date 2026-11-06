@@ -124,7 +124,7 @@ const userStore = useUserStore() as any
 // The consultant profile belongs to the inquiry pipeline, as its tab does.
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 const { formatDateToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlertWithAction } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
@@ -242,7 +242,16 @@ async function unarchiveEmployee() {
         const employeeUuid = state.selectedEmployee?.uuid
         const response = await employeeService.archiveEmployee(employeeUuid, false)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
+            // Reopened, but no user licence was free: the employee is back
+            // without one, so point the admin to where one is bought or freed.
+            if (response.warning?.code === 'no_user_license') {
+                warningAlertWithAction(t('alert.warning'), response.warning.message, {
+                    label: t('settings.tabs.licenseOverview'),
+                    run: () => navigateTo('/settings/license-overview'),
+                })
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
+            }
             fetchArchivedEmployees()
         }
     } catch (error: any) {
