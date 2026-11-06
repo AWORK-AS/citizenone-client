@@ -98,9 +98,11 @@
                     <Pagination :data="state.employees" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
-                :message="$t('archived.confirmation.unarchiveEmployee') + '?'"
-                @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee" />
+            <DialogReopenEmployee :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
+                :name="`${state.selectedEmployee?.firstname ?? ''} ${state.selectedEmployee?.lastname ?? ''}`.trim()"
+                :freeSeats="state.freeUserSeats"
+                @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee"
+                @buy="navigateTo('/settings/license-overview')" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen"
                 :message="$t('archived.confirmation.deleteEmployee')"
                 @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
@@ -158,6 +160,7 @@ const state = reactive({
         isDeleteEmployeeOpen: false,
     },
     selectedEmployee: [] as any,
+    freeUserSeats: null as number | null,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -230,8 +233,18 @@ function handleSearch(value: any) {
     fetchArchivedEmployees()
 }
 
-function confirmEmployeeUnarchiving(employee: any) {
+// Asks first how many user licences are free, so the dialog can say whether
+// the employee will get one. If that fails the dialog is a plain confirm.
+async function confirmEmployeeUnarchiving(employee: any) {
     state.selectedEmployee = employee
+    state.freeUserSeats = null
+    try {
+        const response = await employeeService.getReopenSeats(employee.uuid)
+        const free = response?.data?.free_user_seats
+        state.freeUserSeats = typeof free === 'number' ? free : null
+    } catch {
+        state.freeUserSeats = null
+    }
     state.modal.isUnarchiveEmployeeOpen = true
 }
 

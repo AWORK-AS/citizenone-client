@@ -400,11 +400,14 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isArchiveAccountOpen"
-                :message="state.selectedAccount?.is_archived
-                    ? $t('superadmin.accounts.confirmation.restoreConfirmation') + '?'
-                    : $t('superadmin.accounts.confirmation.archiveConfirmation') + '? ' +
-                        $t('superadmin.accounts.confirmation.archiveExplanation') + '.'"
+            <DialogReopenEmployee :isModalOpen="state.modal.isArchiveAccountOpen && !!state.selectedAccount?.is_archived"
+                :name="`${state.selectedAccount?.firstname ?? ''} ${state.selectedAccount?.lastname ?? ''}`.trim()"
+                :freeSeats="state.freeUserSeats"
+                @close="state.modal.isArchiveAccountOpen = false" @confirm="archiveAccount"
+                @buy="navigateTo(`/superadmin/companies/${companyUuid}/license-overview`)" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveAccountOpen && !state.selectedAccount?.is_archived"
+                :message="$t('superadmin.accounts.confirmation.archiveConfirmation') + '? ' +
+                    $t('superadmin.accounts.confirmation.archiveExplanation') + '.'"
                 @close="state.modal.isArchiveAccountOpen = false" @confirm="archiveAccount" />
         </NuxtLayout>
     </div>
@@ -469,6 +472,7 @@ const state = reactive({
         isArchiveAccountOpen: false,
     },
     selectedAccount: null as any,
+    freeUserSeats: null as number | null,
     subscription: null as any,
 })
 
@@ -735,8 +739,21 @@ async function activateDeactivateAccount(index: number, account: any) {
     state.isAccountsLoading = false
 }
 
-function confirmAccountArchiving(account: any) {
+// A restore asks first how many user licences the company has free, so the
+// dialog can say whether the employee will get one. If that fails the dialog
+// is a plain confirm, and the restore's own warning still shows.
+async function confirmAccountArchiving(account: any) {
     state.selectedAccount = account
+    state.freeUserSeats = null
+    if (account?.is_archived) {
+        try {
+            const response = await accountService.getReopenSeats(account.uuid)
+            const free = response?.data?.free_user_seats
+            state.freeUserSeats = typeof free === 'number' ? free : null
+        } catch {
+            state.freeUserSeats = null
+        }
+    }
     state.modal.isArchiveAccountOpen = true
 }
 

@@ -1399,6 +1399,14 @@
             "archivedGoals": "Archived goals",
             "archivedPlans": "Archived plans",
             "archivedSubgoals": "Archived subgoals"
+        },
+        "reopenEmployee": {
+            "title": "Reopen employee",
+            "freeSeats": "{name} will get one of your free licences. There is {n} free licence. | {name} will get one of your free licences. There are {n} free licences.",
+            "noFreeSeats": "{name} needs a licence, but you have none free.",
+            "reopen": "Reopen",
+            "buyLicence": "Buy licence",
+            "reopenWithoutLicence": "Reopen without licence"
         }
     },
     "cody": {

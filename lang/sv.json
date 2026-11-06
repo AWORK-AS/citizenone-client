@@ -1399,6 +1399,14 @@
             "archivedGoals": "Arkiverade mål",
             "archivedPlans": "Arkiverade planer",
             "archivedSubgoals": "Arkiverade delmål"
+        },
+        "reopenEmployee": {
+            "title": "Återöppna medarbetare",
+            "freeSeats": "{name} får en av era lediga licenser. Det finns {n} ledig licens. | {name} får en av era lediga licenser. Det finns {n} lediga licenser.",
+            "noFreeSeats": "{name} behöver en licens, men ni har inga lediga.",
+            "reopen": "Återöppna",
+            "buyLicence": "Köp licens",
+            "reopenWithoutLicence": "Återöppna utan licens"
         }
     },
     "cody": {
