@@ -19480,6 +19480,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Spurt",
+            "picked": "Valgt uten melding",
+            "selected": "Valgt til saken",
+            "when": "{date} av {name}",
+            "answers": {
+                "awaiting": "Venter på svar",
+                "accepted": "Sa ja",
+                "declined": "Sa nei"
+            }
+        },
         "export": "Eksporter til Excel",
         "exporting": "Eksporterer...",
         "exportHint": "Alle konsulenter med kontaktinformasjon, status, kompetanser og aktive tiltak. Avsluttede er ikke med.",
