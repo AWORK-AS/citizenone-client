@@ -18,8 +18,9 @@
 
 
             <div class="space-y-5">
+                <Alert type="danger" :text="$t('citizens.riskHistory.noteNotFound')" v-if="state.noteNotFound" />
                 <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
+                    v-if="!state.noteNotFound && state.error?.message && state.error.message.length > 0" />
 
 
                 <ModulesUserCitizenDetailsHeader />
@@ -247,6 +248,7 @@ const breadcrumbLinks = computed(() => [
 const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
+    noteNotFound: false,
     filter: {
         date_range: [] as any,
         journal: '' as any,
@@ -337,6 +339,7 @@ watch(() => router.currentRoute.value.query.open_journal, (journalUuid) => {
 
 async function openJournalFromQuery(journalUuid: string) {
     state.error = {}
+    state.noteNotFound = false
     try {
         const response = await journalService.getJournal(journalUuid)
         if (response?.data) {
@@ -356,7 +359,11 @@ async function openJournalFromQuery(journalUuid: string) {
         ]
         const isNotFound = error?.status === 403 || error?.status === 404
             || (error?.status === undefined && !error?.errorId && !generic.some(g => String(error?.message ?? '').startsWith(g)))
-        state.error = isNotFound ? { message: t('citizens.riskHistory.noteNotFound') } as any : error
+        if (isNotFound) {
+            state.noteNotFound = true
+        } else {
+            state.error = error
+        }
     } finally {
         // Drop the param so a refresh, or closing the modal, doesn't reopen it.
         const { open_journal, ...rest } = router.currentRoute.value.query
@@ -423,6 +430,7 @@ async function fetchFilterOptions() {
 
 async function fetchJournals() {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const params = {
@@ -575,6 +583,7 @@ function onJournalFavoriteUpdated(updatedJournal: any) {
 
 async function lockUnlockJournal(journalUuid: any) {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalLock(journalUuid)
@@ -590,6 +599,7 @@ async function lockUnlockJournal(journalUuid: any) {
 
 async function pinUnpinJournal(journalUuid: any) {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalPin(journalUuid)
@@ -620,6 +630,7 @@ function confirmJournalDeletion(journal: any) {
 
 async function deleteJournal() {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.deleteJournal(state.selectedJournal.uuid)
