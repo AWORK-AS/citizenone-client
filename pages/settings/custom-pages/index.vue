@@ -59,6 +59,16 @@
                             v-model="terms.term_mother_tongue" />
                     </div>
                     <div class="space-y-1">
+                        <FormLabel for="term_visit_date" :label="$t('settings.company.form.termVisitDate')" />
+                        <FormTextField id="term_visit_date" name="term_visit_date" :placeholder="$t('citizens.interventionHours.filter.visitDate')"
+                            v-model="terms.term_visit_date" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_courses" :label="$t('settings.company.form.termCourses')" />
+                        <FormTextField id="term_courses" name="term_courses" :placeholder="$t('consultantSkills.types.course.title')"
+                            v-model="terms.term_courses" />
+                    </div>
+                    <div class="space-y-1">
                         <FormLabel for="term_jobcenter" :label="$t('settings.company.form.termJobcenter')" />
                         <FormTextField id="term_jobcenter" name="term_jobcenter" placeholder="Jobcenter"
                             v-model="terms.term_jobcenter" />
@@ -154,6 +164,8 @@ const terms = reactive({
     term_case: '',
     term_agreement: '',
     term_mother_tongue: '',
+    term_visit_date: '',
+    term_courses: '',
     term_jobcenter: '',
     term_citizen: '',
     term_citizen_definite: '',
@@ -172,6 +184,8 @@ function loadTerms() {
     terms.term_case = company?.term_case ?? ''
     terms.term_agreement = company?.term_agreement ?? ''
     terms.term_mother_tongue = company?.term_mother_tongue ?? ''
+    terms.term_visit_date = company?.term_visit_date ?? ''
+    terms.term_courses = company?.term_courses ?? ''
     terms.term_jobcenter = company?.term_jobcenter ?? ''
     terms.term_citizen = company?.term_citizen ?? ''
     terms.term_citizen_definite = company?.term_citizen_definite ?? ''
@@ -197,6 +211,8 @@ async function saveTerms() {
             term_case: terms.term_case,
             term_agreement: terms.term_agreement,
             term_mother_tongue: terms.term_mother_tongue,
+            term_visit_date: terms.term_visit_date,
+            term_courses: terms.term_courses,
             term_jobcenter: terms.term_jobcenter,
             term_citizen: terms.term_citizen,
             term_citizen_definite: terms.term_citizen_definite,

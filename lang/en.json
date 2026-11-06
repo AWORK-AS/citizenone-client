@@ -3368,6 +3368,9 @@
                 "departments": "Departments",
                 "employees": "Employees",
                 "filterDate": "Filter date",
+                "filterVisitDate": "Filter by {visitDate}",
+                "visitDate": "Visit date",
+                "filterCreatedDate": "Filter by creation date",
                 "transport": "Transport",
                 "type": "Type",
                 "work": "Work"
@@ -12495,6 +12498,8 @@
                 "termCase": "Case",
                 "termAgreement": "Agreement",
                 "termMotherTongue": "Mother tongue",
+                "termVisitDate": "Visit date",
+                "termCourses": "Courses (consultant profile)",
                 "termJobcenter": "Job center",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
@@ -19322,7 +19327,7 @@
         "notReady": "The consultant cannot be put forward yet",
         "sections": {
             "profile": "Profile",
-            "skills": "Competences, courses and subjects",
+            "skills": "Competences, {courses} and subjects",
             "documents": "Documents"
         },
         "skillsHint": "These are the lists the consultant is found on when a case is matched.",

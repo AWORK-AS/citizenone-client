@@ -3368,6 +3368,9 @@
                 "departments": "Avdelningar",
                 "employees": "Anställda",
                 "filterDate": "Filtrera datum",
+                "filterVisitDate": "Filtrera på {visitDate}",
+                "visitDate": "Besöksdatum",
+                "filterCreatedDate": "Filtrera på skapandedatum",
                 "transport": "Transportere",
                 "type": "Typ",
                 "work": "Arbetstid"
@@ -12490,6 +12493,8 @@
                 "termCase": "Ärende",
                 "termAgreement": "Avtal",
                 "termMotherTongue": "Modersmål",
+                "termVisitDate": "Besöksdatum",
+                "termCourses": "Kurser (konsultprofil)",
                 "termJobcenter": "Jobbcenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
@@ -19237,7 +19242,7 @@
         "notReady": "Konsulten kan inte sättas på ett ärende än",
         "sections": {
             "profile": "Profil",
-            "skills": "Kompetenser, kurser och ämnesord",
+            "skills": "Kompetenser, {courses} och ämnesord",
             "documents": "Dokument"
         },
         "skillsHint": "Det är dessa listor konsulten hittas på när ett ärende ska matchas.",
