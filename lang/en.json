@@ -13951,10 +13951,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Remove one license",
-                    "increase": "Add one license",
+                    "increase": "Add licences",
                     "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
                     "increaseSuccess": "License added",
-                    "decreaseSuccess": "License removed"
+                    "decreaseSuccess": "License removed",
+                    "increaseTitle": "Add {name}",
+                    "increaseHelp": "All the licences go on one invoice with one fee. If the customer follows the agreement period, the price runs to the end of the agreement.",
+                    "increaseConfirm": "Add"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Applies to all {count} active seat(s) of this app for this company."

@@ -13951,10 +13951,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Fjern en licens",
-                    "increase": "Tilføj en licens",
+                    "increase": "Tilføj licenser",
                     "decreaseConfirm": "Fjern en {name}-licens? Hvis alle licenser i øjeblikket er i brug, vil dette fjerne en medarbejders adgang.",
                     "increaseSuccess": "Licens tilføjet",
-                    "decreaseSuccess": "Licens fjernet"
+                    "decreaseSuccess": "Licens fjernet",
+                    "increaseTitle": "Tilføj {name}",
+                    "increaseHelp": "Alle licenserne kommer på én faktura med ét gebyr. Følger kunden aftaleperioden, beregnes prisen frem til aftalens udløb.",
+                    "increaseConfirm": "Tilføj"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Gælder for alle {count} aktive licens(er) af denne app for denne virksomhed."

@@ -13943,10 +13943,13 @@
                     "status": "Status",
                     "type": "Typ",
                     "decrease": "Ta bort en licens",
-                    "increase": "Lägg till en licens",
+                    "increase": "Lägg till licenser",
                     "decreaseConfirm": "Ta bort en {name}-licens? Om alla licenser för närvarande används kommer detta att ta bort åtkomsten för en anställd.",
                     "increaseSuccess": "Licens tillagd",
-                    "decreaseSuccess": "Licens borttagen"
+                    "decreaseSuccess": "Licens borttagen",
+                    "increaseTitle": "Lägg till {name}",
+                    "increaseHelp": "Alla licenser hamnar på en faktura med en avgift. Följer kunden avtalsperioden beräknas priset fram till avtalets slut.",
+                    "increaseConfirm": "Lägg till"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Gäller alla {count} aktiva licens(er) av denna app för detta företag."

@@ -13943,10 +13943,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Fjern en lisens",
-                    "increase": "Legg til en lisens",
+                    "increase": "Legg til lisenser",
                     "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
                     "increaseSuccess": "Lisens lagt til",
-                    "decreaseSuccess": "Lisens fjernet"
+                    "decreaseSuccess": "Lisens fjernet",
+                    "increaseTitle": "Legg til {name}",
+                    "increaseHelp": "Alle lisensene kommer på én faktura med ett gebyr. Følger kunden avtaleperioden, beregnes prisen frem til avtalens utløp.",
+                    "increaseConfirm": "Legg til"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Gjelder for alle {count} aktive lisens(er) av denne appen for denne bedriften."

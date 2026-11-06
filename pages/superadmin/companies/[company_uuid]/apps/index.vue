@@ -59,7 +59,7 @@
                                         <span class="w-6 text-center">{{ companyApp?.quantity }}</span>
                                         <button class="co-action-btn" :disabled="state.isAdjusting"
                                             :title="$t('superadmin.companies.companyApps.table.increase')"
-                                            @click="increment(companyApp)">
+                                            @click="openIncrement(companyApp)">
                                             <Icon name="ph:plus" class="w-3.5 h-3.5" />
                                         </button>
                                     </div>
@@ -98,6 +98,21 @@
             <ModulesSuperadminCompanyModalGrantApplicationLicense :open="state.grantModalOpen"
                 :companyUuid="companyUuid as string" @close="state.grantModalOpen = false"
                 @granted="fetchCompanyApps" />
+
+            <DialogConfirmation :isModalOpen="state.incrementOpen"
+                :title="$t('superadmin.companies.companyApps.table.increaseTitle', { name: state.appToIncrease?.name })"
+                :message="$t('superadmin.companies.companyApps.table.increaseHelp')"
+                :confirmLabel="$t('superadmin.companies.companyApps.table.increaseConfirm')"
+                @close="state.incrementOpen = false" @confirm="increment">
+                <template #extra>
+                    <label for="app-increase-quantity" class="mt-4 block text-sm font-medium text-gray-700">
+                        {{ $t('superadmin.companies.companyApps.table.quantity') }}
+                    </label>
+                    <input id="app-increase-quantity" type="number" min="1" max="1000" step="1"
+                        class="mt-1 w-32 rounded border-gray-300 text-sm" v-model.number="state.incrementQuantity"
+                        data-testid="app-increase-quantity" />
+                </template>
+            </DialogConfirmation>
 
             <DialogConfirmation :isModalOpen="state.decrementConfirmOpen"
                 :message="$t('superadmin.companies.companyApps.table.decreaseConfirm', { name: state.appToAdjust?.name })"
@@ -209,6 +224,10 @@ const state = reactive({
     isAdjusting: false,
     decrementConfirmOpen: false,
     appToAdjust: null as any,
+    // "+" asks how many: one grant, so one invoice and one fee for all of them.
+    incrementOpen: false,
+    appToIncrease: null as any,
+    incrementQuantity: 1 as number,
     toggleConfirmOpen: false,
     appToToggle: null as any,
     sortData: {
@@ -283,11 +302,21 @@ function debouncedSearch() {
     }, 350)
 }
 
-async function increment(companyApp: any) {
+function openIncrement(companyApp: any) {
+    state.appToIncrease = companyApp
+    state.incrementQuantity = 1
+    state.incrementOpen = true
+}
+
+async function increment() {
+    const companyApp = state.appToIncrease
+    const quantity = Math.floor(Number(state.incrementQuantity))
+    if (!companyApp || !Number.isInteger(quantity) || quantity < 1 || quantity > 1000) return
+
     state.isAdjusting = true
     try {
-        await licenseService.adjustApplicationQuantity(companyUuid as string, companyApp.application_uuid, 1)
-        successAlert(t('superadmin.companies.companyApps.table.increaseSuccess'), companyApp.name)
+        await licenseService.adjustApplicationQuantity(companyUuid as string, companyApp.application_uuid, quantity)
+        successAlert(t('superadmin.companies.companyApps.table.increaseSuccess'), `${quantity} × ${companyApp.name}`)
         fetchCompanyApps()
     } catch (error: any) {
         state.error = error
