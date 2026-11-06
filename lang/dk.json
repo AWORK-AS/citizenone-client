@@ -1520,6 +1520,7 @@
         "companyDataBuilding": "Cody AI er ved at gøre jeres data klar og kunne ikke bruge dem i dette svar. Prøv igen om lidt.",
         "askAnything": "Spørg om journaler, medicin, planer, vagter eller dokumenter",
         "mentionSomeone": "Nævn en @:terms.citizen{''} eller medarbejder",
+        "cprNotice": "Godt at vide: Cody AI bruger kun fødselsdatoen. De sidste 4 cifre i CPR-nummeret fjernes, før beskeden sendes.",
         "searchScopeHint": "Cody AI kan søge i alle @:terms.citizen{''}-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
         "reviewNotice": "Indhold fra Cody AI kan indeholde fejl. Gennemgå det altid, før du stoler på det",
         "dataGovernanceNotice": "Læs hvordan CitizenOne beskytter dine data i vores",

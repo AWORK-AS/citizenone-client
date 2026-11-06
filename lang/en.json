@@ -1520,6 +1520,7 @@
         "companyDataBuilding": "Cody AI is still getting your data ready and could not use it for this answer. Try again shortly.",
         "askAnything": "Ask about journals, medicine, plans, shifts or documents",
         "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
+        "cprNotice": "Good to know: Cody AI only uses the date of birth. The last 4 digits of the CPR number are removed before the message is sent.",
         "searchScopeHint": "Cody AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
         "reviewNotice": "Content from Cody AI may contain errors. Always review it before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",

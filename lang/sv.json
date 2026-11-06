@@ -1520,6 +1520,7 @@
         "companyDataBuilding": "Cody AI håller på att göra er data redo och kunde inte använda den i det här svaret. Försök igen om en stund.",
         "askAnything": "Fråga om journaler, medicin, planer, skift eller dokument",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
+        "cprNotice": "Bra att veta: Cody AI använder bara födelsedatumet. De sista 4 siffrorna i personnumret tas bort innan meddelandet skickas.",
         "searchScopeHint": "Cody AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
         "reviewNotice": "Innehåll från Cody AI kan innehålla fel. Granska det alltid innan du litar på det",
         "dataGovernanceNotice": "Läs hur CitizenOne skyddar dina uppgifter i vår",
