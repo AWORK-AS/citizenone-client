@@ -17,6 +17,10 @@ class PowerBiService extends BaseAPIService {
         return await this.request(`/user/power-bi/settings`, 'PUT', payload)
     }
 
+    async preview(): Promise<any> {
+        return await this.request(`/user/power-bi/preview`, 'GET')
+    }
+
     async check(): Promise<any> {
         return await this.request(`/user/power-bi/check`, 'GET')
     }

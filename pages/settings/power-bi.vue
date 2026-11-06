@@ -21,6 +21,20 @@
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.powerBi.adminOnly')" />
 
+                    <!-- Progress: app, token, first fetch -->
+                    <ol class="flex flex-wrap items-center gap-2 text-xs">
+                        <template v-for="(step, index) in steps" :key="step.key">
+                            <li class="flex items-center gap-1.5 rounded-full border px-3 py-1.5"
+                                :class="step.done ? 'border-[#1f9d6b]/30 bg-[#1f9d6b]/10 text-[#16754f]' : 'border-surface-200 bg-white text-slate-400'">
+                                <Icon :name="step.done ? 'ph:check-circle-fill' : 'ph:circle'" class="h-4 w-4" />
+                                {{ step.label }}
+                            </li>
+                            <Icon v-if="index < steps.length - 1" name="ph:caret-right" class="h-3.5 w-3.5 text-slate-300" />
+                        </template>
+                    </ol>
+
+                    <ModulesUserSettingsPowerBiPreview v-if="isAdmin" />
+
                     <!-- App not purchased: point the admin to the Apps marketplace -->
                     <div v-if="!state.status.app_active"
                         class="rounded-xl border border-dashed border-surface-200 bg-surface-50 p-8 text-center">
@@ -142,6 +156,11 @@
                                         <Icon name="ph:copy" class="h-4 w-4" />
                                         {{ copiedKey === feed.key ? $t('settings.powerBi.copied') : $t('settings.powerBi.copy') }}
                                     </FormButton>
+                                    <FormButton buttonStyle="action" @click="copy(powerQuery(feed.baseUrl), feed.key + '-m')"
+                                        :title="$t('settings.powerBi.copyQuery')">
+                                        <Icon name="ph:code" class="h-4 w-4" />
+                                        {{ copiedKey === feed.key + '-m' ? $t('settings.powerBi.copied') : $t('settings.powerBi.copyQuery') }}
+                                    </FormButton>
                                 </div>
                             </div>
                         </div>
@@ -233,7 +252,9 @@ const feedList = computed(() => {
         { key: 'employees', label: t('settings.powerBi.feedEmployees'), url: (feeds.employees ?? '') + tokenSuffix },
         { key: 'shifts', label: t('settings.powerBi.feedShifts'), url: (feeds.shifts ?? '') + tokenSuffix },
         { key: 'invoices', label: t('settings.powerBi.feedInvoices'), url: (feeds.invoices ?? '') + tokenSuffix },
-    ].filter(feed => feed.url)
+    ]
+        .map(feed => ({ ...feed, baseUrl: tokenSuffix ? feed.url.slice(0, -tokenSuffix.length) : feed.url }))
+        .filter(feed => feed.baseUrl)
 })
 
 onMounted(() => fetchStatus())
@@ -279,6 +300,26 @@ async function revoke() {
         state.error = error
     }
     state.isLoading = false
+}
+
+const steps = computed(() => [
+    { key: 'app', label: t('settings.powerBi.stepApp'), done: !!state.status.app_active },
+    { key: 'token', label: t('settings.powerBi.stepToken'), done: !!state.status.enabled },
+    { key: 'fetched', label: t('settings.powerBi.stepFetched'), done: !!state.status.last_fetched_at },
+])
+
+// Ready for Power Query's Advanced Editor: the token travels as a header, not in
+// the address, so it stays out of logs. Without the raw token a placeholder
+// marks where it goes.
+function powerQuery(url: string): string {
+    const token = state.rawToken || 'JERES-TOKEN'
+    return [
+        'let',
+        `    Kilde = Json.Document(Web.Contents("${url}", [Headers = [#"X-PowerBI-Token" = "${token}"]])),`,
+        '    Tabel = Table.FromRecords(Kilde)',
+        'in',
+        '    Tabel',
+    ].join('\n')
 }
 
 async function check() {
