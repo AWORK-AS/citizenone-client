@@ -255,6 +255,25 @@
                                     <Icon name="ph:map-pin" class="size-3" />
                                     {{ distanceText(result) }}
                                 </span>
+                                <!-- Already asked ("Spørg") or picked without a message
+                                     ("Vælg") on this inquiry, what they answered, and
+                                     whether they were chosen for the case. -->
+                                <template v-if="invitationFor(result.uuid)">
+                                    <span :title="invitationTitle(invitationFor(result.uuid))"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#eef6fb] px-2.5 py-[3px] text-[11.5px] font-bold text-secondary">
+                                        <Icon :name="wasPicked(invitationFor(result.uuid)) ? 'ph:hand-pointing' : 'ph:paper-plane-tilt'" class="size-3" />
+                                        {{ $t('consultantMatch.invitation.' + (wasPicked(invitationFor(result.uuid)) ? 'picked' : 'asked')) }}
+                                    </span>
+                                    <span class="rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                        :class="answerClass(invitationFor(result.uuid).status)">
+                                        {{ $t('consultantMatch.invitation.answers.' + answerKey(invitationFor(result.uuid).status)) }}
+                                    </span>
+                                    <span v-if="invitationFor(result.uuid).is_selected"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#1f9d6b] px-2.5 py-[3px] text-[11.5px] font-bold text-white">
+                                        <Icon name="ph:check-circle" class="size-3" />
+                                        {{ $t('consultantMatch.invitation.selected') }}
+                                    </span>
+                                </template>
                             </div>
                                 <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
                                 <!-- Still working (on active indsatser) but archived by the
@@ -265,8 +284,9 @@
                             </div>
                         </div>
                         <div class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1">
-                            <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
-                                class="text-[13px] font-semibold text-secondary hover:underline">
+                            <!-- A new tab, so the result list and its criteria stay as they are. -->
+                            <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`" target="_blank"
+                                rel="noopener" class="text-[13px] font-semibold text-secondary hover:underline">
                                 {{ $t('consultantMatch.openProfile') }}
                             </NuxtLink>
                             <!-- Opened for a recruitment case: the answer is one
@@ -406,6 +426,8 @@ const state = reactive({
     results: [] as any[],
     nameQuery: '',
     picked: [] as string[],
+    // Everyone already asked or picked on this inquiry, by consultant uuid.
+    invitations: {} as Record<string, any>,
     drivingValues: [] as string[],
     isInviting: false,
     inquiry: null as any,
@@ -481,8 +503,59 @@ const statusOptions = computed(() =>
 
 onMounted(() => {
     fetchLookups()
-    if (inquiryUuid) fetchInquiry()
+    if (inquiryUuid) {
+        fetchInquiry()
+        fetchInvitations()
+    }
 })
+
+async function fetchInvitations() {
+    try {
+        setInvitations((await inquiryConsultantInvitationService.getForInquiry(inquiryUuid))?.data)
+    } catch {
+        // Without them the match still works; the list just carries no markers.
+    }
+}
+
+function setInvitations(list: any) {
+    if (!Array.isArray(list)) return
+    const byConsultant: Record<string, any> = {}
+    for (const invitation of list) {
+        const uuid = invitation?.consultant?.uuid
+        if (uuid) byConsultant[uuid] = invitation
+    }
+    state.invitations = byConsultant
+}
+
+function invitationFor(uuid: string) {
+    return state.invitations[uuid] ?? null
+}
+
+// "Vælg" records the invitation without telling anyone; "Spørg" sends it.
+function wasPicked(invitation: any) {
+    return invitation?.notified_via?.skipped === true
+}
+
+function answerKey(status: string) {
+    if (status === 'interested') return 'accepted'
+    if (status === 'declined') return 'declined'
+
+    return 'awaiting'
+}
+
+function answerClass(status: string) {
+    if (status === 'interested') return 'bg-[#e6f6ee] text-[#177a53]'
+    if (status === 'declined') return 'bg-[#fbe9e5] text-[#c0442c]'
+
+    return 'bg-surface-100 text-slate-600'
+}
+
+function invitationTitle(invitation: any) {
+    const by = [invitation?.invited_by?.firstname, invitation?.invited_by?.lastname].filter(Boolean).join(' ')
+    const date = invitation?.created_at ? formatDay(String(invitation.created_at).slice(0, 10)) : ''
+
+    return t('consultantMatch.invitation.when', { date, name: by || t('inquiryInvitations.unknownConsultant') })
+}
 
 async function fetchInquiry() {
     try {
@@ -533,6 +606,7 @@ async function pickWithoutAsking() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked, false)
         state.picked = []
+        setInvitations(response?.data)
         successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.picked'))
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
@@ -545,6 +619,7 @@ async function invite() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
         state.picked = []
+        setInvitations(response?.data)
         successAlert(`${t('alert.success')}!`, inviteMessage(response))
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))

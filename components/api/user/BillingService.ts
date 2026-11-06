@@ -1,5 +1,5 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
-import { normalizeCompanyBilling, type CompanyBilling } from '@/composables/billingMethod'
+import { normalizeCompanyBilling, normalizeLicenseOrderQuote, type CompanyBilling, type LicenseOrderQuote } from '@/composables/billingMethod'
 
 /**
  * Payment standing for the signed-in company, and the self-service card
@@ -36,6 +36,21 @@ class BillingService extends BaseAPIService {
      * shows Elite and no payment method. The masked security card is the `card_security`
      * block, present only for invoice customers while the feature is on.
      */
+    /** Price of extra users/departments ordered by invoice, without ordering. */
+    async getLicenseOrderQuote(params: { users: number; departments: number }): Promise<LicenseOrderQuote> {
+        const response = await this.request(`/user/billing/license-order/quote`, 'GET', params)
+        return normalizeLicenseOrderQuote(response)
+    }
+
+    /**
+     * Orders extra users/departments by invoice: active at once, invoice sent by e-conomic.
+     * The same `idempotency_key` never raises a second invoice, so a retry is safe.
+     */
+    async orderLicenses(body: { users: number; departments: number; idempotency_key: string }): Promise<any> {
+        const response = await this.request(`/user/billing/license-order`, 'POST', body)
+        return response?.data ?? response
+    }
+
     async getPaymentMethod(): Promise<CompanyBilling> {
         const response = await this.getStatus()
         return normalizeCompanyBilling(response?.data ?? response)

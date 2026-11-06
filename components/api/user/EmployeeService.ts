@@ -29,6 +29,12 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT', { archived })
     }
 
+    // How many free user licences the employee's company has, asked before
+    // reopening them so the admin knows whether they will get one.
+    async getReopenSeats(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/reopen-seats`, 'GET')
+    }
+
     async permanentlyDeleteEmployee(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/permanent-delete`, 'DELETE')
     }

@@ -80,14 +80,34 @@
                         </span>
                     </p>
                 </div>
+                <fieldset v-if="canInvoice" class="pt-5" data-testid="add-on-pay-by">
+                    <legend class="text-sm font-semibold text-gray-700">{{ $t('subscription.addOnDeals.invoiceOrder.payBy') }}</legend>
+                    <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label v-for="option in (['card', 'invoice'] as const)" :key="option"
+                            class="flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors"
+                            :class="state.payBy === option ? 'border-[#0F4C75] bg-[#EEF4FB]' : 'border-gray-200 hover:bg-gray-50'">
+                            <input type="radio" name="add_on_pay_by" :value="option" v-model="state.payBy" />
+                            <Icon :name="option === 'card' ? 'ph:credit-card' : 'ph:file-text'" class="w-4 h-4 text-gray-500" aria-hidden="true" />
+                            <span class="text-sm font-medium text-gray-800">{{ $t(`subscription.addOnDeals.invoiceOrder.${option}`) }}</span>
+                        </label>
+                    </div>
+                    <p v-if="state.payBy === 'invoice'" class="mt-2 text-xs text-gray-500">
+                        {{ $t(followsAgreement ? 'subscription.addOnDeals.invoiceOrder.helpAgreement' : 'subscription.addOnDeals.invoiceOrder.help') }}
+                        <template v-if="!sentByEconomic">{{ $t('subscription.addOnDeals.invoiceOrder.sentByFinance') }}</template>
+                    </p>
+                </fieldset>
                 <div class="mt-8">
-                    <FormButton type="button" buttonStyle="primary" class="w-full" @click="handleSaveCart"
+                    <FormButton v-if="payingByInvoice" type="button" buttonStyle="primary" class="w-full"
+                        @click="handleInvoiceQuote" :disabled="!hasItemOnCart()" data-testid="add-on-order-invoice">
+                        {{ $t('subscription.addOnDeals.invoiceOrder.order') }}
+                    </FormButton>
+                    <FormButton v-else type="button" buttonStyle="primary" class="w-full" @click="handleSaveCart"
                         :disabled="!hasItemOnCart()">
                         {{ $t('subscription.addOnDeals.checkout') }}
                     </FormButton>
                 </div>
             </div>
-            <div class="mt-5" v-if="!state.isDealsHidden" @click="state.modal.isEnterCouponShow = true">
+            <div class="mt-5" v-if="!state.isDealsHidden && !payingByInvoice" @click="state.modal.isEnterCouponShow = true">
                 <p class="text-center text-sm text-primary cursor-pointer hover:text-primary-700">
                     <span>{{ $t('subscription.coupon.enterYourCouponCodeHereForExclusiveSavings') }}!</span>
                 </p>
@@ -101,6 +121,42 @@
                 </span>
             </p>
         </div>
+        <DialogConfirmation :isModalOpen="state.modal.isInvoiceConfirmOpen"
+            :title="$t('subscription.addOnDeals.invoiceOrder.confirmTitle')"
+            :message="$t('subscription.addOnDeals.invoiceOrder.confirmIntro')"
+            :confirmLabel="$t('subscription.addOnDeals.invoiceOrder.confirm')"
+            @close="state.modal.isInvoiceConfirmOpen = false" @confirm="handleInvoiceOrder">
+            <template #extra>
+                <dl v-if="state.quote" class="mt-4 space-y-2 text-sm" data-testid="add-on-invoice-quote">
+                    <div v-for="line in state.quote.lines" :key="line.type" class="flex justify-between gap-4">
+                        <dt class="text-gray-600">
+                            {{ line.quantity }} × {{ $t(line.type === 'user' ? 'subscription.addOnDeals.extraUser' : 'subscription.addOnDeals.extraDepartment') }}
+                            <span v-if="line.free > 0" class="block text-xs text-gray-500">
+                                {{ $t('subscription.addOnDeals.invoiceOrder.includedFree', { count: line.free }) }}
+                            </span>
+                        </dt>
+                        <dd class="text-gray-900">{{ formatAmount(line.amount) }}</dd>
+                    </div>
+                    <div v-if="state.quote.fee > 0" class="flex justify-between gap-4">
+                        <dt class="text-gray-600">{{ $t('subscription.addOnDeals.invoiceOrder.fee') }}</dt>
+                        <dd class="text-gray-900">{{ formatAmount(state.quote.fee) }}</dd>
+                    </div>
+                    <div class="flex justify-between gap-4 border-t border-gray-200 pt-2">
+                        <dt class="text-gray-600">{{ $t('subscription.addOnDeals.invoiceOrder.totalExclVat') }}</dt>
+                        <dd class="text-gray-900">{{ formatAmount(state.quote.total_excl_vat) }}</dd>
+                    </div>
+                    <div class="flex justify-between gap-4 font-semibold">
+                        <dt>{{ $t('subscription.addOnDeals.invoiceOrder.totalInclVat') }}</dt>
+                        <dd>{{ formatAmount(state.quote.total_amount) }}</dd>
+                    </div>
+                    <p class="pt-2 text-xs text-gray-500">
+                        {{ $t(state.quote.prorated ? 'subscription.addOnDeals.invoiceOrder.periodProrated' : 'subscription.addOnDeals.invoiceOrder.period', {
+                            from: danishDate(state.quote.period_from), to: danishDate(state.quote.period_to) }) }}
+                        {{ $t('subscription.addOnDeals.invoiceOrder.activatedNow') }}
+                    </p>
+                </dl>
+            </template>
+        </DialogConfirmation>
         <ModulesUserSubscriptionModalAddOnCoupon :isModalOpen="state.modal.isEnterCouponShow"
             @close="state.modal.isEnterCouponShow = false" />
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeToProOpen" :title="$t('subscription.basisUserLimit.title')"
@@ -111,6 +167,15 @@
 
 <script setup lang="ts">
 import { addOnDealsService } from '@/components/api/user/AddOnDealsService'
+import { billingService } from '@/components/api/user/BillingService'
+import {
+    canOrderByInvoice,
+    danishDate,
+    errorMessageKey,
+    licenseOrderPayload,
+    type LicenseOrderQuote,
+} from '@/composables/billingMethod'
+import { useAlert } from '@/composables/alert'
 import { cartService } from '@/components/api/user/CartService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
@@ -123,6 +188,7 @@ const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
+const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 let checkout = null as any
 
@@ -154,13 +220,26 @@ const state = reactive({
     modal: {
         isEnterCouponShow: false,
         isUpgradeToProOpen: false,
-    }
+        isInvoiceConfirmOpen: false,
+    },
+    // Invoice ordering, offered next to the card cart when the API says so.
+    billingStatus: null as any,
+    payBy: 'card' as 'card' | 'invoice',
+    quote: null as LicenseOrderQuote | null,
+    // One key per confirmation: a double click or a retry never raises a second invoice.
+    orderKey: '',
 })
+
+const canInvoice = computed(() => canOrderByInvoice(state.billingStatus))
+const followsAgreement = computed(() => state.billingStatus?.license_orders_follow_agreement === true)
+const payingByInvoice = computed(() => canInvoice.value && state.payBy === 'invoice')
+const sentByEconomic = computed(() => state.billingStatus?.invoice_sent_by_economic !== false)
 
 onMounted(() => {
     fetchAddOnDepartment()
     fetchAddOnUser()
     fetchCart()
+    fetchBillingStatus()
 })
 
 onUnmounted(() => {
@@ -265,6 +344,63 @@ async function handleSaveCart() {
         if (isBasisUserLimitError(error?.message)) {
             state.modal.isUpgradeToProOpen = true
         }
+    }
+    state.isPageLoading = false
+}
+
+async function fetchBillingStatus() {
+    try {
+        const response = await billingService.getStatus()
+        state.billingStatus = response?.data ?? response ?? null
+    } catch (_) {
+        // Without the standing only the card cart is offered, as before.
+        state.billingStatus = null
+    }
+}
+
+function orderError(error: any): Error {
+    const key = errorMessageKey(error)
+    return { message: key ? t(key) : (error?.message || t('subscription.addOnDeals.invoiceOrder.failed')) } as Error
+}
+
+async function handleInvoiceQuote() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const { users, departments } = licenseOrderPayload(state.formAddOn, '')
+        state.quote = await billingService.getLicenseOrderQuote({ users, departments })
+        state.orderKey = crypto.randomUUID()
+        state.modal.isInvoiceConfirmOpen = true
+    } catch (error: any) {
+        state.error = orderError(error)
+        if (isBasisUserLimitError(error?.message)) {
+            state.modal.isUpgradeToProOpen = true
+        }
+    }
+    state.isPageLoading = false
+}
+
+async function handleInvoiceOrder() {
+    state.isPageLoading = true
+    state.error = {}
+    try {
+        const result = await billingService.orderLicenses(licenseOrderPayload(state.formAddOn, state.orderKey))
+        successAlert(`${t('alert.success')}!`, result?.invoice_number
+            ? t(sentByEconomic.value ? 'subscription.addOnDeals.invoiceOrder.done' : 'subscription.addOnDeals.invoiceOrder.doneByFinance', { number: result.invoice_number, date: danishDate(result.due_on) })
+            : t('subscription.addOnDeals.invoiceOrder.doneFree'))
+
+        // The card cart may still hold the same quantities; empty it so they are not bought twice.
+        await Promise.allSettled([
+            state.addOnDeals.department?.data?.uuid && cartService.saveCart({ addon_uuid: state.addOnDeals.department.data.uuid, quantity: 0 }),
+            state.addOnDeals.user?.data?.uuid && cartService.saveCart({ addon_uuid: state.addOnDeals.user.data.uuid, quantity: 0 }),
+        ])
+        state.formAddOn.department = ''
+        state.formAddOn.user = ''
+        state.quote = null
+        state.orderKey = ''
+        await refreshNuxtData()
+    } catch (error: any) {
+        state.error = orderError(error)
     }
     state.isPageLoading = false
 }

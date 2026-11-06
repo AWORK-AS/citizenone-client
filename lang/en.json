@@ -1399,6 +1399,14 @@
             "archivedGoals": "Archived goals",
             "archivedPlans": "Archived plans",
             "archivedSubgoals": "Archived subgoals"
+        },
+        "reopenEmployee": {
+            "title": "Reopen employee",
+            "freeSeats": "{name} will get one of your free licences. There is {n} free licence. | {name} will get one of your free licences. There are {n} free licences.",
+            "noFreeSeats": "{name} needs a licence, but you have none free.",
+            "reopen": "Reopen",
+            "buyLicence": "Buy licence",
+            "reopenWithoutLicence": "Reopen without licence"
         }
     },
     "cody": {
@@ -2476,7 +2484,17 @@
                     "help": "The hours are registered on {date}.",
                     "addLine": "Add more hours",
                     "removeLine": "Remove line",
-                    "fromVisit": "Filled in from the visit. Change the time if it is not right."
+                    "fromVisit": "Filled in from the visit. Change the time if it is not right.",
+                    "editTitle": "Intervention hours on the note",
+                    "date": "Date",
+                    "save": "Save intervention hours",
+                    "saved": "The intervention hours were saved",
+                    "none": "There are no intervention hours on the note yet.",
+                    "paidOut": "Paid out - cannot be changed",
+                    "editHelp": "The intervention hours are saved separately when you press \"Save intervention hours\".",
+                    "removed": "Removed when you save",
+                    "undoRemove": "Undo",
+                    "unsaved": "The changes to the intervention hours are not saved yet."
                 },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody AI and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
@@ -11971,7 +11989,7 @@
             "contactAddressTitles": "Limit which contacts' addresses can be seen",
             "contactPhoneTitles": "Limit which contacts' phone numbers can be seen",
             "contactEmailTitles": "Limit which contacts' email addresses can be seen",
-            "contactTitlesHelp": "Only contacts with a selected title are shown. Contacts with other titles are hidden everywhere in CitizenOne.",
+            "contactTitlesHelp": "Select the titles this role may see. All are selected to start with: remove the ones to hide (for example Vores kontaktperson). Contacts with other titles are hidden everywhere in CitizenOne.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -13328,7 +13346,30 @@
             "extraUser": "Extra user",
             "purchaseExtraLicenses": "Purchase extra licenses",
             "total": "Total",
-            "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
+            "couldNotStartCheckout": "The checkout could not be started. Try again shortly.",
+            "invoiceOrder": {
+                "payBy": "Pay by",
+                "card": "Card",
+                "invoice": "Invoice",
+                "help": "The licences are active at once. The invoice is e-mailed from e-conomic, due in 3 days, and covers a new period from today.",
+                "helpAgreement": "The licences are active at once. The invoice is e-mailed from e-conomic, due in 3 days, and is pro rata to the end of your agreement.",
+                "order": "Order by invoice",
+                "confirmTitle": "Order by invoice",
+                "confirmIntro": "Check the order. Amounts are in DKK.",
+                "confirm": "Order and activate",
+                "includedFree": "{count} included in your plan at no extra cost",
+                "fee": "Invoice fee",
+                "totalExclVat": "Total excl. VAT",
+                "totalInclVat": "Total incl. VAT",
+                "period": "The period is {from}–{to}.",
+                "periodProrated": "Pro rata for {from}–{to}, so the licences follow your agreement.",
+                "activatedNow": "The licences can be used as soon as you order.",
+                "done": "The licences are active. Invoice {number} is sent from e-conomic and is due {date}.",
+                "doneFree": "The licences are active. They were included in your plan, so there is no invoice.",
+                "failed": "The order could not be completed. Try again, or contact us.",
+                "sentByFinance": "The invoice is sent by our finance team.",
+                "doneByFinance": "The licences are active. Invoice {number} is sent by our finance team and is due {date}."
+            }
         },
         "basisUserLimit": {
             "confirmUpgrade": "Do you want to upgrade to Pro?",
@@ -13930,10 +13971,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Remove one license",
-                    "increase": "Add one license",
+                    "increase": "Add licences",
                     "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
                     "increaseSuccess": "License added",
-                    "decreaseSuccess": "License removed"
+                    "decreaseSuccess": "License removed",
+                    "increaseTitle": "Add {name}",
+                    "increaseHelp": "All the licences go on one invoice with one fee. If the customer follows the agreement period, the price runs to the end of the agreement.",
+                    "increaseConfirm": "Add"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Applies to all {count} active seat(s) of this app for this company."
@@ -19565,6 +19609,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Asked",
+            "picked": "Picked without message",
+            "selected": "Chosen for the case",
+            "when": "{date} by {name}",
+            "answers": {
+                "awaiting": "Awaiting answer",
+                "accepted": "Said yes",
+                "declined": "Said no"
+            }
+        },
         "export": "Export to Excel",
         "exporting": "Exporting...",
         "exportHint": "All consultants with contact details, status, skills and active cases. Terminated consultants are left out.",
@@ -21838,7 +21893,13 @@
             "saved": "The payment method is saved",
             "saveFailed": "Could not save the payment method",
             "loadFailed": "Could not load the payment method",
-            "readOnly": "You can see the payment method, but only finance can change it."
+            "readOnly": "You can see the payment method, but only finance can change it.",
+            "followAgreement": "Add-ons follow the agreement period",
+            "followAgreementHelp": "Licences the customer's admin orders by invoice are pro rata to the end of the agreement. Off: a new period from the order date.",
+            "billedFromEconomic": "Billed from e-conomic",
+            "billedFromEconomicHelp": "You bill the customer in e-conomic, e.g. in a subscription run. CitizenOne fetches the booked invoices and payments every night and raises no renewals itself.",
+            "mirrorSince": "Fetch invoices from",
+            "mirrorSinceHelp": "Older invoices are not fetched, so nothing appears twice."
         },
         "grant": {
             "card": "The customer pays by card: the licences are charged to the card straight away.",
@@ -21938,7 +21999,15 @@
             "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
             "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
             "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed.",
-            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer."
+            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer.",
+            "license_order_not_invoice_company": "Ordering by invoice is only for companies approved for invoice payment. Pay by card, or contact us.",
+            "license_order_economic_missing": "We cannot send you an invoice yet. Contact us and we will set it up.",
+            "license_order_no_plan": "The company has no active paid plan, so extra licences cannot be ordered.",
+            "license_order_empty": "Choose at least one user or department.",
+            "license_order_failed": "The order could not be completed. Try again, or contact us.",
+            "license_order_in_progress": "Another order is in progress. Try again in a moment.",
+            "billed_from_economic_no_customer_number": "Set the customer's e-conomic customer number before the company can be billed from e-conomic.",
+            "billed_from_economic_no_date": "Choose the date from which the invoices in e-conomic are mirrored."
         },
         "agreement": {
             "cardSecurity": "Card as security",
