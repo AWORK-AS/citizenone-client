@@ -11989,7 +11989,7 @@
             "contactAddressTitles": "Limit which contacts' addresses can be seen",
             "contactPhoneTitles": "Limit which contacts' phone numbers can be seen",
             "contactEmailTitles": "Limit which contacts' email addresses can be seen",
-            "contactTitlesHelp": "Only contacts with a selected title are shown. Contacts with other titles are hidden everywhere in CitizenOne.",
+            "contactTitlesHelp": "Select the titles this role may see. All are selected to start with: remove the ones to hide (for example Vores kontaktperson). Contacts with other titles are hidden everywhere in CitizenOne.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
