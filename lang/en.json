@@ -21861,7 +21861,11 @@
             "loadFailed": "Could not load the payment method",
             "readOnly": "You can see the payment method, but only finance can change it.",
             "followAgreement": "Add-ons follow the agreement period",
-            "followAgreementHelp": "Licences the customer's admin orders by invoice are pro rata to the end of the agreement. Off: a new period from the order date."
+            "followAgreementHelp": "Licences the customer's admin orders by invoice are pro rata to the end of the agreement. Off: a new period from the order date.",
+            "billedFromEconomic": "Billed from e-conomic",
+            "billedFromEconomicHelp": "You bill the customer in e-conomic, e.g. in a subscription run. CitizenOne fetches the booked invoices and payments every night and raises no renewals itself.",
+            "mirrorSince": "Fetch invoices from",
+            "mirrorSinceHelp": "Older invoices are not fetched, so nothing appears twice."
         },
         "grant": {
             "card": "The customer pays by card: the licences are charged to the card straight away.",
@@ -21967,7 +21971,9 @@
             "license_order_no_plan": "The company has no active paid plan, so extra licences cannot be ordered.",
             "license_order_empty": "Choose at least one user or department.",
             "license_order_failed": "The order could not be completed. Try again, or contact us.",
-            "license_order_in_progress": "Another order is in progress. Try again in a moment."
+            "license_order_in_progress": "Another order is in progress. Try again in a moment.",
+            "billed_from_economic_no_customer_number": "Set the customer's e-conomic customer number before the company can be billed from e-conomic.",
+            "billed_from_economic_no_date": "Choose the date from which the invoices in e-conomic are mirrored."
         },
         "agreement": {
             "cardSecurity": "Card as security",

@@ -29,6 +29,10 @@ export type BillingMethodForm = {
     leverandorservice: boolean
     /** Licences the customer's admin orders by invoice follow the agreement's period (pro rata to its end). */
     license_orders_follow_agreement: boolean
+    /** Finance bills the company from e-conomic; CitizenOne mirrors the booked invoices and raises none itself. */
+    billed_from_economic: boolean
+    /** YYYY-MM-DD: booked invoices dated from this day are mirrored. */
+    economic_mirror_since: string | null
 }
 
 export type CompanyBilling = BillingMethodForm & {
@@ -103,6 +107,8 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
         invoice_card_security: !!data.invoice_card_security || (cardSecurity !== null && typeof cardSecurity === 'object'),
         leverandorservice: !!data.leverandorservice,
         license_orders_follow_agreement: !!data.license_orders_follow_agreement,
+        billed_from_economic: !!data.billed_from_economic,
+        economic_mirror_since: typeof data.economic_mirror_since === 'string' && data.economic_mirror_since !== '' ? data.economic_mirror_since : null,
         card_masked: card?.masked ?? card?.masked_pan ?? data.card_masked ?? null,
         card_expiry: card?.expiry ?? data.card_expiry ?? null,
         // The customer standing sends `billing_method: null` for a running agreement (Elite).
@@ -120,14 +126,18 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
  */
 export function billingMethodPayload(form: BillingMethodForm): BillingMethodForm {
     if (form.billing_method !== 'invoice') {
-        return { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false }
+        return { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false, billed_from_economic: false, economic_mirror_since: null }
     }
+
+    const fromEconomic = !!form.billed_from_economic
 
     return {
         billing_method: 'invoice',
         invoice_card_security: !!form.invoice_card_security,
         leverandorservice: !!form.leverandorservice,
         license_orders_follow_agreement: !!form.license_orders_follow_agreement,
+        billed_from_economic: fromEconomic,
+        economic_mirror_since: fromEconomic && form.economic_mirror_since ? form.economic_mirror_since : null,
     }
 }
 
@@ -139,6 +149,8 @@ export function billingMethodDirty(saved: BillingMethodForm, form: BillingMethod
         || a.invoice_card_security !== b.invoice_card_security
         || a.leverandorservice !== b.leverandorservice
         || a.license_orders_follow_agreement !== b.license_orders_follow_agreement
+        || a.billed_from_economic !== b.billed_from_economic
+        || a.economic_mirror_since !== b.economic_mirror_since
 }
 
 /** "•••• 1234 (udløber 08/28)" is built by the caller's translation; this is the data. */
@@ -383,6 +395,8 @@ const ERROR_CODES = new Set([
     'license_order_empty',
     'license_order_failed',
     'license_order_in_progress',
+    'billed_from_economic_no_customer_number',
+    'billed_from_economic_no_date',
 ])
 
 export function errorMessageKey(error: any): string | null {

@@ -70,6 +70,21 @@
                             {{ $t('paymentDunning.company.followAgreement') }}
                         </label>
                     </Tooltip>
+
+                    <Tooltip :text="$t('paymentDunning.company.billedFromEconomicHelp')" position="top" wrap class="!block">
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-800 cursor-pointer">
+                            <input type="checkbox" class="rounded border-gray-300" v-model="state.form.billed_from_economic"
+                                data-testid="billing-method-billed-from-economic" />
+                            {{ $t('paymentDunning.company.billedFromEconomic') }}
+                        </label>
+                    </Tooltip>
+
+                    <div v-if="state.form.billed_from_economic" class="ml-6 flex flex-wrap items-center gap-2 text-[13px]">
+                        <label for="economic-mirror-since" class="text-gray-600">{{ $t('paymentDunning.company.mirrorSince') }}</label>
+                        <input id="economic-mirror-since" type="date" class="rounded border-gray-300 text-sm py-1"
+                            v-model="state.form.economic_mirror_since" data-testid="billing-method-mirror-since" />
+                        <span class="text-gray-500">{{ $t('paymentDunning.company.mirrorSinceHelp') }}</span>
+                    </div>
                 </div>
             </fieldset>
 
@@ -121,7 +136,7 @@ const state = reactive({
     loaded: false,
     error: '' as string,
     saved: normalizeCompanyBilling({}) as CompanyBilling,
-    form: { billing_method: 'card' as BillingMethod, invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false },
+    form: { billing_method: 'card' as BillingMethod, invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false, billed_from_economic: false, economic_mirror_since: null as string | null },
 })
 
 const dirty = computed(() => billingMethodDirty(state.saved, state.form))
@@ -134,6 +149,8 @@ function apply(billing: CompanyBilling) {
         invoice_card_security: billing.invoice_card_security,
         leverandorservice: billing.leverandorservice,
         license_orders_follow_agreement: billing.license_orders_follow_agreement,
+        billed_from_economic: billing.billed_from_economic,
+        economic_mirror_since: billing.economic_mirror_since,
     }
 }
 

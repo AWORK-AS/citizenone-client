@@ -21776,7 +21776,11 @@
             "loadFailed": "Kunde inte hämta betalningssättet",
             "readOnly": "Du kan se betalningssättet men bara ekonomi kan ändra det.",
             "followAgreement": "Tillägg följer avtalsperioden",
-            "followAgreementHelp": "Licenser som kundens administratör beställer mot faktura beräknas proportionellt fram till avtalets slut. Av: en ny period från beställningsdagen."
+            "followAgreementHelp": "Licenser som kundens administratör beställer mot faktura beräknas proportionellt fram till avtalets slut. Av: en ny period från beställningsdagen.",
+            "billedFromEconomic": "Faktureras från e-conomic",
+            "billedFromEconomicHelp": "Ni fakturerar kunden i e-conomic, t.ex. i en abonnemangskörning. CitizenOne hämtar de bokförda fakturorna och betalningarna varje natt och skapar inga förnyelser själv.",
+            "mirrorSince": "Hämta fakturor från",
+            "mirrorSinceHelp": "Äldre fakturor hämtas inte, så inget kommer två gånger."
         },
         "grant": {
             "card": "Kunden betalar med kort: licenserna debiteras kortet direkt.",
@@ -21882,7 +21886,9 @@
             "license_order_no_plan": "Företaget har ingen aktiv betald plan, så extra licenser kan inte beställas.",
             "license_order_empty": "Välj minst en användare eller avdelning.",
             "license_order_failed": "Beställningen kunde inte genomföras. Försök igen, eller kontakta oss.",
-            "license_order_in_progress": "En annan beställning pågår. Försök igen om en stund."
+            "license_order_in_progress": "En annan beställning pågår. Försök igen om en stund.",
+            "billed_from_economic_no_customer_number": "Ange kundens kundnummer i e-conomic innan företaget kan faktureras från e-conomic.",
+            "billed_from_economic_no_date": "Välj från vilket datum fakturorna i e-conomic ska hämtas in."
         },
         "agreement": {
             "cardSecurity": "Kort som säkerhet",
