@@ -485,7 +485,14 @@
             </div>
             <!-- The visit the note is about: put in the citizen's and the author's
                  calendar. A note written from a booking is about that booking. -->
-            <div class="space-y-1" v-if="!props.bookingLinked">
+            <!-- On an existing note, changing the visit is its own right
+                 (update_citizen_journal_visit_date); without it the visit is shown. -->
+            <p class="text-sm" v-if="!props.bookingLinked && !canEditVisitDate && state.formJournal.visit_date">
+                <span class="font-medium">{{ $t('citizens.citizenJournals.form.visit.date') }}:</span>
+                {{ state.formJournal.visit_date }}<template v-if="state.formJournal.visit_time_start">,
+                    {{ state.formJournal.visit_time_start }}<template v-if="state.formJournal.visit_time_end">-{{ state.formJournal.visit_time_end }}</template></template>
+            </p>
+            <div class="space-y-1" v-if="!props.bookingLinked && canEditVisitDate">
                 <div class="grid md:grid-cols-3 gap-x-3 gap-y-2">
                     <div class="space-y-1">
                         <FormLabel for="visit_date" :label="$t('citizens.citizenJournals.form.visit.date')" />
@@ -565,6 +572,11 @@
                     </p>
                 </template>
             </div>
+            <!-- The hours of a note that already exists, with their own right
+                 (update_citizen_journal_care_hours) and their own save. -->
+            <ModulesUserCitizenJournalEditCareHours
+                v-if="props.formType === 'update' && !props.readonly && canEditCareHours && state.formJournal.uuid"
+                :journalUuid="state.formJournal.uuid" :defaultDate="careHoursDate" />
             <div class="space-y-1" v-if="!props.hideDraft">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_draft = !state.formJournal.is_draft">
@@ -991,6 +1003,13 @@ const careHourTypeOptions = computed(() => hourTypeChoices(careHourTypes.value))
 // (backend: CitizenCareHourService::createCitizenCareHour).
 const canRegisterCareHours = computed(() => isAtLeast('Admin') || can('create_citizen_care_hours') || can('create'))
 
+// On a note that already exists, the visit date and the hours each have their
+// own right, given per role. A new note takes a visit date as before.
+// (backend: CitizenJournalService::visitDateChangeError, JournalCareHourEditService)
+const canEditVisitDate = computed(() => props.formType === 'create'
+    || isAtLeast('Admin') || can('update_citizen_journal_visit_date'))
+const canEditCareHours = computed(() => isAtLeast('Admin') || can('update_citizen_journal_care_hours'))
+
 // The hours are registered on the visit date, or else on the note's date.
 const careHoursDate = computed(() => state.formJournal.visit_date || state.formJournal.date || '')
 
@@ -1051,7 +1070,7 @@ function applyPresetCareHours() {
 function visitAndHoursPayload() {
     const form = state.formJournal
     const payload: Record<string, any> = {}
-    if (!props.bookingLinked) {
+    if (!props.bookingLinked && canEditVisitDate.value) {
         payload.visit_date = form.visit_date || null
         payload.visit_time_start = form.visit_date && form.visit_time_start ? form.visit_time_start : null
         payload.visit_time_end = form.visit_date && form.visit_time_end ? form.visit_time_end : null

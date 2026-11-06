@@ -2484,7 +2484,17 @@
                     "help": "Timmarna registreras den {date}.",
                     "addLine": "Lägg till fler timmar",
                     "removeLine": "Ta bort rad",
-                    "fromVisit": "Ifyllt från besöket. Ändra tiden om den inte stämmer."
+                    "fromVisit": "Ifyllt från besöket. Ändra tiden om den inte stämmer.",
+                    "editTitle": "Insatstimmar på anteckningen",
+                    "date": "Datum",
+                    "save": "Spara insatstimmar",
+                    "saved": "Insatstimmarna har sparats",
+                    "none": "Det finns inga insatstimmar på anteckningen ännu.",
+                    "paidOut": "Löneavräknad - kan inte ändras",
+                    "editHelp": "Insatstimmarna sparas separat när du trycker på \"Spara insatstimmar\".",
+                    "removed": "Tas bort när du sparar",
+                    "undoRemove": "Ångra",
+                    "unsaved": "Ändringarna i insatstimmarna är inte sparade ännu."
                 },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody AI och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",

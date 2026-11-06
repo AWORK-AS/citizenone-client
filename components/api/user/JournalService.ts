@@ -25,6 +25,16 @@ class JournalService extends BaseAPIService {
         return await this.request(`/user/citizen-journals/${journalUuid}`, 'PUT', params)
     }
 
+    /** The intervention hours tied to an existing note (needs update_citizen_journal_care_hours). */
+    async getJournalCareHours(journalUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/care-hours`, 'GET')
+    }
+
+    /** Changes, adds (no uuid) and removes (remove_care_hour_uuids) the hours of an existing note. */
+    async updateJournalCareHours(journalUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-journals/${journalUuid}/care-hours`, 'PUT', params)
+    }
+
     async updateJournalFavorite(journalUuid: any, favoriteNote?: string): Promise<any> {
         return await this.request(`/user/citizen-journals/${journalUuid}/favorite`, 'PUT', { favorite_note: favoriteNote })
     }

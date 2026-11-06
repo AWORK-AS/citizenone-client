@@ -2484,7 +2484,17 @@
                     "help": "Timerne registreres den {date}.",
                     "addLine": "Tilføj flere timer",
                     "removeLine": "Fjern linje",
-                    "fromVisit": "Udfyldt fra besøget. Ret tiden, hvis den ikke passer."
+                    "fromVisit": "Udfyldt fra besøget. Ret tiden, hvis den ikke passer.",
+                    "editTitle": "Indsatstimer på notatet",
+                    "date": "Dato",
+                    "save": "Gem indsatstimer",
+                    "saved": "Indsatstimerne er gemt",
+                    "none": "Der er ingen indsatstimer på notatet endnu.",
+                    "paidOut": "Lønafregnet - kan ikke ændres",
+                    "editHelp": "Indsatstimerne gemmes for sig, når du trykker \"Gem indsatstimer\".",
+                    "removed": "Fjernes, når du gemmer",
+                    "undoRemove": "Fortryd",
+                    "unsaved": "Ændringerne i indsatstimerne er ikke gemt endnu."
                 },
                 "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody AI og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",

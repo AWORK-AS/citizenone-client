@@ -9,7 +9,7 @@ import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
     checkInHourTypeChoices, defaultHourTypeUuid, extraLineHourTypeUuid, firstLineTakesVisit, hourTypeChoices, hourTypePayload,
-    isCareHourTypesOn, journalCareHoursRequest, nextLineStart,
+    isCareHourTypesOn, journalCareHoursEditRequest, journalCareHoursRequest, nextLineStart, noteCareHoursLine,
 } from '../../composables/careHourTypes.ts'
 import { areCitizenRatesHidden } from '../../composables/citizenRates.ts'
 
@@ -183,3 +183,56 @@ describe('nextLineStart', () => {
     })
 })
 
+
+describe('editing the hours of an existing note', () => {
+    const stored = (key, uuid, start, end, extra = {}) => noteCareHoursLine(key, {
+        uuid, date_time_start: `2026-10-21 ${start}:00`, date_time_end: `2026-10-21 ${end}:00`, contract_hour_type_uuid: 't1', ...extra,
+    })
+
+    test('reads a stored line into date, times and type', () => {
+        const line = stored(1, 'u1', '10:00', '11:30')
+        assert.equal(line.date, '2026-10-21')
+        assert.equal(line.start, '10:00')
+        assert.equal(line.end, '11:30')
+        assert.equal(line.type, 't1')
+        assert.equal(line.removed, false)
+    })
+
+    test('sends only changed and new lines, and the removed uuids', () => {
+        const unchanged = stored(1, 'u1', '08:00', '09:00')
+        const changed = stored(2, 'u2', '10:00', '11:00')
+        changed.end = '11:45'
+        const removed = stored(3, 'u3', '12:00', '12:30')
+        removed.removed = true
+        const added = { key: 4, uuid: null, date: '2026-10-22', start: '13:00', end: '13:30', type: 't2', removed: false, paidOut: false, original: null }
+        const empty = { key: 5, uuid: null, date: '2026-10-22', start: '', end: '', type: '', removed: false, paidOut: false, original: null }
+
+        const request = journalCareHoursEditRequest([unchanged, changed, removed, added, empty], true)
+
+        assert.deepEqual(request.care_hours, [
+            { uuid: 'u2', date_time_start: '2026-10-21 10:00', date_time_end: '2026-10-21 11:45', contract_hour_type_uuid: 't1' },
+            { date_time_start: '2026-10-22 13:00', date_time_end: '2026-10-22 13:30', contract_hour_type_uuid: 't2' },
+        ])
+        assert.deepEqual(request.remove_care_hour_uuids, ['u3'])
+        assert.deepEqual(request.keys, [2, 4])
+        assert.deepEqual(request.removeKeys, [3])
+    })
+
+    test('never sends a paid-out line', () => {
+        const paid = stored(1, 'u1', '10:00', '11:00', { is_paid_out: true })
+        paid.end = '12:00'
+        const paidRemoved = stored(2, 'u2', '10:00', '11:00', { is_paid_out: true })
+        paidRemoved.removed = true
+
+        const request = journalCareHoursEditRequest([paid, paidRemoved], true)
+        assert.deepEqual(request.care_hours, [])
+        assert.deepEqual(request.remove_care_hour_uuids, [])
+    })
+
+    test('a type change counts only when the picker shows', () => {
+        const line = stored(1, 'u1', '10:00', '11:00')
+        line.type = 't9'
+        assert.equal(journalCareHoursEditRequest([line], false).care_hours.length, 0)
+        assert.equal(journalCareHoursEditRequest([line], true).care_hours.length, 1)
+    })
+})
