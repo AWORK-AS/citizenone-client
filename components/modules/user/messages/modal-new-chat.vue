@@ -82,7 +82,9 @@
                                 <FormLabel for="message" :label="$t('messages.message')" />
                                 <FormTextArea id="message" name="message" :placeholder="$t('messages.messagePlaceholder')"
                                     v-model="state.formChat.message" @keydown="handleKeydown" />
-                                <div class="flex items-center justify-between">
+                                <div class="flex items-center justify-between gap-2">
+                                    <!-- Same quick replies as in an ongoing chat, so a conversation can open with one. -->
+                                    <ModulesUserMessagesTemplatePicker class="-ml-2" @select="appendTemplate" />
                                     <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                     <span class="ml-auto text-[11px] text-gray-400">{{ $t('messages.sendHint') }}</span>
                                 </div>
@@ -240,6 +242,11 @@ function handleKeydown(event: KeyboardEvent) {
         event.preventDefault()
         sendMessage()
     }
+}
+
+function appendTemplate(body: string) {
+    const current = state.formChat.message ?? ''
+    state.formChat.message = current.trim() ? `${current}\n${body}` : body
 }
 
 function closeModal() {
