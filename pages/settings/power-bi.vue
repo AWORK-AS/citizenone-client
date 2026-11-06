@@ -228,6 +228,11 @@ const feedList = computed(() => {
         { key: 'cases', label: t('settings.powerBi.feedCases'), url: (feeds.cases ?? '') + tokenSuffix },
         { key: 'departments', label: t('settings.powerBi.feedDepartments'), url: (feeds.departments ?? '') + tokenSuffix },
         { key: 'coordinators', label: t('settings.powerBi.feedCoordinators'), url: (feeds.coordinators ?? '') + tokenSuffix },
+        { key: 'stays', label: t('settings.powerBi.feedStays'), url: (feeds.stays ?? '') + tokenSuffix },
+        { key: 'economyMonthly', label: t('settings.powerBi.feedEconomyMonthly'), url: (feeds.coordinator_economy_monthly ?? '') + tokenSuffix },
+        { key: 'employees', label: t('settings.powerBi.feedEmployees'), url: (feeds.employees ?? '') + tokenSuffix },
+        { key: 'shifts', label: t('settings.powerBi.feedShifts'), url: (feeds.shifts ?? '') + tokenSuffix },
+        { key: 'invoices', label: t('settings.powerBi.feedInvoices'), url: (feeds.invoices ?? '') + tokenSuffix },
     ].filter(feed => feed.url)
 })
 

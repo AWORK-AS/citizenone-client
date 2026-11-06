@@ -12815,7 +12815,12 @@
             "withoutNames": "Utan brukarnamn",
             "withoutNamesHint": "Flödena skickar brukar-ID:n i stället för namn. Bra för ledningsrapporter och GDPR. Koordinatornamn finns kvar.",
             "excelTitle": "Använd i Excel",
-            "excelText": "Flödena fungerar också i Excel: Data → Från webben → klistra in en feed-URL. När Excel ber om åtkomst, välj Anonym."
+            "excelText": "Flödena fungerar också i Excel: Data → Från webben → klistra in en feed-URL. När Excel ber om åtkomst, välj Anonym.",
+            "feedStays": "Vistelser och avtalsperioder",
+            "feedEconomyMonthly": "Koordinatorekonomi per månad",
+            "feedEmployees": "Medarbetare",
+            "feedShifts": "Pass",
+            "feedInvoices": "Fakturor"
         },
         "zapier": {
             "title": "Zapier",

@@ -12815,7 +12815,12 @@
             "withoutNames": "Uten borgernavn",
             "withoutNamesHint": "Feedene sender borger-ID-er i stedet for navn. Bra for lederrapporter og GDPR. Koordinatornavn er fortsatt med.",
             "excelTitle": "Bruk i Excel",
-            "excelText": "Feedene fungerer også i Excel: Data → Fra web → lim inn en feed-URL. Når Excel spør om tilgang, velg Anonym."
+            "excelText": "Feedene fungerer også i Excel: Data → Fra web → lim inn en feed-URL. Når Excel spør om tilgang, velg Anonym.",
+            "feedStays": "Opphold og kontraktperioder",
+            "feedEconomyMonthly": "Koordinatorøkonomi per måned",
+            "feedEmployees": "Medarbeidere",
+            "feedShifts": "Vakter",
+            "feedInvoices": "Fakturaer"
         },
         "zapier": {
             "title": "Zapier",

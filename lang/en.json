@@ -12820,7 +12820,12 @@
             "withoutNames": "Without citizen names",
             "withoutNamesHint": "Feeds send citizen IDs instead of names. Good for management reports and GDPR. Coordinator names are still included.",
             "excelTitle": "Use in Excel",
-            "excelText": "The feeds also work in Excel: Data → From Web → paste a feed URL. When Excel asks for access, choose Anonymous."
+            "excelText": "The feeds also work in Excel: Data → From Web → paste a feed URL. When Excel asks for access, choose Anonymous.",
+            "feedStays": "Stays and contract periods",
+            "feedEconomyMonthly": "Coordinator economy per month",
+            "feedEmployees": "Employees",
+            "feedShifts": "Shifts",
+            "feedInvoices": "Invoices"
         },
         "zapier": {
             "title": "Zapier",
