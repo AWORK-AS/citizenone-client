@@ -2325,7 +2325,10 @@
             "noRisk": "No risk",
             "increasedRisk": "Increased risk",
             "acuteIncreasedRisk": "Acute increased risk",
-            "notEnoughData": "Not enough data yet to show a trend."
+            "notEnoughData": "Not enough data yet to show a trend.",
+            "clickToReadNote": "Click to read the note",
+            "quickAssessmentNoNote": "Quick risk assessment – no note",
+            "noteNotFound": "The note could not be found, or you don't have access to it."
         },
         "addictions": "Substance abuse",
         "address": "Address",
@@ -5797,7 +5800,9 @@
             "skipped": "{count} shift skipped because the employee already has the same shift. | {count} shifts skipped because the employee already has the same shifts.",
             "noneCreatedTitle": "No shifts added",
             "allSkipped": "The employee already has the same shifts this week.",
-            "sourceEmpty": "There are no shifts in the week you copied."
+            "sourceEmpty": "There are no shifts in the week you copied.",
+            "dayAllSkipped": "The employee already has the same shifts that day.",
+            "daySourceEmpty": "There are no shifts on the day you copied."
         },
         "custom": "Custom",
         "date": "Shift Date",
@@ -16625,10 +16630,17 @@
             "messageSuccessfullySent": "Message successfully sent"
         },
         "form": {
+            "addImages": "Add images",
+            "attachImages": "Images (optional)",
+            "attachImagesHelp": "Add screenshots that show what you mean. Up to {max} images, max 10 MB each. You can also paste a screenshot here.",
             "describeTheFeature": "Describe the feature you wish to see",
+            "imageTooLarge": "The image is too large. Max 10 MB.",
+            "notAnImage": "Only PNG, JPG, GIF and WebP images can be added.",
             "pleaseDescribeTheFeature": "Please describe the feature you would like to have. Include any specific details or requirements you have in mind",
             "pleaseWriteHere": "Please write here",
-            "sendMessage": "Send message"
+            "removeImage": "Remove image",
+            "sendMessage": "Send message",
+            "tooManyImages": "You can add up to {max} images."
         },
         "confirmation": {
             "requestSent": "Request sent",

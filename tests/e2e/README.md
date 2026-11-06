@@ -943,3 +943,16 @@ CO_TOKEN='<admin-token>' CO_STAFF_TOKEN='<staff-token>' CO_CITIZEN_UUID='<uuid>'
   npm run test:document-viewer
 ```
 
+
+### `wish-images` — no extra setup beyond `CO_TOKEN`
+
+"New wishes" (profile menu) can carry screenshots. Opens the modal from the
+profile menu, picks / removes / pastes images, checks the non-image and
+max-5 guards, sends, and verifies the stored images come back as loading
+thumbnails under "Your previous requests". **Not self-restoring:** it creates
+one `contact_us_wishes` row (uuid printed at the end) with its images, and
+queues one support email - delete both if you don't want them.
+
+```bash
+CO_TOKEN='<token>' npm run test:wish-images
+```

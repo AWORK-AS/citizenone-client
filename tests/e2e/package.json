@@ -6,6 +6,7 @@
   "scripts": {
     "test:email-templates": "node email-templates.mjs",
     "test:mileage-log": "node mileage-log.mjs",
+    "test:new-chat-message-template": "node new-chat-message-template.mjs",
     "test:journal-note-survey": "node journal-note-survey.mjs",
     "test:journal-note-notification-scope": "node journal-note-notification-scope.mjs",
     "test:create-report-permission": "node create-report-permission.mjs",
@@ -36,7 +37,8 @@
     "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs",
     "test:mail-pdf": "node mail-pdf.mjs",
     "test:document-viewer": "node document-viewer.mjs",
-    "test:meetings-join": "node meetings-join.mjs"
+    "test:meetings-join": "node meetings-join.mjs",
+    "test:wish-images": "node wish-images.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
