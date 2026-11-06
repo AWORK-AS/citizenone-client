@@ -20,7 +20,8 @@
                 <p class="text-sm font-medium text-gray-500">{{ $t('citizens.riskHistory.notEnoughData') }}</p>
             </div>
 
-            <VChart v-else-if="!state.isLoading && !state.error?.message" :option="state.chartOption" style="height: 400px; width: 100%;" />
+            <VChart v-else-if="!state.isLoading && !state.error?.message" :option="state.chartOption"
+                style="height: 400px; width: 100%;" @click="onPointClick" />
         </LoadingSpinner>
     </div>
 </template>
@@ -28,6 +29,7 @@
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
 import { useI18n } from 'vue-i18n'
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -37,7 +39,10 @@ const props = defineProps({
     },
 })
 
+const emit = defineEmits(['openNote'])
+
 const { t } = useI18n()
+const { warningAlert } = useAlert()
 
 const LEVELS: Record<string, number> = {
     'no risk': 0,
@@ -75,7 +80,16 @@ function buildChartOption() {
     state.chartOption = {
         tooltip: {
             trigger: 'item',
-            formatter: (params: any) => `${params.name}<br />${categoryLabels[params.value[1]]}`,
+            formatter: (params: any) => {
+                const base = `${params.name}<br />${categoryLabels[params.value] ?? ''}`
+                const point = params.data
+                // Old backends send no uuid: the point isn't clickable, so no hint.
+                if (!point?.uuid) return base
+                const hint = point.hasNote === false
+                    ? t('citizens.riskHistory.quickAssessmentNoNote')
+                    : t('citizens.riskHistory.clickToReadNote')
+                return `${base}<br /><i>${hint}</i>`
+            },
         },
         grid: { left: 90, right: 30, top: 20, bottom: 40, containLabel: true },
         xAxis: {
@@ -95,14 +109,29 @@ function buildChartOption() {
                 type: 'line',
                 step: 'end',
                 symbolSize: 12,
+                cursor: state.entries.some((entry) => entry.uuid) ? 'pointer' : 'default',
                 lineStyle: { width: 2, color: '#CBD5E1' },
                 data: state.entries.map((entry) => ({
                     value: LEVELS[entry.assessment] ?? 0,
+                    uuid: entry.uuid,
+                    hasNote: entry.has_note,
                     itemStyle: { color: COLORS[entry.color] ?? '#94A3B8' },
                 })),
             },
         ],
     }
+}
+
+function onPointClick(params: any) {
+    const point = params?.data
+    if (!point?.uuid) return
+
+    if (point.hasNote === false) {
+        warningAlert(`${t('alert.warning')}!`, t('citizens.riskHistory.quickAssessmentNoNote'))
+        return
+    }
+
+    emit('openNote', point.uuid)
 }
 
 function setPeriod(period: number) {

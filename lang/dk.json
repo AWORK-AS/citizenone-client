@@ -2325,7 +2325,10 @@
             "noRisk": "Ingen risiko",
             "increasedRisk": "Øget risiko",
             "acuteIncreasedRisk": "Akut øget risiko",
-            "notEnoughData": "Ikke nok data til at vise en udvikling endnu."
+            "notEnoughData": "Ikke nok data til at vise en udvikling endnu.",
+            "clickToReadNote": "Klik for at læse notatet",
+            "quickAssessmentNoNote": "Hurtig risikovurdering – intet notat",
+            "noteNotFound": "Notatet blev ikke fundet, eller du har ikke adgang til det."
         },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
@@ -5797,7 +5800,9 @@
             "skipped": "{count} vagt sprunget over, fordi medarbejderen allerede har den samme vagt. | {count} vagter sprunget over, fordi medarbejderen allerede har de samme vagter.",
             "noneCreatedTitle": "Ingen vagter indsat",
             "allSkipped": "Medarbejderen har allerede de samme vagter i ugen.",
-            "sourceEmpty": "Der er ingen vagter i den uge, du kopierede."
+            "sourceEmpty": "Der er ingen vagter i den uge, du kopierede.",
+            "dayAllSkipped": "Medarbejderen har allerede de samme vagter den dag.",
+            "daySourceEmpty": "Der er ingen vagter på den dag, du kopierede."
         },
         "custom": "Brugerdefineret",
         "date": "Vagt dato",
@@ -16625,10 +16630,17 @@
             "messageSuccessfullySent": "Besked sendt"
         },
         "form": {
+            "addImages": "Tilføj billeder",
+            "attachImages": "Billeder (valgfrit)",
+            "attachImagesHelp": "Tilføj skærmbilleder, der viser, hvad du mener. Op til {max} billeder, maks. 10 MB pr. billede. Du kan også indsætte et skærmbillede her.",
             "describeTheFeature": "Beskriv den funktion, du ønsker at se",
+            "imageTooLarge": "Billedet er for stort. Maks. 10 MB.",
+            "notAnImage": "Kun PNG-, JPG-, GIF- og WebP-billeder kan tilføjes.",
             "pleaseDescribeTheFeature": "Beskriv venligst den funktion, du gerne vil have. Inkluder eventuelle specifikke detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv venligst her",
-            "sendMessage": "Send besked"
+            "removeImage": "Fjern billede",
+            "sendMessage": "Send besked",
+            "tooManyImages": "Du kan tilføje op til {max} billeder."
         },
         "confirmation": {
             "requestSent": "Anmodning sendt",

@@ -18,8 +18,9 @@
 
 
             <div class="space-y-5">
+                <Alert type="danger" :text="$t('citizens.riskHistory.noteNotFound')" v-if="state.noteNotFound" />
                 <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
+                    v-if="!state.noteNotFound && state.error?.message && state.error.message.length > 0" />
 
 
                 <ModulesUserCitizenDetailsHeader />
@@ -211,6 +212,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { translateMessage } from '@/composables/translateMessage'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -246,6 +248,7 @@ const breadcrumbLinks = computed(() => [
 const state = reactive({
     dataFilter: [] as any,
     error: {} as Error,
+    noteNotFound: false,
     filter: {
         date_range: [] as any,
         journal: '' as any,
@@ -326,7 +329,17 @@ onMounted(() => {
     }
 })
 
+// The risk-history graph links here while this page may already be open, so a
+// query change alone has to open the note too (onMounted only covers arriving).
+watch(() => router.currentRoute.value.query.open_journal, (journalUuid) => {
+    if (journalUuid) {
+        openJournalFromQuery(String(journalUuid))
+    }
+})
+
 async function openJournalFromQuery(journalUuid: string) {
+    state.error = {}
+    state.noteNotFound = false
     try {
         const response = await journalService.getJournal(journalUuid)
         if (response?.data) {
@@ -335,7 +348,22 @@ async function openJournalFromQuery(journalUuid: string) {
             state.modal.isEditJournalOpen = true
         }
     } catch (error: any) {
-        state.error = error
+        // BaseAPIService throws: 404/403 with a status; the backend's 400 "Journal not found."
+        // (no access, other company, internal notes) with the backend message and no status
+        // or errorId; 500 and network/other failures with the generic apiErrors text (and an
+        // errorId when the response had one). Only the first two are "not found / no access";
+        // the rest keep their own error so support can use the errorId.
+        const generic = [
+            translateMessage('apiErrors.serverError', 'Server error. Please try again. If the problem persists, contact your system administrator'),
+            translateMessage('apiErrors.generic', 'Something went wrong. Please try again. If the problem persists, contact your system administrator'),
+        ]
+        const isNotFound = error?.status === 403 || error?.status === 404
+            || (error?.status === undefined && !error?.errorId && !generic.some(g => String(error?.message ?? '').startsWith(g)))
+        if (isNotFound) {
+            state.noteNotFound = true
+        } else {
+            state.error = error
+        }
     } finally {
         // Drop the param so a refresh, or closing the modal, doesn't reopen it.
         const { open_journal, ...rest } = router.currentRoute.value.query
@@ -402,6 +430,7 @@ async function fetchFilterOptions() {
 
 async function fetchJournals() {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const params = {
@@ -554,6 +583,7 @@ function onJournalFavoriteUpdated(updatedJournal: any) {
 
 async function lockUnlockJournal(journalUuid: any) {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalLock(journalUuid)
@@ -569,6 +599,7 @@ async function lockUnlockJournal(journalUuid: any) {
 
 async function pinUnpinJournal(journalUuid: any) {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.updateJournalPin(journalUuid)
@@ -599,6 +630,7 @@ function confirmJournalDeletion(journal: any) {
 
 async function deleteJournal() {
     state.error = {}
+    state.noteNotFound = false
     state.isPageLoading = true
     try {
         const response = await journalService.deleteJournal(state.selectedJournal.uuid)

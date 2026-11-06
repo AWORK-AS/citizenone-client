@@ -2325,7 +2325,10 @@
             "noRisk": "Ingen risk",
             "increasedRisk": "Ökad risk",
             "acuteIncreasedRisk": "Akut ökad risk",
-            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu."
+            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu.",
+            "clickToReadNote": "Klicka för att läsa anteckningen",
+            "quickAssessmentNoNote": "Snabb riskbedömning – ingen anteckning",
+            "noteNotFound": "Anteckningen hittades inte, eller så har du inte åtkomst till den."
         },
         "addictions": "Substansmissbruk",
         "address": "Adress",
@@ -5742,7 +5745,9 @@
             "skipped": "{count} pass hoppades över eftersom medarbetaren redan har samma pass. | {count} pass hoppades över eftersom medarbetaren redan har samma pass.",
             "noneCreatedTitle": "Inga pass tillagda",
             "allSkipped": "Medarbetaren har redan samma pass den här veckan.",
-            "sourceEmpty": "Det finns inga pass i veckan du kopierade."
+            "sourceEmpty": "Det finns inga pass i veckan du kopierade.",
+            "dayAllSkipped": "Medarbetaren har redan samma pass den dagen.",
+            "daySourceEmpty": "Det finns inga pass på dagen du kopierade."
         },
         "custom": "Brugerdefineret",
         "date": "Pass datum",
@@ -16540,10 +16545,17 @@
             "messageSuccessfullySent": "Meddelande skickad"
         },
         "form": {
+            "addImages": "Lägg till bilder",
+            "attachImages": "Bilder (valfritt)",
+            "attachImagesHelp": "Lägg till skärmbilder som visar vad du menar. Upp till {max} bilder, max 10 MB per bild. Du kan också klistra in en skärmbild här.",
             "describeTheFeature": "Beskriv den funktion, du vill se",
+            "imageTooLarge": "Bilden är för stor. Max 10 MB.",
+            "notAnImage": "Endast PNG-, JPG-, GIF- och WebP-bilder kan läggas till.",
             "pleaseDescribeTheFeature": "Beskriv vänligen den funktion, du gerne vill have. Inkluder eventuelle specifika detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv vänligen här",
-            "sendMessage": "Skicka meddelande"
+            "removeImage": "Ta bort bild",
+            "sendMessage": "Skicka meddelande",
+            "tooManyImages": "Du kan lägga till upp till {max} bilder."
         },
         "confirmation": {
             "requestSent": "Förfrågan skickad",
