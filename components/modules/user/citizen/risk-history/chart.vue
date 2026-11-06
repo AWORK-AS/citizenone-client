@@ -81,7 +81,7 @@ function buildChartOption() {
         tooltip: {
             trigger: 'item',
             formatter: (params: any) => {
-                const base = `${params.name}<br />${categoryLabels[params.value[1]]}`
+                const base = `${params.name}<br />${categoryLabels[params.value] ?? ''}`
                 const point = params.data
                 // Old backends send no uuid: the point isn't clickable, so no hint.
                 if (!point?.uuid) return base
