@@ -19591,6 +19591,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Spurgt",
+            "picked": "Valgt uden besked",
+            "selected": "Udpeget til sagen",
+            "when": "{date} af {name}",
+            "answers": {
+                "awaiting": "Afventer svar",
+                "accepted": "Sagde ja",
+                "declined": "Sagde nej"
+            }
+        },
         "export": "Eksportér til Excel",
         "exporting": "Eksporterer...",
         "exportHint": "Alle konsulenter med kontaktoplysninger, status, kompetencer og aktive indsatser. Fratrådte er ikke med.",

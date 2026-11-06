@@ -19591,6 +19591,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Asked",
+            "picked": "Picked without message",
+            "selected": "Chosen for the case",
+            "when": "{date} by {name}",
+            "answers": {
+                "awaiting": "Awaiting answer",
+                "accepted": "Said yes",
+                "declined": "Said no"
+            }
+        },
         "export": "Export to Excel",
         "exporting": "Exporting...",
         "exportHint": "All consultants with contact details, status, skills and active cases. Terminated consultants are left out.",

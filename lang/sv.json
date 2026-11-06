@@ -19506,6 +19506,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Tillfrågad",
+            "picked": "Vald utan meddelande",
+            "selected": "Utsedd till ärendet",
+            "when": "{date} av {name}",
+            "answers": {
+                "awaiting": "Väntar på svar",
+                "accepted": "Sa ja",
+                "declined": "Sa nej"
+            }
+        },
         "export": "Exportera till Excel",
         "exporting": "Exporterar...",
         "exportHint": "Alla konsulter med kontaktuppgifter, status, kompetenser och aktiva insatser. Avslutade är inte med.",
