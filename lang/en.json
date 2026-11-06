@@ -2321,7 +2321,10 @@
             "noRisk": "No risk",
             "increasedRisk": "Increased risk",
             "acuteIncreasedRisk": "Acute increased risk",
-            "notEnoughData": "Not enough data yet to show a trend."
+            "notEnoughData": "Not enough data yet to show a trend.",
+            "clickToReadNote": "Click to read the note",
+            "quickAssessmentNoNote": "Quick risk assessment – no note",
+            "noteNotFound": "The note could not be found, or you don't have access to it."
         },
         "addictions": "Substance abuse",
         "address": "Address",
