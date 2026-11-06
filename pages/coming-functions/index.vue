@@ -21,6 +21,17 @@
                     </FormButton>
                 </div>
 
+                <!-- Polls on what to build next. Users could only find them at the
+                     bottom of the Statistics page, so they sent their wishes by mail. -->
+                <section id="polls" class="scroll-mt-24 space-y-2 rounded-lg border border-gray-200 bg-white p-4">
+                    <h2 class="flex items-center gap-x-2 text-base font-semibold text-gray-900">
+                        <Icon name="ph:thumbs-up" class="h-5 w-5 text-[#205E77]" />
+                        {{ $t('comingFunctions.polls.title') }}
+                    </h2>
+                    <p class="text-sm text-gray-600">{{ $t('comingFunctions.polls.intro') }}</p>
+                    <ModulesUserDailyOverviewPoll />
+                </section>
+
                 <LoadingSpinner :isActive="state.isLoading">
                     <Alert type="danger" :text="state.error" v-if="state.error" />
 

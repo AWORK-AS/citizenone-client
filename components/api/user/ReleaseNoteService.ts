@@ -12,6 +12,14 @@ class ReleaseNoteService extends BaseAPIService {
     async markSeen(): Promise<any> {
         return await this.request(`/user/release-notes/seen`, 'PUT')
     }
+
+    async getPopup(route: string): Promise<any> {
+        return await this.request(`/user/release-notes/popup?route=${encodeURIComponent(route)}`, 'GET')
+    }
+
+    async dismissPopup(uuid: string): Promise<any> {
+        return await this.request(`/user/release-notes/${uuid}/popup/dismiss`, 'POST')
+    }
 }
 
 export const releaseNoteService = new ReleaseNoteService()

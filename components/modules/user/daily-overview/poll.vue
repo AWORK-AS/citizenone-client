@@ -70,6 +70,7 @@ import { dailyOverviewService } from '@/components/api/user/DailyOverviewService
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const pollBadge = usePollBadge()
 
 const state = reactive({
     isPageLoading: false,
@@ -108,6 +109,7 @@ async function addVote(pollIndex: number, itemIndex: number, pollItem: any) {
             state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) + 1
         }
         fetchPolls()
+        pollBadge.refresh()
     } catch (error: any) {
         state.error = error
     }
@@ -124,6 +126,7 @@ async function deleteVote(pollIndex: number, itemIndex: number, pollItem: any) {
             state.polls.data[pollIndex].items[itemIndex].user_voted = false
             state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) - 1
         }
+        pollBadge.refresh()
     } catch (error: any) {
         state.error = error
     }

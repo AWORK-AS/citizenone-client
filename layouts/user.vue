@@ -708,6 +708,8 @@
         <ModulesUserAppTourGuide v-if="welcomeTour.active && tourGranted && welcomeSteps.length" mascot :customSteps="welcomeSteps"
             :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
+        <!-- "What's new on this page", set per page in Superadmin -> Release notes. -->
+        <ModulesUserNewUpdatesReleaseNotePopup v-if="!welcomeTour.active && !state.activeAppTour" />
         <!-- "Would you recommend CitizenOne?" Never on top of a tour or the medicine toast in the same corner. -->
         <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible"
             :held="inactivePromptVisible" @visibilityChange="npsPromptVisible = $event" />

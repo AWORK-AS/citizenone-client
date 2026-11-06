@@ -218,11 +218,19 @@
         "changeLanguage": "Skift sprog",
         "somethingWentWrong": "Noget gik galt. Prøv igen."
     },
+    "releaseNotePopup": {
+        "dismiss": "Forstået",
+        "dismissTooltip": "Luk beskeden – den vises ikke igen"
+    },
     "comingFunctions": {
         "title": "Kommende funktioner",
         "intro": "Her kan du se, hvad vi arbejder på, og hvad der kommer i CitizenOne. Mangler du noget? Send os et ønske.",
         "sendWish": "Send et ønske",
         "empty": "Der er ingen kommende funktioner at vise lige nu.",
+        "polls": {
+            "title": "Stem på hvad vi skal udvikle",
+            "intro": "Giv en tommel op til de ønsker, du også har brug for. Vi bruger stemmerne, når vi planlægger."
+        },
         "sections": {
             "in_progress": "I gang",
             "planned": "Planlagt",
@@ -10578,6 +10586,7 @@
         "subscription": "Abonnement",
         "switchLanguage": "Skift sprog",
         "helpAndNews": "Hjælp og nyt",
+        "comingFunctionsAndPolls": "Kommende funktioner og afstemninger",
         "impersonating": "Logget ind som klient",
         "stopImpersonation": "Log ud som klient",
         "surveys": "Spørgeskemaer"
@@ -17714,6 +17723,9 @@
         "showAsNewsHint": "Kun det nye og det forbedrede vises. Rettelser vises aldrig som nyheder.",
         "sendToMilo": "Send til Milo (supportviden)",
         "sendToMiloHint": "Rettelser går til Milo, så support kan svare på dem, men vises aldrig som nyheder.",
+        "popupRoute": "Vis som popup på side",
+        "popupRouteHint": "Fx /schedules. Vises én gang for hver bruger på den side, indtil de lukker den. Kun udgivne noter. Tom = ingen popup.",
+        "popupOn": "Popup på {route}",
         "toMilo": "Til Milo"
     },
     "customSidebarLinks": {
