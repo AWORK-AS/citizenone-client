@@ -12,6 +12,10 @@ describe('starterMode', () => {
         assert.equal(starterMode('Skriv et journalnotat for '), 'fill')
         assert.equal(starterMode('Find the attached files about '), 'fill')
     })
+    it('fills a prompt that ends in @, so the colleague picker opens', () => {
+        assert.equal(starterMode('Skriv en besked til @'), 'fill')
+        assert.equal(starterMode('mail me at a@b.dk'), 'send')
+    })
     it('classifies the real starters the same way in every language', () => {
         const modes = {}
         for (const l of ['dk', 'en', 'sv', 'no']) {
@@ -19,6 +23,6 @@ describe('starterMode', () => {
             modes[l] = Object.fromEntries(Object.entries(q).map(([k, v]) => [k, starterMode(v)]))
         }
         for (const l of ['en', 'sv', 'no']) assert.deepEqual(modes[l], modes.dk)
-        assert.deepEqual(modes.dk, { overview: 'send', journal: 'fill', files: 'fill', shifts: 'send' })
+        assert.deepEqual(modes.dk, { overview: 'send', journal: 'fill', files: 'fill', shifts: 'send', message: 'fill' })
     })
 })

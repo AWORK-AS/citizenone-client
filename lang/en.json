@@ -1465,6 +1465,9 @@
             "seats": {
                 "title": "1 employee asked for access to Cody AI | {count} employees asked for access to Cody AI",
                 "assign": "Give them access | Give them access"
+            },
+            "pageBody": {
+                "messages": "Cody AI can draft messages for you."
             }
         }
     },
@@ -1591,13 +1594,15 @@
             "journal": "Write a journal note",
             "files": "Find attached files",
             "shifts": "What shifts do I have?",
+            "message": "Write a message to a colleague",
             "fillHint": "add a name"
         },
         "quickPrompts": {
             "overview": "Give me an overview of my day",
             "journal": "Write a journal note for ",
             "files": "Find the attached files about ",
-            "shifts": "What shifts do I have in the next seven days?"
+            "shifts": "What shifts do I have in the next seven days?",
+            "message": "Write a message to @"
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody AI can be wrong - read the answer through.",
@@ -1689,6 +1694,17 @@
             "sales": "Milo can answer questions about prices, modules, upgrades and demos.",
             "open": "Open Milo",
             "nothingShared": "Cody AI passes nothing on. Ask Milo your question."
+        },
+        "chatDraft": {
+            "to": "Draft message to",
+            "toGroup": "Draft message in the group",
+            "open": "Open in chat",
+            "copy": "Copy",
+            "copied": "Copied",
+            "copyFailed": "Could not copy the message",
+            "notSent": "Not sent. You read it and send it yourself in the chat.",
+            "colleague": "Colleague",
+            "groupChat": "Group chat"
         }
     },
     "back": "Back",

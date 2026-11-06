@@ -128,6 +128,8 @@ import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 import { citizenRecipientOptions, employeeRecipientOptions, recipientTypeOf, type RecipientType } from '@/composables/chatRecipients'
+import { useChatDraftStore } from '@/store/chat-draft'
+import { mergeIntoField } from '@/composables/codyChatDraft'
 
 const props = defineProps({
     isModalOpen: {
@@ -290,6 +292,25 @@ function preselectFromQuery() {
     state.recipientType = recipientTypeOf(userUuid, state.options.citizens) ?? 'employees'
     state.formChat.receivers = userStore.getUser?.company?.group_chat_enabled ? [userUuid] : userUuid
 }
+
+// A message Cody AI drafted for a colleague with no conversation yet: the
+// colleague is picked and the text is in the field, and nothing is sent until
+// the user presses send. Only the form that is open takes it - the page and the
+// sidebar each mount one.
+const chatDraftStore = useChatDraftStore()
+
+watch(() => props.isModalOpen, (isOpen) => {
+    const target = chatDraftStore.pending?.target
+    if (!isOpen || target?.type !== 'employee') return
+
+    const text = chatDraftStore.takeFor(target)
+    if (text === null) return
+
+    // Not via setRecipientType or the group picker: either would clear the pick.
+    state.recipientType = 'employees'
+    state.formChat.receivers = userStore.getUser?.company?.group_chat_enabled ? [target.uuid] : target.uuid
+    state.formChat.message = mergeIntoField(state.formChat.message, text)
+}, { immediate: true })
 
 async function fetchEmployeeGroups() {
     try {

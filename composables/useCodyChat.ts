@@ -67,6 +67,10 @@ export interface AnswerCard {
     link?: string | null
     /** Only on a `milo` card: which kind of CitizenOne question it was. */
     intent?: 'citizenone_support' | 'citizenone_sales'
+    /** Only on a `chat_message` card: who it is for, the text Cody AI wrote, and where it goes. */
+    recipient?: 'colleague' | 'group'
+    draft?: string
+    target?: { type: 'chat' | 'employee', uuid: string }
 }
 
 export interface CodyMessage {
@@ -122,7 +126,7 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
  * mirroring the backend's CardResolver: a type nobody has written a component
  * for is dropped, so the server can add one before the client learns it.
  */
-const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo']
+const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo', 'chat_message']
 
 export function createCodyChat() {
     const { t } = useI18n()
