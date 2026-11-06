@@ -14,7 +14,7 @@
                         <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('paymentDunning.problems.intro') }}</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <select v-model="state.status"
+                        <select v-if="state.tab === 'active'" v-model="state.status"
                             class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors"
                             :aria-label="$t('paymentDunning.problems.col.status')">
                             <option value="">{{ $t('paymentDunning.problems.filterAll') }}</option>
@@ -28,6 +28,17 @@
                     </div>
                 </div>
 
+                <div class="flex gap-1 mb-4 border-b border-[#EAECF0]" role="tablist">
+                    <button v-for="tab in DUNNING_TABS" :key="tab" type="button" role="tab"
+                        :aria-selected="state.tab === tab"
+                        class="px-3.5 py-2 text-[13px] border-b-2 -mb-px transition-colors flex items-center gap-1.5"
+                        :class="state.tab === tab ? 'text-[#205E77] font-semibold border-[#205E77]' : 'text-[#5C6478] border-transparent hover:text-[#1F2533]'"
+                        @click="selectTab(tab)">
+                        {{ $t(`paymentDunning.problems.tab.${tab}`) }}
+                        <span class="co-badge" :class="state.tab === tab ? 'co-badge-blue' : 'co-badge-gray'">{{ state.counts[tab] }}</span>
+                    </button>
+                </div>
+
                 <p v-if="!canManage" class="text-[13px] text-[#5C6478] mb-3">
                     {{ $t('paymentDunning.problems.readOnly') }}
                 </p>
@@ -36,7 +47,7 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <SuperadminTable :columnHeaders="columns" :data="{ data: visibleRows }" :isLoading="state.isLoading"
-                    :emptyMessage="state.status ? $t('paymentDunning.problems.emptyFiltered') : $t('paymentDunning.problems.empty')"
+                    :emptyMessage="state.tab !== 'active' ? $t('paymentDunning.problems.emptyTab') : state.status ? $t('paymentDunning.problems.emptyFiltered') : $t('paymentDunning.problems.empty')"
                     emptyIcon="ph:check-circle" rowKey="company_uuid">
                     <template #body>
                         <tr v-for="row in visibleRows" :key="row.company_uuid"
@@ -58,6 +69,8 @@
                                     <li v-for="invoice in row.invoices" :key="invoice.uuid"
                                         class="flex items-center gap-1.5 text-[11px] text-[#5C6478]">
                                         <span class="font-mono">#{{ invoice.invoice_number }}</span>
+                                        <span v-if="invoice.created_at || invoice.due_on">{{ formatDateToReadable((invoice.created_at ?? invoice.due_on)!) }}</span>
+                                        <span>{{ formatAmount(invoice.total_amount, 'DKK') }}</span>
                                         <Tooltip v-if="invoice.card_security_status" :text="$t('paymentDunning.problems.invoiceStatusHelp')" position="top" wrap>
                                             <span class="co-badge co-badge-gray">{{ $t(`paymentDunning.problems.invoiceStatus.${invoice.card_security_status}`) }}</span>
                                         </Tooltip>
@@ -88,8 +101,8 @@
                                 {{ row.closes_on ? formatDateToReadable(row.closes_on) : $t('paymentDunning.problems.noClosingDate') }}
                             </td>
                             <td class="co-td">
-                                <span class="co-badge" :class="statusClass(row.status)">
-                                    {{ $t(`paymentDunning.problems.status.${row.status}`) }}
+                                <span class="co-badge" :class="statusClass(row)">
+                                    {{ $t(dunningStatusKey(row)) }}
                                 </span>
                                 <Tooltip v-if="row.postponed_until" :text="row.postpone_note || $t('paymentDunning.problems.help.postpone')"
                                     position="top" wrap>
@@ -97,12 +110,18 @@
                                         {{ $t('paymentDunning.problems.postponedUntil', { date: formatDateToReadable(row.postponed_until) }) }}
                                     </span>
                                 </Tooltip>
+                                <div v-if="row.tab === 'collection' || row.tab === 'written_off'" class="mt-1 text-[11px] text-[#5C6478] max-w-[220px]">
+                                    <p v-if="collectionDate(row)">
+                                        {{ $t(`paymentDunning.problems.since.${row.tab}`, { date: formatDateToReadable(collectionDate(row)!) }) }}
+                                    </p>
+                                    <p v-if="row.collection_note" class="whitespace-pre-line break-words">{{ row.collection_note }}</p>
+                                </div>
                             </td>
                             <td class="co-td">
                                 <div v-if="canManage" class="flex flex-wrap items-center gap-1.5 justify-end">
                                     <Tooltip v-for="action in actionsFor(row)" :key="action"
                                         :text="$t(`paymentDunning.problems.help.${action}`)" position="top" wrap>
-                                        <SuperadminTableButton :buttonStyle="action === 'close' || action === 'revoke_security_card' || action === 'retry_unknown_charge' ? 'danger' : undefined"
+                                        <SuperadminTableButton :buttonStyle="DANGER_ACTIONS.includes(action) ? 'danger' : undefined"
                                             @click="openAction(row, action)">
                                             {{ $t(`paymentDunning.problems.action.${action}`) }}
                                         </SuperadminTableButton>
@@ -131,7 +150,22 @@ import { billingService, type DunningActResult } from '@/components/api/superadm
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { chargeStatus, chargeTone, dunningActions, outcomeTone, retryStatus, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
+import {
+    DUNNING_TABS,
+    chargeStatus,
+    chargeTone,
+    dunningActions,
+    dunningStatusKey,
+    dunningTabCounts,
+    outcomeTone,
+    retryStatus,
+    securityChargeUnavailable,
+    type DunningAction,
+    type DunningRow,
+    type DunningStatus,
+    type DunningTab,
+    type DunningTabCounts,
+} from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -143,13 +177,17 @@ const { t } = useI18n()
 const { can } = usePermissions()
 const { refresh: refreshBadge } = useBillingProblemCount()
 
-const statuses: DunningStatus[] = ['past_due', 'overdue', 'ready_to_close', 'suspended']
+// Status filter inside "Aktive"; closed, collection and written off have their own tabs.
+const statuses: DunningStatus[] = ['past_due', 'overdue', 'ready_to_close']
+const DANGER_ACTIONS: DunningAction[] = ['close', 'revoke_security_card', 'retry_unknown_charge', 'collection', 'write_off']
 
 // What the screen offers. The API refuses these without manage_financials anyway.
 const canManage = computed(() => can('manage_financials'))
 
 const state = reactive({
     rows: [] as DunningRow[],
+    tab: 'active' as DunningTab,
+    counts: dunningTabCounts(null) as DunningTabCounts,
     status: '' as '' | DunningStatus,
     isLoading: false,
     error: {} as Error,
@@ -169,15 +207,32 @@ const columns = computed(() => [
     { key: 'actions', name: '' },
 ])
 
-const visibleRows = computed(() => state.status ? state.rows.filter((row) => row.status === state.status) : state.rows)
+const visibleRows = computed(() => state.tab === 'active' && state.status ? state.rows.filter((row) => row.status === state.status) : state.rows)
 
-function statusClass(status: DunningStatus) {
+function statusClass(row: DunningRow) {
+    if (row.tab === 'written_off') return 'co-badge-gray'
+    if (row.tab !== 'active') return 'co-badge-red'
+    if (row.billing_method === 'card' && row.reminder_stage >= 3) return 'co-badge-red'
     return {
         past_due: 'co-badge-gray',
         overdue: 'co-badge-gray',
         ready_to_close: 'co-badge-red',
         suspended: 'co-badge-red',
-    }[status]
+        collection: 'co-badge-red',
+        written_off: 'co-badge-gray',
+    }[row.status]
+}
+
+function collectionDate(row: DunningRow) {
+    return row.tab === 'written_off' ? (row.written_off_at ?? row.collection_at) : row.collection_at
+}
+
+function selectTab(tab: DunningTab) {
+    if (state.tab === tab) return
+    state.tab = tab
+    state.status = ''
+    state.rows = []
+    fetchRows()
 }
 
 function actionsFor(row: DunningRow) {
@@ -185,12 +240,17 @@ function actionsFor(row: DunningRow) {
 }
 
 async function fetchRows() {
+    const tab = state.tab
     state.error = {}
     state.isLoading = true
     try {
-        const { rows } = await billingService.getProblems()
+        const { rows, counts } = await billingService.getProblems({ tab })
+        // A slower answer for a tab the user already left is dropped.
+        if (tab !== state.tab) return
         state.rows = rows
+        state.counts = counts
     } catch (error: any) {
+        if (tab !== state.tab) return
         state.error = error
     }
     state.isLoading = false
@@ -225,7 +285,10 @@ async function onDone(action: DunningAction, result: DunningActResult | null) {
         state.rows = state.rows.map((row) => (row.company_uuid === company ? result.row! : row))
     }
 
-    await Promise.all([result?.row ? Promise.resolve() : fetchRows(), refreshBadge()])
+    // A row that moved tab (closed, reopened, sent to collection, written off) changes the
+    // list and the tab counts, so fetch again.
+    const stays = !!result?.row && result.row.tab === state.tab
+    await Promise.all([stays ? Promise.resolve() : fetchRows(), refreshBadge()])
 }
 
 onMounted(fetchRows)

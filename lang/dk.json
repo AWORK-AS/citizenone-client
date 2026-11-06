@@ -21875,7 +21875,9 @@
                 "ready_to_close": "Klar til lukning",
                 "past_due": "Bagud",
                 "overdue": "Forfalden",
-                "suspended": "Lukket"
+                "suspended": "Lukket",
+                "collection": "Inkasso",
+                "written_off": "Afskrevet"
             },
             "method": {
                 "card": "Kort",
@@ -21893,7 +21895,9 @@
                 "reopen": "Genåbn",
                 "postpone": "Udsæt",
                 "revoke_security_card": "Fjern sikkerhedskort",
-                "retry_unknown_charge": "Genforsøg med samme nøgle"
+                "retry_unknown_charge": "Genforsøg med samme nøgle",
+                "collection": "Send til inkasso",
+                "write_off": "Afskriv"
             },
             "help": {
                 "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
@@ -21904,7 +21908,9 @@
                 "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
                 "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger.",
                 "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi.",
-                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen."
+                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen.",
+                "collection": "Overdrager det udestående beløb til inkasso. Virksomheden flyttes til fanen Inkasso.",
+                "write_off": "Afskriver det udestående beløb som tabt. Virksomheden flyttes til fanen Afskrevet."
             },
             "dialog": {
                 "title": {
@@ -21915,7 +21921,9 @@
                     "reopen": "Genåbn virksomheden",
                     "postpone": "Udsæt rykkerforløbet",
                     "revoke_security_card": "Fjern sikkerhedskortet",
-                    "retry_unknown_charge": "Genforsøg med samme nøgle"
+                    "retry_unknown_charge": "Genforsøg med samme nøgle",
+                    "collection": "Send virksomheden til inkasso",
+                    "write_off": "Afskriv det udestående beløb"
                 },
                 "about": "{company}: {amount} udestående",
                 "noteLabel": "Begrundelse",
@@ -21931,7 +21939,9 @@
                 "optional": "valgfri",
                 "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes.",
                 "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort.",
-                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det."
+                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det.",
+                "collectionNoteLabel": "Note",
+                "collectionNoteHelp": "Noten gemmes i aktivitetsloggen."
             },
             "done": {
                 "retry": "Forsøget er sat i gang",
@@ -21941,7 +21951,9 @@
                 "reopen": "Virksomheden er åbnet igen",
                 "postpone": "Rykkerforløbet er udsat",
                 "revoke_security_card": "Sikkerhedskortet er fjernet",
-                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle"
+                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle",
+                "collection": "Virksomheden er sendt til inkasso",
+                "write_off": "Beløbet er afskrevet"
             },
             "failed": "Handlingen mislykkedes",
             "openCompany": "Åbn virksomheden",
@@ -21958,7 +21970,23 @@
             "invoiceStatusHelp": "Status for træk på sikkerhedskortet for denne faktura.",
             "securityCardLine": "Kort •••• {last_four} (udløber {expiry})",
             "needsNexiCheck": "Tjek i Nexi-portalen",
-            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages."
+            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages.",
+            "reminder": {
+                "1": "Rykker 1",
+                "2": "Rykker 2",
+                "3": "Rykker 3"
+            },
+            "tab": {
+                "active": "Aktive",
+                "closed": "Lukket",
+                "collection": "Inkasso",
+                "written_off": "Afskrevet"
+            },
+            "emptyTab": "Ingen virksomheder i denne fane",
+            "since": {
+                "collection": "Sendt til inkasso {date}",
+                "written_off": "Afskrevet {date}"
+            }
         },
         "company": {
             "title": "Betalingsmåde",

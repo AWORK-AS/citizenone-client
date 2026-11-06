@@ -37,6 +37,12 @@ import {
     licenseOrderPayload,
     danishDate,
     normalizeStorageOrderQuote,
+    DUNNING_TABS,
+    dunningRowTab,
+    dunningStatusKey,
+    dunningTabCounts,
+    normalizeDunningTab,
+    reminderStage,
 } from '../../composables/billingMethod.ts'
 
 test('a company with no billing fields is a card company with no security card', () => {
@@ -518,4 +524,61 @@ test('a storage quote is normalised and tolerates a partial payload', () => {
     assert.equal(quote.current_package, null)
     assert.equal(normalizeStorageOrderQuote(undefined).amount, 0)
     assert.equal(errorMessageKey({ code: 'storage_order_not_upgrade' }), 'paymentDunning.errors.storage_order_not_upgrade')
+})
+
+test('worklist tabs: unknown tab falls back to active, a row without tab is placed by its status', () => {
+    assert.deepEqual(DUNNING_TABS, ['active', 'closed', 'collection', 'written_off'])
+    assert.equal(normalizeDunningTab('collection'), 'collection')
+    assert.equal(normalizeDunningTab('nope'), 'active')
+    assert.equal(normalizeDunningTab(undefined), 'active')
+    assert.equal(dunningRowTab({ tab: 'written_off', status: 'past_due' }), 'written_off')
+    assert.equal(dunningRowTab({ status: 'suspended' }), 'closed')
+    assert.equal(dunningRowTab({ status: 'collection' }), 'collection')
+    assert.equal(dunningRowTab({ status: 'written_off' }), 'written_off')
+    assert.equal(dunningRowTab({ status: 'ready_to_close' }), 'active')
+    assert.equal(dunningRowTab(null), 'active')
+    assert.equal(normalizeDunningStatus('collection'), 'collection')
+    assert.equal(normalizeDunningStatus('written_off'), 'written_off')
+})
+
+test('tab counts are always finite whole numbers, missing ones are 0', () => {
+    assert.deepEqual(dunningTabCounts({ counts: { active: 4, closed: '2', collection: null, written_off: -1 } }), { active: 4, closed: 2, collection: 0, written_off: 0 })
+    assert.deepEqual(dunningTabCounts(null), { active: 0, closed: 0, collection: 0, written_off: 0 })
+    assert.deepEqual(dunningTabCounts({ counts: { active: 'x', closed: 2.7 } }), { active: 0, closed: 2, collection: 0, written_off: 0 })
+})
+
+test('reminder stage is clamped to 0-3', () => {
+    assert.equal(reminderStage(2), 2)
+    assert.equal(reminderStage('3'), 3)
+    assert.equal(reminderStage(7), 3)
+    assert.equal(reminderStage(-1), 0)
+    assert.equal(reminderStage(null), 0)
+    assert.equal(reminderStage('x'), 0)
+})
+
+test('status label: card customers in the active tab show the reminder stage', () => {
+    const card = { billing_method: 'card', status: 'past_due', tab: 'active' }
+    assert.equal(dunningStatusKey({ ...card, reminder_stage: 0 }), 'paymentDunning.problems.status.past_due')
+    assert.equal(dunningStatusKey({ ...card, reminder_stage: 1 }), 'paymentDunning.problems.reminder.1')
+    assert.equal(dunningStatusKey({ ...card, reminder_stage: 3 }), 'paymentDunning.problems.reminder.3')
+    assert.equal(dunningStatusKey({ ...card, status: 'ready_to_close', reminder_stage: 3 }), 'paymentDunning.problems.status.ready_to_close')
+    // Invoice customers have no card reminder stages.
+    assert.equal(dunningStatusKey({ billing_method: 'invoice', status: 'overdue', tab: 'active', reminder_stage: 2 }), 'paymentDunning.problems.status.overdue')
+    assert.equal(dunningStatusKey({ ...card, status: 'suspended', tab: 'closed', reminder_stage: 3 }), 'paymentDunning.problems.status.suspended')
+    assert.equal(dunningStatusKey({ ...card, status: 'collection', tab: 'collection', reminder_stage: 3 }), 'paymentDunning.problems.status.collection')
+    assert.equal(dunningStatusKey({ ...card, status: 'written_off', tab: 'written_off', reminder_stage: 3 }), 'paymentDunning.problems.status.written_off')
+    // No tab from the API: worked out from the status.
+    assert.equal(dunningStatusKey({ billing_method: 'card', status: 'collection', reminder_stage: 0 }), 'paymentDunning.problems.status.collection')
+})
+
+test('collection and write-off are offered when the API allows them and need a note', () => {
+    assert.deepEqual(dunningActions({ actions: { close: true, collection: true, write_off: true } }), ['close', 'collection', 'write_off'])
+    assert.deepEqual(dunningActions({ actions: { collection: false, write_off: true } }), ['write_off'])
+    for (const action of ['collection', 'write_off']) {
+        assert.equal(actionNeedsNote(action), true)
+        assert.equal(actionTakesNote(action), true)
+        assert.equal(validateDunningAction(action, { note: '  ' }), 'note')
+        assert.equal(validateDunningAction(action, { note: 'x'.repeat(501) }), 'note')
+        assert.equal(validateDunningAction(action, { note: 'Overdraget til inkassobureau' }), null)
+    }
 })

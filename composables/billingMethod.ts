@@ -11,7 +11,14 @@
 
 export type BillingMethod = 'card' | 'invoice'
 
-export type DunningStatus = 'past_due' | 'overdue' | 'suspended' | 'ready_to_close'
+export type DunningStatus = 'past_due' | 'overdue' | 'suspended' | 'ready_to_close' | 'collection' | 'written_off'
+
+/** The worklist's tabs. The sidebar badge counts only `active`. */
+export type DunningTab = 'active' | 'closed' | 'collection' | 'written_off'
+
+export const DUNNING_TABS: DunningTab[] = ['active', 'closed', 'collection', 'written_off']
+
+export type DunningTabCounts = Record<DunningTab, number>
 
 export type DunningAction =
     | 'retry'
@@ -22,6 +29,8 @@ export type DunningAction =
     | 'postpone'
     | 'revoke_security_card'
     | 'retry_unknown_charge'
+    | 'collection'
+    | 'write_off'
 
 export type BillingMethodForm = {
     billing_method: BillingMethod
@@ -53,6 +62,9 @@ export type DunningInvoice = {
     total_amount: number
     due_on: string | null
     card_security_status: CardSecurityInvoiceStatus | null
+    created_at: string | null
+    /** The invoice's own status, e.g. "unpaid" or "overdue". */
+    status: string | null
 }
 
 export type DunningRow = {
@@ -69,6 +81,13 @@ export type DunningRow = {
     /** YYYY-MM-DD while dunning is postponed. */
     postponed_until: string | null
     postpone_note: string | null
+    tab: DunningTab
+    /** Card customers: 0 = past due, 1-3 = which reminder was sent (day 0, 10, 20). */
+    reminder_stage: number
+    collection_at: string | null
+    written_off_at: string | null
+    /** Written with "Send til inkasso" or "Afskriv". */
+    collection_note: string | null
     /** A security charge Nexi never answered: check the charge in the Nexi portal. */
     needs_nexi_check: boolean
     /** Masked security card, only while the feature is on. */
@@ -85,7 +104,56 @@ export function normalizeBillingMethod(value: unknown): BillingMethod {
 
 /** Anything the API does not name as a known status is shown as "past due". */
 export function normalizeDunningStatus(value: unknown): DunningStatus {
-    return value === 'overdue' || value === 'suspended' || value === 'ready_to_close' ? value : 'past_due'
+    return value === 'overdue' || value === 'suspended' || value === 'ready_to_close' || value === 'collection' || value === 'written_off'
+        ? value
+        : 'past_due'
+}
+
+/** An unknown or missing tab falls back to `active`. */
+export function normalizeDunningTab(value: unknown): DunningTab {
+    return DUNNING_TABS.includes(value as DunningTab) ? (value as DunningTab) : 'active'
+}
+
+/** The row's tab as the API sends it, or worked out from its status for an older backend. */
+export function dunningRowTab(raw: { tab?: unknown; status?: unknown } | null | undefined): DunningTab {
+    if (DUNNING_TABS.includes(raw?.tab as DunningTab)) return raw!.tab as DunningTab
+    const status = normalizeDunningStatus(raw?.status)
+    if (status === 'suspended') return 'closed'
+    if (status === 'collection' || status === 'written_off') return status
+    return 'active'
+}
+
+/** Every tab's count as a finite, non-negative whole number; a missing count is 0. */
+export function dunningTabCounts(meta: any): DunningTabCounts {
+    const counts = meta?.counts ?? {}
+    return DUNNING_TABS.reduce((all, tab) => {
+        const n = Number(counts?.[tab])
+        all[tab] = Number.isFinite(n) && n > 0 ? Math.floor(n) : 0
+        return all
+    }, {} as DunningTabCounts)
+}
+
+/** Reminder stage clamped to 0-3. */
+export function reminderStage(value: unknown): number {
+    const n = Math.floor(Number(value))
+    return Number.isFinite(n) ? Math.min(3, Math.max(0, n)) : 0
+}
+
+/**
+ * The i18n key for a row's status badge. A card customer still in the active tab
+ * shows which reminder went out ("Rykker 1/2/3"); stage 0 is plain "Bagud".
+ */
+export function dunningStatusKey(row: Pick<DunningRow, 'status' | 'billing_method' | 'reminder_stage'> & { tab?: DunningTab }): string {
+    const tab = row.tab ?? dunningRowTab(row)
+    if (tab === 'closed') return 'paymentDunning.problems.status.suspended'
+    if (tab === 'collection') return 'paymentDunning.problems.status.collection'
+    if (tab === 'written_off') return 'paymentDunning.problems.status.written_off'
+
+    const stage = reminderStage(row.reminder_stage)
+    if (row.billing_method === 'card' && stage > 0 && (row.status === 'past_due' || row.status === 'overdue')) {
+        return `paymentDunning.problems.reminder.${stage}`
+    }
+    return `paymentDunning.problems.status.${row.status}`
 }
 
 /**
@@ -197,7 +265,18 @@ export function invoiceChip(invoice: any): InvoiceChip {
     return 'pending'
 }
 
-const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'retry_unknown_charge', 'revoke_security_card', 'close', 'reopen', 'postpone']
+const ACTION_ORDER: DunningAction[] = [
+    'retry',
+    'send_card_link',
+    'charge_security_card',
+    'retry_unknown_charge',
+    'revoke_security_card',
+    'close',
+    'reopen',
+    'postpone',
+    'collection',
+    'write_off',
+]
 
 /**
  * What a row in "Betalingsproblemer" offers: exactly what the API's `actions` map
@@ -227,13 +306,14 @@ export function securityChargeUnavailable(row: Pick<DunningRow, 'billing_method'
 /**
  * Which actions carry a note. The API takes one on reopen (optional) and postpone
  * (required, up to 500 characters); close takes none, so its dialog is a plain confirm.
+ * Collection and write-off require one too.
  */
 export function actionTakesNote(action: DunningAction): boolean {
-    return action === 'reopen' || action === 'postpone'
+    return action === 'reopen' || actionNeedsNote(action)
 }
 
 export function actionNeedsNote(action: DunningAction): boolean {
-    return action === 'postpone'
+    return action === 'postpone' || action === 'collection' || action === 'write_off'
 }
 
 export const POSTPONE_MIN_DAYS = 1
