@@ -11971,7 +11971,7 @@
             "contactAddressTitles": "Begræns hvilke kontakters adresser der kan ses",
             "contactPhoneTitles": "Begræns hvilke kontakters telefonnumre der kan ses",
             "contactEmailTitles": "Begræns hvilke kontakters e-mailadresser der kan ses",
-            "contactTitlesHelp": "Kun kontakter med en valgt titel vises. Kontakter med andre titler skjules overalt i CitizenOne.",
+            "contactTitlesHelp": "Vælg de titler, rollen må se. Alle er valgt fra start: fjern dem, der skal skjules (fx Vores kontaktperson). Kontakter med andre titler skjules overalt i CitizenOne.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",

@@ -467,9 +467,10 @@ const contactFieldLimits: { key: ContactLimitKey, label: string }[] = [
     { key: 'contact_email_titles', label: 'roles.form.contactEmailTitles' },
 ]
 
-// Off is no limit (null); on starts from no title, so nothing shows until titles are picked.
+// Off is no limit (null). On starts with every title selected, so nothing changes until an Admin
+// removes the titles to hide; starting empty hid the field everywhere and read as "pick what to hide".
 function toggleContactLimit(key: ContactLimitKey) {
-    state.formRole[key] = state.formRole[key] === null ? [] : null
+    state.formRole[key] = state.formRole[key] === null ? contactTitleOptions.value.map((option: any) => option.value) : null
 }
 
 async function fetchContactTitles() {

@@ -11966,7 +11966,7 @@
             "contactAddressTitles": "Begrens hvilke kontakters adresser som kan ses",
             "contactPhoneTitles": "Begrens hvilke kontakters telefonnumre som kan ses",
             "contactEmailTitles": "Begrens hvilke kontakters e-postadresser som kan ses",
-            "contactTitlesHelp": "Bare kontakter med en valgt tittel vises. Kontakter med andre titler skjules overalt i CitizenOne.",
+            "contactTitlesHelp": "Velg titlene rollen kan se. Alle er valgt fra start: fjern de som skal skjules (f.eks. Vores kontaktperson). Kontakter med andre titler skjules overalt i CitizenOne.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
