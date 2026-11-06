@@ -1,9 +1,9 @@
 <template>
     <textarea ref="textarea" type="text" :name="props.name" :autocomplete="props.name"
         class="appearance-none block w-full p-4 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm resize-none"
-        :placeholder="props.placeholder" :rows="props.rows"
+        :placeholder="props.placeholder" :rows="props.rows" :value="props.modelValue"
         :autocapitalize="props.autoCapitalize ? 'sentences' : undefined"
-        @input="updateValue($event)" @focus="resize">{{ props.modelValue }}</textarea>
+        @input="updateValue($event)" @focus="resize"></textarea>
 </template>
 
 <script setup lang="ts">

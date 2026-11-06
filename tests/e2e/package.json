@@ -6,6 +6,7 @@
   "scripts": {
     "test:email-templates": "node email-templates.mjs",
     "test:mileage-log": "node mileage-log.mjs",
+    "test:new-chat-message-template": "node new-chat-message-template.mjs",
     "test:journal-note-survey": "node journal-note-survey.mjs",
     "test:journal-note-notification-scope": "node journal-note-notification-scope.mjs",
     "test:create-report-permission": "node create-report-permission.mjs",
