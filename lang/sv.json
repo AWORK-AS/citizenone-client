@@ -18886,11 +18886,13 @@
             "basisTitle": "Vad faktureras efter?",
             "basis": {
                 "delivered": "Levererade timmar",
-                "granted": "Beviljade timmar"
+                "granted": "Beviljade timmar",
+                "included": "Ingår - faktureras inte"
             },
             "basisHelp": {
                 "delivered": "Faktureras efter de timmar som registrerats som levererade under perioden.",
-                "granted": "Faktureras efter de beviljade timmarna (beviljade timmar gånger timpriset), oavsett hur många som levererats. Gäller när priset är per timme."
+                "granted": "Faktureras efter de beviljade timmarna (beviljade timmar gånger timpriset), oavsett hur många som levererats. Gäller när priset är per timme.",
+                "included": "Timmarna ingår i avtalet och faktureras inte. De visas men hamnar aldrig på en faktura."
             },
             "name": "Namn",
             "billingBasis": "Faktureras efter",

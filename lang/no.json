@@ -18886,11 +18886,13 @@
             "basisTitle": "Hva faktureres det etter?",
             "basis": {
                 "delivered": "Leverte timer",
-                "granted": "Bevilgede timer"
+                "granted": "Bevilgede timer",
+                "included": "Inkludert - faktureres ikke"
             },
             "basisHelp": {
                 "delivered": "Faktureres etter timene som er registrert som levert i perioden.",
-                "granted": "Faktureres etter de bevilgede timene (bevilgede timer ganger timeprisen), uansett hvor mange som er levert. Gjelder når prisen er per time."
+                "granted": "Faktureres etter de bevilgede timene (bevilgede timer ganger timeprisen), uansett hvor mange som er levert. Gjelder når prisen er per time.",
+                "included": "Timene er inkludert i avtalen og faktureres ikke. De vises, men kommer aldri på en faktura."
             },
             "name": "Navn",
             "billingBasis": "Faktureres etter",
