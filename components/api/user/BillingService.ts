@@ -1,5 +1,5 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
-import { normalizeCompanyBilling, normalizeLicenseOrderQuote, type CompanyBilling, type LicenseOrderQuote } from '@/composables/billingMethod'
+import { normalizeCompanyBilling, normalizeLicenseOrderQuote, normalizeStorageOrderQuote, type CompanyBilling, type LicenseOrderQuote, type StorageOrderQuote } from '@/composables/billingMethod'
 
 /**
  * Payment standing for the signed-in company, and the self-service card
@@ -48,6 +48,18 @@ class BillingService extends BaseAPIService {
      */
     async orderLicenses(body: { users: number; departments: number; idempotency_key: string }): Promise<any> {
         const response = await this.request(`/user/billing/license-order`, 'POST', body)
+        return response?.data ?? response
+    }
+
+    /** Price of a bigger storage package by invoice: the rest of this month now, the full package from the 1st. */
+    async getStorageOrderQuote(addOnDealUuid: string): Promise<StorageOrderQuote> {
+        const response = await this.request(`/user/billing/storage-order/quote`, 'GET', { add_on_deal_uuid: addOnDealUuid })
+        return normalizeStorageOrderQuote(response)
+    }
+
+    /** Orders the package by invoice: active at once. The same key never raises a second invoice. */
+    async orderStorage(body: { add_on_deal_uuid: string; idempotency_key: string }): Promise<any> {
+        const response = await this.request(`/user/billing/storage-order`, 'POST', body)
         return response?.data ?? response
     }
 

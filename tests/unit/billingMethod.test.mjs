@@ -36,6 +36,7 @@ import {
     normalizeLicenseOrderQuote,
     licenseOrderPayload,
     danishDate,
+    normalizeStorageOrderQuote,
 } from '../../composables/billingMethod.ts'
 
 test('a company with no billing fields is a card company with no security card', () => {
@@ -508,4 +509,13 @@ test('billed from e-conomic carries its start date and both count as changes', (
         { b: true, d: '2026-12-01' },
     )
     assert.equal(normalizeCompanyBilling({ data: { economic_mirror_since: '' } }).economic_mirror_since, null)
+})
+
+test('a storage quote is normalised and tolerates a partial payload', () => {
+    const quote = normalizeStorageOrderQuote({ data: { package: 'Lagerplads 100 GB', amount: 419.35, fee: 295, total_amount: 892.94, next_month_total: 4112.5, days: 13, days_in_month: 31 } })
+    assert.equal(quote.total_amount, 892.94)
+    assert.equal(quote.next_month_total, 4112.5)
+    assert.equal(quote.current_package, null)
+    assert.equal(normalizeStorageOrderQuote(undefined).amount, 0)
+    assert.equal(errorMessageKey({ code: 'storage_order_not_upgrade' }), 'paymentDunning.errors.storage_order_not_upgrade')
 })
