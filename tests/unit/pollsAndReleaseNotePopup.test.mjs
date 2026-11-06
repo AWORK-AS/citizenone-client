@@ -12,7 +12,7 @@ describe('users can find the polls', () => {
 
     test('Coming functions has a polls section the help menu links to', () => {
         assert.match(comingFunctions, /<section id="polls"/)
-        assert.match(comingFunctions, /<ModulesUserDailyOverviewPoll \/>/)
+        assert.match(comingFunctions, /<ModulesUserDailyOverviewPoll :showTitle="false" \/>/)
         assert.match(helpMenu, /navigateTo\('\/coming-functions#polls'\)/)
     })
 

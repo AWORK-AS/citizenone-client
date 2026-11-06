@@ -29,7 +29,7 @@
                         {{ $t('comingFunctions.polls.title') }}
                     </h2>
                     <p class="text-sm text-gray-600">{{ $t('comingFunctions.polls.intro') }}</p>
-                    <ModulesUserDailyOverviewPoll />
+                    <ModulesUserDailyOverviewPoll :showTitle="false" />
                 </section>
 
                 <LoadingSpinner :isActive="state.isLoading">
