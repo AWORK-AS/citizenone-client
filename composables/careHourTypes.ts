@@ -103,3 +103,64 @@ export function nextLineStart(lines: { end: string }[]): string {
     return (lines ?? [])[(lines ?? []).length - 1]?.end ?? ''
 }
 
+
+/**
+ * One hour line already on a journal note, as its edit form changes it. The
+ * date is per line: lines registered with a note can lie on different days.
+ */
+export type NoteCareHoursLine = {
+    key: number
+    uuid: string | null
+    date: string
+    start: string
+    end: string
+    type: string
+    /** Removed when the hours are saved. */
+    removed: boolean
+    /** In a month closed for payroll: shown, never sent. */
+    paidOut: boolean
+    original: { date: string, start: string, end: string, type: string } | null
+}
+
+/** A line as the server sends it (GET /citizen-journals/{uuid}/care-hours). */
+export function noteCareHoursLine(key: number, row: any): NoteCareHoursLine {
+    const [date = '', startTime = ''] = String(row?.date_time_start ?? '').split(/[ T]/)
+    const [, endTime = ''] = String(row?.date_time_end ?? '').split(/[ T]/)
+    const values = { date, start: startTime.slice(0, 5), end: endTime.slice(0, 5), type: row?.contract_hour_type_uuid ?? '' }
+
+    return { key, uuid: row?.uuid ?? null, ...values, removed: false, paidOut: row?.is_paid_out === true, original: { ...values } }
+}
+
+/** Whether a stored line was changed in the form. */
+export function noteCareHoursLineChanged(line: NoteCareHoursLine, typesShown: boolean): boolean {
+    if (!line.original) return true
+    const o = line.original
+
+    return line.date !== o.date || line.start !== o.start || line.end !== o.end || (typesShown && line.type !== o.type)
+}
+
+/**
+ * What saving the hours of an existing note sends: only changed and new lines
+ * (an empty new line is left out), and the uuids of removed ones. Paid-out
+ * lines are never sent. The keys map the server's care_hours.{n}.* and
+ * remove_care_hour_uuids.{n} errors back to their lines.
+ */
+export function journalCareHoursEditRequest(lines: NoteCareHoursLine[], typesShown: boolean): {
+    care_hours: Record<string, string>[], remove_care_hour_uuids: string[], keys: number[], removeKeys: number[]
+} {
+    const sent = (lines ?? []).filter((line) => !line.paidOut && !line.removed
+        && (line.uuid ? noteCareHoursLineChanged(line, typesShown) : !!(line.start || line.end)))
+    const removed = (lines ?? []).filter((line) => !line.paidOut && line.removed && line.uuid)
+
+    return {
+        care_hours: sent.map((line) => ({
+            ...(line.uuid ? { uuid: line.uuid } : {}),
+            date_time_start: `${line.date} ${line.start}`,
+            date_time_end: `${line.date} ${line.end}`,
+            ...hourTypePayload(typesShown, line.type),
+        })),
+        remove_care_hour_uuids: removed.map((line) => line.uuid as string),
+        keys: sent.map((line) => line.key),
+        removeKeys: removed.map((line) => line.key),
+    }
+}

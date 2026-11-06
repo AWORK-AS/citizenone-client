@@ -1399,6 +1399,14 @@
             "archivedGoals": "Arkiverte mål",
             "archivedPlans": "Arkiverte planer",
             "archivedSubgoals": "Arkiverte delmål"
+        },
+        "reopenEmployee": {
+            "title": "Gjenåpne medarbeider",
+            "freeSeats": "{name} får en av deres ledige lisenser. Det er {n} ledig lisens. | {name} får en av deres ledige lisenser. Det er {n} ledige lisenser.",
+            "noFreeSeats": "{name} trenger en lisens, men dere har ingen ledige.",
+            "reopen": "Gjenåpne",
+            "buyLicence": "Kjøp lisens",
+            "reopenWithoutLicence": "Gjenåpne uten lisens"
         }
     },
     "cody": {
@@ -2476,7 +2484,17 @@
                     "help": "Timene registreres {date}.",
                     "addLine": "Legg til flere timer",
                     "removeLine": "Fjern linje",
-                    "fromVisit": "Fylt ut fra besøket. Endre tiden hvis den ikke stemmer."
+                    "fromVisit": "Fylt ut fra besøket. Endre tiden hvis den ikke stemmer.",
+                    "editTitle": "Innsatstimer på notatet",
+                    "date": "Dato",
+                    "save": "Lagre innsatstimer",
+                    "saved": "Innsatstimene er lagret",
+                    "none": "Det er ingen innsatstimer på notatet ennå.",
+                    "paidOut": "Lønnsavregnet - kan ikke endres",
+                    "editHelp": "Innsatstimene lagres for seg når du trykker \"Lagre innsatstimer\".",
+                    "removed": "Fjernes når du lagrer",
+                    "undoRemove": "Angre",
+                    "unsaved": "Endringene i innsatstimene er ikke lagret ennå."
                 },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody AI og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
@@ -11966,7 +11984,7 @@
             "contactAddressTitles": "Begrens hvilke kontakters adresser som kan ses",
             "contactPhoneTitles": "Begrens hvilke kontakters telefonnumre som kan ses",
             "contactEmailTitles": "Begrens hvilke kontakters e-postadresser som kan ses",
-            "contactTitlesHelp": "Bare kontakter med en valgt tittel vises. Kontakter med andre titler skjules overalt i CitizenOne.",
+            "contactTitlesHelp": "Velg titlene rollen kan se. Alle er valgt fra start: fjern de som skal skjules (f.eks. Vores kontaktperson). Kontakter med andre titler skjules overalt i CitizenOne.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
@@ -13297,7 +13315,30 @@
             "extraUser": "Ekstra @:terms.citizen{''}",
             "purchaseExtraLicenses": "Kjøp ekstra lisenser",
             "total": "Totalt",
-            "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
+            "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt.",
+            "invoiceOrder": {
+                "payBy": "Betal med",
+                "card": "Kort",
+                "invoice": "Faktura",
+                "help": "Lisensene aktiveres med en gang. Fakturaen sendes på e-post fra e-conomic med betaling innen 3 dager og gjelder en ny periode fra i dag.",
+                "helpAgreement": "Lisensene aktiveres med en gang. Fakturaen sendes på e-post fra e-conomic med betaling innen 3 dager og beregnes forholdsmessig frem til avtalens utløp.",
+                "order": "Bestill på faktura",
+                "confirmTitle": "Bestill på faktura",
+                "confirmIntro": "Sjekk bestillingen. Beløpene er i DKK.",
+                "confirm": "Bestill og aktiver",
+                "includedFree": "{count} er inkludert i planen deres uten ekstra kostnad",
+                "fee": "Fakturagebyr",
+                "totalExclVat": "Totalt eks. mva.",
+                "totalInclVat": "Totalt inkl. mva.",
+                "period": "Perioden er {from}–{to}.",
+                "periodProrated": "Forholdsmessig for {from}–{to}, så lisensene følger avtalen deres.",
+                "activatedNow": "Lisensene kan brukes så snart du har bestilt.",
+                "done": "Lisensene er aktive. Faktura {number} sendes fra e-conomic og forfaller {date}.",
+                "doneFree": "Lisensene er aktive. De var inkludert i planen deres, så det kommer ingen faktura.",
+                "failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss.",
+                "sentByFinance": "Fakturaen sendes av vår økonomiavdeling.",
+                "doneByFinance": "Lisensene er aktive. Faktura {number} sendes av vår økonomiavdeling og forfaller {date}."
+            }
         },
         "basisUserLimit": {
             "confirmUpgrade": "Vil du oppgradere til Pro?",
@@ -13922,10 +13963,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Fjern en lisens",
-                    "increase": "Legg til en lisens",
+                    "increase": "Legg til lisenser",
                     "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
                     "increaseSuccess": "Lisens lagt til",
-                    "decreaseSuccess": "Lisens fjernet"
+                    "decreaseSuccess": "Lisens fjernet",
+                    "increaseTitle": "Legg til {name}",
+                    "increaseHelp": "Alle lisensene kommer på én faktura med ett gebyr. Følger kunden avtaleperioden, beregnes prisen frem til avtalens utløp.",
+                    "increaseConfirm": "Legg til"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Gjelder for alle {count} aktive lisens(er) av denne appen for denne bedriften."
@@ -19480,6 +19524,17 @@
         }
     },
     "consultantMatch": {
+        "invitation": {
+            "asked": "Spurt",
+            "picked": "Valgt uten melding",
+            "selected": "Valgt til saken",
+            "when": "{date} av {name}",
+            "answers": {
+                "awaiting": "Venter på svar",
+                "accepted": "Sa ja",
+                "declined": "Sa nei"
+            }
+        },
         "export": "Eksporter til Excel",
         "exporting": "Eksporterer...",
         "exportHint": "Alle konsulenter med kontaktinformasjon, status, kompetanser og aktive tiltak. Avsluttede er ikke med.",
@@ -21753,7 +21808,13 @@
             "saved": "Betalingsmåten er lagret",
             "saveFailed": "Kunne ikke lagre betalingsmåten",
             "loadFailed": "Kunne ikke hente betalingsmåten",
-            "readOnly": "Du kan se betalingsmåten, men bare økonomi kan endre den."
+            "readOnly": "Du kan se betalingsmåten, men bare økonomi kan endre den.",
+            "followAgreement": "Tilkjøp følger avtaleperioden",
+            "followAgreementHelp": "Lisenser kundens administrator bestiller på faktura, beregnes forholdsmessig frem til avtalens utløp. Av: en ny periode fra bestillingsdagen.",
+            "billedFromEconomic": "Faktureres fra e-conomic",
+            "billedFromEconomicHelp": "Dere fakturerer kunden i e-conomic, f.eks. i en abonnementskjøring. CitizenOne henter de bokførte fakturaene og betalingene hver natt og lager ingen fornyelser selv.",
+            "mirrorSince": "Hent fakturaer fra",
+            "mirrorSinceHelp": "Eldre fakturaer hentes ikke, så ingenting kommer to ganger."
         },
         "grant": {
             "card": "Kunden betaler med kort: lisensene belastes kortet umiddelbart.",
@@ -21853,7 +21914,15 @@
             "plan_change_invoice_company": "Virksomheten betaler med faktura. Bytt planen fra lisensoversikten, så den faktureres.",
             "card_security_agreement_changed": "Kortet forsøket ble sendt til er fjernet eller byttet siden. Det kan ikke gjentas med samme nøkkel. Sjekk trekket i Nexi-portalen.",
             "renewal_not_available": "Oppdatering av betalingskort er ikke tilgjengelig akkurat nå. Kontakt support hvis kontoen er stengt.",
-            "impersonation_not_allowed": "Kan ikke utføres mens support er logget inn som kunden."
+            "impersonation_not_allowed": "Kan ikke utføres mens support er logget inn som kunden.",
+            "license_order_not_invoice_company": "Bestilling på faktura er kun for virksomheter som er godkjent for fakturabetaling. Bruk kortbetaling, eller kontakt oss.",
+            "license_order_economic_missing": "Vi kan ikke sende dere en faktura ennå. Kontakt oss, så setter vi det opp.",
+            "license_order_no_plan": "Virksomheten har ikke en aktiv betalt plan, så det kan ikke bestilles ekstra lisenser.",
+            "license_order_empty": "Velg minst én bruker eller avdeling.",
+            "license_order_failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss.",
+            "license_order_in_progress": "En annen bestilling pågår. Prøv igjen om et øyeblikk.",
+            "billed_from_economic_no_customer_number": "Sett kundens e-conomic-kundenummer før virksomheten kan faktureres fra e-conomic.",
+            "billed_from_economic_no_date": "Velg fra hvilken dato fakturaene i e-conomic skal hentes inn."
         },
         "agreement": {
             "cardSecurity": "Kort som sikkerhet",

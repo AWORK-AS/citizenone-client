@@ -98,9 +98,11 @@
                     <Pagination :data="state.employees" @previous="previous" @next="next" />
                 </div>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
-                :message="$t('archived.confirmation.unarchiveEmployee') + '?'"
-                @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee" />
+            <DialogReopenEmployee :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
+                :name="`${state.selectedEmployee?.firstname ?? ''} ${state.selectedEmployee?.lastname ?? ''}`.trim()"
+                :freeSeats="state.freeUserSeats"
+                @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee"
+                @buy="navigateTo('/settings/license-overview')" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen"
                 :message="$t('archived.confirmation.deleteEmployee')"
                 @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
@@ -124,7 +126,7 @@ const userStore = useUserStore() as any
 // The consultant profile belongs to the inquiry pipeline, as its tab does.
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 const { formatDateToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlertWithAction } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
@@ -158,6 +160,7 @@ const state = reactive({
         isDeleteEmployeeOpen: false,
     },
     selectedEmployee: [] as any,
+    freeUserSeats: null as number | null,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -230,8 +233,18 @@ function handleSearch(value: any) {
     fetchArchivedEmployees()
 }
 
-function confirmEmployeeUnarchiving(employee: any) {
+// Asks first how many user licences are free, so the dialog can say whether
+// the employee will get one. If that fails the dialog is a plain confirm.
+async function confirmEmployeeUnarchiving(employee: any) {
     state.selectedEmployee = employee
+    state.freeUserSeats = null
+    try {
+        const response = await employeeService.getReopenSeats(employee.uuid)
+        const free = response?.data?.free_user_seats
+        state.freeUserSeats = typeof free === 'number' ? free : null
+    } catch {
+        state.freeUserSeats = null
+    }
     state.modal.isUnarchiveEmployeeOpen = true
 }
 
@@ -242,7 +255,16 @@ async function unarchiveEmployee() {
         const employeeUuid = state.selectedEmployee?.uuid
         const response = await employeeService.archiveEmployee(employeeUuid, false)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
+            // Reopened, but no user licence was free: the employee is back
+            // without one, so point the admin to where one is bought or freed.
+            if (response.warning?.code === 'no_user_license') {
+                warningAlertWithAction(t('alert.warning'), response.warning.message, {
+                    label: t('settings.tabs.licenseOverview'),
+                    run: () => navigateTo('/settings/license-overview'),
+                })
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
+            }
             fetchArchivedEmployees()
         }
     } catch (error: any) {
