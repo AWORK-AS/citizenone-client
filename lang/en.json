@@ -922,6 +922,10 @@
                 "seesHrData": "Can see HR details and employee documents",
                 "countsAsConsultant": "Counts as consultant",
                 "onlyAssignedCitizens": "Sees only assigned citizens",
+                "onlyOwnInterventionEvents": "Sees only own bookings on interventions",
+                "contactAddressTitles": "Sees contact addresses for titles",
+                "contactPhoneTitles": "Sees contact phone numbers for titles",
+                "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for"
             },
             "values": {
@@ -11957,6 +11961,12 @@
             "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
             "onlyAssignedCitizens": "Sees only assigned citizens",
             "onlyAssignedCitizensHelp": "Employees with this role see only the citizens (interventions) they are attached to under Contacts, including plans, goals, journals and documents. Department and level do not widen it. Admins always see everything.",
+            "onlyOwnInterventionEvents": "Sees only own bookings on interventions",
+            "onlyOwnInterventionEventsHelp": "Employees with this role see only the bookings on an intervention where they are the responsible person or a participant. Bookings of other consultants are hidden. Administrators are not limited.",
+            "contactAddressTitles": "Limit which contacts' addresses can be seen",
+            "contactPhoneTitles": "Limit which contacts' phone numbers can be seen",
+            "contactEmailTitles": "Limit which contacts' email addresses can be seen",
+            "contactTitlesHelp": "Only contacts with a selected title are shown. Contacts with other titles are hidden everywhere in CitizenOne.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",

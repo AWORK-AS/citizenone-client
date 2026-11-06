@@ -922,6 +922,10 @@
                 "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
                 "countsAsConsultant": "Räknas som konsult",
                 "onlyAssignedCitizens": "Ser bara tilldelade insatser",
+                "onlyOwnInterventionEvents": "Ser bara egna bokningar på insatser",
+                "contactAddressTitles": "Ser kontaktadresser för titlar",
+                "contactPhoneTitles": "Ser kontakters telefonnummer för titlar",
+                "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
                 "certificateReminderFor": "Får påminnelser om certifikat för"
             },
             "values": {
@@ -11952,6 +11956,12 @@
             "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
             "onlyAssignedCitizens": "Ser bara tilldelade insatser",
             "onlyAssignedCitizensHelp": "Medarbetare med den här rollen ser bara de brukare (insatser) de är kopplade till under Kontakter, även planer, mål, journaler och dokument. Avdelning och nivå utökar det inte. Administratörer ser alltid allt.",
+            "onlyOwnInterventionEvents": "Ser bara egna bokningar på insatser",
+            "onlyOwnInterventionEventsHelp": "Medarbetare med den här rollen ser bara bokningar på en insats där de är ansvariga eller deltar. Andra konsulters bokningar döljs. Administratörer påverkas inte.",
+            "contactAddressTitles": "Begränsa vilka kontakters adresser som kan ses",
+            "contactPhoneTitles": "Begränsa vilka kontakters telefonnummer som kan ses",
+            "contactEmailTitles": "Begränsa vilka kontakters e-postadresser som kan ses",
+            "contactTitlesHelp": "Bara kontakter med en vald titel visas. Kontakter med andra titlar döljs överallt i CitizenOne.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
