@@ -13348,7 +13348,9 @@
                 "activatedNow": "Licenserne kan bruges, så snart du har bestilt.",
                 "done": "Licenserne er aktive. Faktura {number} sendes fra e-conomic og forfalder {date}.",
                 "doneFree": "Licenserne er aktive. De var inkluderet i jeres plan, så der kommer ingen faktura.",
-                "failed": "Bestillingen kunne ikke gennemføres. Prøv igen, eller kontakt os."
+                "failed": "Bestillingen kunne ikke gennemføres. Prøv igen, eller kontakt os.",
+                "sentByFinance": "Fakturaen sendes af vores økonomiafdeling.",
+                "doneByFinance": "Licenserne er aktive. Faktura {number} sendes af vores økonomiafdeling og forfalder {date}."
             }
         },
         "basisUserLimit": {

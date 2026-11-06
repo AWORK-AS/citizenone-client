@@ -13317,7 +13317,9 @@
                 "activatedNow": "Lisensene kan brukes så snart du har bestilt.",
                 "done": "Lisensene er aktive. Faktura {number} sendes fra e-conomic og forfaller {date}.",
                 "doneFree": "Lisensene er aktive. De var inkludert i planen deres, så det kommer ingen faktura.",
-                "failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss."
+                "failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss.",
+                "sentByFinance": "Fakturaen sendes av vår økonomiavdeling.",
+                "doneByFinance": "Lisensene er aktive. Faktura {number} sendes av vår økonomiavdeling og forfaller {date}."
             }
         },
         "basisUserLimit": {

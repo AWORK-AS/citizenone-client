@@ -93,6 +93,7 @@
                     </div>
                     <p v-if="state.payBy === 'invoice'" class="mt-2 text-xs text-gray-500">
                         {{ $t(followsAgreement ? 'subscription.addOnDeals.invoiceOrder.helpAgreement' : 'subscription.addOnDeals.invoiceOrder.help') }}
+                        <template v-if="!sentByEconomic">{{ $t('subscription.addOnDeals.invoiceOrder.sentByFinance') }}</template>
                     </p>
                 </fieldset>
                 <div class="mt-8">
@@ -232,6 +233,7 @@ const state = reactive({
 const canInvoice = computed(() => canOrderByInvoice(state.billingStatus))
 const followsAgreement = computed(() => state.billingStatus?.license_orders_follow_agreement === true)
 const payingByInvoice = computed(() => canInvoice.value && state.payBy === 'invoice')
+const sentByEconomic = computed(() => state.billingStatus?.invoice_sent_by_economic !== false)
 
 onMounted(() => {
     fetchAddOnDepartment()
@@ -384,7 +386,7 @@ async function handleInvoiceOrder() {
     try {
         const result = await billingService.orderLicenses(licenseOrderPayload(state.formAddOn, state.orderKey))
         successAlert(`${t('alert.success')}!`, result?.invoice_number
-            ? t('subscription.addOnDeals.invoiceOrder.done', { number: result.invoice_number, date: danishDate(result.due_on) })
+            ? t(sentByEconomic.value ? 'subscription.addOnDeals.invoiceOrder.done' : 'subscription.addOnDeals.invoiceOrder.doneByFinance', { number: result.invoice_number, date: danishDate(result.due_on) })
             : t('subscription.addOnDeals.invoiceOrder.doneFree'))
 
         // The card cart may still hold the same quantities; empty it so they are not bought twice.
