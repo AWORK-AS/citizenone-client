@@ -14145,7 +14145,51 @@
                     "yearly": "Årlig",
                     "billingFixed": "Fakturering: {frequency}",
                     "granted": "Licenser tilføjet",
-                    "failed": "Kunne ikke tilføje licenser"
+                    "failed": "Kunne ikke tilføje licenser",
+                    "term": {
+                        "label": "Kontraktlængde",
+                        "agreement": "Følger aftalen «{name}» til {date} (forholdsmæssigt)",
+                        "year": "1 år",
+                        "years": "{years} år",
+                        "monthly": "Løbende, måned for måned",
+                        "createAgreement": "Opret aftale…"
+                    },
+                    "billingBox": {
+                        "title": "Sådan faktureres kunden",
+                        "included": "{count} inkluderet i planen",
+                        "fee": "Fakturagebyr",
+                        "vat": "Moms (25 %)",
+                        "total": "I alt inkl. moms",
+                        "period": "Periode: {from} – {to}",
+                        "periodProrated": "Periode: {from} – {to} (forholdsmæssigt til aftalens udløb)",
+                        "failed": "Prisen kunne ikke beregnes."
+                    },
+                    "billing": {
+                        "economic_auto": "Fakturaen bogføres og sendes på mail fra e-conomic til kunden med det samme (kundenr. {customer}).",
+                        "economic_finance": "Økonomi fakturerer fra e-conomic. CitizenOne opretter fakturaen og sender besked til økonomi.",
+                        "agreement_add_on": "Kunden har en aftale: fakturaen venter på, at økonomi vælger tilkøb på aftalen eller løs faktura. Økonomi får besked.",
+                        "card_manual_invoice": "Kortkunde: tilkøbet trækkes ikke automatisk på kortet. Fakturaen lægges ubetalt i kundens fakturaoversigt, hvor administratoren kan betale med kort. Kunden får ingen mail; økonomi får besked og følger op.",
+                        "none_customer_number": "Kunden kan ikke faktureres: mangler e-conomic kundenummer.",
+                        "none_economic_off": "Kunden kan ikke faktureres: e-conomic er slået fra.",
+                        "no_charge": "Tildeles uden betaling.",
+                        "included": "Licenserne er inkluderet i planen. Der faktureres intet.",
+                        "unknown": "Faktureringen kunne ikke afgøres."
+                    },
+                    "noChargeReason": "Uden betaling – begrundelse",
+                    "noChargeReasonHint": "Påkrævet (mindst 5 tegn). Licenserne tildeles gratis, og begrundelsen gemmes i aktivitetsloggen.",
+                    "save": {
+                        "plain": "Tilføj",
+                        "invoice": "Tilføj og fakturer {amount}",
+                        "noCharge": "Tilføj uden betaling"
+                    },
+                    "toast": {
+                        "economic_auto": "Faktura {number} på {amount} er bogført og sendes på mail fra e-conomic til kunden (kundenr. {customer}).",
+                        "economic_finance": "Faktura {number} på {amount} er oprettet. Økonomi fakturerer fra e-conomic og har fået besked.",
+                        "manual_invoice": "Faktura {number} på {amount} venter på, at økonomi vælger tilkøb på aftalen eller løs faktura. Økonomi har fået besked.",
+                        "card": "Faktura {number} på {amount} ligger ubetalt i kundens fakturaoversigt (trækkes ikke på kortet). Økonomi har fået besked.",
+                        "noCharge": "Licenserne er tildelt uden betaling. Begrundelsen er gemt i aktivitetsloggen.",
+                        "included": "Licenserne er tilføjet. De er inkluderet i planen, så der faktureres intet."
+                    }
                 },
                 "addSubscription": {
                     "addSubscription": "Tilføj abonnement",
@@ -14825,7 +14869,49 @@
             "successOrderCreated": "Ordre oprettet!",
             "successOrderCreatedBody": "Ordre til {name} er oprettet.",
             "successUpdated": "Opdateret!",
-            "successOrderCompleted": "Ordren er gennemført."
+            "successOrderCompleted": "Ordren er gennemført.",
+            "licenseOrders": {
+                "title": "Licensordrer",
+                "subtitle": "Alle licens- og lagerordrer, og om de er sendt til e-conomic.",
+                "attention": "{count} ordre(r) er ikke bogført efter 1 dag eller fejlede",
+                "allStatuses": "Alle statusser",
+                "empty": "Ingen ordrer.",
+                "columns": {
+                    "date": "Dato",
+                    "company": "Virksomhed",
+                    "orderedBy": "Bestilt af",
+                    "items": "Varer",
+                    "total": "I alt inkl. moms",
+                    "invoice": "Faktura",
+                    "billing": "Fakturering",
+                    "status": "e-conomic"
+                },
+                "source": {
+                    "customer": "kunde",
+                    "superadmin": "superadmin"
+                },
+                "method": {
+                    "economic_auto": "e-conomic (automatisk)",
+                    "economic_finance": "Økonomi fakturerer",
+                    "manual_invoice": "Afventer valg (aftale)",
+                    "card": "Kort (manuel)",
+                    "none": "Uden betaling",
+                    "included": "Inkluderet"
+                },
+                "status": {
+                    "pending": "Afventer",
+                    "draft": "Kladde oprettet",
+                    "booked": "Bogført og sendt",
+                    "paid": "Betalt",
+                    "finance": "Økonomi fakturerer",
+                    "error": "Fejl",
+                    "no_invoice": "Ingen faktura"
+                },
+                "errorReason": "Fejl: {reason}",
+                "previous": "Forrige",
+                "next": "Næste",
+                "page": "Side {page} af {pages}"
+            }
         },
         "polls": {
             "confirmation": {

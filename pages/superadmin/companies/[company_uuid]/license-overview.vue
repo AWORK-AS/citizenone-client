@@ -443,22 +443,6 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.description') }}
                         </p>
-                        <div class="flex items-start gap-2 rounded-lg px-3 py-2.5 text-[13px]"
-                            :class="grantNoticeKind ? 'bg-[#E4F1F6] text-[#205E77]' : 'bg-amber-50 text-amber-900'"
-                            role="note" data-testid="grant-billing-notice">
-                            <Icon :name="grantNoticeIcon" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
-                            <p class="flex-1">
-                                {{ grantNoticeKind
-                                    ? $t(`paymentDunning.grant.${grantNoticeKind}`)
-                                    : $t('paymentDunning.grant.methodUnknown') }}
-                            </p>
-                            <Tooltip :text="$t('paymentDunning.grant.changeMethodHelp')" position="top" wrap>
-                                <NuxtLink :to="`/superadmin/companies/${companyUuid}/overview`"
-                                    class="underline underline-offset-2 whitespace-nowrap font-medium">
-                                    {{ $t('paymentDunning.grant.changeMethod') }}
-                                </NuxtLink>
-                            </Tooltip>
-                        </div>
                         <p class="text-sm font-semibold text-gray-900">
                             {{ state.activeLicenseType === 'department'
                                 ? $t('superadmin.companies.licenseOverview.departmentLicenses')
@@ -490,23 +474,84 @@
                         <p v-else class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
                         </p>
-                        <div v-if="grantIsYearly" class="space-y-1">
-                            <FormLabel for="grant_term_years"
-                                :label="$t('superadmin.companies.licenseOverview.addSubscription.termYears')" />
-                            <input id="grant_term_years" type="number" min="1" max="10" v-model.number="state.grant.termYears"
-                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
-                            <p class="text-xs text-gray-500">
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
-                            </p>
+                        <div class="space-y-1">
+                            <FormLabel for="grant_term"
+                                :label="$t('superadmin.companies.licenseOverview.grant.term.label')" />
+                            <select id="grant_term" :value="state.grant.term" @change="onGrantTermChange"
+                                data-testid="grant-term"
+                                class="block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm">
+                                <option v-for="option in grantTermChoices" :key="option.value" :value="option.value">
+                                    {{ $t(option.labelKey, option.params) }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Sådan faktureres kunden: straight from the quote endpoint. -->
+                        <section class="rounded-lg border px-3 py-3 text-[13px] space-y-2"
+                            :class="grantNeedsReasonNow ? 'border-red-200 bg-red-50 text-red-900' : 'border-[#CDE3EC] bg-[#F3F9FC] text-[#1F2533]'"
+                            data-testid="grant-billing-box" aria-live="polite">
+                            <div class="flex items-center justify-between gap-2">
+                                <h3 class="font-semibold">{{ $t('superadmin.companies.licenseOverview.grant.billingBox.title') }}</h3>
+                                <Icon v-if="state.grant.quoteLoading" name="ph:spinner" class="w-4 h-4 animate-spin text-[#42AED9]" aria-hidden="true" />
+                            </div>
+                            <p v-if="state.grant.quoteError" class="text-red-700">{{ state.grant.quoteError }}</p>
+                            <template v-else-if="state.grant.quote">
+                                <ul class="space-y-0.5">
+                                    <li v-for="line in state.grant.quote.lines" :key="line.type">
+                                        <div v-if="line.paid > 0" class="flex justify-between gap-3">
+                                            <span>{{ line.paid }} × {{ line.name }} à {{ formatAmount(line.unit_price, 'DKK') }}</span>
+                                            <span class="tabular-nums">{{ formatAmount(line.amount, 'DKK') }}</span>
+                                        </div>
+                                        <div v-if="line.free > 0" class="flex justify-between gap-3 text-gray-600">
+                                            <span>{{ $t('superadmin.companies.licenseOverview.grant.billingBox.included', { count: line.free }) }}</span>
+                                            <span class="tabular-nums">{{ formatAmount(0, 'DKK') }}</span>
+                                        </div>
+                                    </li>
+                                    <li v-if="state.grant.quote.fee > 0" class="flex justify-between gap-3">
+                                        <span>{{ $t('superadmin.companies.licenseOverview.grant.billingBox.fee') }}</span>
+                                        <span class="tabular-nums">{{ formatAmount(state.grant.quote.fee, 'DKK') }}</span>
+                                    </li>
+                                    <li class="flex justify-between gap-3 text-gray-600">
+                                        <span>{{ $t('superadmin.companies.licenseOverview.grant.billingBox.vat') }}</span>
+                                        <span class="tabular-nums">{{ formatAmount(state.grant.quote.vat, 'DKK') }}</span>
+                                    </li>
+                                    <li class="flex justify-between gap-3 font-semibold border-t border-current/10 pt-1">
+                                        <span>{{ $t('superadmin.companies.licenseOverview.grant.billingBox.total') }}</span>
+                                        <span class="tabular-nums">{{ formatAmount(state.grant.quote.total_amount, 'DKK') }}</span>
+                                    </li>
+                                </ul>
+                                <p class="text-gray-600">
+                                    {{ $t(state.grant.quote.prorated
+                                        ? 'superadmin.companies.licenseOverview.grant.billingBox.periodProrated'
+                                        : 'superadmin.companies.licenseOverview.grant.billingBox.period', {
+                                        from: formatDate(state.grant.quote.period_from), to: formatDate(state.grant.quote.period_to) }) }}
+                                </p>
+                                <p class="flex items-start gap-2 font-medium" data-testid="grant-billing-sentence">
+                                    <Icon :name="grantNeedsReasonNow ? 'ph:warning-circle' : 'ph:receipt'" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
+                                    <span>{{ $t(grantBillingTextKey(state.grant.quote.billing), { customer: state.grant.quote.billing.customer_number ?? '—' }) }}</span>
+                                </p>
+                                <NuxtLink v-if="grantNeedsReasonNow" :to="`/superadmin/companies/${companyUuid}/overview`"
+                                    class="underline underline-offset-2 text-xs font-medium">
+                                    {{ $t('paymentDunning.grant.changeMethod') }}
+                                </NuxtLink>
+                            </template>
+                        </section>
+
+                        <div v-if="grantNeedsReasonNow" class="space-y-1">
+                            <FormLabel for="grant_no_charge_reason"
+                                :label="$t('superadmin.companies.licenseOverview.grant.noChargeReason')" />
+                            <textarea id="grant_no_charge_reason" v-model="state.grant.reason" rows="3" maxlength="500" required
+                                data-testid="grant-no-charge-reason"
+                                class="block w-full px-4 py-2 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                            <p class="text-xs text-gray-500">{{ $t('superadmin.companies.licenseOverview.grant.noChargeReasonHint') }}</p>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton buttonStyle="primary"
-                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1 || (needsFrequencyPicker && !state.grant.frequency) || (grantIsYearly && (!state.grant.termYears || state.grant.termYears < 1))"
-                                @click="submitGrant">
-                                {{ $t('save') }}
+                            <FormButton buttonStyle="primary" :disabled="!grantSaveEnabled" @click="submitGrant"
+                                data-testid="grant-save">
+                                {{ grantSaveText }}
                             </FormButton>
                         </div>
                     </div>
@@ -869,7 +914,18 @@
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
 import { billingService } from '@/components/api/superadmin/BillingService'
-import { errorMessageKey, grantNotice, type CompanyBilling } from '@/composables/billingMethod'
+import { errorMessageKey, type CompanyBilling } from '@/composables/billingMethod'
+import {
+    CREATE_AGREEMENT,
+    grantBillingTextKey,
+    grantCanSave,
+    grantNeedsReason,
+    grantSaveLabel,
+    grantTermOptions,
+    grantToast,
+    isGrantTerm,
+    type GrantQuote,
+} from '@/composables/licenseGrant'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -939,7 +995,12 @@ const state = reactive({
         isSaving: false,
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
-        termYears: 1 as number,
+        // 'agreement:{uuid}' or 'years:{1-4}'; empty until the first quote says the default.
+        term: '' as string,
+        reason: '' as string,
+        quote: null as GrantQuote | null,
+        quoteLoading: false,
+        quoteError: '' as string,
     },
     addSubscription: {
         isOpen: false,
@@ -1009,22 +1070,6 @@ const billing = ref<CompanyBilling | null>(null)
 // Leverandørservice is the company's own setting (Betalingsmåde). It is still sent as
 // `pays_via_leverandorservice` so the API keeps working unchanged; the value is the company's.
 const companyLeverandorservice = computed(() => !!billing.value?.leverandorservice)
-
-const grantNoticeKind = computed(() => {
-    if (!billing.value) return null
-    return grantNotice({
-        billingMethod: billing.value.billing_method,
-        underAgreement: billing.value.under_agreement || !!agreementView.value.agreement || agreementView.value.runningAgreements.length > 0,
-        economicDraft: billing.value.economic_draft,
-    })
-})
-
-const grantNoticeIcon = computed(() => ({
-    card: 'ph:credit-card',
-    invoice: 'ph:file-text',
-    invoice_economic: 'ph:file-text',
-    agreement: 'ph:handshake',
-}[grantNoticeKind.value ?? 'card'] ?? 'ph:warning'))
 
 async function loadBillingMethod() {
     billing.value = null
@@ -1182,38 +1227,118 @@ watch(() => state.activeLicenseType, () => {
     fetchLicensesCount()
 })
 
+// Term choices: each running agreement (pro rata), 1-4 years (yearly only), "Opret aftale…".
+const grantTermChoices = computed(() => grantTermOptions({
+    agreements: state.grant.quote?.agreements ?? [],
+    yearly: grantIsYearly.value,
+    formatDate: (date: string) => formatDate(date),
+}))
+
+const grantNeedsReasonNow = computed(() => grantNeedsReason(state.grant.quote?.billing))
+
+const grantSaveEnabled = computed(() => grantCanSave({
+    quantity: state.grant.quantity,
+    quote: state.grant.quote,
+    quoteLoading: state.grant.quoteLoading,
+    reason: state.grant.reason,
+    term: state.grant.term,
+    saving: state.grant.isSaving,
+}) && !(needsFrequencyPicker.value && !state.grant.frequency))
+
+const grantSaveText = computed(() => {
+    const label = grantSaveLabel(state.grant.quote)
+    return label.withAmount
+        ? t(label.key, { amount: formatAmount(state.grant.quote?.total_amount ?? 0, 'DKK') })
+        : t(label.key)
+})
+
+let grantQuoteTimer: ReturnType<typeof setTimeout> | null = null
+let grantQuoteRequest = 0
+
+function grantParams() {
+    const params: Record<string, string | number> = {
+        quantity: state.grant.quantity,
+        type: state.activeLicenseType,
+    }
+    if (needsFrequencyPicker.value) params.frequency = state.grant.frequency
+    if (isGrantTerm(state.grant.term)) params.term = state.grant.term
+    return params
+}
+
+async function fetchGrantQuote() {
+    const quantity = Number(state.grant.quantity)
+    if (!state.grant.isOpen || !Number.isInteger(quantity) || quantity < 1 || quantity > 1000) {
+        state.grant.quote = null
+        return
+    }
+    const request = ++grantQuoteRequest
+    state.grant.quoteLoading = true
+    state.grant.quoteError = ''
+    try {
+        const response = await licenseService.quoteGrantLicenses(companyUuid as string, grantParams())
+        if (request !== grantQuoteRequest) return
+        const quote: GrantQuote | null = response?.data ?? null
+        state.grant.quote = quote
+        // The first quote names the default: the agreement when licences follow it, else 1 year.
+        if (quote && !isGrantTerm(state.grant.term)) state.grant.term = quote.term
+        // A monthly grant has no years: fall back to the one option there is.
+        if (!grantTermChoices.value.some(option => option.value === state.grant.term)) state.grant.term = 'years:1'
+    } catch (error: any) {
+        if (request !== grantQuoteRequest) return
+        state.grant.quote = null
+        state.grant.quoteError = error?.message ?? t('superadmin.companies.licenseOverview.grant.billingBox.failed')
+    } finally {
+        if (request === grantQuoteRequest) state.grant.quoteLoading = false
+    }
+}
+
+function scheduleGrantQuote() {
+    if (grantQuoteTimer) clearTimeout(grantQuoteTimer)
+    state.grant.quoteLoading = true
+    grantQuoteTimer = setTimeout(fetchGrantQuote, 300)
+}
+
+watch(() => [state.grant.quantity, state.grant.frequency, state.grant.term], () => {
+    if (state.grant.isOpen) scheduleGrantQuote()
+})
+
+function onGrantTermChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value
+    if (value === CREATE_AGREEMENT) {
+        state.grant.isOpen = false
+        router.push(agreementsHref)
+        return
+    }
+    state.grant.term = value
+}
+
 function openGrantModal() {
     state.grant.quantity = 1
     state.grant.frequency = 'monthly'
-    state.grant.termYears = 1
+    state.grant.term = ''
+    state.grant.reason = ''
+    state.grant.quote = null
+    state.grant.quoteError = ''
     state.grant.isOpen = true
     loadBillingMethod()
+    scheduleGrantQuote()
 }
 
 async function submitGrant() {
-    if (!state.grant.quantity || state.grant.quantity < 1) return
-    if (needsFrequencyPicker.value && !state.grant.frequency) return
-    if (grantIsYearly.value && (!state.grant.termYears || state.grant.termYears < 1)) return
+    if (!grantSaveEnabled.value) return
     state.grant.isSaving = true
     try {
         // Leverandorservice is a company setting now (Betalingsmaade), not a choice per grant.
-        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', term_years?: number } = {
-            quantity: state.grant.quantity,
-            type: state.activeLicenseType,
-        }
-        if (needsFrequencyPicker.value) {
-            params.frequency = state.grant.frequency
-        }
-        if (grantIsYearly.value) {
-            params.term_years = state.grant.termYears
-        }
+        const params: Record<string, string | number> = grantParams()
+        if (grantNeedsReasonNow.value) params.no_charge_reason = state.grant.reason.trim()
         const response = await licenseService.grantLicenses(companyUuid as string, params)
         state.grant.isOpen = false
-        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
-        // An invoice company gets an invoice (empty for card companies). Say which one.
+        // Invoice number, amount and how the customer is billed, from the response.
+        const toast = grantToast(response?.data)
+        successAlert(`${t('alert.success')}!`, toast
+            ? t(toast.key, { ...toast.params, amount: formatAmount(toast.params.amount ?? 0, 'DKK') })
+            : `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
         for (const invoice of (response?.data?.invoices ?? [])) {
-            successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.invoiceCreated', {
-                number: invoice.invoice_number, date: invoice.due_on ? formatDateToReadable(invoice.due_on) : '—' }))
             if (invoice.agreement_add_on) {
                 successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.agreementAddOnHint'))
             }

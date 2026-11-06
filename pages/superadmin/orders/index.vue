@@ -203,6 +203,9 @@
                     </SuperadminTable>
                     <Pagination :data="state.orders" @previous="previous" @next="next" />
                 </div>
+
+                <!-- Licensordrer: licence/storage orders and whether each reached e-conomic. -->
+                <ModulesSuperadminOrdersLicenseOrders />
             </div>
 
         </NuxtLayout>
