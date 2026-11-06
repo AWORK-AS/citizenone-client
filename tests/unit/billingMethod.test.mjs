@@ -32,6 +32,10 @@ import {
     suspendedLogin,
     wallMode,
     validateDunningAction,
+    canOrderByInvoice,
+    normalizeLicenseOrderQuote,
+    licenseOrderPayload,
+    danishDate,
 } from '../../composables/billingMethod.ts'
 
 test('a company with no billing fields is a card company with no security card', () => {
@@ -57,12 +61,12 @@ test('an unknown billing method falls back to card, never to invoice', () => {
 
 test('switching to card clears the invoice-only flags', () => {
     assert.deepEqual(
-        billingMethodPayload({ billing_method: 'card', invoice_card_security: true, leverandorservice: true }),
-        { billing_method: 'card', invoice_card_security: false, leverandorservice: false },
+        billingMethodPayload({ billing_method: 'card', invoice_card_security: true, leverandorservice: true, license_orders_follow_agreement: true }),
+        { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false },
     )
     assert.deepEqual(
-        billingMethodPayload({ billing_method: 'invoice', invoice_card_security: true, leverandorservice: false }),
-        { billing_method: 'invoice', invoice_card_security: true, leverandorservice: false },
+        billingMethodPayload({ billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true }),
+        { billing_method: 'invoice', invoice_card_security: true, leverandorservice: false, license_orders_follow_agreement: true },
     )
 })
 
@@ -452,4 +456,43 @@ test('a failed request frees the guard so the button can be pressed again', asyn
 
 test('impersonation refusals have a message', () => {
     assert.equal(errorMessageKey({ code: 'impersonation_not_allowed', status: 403 }), 'paymentDunning.errors.impersonation_not_allowed')
+})
+
+test('following the agreement period is part of the saved form', () => {
+    const saved = { billing_method: 'invoice', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false }
+    assert.equal(billingMethodDirty(saved, { ...saved, license_orders_follow_agreement: true }), true)
+    assert.equal(normalizeCompanyBilling({ data: { license_orders_follow_agreement: true } }).license_orders_follow_agreement, true)
+    assert.equal(normalizeCompanyBilling({}).license_orders_follow_agreement, false)
+})
+
+test('invoice ordering is offered only when the API says so', () => {
+    assert.equal(canOrderByInvoice({ can_order_by_invoice: true }), true)
+    assert.equal(canOrderByInvoice({ can_order_by_invoice: 'true' }), false)
+    assert.equal(canOrderByInvoice({ billing_method: 'invoice' }), false)
+    assert.equal(canOrderByInvoice(null), false)
+})
+
+test('an order sends whole, non-negative quantities and its key', () => {
+    assert.deepEqual(licenseOrderPayload({ user: '10', department: '' }, 'k-1'), { users: 10, departments: 0, idempotency_key: 'k-1' })
+    assert.deepEqual(licenseOrderPayload({ user: '-3', department: '2.7' }, 'k-2'), { users: 0, departments: 2, idempotency_key: 'k-2' })
+})
+
+test('a quote is normalised and tolerates a partial payload', () => {
+    const quote = normalizeLicenseOrderQuote({ data: { lines: [{ type: 'user', quantity: 10, free: 0, unit_price: 1727.11, amount: 17271.1 }], fee: 295, total_excl_vat: 17566.1, total_amount: 21957.63, prorated: true, period_from: '2026-11-05', period_to: '2030-07-13' } })
+    assert.equal(quote.total_amount, 21957.63)
+    assert.equal(quote.prorated, true)
+    assert.equal(quote.lines[0].type, 'user')
+    const empty = normalizeLicenseOrderQuote(undefined)
+    assert.deepEqual(empty.lines, [])
+    assert.equal(empty.total_amount, 0)
+    assert.equal(empty.prorated, false)
+})
+
+test('dates read the Danish way', () => {
+    assert.equal(danishDate('2030-07-13'), '13.07.2030')
+    assert.equal(danishDate(null), '')
+})
+
+test('licence order refusals have their own messages', () => {
+    assert.equal(errorMessageKey({ code: 'license_order_economic_missing' }), 'paymentDunning.errors.license_order_economic_missing')
 })

@@ -27,6 +27,8 @@ export type BillingMethodForm = {
     billing_method: BillingMethod
     invoice_card_security: boolean
     leverandorservice: boolean
+    /** Licences the customer's admin orders by invoice follow the agreement's period (pro rata to its end). */
+    license_orders_follow_agreement: boolean
 }
 
 export type CompanyBilling = BillingMethodForm & {
@@ -100,6 +102,7 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
         billing_method: normalizeBillingMethod(data.billing_method),
         invoice_card_security: !!data.invoice_card_security || (cardSecurity !== null && typeof cardSecurity === 'object'),
         leverandorservice: !!data.leverandorservice,
+        license_orders_follow_agreement: !!data.license_orders_follow_agreement,
         card_masked: card?.masked ?? card?.masked_pan ?? data.card_masked ?? null,
         card_expiry: card?.expiry ?? data.card_expiry ?? null,
         // The customer standing sends `billing_method: null` for a running agreement (Elite).
@@ -117,13 +120,14 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
  */
 export function billingMethodPayload(form: BillingMethodForm): BillingMethodForm {
     if (form.billing_method !== 'invoice') {
-        return { billing_method: 'card', invoice_card_security: false, leverandorservice: false }
+        return { billing_method: 'card', invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false }
     }
 
     return {
         billing_method: 'invoice',
         invoice_card_security: !!form.invoice_card_security,
         leverandorservice: !!form.leverandorservice,
+        license_orders_follow_agreement: !!form.license_orders_follow_agreement,
     }
 }
 
@@ -134,6 +138,7 @@ export function billingMethodDirty(saved: BillingMethodForm, form: BillingMethod
     return a.billing_method !== b.billing_method
         || a.invoice_card_security !== b.invoice_card_security
         || a.leverandorservice !== b.leverandorservice
+        || a.license_orders_follow_agreement !== b.license_orders_follow_agreement
 }
 
 /** "•••• 1234 (udløber 08/28)" is built by the caller's translation; this is the data. */
@@ -372,6 +377,12 @@ const ERROR_CODES = new Set([
     'renewal_not_available',
     'impersonation_not_allowed',
     'plan_change_invoice_company',
+    'license_order_not_invoice_company',
+    'license_order_economic_missing',
+    'license_order_no_plan',
+    'license_order_empty',
+    'license_order_failed',
+    'license_order_in_progress',
 ])
 
 export function errorMessageKey(error: any): string | null {
@@ -446,4 +457,58 @@ export function renewalLinkToken(response: any): string | null {
 /** The renew button shows only when the API says this user may renew. */
 export function canRenew(source: { can_renew?: unknown } | null | undefined): boolean {
     return source?.can_renew === true
+}
+
+/**
+ * Extra users/departments ordered by invoice (POST /user/billing/license-order).
+ * Offered next to the card cart only when the API says this user may
+ * (`can_order_by_invoice`): an invoice-paying company and someone who may buy.
+ */
+export function canOrderByInvoice(status: { can_order_by_invoice?: unknown } | null | undefined): boolean {
+    return status?.can_order_by_invoice === true
+}
+
+export type LicenseOrderQuote = {
+    lines: { type: 'user' | 'department'; quantity: number; free: number; unit_price: number; amount: number }[]
+    fee: number
+    total_excl_vat: number
+    total_amount: number
+    /** Priced pro rata to the agreement's end. */
+    prorated: boolean
+    period_from: string
+    period_to: string
+}
+
+export function normalizeLicenseOrderQuote(raw: any): LicenseOrderQuote {
+    const data = raw?.data ?? raw ?? {}
+    const num = (value: unknown) => (Number.isFinite(Number(value)) ? Number(value) : 0)
+
+    return {
+        lines: (Array.isArray(data.lines) ? data.lines : []).map((line: any) => ({
+            type: line?.type === 'department' ? 'department' : 'user',
+            quantity: num(line?.quantity),
+            free: num(line?.free),
+            unit_price: num(line?.unit_price),
+            amount: num(line?.amount),
+        })),
+        fee: num(data.fee),
+        total_excl_vat: num(data.total_excl_vat),
+        total_amount: num(data.total_amount),
+        prorated: data.prorated === true,
+        period_from: String(data.period_from ?? ''),
+        period_to: String(data.period_to ?? ''),
+    }
+}
+
+/** What an order sends: whole, non-negative quantities, and the one key for this confirmation. */
+export function licenseOrderPayload(form: { user: string | number; department: string | number }, idempotencyKey: string) {
+    const qty = (value: string | number) => Math.max(0, Math.floor(Number(value) || 0))
+
+    return { users: qty(form.user), departments: qty(form.department), idempotency_key: idempotencyKey }
+}
+
+/** "2030-07-13" → "13.07.2030". Anything else is shown as it came. */
+export function danishDate(iso: string | null | undefined): string {
+    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso ?? ''))
+    return match ? `${match[3]}.${match[2]}.${match[1]}` : String(iso ?? '')
 }

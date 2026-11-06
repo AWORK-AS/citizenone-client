@@ -13297,7 +13297,28 @@
             "extraUser": "Extra användare",
             "purchaseExtraLicenses": "Köp extra licenser",
             "total": "Total",
-            "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
+            "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund.",
+            "invoiceOrder": {
+                "payBy": "Betala med",
+                "card": "Kort",
+                "invoice": "Faktura",
+                "help": "Licenserna aktiveras direkt. Fakturan mejlas från e-conomic med betalning inom 3 dagar och gäller en ny period från i dag.",
+                "helpAgreement": "Licenserna aktiveras direkt. Fakturan mejlas från e-conomic med betalning inom 3 dagar och beräknas proportionellt fram till avtalets slut.",
+                "order": "Beställ mot faktura",
+                "confirmTitle": "Beställ mot faktura",
+                "confirmIntro": "Kontrollera beställningen. Beloppen är i DKK.",
+                "confirm": "Beställ och aktivera",
+                "includedFree": "{count} ingår i er plan utan extra kostnad",
+                "fee": "Fakturaavgift",
+                "totalExclVat": "Totalt exkl. moms",
+                "totalInclVat": "Totalt inkl. moms",
+                "period": "Perioden är {from}–{to}.",
+                "periodProrated": "Proportionellt för {from}–{to}, så att licenserna följer ert avtal.",
+                "activatedNow": "Licenserna kan användas så snart du har beställt.",
+                "done": "Licenserna är aktiva. Faktura {number} skickas från e-conomic och förfaller {date}.",
+                "doneFree": "Licenserna är aktiva. De ingick i er plan, så ingen faktura skickas.",
+                "failed": "Beställningen kunde inte genomföras. Försök igen, eller kontakta oss."
+            }
         },
         "basisUserLimit": {
             "confirmUpgrade": "Vill du uppgradera till Pro?",
@@ -21753,7 +21774,9 @@
             "saved": "Betalningssättet är sparat",
             "saveFailed": "Kunde inte spara betalningssättet",
             "loadFailed": "Kunde inte hämta betalningssättet",
-            "readOnly": "Du kan se betalningssättet men bara ekonomi kan ändra det."
+            "readOnly": "Du kan se betalningssättet men bara ekonomi kan ändra det.",
+            "followAgreement": "Tillägg följer avtalsperioden",
+            "followAgreementHelp": "Licenser som kundens administratör beställer mot faktura beräknas proportionellt fram till avtalets slut. Av: en ny period från beställningsdagen."
         },
         "grant": {
             "card": "Kunden betalar med kort: licenserna debiteras kortet direkt.",
@@ -21853,7 +21876,13 @@
             "plan_change_invoice_company": "Företaget betalar med faktura. Byt plan från licensöversikten så att den faktureras.",
             "card_security_agreement_changed": "Kortet försöket skickades till har tagits bort eller bytts sedan dess. Det kan inte upprepas med samma nyckel. Kontrollera dragningen i Nexi-portalen.",
             "renewal_not_available": "Uppdatering av betalkort är inte tillgänglig just nu. Kontakta supporten om kontot är stängt.",
-            "impersonation_not_allowed": "Kan inte utföras medan supporten är inloggad som kunden."
+            "impersonation_not_allowed": "Kan inte utföras medan supporten är inloggad som kunden.",
+            "license_order_not_invoice_company": "Beställning mot faktura gäller bara företag som är godkända för fakturabetalning. Betala med kort, eller kontakta oss.",
+            "license_order_economic_missing": "Vi kan inte skicka en faktura till er ännu. Kontakta oss så ordnar vi det.",
+            "license_order_no_plan": "Företaget har ingen aktiv betald plan, så extra licenser kan inte beställas.",
+            "license_order_empty": "Välj minst en användare eller avdelning.",
+            "license_order_failed": "Beställningen kunde inte genomföras. Försök igen, eller kontakta oss.",
+            "license_order_in_progress": "En annan beställning pågår. Försök igen om en stund."
         },
         "agreement": {
             "cardSecurity": "Kort som säkerhet",
