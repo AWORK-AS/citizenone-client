@@ -122,6 +122,36 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.onlyAssignedCitizensHelp') }}</p>
             </div>
 
+            <!-- The role's people see only the bookings on an intervention they are on
+                 (MyCalendar::scopeVisibleToViewer). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.only_own_intervention_events = !state.formRole.only_own_intervention_events">
+                    <FormCheckbox id="only_own_intervention_events"
+                        :value="state.formRole.only_own_intervention_events" />
+                    {{ $t('roles.form.onlyOwnInterventionEvents') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.onlyOwnInterventionEventsHelp') }}</p>
+            </div>
+
+            <!-- Which contact titles the role's people see an address, phone number and email address
+                 on. Each works on its own; off is no limit (App\Support\ContactFieldAccess). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-3" data-testid="contact-field-limits">
+                <div v-for="field in contactFieldLimits" :key="field.key" class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer" :data-testid="`limit-${field.key}`"
+                        @click="toggleContactLimit(field.key)">
+                        <FormCheckbox :id="field.key" :value="state.formRole[field.key] !== null" />
+                        {{ $t(field.label) }}
+                    </div>
+                    <div v-if="state.formRole[field.key] !== null" class="max-w-xl space-y-1 pl-6">
+                        <FormSelectMultiple :id="`${field.key}_select`" :options="contactTitleOptions"
+                            v-model="state.formRole[field.key]" />
+                        <p class="text-xs text-slate-500">{{ $t('roles.form.contactTitlesHelp') }}</p>
+                    </div>
+                    <FormError :error="props?.error?.errors?.[field.key]?.[0]" />
+                </div>
+            </div>
+
             <!-- Permissions: grouped by area so a role is built area-by-area instead of from one long flat list -->
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2">
@@ -237,6 +267,7 @@ import { permissionService } from '@/components/api/user/PermissionService'
 import { pageService } from '@/components/api/user/PageService'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 import { roleService } from '@/components/api/user/RoleService'
+import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
 import { getPermissionLabel, usePermissions } from '@/composables/usePermissions'
 import { PERMISSION_GROUP_ORDER, permissionGroup, permissionGroupLabel } from '@/composables/permissionGroups'
 import { useVuelidate } from "@vuelidate/core"
@@ -290,7 +321,13 @@ const state = reactive({
         certificate_reminder_role_ids: [] as number[],
         counts_as_consultant: false,
         only_assigned_citizens: false,
+        only_own_intervention_events: false,
+        // contact_job_titles uuids the role sees the field on; null is no limit.
+        contact_address_titles: null as string[] | null,
+        contact_phone_titles: null as string[] | null,
+        contact_email_titles: null as string[] | null,
     },
+    contactTitles: [] as any[],
     reminderRoles: [] as any[],
     reminderRolesMissing: false,
     permissions: [] as any[],
@@ -317,6 +354,7 @@ onMounted(() => {
     fetchAllEmployeeGroups()
     if (isAtLeast('Admin')) {
         fetchReminderRoles()
+        fetchContactTitles()
     }
     if (props.formType === 'create') {
         fetchAllPermissions()
@@ -340,6 +378,10 @@ watch(() => props.selectedRole, (newValue: any) => {
             ...certificateReminderFields(newValue.certificate_reminder_for),
             counts_as_consultant: !!newValue.counts_as_consultant,
             only_assigned_citizens: !!newValue.only_assigned_citizens,
+            only_own_intervention_events: !!newValue.only_own_intervention_events,
+            contact_address_titles: newValue.contact_address_titles ?? null,
+            contact_phone_titles: newValue.contact_phone_titles ?? null,
+            contact_email_titles: newValue.contact_email_titles ?? null,
         }
         fetchAllPermissions()
         nextTick(() => { isInitializing.value = false })
@@ -417,6 +459,33 @@ async function fetchAllEmployeeGroups() {
 
 // The roles whose holders a reminder role can be limited to: the company's own and
 // the shared ones (Settings → Roller's list).
+type ContactLimitKey = 'contact_address_titles' | 'contact_phone_titles' | 'contact_email_titles'
+
+const contactFieldLimits: { key: ContactLimitKey, label: string }[] = [
+    { key: 'contact_address_titles', label: 'roles.form.contactAddressTitles' },
+    { key: 'contact_phone_titles', label: 'roles.form.contactPhoneTitles' },
+    { key: 'contact_email_titles', label: 'roles.form.contactEmailTitles' },
+]
+
+// Off is no limit (null); on starts from no title, so nothing shows until titles are picked.
+function toggleContactLimit(key: ContactLimitKey) {
+    state.formRole[key] = state.formRole[key] === null ? [] : null
+}
+
+async function fetchContactTitles() {
+    try {
+        const response = await contactJobTitlesService.getAllContactJobTitles({})
+        state.contactTitles = response?.data ?? []
+    } catch (_) {
+        state.contactTitles = []
+    }
+}
+
+const contactTitleOptions = computed(() => state.contactTitles.map((item: any) => ({
+    value: item?.uuid,
+    label: locale.value === 'en' ? item?.en_title : item?.dk_title,
+})))
+
 async function fetchReminderRoles() {
     try {
         const response = await roleService.getAllRoles()
