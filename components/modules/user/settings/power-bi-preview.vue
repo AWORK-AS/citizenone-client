@@ -104,7 +104,7 @@ const inquiriesOption = computed(() => {
     const months = preview.value?.inquiries_per_month ?? []
     return {
         tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-        legend: { bottom: 0, icon: 'roundRect', itemWidth: 10, itemHeight: 10 },
+        legend: { bottom: 0, icon: 'roundRect', itemWidth: 10, itemHeight: 10, itemGap: 24 },
         grid: { left: 32, right: 8, top: 12, bottom: 40 },
         xAxis: { type: 'category', data: months.map(m => monthLabel(m.month)), axisTick: { show: false } },
         yAxis: { type: 'value', minInterval: 1, splitLine: { lineStyle: { color: '#eef2f6' } } },
