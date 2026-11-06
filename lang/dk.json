@@ -922,6 +922,10 @@
                 "seesHrData": "Kan se HR-oplysninger og medarbejderdokumenter",
                 "countsAsConsultant": "Tæller som konsulent",
                 "onlyAssignedCitizens": "Ser kun tilknyttede indsatser",
+                "onlyOwnInterventionEvents": "Ser kun egne bookinger på indsatser",
+                "contactAddressTitles": "Ser kontaktadresser for titler",
+                "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
+                "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
                 "certificateReminderFor": "Får påmindelser om certifikater for"
             },
             "values": {
@@ -11957,6 +11961,12 @@
             "countsAsConsultantHelp": "Bruges i Medarbejdere → Attester → Mangler: konsulenter skal ud over børneattesten have CV, uddannelsespapirer og kontrakt.",
             "onlyAssignedCitizens": "Ser kun tilknyttede indsatser",
             "onlyAssignedCitizensHelp": "Medarbejdere med denne rolle ser kun de borgere (indsatser), de er tilknyttet under Kontakter, også planer, mål, journaler og dokumenter. Afdeling og niveau udvider det ikke. Administratorer ser altid alt.",
+            "onlyOwnInterventionEvents": "Ser kun egne bookinger på indsatser",
+            "onlyOwnInterventionEventsHelp": "Medarbejdere med denne rolle ser kun bookinger på en indsats, hvor de er ansvarlige eller deltager. Andre konsulenters bookinger skjules. Administratorer påvirkes ikke.",
+            "contactAddressTitles": "Begræns hvilke kontakters adresser der kan ses",
+            "contactPhoneTitles": "Begræns hvilke kontakters telefonnumre der kan ses",
+            "contactEmailTitles": "Begræns hvilke kontakters e-mailadresser der kan ses",
+            "contactTitlesHelp": "Kun kontakter med en valgt titel vises. Kontakter med andre titler skjules overalt i CitizenOne.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
