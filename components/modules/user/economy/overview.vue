@@ -80,9 +80,10 @@
                         <!-- Chart -->
                         <div v-if="state.economy.coordinators?.length"
                             class="bg-white border border-surface-200 rounded-xl shadow-sm p-5">
-                            <h3 class="text-sm font-semibold text-slate-900 mb-4">
+                            <h3 class="text-sm font-semibold text-slate-900">
                                 {{ $t('managementEconomy.coordinatorSplit') }}
                             </h3>
+                            <p class="mt-1 mb-4 text-xs text-slate-500">{{ $t('managementEconomy.revenueHint') }}</p>
                             <ClientOnly>
                                 <VChart :option="economyChartOption" style="height: 340px; width: 100%;" autoresize />
                             </ClientOnly>

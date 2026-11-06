@@ -327,7 +327,8 @@
         "periodHint": "The period is set to this month. Use the shortcuts, or pick the dates yourself.",
         "presetThisMonth": "This month",
         "presetLastMonth": "Last month",
-        "presetThisYear": "This year"
+        "presetThisYear": "This year",
+        "revenueHint": "Revenue follows the contracts: fixed price per billing period, hourly price times registered hours, and one-off amounts in the period the contract starts. Without a contract, the citizen's hourly rate is used."
     },
     "citizenRelations": {
         "addFirst": "Add first relation",
