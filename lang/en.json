@@ -13328,7 +13328,28 @@
             "extraUser": "Extra user",
             "purchaseExtraLicenses": "Purchase extra licenses",
             "total": "Total",
-            "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
+            "couldNotStartCheckout": "The checkout could not be started. Try again shortly.",
+            "invoiceOrder": {
+                "payBy": "Pay by",
+                "card": "Card",
+                "invoice": "Invoice",
+                "help": "The licences are active at once. The invoice is e-mailed from e-conomic, due in 3 days, and covers a new period from today.",
+                "helpAgreement": "The licences are active at once. The invoice is e-mailed from e-conomic, due in 3 days, and is pro rata to the end of your agreement.",
+                "order": "Order by invoice",
+                "confirmTitle": "Order by invoice",
+                "confirmIntro": "Check the order. Amounts are in DKK.",
+                "confirm": "Order and activate",
+                "includedFree": "{count} included in your plan at no extra cost",
+                "fee": "Invoice fee",
+                "totalExclVat": "Total excl. VAT",
+                "totalInclVat": "Total incl. VAT",
+                "period": "The period is {from}–{to}.",
+                "periodProrated": "Pro rata for {from}–{to}, so the licences follow your agreement.",
+                "activatedNow": "The licences can be used as soon as you order.",
+                "done": "The licences are active. Invoice {number} is sent from e-conomic and is due {date}.",
+                "doneFree": "The licences are active. They were included in your plan, so there is no invoice.",
+                "failed": "The order could not be completed. Try again, or contact us."
+            }
         },
         "basisUserLimit": {
             "confirmUpgrade": "Do you want to upgrade to Pro?",
@@ -21838,7 +21859,9 @@
             "saved": "The payment method is saved",
             "saveFailed": "Could not save the payment method",
             "loadFailed": "Could not load the payment method",
-            "readOnly": "You can see the payment method, but only finance can change it."
+            "readOnly": "You can see the payment method, but only finance can change it.",
+            "followAgreement": "Add-ons follow the agreement period",
+            "followAgreementHelp": "Licences the customer's admin orders by invoice are pro rata to the end of the agreement. Off: a new period from the order date."
         },
         "grant": {
             "card": "The customer pays by card: the licences are charged to the card straight away.",
@@ -21938,7 +21961,13 @@
             "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
             "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
             "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed.",
-            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer."
+            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer.",
+            "license_order_not_invoice_company": "Ordering by invoice is only for companies approved for invoice payment. Pay by card, or contact us.",
+            "license_order_economic_missing": "We cannot send you an invoice yet. Contact us and we will set it up.",
+            "license_order_no_plan": "The company has no active paid plan, so extra licences cannot be ordered.",
+            "license_order_empty": "Choose at least one user or department.",
+            "license_order_failed": "The order could not be completed. Try again, or contact us.",
+            "license_order_in_progress": "Another order is in progress. Try again in a moment."
         },
         "agreement": {
             "cardSecurity": "Card as security",

@@ -62,6 +62,14 @@
                             {{ $t('paymentDunning.company.leverandorservice') }}
                         </label>
                     </Tooltip>
+
+                    <Tooltip :text="$t('paymentDunning.company.followAgreementHelp')" position="top" wrap class="!block">
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-800 cursor-pointer">
+                            <input type="checkbox" class="rounded border-gray-300" v-model="state.form.license_orders_follow_agreement"
+                                data-testid="billing-method-follow-agreement" />
+                            {{ $t('paymentDunning.company.followAgreement') }}
+                        </label>
+                    </Tooltip>
                 </div>
             </fieldset>
 
@@ -113,7 +121,7 @@ const state = reactive({
     loaded: false,
     error: '' as string,
     saved: normalizeCompanyBilling({}) as CompanyBilling,
-    form: { billing_method: 'card' as BillingMethod, invoice_card_security: false, leverandorservice: false },
+    form: { billing_method: 'card' as BillingMethod, invoice_card_security: false, leverandorservice: false, license_orders_follow_agreement: false },
 })
 
 const dirty = computed(() => billingMethodDirty(state.saved, state.form))
@@ -125,6 +133,7 @@ function apply(billing: CompanyBilling) {
         billing_method: billing.billing_method,
         invoice_card_security: billing.invoice_card_security,
         leverandorservice: billing.leverandorservice,
+        license_orders_follow_agreement: billing.license_orders_follow_agreement,
     }
 }
 
