@@ -13317,7 +13317,9 @@
                 "activatedNow": "Lisensene kan brukes så snart du har bestilt.",
                 "done": "Lisensene er aktive. Faktura {number} sendes fra e-conomic og forfaller {date}.",
                 "doneFree": "Lisensene er aktive. De var inkludert i planen deres, så det kommer ingen faktura.",
-                "failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss."
+                "failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss.",
+                "sentByFinance": "Fakturaen sendes av vår økonomiavdeling.",
+                "doneByFinance": "Lisensene er aktive. Faktura {number} sendes av vår økonomiavdeling og forfaller {date}."
             }
         },
         "basisUserLimit": {
@@ -13943,10 +13945,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Fjern en lisens",
-                    "increase": "Legg til en lisens",
+                    "increase": "Legg til lisenser",
                     "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
                     "increaseSuccess": "Lisens lagt til",
-                    "decreaseSuccess": "Lisens fjernet"
+                    "decreaseSuccess": "Lisens fjernet",
+                    "increaseTitle": "Legg til {name}",
+                    "increaseHelp": "Alle lisensene kommer på én faktura med ett gebyr. Følger kunden avtaleperioden, beregnes prisen frem til avtalens utløp.",
+                    "increaseConfirm": "Legg til"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Gjelder for alle {count} aktive lisens(er) av denne appen for denne bedriften."

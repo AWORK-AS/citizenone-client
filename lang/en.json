@@ -13348,7 +13348,9 @@
                 "activatedNow": "The licences can be used as soon as you order.",
                 "done": "The licences are active. Invoice {number} is sent from e-conomic and is due {date}.",
                 "doneFree": "The licences are active. They were included in your plan, so there is no invoice.",
-                "failed": "The order could not be completed. Try again, or contact us."
+                "failed": "The order could not be completed. Try again, or contact us.",
+                "sentByFinance": "The invoice is sent by our finance team.",
+                "doneByFinance": "The licences are active. Invoice {number} is sent by our finance team and is due {date}."
             }
         },
         "basisUserLimit": {
@@ -13951,10 +13953,13 @@
                     "status": "Status",
                     "type": "Type",
                     "decrease": "Remove one license",
-                    "increase": "Add one license",
+                    "increase": "Add licences",
                     "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
                     "increaseSuccess": "License added",
-                    "decreaseSuccess": "License removed"
+                    "decreaseSuccess": "License removed",
+                    "increaseTitle": "Add {name}",
+                    "increaseHelp": "All the licences go on one invoice with one fee. If the customer follows the agreement period, the price runs to the end of the agreement.",
+                    "increaseConfirm": "Add"
                 },
                 "editTerm": {
                     "appliesToAllSeats": "Applies to all {count} active seat(s) of this app for this company."
