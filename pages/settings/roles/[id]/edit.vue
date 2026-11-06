@@ -84,6 +84,10 @@ async function fetchRole() {
                 certificate_reminder_for: response?.data?.certificate_reminder_for ?? null,
                 counts_as_consultant: response?.data?.counts_as_consultant ?? false,
                 only_assigned_citizens: response?.data?.only_assigned_citizens ?? false,
+                only_own_intervention_events: response?.data?.only_own_intervention_events ?? false,
+                contact_address_titles: response?.data?.contact_address_titles ?? null,
+                contact_phone_titles: response?.data?.contact_phone_titles ?? null,
+                contact_email_titles: response?.data?.contact_email_titles ?? null,
             }
             response?.data?.permissions.forEach((permission: any) => {
                 state.formRole.permissions.push(permission?.uuid)
@@ -107,6 +111,10 @@ async function updateRole(roleDetails: any) {
             certificate_reminder_for: roleDetails.certificate_reminder_for ?? null,
             counts_as_consultant: roleDetails.counts_as_consultant ?? false,
             only_assigned_citizens: roleDetails.only_assigned_citizens ?? false,
+            only_own_intervention_events: roleDetails.only_own_intervention_events ?? false,
+            contact_address_titles: roleDetails.contact_address_titles ?? null,
+            contact_phone_titles: roleDetails.contact_phone_titles ?? null,
+            contact_email_titles: roleDetails.contact_email_titles ?? null,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
             employee_group_uuid: roleDetails.employee_group_uuid ?? [],
