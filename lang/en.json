@@ -2476,7 +2476,17 @@
                     "help": "The hours are registered on {date}.",
                     "addLine": "Add more hours",
                     "removeLine": "Remove line",
-                    "fromVisit": "Filled in from the visit. Change the time if it is not right."
+                    "fromVisit": "Filled in from the visit. Change the time if it is not right.",
+                    "editTitle": "Intervention hours on the note",
+                    "date": "Date",
+                    "save": "Save intervention hours",
+                    "saved": "The intervention hours were saved",
+                    "none": "There are no intervention hours on the note yet.",
+                    "paidOut": "Paid out - cannot be changed",
+                    "editHelp": "The intervention hours are saved separately when you press \"Save intervention hours\".",
+                    "removed": "Removed when you save",
+                    "undoRemove": "Undo",
+                    "unsaved": "The changes to the intervention hours are not saved yet."
                 },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody AI and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",

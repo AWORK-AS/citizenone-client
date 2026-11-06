@@ -2476,7 +2476,17 @@
                     "help": "Timene registreres {date}.",
                     "addLine": "Legg til flere timer",
                     "removeLine": "Fjern linje",
-                    "fromVisit": "Fylt ut fra besøket. Endre tiden hvis den ikke stemmer."
+                    "fromVisit": "Fylt ut fra besøket. Endre tiden hvis den ikke stemmer.",
+                    "editTitle": "Innsatstimer på notatet",
+                    "date": "Dato",
+                    "save": "Lagre innsatstimer",
+                    "saved": "Innsatstimene er lagret",
+                    "none": "Det er ingen innsatstimer på notatet ennå.",
+                    "paidOut": "Lønnsavregnet - kan ikke endres",
+                    "editHelp": "Innsatstimene lagres for seg når du trykker \"Lagre innsatstimer\".",
+                    "removed": "Fjernes når du lagrer",
+                    "undoRemove": "Angre",
+                    "unsaved": "Endringene i innsatstimene er ikke lagret ennå."
                 },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody AI og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
