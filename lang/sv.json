@@ -13285,7 +13285,15 @@
             "warningBody": "{percent}% av era {quota} GB är använt. När utrymmet tar slut går det inte att ladda upp fler filer.",
             "fullBody": "{percent}% av era {quota} GB är använt. Nya filer kan inte laddas upp förrän ni frigör utrymme eller uppgraderar."
         },
-        "couldNotStartUpgrade": "Uppgraderingen kunde inte startas. Försök igen om en stund."
+        "couldNotStartUpgrade": "Uppgraderingen kunde inte startas. Försök igen om en stund.",
+        "invoiceOrder": {
+            "help": "Det större paketet fungerar direkt. Ni betalar mellanskillnaden för resten av månaden nu, och från den 1:a kommer det nya paketet på er månadsfaktura.",
+            "confirmTitle": "Uppgradera till {name}",
+            "restOfMonth": "Mellanskillnad för {from}–{to}",
+            "fromFirst": "Från den 1:a nästa månad: {amount} inkl. moms per månad.",
+            "done": "Lagringen är uppgraderad. Faktura {number} skickas från e-conomic och förfaller {date}.",
+            "doneByFinance": "Lagringen är uppgraderad. Faktura {number} skickas av vår ekonomiavdelning och förfaller {date}."
+        }
     },
     "submit": "Indsend",
     "subscription": {
@@ -21893,7 +21901,10 @@
             "license_order_failed": "Beställningen kunde inte genomföras. Försök igen, eller kontakta oss.",
             "license_order_in_progress": "En annan beställning pågår. Försök igen om en stund.",
             "billed_from_economic_no_customer_number": "Ange kundens kundnummer i e-conomic innan företaget kan faktureras från e-conomic.",
-            "billed_from_economic_no_date": "Välj från vilket datum fakturorna i e-conomic ska hämtas in."
+            "billed_from_economic_no_date": "Välj från vilket datum fakturorna i e-conomic ska hämtas in.",
+            "storage_order_unknown_package": "Lagringspaketet finns inte.",
+            "storage_order_not_upgrade": "Välj ett större paket än det ni har nu. Vill ni gå ner i storlek, kontakta oss.",
+            "storage_order_contact_us": "Er lagring faktureras inte månadsvis. Kontakta oss så ändrar vi det."
         },
         "agreement": {
             "cardSecurity": "Kort som säkerhet",

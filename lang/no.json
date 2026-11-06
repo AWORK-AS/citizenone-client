@@ -13285,7 +13285,15 @@
             "warningBody": "{percent}% av deres {quota} GB er brukt. Når plassen er brukt opp, kan det ikke lastes opp flere filer.",
             "fullBody": "{percent}% av deres {quota} GB er brukt. Nye filer kan ikke lastes opp før dere frigjør plass eller oppgraderer."
         },
-        "couldNotStartUpgrade": "Oppgraderingen kunne ikke startes. Prøv igjen om litt."
+        "couldNotStartUpgrade": "Oppgraderingen kunne ikke startes. Prøv igjen om litt.",
+        "invoiceOrder": {
+            "help": "Den større pakken virker med en gang. Dere betaler differansen for resten av måneden nå, og fra den 1. kommer den nye pakken på den månedlige fakturaen.",
+            "confirmTitle": "Oppgrader til {name}",
+            "restOfMonth": "Differanse for {from}–{to}",
+            "fromFirst": "Fra den 1. neste måned: {amount} inkl. mva. per måned.",
+            "done": "Lagringen er oppgradert. Faktura {number} sendes fra e-conomic og forfaller {date}.",
+            "doneByFinance": "Lagringen er oppgradert. Faktura {number} sendes av vår økonomiavdeling og forfaller {date}."
+        }
     },
     "submit": "Indsend",
     "subscription": {
@@ -21893,7 +21901,10 @@
             "license_order_failed": "Bestillingen kunne ikke gjennomføres. Prøv igjen, eller kontakt oss.",
             "license_order_in_progress": "En annen bestilling pågår. Prøv igjen om et øyeblikk.",
             "billed_from_economic_no_customer_number": "Sett kundens e-conomic-kundenummer før virksomheten kan faktureres fra e-conomic.",
-            "billed_from_economic_no_date": "Velg fra hvilken dato fakturaene i e-conomic skal hentes inn."
+            "billed_from_economic_no_date": "Velg fra hvilken dato fakturaene i e-conomic skal hentes inn.",
+            "storage_order_unknown_package": "Lagringspakken finnes ikke.",
+            "storage_order_not_upgrade": "Velg en større pakke enn den dere har nå. Skal dere ned i størrelse, kontakt oss.",
+            "storage_order_contact_us": "Lagringen deres faktureres ikke månedlig. Kontakt oss, så endrer vi den."
         },
         "agreement": {
             "cardSecurity": "Kort som sikkerhet",

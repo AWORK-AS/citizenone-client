@@ -397,6 +397,9 @@ const ERROR_CODES = new Set([
     'license_order_in_progress',
     'billed_from_economic_no_customer_number',
     'billed_from_economic_no_date',
+    'storage_order_unknown_package',
+    'storage_order_not_upgrade',
+    'storage_order_contact_us',
 ])
 
 export function errorMessageKey(error: any): string | null {
@@ -525,4 +528,43 @@ export function licenseOrderPayload(form: { user: string | number; department: s
 export function danishDate(iso: string | null | undefined): string {
     const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso ?? ''))
     return match ? `${match[3]}.${match[2]}.${match[1]}` : String(iso ?? '')
+}
+
+export type StorageOrderQuote = {
+    package: string
+    current_package: string | null
+    monthly_price: number
+    difference: number
+    days: number
+    days_in_month: number
+    /** The difference for the rest of this month, excl. VAT. */
+    amount: number
+    fee: number
+    total_excl_vat: number
+    total_amount: number
+    /** What the monthly invoice is from the 1st, incl. VAT. */
+    next_month_total: number
+    period_from: string
+    period_to: string
+}
+
+export function normalizeStorageOrderQuote(raw: any): StorageOrderQuote {
+    const data = raw?.data ?? raw ?? {}
+    const num = (value: unknown) => (Number.isFinite(Number(value)) ? Number(value) : 0)
+
+    return {
+        package: String(data.package ?? ''),
+        current_package: typeof data.current_package === 'string' ? data.current_package : null,
+        monthly_price: num(data.monthly_price),
+        difference: num(data.difference),
+        days: num(data.days),
+        days_in_month: num(data.days_in_month),
+        amount: num(data.amount),
+        fee: num(data.fee),
+        total_excl_vat: num(data.total_excl_vat),
+        total_amount: num(data.total_amount),
+        next_month_total: num(data.next_month_total),
+        period_from: String(data.period_from ?? ''),
+        period_to: String(data.period_to ?? ''),
+    }
 }

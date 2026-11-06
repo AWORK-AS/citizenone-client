@@ -13316,7 +13316,15 @@
             "warningBody": "{percent}% af jeres {quota} GB er brugt. Når pladsen er brugt op, kan der ikke uploades flere filer.",
             "fullBody": "{percent}% af jeres {quota} GB er brugt. Nye filer kan ikke uploades, før I frigør plads eller opgraderer."
         },
-        "couldNotStartUpgrade": "Opgraderingen kunne ikke startes. Prøv igen om lidt."
+        "couldNotStartUpgrade": "Opgraderingen kunne ikke startes. Prøv igen om lidt.",
+        "invoiceOrder": {
+            "help": "Den større pakke virker med det samme. I betaler forskellen for resten af måneden nu, og fra den 1. kommer den nye pakke på jeres månedlige faktura.",
+            "confirmTitle": "Opgradér til {name}",
+            "restOfMonth": "Forskel for {from}–{to}",
+            "fromFirst": "Fra den 1. i næste måned: {amount} inkl. moms pr. måned.",
+            "done": "Pladsen er opgraderet. Faktura {number} sendes fra e-conomic og forfalder {date}.",
+            "doneByFinance": "Pladsen er opgraderet. Faktura {number} sendes af vores økonomiafdeling og forfalder {date}."
+        }
     },
     "submit": "Indsend",
     "subscription": {
@@ -21978,7 +21986,10 @@
             "license_order_failed": "Bestillingen kunne ikke gennemføres. Prøv igen, eller kontakt os.",
             "license_order_in_progress": "En anden bestilling er i gang. Prøv igen om et øjeblik.",
             "billed_from_economic_no_customer_number": "Sæt kundens e-conomic-kundenummer, før virksomheden kan faktureres fra e-conomic.",
-            "billed_from_economic_no_date": "Vælg fra hvilken dato fakturaerne i e-conomic skal hentes ind."
+            "billed_from_economic_no_date": "Vælg fra hvilken dato fakturaerne i e-conomic skal hentes ind.",
+            "storage_order_unknown_package": "Lagerpakken findes ikke.",
+            "storage_order_not_upgrade": "Vælg en større pakke end den, I har nu. Skal I ned i størrelse, så kontakt os.",
+            "storage_order_contact_us": "Jeres lagerplads faktureres ikke månedligt. Kontakt os, så ændrer vi den."
         },
         "agreement": {
             "cardSecurity": "Kort som sikkerhed",

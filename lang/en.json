@@ -13316,7 +13316,15 @@
             "warningBody": "{percent}% of your {quota} GB is used. When the space runs out, no more files can be uploaded.",
             "fullBody": "{percent}% of your {quota} GB is used. New files cannot be uploaded until you free up space or upgrade."
         },
-        "couldNotStartUpgrade": "The upgrade could not be started. Try again shortly."
+        "couldNotStartUpgrade": "The upgrade could not be started. Try again shortly.",
+        "invoiceOrder": {
+            "help": "The bigger package works at once. You pay the difference for the rest of the month now, and from the 1st the new package is on your monthly invoice.",
+            "confirmTitle": "Upgrade to {name}",
+            "restOfMonth": "Difference for {from}–{to}",
+            "fromFirst": "From the 1st of next month: {amount} incl. VAT per month.",
+            "done": "Storage upgraded. Invoice {number} is sent from e-conomic and is due {date}.",
+            "doneByFinance": "Storage upgraded. Invoice {number} is sent by our finance team and is due {date}."
+        }
     },
     "submit": "Submit",
     "subscription": {
@@ -21978,7 +21986,10 @@
             "license_order_failed": "The order could not be completed. Try again, or contact us.",
             "license_order_in_progress": "Another order is in progress. Try again in a moment.",
             "billed_from_economic_no_customer_number": "Set the customer's e-conomic customer number before the company can be billed from e-conomic.",
-            "billed_from_economic_no_date": "Choose the date from which the invoices in e-conomic are mirrored."
+            "billed_from_economic_no_date": "Choose the date from which the invoices in e-conomic are mirrored.",
+            "storage_order_unknown_package": "The storage package does not exist.",
+            "storage_order_not_upgrade": "Choose a bigger package than the one you have. To go down in size, contact us.",
+            "storage_order_contact_us": "Your storage is not billed monthly. Contact us and we will change it."
         },
         "agreement": {
             "cardSecurity": "Card as security",
