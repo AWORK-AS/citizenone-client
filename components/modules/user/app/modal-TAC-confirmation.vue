@@ -92,6 +92,21 @@
                                     : $t('apps.form.howManyLicensesDoYouWant') }}?
                             </p>
                         </div>
+                        <!-- Optional paid help with setting the app up: a one-time
+                             line on the same checkout, only when the store offers it. -->
+                        <div v-if="assistedSetupPrice"
+                            class="flex cursor-pointer items-start gap-x-3 rounded-lg border px-4 py-3 transition"
+                            :class="state.formApp.assistedSetup ? 'border-primary/30 bg-primary-50' : 'border-gray-200 bg-white'"
+                            @click="state.formApp.assistedSetup = !state.formApp.assistedSetup">
+                            <FormCheckbox :value="state.formApp.assistedSetup" class="mt-0.5" />
+                            <div class="flex-1">
+                                <p class="flex flex-wrap items-baseline justify-between gap-x-3 text-sm font-semibold text-gray-900">
+                                    <span>{{ $t('apps.form.assistedSetup') }}</span>
+                                    <span class="tabular-nums">+ {{ formatAmount(assistedSetupPrice) }} {{ $t('excludeVat') }}</span>
+                                </p>
+                                <p class="mt-0.5 text-xs text-gray-500">{{ $t('apps.form.assistedSetupHint') }}</p>
+                            </div>
+                        </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formTAC.agreeToTerms = !state.formTAC.agreeToTerms">
                             <FormCheckbox :value="state.formTAC.agreeToTerms" />
@@ -167,7 +182,8 @@ const state = reactive({
     },
     formApp: {
         quantity: '1',
-        frequency: frequencies[0]
+        frequency: frequencies[0],
+        assistedSetup: false,
     }
 })
 
@@ -175,9 +191,12 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
         state.agreeToTermsValidation = false
         state.formTAC.agreeToTerms = false
+        state.formApp.assistedSetup = false
         state.formApp.frequency = isYearlySubscription.value ? frequencies[1] : frequencies[0]
     }
 })
+
+const assistedSetupPrice = computed(() => Number(props.selectedApp?.assisted_setup_price) || 0)
 
 function closeModal() {
     emit('close')
