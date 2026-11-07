@@ -21,7 +21,7 @@
 
                 <!-- Choose -->
                 <div v-if="!state.voted" class="mt-6 space-y-3">
-                    <button v-for="(option, index) in state.poll.options" :key="option.title" type="button"
+                    <button v-for="(option, index) in state.poll.options" :key="index" type="button"
                         :disabled="state.isSending"
                         class="w-full rounded-xl border border-[#e2e8f0] px-4 py-4 text-left text-lg text-[#1a2332] transition hover:border-[#2dbab2] hover:bg-[#f0faf9] active:scale-[0.98] disabled:opacity-50"
                         @click="vote(index)">
@@ -35,7 +35,7 @@
                         <Icon name="ph:check-circle-fill" class="h-5 w-5 text-[#2dbab2]" />
                         {{ state.alreadyVoted ? $t('infoScreenVote.alreadyVoted') : $t('infoScreenVote.thanks') }}
                     </p>
-                    <div v-for="(option, index) in state.poll.options" :key="option.title">
+                    <div v-for="(option, index) in state.poll.options" :key="index">
                         <div class="mb-1 flex justify-between text-sm text-[#1a2332]">
                             <span :class="{ 'font-semibold': index === state.choice }">{{ option.title }}</span>
                             <span class="tabular-nums text-[#64748b]">{{ shares[index] }}%</span>
@@ -138,10 +138,21 @@ async function vote(index: number) {
     state.error = ''
     state.choice = index
     try {
-        const response: any = await api(`/info-screen/poll/${token}/vote`, { method: 'POST', body: { option: index, voter: voterId() } })
+        const response: any = await api(`/info-screen/poll/${token}/vote`, {
+            method: 'POST',
+            body: { option: index, voter: voterId(), round: state.poll.round },
+        })
         showResults(response?.data, !!response?.data?.already_voted)
     } catch (error: any) {
-        state.error = error?.response?.status === 404 ? t('infoScreenVote.closed') : t('infoScreenVote.failed')
+        const status = error?.response?.status
+        if (status === 409 && error?.data?.data) {
+            // The question changed while the phone showed the old one: show the new one.
+            state.poll = { ...error.data.data, language: state.poll?.language }
+            state.choice = null
+            state.error = t('infoScreenVote.changed')
+        } else {
+            state.error = status === 404 ? t('infoScreenVote.closed') : t('infoScreenVote.failed')
+        }
     }
     state.isSending = false
 }

@@ -22154,6 +22154,7 @@
         "alreadyVoted": "Du har redan röstat.",
         "votes": "Röster totalt: {count}",
         "anonymous": "Din röst är anonym.",
-        "failed": "Rösten skickades inte. Försök igen."
+        "failed": "Rösten skickades inte. Försök igen.",
+        "changed": "Frågan har just ändrats. Rösta igen."
     }
 }

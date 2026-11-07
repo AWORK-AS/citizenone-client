@@ -6,7 +6,7 @@
 
             <!-- One measure per option: bars in one hue, the leader a step stronger. -->
             <ul class="mt-[3vh] flex flex-1 flex-col justify-center gap-[2.2vh]">
-                <li v-for="(option, index) in poll.options" :key="option.title">
+                <li v-for="(option, index) in poll.options" :key="index">
                     <div class="mb-[0.8vh] flex items-baseline justify-between gap-[2vh] text-[2.8vh]">
                         <span class="truncate font-light">{{ option.title }}</span>
                         <span class="shrink-0 font-semibold tabular-nums">{{ shares[index] }}%</span>

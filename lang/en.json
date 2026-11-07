@@ -22239,6 +22239,7 @@
         "alreadyVoted": "You have already voted.",
         "votes": "Votes in total: {count}",
         "anonymous": "Your vote is anonymous.",
-        "failed": "Your vote was not sent. Try again."
+        "failed": "Your vote was not sent. Try again.",
+        "changed": "The question has just changed. Please vote again."
     }
 }

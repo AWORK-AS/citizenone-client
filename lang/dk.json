@@ -22239,6 +22239,7 @@
         "alreadyVoted": "Du har allerede stemt.",
         "votes": "Stemmer i alt: {count}",
         "anonymous": "Din stemme er anonym.",
-        "failed": "Stemmen blev ikke sendt. Prøv igen."
+        "failed": "Stemmen blev ikke sendt. Prøv igen.",
+        "changed": "Spørgsmålet er lige blevet ændret. Stem igen."
     }
 }

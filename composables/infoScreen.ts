@@ -39,16 +39,18 @@ export function activityStates(activities: ScreenActivity[], nowMinutes: number)
         .sort((a, b) => (a.minutes as number) - (b.minutes as number))
     const untimed = activities.filter((activity) => toMinutes(activity.time) === null)
 
-    let nextFound = false
+    let nextFound: number | false = false
     const marked = timed.map((activity, index) => {
         const start = activity.minutes as number
-        const nextStart = (timed[index + 1]?.minutes as number | undefined) ?? start + LAST_ACTIVITY_MINUTES
+        // Activities sharing a start time run together, so the next one is the first later start.
+        const nextStart = (timed.slice(index + 1).find((other) => (other.minutes as number) > start)?.minutes as number | undefined)
+            ?? start + LAST_ACTIVITY_MINUTES
         let state: ActivityState = 'later'
         if (nowMinutes >= nextStart) state = 'past'
         else if (nowMinutes >= start) state = 'now'
-        else if (!nextFound) {
+        else if (nextFound === false || nextFound === start) {
             state = 'next'
-            nextFound = true
+            nextFound = start
         }
         return { ...activity, state, minutesUntil: start > nowMinutes ? start - nowMinutes : null }
     })
@@ -59,14 +61,14 @@ export function activityStates(activities: ScreenActivity[], nowMinutes: number)
     ]
 }
 
-/** The hours the day's timeline spans: at least 07-22, wider if the program is. */
+/** The hours the day's timeline spans: at least 07-22, wider if the program is, never past midnight. */
 export function timelineRange(activities: ScreenActivity[]): { start: number; end: number } {
     const minutes = activities.map((activity) => toMinutes(activity.time)).filter((m): m is number => m !== null)
     const earliest = minutes.length ? Math.min(...minutes) : 7 * 60
     const latest = minutes.length ? Math.max(...minutes) : 22 * 60
     return {
         start: Math.min(7 * 60, Math.floor(earliest / 60) * 60),
-        end: Math.max(22 * 60, Math.ceil((latest + 60) / 60) * 60),
+        end: Math.min(24 * 60, Math.max(22 * 60, Math.ceil((latest + 60) / 60) * 60)),
     }
 }
 
@@ -142,8 +144,26 @@ export function weatherCurve(hours: WeatherHour[], width: number, height: number
     return { line, area, points, min, max }
 }
 
-/** Whole-number percentages of a poll's votes. Zero votes gives zeros, not NaN. */
+/**
+ * Whole-number percentages of a poll's votes that add up to 100 (largest
+ * remainder), so three equal options read 34/33/33, not 33/33/33. Zero votes
+ * gives zeros, not NaN.
+ */
 export function pollShares(options: { title: string; votes: number }[]): number[] {
     const total = options.reduce((sum, option) => sum + option.votes, 0)
-    return options.map((option) => (total ? Math.round((option.votes / total) * 100) : 0))
+    if (!total) return options.map(() => 0)
+
+    const exact = options.map((option) => (option.votes / total) * 100)
+    const shares = exact.map(Math.floor)
+    let left = 100 - shares.reduce((sum, share) => sum + share, 0)
+    exact
+        .map((value, index) => ({ index, rest: value - shares[index] }))
+        .sort((a, b) => b.rest - a.rest || a.index - b.index)
+        .forEach(({ index }) => {
+            if (left > 0) {
+                shares[index]++
+                left--
+            }
+        })
+    return shares
 }

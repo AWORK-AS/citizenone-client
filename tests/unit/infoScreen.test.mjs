@@ -94,3 +94,20 @@ describe('pollShares', () => {
         assert.deepEqual(pollShares([{ title: 'a', votes: 0 }, { title: 'b', votes: 0 }]), [0, 0])
     })
 })
+
+describe('edge cases', () => {
+    test('two activities at the same time are both now', () => {
+        const states = activityStates([{ time: '10:00', title: 'a' }, { time: '10:00', title: 'b' }, { time: '12:00', title: 'c' }], 10 * 60 + 5)
+        assert.deepEqual(states.map((s) => s.state), ['now', 'now', 'next'])
+    })
+
+    test('a late activity never pushes the timeline past midnight', () => {
+        assert.equal(timelineRange([{ time: '23:30', title: 'Nat' }]).end, 24 * 60)
+    })
+
+    test('poll shares always add up to 100', () => {
+        const shares = pollShares([{ title: 'a', votes: 1 }, { title: 'b', votes: 1 }, { title: 'c', votes: 1 }])
+        assert.equal(shares.reduce((a, b) => a + b, 0), 100)
+        assert.deepEqual(pollShares([{ title: 'a', votes: 2 }, { title: 'b', votes: 1 }, { title: 'c', votes: 0 }]), [67, 33, 0])
+    })
+})
