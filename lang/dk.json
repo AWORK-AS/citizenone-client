@@ -1662,6 +1662,18 @@
                 "department": "Afdeling"
             }
         },
+        "taskProposal": {
+            "label": "Cody AI foreslår en opgave",
+            "badge": "Forslag fra Cody AI",
+            "board": "Tavle",
+            "create": "Opret opgave",
+            "creating": "Opretter…",
+            "cancel": "Annullér",
+            "created": "Opgaven er oprettet",
+            "declined": "Forslaget er annulleret. Der blev ikke oprettet nogen opgave.",
+            "expired": "Forslaget er udløbet. Bed Cody AI om opgaven igen.",
+            "failed": "Opgaven blev ikke oprettet. Prøv igen."
+        },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
         "budgetSpent": "Jeres ekstra kapacitet er brugt, og dagens inkluderede svar er også brugt. Fyld op for at fortsætte i dag.",
         "ownDailyLimit": "Du har brugt din egen dagsgrænse for Cody AI. Din administrator kan hæve den.",
