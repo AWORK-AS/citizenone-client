@@ -61,7 +61,7 @@
                                         <span class="text-xs font-normal text-slate-400">{{ intervalLabel(current.hours_interval) }}</span>
                                     </p>
                                 </div>
-                                <div>
+                                <div v-if="current.price_type !== 'hourly'">
                                     <p class="text-xs text-slate-400">{{ $t('socialWelfare.contract.billingFrequency') }}</p>
                                     <p class="text-lg font-semibold text-slate-900">{{ $t(`socialWelfare.contract.frequencies.${current.billing_frequency}`) }}</p>
                                 </div>
@@ -168,7 +168,7 @@
                                                 <p class="text-slate-400">{{ intervalLabel(period.hours_interval) }}</p>
                                             </td>
                                             <td class="co-td text-slate-600">
-                                                <p>{{ $t(`socialWelfare.contract.frequencies.${period.billing_frequency}`) }}</p>
+                                                <p v-if="period.price_type !== 'hourly'">{{ $t(`socialWelfare.contract.frequencies.${period.billing_frequency}`) }}</p>
                                                 <p class="text-[12px] text-slate-400">{{ timingLabel(period) }}</p>
                                             </td>
                                             <td class="co-td text-slate-600 text-[13px]">
