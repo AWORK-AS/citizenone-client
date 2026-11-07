@@ -122,6 +122,28 @@
                             </div>
                         </div>
 
+                        <!-- The company's own HR fields. The backend leaves out those the viewer may not read. -->
+                        <div class="rounded-lg border border-gray-200 bg-white p-4" v-if="state.customFields.length > 0">
+                            <p class="mb-1 text-sm font-semibold text-gray-900">{{ $t('hrDetails.groups.custom') }}</p>
+                            <p class="mb-4 text-xs text-gray-400" v-if="canWrite">{{ $t('hrDetails.customHrOnly') }}</p>
+                            <div class="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2 lg:grid-cols-3">
+                                <div v-for="field in state.customFields" :key="field.uuid">
+                                    <FormLabel :for="'custom-' + field.uuid" :label="field.label" />
+                                    <template v-if="canWrite">
+                                        <FormDateField v-if="field.field_type === 'date'" :id="'custom-' + field.uuid"
+                                            :name="'custom-' + field.uuid" placeholder=""
+                                            v-model="state.customValues[field.uuid]" />
+                                        <FormTextArea v-else :id="'custom-' + field.uuid" :name="'custom-' + field.uuid"
+                                            :rows="customRows(state.customValues[field.uuid])" placeholder=""
+                                            v-model="state.customValues[field.uuid]" />
+                                    </template>
+                                    <p v-else class="whitespace-pre-line text-sm text-gray-900">
+                                        {{ field.field_type === 'date' ? displayDate(field.value) : display(field.value) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Pay and bank: only sent by the backend to an admin or the employee. -->
                         <div class="rounded-lg border border-gray-200 bg-white p-4" v-if="state.canSeeBank">
                             <p class="mb-1 text-sm font-semibold text-gray-900">{{ $t('hrDetails.groups.bank') }}</p>
@@ -161,7 +183,7 @@
 
 <script setup lang="ts">
 import { employeeHrDetailService } from '@/components/api/user/EmployeeHrDetailService'
-import type { EmployeeHrDetails, EmployeeHrDetailsPayload } from '@/components/api/user/EmployeeHrDetailService'
+import type { EmployeeHrCustomField, EmployeeHrDetails, EmployeeHrDetailsPayload } from '@/components/api/user/EmployeeHrDetailService'
 import { geolocationService } from '@/components/api/user/GeolocationService'
 import { userService } from '@/components/api/user/UserService'
 import { useAlert } from '@/composables/alert'
@@ -236,6 +258,8 @@ const state = reactive({
     fieldErrors: {} as Record<string, string[]>,
     form: emptyForm(),
     canSeeBank: false,
+    customFields: [] as EmployeeHrCustomField[],
+    customValues: {} as Record<string, string>,
     countries: [] as any[],
     employees: [] as any[],
     isLoading: false,
@@ -310,6 +334,13 @@ function applyDetails(data: EmployeeHrDetails) {
     state.nationalityName = data.nationality?.name ?? ''
     state.managerName = data.manager?.name ?? ''
     state.canSeeBank = !!data.can_see_bank
+    state.customFields = data.custom_fields ?? []
+    state.customValues = Object.fromEntries(state.customFields.map((field) => [field.uuid, field.value ?? '']))
+}
+
+// A short value gets one line, a longer remark room to be read.
+function customRows(value: any) {
+    return typeof value === 'string' && value.length > 60 ? 3 : 1
 }
 
 async function fetchDetails() {
@@ -368,6 +399,9 @@ function buildPayload(): EmployeeHrDetailsPayload {
         sim_card: text(f.sim_card),
         contact_status: text(f.contact_status),
         onboarding_status: text(f.onboarding_status),
+    }
+    if (state.customFields.length > 0) {
+        payload.custom_fields = state.customFields.map((field) => ({ uuid: field.uuid, value: text(state.customValues[field.uuid]) }))
     }
     // Only an admin may change bank data, and only when the backend sent it.
     if (state.canSeeBank && canWriteBank.value) {

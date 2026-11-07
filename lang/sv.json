@@ -19311,8 +19311,10 @@
             "person": "Person",
             "employment": "Anställning",
             "work": "Arbete",
-            "bank": "Lön och bank"
+            "bank": "Lön och bank",
+            "custom": "Övriga HR-fält"
         },
+        "customHrOnly": "Endast HR kan se dessa fält. Medarbetaren ser bara de som är markerade som synliga för medarbetaren.",
         "fields": {
             "privateEmail": "Privat e-post",
             "privatePhone": "Privat telefon",

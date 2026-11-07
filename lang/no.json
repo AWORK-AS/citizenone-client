@@ -19311,8 +19311,10 @@
             "person": "Person",
             "employment": "Ansettelse",
             "work": "Arbeid",
-            "bank": "Lønn og bank"
+            "bank": "Lønn og bank",
+            "custom": "Andre HR-felt"
         },
+        "customHrOnly": "Bare HR kan se disse feltene. Den ansatte ser bare de som er merket som synlige for den ansatte.",
         "fields": {
             "privateEmail": "Privat e-post",
             "privatePhone": "Privat telefon",
