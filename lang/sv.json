@@ -13265,7 +13265,23 @@
                 "5": "Fredag",
                 "6": "Lördag",
                 "7": "Söndag"
-            }
+            },
+            "showTimeline": "Tidslinje för dagen",
+            "showTimelineHint": "Dagens program på en tidslinje med en markör för vad klockan är.",
+            "showWeather": "Väder",
+            "showWeatherHint": "Temperatur nu och en kurva för de närmaste timmarna. Väderdata från MET Norway.",
+            "showPoll": "Omröstning",
+            "showPollHint": "De boende röstar med mobilen via en QR-kod på skärmen. Ingen inloggning och inga namn.",
+            "weatherPlace": "Plats för vädret",
+            "weatherPlaceHint": "Välj en adress så visar skärmen vädret just där.",
+            "poll": "Omröstning",
+            "pollHint": "Skriv en fråga och 2-6 svar. Ändrar du frågan eller svaren börjar räkningen om.",
+            "pollQuestionPlaceholder": "T.ex. Vad ska vi äta på fredag?",
+            "pollOptionPlaceholder": "Svar {number}",
+            "pollAddOption": "Lägg till svar",
+            "pollLink": "Länk till omröstningen:",
+            "pollReset": "Börja räkningen om",
+            "pollResetDone": "Räkningen har börjat om"
         }
     },
     "supportAccess": {
@@ -22119,6 +22135,25 @@
         "menu": "Dagens meny",
         "onDuty": "I tjänst",
         "until": "till {time}",
-        "news": "Nyhet"
+        "news": "Nyhet",
+        "weatherToday": "Vädret",
+        "weatherChart": "Temperatur de närmaste timmarna",
+        "now": "Nu",
+        "weatherCredit": "Väderdata: MET Norway",
+        "poll": "Omröstning",
+        "pollVotes": "Röster: {count}",
+        "pollScan": "Skanna och rösta",
+        "inMinutes": "Om {count} min",
+        "inHours": "Om {count} tim",
+        "inHoursMinutes": "Om {hours} tim {minutes} min"
+    },
+    "infoScreenVote": {
+        "title": "Omröstning",
+        "closed": "Omröstningen är stängd.",
+        "thanks": "Tack för din röst!",
+        "alreadyVoted": "Du har redan röstat.",
+        "votes": "Röster totalt: {count}",
+        "anonymous": "Din röst är anonym.",
+        "failed": "Rösten skickades inte. Försök igen."
     }
 }

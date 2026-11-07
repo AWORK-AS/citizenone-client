@@ -13270,7 +13270,23 @@
                 "5": "Friday",
                 "6": "Saturday",
                 "7": "Sunday"
-            }
+            },
+            "showTimeline": "Timeline for the day",
+            "showTimelineHint": "Today's program on a timeline with a marker for the time now.",
+            "showWeather": "Weather",
+            "showWeatherHint": "Temperature now and a curve for the next hours. Weather data from MET Norway.",
+            "showPoll": "Poll",
+            "showPollHint": "Residents vote with their phone via a QR code on the screen. No login, no names.",
+            "weatherPlace": "Place for the weather",
+            "weatherPlaceHint": "Pick an address so the screen shows the weather right there.",
+            "poll": "Poll",
+            "pollHint": "Write a question and 2-6 answers. If you change the question or answers, the count starts over.",
+            "pollQuestionPlaceholder": "E.g. What shall we eat on Friday?",
+            "pollOptionPlaceholder": "Answer {number}",
+            "pollAddOption": "Add answer",
+            "pollLink": "Link to the poll:",
+            "pollReset": "Start the count over",
+            "pollResetDone": "The count has started over"
         }
     },
     "supportAccess": {
@@ -22204,6 +22220,25 @@
         "menu": "Today's menu",
         "onDuty": "On duty",
         "until": "until {time}",
-        "news": "News"
+        "news": "News",
+        "weatherToday": "Weather",
+        "weatherChart": "Temperature for the next hours",
+        "now": "Now",
+        "weatherCredit": "Weather data: MET Norway",
+        "poll": "Poll",
+        "pollVotes": "Votes: {count}",
+        "pollScan": "Scan and vote",
+        "inMinutes": "In {count} min",
+        "inHours": "In {count} h",
+        "inHoursMinutes": "In {hours} h {minutes} min"
+    },
+    "infoScreenVote": {
+        "title": "Poll",
+        "closed": "The poll is closed.",
+        "thanks": "Thank you for voting!",
+        "alreadyVoted": "You have already voted.",
+        "votes": "Votes in total: {count}",
+        "anonymous": "Your vote is anonymous.",
+        "failed": "Your vote was not sent. Try again."
     }
 }

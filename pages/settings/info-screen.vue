@@ -205,6 +205,53 @@
                                 </div>
                             </div>
 
+                            <!-- Weather -->
+                            <div v-if="state.form.show_weather">
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.weatherPlace') }}</p>
+                                <p class="text-xs text-slate-400">{{ $t('settings.infoScreen.weatherPlaceHint') }}</p>
+                                <div class="mt-3">
+                                    <FormAddressAutocomplete id="weather-place" name="weather-place"
+                                        :modelValue="state.form.weather_place ?? ''"
+                                        :coords="state.form.weather_latitude !== null ? { lat: state.form.weather_latitude, lng: state.form.weather_longitude } : null"
+                                        :showConfirmation="true"
+                                        @update:modelValue="(value: string) => state.form.weather_place = value"
+                                        @select="(place: any) => { state.form.weather_latitude = place.lat; state.form.weather_longitude = place.lng }"
+                                        @clear="state.form.weather_latitude = null; state.form.weather_longitude = null" />
+                                </div>
+                            </div>
+
+                            <!-- Poll -->
+                            <div v-if="state.form.show_poll">
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.poll') }}</p>
+                                <p class="text-xs text-slate-400">{{ $t('settings.infoScreen.pollHint') }}</p>
+                                <div class="mt-3 space-y-2">
+                                    <FormTextField v-model="state.form.poll_question" :maxLength="200"
+                                        :placeholder="$t('settings.infoScreen.pollQuestionPlaceholder')" />
+                                    <div v-for="(option, index) in state.form.poll_options" :key="index" class="flex items-center gap-2">
+                                        <FormTextField v-model="state.form.poll_options[index]" :maxLength="80"
+                                            :placeholder="$t('settings.infoScreen.pollOptionPlaceholder', { number: index + 1 })" />
+                                        <button type="button" class="p-2 text-slate-400 hover:text-[#dc2626]" :aria-label="$t('settings.infoScreen.remove')"
+                                            @click="state.form.poll_options.splice(index, 1)">
+                                            <Icon name="ph:x" class="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                    <button v-if="state.form.poll_options.length < MAX_POLL_OPTIONS" type="button"
+                                        class="text-sm font-semibold text-primary hover:underline" @click="state.form.poll_options.push('')">
+                                        + {{ $t('settings.infoScreen.pollAddOption') }}
+                                    </button>
+                                </div>
+                                <div v-if="state.form.uuid && state.form.poll_token" class="mt-3 flex flex-wrap items-center gap-2 rounded-lg bg-surface-50 p-3 text-xs text-slate-500">
+                                    <Icon name="ph:qr-code" class="h-4 w-4" />
+                                    <span>{{ $t('settings.infoScreen.pollLink') }}</span>
+                                    <a :href="voteUrl(state.form.poll_token)" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">
+                                        {{ voteUrl(state.form.poll_token) }}
+                                    </a>
+                                    <button type="button" class="ml-auto font-semibold text-primary hover:underline" @click="resetPoll">
+                                        {{ $t('settings.infoScreen.pollReset') }}
+                                    </button>
+                                </div>
+                            </div>
+
                             <div class="flex justify-end gap-2 border-t border-surface-100 pt-4">
                                 <FormButton buttonStyle="action" @click="state.form = null">{{ $t('settings.infoScreen.cancel') }}</FormButton>
                                 <FormButton buttonStyle="primary" :disabled="!state.form.name || state.isSaving" @click="save">
@@ -288,7 +335,16 @@ const widgets = computed(() => [
     { key: 'show_news', label: t('settings.infoScreen.showNews'), hint: t('settings.infoScreen.showNewsHint') },
     { key: 'show_slides', label: t('settings.infoScreen.showSlides') },
     { key: 'show_staff_on_duty', label: t('settings.infoScreen.showStaff'), hint: t('settings.infoScreen.showStaffHint') },
+    { key: 'show_timeline', label: t('settings.infoScreen.showTimeline'), hint: t('settings.infoScreen.showTimelineHint') },
+    { key: 'show_weather', label: t('settings.infoScreen.showWeather'), hint: t('settings.infoScreen.showWeatherHint') },
+    { key: 'show_poll', label: t('settings.infoScreen.showPoll'), hint: t('settings.infoScreen.showPollHint') },
 ])
+
+const MAX_POLL_OPTIONS = 6
+
+function voteUrl(pollToken: string): string {
+    return (import.meta.client ? window.location.origin : '') + `/screen-vote/${pollToken}`
+}
 
 onMounted(async () => {
     if (!appActive.value) return
@@ -337,6 +393,15 @@ function toForm(screen: any = null) {
         activities: (screen?.activities ?? []).map((row: any) => ({ ...row })),
         slide_seconds: screen?.slide_seconds ?? 10,
         slides: screen?.slides ?? [],
+        show_timeline: screen?.show_timeline ?? false,
+        show_weather: screen?.show_weather ?? false,
+        weather_place: screen?.weather_place ?? '',
+        weather_latitude: screen?.weather_latitude ?? null,
+        weather_longitude: screen?.weather_longitude ?? null,
+        show_poll: screen?.show_poll ?? false,
+        poll_question: screen?.poll_question ?? '',
+        poll_options: screen?.poll_options?.length ? [...screen.poll_options] : ['', ''],
+        poll_token: screen?.poll_token ?? null,
     }
 }
 
@@ -356,10 +421,13 @@ function addActivity() {
 async function save() {
     state.error = {}
     state.isSaving = true
-    const { uuid, slides: _slides, ...form } = state.form
+    const { uuid, slides: _slides, poll_token: _pollToken, ...form } = state.form
     const payload = {
         ...form,
         message: form.message || null,
+        weather_place: form.weather_place || null,
+        poll_question: form.poll_question || null,
+        poll_options: form.poll_options.map((option: string) => option.trim()).filter(Boolean),
         activities: form.activities
             .filter((row: any) => row.title?.trim())
             .map((row: any) => ({ weekday: row.weekday, time: row.time || null, title: row.title.trim() })),
@@ -376,6 +444,16 @@ async function save() {
         state.error = error
     }
     state.isSaving = false
+}
+
+async function resetPoll() {
+    state.error = {}
+    try {
+        await infoScreenService.resetPoll(state.form.uuid)
+        successAlert(`${t('alert.success')}!`, t('settings.infoScreen.pollResetDone'))
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function pair(screen: any) {

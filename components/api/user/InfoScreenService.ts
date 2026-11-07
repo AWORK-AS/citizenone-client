@@ -26,6 +26,10 @@ class InfoScreenService extends BaseAPIService {
         return await this.request(`/user/info-screens/${uuid}/unpair`, 'POST')
     }
 
+    async resetPoll(uuid: string): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/poll/reset`, 'POST')
+    }
+
     async uploadSlide(uuid: string, file: File): Promise<any> {
         const formData = new FormData()
         formData.append('image', file)

@@ -13265,7 +13265,23 @@
                 "5": "Fredag",
                 "6": "Lørdag",
                 "7": "Søndag"
-            }
+            },
+            "showTimeline": "Tidslinje for dagen",
+            "showTimelineHint": "Dagens program på en tidslinje med en markør for hva klokken er.",
+            "showWeather": "Vær",
+            "showWeatherHint": "Temperatur nå og en kurve for de neste timene. Værdata fra MET Norway.",
+            "showPoll": "Avstemning",
+            "showPollHint": "Beboerne stemmer med mobilen via en QR-kode på skjermen. Ingen innlogging og ingen navn.",
+            "weatherPlace": "Sted for været",
+            "weatherPlaceHint": "Velg en adresse, så viser skjermen været akkurat der.",
+            "poll": "Avstemning",
+            "pollHint": "Skriv et spørsmål og 2-6 svar. Endrer du spørsmålet eller svarene, starter tellingen på nytt.",
+            "pollQuestionPlaceholder": "F.eks. Hva skal vi spise fredag?",
+            "pollOptionPlaceholder": "Svar {number}",
+            "pollAddOption": "Legg til svar",
+            "pollLink": "Lenke til avstemningen:",
+            "pollReset": "Start tellingen på nytt",
+            "pollResetDone": "Tellingen er startet på nytt"
         }
     },
     "supportAccess": {
@@ -22119,6 +22135,25 @@
         "menu": "Dagens meny",
         "onDuty": "På vakt",
         "until": "til {time}",
-        "news": "Nyhet"
+        "news": "Nyhet",
+        "weatherToday": "Været",
+        "weatherChart": "Temperatur de neste timene",
+        "now": "Nå",
+        "weatherCredit": "Værdata: MET Norway",
+        "poll": "Avstemning",
+        "pollVotes": "Stemmer: {count}",
+        "pollScan": "Skann og stem",
+        "inMinutes": "Om {count} min",
+        "inHours": "Om {count} t",
+        "inHoursMinutes": "Om {hours} t {minutes} min"
+    },
+    "infoScreenVote": {
+        "title": "Avstemning",
+        "closed": "Avstemningen er stengt.",
+        "thanks": "Takk for stemmen din!",
+        "alreadyVoted": "Du har allerede stemt.",
+        "votes": "Stemmer totalt: {count}",
+        "anonymous": "Stemmen din er anonym.",
+        "failed": "Stemmen ble ikke sendt. Prøv igjen."
     }
 }

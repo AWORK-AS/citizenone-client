@@ -10,6 +10,7 @@ export default defineNuxtPlugin(() => {
         && !window.location.pathname.startsWith('/embed/duty-schedules/')
         && !window.location.pathname.startsWith('/accept-company-invite')
         && window.location.pathname !== '/screen'
+        && !window.location.pathname.startsWith('/screen-vote/')
     ) {
         const d = document
         const s = d.createElement("script")
