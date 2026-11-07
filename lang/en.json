@@ -1591,13 +1591,27 @@
             "journal": "Write a journal note",
             "files": "Find attached files",
             "shifts": "What shifts do I have?",
+            "citizenWeek": "Summarise last week",
+            "citizenGoals": "Which goals need follow-up?",
+            "citizenNote": "Write a journal note",
+            "nextShift": "When is my next shift?",
+            "myTasks": "My open tasks",
+            "newTask": "Create a task",
+            "unread": "Do I have unread messages?",
             "fillHint": "add a name"
         },
         "quickPrompts": {
             "overview": "Give me an overview of my day",
             "journal": "Write a journal note for ",
             "files": "Find the attached files about ",
-            "shifts": "What shifts do I have in the next seven days?"
+            "shifts": "What shifts do I have in the next seven days?",
+            "citizenWeek": "Summarise the past week",
+            "citizenGoals": "Which goals need follow-up?",
+            "citizenNote": "Write a draft journal note about ",
+            "nextShift": "When is my next shift?",
+            "myTasks": "Which open tasks do I have?",
+            "newTask": "Create a task for me: ",
+            "unread": "Do I have unread messages?"
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody AI can be wrong - read the answer through.",
