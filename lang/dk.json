@@ -3386,6 +3386,9 @@
                 "departments": "Afdelinger",
                 "employees": "Medarbejdere",
                 "filterDate": "Filtrer dato",
+                "filterVisitDate": "Filtrer på {visitDate}",
+                "visitDate": "Besøgsdato",
+                "filterCreatedDate": "Filtrer på oprettelsesdato",
                 "transport": "Transportere",
                 "type": "Type",
                 "work": "Arbejdstid"
@@ -12513,6 +12516,8 @@
                 "termCase": "Sag",
                 "termAgreement": "Aftale",
                 "termMotherTongue": "Modersmål",
+                "termVisitDate": "Besøgsdato",
+                "termCourses": "Kurser (konsulentprofil)",
                 "termJobcenter": "Jobcenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
@@ -19374,7 +19379,7 @@
         "notReady": "Konsulenten kan ikke sættes på en sag endnu",
         "sections": {
             "profile": "Profil",
-            "skills": "Kompetencer, kurser og emneord",
+            "skills": "Kompetencer, {courses} og emneord",
             "documents": "Dokumenter"
         },
         "skillsHint": "Det er de her lister konsulenten findes på, når en sag skal matches.",

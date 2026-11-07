@@ -117,7 +117,7 @@ export function citizenSeedStandard(sourceLocale: 'en' | 'dk'): string {
     return upperFirst(CITIZEN_DEFAULTS[sourceLocale].citizens)
 }
 
-type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter' | 'motherTongue'
+type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter' | 'motherTongue' | 'visitDate' | 'courses'
     | 'citizen' | 'citizenDefinite' | 'citizens' | 'citizensDefinite'
 
 /**
@@ -145,6 +145,8 @@ export function useTerminology() {
             agreement: company?.term_agreement,
             jobcenter: company?.term_jobcenter,
             motherTongue: company?.term_mother_tongue,
+            visitDate: company?.term_visit_date,
+            courses: company?.term_courses,
             citizen: company?.term_citizen,
             citizenDefinite: company?.term_citizen_definite,
             citizens: company?.term_citizens,
@@ -223,5 +225,14 @@ export function useTerminology() {
         return renamed && renamed !== seedStandard ? renamed : termTitle('citizens', viewerFallback)
     }
 
-    return { term, termTitle, citizensLabel, tt }
+    /**
+     * The heading of a consultant skill list (Kompetencer, Kurser, Emneord).
+     * "Kurser" can be renamed in the glossary, e.g. to "Uddannelse".
+     */
+    function skillTypeTitle(type: string): string {
+        const title = translate(`consultantSkills.types.${type}.title`)
+        return type === 'course' ? term('courses', title) : title
+    }
+
+    return { term, termTitle, citizensLabel, tt, skillTypeTitle }
 }

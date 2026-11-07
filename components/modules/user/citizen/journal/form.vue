@@ -495,7 +495,7 @@
             <div class="space-y-1" v-if="!props.bookingLinked && canEditVisitDate">
                 <div class="grid md:grid-cols-3 gap-x-3 gap-y-2">
                     <div class="space-y-1">
-                        <FormLabel for="visit_date" :label="$t('citizens.citizenJournals.form.visit.date')" />
+                        <FormLabel for="visit_date" :label="term('visitDate', $t('citizens.citizenJournals.form.visit.date'))" />
                         <FormDateField id="visit_date" name="visit_date" :placeholder="$t('forms.fields.date')"
                             v-model="state.formJournal.visit_date" />
                         <FormError :error="props?.error?.errors?.visit_date?.[0]" />
