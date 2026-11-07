@@ -1243,7 +1243,9 @@
             "pleaseWriteHere": "Venligst skriv her",
             "quantity": "Mængde",
             "sendMessage": "Send besked",
-            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
+            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt",
+            "assistedSetup": "Opsætning med hjælp",
+            "assistedSetupHint": "Vi ringer jer op og sætter appen op sammen med jer på et online møde. Engangsbetaling."
         },
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
@@ -1342,7 +1344,8 @@
         "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
         "requiresPlan": "Kræver {plan}",
         "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
-        "upgradeToPlan": "Opgrader til {plan}"
+        "upgradeToPlan": "Opgrader til {plan}",
+        "assistedSetupOptional": "Opsætning med hjælp (valgfri)"
     },
     "archived": {
         "alert": {

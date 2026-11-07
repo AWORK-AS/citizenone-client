@@ -1243,7 +1243,9 @@
             "pleaseWriteHere": "Vänligen skriv här",
             "quantity": "Mängd",
             "sendMessage": "Skicka meddelande",
-            "sendUsAMessage": "Skicka oss en meddelande, så vender vi tillbaka hurtigst muligt"
+            "sendUsAMessage": "Skicka oss en meddelande, så vender vi tillbaka hurtigst muligt",
+            "assistedSetup": "Installation med hjälp",
+            "assistedSetupHint": "Vi ringer er och sätter upp appen tillsammans med er i ett onlinemöte. Engångsbetalning."
         },
         "goToPartner": "Gå till partner",
         "iHaveReadAndAcceptThe": "Jag har läst och accepterer",
@@ -1342,7 +1344,8 @@
         "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen.",
         "requiresPlan": "Kräver {plan}",
         "requiresPlanTooltip": "Appen kräver {plan}-profilen. Klicka för att se ert abonnemang och uppgradera.",
-        "upgradeToPlan": "Uppgradera till {plan}"
+        "upgradeToPlan": "Uppgradera till {plan}",
+        "assistedSetupOptional": "Installation med hjälp (valfritt)"
     },
     "archived": {
         "alert": {

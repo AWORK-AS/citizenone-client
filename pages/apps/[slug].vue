@@ -248,6 +248,10 @@
                                         <dt class="text-gray-500">{{ $t('apps.setupFee') }}</dt>
                                         <dd class="font-semibold text-muted-800">{{ formatAmount(app.setup_fee || 0) }}</dd>
                                     </div>
+                                    <div class="flex justify-between border-t border-gray-100 py-2" v-if="app.assisted_setup_price">
+                                        <dt class="text-gray-500">{{ $t('apps.assistedSetupOptional') }}</dt>
+                                        <dd class="font-semibold text-muted-800">{{ formatAmount(app.assisted_setup_price) }}</dd>
+                                    </div>
                                 </dl>
                             </section>
                         </div>

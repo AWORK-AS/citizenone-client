@@ -1243,7 +1243,9 @@
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",
             "sendMessage": "Send message",
-            "sendUsAMessage": "Send us a message and we will get back as soon as possible"
+            "sendUsAMessage": "Send us a message and we will get back as soon as possible",
+            "assistedSetup": "Assisted setup",
+            "assistedSetupHint": "We call you and set up the app together with you in an online meeting. One-time payment."
         },
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
@@ -1342,7 +1344,8 @@
         "couldNotStartPayment": "The payment could not be started. Try again.",
         "requiresPlan": "Requires {plan}",
         "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
-        "upgradeToPlan": "Upgrade to {plan}"
+        "upgradeToPlan": "Upgrade to {plan}",
+        "assistedSetupOptional": "Assisted setup (optional)"
     },
     "archived": {
         "alert": {
