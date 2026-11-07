@@ -3,7 +3,7 @@
     greeting, so the conversation always reads downward from the same starting
     point. -->
     <div class="flex-1 overflow-y-auto scroll-smooth">
-        <div class="px-4 py-5 space-y-5">
+        <div class="cody-thread px-4 py-5 space-y-5">
             <div v-for="(message, index) in state.messages" :key="index">
                 <!-- What you said. A bubble only as wide as its text, hung on the
                 right: the full-width dark slab it used to be read as a banner or a
@@ -149,7 +149,7 @@
                                 :title="$t('assistants.actions.copy')"
                                 class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-ai-ink hover:bg-ai-bg transition-colors">
                                 <Icon :name="state.copiedIndex === index ? 'ph:check' : 'ph:copy'"
-                                    class="h-3.5 w-3.5" />
+                                    :class="['h-3.5 w-3.5', state.copiedIndex === index && 'cody-pop']" />
                                 {{ state.copiedIndex === index ? $t('assistants.actions.copied') :
                                     $t('assistants.actions.copy') }}
                             </button>
@@ -178,7 +178,7 @@
                                         message.feedback === rating.value ? 'text-ai-ink' : 'text-gray-500 hover:text-ai-ink',
                                         rating.value === 'up' && 'ml-auto']">
                                     <Icon :name="message.feedback === rating.value ? `${rating.icon}-fill` : rating.icon"
-                                        class="h-3.5 w-3.5" aria-hidden="true" />
+                                        :class="['h-3.5 w-3.5', message.feedback === rating.value && 'cody-pop']" aria-hidden="true" />
                                 </button>
                             </template>
                         </div>
@@ -273,12 +273,11 @@
                         </template>
                     </div>
                 </div>
-                <div v-else class="flex items-center gap-0.5 pt-1">
-                    <span class="dot1">.</span>
-                    <span class="dot2">.</span>
-                    <span class="dot3">.</span>
-                    <span class="dot4">.</span>
-                    <span class="dot5">.</span>
+                <!-- Three dots in Cody's colour that hop in turn: the five blinking
+                full stops read as a loading bar, not as someone about to speak. -->
+                <div v-else class="cody-dots flex h-5 items-center gap-1" role="status"
+                    :aria-label="$t('assistants.generatingResponse')">
+                    <span /><span /><span />
                 </div>
             </div>
         </div>
@@ -472,6 +471,82 @@ const greeting = computed(() => {
 .ai-answer :deep(th) {
     background: #f9fafb;
     font-weight: 600;
+}
+
+/* Motion. Small and quick, so the panel feels alive without making anyone
+   wait: a new message rises into place, cards and starters land one after
+   another, a pressed copy or thumbs gives a small pop. Nothing moves for
+   people who asked their system for less motion. */
+.cody-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #0ea5a8;
+    opacity: 0.45;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .cody-thread > * {
+        animation: cody-rise 220ms ease-out backwards;
+    }
+
+    .cody-thread .grid > * {
+        animation: cody-rise 260ms ease-out backwards;
+    }
+
+    .cody-thread .grid > :nth-child(2) { animation-delay: 60ms; }
+    .cody-thread .grid > :nth-child(3) { animation-delay: 120ms; }
+    .cody-thread .grid > :nth-child(4) { animation-delay: 180ms; }
+    .cody-thread .grid > :nth-child(5) { animation-delay: 240ms; }
+
+    /* Starters and cards lift a little under the pointer: they are things to
+       press, and the border colour alone barely said so. */
+    .cody-thread .grid > :is(a, button) {
+        transition: transform 150ms ease-out, box-shadow 150ms ease-out, border-color 150ms, background-color 150ms;
+    }
+
+    .cody-thread .grid > :is(a, button):hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px -2px rgb(11 77 107 / 0.15);
+    }
+
+    .cody-pop {
+        animation: cody-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cody-dots span {
+        animation: cody-hop 1.1s ease-in-out infinite;
+    }
+
+    .cody-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .cody-dots span:nth-child(3) { animation-delay: 0.3s; }
+}
+
+@keyframes cody-rise {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes cody-pop {
+    0% { transform: scale(0.6); }
+    100% { transform: scale(1); }
+}
+
+@keyframes cody-hop {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.45;
+    }
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
 }
 </style>
 
