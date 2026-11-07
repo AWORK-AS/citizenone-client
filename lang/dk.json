@@ -12801,7 +12801,8 @@
             "visitTypes": "Besøgstyper",
             "contractHourTypes": "Timetyper",
             "paymentTerms": "Betalingsbetingelser",
-            "contractFields": "Kontraktfelter"
+            "contractFields": "Kontraktfelter",
+            "infoScreen": "Infoskærm"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -13190,6 +13191,10 @@
             "customLinks": {
                 "title": "Hvad er egne links?",
                 "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
+            },
+            "infoScreen": {
+                "title": "Hvad kan Infoskærm?",
+                "body": "Vis dagens program, menu, nyheder og billeder på en skærm i fællesrummet. Skærmen viser aldrig borgeroplysninger."
             }
         },
         "movedNotice": {
@@ -13200,6 +13205,71 @@
                 "rail": "Alle indstillinger står nu i listen til venstre, i stedet for bag rullemenuer.",
                 "search": "Søgefeltet øverst i listen finder enhver indstilling på navn.",
                 "billing": "Abonnement, licenser, lagerplads og fakturaer deler nu én side med faner."
+            }
+        },
+        "infoScreen": {
+            "title": "Infoskærm",
+            "subtitle": "Vis dagens program, menu, nyheder og billeder på skærme i fællesrummet. Skærmen viser aldrig borgeroplysninger.",
+            "notPurchased": "Infoskærm er ikke aktiv. Køb appen i appbutikken for at sætte skærme op.",
+            "goToApps": "Gå til appbutikken",
+            "seats": "Skærme",
+            "seatsUsed": "{paired} af {total} skærme er i brug",
+            "seatsHint": "Hver parret skærm bruger én licens. Du kan oprette så mange skærme, du vil.",
+            "newScreen": "Ny skærm",
+            "empty": "Der er ingen skærme endnu. Opret den første skærm.",
+            "noDepartment": "Hele stedet",
+            "paired": "Parret",
+            "notPaired": "Ikke parret",
+            "lastSeen": "Sidst set {time}",
+            "pair": "Par skærm",
+            "repair": "Par igen",
+            "unpair": "Fjern parring",
+            "edit": "Redigér",
+            "editTitle": "Redigér skærm",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Fællesrum",
+            "department": "Afdeling",
+            "widgets": "Det viser skærmen",
+            "showClock": "Ur og dato",
+            "showActivities": "Dagens program",
+            "showMenu": "Dagens menu",
+            "showNews": "Nyheder",
+            "showNewsHint": "Kun nyheder til borgere, for hele stedet eller for afdelingen.",
+            "showSlides": "Billeder",
+            "showStaff": "Hvem er på vagt",
+            "showStaffHint": "Viser kun fornavne på medarbejdere på vagt i afdelingen lige nu.",
+            "message": "Fast besked",
+            "messagePlaceholder": "F.eks. Husk fællesspisning fredag kl. 17",
+            "activities": "Program",
+            "activitiesHint": "Skærmen viser dagens punkter. Programmet gentages hver uge.",
+            "activityPlaceholder": "F.eks. Gåtur",
+            "addActivity": "Tilføj punkt",
+            "remove": "Fjern",
+            "menu": "Menu",
+            "menuPlaceholder": "F.eks. Frikadeller med kartofler",
+            "slides": "Billeder",
+            "slidesHint": "JPG, PNG eller WebP, højst 10 MB. Billeder og nyheder vises på skift.",
+            "slideSeconds": "Sekunder pr. billede",
+            "saveFirst": "Gem skærmen først, så kan du tilføje billeder.",
+            "addSlide": "Tilføj billeder",
+            "uploading": "Uploader…",
+            "cancel": "Annullér",
+            "save": "Gem",
+            "saved": "Skærmen er gemt",
+            "pairTitle": "Par skærm",
+            "pairStep1": "Åbn denne adresse i browseren på skærmen:",
+            "pairStep2": "Tast koden på skærmen:",
+            "pairExpires": "Koden virker til kl. {time}.",
+            "confirmDelete": "Vil du slette skærmen? Den holder op med at vise noget med det samme.",
+            "confirmUnpair": "Vil du fjerne parringen? Skærmen holder op med at vise noget med det samme.",
+            "weekdays": {
+                "1": "Mandag",
+                "2": "Tirsdag",
+                "3": "Onsdag",
+                "4": "Torsdag",
+                "5": "Fredag",
+                "6": "Lørdag",
+                "7": "Søndag"
             }
         }
     },
@@ -22118,5 +22188,22 @@
     "desktopApp": {
         "notAvailable": "Det er ikke tilgængeligt i desktop-appen.",
         "paymentNotAvailable": "Betalingskortet kan ikke opdateres i desktop-appen. Kontakt support, hvis I har brug for hjælp."
+    },
+    "infoScreenDisplay": {
+        "title": "Infoskærm",
+        "pairTitle": "Forbind skærmen",
+        "pairHint": "Tast koden fra Indstillinger → Infoskærm i CitizenOne.",
+        "code": "Kode",
+        "connect": "Forbind",
+        "wrongCode": "Koden er forkert eller udløbet. Lav en ny kode, og prøv igen.",
+        "tooManyTries": "For mange forsøg. Vent et minut, og prøv igen.",
+        "noSeat": "Der er ingen ledig licens til denne skærm. Køb flere skærme i appbutikken, eller fjern parringen fra en anden skærm.",
+        "appInactive": "Infoskærm er ikke aktiv. Kontakt jeres administrator.",
+        "today": "I dag",
+        "noActivities": "Ingen planlagte aktiviteter i dag",
+        "menu": "Dagens menu",
+        "onDuty": "På vagt",
+        "until": "til {time}",
+        "news": "Nyhed"
     }
 }

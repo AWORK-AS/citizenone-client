@@ -12801,7 +12801,8 @@
             "visitTypes": "Visit types",
             "contractHourTypes": "Hour types",
             "paymentTerms": "Payment terms",
-            "contractFields": "Contract fields"
+            "contractFields": "Contract fields",
+            "infoScreen": "Info screen"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13190,6 +13191,10 @@
             "customLinks": {
                 "title": "What are custom links?",
                 "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
+            },
+            "infoScreen": {
+                "title": "What does Info screen do?",
+                "body": "Show today's program, menu, news and pictures on a screen in the common room. The screen never shows citizen data."
             }
         },
         "movedNotice": {
@@ -13200,6 +13205,71 @@
                 "rail": "Every setting is now in the list on the left, instead of behind dropdowns.",
                 "search": "The search box at the top of the list finds any setting by name.",
                 "billing": "Subscription, licences, storage and invoices now share one page with tabs."
+            }
+        },
+        "infoScreen": {
+            "title": "Info screen",
+            "subtitle": "Show today's program, menu, news and pictures on screens in common rooms. The screen never shows citizen data.",
+            "notPurchased": "Info screen is not active. Buy the app in the app store to set up screens.",
+            "goToApps": "Go to the app store",
+            "seats": "Screens",
+            "seatsUsed": "{paired} of {total} screens in use",
+            "seatsHint": "Each paired screen uses one licence. You can create as many screens as you like.",
+            "newScreen": "New screen",
+            "empty": "There are no screens yet. Create the first screen.",
+            "noDepartment": "Whole site",
+            "paired": "Paired",
+            "notPaired": "Not paired",
+            "lastSeen": "Last seen {time}",
+            "pair": "Pair screen",
+            "repair": "Pair again",
+            "unpair": "Unpair",
+            "edit": "Edit",
+            "editTitle": "Edit screen",
+            "name": "Name",
+            "namePlaceholder": "E.g. Common room",
+            "department": "Department",
+            "widgets": "What the screen shows",
+            "showClock": "Clock and date",
+            "showActivities": "Today's program",
+            "showMenu": "Today's menu",
+            "showNews": "News",
+            "showNewsHint": "Only news for citizens, for the whole site or for the department.",
+            "showSlides": "Pictures",
+            "showStaff": "Staff on duty",
+            "showStaffHint": "Shows only the first names of staff on duty in the department right now.",
+            "message": "Fixed message",
+            "messagePlaceholder": "E.g. Shared dinner on Friday at 17:00",
+            "activities": "Program",
+            "activitiesHint": "The screen shows today's items. The program repeats every week.",
+            "activityPlaceholder": "E.g. Walk",
+            "addActivity": "Add item",
+            "remove": "Remove",
+            "menu": "Menu",
+            "menuPlaceholder": "E.g. Meatballs with potatoes",
+            "slides": "Pictures",
+            "slidesHint": "JPG, PNG or WebP, max 10 MB. Pictures and news take turns.",
+            "slideSeconds": "Seconds per picture",
+            "saveFirst": "Save the screen first, then add pictures.",
+            "addSlide": "Add pictures",
+            "uploading": "Uploading…",
+            "cancel": "Cancel",
+            "save": "Save",
+            "saved": "The screen is saved",
+            "pairTitle": "Pair screen",
+            "pairStep1": "Open this address in the browser on the screen:",
+            "pairStep2": "Enter the code on the screen:",
+            "pairExpires": "The code works until {time}.",
+            "confirmDelete": "Delete the screen? It stops showing content at once.",
+            "confirmUnpair": "Unpair the screen? It stops showing content at once.",
+            "weekdays": {
+                "1": "Monday",
+                "2": "Tuesday",
+                "3": "Wednesday",
+                "4": "Thursday",
+                "5": "Friday",
+                "6": "Saturday",
+                "7": "Sunday"
             }
         }
     },
@@ -22118,5 +22188,22 @@
     "desktopApp": {
         "notAvailable": "This is not available in the desktop app.",
         "paymentNotAvailable": "The payment card cannot be updated in the desktop app. Contact support if you need help."
+    },
+    "infoScreenDisplay": {
+        "title": "Info screen",
+        "pairTitle": "Connect the screen",
+        "pairHint": "Enter the code from Settings → Info screen in CitizenOne.",
+        "code": "Code",
+        "connect": "Connect",
+        "wrongCode": "The code is wrong or expired. Make a new code and try again.",
+        "tooManyTries": "Too many tries. Wait a minute and try again.",
+        "noSeat": "There is no free licence for this screen. Buy more screens in the app store, or unpair another screen.",
+        "appInactive": "Info screen is not active. Contact your administrator.",
+        "today": "Today",
+        "noActivities": "No activities planned today",
+        "menu": "Today's menu",
+        "onDuty": "On duty",
+        "until": "until {time}",
+        "news": "News"
     }
 }

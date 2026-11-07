@@ -12796,7 +12796,8 @@
             "visitTypes": "Besökstyper",
             "contractHourTypes": "Timtyper",
             "paymentTerms": "Betalningsvillkor",
-            "contractFields": "Avtalsfält"
+            "contractFields": "Avtalsfält",
+            "infoScreen": "Infoskärm"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13185,6 +13186,10 @@
             "customLinks": {
                 "title": "Vad är egna länkar?",
                 "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
+            },
+            "infoScreen": {
+                "title": "Vad gör Infoskärm?",
+                "body": "Visa dagens program, meny, nyheter och bilder på en skärm i allrummet. Skärmen visar aldrig uppgifter om boende."
             }
         },
         "movedNotice": {
@@ -13195,6 +13200,71 @@
                 "rail": "Alla inställningar finns nu i listan till vänster, i stället för bakom rullgardinsmenyer.",
                 "search": "Sökfältet högst upp i listan hittar varje inställning på namn.",
                 "billing": "Abonnemang, licenser, lagringsutrymme och fakturor delar nu en sida med flikar."
+            }
+        },
+        "infoScreen": {
+            "title": "Infoskärm",
+            "subtitle": "Visa dagens program, meny, nyheter och bilder på skärmar i allrum. Skärmen visar aldrig uppgifter om boende.",
+            "notPurchased": "Infoskärm är inte aktiv. Köp appen i appbutiken för att sätta upp skärmar.",
+            "goToApps": "Gå till appbutiken",
+            "seats": "Skärmar",
+            "seatsUsed": "{paired} av {total} skärmar används",
+            "seatsHint": "Varje kopplad skärm använder en licens. Du kan skapa hur många skärmar du vill.",
+            "newScreen": "Ny skärm",
+            "empty": "Det finns inga skärmar ännu. Skapa den första skärmen.",
+            "noDepartment": "Hela verksamheten",
+            "paired": "Kopplad",
+            "notPaired": "Inte kopplad",
+            "lastSeen": "Senast sedd {time}",
+            "pair": "Koppla skärm",
+            "repair": "Koppla igen",
+            "unpair": "Koppla bort",
+            "edit": "Redigera",
+            "editTitle": "Redigera skärm",
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Allrum",
+            "department": "Avdelning",
+            "widgets": "Det här visar skärmen",
+            "showClock": "Klocka och datum",
+            "showActivities": "Dagens program",
+            "showMenu": "Dagens meny",
+            "showNews": "Nyheter",
+            "showNewsHint": "Bara nyheter till boende, för hela verksamheten eller för avdelningen.",
+            "showSlides": "Bilder",
+            "showStaff": "Vem är i tjänst",
+            "showStaffHint": "Visar bara förnamn på personal i tjänst på avdelningen just nu.",
+            "message": "Fast meddelande",
+            "messagePlaceholder": "T.ex. Gemensam middag fredag kl. 17",
+            "activities": "Program",
+            "activitiesHint": "Skärmen visar dagens punkter. Programmet upprepas varje vecka.",
+            "activityPlaceholder": "T.ex. Promenad",
+            "addActivity": "Lägg till punkt",
+            "remove": "Ta bort",
+            "menu": "Meny",
+            "menuPlaceholder": "T.ex. Köttbullar med potatis",
+            "slides": "Bilder",
+            "slidesHint": "JPG, PNG eller WebP, högst 10 MB. Bilder och nyheter visas växelvis.",
+            "slideSeconds": "Sekunder per bild",
+            "saveFirst": "Spara skärmen först, sedan kan du lägga till bilder.",
+            "addSlide": "Lägg till bilder",
+            "uploading": "Laddar upp…",
+            "cancel": "Avbryt",
+            "save": "Spara",
+            "saved": "Skärmen är sparad",
+            "pairTitle": "Koppla skärm",
+            "pairStep1": "Öppna den här adressen i webbläsaren på skärmen:",
+            "pairStep2": "Skriv in koden på skärmen:",
+            "pairExpires": "Koden gäller till kl. {time}.",
+            "confirmDelete": "Vill du ta bort skärmen? Den slutar visa innehåll direkt.",
+            "confirmUnpair": "Vill du koppla bort skärmen? Den slutar visa innehåll direkt.",
+            "weekdays": {
+                "1": "Måndag",
+                "2": "Tisdag",
+                "3": "Onsdag",
+                "4": "Torsdag",
+                "5": "Fredag",
+                "6": "Lördag",
+                "7": "Söndag"
             }
         }
     },
@@ -22033,5 +22103,22 @@
     "desktopApp": {
         "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
         "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
+    },
+    "infoScreenDisplay": {
+        "title": "Infoskärm",
+        "pairTitle": "Anslut skärmen",
+        "pairHint": "Skriv in koden från Inställningar → Infoskärm i CitizenOne.",
+        "code": "Kod",
+        "connect": "Anslut",
+        "wrongCode": "Koden är fel eller har gått ut. Skapa en ny kod och försök igen.",
+        "tooManyTries": "För många försök. Vänta en minut och försök igen.",
+        "noSeat": "Det finns ingen ledig licens för den här skärmen. Köp fler skärmar i appbutiken eller koppla bort en annan skärm.",
+        "appInactive": "Infoskärm är inte aktiv. Kontakta er administratör.",
+        "today": "I dag",
+        "noActivities": "Inga planerade aktiviteter i dag",
+        "menu": "Dagens meny",
+        "onDuty": "I tjänst",
+        "until": "till {time}",
+        "news": "Nyhet"
     }
 }
