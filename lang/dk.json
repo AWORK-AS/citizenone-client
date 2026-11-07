@@ -13317,7 +13317,9 @@
                 "garden": "Have",
                 "visit": "Besøg",
                 "sleep": "Hvil"
-            }
+            },
+            "largeText": "Stor tekst",
+            "largeTextHint": "Større skrift og færre punkter ad gangen, til beboere der ser dårligt."
         }
     },
     "supportAccess": {

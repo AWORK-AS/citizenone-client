@@ -13312,7 +13312,9 @@
                 "garden": "Hage",
                 "visit": "Besøk",
                 "sleep": "Hvile"
-            }
+            },
+            "largeText": "Stor tekst",
+            "largeTextHint": "Større skrift og færre punkter om gangen, for beboere som ser dårlig."
         }
     },
     "supportAccess": {

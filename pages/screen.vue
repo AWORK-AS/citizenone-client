@@ -71,14 +71,16 @@
                         <h2 class="panel-title"><Icon name="ph:calendar-check" /> {{ $t('infoScreenDisplay.today') }}</h2>
                         <TransitionGroup v-if="activities.length" tag="ul" name="list" class="space-y-[0.6vh]">
                             <li v-for="activity in visibleActivities" :key="activity.time + activity.title"
-                                class="activity flex items-center gap-[2vh] rounded-xl px-[1.6vh] py-[0.7vh] text-[3vh]"
+                                class="activity flex items-center gap-[2vh] rounded-xl px-[1.6vh] py-[0.7vh]"
                                 :class="{
+                                    'text-[3vh]': !large,
+                                    'text-[4.2vh]': large,
                                     'opacity-35': activity.state === 'past',
                                     'activity-now bg-[#2dbab2]/15': activity.state === 'now',
                                 }">
-                                <span class="w-[10vh] shrink-0 font-semibold tabular-nums"
-                                    :class="activity.state === 'past' ? 'text-white' : 'text-[#2dbab2]'">{{ activity.time ?? '' }}</span>
-                                <Icon v-if="activityIcon(activity.icon)" :name="activityIcon(activity.icon)!" class="shrink-0 text-[3.6vh]" />
+                                <span class="shrink-0 font-semibold tabular-nums"
+                                    :class="[large ? 'w-[14vh]' : 'w-[10vh]', activity.state === 'past' ? 'text-white' : 'text-[#2dbab2]']">{{ activity.time ?? '' }}</span>
+                                <Icon v-if="activityIcon(activity.icon)" :name="activityIcon(activity.icon)!" class="shrink-0" :class="large ? 'text-[5vh]' : 'text-[3.6vh]'" />
                                 <span class="min-w-0 flex-1 truncate font-light">{{ activity.title }}</span>
                                 <span v-if="activity.state === 'now'"
                                     class="shrink-0 rounded-full bg-[#2dbab2] px-[1.4vh] py-[0.3vh] text-[1.9vh] font-semibold uppercase tracking-wider">
@@ -93,7 +95,8 @@
                         <p v-else class="text-[2.6vh] font-light text-white/50">{{ $t('infoScreenDisplay.noActivities') }}</p>
                     </div>
 
-                    <div v-if="feed.show_menu && feed.menu" class="panel panel-in" style="animation-delay: 0.25s">
+                    <!-- With large text the menu does not fit here: it takes a turn in the big panel instead -->
+                    <div v-if="feed.show_menu && feed.menu && !large" class="panel panel-in" style="animation-delay: 0.25s">
                         <h2 class="panel-title"><Icon name="ph:fork-knife" /> {{ $t('infoScreenDisplay.menu') }}</h2>
                         <p class="whitespace-pre-line text-[3vh] font-light">{{ feed.menu }}</p>
                     </div>
@@ -102,7 +105,7 @@
                         <h2 class="panel-title"><Icon name="ph:users-three" /> {{ $t('infoScreenDisplay.onDuty') }}</h2>
                         <div class="flex flex-wrap gap-[1vh]">
                             <span v-for="(person, index) in feed.staff_on_duty" :key="person.firstname + person.until"
-                                class="panel-in rounded-full bg-white/10 px-[2vh] py-[0.8vh] text-[2.6vh]"
+                                class="panel-in rounded-full bg-white/10 px-[2vh] py-[0.8vh]" :class="large ? 'text-[3.6vh]' : 'text-[2.6vh]'"
                                 :style="{ animationDelay: `${0.45 + index * 0.06}s` }">
                                 {{ person.firstname }}
                                 <span v-if="person.until" class="text-white/50">{{ $t('infoScreenDisplay.until', { time: person.until }) }}</span>
@@ -129,9 +132,17 @@
                                 <div class="news-text p-[4vh]"
                                     :class="current.image && 'bg-gradient-to-t from-[#0a1f33] via-[#0a1f33]/90 to-transparent pt-[12vh]'">
                                     <p class="text-[2vh] font-semibold uppercase tracking-widest text-[#2dbab2]">{{ $t('infoScreenDisplay.news') }}</p>
-                                    <h3 class="mt-[1vh] text-[4.4vh] font-semibold leading-tight">{{ current.title }}</h3>
-                                    <p class="mt-[1.4vh] text-[2.8vh] font-light text-white/80">{{ current.preview }}</p>
+                                    <h3 class="mt-[1vh] font-semibold leading-tight" :class="large ? 'text-[5.6vh]' : 'text-[4.4vh]'">{{ current.title }}</h3>
+                                    <p class="mt-[1.4vh] font-light text-white/80" :class="large ? 'line-clamp-3 text-[3.6vh]' : 'text-[2.8vh]'">{{ current.preview }}</p>
                                 </div>
+                            </div>
+
+                            <!-- Menu, as a turn of its own when the text is large -->
+                            <div v-else-if="current?.type === 'menu'" class="absolute inset-0 flex flex-col justify-center p-[5vh]">
+                                <p class="flex items-center gap-[1.2vh] text-[2.4vh] font-semibold uppercase tracking-widest text-[#2dbab2]">
+                                    <Icon name="ph:fork-knife" /> {{ $t('infoScreenDisplay.menu') }}
+                                </p>
+                                <p class="mt-[2vh] whitespace-pre-line text-[5.4vh] font-light leading-snug">{{ feed.menu }}</p>
                             </div>
 
                             <WeatherCard v-else-if="current?.type === 'weather'" :weather="feed.weather" :place="feed.weather_place" />
@@ -149,7 +160,7 @@
                 </section>
             </main>
 
-            <footer v-if="feed.message" class="panel-in message overflow-hidden rounded-2xl bg-[#2dbab2] py-[2vh] text-[3.2vh] font-semibold text-white"
+            <footer v-if="feed.message" class="panel-in message overflow-hidden rounded-2xl bg-[#2dbab2] py-[2vh] font-semibold text-white" :class="large ? 'text-[4.4vh]' : 'text-[3.2vh]'"
                 style="animation-delay: 0.3s">
                 <div v-if="feed.message.length > MARQUEE_FROM" class="marquee flex w-max gap-[12vh] whitespace-nowrap"
                     :style="{ animationDuration: `${Math.max(20, feed.message.length / 4)}s` }">
@@ -279,12 +290,14 @@ const activities = computed(() => activityStates(feed.value?.activities ?? [], n
 const isNight = computed(() => !!feed.value?.night && isNightTime(nowMinutes.value, feed.value.night.from, feed.value.night.to))
 const isStale = computed(() => !previewUuid && lastLoadedAt.value > 0 && now.value - lastLoadedAt.value > STALE_AFTER_MS)
 
-// The list holds about four rows; when the day is fuller, what is over goes first.
-const MAX_ROWS = 4
+// The list holds about four rows (three with large text); when the day is fuller, what is over goes first.
+// Large text fits three.
+const large = computed(() => !!feed.value?.large_text)
+const maxRows = computed(() => (large.value ? 3 : 4))
 const visibleActivities = computed(() => {
     const list = [...activities.value]
-    while (list.length > MAX_ROWS && list[0]?.state === 'past') list.shift()
-    return list.slice(0, MAX_ROWS)
+    while (list.length > maxRows.value && list[0]?.state === 'past') list.shift()
+    return list.slice(0, maxRows.value)
 })
 
 function inText(minutes: number): string {
@@ -295,7 +308,7 @@ function inText(minutes: number): string {
 }
 
 const hasSide = computed(() => !!feed.value && (feed.value.show_activities
-    || (feed.value.show_menu && feed.value.menu)
+    || (feed.value.show_menu && feed.value.menu && !large.value)
     || (feed.value.show_staff_on_duty && feed.value.staff_on_duty?.length)))
 
 const slideSeconds = computed(() => Math.max(3, Number(feed.value?.slide_seconds) || 10))
@@ -317,6 +330,7 @@ const rotation = computed(() => {
         if (slides[i]) content.push(slides[i])
         if (news[i]) content.push(news[i])
     }
+    if (large.value && feed.value.show_menu && feed.value.menu) content.unshift({ type: 'menu', key: 'menu' })
     if (feed.value.show_weather && feed.value.weather?.hours?.length > 1) content.push({ type: 'weather', key: 'weather' })
 
     if (!feed.value.poll) return content
@@ -335,6 +349,7 @@ function scheduleRotation() {
     if (rotateTimer) clearTimeout(rotateTimer)
     const seconds = {
         news: Math.max(slideSeconds.value, NEWS_SECONDS),
+        menu: NEWS_SECONDS,
         weather: WEATHER_SECONDS,
         poll: POLL_SECONDS,
     }[current.value?.type as string] ?? slideSeconds.value

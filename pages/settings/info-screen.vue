@@ -369,6 +369,7 @@ const widgets = computed(() => [
     { key: 'show_weather', label: t('settings.infoScreen.showWeather'), hint: t('settings.infoScreen.showWeatherHint') },
     { key: 'show_poll', label: t('settings.infoScreen.showPoll'), hint: t('settings.infoScreen.showPollHint') },
     { key: 'night_mode', label: t('settings.infoScreen.nightMode'), hint: t('settings.infoScreen.nightModeHint') },
+    { key: 'large_text', label: t('settings.infoScreen.largeText'), hint: t('settings.infoScreen.largeTextHint') },
 ])
 
 const iconOptions = computed(() => Object.keys(ACTIVITY_ICONS).map((key) => ({
@@ -433,6 +434,7 @@ function toForm(screen: any = null) {
         night_mode: screen?.night_mode ?? false,
         night_from: screen?.night_from ?? '22:00',
         night_to: screen?.night_to ?? '06:00',
+        large_text: screen?.large_text ?? false,
         menu,
         activities: (screen?.activities ?? []).map((row: any) => ({ ...row })),
         slide_seconds: screen?.slide_seconds ?? 10,

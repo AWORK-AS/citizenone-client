@@ -13317,7 +13317,9 @@
                 "garden": "Garden",
                 "visit": "Visit",
                 "sleep": "Rest"
-            }
+            },
+            "largeText": "Large text",
+            "largeTextHint": "Bigger text and fewer items at a time, for residents who see poorly."
         }
     },
     "supportAccess": {

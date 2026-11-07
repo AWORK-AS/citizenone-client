@@ -13312,7 +13312,9 @@
                 "garden": "Trädgård",
                 "visit": "Besök",
                 "sleep": "Vila"
-            }
+            },
+            "largeText": "Stor text",
+            "largeTextHint": "Större text och färre punkter åt gången, för boende som ser dåligt."
         }
     },
     "supportAccess": {
