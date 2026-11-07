@@ -1665,7 +1665,7 @@
         "taskProposal": {
             "label": "Cody AI föreslår en uppgift",
             "badge": "Förslag från Cody AI",
-            "board": "Tavla",
+            "subject": "Tavla",
             "create": "Skapa uppgift",
             "creating": "Skapar…",
             "cancel": "Avbryt",
@@ -1673,6 +1673,29 @@
             "declined": "Förslaget är avbrutet. Ingen uppgift skapades.",
             "expired": "Förslaget har gått ut. Be Cody AI om uppgiften igen.",
             "failed": "Uppgiften skapades inte. Försök igen."
+        },
+        "journalProposal": {
+            "label": "Cody AI föreslår en journalanteckning",
+            "badge": "Utkast föreslaget av Cody AI",
+            "subject": "Brukare",
+            "create": "Spara utkast",
+            "creating": "Sparar…",
+            "cancel": "Avbryt",
+            "created": "Utkastet är sparat. Öppna det, läs igenom det och spara det som anteckning.",
+            "declined": "Förslaget är avbrutet. Inget sparades.",
+            "expired": "Förslaget har gått ut. Be Cody AI om anteckningen igen.",
+            "failed": "Utkastet sparades inte. Försök igen."
+        },
+        "sourceLinks": {
+            "label": "Källa",
+            "kinds": {
+                "journal": "Journalanteckning",
+                "plan": "Handlingsplan",
+                "goal": "Mål",
+                "task": "Uppgift",
+                "shift": "Pass",
+                "chat": "Meddelande"
+            }
         },
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
         "budgetSpent": "Er extra kapacitet är slut, och dagens inkluderade svar är också använda. Fyll på för att fortsätta i dag.",

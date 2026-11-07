@@ -1665,7 +1665,7 @@
         "taskProposal": {
             "label": "Cody AI suggests a task",
             "badge": "Suggested by Cody AI",
-            "board": "Board",
+            "subject": "Board",
             "create": "Create task",
             "creating": "Creating…",
             "cancel": "Cancel",
@@ -1673,6 +1673,29 @@
             "declined": "Suggestion cancelled. No task was created.",
             "expired": "This suggestion has expired. Ask Cody AI for the task again.",
             "failed": "The task was not created. Try again."
+        },
+        "journalProposal": {
+            "label": "Cody AI suggests a journal note",
+            "badge": "Draft suggested by Cody AI",
+            "subject": "Citizen",
+            "create": "Save draft",
+            "creating": "Saving…",
+            "cancel": "Cancel",
+            "created": "The draft is saved. Open it, read it through and save it as a note.",
+            "declined": "Suggestion cancelled. Nothing was saved.",
+            "expired": "This suggestion has expired. Ask Cody AI for the note again.",
+            "failed": "The draft was not saved. Try again."
+        },
+        "sourceLinks": {
+            "label": "Source",
+            "kinds": {
+                "journal": "Journal note",
+                "plan": "Action plan",
+                "goal": "Goal",
+                "task": "Task",
+                "shift": "Shift",
+                "chat": "Message"
+            }
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",

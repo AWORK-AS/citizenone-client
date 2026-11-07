@@ -1665,7 +1665,7 @@
         "taskProposal": {
             "label": "Cody AI foreslår en oppgave",
             "badge": "Forslag fra Cody AI",
-            "board": "Tavle",
+            "subject": "Tavle",
             "create": "Opprett oppgave",
             "creating": "Oppretter…",
             "cancel": "Avbryt",
@@ -1673,6 +1673,29 @@
             "declined": "Forslaget er avbrutt. Ingen oppgave ble opprettet.",
             "expired": "Forslaget har utløpt. Be Cody AI om oppgaven igjen.",
             "failed": "Oppgaven ble ikke opprettet. Prøv igjen."
+        },
+        "journalProposal": {
+            "label": "Cody AI foreslår et journalnotat",
+            "badge": "Utkast foreslått av Cody AI",
+            "subject": "Bruker",
+            "create": "Lagre utkast",
+            "creating": "Lagrer…",
+            "cancel": "Avbryt",
+            "created": "Utkastet er lagret. Åpne det, les det gjennom og lagre det som notat.",
+            "declined": "Forslaget er avbrutt. Ingenting ble lagret.",
+            "expired": "Forslaget har utløpt. Be Cody AI om notatet igjen.",
+            "failed": "Utkastet ble ikke lagret. Prøv igjen."
+        },
+        "sourceLinks": {
+            "label": "Kilde",
+            "kinds": {
+                "journal": "Journalnotat",
+                "plan": "Handlingsplan",
+                "goal": "Mål",
+                "task": "Oppgave",
+                "shift": "Vakt",
+                "chat": "Melding"
+            }
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
         "budgetSpent": "Den ekstra kapasiteten er brukt, og dagens inkluderte svar er også brukt. Fyll på for å fortsette i dag.",

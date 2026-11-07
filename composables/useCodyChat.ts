@@ -4,7 +4,9 @@ import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedbac
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
 import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
 import { codyMemoryService } from '@/components/api/user/CodyMemoryService'
-import { TASK_PROPOSAL_CARD } from '@/composables/codyTaskProposal'
+import { isProposalCard } from '@/composables/codyProposal'
+import { sourceLinksFrom, withoutSourcesComment } from '@/composables/codySources'
+import type { SourceLink } from '@/composables/codySources'
 import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -68,6 +70,8 @@ export interface AnswerCard {
     link?: string | null
     /** Only on a `milo` card: which kind of CitizenOne question it was. */
     intent?: 'citizenone_support' | 'citizenone_sales'
+    /** Only on a journal draft proposal: the note as it would be saved, as text. */
+    preview?: string
 }
 
 export interface CodyMessage {
@@ -75,6 +79,8 @@ export interface CodyMessage {
     text: string
     files?: Array<{ name: string, size: number }>
     sources?: Array<{ uuid: string, name: string }>
+    /** "Kilde": the records the answer rests on, as links the server built. */
+    sourceLinks?: SourceLink[]
     companyDataStatus?: 'ready' | 'missing' | 'building'
     receipts?: ToolReceipt[]
     cards?: AnswerCard[]
@@ -125,9 +131,9 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
  */
 const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo']
 
-/** A task Cody AI proposed is drawn too: answer-card hands it to its own component. */
+/** A proposal (task, journal draft) is drawn too: answer-card hands it to its own component. */
 function isDrawnCard(type: unknown): boolean {
-    return KNOWN_CARDS.includes(type as string) || type === TASK_PROPOSAL_CARD
+    return KNOWN_CARDS.includes(type as string) || isProposalCard(type)
 }
 
 export function createCodyChat() {
@@ -696,7 +702,8 @@ export function createCodyChat() {
                         }) - 1
                     }
                     streamed.text += data?.text ?? ''
-                    state.messages[streamed.index].text = streamed.text
+                    // The sources comment is for the server; it never shows.
+                    state.messages[streamed.index].text = withoutSourcesComment(streamed.text)
                     return
                 }
                 if (event === 'done') streamed.done = data
@@ -707,7 +714,7 @@ export function createCodyChat() {
 
             // Stopping is a choice, not a failure: whatever was written is kept.
             if (error?.name === 'AbortError') {
-                return streamed.done ?? (streamed.text ? { data: { answer: streamed.text }, stopped: true } : null)
+                return streamed.done ?? (streamed.text ? { data: { answer: withoutSourcesComment(streamed.text) }, stopped: true } : null)
             }
 
             // Drop a partial answer before retrying, so nothing is shown twice.
@@ -744,6 +751,7 @@ export function createCodyChat() {
             text: response?.data?.answer,
             uuid: response?.message_uuid ?? response?.data?.message_uuid ?? null,
             sources: response?.sources ?? [],
+            sourceLinks: sourceLinksFrom(response?.source_links),
             companyDataStatus: response?.company_data_status ?? 'ready',
             // Copied, not referenced: the next question resets these, and an
             // answer's receipt and cards belong to that answer for as long as it

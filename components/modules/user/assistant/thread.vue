@@ -128,6 +128,21 @@
                         <ModulesUserAssistantToolTrace v-if="message.receipts?.length" :receipts="message.receipts"
                             class="mt-2" />
 
+                        <!-- Kilde: the journal entry, plan, goal, task, shift or chat the
+                        answer rests on. The server chose them and built the links, only
+                        for records this user may open; the model names none of it. -->
+                        <p v-if="message.sourceLinks?.length"
+                            class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
+                            <span>{{ $t('assistants.sourceLinks.label') }}:</span>
+                            <NuxtLink v-for="source in message.sourceLinks" :key="source.link" :to="source.link"
+                                :title="$t(`assistants.sourceLinks.kinds.${source.type}`)"
+                                class="inline-flex min-w-0 max-w-full items-center gap-1 text-blue-700 underline-offset-2 hover:underline">
+                                <Icon :name="SOURCE_ICONS[source.type]" class="size-3.5 shrink-0" aria-hidden="true" />
+                                <span class="sr-only">{{ $t(`assistants.sourceLinks.kinds.${source.type}`) }}:</span>
+                                <span class="truncate">{{ source.label }}</span>
+                            </NuxtLink>
+                        </p>
+
                         <!-- What the answer was actually built from. The backend already
                         resolved these for the audit trail. -->
                         <p v-if="message.sources?.length"
@@ -292,6 +307,7 @@ import { useUserStore } from '@/store/user'
 import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
 import { starterMode } from '@/composables/codyStarters'
 import { CODY_MEMORY_PAGE } from '@/composables/codyMemory'
+import { SOURCE_ICONS } from '@/composables/codySources'
 
 /**
  * The conversation itself: what was asked, what Cody answered, what it read to
