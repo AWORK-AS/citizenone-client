@@ -7,6 +7,7 @@
 export interface ScreenActivity {
     time: string | null
     title: string
+    icon?: string | null
 }
 
 export type ActivityState = 'past' | 'now' | 'next' | 'later'
@@ -166,4 +167,71 @@ export function pollShares(options: { title: string; votes: number }[]): number[
             }
         })
     return shares
+}
+
+/**
+ * Pictograms for activities, for residents who do not read. The keys are what
+ * the API stores (InfoScreen::ACTIVITY_ICONS); keep the two lists the same.
+ */
+export const ACTIVITY_ICONS: Record<string, string> = {
+    meal: 'ph:fork-knife',
+    coffee: 'ph:coffee',
+    walk: 'ph:person-simple-walk',
+    bus: 'ph:bus',
+    workshop: 'ph:hammer',
+    music: 'ph:music-notes',
+    sport: 'ph:soccer-ball',
+    bath: 'ph:bathtub',
+    doctor: 'ph:stethoscope',
+    medicine: 'ph:pill',
+    hairdresser: 'ph:scissors',
+    shopping: 'ph:shopping-cart',
+    cleaning: 'ph:broom',
+    cinema: 'ph:film-slate',
+    games: 'ph:puzzle-piece',
+    party: 'ph:confetti',
+    church: 'ph:church',
+    garden: 'ph:plant',
+    visit: 'ph:users',
+    sleep: 'ph:moon',
+}
+
+export function activityIcon(key: string | null | undefined): string | null {
+    return (key && ACTIVITY_ICONS[key]) || null
+}
+
+/** Whether `nowMinutes` falls in the night from `from` to `to`; the night may cross midnight. */
+export function isNightTime(nowMinutes: number, from: string | null | undefined, to: string | null | undefined): boolean {
+    const start = toMinutes(from)
+    const end = toMinutes(to)
+    if (start === null || end === null || start === end) return false
+    return start < end
+        ? nowMinutes >= start && nowMinutes < end
+        : nowMinutes >= start || nowMinutes < end
+}
+
+/**
+ * A paired screen asks for content every minute and is marked seen at most
+ * every 5 minutes, so 15 minutes without a sign means it is off or offline.
+ */
+export const OFFLINE_AFTER_MINUTES = 15
+
+export function isOffline(screen: { is_paired: boolean; last_seen_at: string | null }, now: number = Date.now()): boolean {
+    if (!screen.is_paired) return false
+    if (!screen.last_seen_at) return true
+    return now - Date.parse(screen.last_seen_at) > OFFLINE_AFTER_MINUTES * 60_000
+}
+
+/**
+ * Milliseconds until the screen reloads itself: 04:00 local time, plus a
+ * jitter so a company's screens do not all ask at the same second. A TV can
+ * run for weeks; the reload brings in new versions and frees memory.
+ */
+export const RELOAD_HOUR = 4
+
+export function msUntilNextReload(now: Date, jitterMs: number): number {
+    const next = new Date(now)
+    next.setHours(RELOAD_HOUR, 0, 0, 0)
+    if (next.getTime() <= now.getTime()) next.setDate(next.getDate() + 1)
+    return next.getTime() - now.getTime() + jitterMs
 }

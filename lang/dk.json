@@ -13286,7 +13286,38 @@
             "pollAddOption": "Tilføj svar",
             "pollLink": "Link til afstemningen:",
             "pollReset": "Start optællingen forfra",
-            "pollResetDone": "Optællingen er startet forfra"
+            "pollResetDone": "Optællingen er startet forfra",
+            "offline": "Offline",
+            "preview": "Forhåndsvis",
+            "messageUntil": "Vis til og med",
+            "messageUntilHint": "Tom = indtil I fjerner den",
+            "nightMode": "Nattilstand",
+            "nightModeHint": "Kun et dæmpet ur om natten. Sparer strøm og giver ikke lys på gangen.",
+            "nightFrom": "Nat fra",
+            "nightTo": "til",
+            "pictogram": "Piktogram",
+            "pictograms": {
+                "meal": "Mad",
+                "coffee": "Kaffe",
+                "walk": "Gåtur",
+                "bus": "Bus/tur",
+                "workshop": "Værksted",
+                "music": "Musik",
+                "sport": "Sport",
+                "bath": "Bad",
+                "doctor": "Læge",
+                "medicine": "Medicin",
+                "hairdresser": "Frisør",
+                "shopping": "Indkøb",
+                "cleaning": "Rengøring",
+                "cinema": "Film",
+                "games": "Spil",
+                "party": "Fest",
+                "church": "Kirke",
+                "garden": "Have",
+                "visit": "Besøg",
+                "sleep": "Hvil"
+            }
         }
     },
     "supportAccess": {
@@ -22230,7 +22261,10 @@
         "pollScan": "Scan og stem",
         "inMinutes": "Om {count} min",
         "inHours": "Om {count} t",
-        "inHoursMinutes": "Om {hours} t {minutes} min"
+        "inHoursMinutes": "Om {hours} t {minutes} min",
+        "offline": "Ingen forbindelse",
+        "preview": "Forhåndsvisning",
+        "previewFailed": "Forhåndsvisningen kunne ikke hentes. Log ind som administrator og prøv igen."
     },
     "infoScreenVote": {
         "title": "Afstemning",

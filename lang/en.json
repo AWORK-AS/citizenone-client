@@ -13286,7 +13286,38 @@
             "pollAddOption": "Add answer",
             "pollLink": "Link to the poll:",
             "pollReset": "Start the count over",
-            "pollResetDone": "The count has started over"
+            "pollResetDone": "The count has started over",
+            "offline": "Offline",
+            "preview": "Preview",
+            "messageUntil": "Show until",
+            "messageUntilHint": "Empty = until you remove it",
+            "nightMode": "Night mode",
+            "nightModeHint": "Only a dim clock at night. Saves power and keeps the hallway dark.",
+            "nightFrom": "Night from",
+            "nightTo": "to",
+            "pictogram": "Pictogram",
+            "pictograms": {
+                "meal": "Meal",
+                "coffee": "Coffee",
+                "walk": "Walk",
+                "bus": "Bus/trip",
+                "workshop": "Workshop",
+                "music": "Music",
+                "sport": "Sport",
+                "bath": "Bath",
+                "doctor": "Doctor",
+                "medicine": "Medicine",
+                "hairdresser": "Hairdresser",
+                "shopping": "Shopping",
+                "cleaning": "Cleaning",
+                "cinema": "Film",
+                "games": "Games",
+                "party": "Party",
+                "church": "Church",
+                "garden": "Garden",
+                "visit": "Visit",
+                "sleep": "Rest"
+            }
         }
     },
     "supportAccess": {
@@ -22230,7 +22261,10 @@
         "pollScan": "Scan and vote",
         "inMinutes": "In {count} min",
         "inHours": "In {count} h",
-        "inHoursMinutes": "In {hours} h {minutes} min"
+        "inHoursMinutes": "In {hours} h {minutes} min",
+        "offline": "No connection",
+        "preview": "Preview",
+        "previewFailed": "The preview could not be loaded. Log in as an administrator and try again."
     },
     "infoScreenVote": {
         "title": "Poll",

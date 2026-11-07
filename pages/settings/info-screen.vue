@@ -73,6 +73,10 @@
                                         :class="screen.is_paired ? 'bg-[#f0faf9] text-[#1b6d8a]' : 'bg-slate-100 text-slate-500'">
                                         {{ screen.is_paired ? $t('settings.infoScreen.paired') : $t('settings.infoScreen.notPaired') }}
                                     </span>
+                                    <span v-if="isOffline(screen)"
+                                        class="inline-flex items-center gap-1 rounded-full border border-[#fecaca] bg-[#fef2f2] px-2.5 py-0.5 text-[11px] font-semibold text-[#dc2626]">
+                                        <Icon name="ph:wifi-slash" class="h-3 w-3" /> {{ $t('settings.infoScreen.offline') }}
+                                    </span>
                                     <span v-if="screen.is_paired && screen.last_seen_at" class="text-xs text-slate-400">
                                         {{ $t('settings.infoScreen.lastSeen', { time: formatTime(screen.last_seen_at) }) }}
                                     </span>
@@ -85,6 +89,10 @@
                                     <FormButton v-if="screen.is_paired" buttonStyle="action" @click="state.confirm = { type: 'unpair', screen }">
                                         <Icon name="ph:link-break" class="h-4 w-4" />
                                         {{ $t('settings.infoScreen.unpair') }}
+                                    </FormButton>
+                                    <FormButton buttonStyle="action" @click="preview(screen)">
+                                        <Icon name="ph:monitor-play" class="h-4 w-4" />
+                                        {{ $t('settings.infoScreen.preview') }}
                                     </FormButton>
                                     <FormButton buttonStyle="action" @click="edit(screen)">
                                         <Icon name="ph:pencil-simple" class="h-4 w-4" />
@@ -135,6 +143,22 @@
                                 <FormLabel for="screen-message" :label="$t('settings.infoScreen.message')" />
                                 <FormTextArea name="screen-message" v-model="state.form.message" :rows="2"
                                     :placeholder="$t('settings.infoScreen.messagePlaceholder')" />
+                                <div v-if="state.form.message" class="mt-2 flex flex-wrap items-center gap-2">
+                                    <label for="screen-message-until" class="text-xs text-slate-500">{{ $t('settings.infoScreen.messageUntil') }}</label>
+                                    <input id="screen-message-until" type="date" v-model="state.form.message_until"
+                                        class="h-9 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
+                                    <span class="text-xs text-slate-400">{{ $t('settings.infoScreen.messageUntilHint') }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Night -->
+                            <div v-if="state.form.night_mode" class="flex flex-wrap items-center gap-2">
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.nightFrom') }}</p>
+                                <input type="time" v-model="state.form.night_from" :aria-label="$t('settings.infoScreen.nightFrom')"
+                                    class="h-9 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
+                                <p class="text-sm text-slate-900">{{ $t('settings.infoScreen.nightTo') }}</p>
+                                <input type="time" v-model="state.form.night_to" :aria-label="$t('settings.infoScreen.nightTo')"
+                                    class="h-9 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
                             </div>
 
                             <!-- Program -->
@@ -143,10 +167,15 @@
                                 <p class="text-xs text-slate-400">{{ $t('settings.infoScreen.activitiesHint') }}</p>
                                 <div class="mt-3 space-y-2">
                                     <div v-for="(row, index) in state.form.activities" :key="index"
-                                        class="grid grid-cols-[9rem_6rem_1fr_auto] items-center gap-2">
+                                        class="grid grid-cols-[9rem_6rem_10rem_1fr_auto] items-center gap-2">
                                         <FormSelect v-model="row.weekday" :options="weekdayOptions" :canClear="false" :canDeselect="false" />
                                         <input type="time" v-model="row.time"
                                             class="h-11 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
+                                        <div class="flex items-center gap-1.5">
+                                            <Icon :name="activityIcon(row.icon) ?? 'ph:image-square'" class="h-5 w-5 shrink-0"
+                                                :class="row.icon ? 'text-[#0f4c75]' : 'text-slate-300'" />
+                                            <FormSelect v-model="row.icon" :options="iconOptions" :placeholder="$t('settings.infoScreen.pictogram')" />
+                                        </div>
                                         <FormTextField v-model="row.title" :maxLength="120"
                                             :placeholder="$t('settings.infoScreen.activityPlaceholder')" />
                                         <button type="button" class="p-2 text-slate-400 hover:text-[#dc2626]"
@@ -289,6 +318,7 @@ import { departmentService } from '@/components/api/user/DepartmentService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { ACTIVITY_ICONS, activityIcon, isOffline } from '@/composables/infoScreen'
 
 /**
  * The Info Screen app: screens in common rooms. An admin sets up what each
@@ -338,7 +368,17 @@ const widgets = computed(() => [
     { key: 'show_timeline', label: t('settings.infoScreen.showTimeline'), hint: t('settings.infoScreen.showTimelineHint') },
     { key: 'show_weather', label: t('settings.infoScreen.showWeather'), hint: t('settings.infoScreen.showWeatherHint') },
     { key: 'show_poll', label: t('settings.infoScreen.showPoll'), hint: t('settings.infoScreen.showPollHint') },
+    { key: 'night_mode', label: t('settings.infoScreen.nightMode'), hint: t('settings.infoScreen.nightModeHint') },
 ])
+
+const iconOptions = computed(() => Object.keys(ACTIVITY_ICONS).map((key) => ({
+    value: key,
+    label: t(`settings.infoScreen.pictograms.${key}`),
+})))
+
+function preview(screen: any) {
+    window.open(`/screen?preview=${screen.uuid}`, '_blank', 'noopener')
+}
 
 const MAX_POLL_OPTIONS = 6
 
@@ -389,6 +429,10 @@ function toForm(screen: any = null) {
         show_slides: screen?.show_slides ?? true,
         show_staff_on_duty: screen?.show_staff_on_duty ?? false,
         message: screen?.message ?? '',
+        message_until: screen?.message_until ?? '',
+        night_mode: screen?.night_mode ?? false,
+        night_from: screen?.night_from ?? '22:00',
+        night_to: screen?.night_to ?? '06:00',
         menu,
         activities: (screen?.activities ?? []).map((row: any) => ({ ...row })),
         slide_seconds: screen?.slide_seconds ?? 10,
@@ -425,12 +469,13 @@ async function save() {
     const payload = {
         ...form,
         message: form.message || null,
+        message_until: (form.message && form.message_until) || null,
         weather_place: form.weather_place || null,
         poll_question: form.poll_question || null,
         poll_options: form.poll_options.map((option: string) => option.trim()).filter(Boolean),
         activities: form.activities
             .filter((row: any) => row.title?.trim())
-            .map((row: any) => ({ weekday: row.weekday, time: row.time || null, title: row.title.trim() })),
+            .map((row: any) => ({ weekday: row.weekday, time: row.time || null, title: row.title.trim(), icon: row.icon || null })),
     }
 
     try {

@@ -5,7 +5,7 @@
             <h3 class="mt-[1vh] text-[4.4vh] font-semibold leading-tight">{{ poll.question }}</h3>
 
             <!-- One measure per option: bars in one hue, the leader a step stronger. -->
-            <ul class="mt-[3vh] flex flex-1 flex-col justify-center gap-[2.2vh]">
+            <ul class="mt-[2vh] flex min-h-0 flex-1 flex-col justify-center gap-[1.6vh]">
                 <li v-for="(option, index) in poll.options" :key="index">
                     <div class="mb-[0.8vh] flex items-baseline justify-between gap-[2vh] text-[2.8vh]">
                         <span class="truncate font-light">{{ option.title }}</span>
@@ -18,7 +18,7 @@
                     </div>
                 </li>
             </ul>
-            <p class="mt-[2vh] text-[2.2vh] text-white/60">{{ $t('infoScreenDisplay.pollVotes', { count: poll.total }) }}</p>
+            <p class="mt-[1.4vh] text-[2.2vh] text-white/60">{{ $t('infoScreenDisplay.pollVotes', { count: poll.total }) }}</p>
         </div>
 
         <div v-if="voteUrl" class="flex w-[26vh] shrink-0 flex-col items-center justify-center gap-[1.6vh] text-center">

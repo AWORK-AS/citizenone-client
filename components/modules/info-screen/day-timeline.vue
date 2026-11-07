@@ -1,5 +1,5 @@
 <template>
-    <div class="panel-in relative px-[2vh] pb-[5.5vh] pt-[5vh]">
+    <div class="panel-in relative px-[2vh] pb-[7vh] pt-[5vh]">
         <!-- Hour ticks -->
         <div class="relative h-[0.6vh] rounded-full bg-white/10">
             <div class="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#2dbab2]/20 to-[#2dbab2]/60 transition-[width] duration-1000"
@@ -19,10 +19,10 @@
                     }" />
                 <span class="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[1.8vh]"
                     :class="[
-                        index % 2 === 0 ? 'bottom-[2.6vh]' : 'top-[3.2vh]',
+                        index % 2 === 0 ? 'bottom-[2.6vh]' : 'top-[4.4vh]',
                         activity.state === 'past' ? 'text-white/30' : activity.state === 'now' ? 'font-semibold text-[#2dbab2]' : 'text-white/80',
                     ]">
-                    {{ activity.title }}
+                    <Icon v-if="activityIcon(activity.icon)" :name="activityIcon(activity.icon)!" class="mr-[0.5vh] align-[-0.3vh]" />{{ activity.title }}
                 </span>
             </div>
 
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { timelinePercent, timelineRange, type ActivityWithState } from '@/composables/infoScreen'
+import { activityIcon, timelinePercent, timelineRange, type ActivityWithState } from '@/composables/infoScreen'
 
 const props = defineProps<{
     activities: ActivityWithState[]

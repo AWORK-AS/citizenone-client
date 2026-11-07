@@ -38,6 +38,12 @@
             <p class="max-w-2xl text-2xl font-light text-white/80">{{ blockedText }}</p>
         </div>
 
+        <!-- Night: only a dim clock, so the hallway stays dark and the panel rests -->
+        <div v-else-if="feed && isNight" class="night burn-in-shift relative flex h-full flex-col items-center justify-center text-white/30">
+            <p class="text-[18vh] font-light leading-none tabular-nums">{{ clockText }}</p>
+            <p class="mt-[2vh] text-[3vh] font-light">{{ dateText }}</p>
+        </div>
+
         <!-- The screen. The whole picture drifts a few pixels over the hours against burn-in. -->
         <div v-else-if="feed" class="burn-in-shift relative flex h-full flex-col gap-[2vh] p-[3vh]">
             <header class="panel-in flex items-start justify-between gap-8">
@@ -65,13 +71,14 @@
                         <h2 class="panel-title"><Icon name="ph:calendar-check" /> {{ $t('infoScreenDisplay.today') }}</h2>
                         <TransitionGroup v-if="activities.length" tag="ul" name="list" class="space-y-[0.6vh]">
                             <li v-for="activity in visibleActivities" :key="activity.time + activity.title"
-                                class="activity flex items-center gap-[2vh] rounded-xl px-[1.6vh] py-[1vh] text-[3vh]"
+                                class="activity flex items-center gap-[2vh] rounded-xl px-[1.6vh] py-[0.7vh] text-[3vh]"
                                 :class="{
                                     'opacity-35': activity.state === 'past',
                                     'activity-now bg-[#2dbab2]/15': activity.state === 'now',
                                 }">
                                 <span class="w-[10vh] shrink-0 font-semibold tabular-nums"
                                     :class="activity.state === 'past' ? 'text-white' : 'text-[#2dbab2]'">{{ activity.time ?? '' }}</span>
+                                <Icon v-if="activityIcon(activity.icon)" :name="activityIcon(activity.icon)!" class="shrink-0 text-[3.6vh]" />
                                 <span class="min-w-0 flex-1 truncate font-light">{{ activity.title }}</span>
                                 <span v-if="activity.state === 'now'"
                                     class="shrink-0 rounded-full bg-[#2dbab2] px-[1.4vh] py-[0.3vh] text-[1.9vh] font-semibold uppercase tracking-wider">
@@ -152,8 +159,22 @@
             </footer>
         </div>
 
+        <div v-else-if="previewError" class="relative flex h-full items-center justify-center px-6 text-center">
+            <p class="max-w-2xl text-2xl font-light text-white/80">{{ previewError }}</p>
+        </div>
+
         <div v-else class="relative flex h-full items-center justify-center">
             <LogoWhite class="h-12 animate-pulse" />
+        </div>
+
+        <!-- Lost the connection: still showing the last content; tells staff why it is not updating -->
+        <div v-if="feed && isStale && !isNight" class="absolute bottom-[1.5vh] right-[1.5vh] flex items-center gap-[1vh] rounded-full bg-black/40 px-[1.6vh] py-[0.6vh] text-[1.8vh] text-white/70">
+            <Icon name="ph:wifi-slash" /> {{ $t('infoScreenDisplay.offline') }}
+        </div>
+
+        <!-- Preview from settings: not a paired TV -->
+        <div v-if="previewUuid" class="absolute left-1/2 top-[1.5vh] -translate-x-1/2 rounded-full bg-[#fff7ed] px-[2vh] py-[0.6vh] text-[1.8vh] font-semibold text-[#c2410c]">
+            {{ $t('infoScreenDisplay.preview') }}
         </div>
     </div>
 </template>
@@ -161,7 +182,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
-import { activityStates, weatherIcon } from '@/composables/infoScreen'
+import { activityIcon, activityStates, isNightTime, msUntilNextReload, weatherIcon } from '@/composables/infoScreen'
+import { infoScreenService } from '@/components/api/user/InfoScreenService'
 import DayTimeline from '@/components/modules/info-screen/day-timeline.vue'
 import WeatherCard from '@/components/modules/info-screen/weather-card.vue'
 import PollCard from '@/components/modules/info-screen/poll-card.vue'
@@ -170,13 +192,22 @@ import PollCard from '@/components/modules/info-screen/poll-card.vue'
  * The Info Screen display: opened on a TV in a common room. No login. The TV
  * pairs once with a code from Settings → Info screen and keeps the token it
  * gets. It asks for new content every minute and keeps showing the last good
- * content if the network drops.
+ * content if the network drops, also across a restart (kept in localStorage).
+ * It reloads itself every night to pick up new versions.
+ *
+ * With ?preview=<uuid> a logged-in admin sees a screen's content from
+ * settings, without pairing a TV.
  */
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
 const userStore = useUserStore() as any
 
 const TOKEN_KEY = 'citizenone-info-screen-token'
+const FEED_KEY = 'citizenone-info-screen-feed'
+// After this long without new content the screen says it is offline.
+const STALE_AFTER_MS = 3 * 60_000
+const RELOAD_JITTER_MS = 15 * 60_000
+const RELOAD_RETRY_MS = 10 * 60_000
 const REFRESH_MS = 60_000
 const MARQUEE_FROM = 70
 const POLL_SECONDS = 20
@@ -190,6 +221,10 @@ const pairing = ref(false)
 const pairError = ref('')
 const blockedReason = ref('')
 const codeInput = ref<HTMLInputElement | null>(null)
+const route = useRoute()
+const previewUuid = typeof route.query.preview === 'string' ? route.query.preview : null
+const previewError = ref('')
+const lastLoadedAt = ref(0)
 
 // The TV's own clock is often wrong; the server's time is used, kept in step locally.
 const clockOffset = ref(0)
@@ -199,6 +234,18 @@ let refreshTimer: ReturnType<typeof setInterval> | null = null
 let clockTimer: ReturnType<typeof setInterval> | null = null
 let rotateTimer: ReturnType<typeof setTimeout> | null = null
 let wakeLock: any = null
+let reloadTimer: ReturnType<typeof setTimeout> | null = null
+
+function readCachedFeed(): any {
+    try { return JSON.parse(localStorage.getItem(FEED_KEY) ?? 'null') } catch { return null }
+}
+
+function writeCachedFeed(data: any) {
+    try {
+        if (data) localStorage.setItem(FEED_KEY, JSON.stringify(data))
+        else localStorage.removeItem(FEED_KEY)
+    } catch { /* storage full or blocked: only the live content is shown */ }
+}
 
 function readToken(): string | null {
     try { return localStorage.getItem(TOKEN_KEY) } catch { return null }
@@ -229,6 +276,8 @@ const dateText = computed(() => {
 })
 
 const activities = computed(() => activityStates(feed.value?.activities ?? [], nowMinutes.value))
+const isNight = computed(() => !!feed.value?.night && isNightTime(nowMinutes.value, feed.value.night.from, feed.value.night.to))
+const isStale = computed(() => !previewUuid && lastLoadedAt.value > 0 && now.value - lastLoadedAt.value > STALE_AFTER_MS)
 
 // The list holds about four rows; when the day is fuller, what is over goes first.
 const MAX_ROWS = 4
@@ -299,42 +348,84 @@ async function api(path: string, options: any = {}) {
     return await $fetch(path, { baseURL: runtimeConfig.public.apiBaseURL, headers: { Accept: 'application/json', ...(options.headers ?? {}) }, ...options })
 }
 
-async function loadFeed() {
+function showFeed(data: any, live = true) {
+    // A cached feed's server time is old: keep the TV's own clock until live content arrives.
+    if (live && data.server_time) clockOffset.value = new Date(data.server_time).getTime() - Date.now()
+    const firstLoad = !feed.value
+    // A screen has no user to pick a language: it speaks the staff's language.
+    if (data.language && data.language !== locale.value) {
+        userStore.setLanguage(data.language)
+        locale.value = data.language
+    }
+    feed.value = data
+    mode.value = 'show'
+    lastLoadedAt.value = Date.now()
+    if (firstLoad) scheduleRotation()
+}
+
+async function loadPreview(): Promise<boolean> {
+    try {
+        const response: any = await infoScreenService.getPreview(previewUuid as string)
+        if (response?.data) showFeed(response.data)
+        return true
+    } catch (error: any) {
+        if (!feed.value) previewError.value = t('infoScreenDisplay.previewFailed')
+        return false
+    }
+}
+
+/** True when new content came in. */
+async function loadFeed(): Promise<boolean> {
+    if (previewUuid) return loadPreview()
+
     const token = readToken()
     if (!token) {
         showPair()
-        return
+        return false
     }
 
     try {
         const response: any = await api('/info-screen/feed', { headers: { Authorization: `Bearer ${token}` } })
         const data = response?.data
-        if (!data) return
-        if (data.server_time) clockOffset.value = new Date(data.server_time).getTime() - Date.now()
-        const firstLoad = !feed.value
-        // A screen has no user to pick a language: it speaks the staff's language.
-        if (data.language && data.language !== locale.value) {
-            userStore.setLanguage(data.language)
-            locale.value = data.language
-        }
-        feed.value = data
-        mode.value = 'show'
-        if (firstLoad) scheduleRotation()
+        if (!data) return false
+        writeCachedFeed(data)
+        showFeed(data)
+        return true
     } catch (error: any) {
         const status = error?.response?.status
         const reason = error?.response?._data?.reason
         if (status === 401) {
             // Unpaired or deleted in settings: start over.
             writeToken(null)
+            writeCachedFeed(null)
             feed.value = null
             showPair()
         } else if (status === 403) {
+            writeCachedFeed(null)
             feed.value = null
             blockedReason.value = reason ?? ''
             mode.value = 'blocked'
         }
         // Network errors and 5xx: keep showing what we have and try again later.
+        return false
     }
+}
+
+/**
+ * Reload at night, but only when both the page and the API answer: a reload
+ * while offline would leave the TV on the browser's error page.
+ */
+function scheduleNightlyReload(delay = msUntilNextReload(new Date(), Math.random() * RELOAD_JITTER_MS)) {
+    if (reloadTimer) clearTimeout(reloadTimer)
+    reloadTimer = setTimeout(async () => {
+        let pageAnswers = false
+        try { pageAnswers = (await fetch(window.location.href, { cache: 'no-store' })).ok } catch { /* offline */ }
+        if (pageAnswers && await loadFeed()) {
+            window.location.reload()
+            return
+        }
+        scheduleNightlyReload(RELOAD_RETRY_MS)
+    }, delay)
 }
 
 function showPair() {
@@ -382,8 +473,20 @@ function applyBrowserLanguage() {
 }
 
 onMounted(() => {
-    if (!readToken()) applyBrowserLanguage()
-    loadFeed()
+    if (previewUuid) {
+        loadFeed()
+    } else if (!readToken()) {
+        applyBrowserLanguage()
+        showPair()
+    } else {
+        // Show the last content at once (also offline), then ask for new.
+        const cached = readCachedFeed()
+        if (cached) {
+            showFeed(cached, false)
+        }
+        loadFeed()
+        scheduleNightlyReload()
+    }
     keepAwake()
     refreshTimer = setInterval(loadFeed, REFRESH_MS)
     clockTimer = setInterval(() => { now.value = Date.now() }, 1000)
@@ -394,12 +497,21 @@ onBeforeUnmount(() => {
     if (refreshTimer) clearInterval(refreshTimer)
     if (clockTimer) clearInterval(clockTimer)
     if (rotateTimer) clearTimeout(rotateTimer)
+    if (reloadTimer) clearTimeout(reloadTimer)
     document.removeEventListener('visibilitychange', onVisible)
     wakeLock?.release?.()
 })
 </script>
 
 <style scoped>
+.night {
+    animation: night-in 3s ease both;
+}
+
+@keyframes night-in {
+    from { opacity: 0; }
+}
+
 .panel {
     @apply rounded-2xl bg-white/[0.06] p-[3vh] backdrop-blur-sm;
 }

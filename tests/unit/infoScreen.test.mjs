@@ -8,6 +8,7 @@ import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
     activityStates, pollShares, timelinePercent, timelineRange, toMinutes, weatherCurve, weatherIcon,
+    ACTIVITY_ICONS, activityIcon, isNightTime, isOffline, msUntilNextReload,
 } from '../../composables/infoScreen.ts'
 
 const program = [
@@ -109,5 +110,56 @@ describe('edge cases', () => {
         const shares = pollShares([{ title: 'a', votes: 1 }, { title: 'b', votes: 1 }, { title: 'c', votes: 1 }])
         assert.equal(shares.reduce((a, b) => a + b, 0), 100)
         assert.deepEqual(pollShares([{ title: 'a', votes: 2 }, { title: 'b', votes: 1 }, { title: 'c', votes: 0 }]), [67, 33, 0])
+    })
+})
+
+describe('isNightTime', () => {
+    test('a night across midnight', () => {
+        assert.equal(isNightTime(23 * 60, '22:00', '06:00'), true)
+        assert.equal(isNightTime(3 * 60, '22:00', '06:00'), true)
+        assert.equal(isNightTime(6 * 60, '22:00', '06:00'), false)
+        assert.equal(isNightTime(12 * 60, '22:00', '06:00'), false)
+    })
+
+    test('a night within one day, and no night when from equals to', () => {
+        assert.equal(isNightTime(2 * 60, '01:00', '05:00'), true)
+        assert.equal(isNightTime(23 * 60, '01:00', '05:00'), false)
+        assert.equal(isNightTime(23 * 60, '22:00', '22:00'), false)
+        assert.equal(isNightTime(23 * 60, null, '06:00'), false)
+    })
+})
+
+describe('isOffline', () => {
+    const now = Date.parse('2026-11-18T12:00:00Z')
+
+    test('a paired screen not seen for 15 minutes is offline', () => {
+        assert.equal(isOffline({ is_paired: true, last_seen_at: '2026-11-18T11:50:00Z' }, now), false)
+        assert.equal(isOffline({ is_paired: true, last_seen_at: '2026-11-18T11:44:00Z' }, now), true)
+        assert.equal(isOffline({ is_paired: true, last_seen_at: null }, now), true)
+    })
+
+    test('an unpaired screen is never offline', () => {
+        assert.equal(isOffline({ is_paired: false, last_seen_at: null }, now), false)
+    })
+})
+
+describe('msUntilNextReload', () => {
+    test('waits for the next 04:00 plus the jitter', () => {
+        const at = new Date(2026, 10, 18, 3, 0, 0)
+        assert.equal(msUntilNextReload(at, 0), 60 * 60 * 1000)
+        assert.equal(msUntilNextReload(at, 5 * 60 * 1000), 65 * 60 * 1000)
+    })
+
+    test('after 04:00 it waits for tomorrow', () => {
+        const at = new Date(2026, 10, 18, 4, 30, 0)
+        assert.equal(msUntilNextReload(at, 0), 23.5 * 60 * 60 * 1000)
+    })
+})
+
+describe('activityIcon', () => {
+    test('every pictogram has an icon, unknown ones none', () => {
+        for (const key of Object.keys(ACTIVITY_ICONS)) assert.match(activityIcon(key), /^ph:/)
+        assert.equal(activityIcon('rocket'), null)
+        assert.equal(activityIcon(null), null)
     })
 })

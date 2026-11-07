@@ -13281,7 +13281,38 @@
             "pollAddOption": "Legg til svar",
             "pollLink": "Lenke til avstemningen:",
             "pollReset": "Start tellingen på nytt",
-            "pollResetDone": "Tellingen er startet på nytt"
+            "pollResetDone": "Tellingen er startet på nytt",
+            "offline": "Frakoblet",
+            "preview": "Forhåndsvis",
+            "messageUntil": "Vis til og med",
+            "messageUntilHint": "Tom = til dere fjerner den",
+            "nightMode": "Nattmodus",
+            "nightModeHint": "Bare en dempet klokke om natten. Sparer strøm og gir ikke lys i gangen.",
+            "nightFrom": "Natt fra",
+            "nightTo": "til",
+            "pictogram": "Piktogram",
+            "pictograms": {
+                "meal": "Mat",
+                "coffee": "Kaffe",
+                "walk": "Gåtur",
+                "bus": "Buss/tur",
+                "workshop": "Verksted",
+                "music": "Musikk",
+                "sport": "Sport",
+                "bath": "Bad",
+                "doctor": "Lege",
+                "medicine": "Medisin",
+                "hairdresser": "Frisør",
+                "shopping": "Innkjøp",
+                "cleaning": "Rengjøring",
+                "cinema": "Film",
+                "games": "Spill",
+                "party": "Fest",
+                "church": "Kirke",
+                "garden": "Hage",
+                "visit": "Besøk",
+                "sleep": "Hvile"
+            }
         }
     },
     "supportAccess": {
@@ -22145,7 +22176,10 @@
         "pollScan": "Skann og stem",
         "inMinutes": "Om {count} min",
         "inHours": "Om {count} t",
-        "inHoursMinutes": "Om {hours} t {minutes} min"
+        "inHoursMinutes": "Om {hours} t {minutes} min",
+        "offline": "Ingen tilkobling",
+        "preview": "Forhåndsvisning",
+        "previewFailed": "Forhåndsvisningen kunne ikke hentes. Logg inn som administrator og prøv igjen."
     },
     "infoScreenVote": {
         "title": "Avstemning",

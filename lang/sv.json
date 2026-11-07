@@ -13281,7 +13281,38 @@
             "pollAddOption": "Lägg till svar",
             "pollLink": "Länk till omröstningen:",
             "pollReset": "Börja räkningen om",
-            "pollResetDone": "Räkningen har börjat om"
+            "pollResetDone": "Räkningen har börjat om",
+            "offline": "Offline",
+            "preview": "Förhandsgranska",
+            "messageUntil": "Visa till och med",
+            "messageUntilHint": "Tomt = tills ni tar bort det",
+            "nightMode": "Nattläge",
+            "nightModeHint": "Bara en dämpad klocka på natten. Sparar ström och ger inget ljus i korridoren.",
+            "nightFrom": "Natt från",
+            "nightTo": "till",
+            "pictogram": "Piktogram",
+            "pictograms": {
+                "meal": "Mat",
+                "coffee": "Kaffe",
+                "walk": "Promenad",
+                "bus": "Buss/utflykt",
+                "workshop": "Verkstad",
+                "music": "Musik",
+                "sport": "Sport",
+                "bath": "Bad",
+                "doctor": "Läkare",
+                "medicine": "Medicin",
+                "hairdresser": "Frisör",
+                "shopping": "Handla",
+                "cleaning": "Städning",
+                "cinema": "Film",
+                "games": "Spel",
+                "party": "Fest",
+                "church": "Kyrka",
+                "garden": "Trädgård",
+                "visit": "Besök",
+                "sleep": "Vila"
+            }
         }
     },
     "supportAccess": {
@@ -22145,7 +22176,10 @@
         "pollScan": "Skanna och rösta",
         "inMinutes": "Om {count} min",
         "inHours": "Om {count} tim",
-        "inHoursMinutes": "Om {hours} tim {minutes} min"
+        "inHoursMinutes": "Om {hours} tim {minutes} min",
+        "offline": "Ingen anslutning",
+        "preview": "Förhandsvisning",
+        "previewFailed": "Förhandsvisningen kunde inte hämtas. Logga in som administratör och försök igen."
     },
     "infoScreenVote": {
         "title": "Omröstning",

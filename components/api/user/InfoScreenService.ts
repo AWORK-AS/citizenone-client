@@ -18,6 +18,11 @@ class InfoScreenService extends BaseAPIService {
         return await this.request(`/user/info-screens/${uuid}`, 'DELETE')
     }
 
+    /** The screen's content as a TV would get it, for the admin to look at. */
+    async getPreview(uuid: string): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/preview`, 'GET')
+    }
+
     async createPairingCode(uuid: string): Promise<any> {
         return await this.request(`/user/info-screens/${uuid}/pairing-code`, 'POST')
     }
