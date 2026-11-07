@@ -1681,6 +1681,18 @@
                 "department": "Department"
             }
         },
+        "taskProposal": {
+            "label": "Cody AI suggests a task",
+            "badge": "Suggested by Cody AI",
+            "board": "Board",
+            "create": "Create task",
+            "creating": "Creating…",
+            "cancel": "Cancel",
+            "created": "The task has been created",
+            "declined": "Suggestion cancelled. No task was created.",
+            "expired": "This suggestion has expired. Ask Cody AI for the task again.",
+            "failed": "The task was not created. Try again."
+        },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
         "ownDailyLimit": "You have used your own daily Cody AI allowance. Your administrator can raise it.",
