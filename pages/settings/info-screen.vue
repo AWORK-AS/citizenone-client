@@ -49,6 +49,33 @@
                             </FormButton>
                         </div>
 
+                        <!-- Urgent message on every screen -->
+                        <div class="rounded-xl border p-5 shadow-sm"
+                            :class="state.alert ? 'border-[#fed7aa] bg-[#fff7ed]' : 'border-surface-200 bg-white'">
+                            <div class="flex items-start gap-3">
+                                <Icon name="ph:warning" class="mt-0.5 h-5 w-5 shrink-0" :class="state.alert ? 'text-[#c2410c]' : 'text-slate-400'" />
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.alertTitle') }}</p>
+                                    <p class="text-xs text-slate-500">{{ $t('settings.infoScreen.alertHint') }}</p>
+                                    <p v-if="state.alert" class="mt-3 whitespace-pre-line text-sm font-semibold text-[#c2410c]">
+                                        {{ $t('settings.infoScreen.alertActive') }}: {{ state.alert.message }}
+                                    </p>
+                                    <div class="mt-3 flex flex-wrap items-end gap-2">
+                                        <div class="min-w-0 flex-1">
+                                            <FormTextField id="screen-alert" name="screen-alert" v-model="state.alertDraft" :maxLength="300"
+                                                :placeholder="$t('settings.infoScreen.alertPlaceholder')" />
+                                        </div>
+                                        <FormButton buttonStyle="warning" :disabled="!state.alertDraft.trim() || state.alertSaving" @click="saveAlert">
+                                            {{ state.alert ? $t('settings.infoScreen.alertUpdate') : $t('settings.infoScreen.alertShow') }}
+                                        </FormButton>
+                                        <FormButton v-if="state.alert" buttonStyle="action" :disabled="state.alertSaving" @click="clearAlert">
+                                            {{ $t('settings.infoScreen.alertRemove') }}
+                                        </FormButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Screens -->
                         <div v-if="state.screens.length === 0"
                             class="rounded-xl border border-dashed border-surface-200 bg-white p-8 text-center text-sm text-slate-500">
@@ -93,6 +120,10 @@
                                     <FormButton buttonStyle="action" @click="preview(screen)">
                                         <Icon name="ph:monitor-play" class="h-4 w-4" />
                                         {{ $t('settings.infoScreen.preview') }}
+                                    </FormButton>
+                                    <FormButton buttonStyle="action" @click="duplicate(screen)">
+                                        <Icon name="ph:copy" class="h-4 w-4" />
+                                        {{ $t('settings.infoScreen.duplicate') }}
                                     </FormButton>
                                     <FormButton buttonStyle="action" @click="edit(screen)">
                                         <Icon name="ph:pencil-simple" class="h-4 w-4" />
@@ -185,9 +216,27 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button type="button" class="mt-2 text-sm font-semibold text-primary hover:underline" @click="addActivity">
-                                    + {{ $t('settings.infoScreen.addActivity') }}
-                                </button>
+                                <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
+                                    <button type="button" class="text-sm font-semibold text-primary hover:underline" @click="addActivity">
+                                        + {{ $t('settings.infoScreen.addActivity') }}
+                                    </button>
+                                    <!-- Same program on several days: copy one day instead of typing it again -->
+                                    <div v-if="state.form.activities.length" class="flex flex-wrap items-center gap-2 text-sm text-slate-600">
+                                        <span>{{ $t('settings.infoScreen.copyDay') }}</span>
+                                        <select v-model.number="state.copyFrom" :aria-label="$t('settings.infoScreen.copyDay')"
+                                            class="h-9 rounded-lg border border-gray-200 py-0 pl-2 pr-8 text-sm">
+                                            <option v-for="day in weekdayOptions" :key="day.value" :value="day.value">{{ day.label }}</option>
+                                        </select>
+                                        <span>{{ $t('settings.infoScreen.copyDayTo') }}</span>
+                                        <select v-model="state.copyTo" :aria-label="$t('settings.infoScreen.copyDayTo')"
+                                            class="h-9 rounded-lg border border-gray-200 py-0 pl-2 pr-8 text-sm">
+                                            <option value="weekdays">{{ $t('settings.infoScreen.copyWeekdays') }}</option>
+                                            <option value="all">{{ $t('settings.infoScreen.copyAllDays') }}</option>
+                                            <option v-for="day in weekdayOptions" :key="day.value" :value="day.value">{{ day.label }}</option>
+                                        </select>
+                                        <FormButton buttonStyle="action" @click="copyDay">{{ $t('settings.infoScreen.copy') }}</FormButton>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Menu -->
@@ -218,7 +267,14 @@
                                 <p v-if="!state.form.uuid" class="mt-3 text-xs text-slate-500">{{ $t('settings.infoScreen.saveFirst') }}</p>
                                 <div v-else class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                                     <div v-for="slide in state.form.slides" :key="slide.uuid" class="group relative overflow-hidden rounded-lg border border-surface-200">
-                                        <img :src="slide.url" :alt="slide.name" class="aspect-video w-full object-cover" />
+                                        <img :src="slide.url" :alt="slide.name" class="aspect-video w-full object-cover"
+                                            :class="isExpired(slide.until) && 'opacity-40 grayscale'" />
+                                        <label class="flex items-center gap-1 border-t border-surface-200 px-2 py-1 text-[11px] text-slate-500">
+                                            <Icon name="ph:calendar-x" class="h-3.5 w-3.5 shrink-0" :aria-label="$t('settings.infoScreen.slideUntil')" />
+                                            <input type="date" :value="slide.until ?? ''" :title="$t('settings.infoScreen.slideUntil')"
+                                                class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[11px] text-slate-700 focus:ring-0"
+                                                @change="setSlideUntil(slide, ($event.target as HTMLInputElement).value)" />
+                                        </label>
                                         <button type="button" @click="removeSlide(slide)"
                                             class="absolute right-1 top-1 rounded-full bg-white/90 p-1 text-[#dc2626] shadow"
                                             :aria-label="$t('settings.infoScreen.remove')">
@@ -318,7 +374,7 @@ import { departmentService } from '@/components/api/user/DepartmentService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
-import { ACTIVITY_ICONS, activityIcon, isOffline } from '@/composables/infoScreen'
+import { ACTIVITY_ICONS, activityIcon, copyDayProgram, isOffline } from '@/composables/infoScreen'
 
 /**
  * The Info Screen app: screens in common rooms. An admin sets up what each
@@ -348,6 +404,11 @@ const state = reactive({
     form: null as any,
     pairing: null as null | { code: string; expires_at: string },
     confirm: null as null | { type: 'delete' | 'unpair'; screen: any },
+    alert: null as null | { message: string; created_at: string },
+    alertDraft: '',
+    alertSaving: false,
+    copyFrom: 1,
+    copyTo: 'weekdays' as 'weekdays' | 'all' | number,
 })
 
 const departmentOptions = computed(() => state.departments.map((department: any) => ({ value: department.uuid, label: department.name })))
@@ -366,6 +427,7 @@ const widgets = computed(() => [
     { key: 'show_slides', label: t('settings.infoScreen.showSlides') },
     { key: 'show_staff_on_duty', label: t('settings.infoScreen.showStaff'), hint: t('settings.infoScreen.showStaffHint') },
     { key: 'show_timeline', label: t('settings.infoScreen.showTimeline'), hint: t('settings.infoScreen.showTimelineHint') },
+    { key: 'show_week', label: t('settings.infoScreen.showWeek'), hint: t('settings.infoScreen.showWeekHint') },
     { key: 'show_weather', label: t('settings.infoScreen.showWeather'), hint: t('settings.infoScreen.showWeatherHint') },
     { key: 'show_poll', label: t('settings.infoScreen.showPoll'), hint: t('settings.infoScreen.showPollHint') },
     { key: 'night_mode', label: t('settings.infoScreen.nightMode'), hint: t('settings.infoScreen.nightModeHint') },
@@ -390,7 +452,7 @@ function voteUrl(pollToken: string): string {
 onMounted(async () => {
     if (!appActive.value) return
     state.isLoading = true
-    await Promise.all([fetchScreens(), fetchDepartments()])
+    await Promise.all([fetchScreens(), fetchDepartments(), fetchAlert()])
     state.isLoading = false
 })
 
@@ -402,6 +464,71 @@ async function fetchScreens() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+async function fetchAlert() {
+    try {
+        const response = await infoScreenService.getAlert()
+        state.alert = response?.data ?? null
+        state.alertDraft = state.alert?.message ?? ''
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function saveAlert() {
+    state.alertSaving = true
+    try {
+        const response = await infoScreenService.setAlert(state.alertDraft.trim())
+        state.alert = response?.data ?? null
+        successAlert(`${t('alert.success')}!`, t('settings.infoScreen.alertSaved'))
+    } catch (error: any) {
+        state.error = error
+    }
+    state.alertSaving = false
+}
+
+async function clearAlert() {
+    state.alertSaving = true
+    try {
+        await infoScreenService.clearAlert()
+        state.alert = null
+        state.alertDraft = ''
+    } catch (error: any) {
+        state.error = error
+    }
+    state.alertSaving = false
+}
+
+async function duplicate(screen: any) {
+    try {
+        const response = await infoScreenService.duplicateScreen(screen.uuid, t('settings.infoScreen.copyName', { name: screen.name }))
+        await fetchScreens()
+        state.form = toForm(response?.data)
+        successAlert(`${t('alert.success')}!`, t('settings.infoScreen.duplicated'))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function isExpired(until: string | null | undefined): boolean {
+    return !!until && until < new Date().toLocaleDateString('sv-SE')
+}
+
+async function setSlideUntil(slide: any, value: string) {
+    try {
+        const response = await infoScreenService.updateSlide(state.form.uuid, slide.uuid, value || null)
+        state.form.slides = response?.data?.slides ?? state.form.slides
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+/** Replaces the target days' program with a copy of one day's. Saved with the screen. */
+function copyDay() {
+    const from = state.copyFrom
+    const targets = state.copyTo === 'weekdays' ? [1, 2, 3, 4, 5] : state.copyTo === 'all' ? [1, 2, 3, 4, 5, 6, 7] : [Number(state.copyTo)]
+    state.form.activities = copyDayProgram(state.form.activities, from, targets)
 }
 
 async function fetchDepartments() {
@@ -440,6 +567,7 @@ function toForm(screen: any = null) {
         slide_seconds: screen?.slide_seconds ?? 10,
         slides: screen?.slides ?? [],
         show_timeline: screen?.show_timeline ?? false,
+        show_week: screen?.show_week ?? false,
         show_weather: screen?.show_weather ?? false,
         weather_place: screen?.weather_place ?? '',
         weather_latitude: screen?.weather_latitude ?? null,

@@ -13319,7 +13319,26 @@
                 "sleep": "Rest"
             },
             "largeText": "Large text",
-            "largeTextHint": "Bigger text and fewer items at a time, for residents who see poorly."
+            "largeTextHint": "Bigger text and fewer items at a time, for residents who see poorly.",
+            "alertTitle": "Urgent message",
+            "alertHint": "Shown full screen on all your info screens within a minute, also at night, until you remove it.",
+            "alertActive": "Showing now",
+            "alertPlaceholder": "E.g. Fire drill at 2 pm – meet at the main entrance",
+            "alertShow": "Show on all screens",
+            "alertUpdate": "Update",
+            "alertRemove": "Remove",
+            "alertSaved": "The urgent message now shows on all screens",
+            "duplicate": "Copy",
+            "duplicated": "The screen is copied. Pair it with its own TV.",
+            "copyName": "{name} (copy)",
+            "slideUntil": "Show until",
+            "showWeek": "Week plan",
+            "showWeekHint": "The whole week's program takes a turn in the big panel.",
+            "copyDay": "Copy",
+            "copyDayTo": "to",
+            "copyWeekdays": "All weekdays",
+            "copyAllDays": "All days",
+            "copy": "Copy"
         }
     },
     "supportAccess": {
@@ -22266,7 +22285,8 @@
         "inHoursMinutes": "In {hours} h {minutes} min",
         "offline": "No connection",
         "preview": "Preview",
-        "previewFailed": "The preview could not be loaded. Log in as an administrator and try again."
+        "previewFailed": "The preview could not be loaded. Log in as an administrator and try again.",
+        "week": "This week's program"
     },
     "infoScreenVote": {
         "title": "Poll",

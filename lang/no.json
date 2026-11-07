@@ -13314,7 +13314,26 @@
                 "sleep": "Hvile"
             },
             "largeText": "Stor tekst",
-            "largeTextHint": "Større skrift og færre punkter om gangen, for beboere som ser dårlig."
+            "largeTextHint": "Større skrift og færre punkter om gangen, for beboere som ser dårlig.",
+            "alertTitle": "Nødmelding",
+            "alertHint": "Vises i fullskjerm på alle infoskjermene deres innen et minutt, også om natten, til dere fjerner den.",
+            "alertActive": "Vises nå",
+            "alertPlaceholder": "F.eks. Brannøvelse kl. 14 – møt ved hovedinngangen",
+            "alertShow": "Vis på alle skjermer",
+            "alertUpdate": "Oppdater",
+            "alertRemove": "Fjern",
+            "alertSaved": "Nødmeldingen vises nå på alle skjermer",
+            "duplicate": "Kopier",
+            "duplicated": "Skjermen er kopiert. Den må pares med sin egen TV.",
+            "copyName": "{name} (kopi)",
+            "slideUntil": "Vis til og med",
+            "showWeek": "Ukeplan",
+            "showWeekHint": "Hele ukens program vises på skift i det store feltet.",
+            "copyDay": "Kopier",
+            "copyDayTo": "til",
+            "copyWeekdays": "Alle hverdager",
+            "copyAllDays": "Alle dager",
+            "copy": "Kopier"
         }
     },
     "supportAccess": {
@@ -22181,7 +22200,8 @@
         "inHoursMinutes": "Om {hours} t {minutes} min",
         "offline": "Ingen tilkobling",
         "preview": "Forhåndsvisning",
-        "previewFailed": "Forhåndsvisningen kunne ikke hentes. Logg inn som administrator og prøv igjen."
+        "previewFailed": "Forhåndsvisningen kunne ikke hentes. Logg inn som administrator og prøv igjen.",
+        "week": "Ukens program"
     },
     "infoScreenVote": {
         "title": "Avstemning",

@@ -8,7 +8,7 @@ import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
     activityStates, pollShares, timelinePercent, timelineRange, toMinutes, weatherCurve, weatherIcon,
-    ACTIVITY_ICONS, activityIcon, isNightTime, isOffline, msUntilNextReload,
+    ACTIVITY_ICONS, activityIcon, isNightTime, isOffline, msUntilNextReload, copyDayProgram,
 } from '../../composables/infoScreen.ts'
 
 const program = [
@@ -161,5 +161,30 @@ describe('activityIcon', () => {
         for (const key of Object.keys(ACTIVITY_ICONS)) assert.match(activityIcon(key), /^ph:/)
         assert.equal(activityIcon('rocket'), null)
         assert.equal(activityIcon(null), null)
+    })
+})
+
+describe('copyDayProgram', () => {
+    const week = [
+        { weekday: 1, time: '10:00', title: 'Gåtur', icon: 'walk' },
+        { weekday: 1, time: '08:00', title: 'Morgenmad' },
+        { weekday: 1, time: '12:00', title: '  ' },
+        { weekday: 2, time: '09:00', title: 'Bad' },
+        { weekday: 6, time: '11:00', title: 'Brunch' },
+    ]
+
+    test('copies Monday to the weekdays and replaces what they had', () => {
+        const copied = copyDayProgram(week, 1, [1, 2, 3, 4, 5])
+        assert.deepEqual(copied.filter((row) => row.weekday === 2).map((row) => row.title), ['Morgenmad', 'Gåtur'])
+        assert.equal(copied.filter((row) => row.weekday === 5).length, 2)
+        assert.equal(copied.find((row) => row.weekday === 3 && row.title === 'Gåtur').icon, 'walk')
+    })
+
+    test('leaves the source day and other days alone, and skips empty rows', () => {
+        const copied = copyDayProgram(week, 1, [3])
+        assert.equal(copied.filter((row) => row.weekday === 1).length, 3)
+        assert.deepEqual(copied.filter((row) => row.weekday === 6).map((row) => row.title), ['Brunch'])
+        assert.equal(copied.filter((row) => row.weekday === 3).length, 2)
+        assert.equal(copied.filter((row) => row.weekday === 2).length, 1)
     })
 })

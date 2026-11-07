@@ -145,6 +145,9 @@
                                 <p class="mt-[2vh] whitespace-pre-line text-[5.4vh] font-light leading-snug">{{ feed.menu }}</p>
                             </div>
 
+                            <WeekCard v-else-if="current?.type === 'week'" :week="feed.week" :today="feed.weekday"
+                                :locale="LANGUAGE_TAGS[locale] ?? 'da-DK'" />
+
                             <WeatherCard v-else-if="current?.type === 'weather'" :weather="feed.weather" :place="feed.weather_place" />
 
                             <PollCard v-else-if="current?.type === 'poll'" :poll="feed.poll" :voteUrl="voteUrl" />
@@ -183,6 +186,15 @@
             <Icon name="ph:wifi-slash" /> {{ $t('infoScreenDisplay.offline') }}
         </div>
 
+        <!-- Urgent message from settings: over everything, also at night, until it is removed -->
+        <Transition name="alert">
+            <div v-if="feed?.alert" class="absolute inset-0 z-40 flex flex-col items-center justify-center gap-[4vh] bg-[#fff7ed] px-[8vh] text-center text-[#c2410c]">
+                <Icon name="ph:warning" class="alert-icon text-[16vh]" />
+                <p class="max-w-[85%] whitespace-pre-line text-[7vh] font-semibold leading-tight">{{ feed.alert }}</p>
+                <p class="text-[3.4vh] font-light tabular-nums">{{ clockText }}</p>
+            </div>
+        </Transition>
+
         <!-- Preview from settings: not a paired TV -->
         <div v-if="previewUuid" class="absolute left-1/2 top-[1.5vh] -translate-x-1/2 rounded-full bg-[#fff7ed] px-[2vh] py-[0.6vh] text-[1.8vh] font-semibold text-[#c2410c]">
             {{ $t('infoScreenDisplay.preview') }}
@@ -198,6 +210,7 @@ import { infoScreenService } from '@/components/api/user/InfoScreenService'
 import DayTimeline from '@/components/modules/info-screen/day-timeline.vue'
 import WeatherCard from '@/components/modules/info-screen/weather-card.vue'
 import PollCard from '@/components/modules/info-screen/poll-card.vue'
+import WeekCard from '@/components/modules/info-screen/week-card.vue'
 
 /**
  * The Info Screen display: opened on a TV in a common room. No login. The TV
@@ -224,6 +237,7 @@ const MARQUEE_FROM = 70
 const POLL_SECONDS = 20
 const WEATHER_SECONDS = 15
 const NEWS_SECONDS = 15
+const WEEK_SECONDS = 20
 
 const mode = ref<'loading' | 'pair' | 'blocked' | 'show'>('loading')
 const feed = ref<any>(null)
@@ -332,6 +346,7 @@ const rotation = computed(() => {
     }
     if (large.value && feed.value.show_menu && feed.value.menu) content.unshift({ type: 'menu', key: 'menu' })
     if (feed.value.show_weather && feed.value.weather?.hours?.length > 1) content.push({ type: 'weather', key: 'weather' })
+    if (feed.value.week?.some((day: any) => day.activities.length)) content.push({ type: 'week', key: 'week' })
 
     if (!feed.value.poll) return content
     const items: any[] = []
@@ -350,6 +365,7 @@ function scheduleRotation() {
     const seconds = {
         news: Math.max(slideSeconds.value, NEWS_SECONDS),
         menu: NEWS_SECONDS,
+        week: WEEK_SECONDS,
         weather: WEATHER_SECONDS,
         poll: POLL_SECONDS,
     }[current.value?.type as string] ?? slideSeconds.value
@@ -525,6 +541,32 @@ onBeforeUnmount(() => {
 
 @keyframes night-in {
     from { opacity: 0; }
+}
+
+.alert-enter-active,
+.alert-leave-active {
+    transition: opacity 0.6s ease;
+}
+
+.alert-enter-from,
+.alert-leave-to {
+    opacity: 0;
+}
+
+.alert-icon {
+    animation: alert-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes alert-pulse {
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .alert-icon {
+        animation: none;
+    }
 }
 
 .panel {

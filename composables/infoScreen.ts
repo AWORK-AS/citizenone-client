@@ -235,3 +235,20 @@ export function msUntilNextReload(now: Date, jitterMs: number): number {
     if (next.getTime() <= now.getTime()) next.setDate(next.getDate() + 1)
     return next.getTime() - now.getTime() + jitterMs
 }
+
+export interface WeekdayActivity extends ScreenActivity {
+    weekday: number
+}
+
+/**
+ * The program with one day's activities copied to other days, replacing what
+ * those days had. Rows without a title are not copied. Sorted by day and time.
+ */
+export function copyDayProgram<T extends WeekdayActivity>(activities: T[], from: number, targets: number[]): T[] {
+    const days = targets.filter((day) => day !== from)
+    const source = activities.filter((row) => row.weekday === from && row.title?.trim())
+    return [
+        ...activities.filter((row) => !days.includes(row.weekday)),
+        ...days.flatMap((day) => source.map((row) => ({ ...row, weekday: day }))),
+    ].sort((a, b) => a.weekday - b.weekday || String(a.time ?? '').localeCompare(String(b.time ?? '')))
+}

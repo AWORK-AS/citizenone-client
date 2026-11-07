@@ -23,6 +23,28 @@ class InfoScreenService extends BaseAPIService {
         return await this.request(`/user/info-screens/${uuid}/preview`, 'GET')
     }
 
+    async duplicateScreen(uuid: string, name: string): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/duplicate`, 'POST', { name })
+    }
+
+    /** The picture shows to and including `until`, then hides; null shows it until removed. */
+    async updateSlide(uuid: string, slideUuid: string, until: string | null): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/slides/${slideUuid}`, 'PATCH', { until })
+    }
+
+    /** The urgent message shown full screen on all the company's screens. */
+    async getAlert(): Promise<any> {
+        return await this.request(`/user/info-screens/alert`, 'GET')
+    }
+
+    async setAlert(message: string): Promise<any> {
+        return await this.request(`/user/info-screens/alert`, 'PUT', { message })
+    }
+
+    async clearAlert(): Promise<any> {
+        return await this.request(`/user/info-screens/alert`, 'DELETE')
+    }
+
     async createPairingCode(uuid: string): Promise<any> {
         return await this.request(`/user/info-screens/${uuid}/pairing-code`, 'POST')
     }

@@ -13314,7 +13314,26 @@
                 "sleep": "Vila"
             },
             "largeText": "Stor text",
-            "largeTextHint": "Större text och färre punkter åt gången, för boende som ser dåligt."
+            "largeTextHint": "Större text och färre punkter åt gången, för boende som ser dåligt.",
+            "alertTitle": "Nödmeddelande",
+            "alertHint": "Visas i helskärm på alla era infoskärmar inom en minut, även på natten, tills ni tar bort det.",
+            "alertActive": "Visas nu",
+            "alertPlaceholder": "T.ex. Brandövning kl. 14 – samling vid huvudentrén",
+            "alertShow": "Visa på alla skärmar",
+            "alertUpdate": "Uppdatera",
+            "alertRemove": "Ta bort",
+            "alertSaved": "Nödmeddelandet visas nu på alla skärmar",
+            "duplicate": "Kopiera",
+            "duplicated": "Skärmen är kopierad. Den ska paras med sin egen tv.",
+            "copyName": "{name} (kopia)",
+            "slideUntil": "Visa till och med",
+            "showWeek": "Veckoplan",
+            "showWeekHint": "Hela veckans program visas i tur och ordning i det stora fältet.",
+            "copyDay": "Kopiera",
+            "copyDayTo": "till",
+            "copyWeekdays": "Alla vardagar",
+            "copyAllDays": "Alla dagar",
+            "copy": "Kopiera"
         }
     },
     "supportAccess": {
@@ -22181,7 +22200,8 @@
         "inHoursMinutes": "Om {hours} tim {minutes} min",
         "offline": "Ingen anslutning",
         "preview": "Förhandsvisning",
-        "previewFailed": "Förhandsvisningen kunde inte hämtas. Logga in som administratör och försök igen."
+        "previewFailed": "Förhandsvisningen kunde inte hämtas. Logga in som administratör och försök igen.",
+        "week": "Veckans program"
     },
     "infoScreenVote": {
         "title": "Omröstning",
