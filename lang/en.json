@@ -19028,11 +19028,13 @@
             "basisTitle": "What is it billed on?",
             "basis": {
                 "delivered": "Delivered hours",
-                "granted": "Granted hours"
+                "granted": "Granted hours",
+                "included": "Included - not invoiced"
             },
             "basisHelp": {
                 "delivered": "Billed on the hours registered as delivered in the period.",
-                "granted": "Billed on the granted hours (granted hours times the hourly price), however many were delivered. Applies when the price is per hour."
+                "granted": "Billed on the granted hours (granted hours times the hourly price), however many were delivered. Applies when the price is per hour.",
+                "included": "The hours are included in the agreement and are not invoiced. They are shown but never put on an invoice."
             },
             "name": "Name",
             "billingBasis": "Billed on",
