@@ -77,7 +77,7 @@
                         :placeholder="$t('assistants.askAnything')" rows="1"
                         class="block max-h-40 w-full resize-none border-none bg-transparent px-0 py-1 text-sm text-gray-900 placeholder-gray-400 shadow-none ring-0 focus:outline-none focus:ring-0"
                         @input="resize" @keydown.enter.exact.prevent="handleEnterKey"
-                        @keydown.esc="state.mention.isOpen = false" />
+                        @keydown.esc="closeMentionOnEscape" />
 
                     <div v-if="state.mention.isOpen && state.mention.results.length > 0" @mousedown.prevent
                         class="absolute bottom-full left-0 mb-1 w-64 max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-10">
@@ -210,6 +210,14 @@ const {
     insertMentionTrigger,
     togglePreview,
 } = useCodyChat()
+
+// Escape with the mention list open closes the list and nothing else. Marked
+// as used, so the panel's own Escape (which closes Cody) leaves it alone.
+function closeMentionOnEscape(event: KeyboardEvent) {
+    if (!state.mention.isOpen) return
+    state.mention.isOpen = false
+    event.preventDefault()
+}
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const promptTextarea = ref<HTMLTextAreaElement | null>(null)
