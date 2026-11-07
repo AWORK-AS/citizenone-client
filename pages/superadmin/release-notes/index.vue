@@ -56,6 +56,11 @@
                                         <Icon name="ph:globe" class="h-3 w-3" />
                                         {{ $t('releaseNotes.onWebsite') }}
                                     </span>
+                                    <span v-if="note.popup_route"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        <Icon name="ph:sparkle" class="h-3 w-3" />
+                                        {{ $t('releaseNotes.popupOn', { route: note.popup_route }) }}
+                                    </span>
                                     <span v-if="note.status === 'published' && note.send_to_milo"
                                         class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
                                         <Icon name="ph:lifebuoy" class="h-3 w-3" />
@@ -247,6 +252,19 @@
                                 <span class="block text-xs text-gray-500">{{ $t('releaseNotes.showOnWebsiteHint') }}</span>
                             </span>
                         </label>
+                        <!-- A small "what's new" box on one page, shown once per user. -->
+                        <div class="space-y-1 rounded-md border border-gray-200 bg-gray-50 p-3 text-left">
+                            <label class="block text-sm font-medium text-gray-800" for="release-note-popup-route">
+                                {{ $t('releaseNotes.popupRoute') }}
+                            </label>
+                            <input id="release-note-popup-route" v-model="state.form.popup_route" type="text"
+                                list="release-note-popup-routes" placeholder="/schedules"
+                                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                            <datalist id="release-note-popup-routes">
+                                <option v-for="path in POPUP_ROUTES" :key="path" :value="path" />
+                            </datalist>
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.popupRouteHint') }}</p>
+                        </div>
                         <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3 text-left">
                             <input v-model="state.form.send_to_milo" type="checkbox" class="mt-0.5" />
                             <span>
@@ -348,10 +366,13 @@ interface EditableItem { key: number; kind: ItemKind; text: string; area: string
 const ITEM_KINDS: ItemKind[] = ['feature', 'improvement', 'fix']
 let itemKey = 0
 
+// Suggestions for the popup page; any app path works.
+const POPUP_ROUTES = ['/schedules', '/calendar', '/statistics', '/citizens', '/employees', '/journal-notes', '/messages', '/reminders']
+
 function emptyForm() {
     return {
         uuid: '', title: '', version: '', content: '', video_url: '', image_url: null as string | null,
-        imageFile: null as File | null, removeImage: false, is_public: false, send_to_milo: true,
+        imageFile: null as File | null, removeImage: false, is_public: false, send_to_milo: true, popup_route: '',
         status: 'draft', items: [] as EditableItem[], sourceItems: [] as any[], reviewCount: 0, markReviewed: false,
     }
 }
@@ -441,7 +462,7 @@ function openForm(note: any = null) {
         Object.assign(form, {
             uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '',
             video_url: note.video_url ?? '', image_url: note.image_url ?? null,
-            is_public: !!note.is_public, send_to_milo: note.send_to_milo ?? true, status: note.status,
+            is_public: !!note.is_public, send_to_milo: note.send_to_milo ?? true, popup_route: note.popup_route ?? '', status: note.status,
             items: toEditable(note.items), sourceItems,
             reviewCount: note.review_required_at ? sourceItems.filter((item: any) => item?.needs_review).length : 0,
         })
@@ -568,6 +589,7 @@ async function saveDraft() {
         if (state.form.removeImage) form.append('remove_image', '1')
         form.append('is_public', state.form.is_public ? '1' : '0')
         form.append('send_to_milo', state.form.send_to_milo ? '1' : '0')
+        form.append('popup_route', (state.form.popup_route ?? '').trim())
 
         if (state.form.uuid) {
             form.append('_method', 'PUT')

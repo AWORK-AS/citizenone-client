@@ -218,11 +218,19 @@
         "changeLanguage": "Byt språk",
         "somethingWentWrong": "Något gick fel. Försök igen."
     },
+    "releaseNotePopup": {
+        "dismiss": "Uppfattat",
+        "dismissTooltip": "Stäng meddelandet – det visas inte igen"
+    },
     "comingFunctions": {
         "title": "Kommande funktioner",
         "intro": "Här kan du se vad vi arbetar med och vad som kommer i CitizenOne. Saknar du något? Skicka ett önskemål till oss.",
         "sendWish": "Skicka ett önskemål",
         "empty": "Det finns inga kommande funktioner att visa just nu.",
+        "polls": {
+            "title": "Rösta på vad vi ska utveckla",
+            "intro": "Ge tummen upp till de önskemål du också behöver. Vi använder rösterna när vi planerar."
+        },
         "sections": {
             "in_progress": "Pågår",
             "planned": "Planerad",
@@ -10586,6 +10594,7 @@
         "subscription": "Prenumeration",
         "switchLanguage": "Byt språk",
         "helpAndNews": "Hjälp och nytt",
+        "comingFunctionsAndPolls": "Kommande funktioner och omröstningar",
         "impersonating": "Inloggad som @:terms.citizen{''}",
         "stopImpersonation": "Logga ut som @:terms.citizen{''}",
         "surveys": "Enkäter"
@@ -17674,6 +17683,9 @@
         "showAsNewsHint": "Bara det nya och det förbättrade visas. Rättningar visas aldrig som nyheter.",
         "sendToMilo": "Skicka till Milo (supportkunskap)",
         "sendToMiloHint": "Rättningar går till Milo så att supporten kan svara på frågor om dem, men visas aldrig som nyheter.",
+        "popupRoute": "Visa som popup på sida",
+        "popupRouteHint": "T.ex. /schedules. Visas en gång för varje användare på den sidan tills de stänger den. Endast publicerade anteckningar. Tom = ingen popup.",
+        "popupOn": "Popup på {route}",
         "toMilo": "Till Milo"
     },
     "customSidebarLinks": {

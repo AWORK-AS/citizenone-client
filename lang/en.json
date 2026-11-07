@@ -218,11 +218,19 @@
         "changeLanguage": "Change language",
         "somethingWentWrong": "Something went wrong. Please try again."
     },
+    "releaseNotePopup": {
+        "dismiss": "Got it",
+        "dismissTooltip": "Close – it will not show again"
+    },
     "comingFunctions": {
         "title": "Coming functions",
         "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
         "sendWish": "Send a wish",
         "empty": "There are no coming functions to show right now.",
+        "polls": {
+            "title": "Vote on what we build next",
+            "intro": "Give a thumbs up to the wishes you need too. We use the votes when we plan."
+        },
         "sections": {
             "in_progress": "In progress",
             "planned": "Planned",
@@ -10586,6 +10594,7 @@
         "subscription": "Subscription",
         "switchLanguage": "Switch language",
         "helpAndNews": "Help and news",
+        "comingFunctionsAndPolls": "Coming features and polls",
         "impersonating": "Logged in as client",
         "stopImpersonation": "Log out as client",
         "surveys": "Surveys"
@@ -17759,6 +17768,9 @@
         "showAsNewsHint": "Only what is new or improved is shown. Fixes are never shown as news.",
         "sendToMilo": "Send to Milo (support knowledge)",
         "sendToMiloHint": "Fixes go to Milo so support can answer questions about them, but are never shown as news.",
+        "popupRoute": "Show as popup on page",
+        "popupRouteHint": "E.g. /schedules. Shown once to each user on that page until they close it. Published notes only. Empty = no popup.",
+        "popupOn": "Popup on {route}",
         "toMilo": "To Milo"
     },
     "customSidebarLinks": {
