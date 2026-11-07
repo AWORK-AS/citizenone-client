@@ -19321,8 +19321,10 @@
             "person": "Person",
             "employment": "Ansættelse",
             "work": "Arbejde",
-            "bank": "Løn og bank"
+            "bank": "Løn og bank",
+            "custom": "Øvrige HR-felter"
         },
+        "customHrOnly": "Kun HR kan se disse felter. Medarbejderen ser kun dem, der er markeret som synlige for medarbejderen.",
         "fields": {
             "privateEmail": "E-mailadresse privat",
             "privatePhone": "Telefon privat",

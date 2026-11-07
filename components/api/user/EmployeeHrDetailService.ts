@@ -8,6 +8,16 @@ export interface HrDetailLookup {
     name: string
 }
 
+// A field the company keeps on its employees beyond the fixed ones. Sent to
+// those who see HR data; the employee themself only gets those marked visible.
+export interface EmployeeHrCustomField {
+    uuid: string
+    label: string
+    field_type: 'text' | 'date'
+    visible_to_employee: boolean
+    value: string | null
+}
+
 export interface EmployeeHrDetails {
     private_email: string | null
     private_phone: string | null
@@ -28,6 +38,7 @@ export interface EmployeeHrDetails {
     sim_card: string | null
     contact_status: string | null
     onboarding_status: string | null
+    custom_fields?: EmployeeHrCustomField[]
     // Only present when the backend allows the caller to see bank data.
     can_see_bank?: boolean
     tax_card_type?: HrTaxCardType | null
@@ -38,9 +49,10 @@ export interface EmployeeHrDetails {
 
 // A subset of the fields, written as the backend names them. A key left out is
 // unchanged and null clears it.
-export type EmployeeHrDetailsPayload = Partial<Omit<EmployeeHrDetails, 'nationality' | 'manager' | 'can_see_bank'>> & {
+export type EmployeeHrDetailsPayload = Partial<Omit<EmployeeHrDetails, 'nationality' | 'manager' | 'can_see_bank' | 'custom_fields'>> & {
     nationality_country_uuid?: string | null
     manager_uuid?: string | null
+    custom_fields?: { uuid: string, value: string | null }[]
 }
 
 class EmployeeHrDetailService extends BaseAPIService {

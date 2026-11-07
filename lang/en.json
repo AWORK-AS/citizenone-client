@@ -19321,8 +19321,10 @@
             "person": "Person",
             "employment": "Employment",
             "work": "Work",
-            "bank": "Pay and bank"
+            "bank": "Pay and bank",
+            "custom": "Other HR fields"
         },
+        "customHrOnly": "Only HR can see these fields. The employee only sees those marked visible to the employee.",
         "fields": {
             "privateEmail": "Private email",
             "privatePhone": "Private phone",
