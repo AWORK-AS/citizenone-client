@@ -91,6 +91,11 @@ export interface CodyMessage {
      * answer, or that it cannot remember because the storage is full.
      */
     memoryNote?: CodyMemoryNote | null
+    /**
+     * Answered in this session, so the thread may roll the text out word by
+     * word. Answers loaded from history are shown as they are.
+     */
+    live?: boolean
 }
 
 export { ANSWER_FEEDBACK_REASONS }
@@ -685,6 +690,7 @@ export function createCodyChat() {
                         streamed.index = state.messages.push({
                             type: 'bot',
                             text: '',
+                            live: true,
                             receipts: state.receipts,
                             cards: state.cards,
                         }) - 1
@@ -736,6 +742,7 @@ export function createCodyChat() {
         state.messages.push({
             type: 'bot',
             text: response?.data?.answer,
+            live: true,
             uuid: response?.message_uuid ?? response?.data?.message_uuid ?? null,
             sources: response?.sources ?? [],
             companyDataStatus: response?.company_data_status ?? 'ready',

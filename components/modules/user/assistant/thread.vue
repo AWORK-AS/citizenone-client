@@ -35,7 +35,7 @@
                         of the panel, detached from the question that caused it. -->
                         <p v-if="message.failed" class="text-sm leading-relaxed text-gray-600">{{ message.text }}</p>
                         <div v-else class="ai-answer text-sm text-gray-800 leading-relaxed"
-                            v-safe-ai-html="formatMessage(message?.text)" />
+                            v-safe-ai-html="formatMessage(shownText(message, index))" />
 
                         <!-- An answer with no company data behind it is not the same as an
                         answer that found nothing, and it used to look identical. -->
@@ -77,9 +77,17 @@
                             </div>
                         </div>
 
+                        <!-- The very first memory gets a small moment of its own: it is when
+                        Cody AI starts to know this person, and where to find and delete what
+                        it knows is worth saying once, clearly. The server says which save is
+                        the first (first_saved), so it shows once per user on any device. -->
                         <p v-else-if="message.memoryNote?.kind === 'saved' || message.memoryNote?.kind === 'already_known'"
-                            role="status" class="mt-2 flex items-start gap-1.5 rounded-md bg-ai-bg px-2 py-1.5 text-xs text-ai-ink">
-                            <Icon name="ph:brain" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            role="status"
+                            :class="['mt-2 flex items-start gap-1.5 rounded-md bg-ai-bg px-2 py-1.5 text-xs text-ai-ink',
+                                message.memoryNote.kind === 'saved' && message.memoryNote.firstSaved && 'cody-first-memory']">
+                            <Icon :name="message.memoryNote.kind === 'saved' && message.memoryNote.firstSaved ? 'ph:sparkle-fill' : 'ph:brain'"
+                                :class="['mt-0.5 size-3.5 shrink-0', message.memoryNote.kind === 'saved' && message.memoryNote.firstSaved && 'cody-pop']"
+                                aria-hidden="true" />
                             <span>
                                 {{ message.memoryNote.kind === 'already_known'
                                     ? $t('assistants.memory.alreadyKnown')
@@ -228,7 +236,9 @@
                 <ModulesUserAssistantBrief />
 
                 <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <button v-for="action in QUICK_ACTIONS" :key="action.key" type="button"
+                    <!-- Chosen by the page that is open, and only what the company's
+                    modules and apps let Cody AI answer (codyStarters.ts). -->
+                    <button v-for="action in starters" :key="action.key" type="button"
                         @click="onStarter($t(`assistants.quickPrompts.${action.key}`))"
                         class="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left transition-colors hover:border-cody/50 hover:bg-cody-pale">
                         <Icon :name="action.icon" class="size-4 shrink-0 text-cody-deep" aria-hidden="true" />
@@ -289,7 +299,10 @@ import { useI18n } from 'vue-i18n'
 import { useAssistantStore } from '@/store/assistant'
 import { useUserStore } from '@/store/user'
 import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
-import { starterMode } from '@/composables/codyStarters'
+import type { CodyMessage } from '@/composables/useCodyChat'
+import { starterMode, starterGroup, startersFor } from '@/composables/codyStarters'
+import { splitWords, nextShown, revealedText } from '@/composables/codyReveal'
+import { companyHasModule } from '@/composables/pageAccess'
 import { CODY_MEMORY_PAGE } from '@/composables/codyMemory'
 
 /**
@@ -305,8 +318,11 @@ const assistantStore = useAssistantStore()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 
+const route = useRoute()
+
 const {
     state,
+    page,
     showStarters,
     formatMessage,
     copyAnswer,
@@ -333,17 +349,79 @@ function onStarter(prompt: string) {
     else useStarter(prompt)
 }
 
-const QUICK_ACTIONS = [
-    { key: 'overview', icon: 'ph:file-text' },
-    { key: 'journal', icon: 'ph:pencil-simple-line' },
-    { key: 'files', icon: 'ph:paperclip' },
-    { key: 'shifts', icon: 'ph:calendar-blank' },
-] as const
+const starters = computed(() => {
+    const company = userStore.getUser?.company
+
+    return startersFor(starterGroup(page.value?.key, String(route.name ?? '')), {
+        hasModule: (name: string) => companyHasModule(company?.module_pages, name),
+        tasksEnabled: !!company?.tasks_workflow_enabled,
+    })
+})
 
 const RATINGS = [
     { value: 'up', icon: 'ph:thumbs-up' },
     { value: 'down', icon: 'ph:thumbs-down' },
 ] as const
+
+/**
+ * The newest answer, rolled out a few words at a time (codyReveal.ts). A
+ * streamed answer chases the stream, so the uneven lumps it arrives in read as
+ * steady writing; one that arrives whole is played out in under a second. Only
+ * the text waits: cards, receipts and the buttons under it are there at once,
+ * and copy always takes the whole answer. Nobody who asked their system for
+ * less motion sees any of it.
+ */
+const reducedMotion = typeof window !== 'undefined'
+    && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+
+const reveal = reactive({ index: -1, words: [] as string[], shown: 0, arrivedAt: 0 })
+let revealFrame = 0
+let lastTick = 0
+
+function shownText(message: CodyMessage, index: number): string {
+    if (!message?.live || index !== reveal.index || reveal.shown >= reveal.words.length) return message?.text ?? ''
+
+    return revealedText(reveal.words, reveal.shown)
+}
+
+function tick(now: number) {
+    reveal.shown = nextShown(reveal.shown, reveal.words.length, now - lastTick, now - reveal.arrivedAt)
+    lastTick = now
+    revealFrame = reveal.shown < reveal.words.length ? requestAnimationFrame(tick) : 0
+}
+
+watch(() => {
+    const index = state.messages.length - 1
+    const message = state.messages[index]
+
+    return message?.type === 'bot' && message.live && !message.failed ? [index, message.text ?? ''] as const : null
+}, (latest) => {
+    // Nothing to roll out right now. Left as it is rather than reset: a
+    // streamed answer is taken off for a moment while its finished version
+    // replaces it, and starting over then would write the answer twice.
+    if (!latest || reducedMotion) return
+
+    const [index, text] = latest
+    const words = splitWords(text)
+    // The same answer growing, or the finished answer replacing its own
+    // stream, carries on from where it is. Anything else is a new answer.
+    const sameAnswer = index === reveal.index && text.startsWith(revealedText(reveal.words, reveal.shown))
+    if (!sameAnswer) {
+        reveal.index = index
+        reveal.shown = 0
+    }
+    if (!sameAnswer || words.length > reveal.words.length) reveal.arrivedAt = performance.now()
+    reveal.words = words
+
+    if (!revealFrame && reveal.shown < words.length) {
+        lastTick = performance.now()
+        revealFrame = requestAnimationFrame(tick)
+    }
+})
+
+onBeforeUnmount(() => {
+    if (revealFrame) cancelAnimationFrame(revealFrame)
+})
 
 // Greets by the clock, and by first name only: the surname makes it read like
 // a letter from the municipality.
@@ -514,6 +592,11 @@ const greeting = computed(() => {
         animation: cody-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    /* The first memory: one soft ring of Cody's colour, once. */
+    .cody-first-memory {
+        animation: cody-glow 1.2s ease-out 1;
+    }
+
     .cody-dots span {
         animation: cody-hop 1.1s ease-in-out infinite;
     }
@@ -531,6 +614,11 @@ const greeting = computed(() => {
         opacity: 1;
         transform: none;
     }
+}
+
+@keyframes cody-glow {
+    0% { box-shadow: 0 0 0 0 rgb(14 165 168 / 0.45); }
+    100% { box-shadow: 0 0 0 8px rgb(14 165 168 / 0); }
 }
 
 @keyframes cody-pop {
