@@ -134,6 +134,17 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.onlyOwnInterventionEventsHelp') }}</p>
             </div>
 
+            <!-- "Kun egne indsatstimer": the role's people see, change and download only the care
+                 hours they registered themselves (CitizenCareHour::seesOnlyOwn). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.only_own_care_hours = !state.formRole.only_own_care_hours">
+                    <FormCheckbox id="only_own_care_hours" :value="state.formRole.only_own_care_hours" />
+                    {{ $t('roles.form.onlyOwnCareHours') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.onlyOwnCareHoursHelp') }}</p>
+            </div>
+
             <!-- Which contact titles the role's people see an address, phone number and email address
                  on. Each works on its own; off is no limit (App\Support\ContactFieldAccess). Admin only. -->
             <div v-if="isAtLeast('Admin')" class="space-y-3" data-testid="contact-field-limits">
@@ -322,6 +333,7 @@ const state = reactive({
         counts_as_consultant: false,
         only_assigned_citizens: false,
         only_own_intervention_events: false,
+        only_own_care_hours: false,
         // contact_job_titles uuids the role sees the field on; null is no limit.
         contact_address_titles: null as string[] | null,
         contact_phone_titles: null as string[] | null,
@@ -379,6 +391,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             counts_as_consultant: !!newValue.counts_as_consultant,
             only_assigned_citizens: !!newValue.only_assigned_citizens,
             only_own_intervention_events: !!newValue.only_own_intervention_events,
+            only_own_care_hours: !!newValue.only_own_care_hours,
             contact_address_titles: newValue.contact_address_titles ?? null,
             contact_phone_titles: newValue.contact_phone_titles ?? null,
             contact_email_titles: newValue.contact_email_titles ?? null,
