@@ -327,7 +327,8 @@
         "periodHint": "Perioden er sat til denne måned. Brug genvejene, eller vælg selv datoerne.",
         "presetThisMonth": "Denne måned",
         "presetLastMonth": "Sidste måned",
-        "presetThisYear": "I år"
+        "presetThisYear": "I år",
+        "revenueHint": "Omsætningen følger kontrakterne: fast pris pr. faktureringsperiode, timepris gange registrerede timer og engangsbeløb i den periode, kontrakten starter. Uden kontrakt bruges borgerens timepris."
     },
     "citizenRelations": {
         "addFirst": "Tilføj første relation",

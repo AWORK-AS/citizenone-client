@@ -327,7 +327,8 @@
         "periodHint": "Perioden är satt till denna månad. Använd genvägarna, eller välj datumen själv.",
         "presetThisMonth": "Denna månad",
         "presetLastMonth": "Förra månaden",
-        "presetThisYear": "I år"
+        "presetThisYear": "I år",
+        "revenueHint": "Omsättningen följer avtalen: fast pris per faktureringsperiod, timpris gånger registrerade timmar och engångsbelopp i den period avtalet startar. Utan avtal används brukarens timpris."
     },
     "citizenRelations": {
         "addFirst": "Lägg till första relation",
