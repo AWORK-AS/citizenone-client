@@ -1602,7 +1602,7 @@
             "journal": "Write a journal note for ",
             "files": "Find the attached files about ",
             "shifts": "What shifts do I have in the next seven days?",
-            "message": "Write a message to @"
+            "message": "Write a message to {'@'}"
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody AI can be wrong - read the answer through.",

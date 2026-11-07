@@ -1602,7 +1602,7 @@
             "journal": "Skriv et journalnotat for ",
             "files": "Finn de vedlagte filene om ",
             "shifts": "Hvilke vakter har jeg de neste sju dagene?",
-            "message": "Skriv en melding til @"
+            "message": "Skriv en melding til {'@'}"
         },
         "dataAndAccess": "Om data og tilgang",
         "reviewShort": "Cody AI kan ta feil - les svaret gjennom.",

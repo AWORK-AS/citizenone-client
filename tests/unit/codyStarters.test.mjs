@@ -20,7 +20,8 @@ describe('starterMode', () => {
         const modes = {}
         for (const l of ['dk', 'en', 'sv', 'no']) {
             const q = JSON.parse(readFileSync(new URL(`../../lang/${l}.json`, import.meta.url))).assistants.quickPrompts
-            modes[l] = Object.fromEntries(Object.entries(q).map(([k, v]) => [k, starterMode(v)]))
+            // vue-i18n renders a {'@'} literal as "@" (a bare "@" is linked-message syntax and fails to compile).
+            modes[l] = Object.fromEntries(Object.entries(q).map(([k, v]) => [k, starterMode(v.replace(/\{'([^']*)'\}/g, '$1'))]))
         }
         for (const l of ['en', 'sv', 'no']) assert.deepEqual(modes[l], modes.dk)
         assert.deepEqual(modes.dk, { overview: 'send', journal: 'fill', files: 'fill', shifts: 'send', message: 'fill' })
