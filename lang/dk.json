@@ -1477,6 +1477,9 @@
             "seats": {
                 "title": "1 medarbejder har bedt om adgang til Cody AI | {count} medarbejdere har bedt om adgang til Cody AI",
                 "assign": "Tildel adgang | Tildel dem adgang"
+            },
+            "pageBody": {
+                "messages": "Cody AI kan skrive udkast til beskeder for dig."
             }
         }
     },
@@ -1604,13 +1607,15 @@
             "journal": "Skriv journalnotat",
             "files": "Find vedhæftede filer",
             "shifts": "Hvad har jeg af vagter?",
+            "message": "Skriv en besked til en kollega",
             "fillHint": "skriv navn"
         },
         "quickPrompts": {
             "overview": "Giv mig et overblik over min dag",
             "journal": "Skriv et journalnotat for ",
             "files": "Find de vedhæftede filer om ",
-            "shifts": "Hvilke vagter har jeg de næste syv dage?"
+            "shifts": "Hvilke vagter har jeg de næste syv dage?",
+            "message": "Skriv en besked til {'@'}"
         },
         "dataAndAccess": "Om data og adgang",
         "reviewShort": "Cody AI kan tage fejl - læs svaret igennem.",
@@ -1702,6 +1707,17 @@
             "sales": "Milo kan svare på priser, moduler, opgraderinger og demoer.",
             "open": "Åbn Milo",
             "nothingShared": "Cody AI sender ikke noget videre. Skriv dit spørgsmål til Milo."
+        },
+        "chatDraft": {
+            "to": "Udkast til besked til",
+            "toGroup": "Udkast til besked i gruppen",
+            "open": "Åbn i chat",
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "copyFailed": "Kunne ikke kopiere beskeden",
+            "notSent": "Ikke sendt. Du læser og sender den selv i chatten.",
+            "colleague": "Kollega",
+            "groupChat": "Gruppechat"
         }
     },
     "back": "Tilbage",

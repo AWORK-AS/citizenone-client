@@ -1477,6 +1477,9 @@
             "seats": {
                 "title": "1 anställd har bett om tillgång till Cody AI | {count} anställda har bett om tillgång till Cody AI",
                 "assign": "Ge tillgång | Ge dem tillgång"
+            },
+            "pageBody": {
+                "messages": "Cody AI kan skriva utkast till meddelanden åt dig."
             }
         }
     },
@@ -1604,13 +1607,15 @@
             "journal": "Skriv journalanteckning",
             "files": "Hitta bifogade filer",
             "shifts": "Vilka skift har jag?",
+            "message": "Skriv ett meddelande till en kollega",
             "fillHint": "skriv namn"
         },
         "quickPrompts": {
             "overview": "Ge mig en överblick över min dag",
             "journal": "Skriv en journalanteckning för ",
             "files": "Hitta de bifogade filerna om ",
-            "shifts": "Vilka skift har jag de kommande sju dagarna?"
+            "shifts": "Vilka skift har jag de kommande sju dagarna?",
+            "message": "Skriv ett meddelande till {'@'}"
         },
         "dataAndAccess": "Om data och åtkomst",
         "reviewShort": "Cody AI kan ha fel - läs igenom svaret.",
@@ -1702,6 +1707,17 @@
             "sales": "Milo kan svara på frågor om priser, moduler, uppgraderingar och demor.",
             "open": "Öppna Milo",
             "nothingShared": "Cody AI skickar inget vidare. Skriv din fråga till Milo."
+        },
+        "chatDraft": {
+            "to": "Utkast till meddelande till",
+            "toGroup": "Utkast till meddelande i gruppen",
+            "open": "Öppna i chatten",
+            "copy": "Kopiera",
+            "copied": "Kopierat",
+            "copyFailed": "Kunde inte kopiera meddelandet",
+            "notSent": "Inte skickat. Du läser och skickar det själv i chatten.",
+            "colleague": "Kollega",
+            "groupChat": "Gruppchatt"
         }
     },
     "back": "Tillbaka",
