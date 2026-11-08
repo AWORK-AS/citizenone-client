@@ -8,18 +8,14 @@
             <template #header>{{ $t('superadmin.industries.pageTitle') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-ink">
-                        {{ $t('superadmin.industries.pageTitle') }}
-                    </h1>
-                    <div class="text-sm text-ink-body">
-                        {{ $t('superadmin.industries.configuredCount', { configured: configuredCount, total: industries.length }) }}
-                    </div>
-                </div>
-
-                <p class="text-sm text-ink-body mb-4 max-w-3xl">
-                    {{ $t('superadmin.industries.description') }}
-                </p>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.industries.pageTitle')"
+                    :subtitle="$t('superadmin.industries.description')">
+                    <template #actions>
+                        <div class="text-sm text-ink-body">
+                            {{ $t('superadmin.industries.configuredCount', { configured: configuredCount, total: industries.length }) }}
+                        </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error?.message?.length > 0" />

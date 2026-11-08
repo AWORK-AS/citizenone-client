@@ -12,14 +12,8 @@
             </template>
 
             <div class="p-1">
-                <div class="mb-5">
-                    <h1 class="text-[22px] font-semibold text-ink">
-                        {{ $t('superadmin.supportAccess.header') }}
-                    </h1>
-                    <p class="text-sm text-ink-body mt-0.5 max-w-3xl">
-                        {{ $t('superadmin.supportAccess.subtitle') }}
-                    </p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.supportAccess.header')"
+                    :subtitle="$t('superadmin.supportAccess.subtitle')" />
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

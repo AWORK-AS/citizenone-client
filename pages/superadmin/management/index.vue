@@ -15,15 +15,8 @@
 
                 <ModulesSuperadminDashboardTab />
 
-                <!-- Header -->
-                <div>
-                    <h1 class="text-[22px] font-bold text-ink">
-                        {{ $t('superadmin.dashboard.tabs.management') }}
-                    </h1>
-                    <p class="text-sm text-ink-body mt-0.5">
-                        {{ $t('superadmin.dashboard.management.subtitle') }}
-                    </p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.dashboard.tabs.management')"
+                    :subtitle="$t('superadmin.dashboard.management.subtitle')" />
 
                 <!-- Kørselsrate, sikret, aftalt og kundeafgang -->
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">

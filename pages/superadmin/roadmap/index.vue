@@ -7,15 +7,13 @@
             <template #header>{{ $t('superadmin.roadmap.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5 flex items-start justify-between gap-x-4">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.roadmap.title') }}</h1>
-                        <p class="text-sm text-ink-body">{{ $t('superadmin.roadmap.intro') }}</p>
-                    </div>
-                    <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
-                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.roadmap.newItem') }}
-                    </FormButton>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.roadmap.title')" :subtitle="$t('superadmin.roadmap.intro')">
+                    <template #actions>
+                        <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
+                            <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.roadmap.newItem') }}
+                        </FormButton>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="mb-4 flex flex-wrap gap-2">
                     <button v-for="status in statuses" :key="status" type="button" @click="state.activeStatus = status"

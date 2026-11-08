@@ -12,22 +12,17 @@
             </template>
 
             <div class="p-1">
-                <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.paymentFees.header') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.paymentFees.subtitle') }}
-                        </p>
-                        <p class="text-xs text-ink-muted mt-1" v-if="state.apps.length">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.paymentFees.header')">
+                    <template #subtitle>
+                        {{ $t('superadmin.paymentFees.subtitle') }}
+                        <span class="block text-xs text-ink-muted mt-1" v-if="state.apps.length">
                             <span v-for="(app, index) in state.apps" :key="app.uuid">
                                 <span v-if="index"> &middot; </span>
                                 {{ app.name }} {{ formatRate(app.payment_fee_percent) }} %
                             </span>
-                        </p>
-                    </div>
-
+                        </span>
+                    </template>
+                    <template #actions>
                     <div class="flex items-end gap-2">
                         <button type="button" class="co-badge co-badge-navy" @click="stepMonth(-1)">
                             <Icon name="ph:caret-left" class="size-4" />
@@ -43,7 +38,8 @@
                             <Icon name="ph:caret-right" class="size-4" />
                         </button>
                     </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

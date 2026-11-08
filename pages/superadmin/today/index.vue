@@ -10,19 +10,18 @@
             <div class="p-1 max-w-5xl space-y-6">
 
                 <!-- Greeting -->
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <h1 class="text-[26px] font-light text-slate-900 leading-tight">
-                            {{ greeting }}
-                        </h1>
-                        <p class="text-sm text-slate-500 mt-1 first-letter:uppercase">{{ formattedDate }}</p>
-                    </div>
-                    <Tooltip :text="$t('superadmin.today.refresh')" position="bottom">
-                        <FormButton buttonStyle="action" :aria-label="$t('superadmin.today.refresh')" @click="fetchToday">
-                            <Icon name="ph:arrows-clockwise" class="h-4 w-4" :class="{ 'animate-spin': state.isLoading }" aria-hidden="true" />
-                        </FormButton>
-                    </Tooltip>
-                </div>
+                <ModulesSuperadminPageHeader class="!mb-0" :title="greeting">
+                    <template #subtitle>
+                        <span class="block first-letter:uppercase">{{ formattedDate }}</span>
+                    </template>
+                    <template #actions>
+                        <Tooltip :text="$t('superadmin.today.refresh')" position="bottom">
+                            <FormButton buttonStyle="action" :aria-label="$t('superadmin.today.refresh')" @click="fetchToday">
+                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" :class="{ 'animate-spin': state.isLoading }" aria-hidden="true" />
+                            </FormButton>
+                        </Tooltip>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

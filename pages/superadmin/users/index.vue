@@ -12,23 +12,16 @@
             </template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.users.users') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.users.totalUsers', {
-                                count: state.users?.meta?.total ?? 0
-                            }) }}
-                        </p>
-                    </div>
-                    <button @click="showNewUserSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.users.newUser') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.users.users')"
+                    :subtitle="$t('superadmin.users.totalUsers', { count: state.users?.meta?.total ?? 0 })">
+                    <template #actions>
+                        <button @click="showNewUserSlider = true"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.users.newUser') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.users.searchPlaceholder')"

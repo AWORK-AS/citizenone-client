@@ -9,44 +9,39 @@
 
             <div class="p-1">
                 <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.clientRoles.pageTitle') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.clientRoles.pageSubtitle') }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <!-- View as -->
-                        <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
-                            <button
-                                class="px-2 py-1.5 rounded-md text-[11px] font-semibold text-ink-muted flex items-center gap-1 select-none cursor-default">
-                                <Icon name="ph:eye" class="w-3.5 h-3.5" />
-                                {{ $t('superadmin.clientRoles.viewAs') }}
-                            </button>
-                            <button v-for="role in roles" :key="role.key"
-                                @click="viewAs = viewAs === role.key ? null : role.key"
-                                class="px-3 py-1.5 rounded-md text-[12px] font-semibold transition-colors"
-                                :class="viewAs === role.key ? 'text-white' : 'text-ink-body'"
-                                :style="viewAs === role.key ? { background: role.color } : undefined">
-                                {{ role.name }}
+                <ModulesSuperadminPageHeader :title="$t('superadmin.clientRoles.pageTitle')"
+                    :subtitle="$t('superadmin.clientRoles.pageSubtitle')">
+                    <template #actions>
+                        <div class="flex items-center gap-2">
+                            <!-- View as -->
+                            <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
+                                <button
+                                    class="px-2 py-1.5 rounded-md text-[11px] font-semibold text-ink-muted flex items-center gap-1 select-none cursor-default">
+                                    <Icon name="ph:eye" class="w-3.5 h-3.5" />
+                                    {{ $t('superadmin.clientRoles.viewAs') }}
+                                </button>
+                                <button v-for="role in roles" :key="role.key"
+                                    @click="viewAs = viewAs === role.key ? null : role.key"
+                                    class="px-3 py-1.5 rounded-md text-[12px] font-semibold transition-colors"
+                                    :class="viewAs === role.key ? 'text-white' : 'text-ink-body'"
+                                    :style="viewAs === role.key ? { background: role.color } : undefined">
+                                    {{ role.name }}
+                                </button>
+                            </div>
+                            <!-- Edit button -->
+                            <button @click="saveOrEdit"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border"
+                                :class="editMode ? 'bg-tertiary text-white border-tertiary' : 'text-ink-body border-line bg-white'">
+                                <Icon :name="editMode ? 'ph:check' : 'ph:pencil-simple'" class="w-4 h-4" />
+                                {{
+                                    editMode ?
+                                        $t('superadmin.clientRoles.saveChanges') :
+                                        $t('superadmin.clientRoles.edit')
+                                }}
                             </button>
                         </div>
-                        <!-- Edit button -->
-                        <button @click="saveOrEdit"
-                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border"
-                            :class="editMode ? 'bg-tertiary text-white border-tertiary' : 'text-ink-body border-line bg-white'">
-                            <Icon :name="editMode ? 'ph:check' : 'ph:pencil-simple'" class="w-4 h-4" />
-                            {{
-                                editMode ?
-                                    $t('superadmin.clientRoles.saveChanges') :
-                                    $t('superadmin.clientRoles.edit')
-                            }}
-                        </button>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- GDPR banner -->
                 <div

@@ -9,16 +9,15 @@
 
             <div class="p-1">
                 <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-ink">
-                        {{ $t('superadmin.apps.pageTitle') }}
-                    </h1>
-                    <button @click="showNewAppSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.apps.newApp') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.apps.pageTitle')">
+                    <template #actions>
+                        <button @click="showNewAppSlider = true"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.apps.newApp') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- Catalogue is what the store shows; sales is what it earns. -->
                 <div class="mb-4 flex gap-1 rounded-lg border border-line bg-white p-1 w-fit">

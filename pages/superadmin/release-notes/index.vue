@@ -7,12 +7,8 @@
             <template #header>{{ $t('releaseNotes.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5 flex items-start justify-between gap-x-4">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('releaseNotes.title') }}</h1>
-                        <p class="text-sm text-ink-body">{{ $t('releaseNotes.gate') }}</p>
-                    </div>
-                    <div class="flex items-center gap-x-2">
+                <ModulesSuperadminPageHeader :title="$t('releaseNotes.title')" :subtitle="$t('releaseNotes.gate')">
+                    <template #actions>
                         <button type="button" @click="toggleFilter"
                             class="flex items-center gap-x-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors"
                             :class="state.filterStatus === 'all' ? 'bg-tertiary/10 text-tertiary' : 'text-gray-500 hover:bg-gray-100'">
@@ -26,8 +22,8 @@
                         <FormButton buttonStyle="primary" @click="openForm()">
                             <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('releaseNotes.newNote') }}
                         </FormButton>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

@@ -16,21 +16,16 @@
                 <ModulesSuperadminDashboardTab />
 
                 <!-- Header -->
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-[22px] font-bold text-ink">
-                            {{ $t('superadmin.dashboard.dashboard') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5 capitalize">
-                            {{ formattedDate }}
-                        </p>
-                    </div>
-                    <button @click="navigateTo('/superadmin/companies/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.companies.newCompany') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.dashboard.dashboard')" class="!mb-0">
+                    <template #subtitle><span class="capitalize">{{ formattedDate }}</span></template>
+                    <template #actions>
+                        <button @click="navigateTo('/superadmin/companies/new')"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.newCompany') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- Row 1: 4 stat cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">

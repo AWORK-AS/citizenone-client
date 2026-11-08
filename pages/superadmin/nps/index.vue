@@ -8,10 +8,7 @@
             <template #header>{{ $t('superadmin.nps.title') }}</template>
 
             <div class="p-1 space-y-5">
-                <div>
-                    <h1 class="text-[22px] font-bold text-ink">{{ $t('superadmin.nps.title') }}</h1>
-                    <p class="text-sm text-ink-body mt-0.5">{{ $t('superadmin.nps.subtitle') }}</p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.nps.title')" :subtitle="$t('superadmin.nps.subtitle')" />
 
                 <LoadingSpinner :isActive="loading">
                     <!-- Tallene -->

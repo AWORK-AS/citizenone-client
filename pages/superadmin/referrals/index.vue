@@ -13,12 +13,9 @@
                 by hand, so this is also the list of months still to take off an invoice.
             -->
             <div class="p-1" data-testid="superadmin-referrals">
-                <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.referrals.header') }}</h1>
-                        <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.referrals.subtitle') }}</p>
-                    </div>
-                    <div class="flex flex-wrap items-end gap-2">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.referrals.header')"
+                    :subtitle="$t('superadmin.referrals.subtitle')">
+                    <template #actions>
                         <select v-model="state.status" @change="load" :aria-label="$t('superadmin.referrals.statusColumn')"
                             class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent">
                             <option value="">{{ $t('superadmin.referrals.allStatuses') }}</option>
@@ -26,8 +23,8 @@
                                 {{ $t(`superadmin.referrals.status.${status}`) }}
                             </option>
                         </select>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

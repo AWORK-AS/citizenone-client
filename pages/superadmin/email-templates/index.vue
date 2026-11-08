@@ -7,10 +7,8 @@
             <template #header>{{ $t('superadmin.emailTemplates.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5">
-                    <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.emailTemplates.title') }}</h1>
-                    <p class="text-sm text-ink-body">{{ $t('superadmin.emailTemplates.subtitle') }}</p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.emailTemplates.title')"
+                    :subtitle="$t('superadmin.emailTemplates.subtitle')" />
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

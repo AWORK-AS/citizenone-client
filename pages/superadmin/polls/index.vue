@@ -8,18 +8,15 @@
             <template #header>{{ $t('superadmin.polls.polls') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.polls.polls') }}
-                        </h1>
-                    </div>
-                    <button @click="navigateTo('/superadmin/polls/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.polls.newPoll') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.polls.polls')">
+                    <template #actions>
+                        <button @click="navigateTo('/superadmin/polls/new')"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.polls.newPoll') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search') + '...'"

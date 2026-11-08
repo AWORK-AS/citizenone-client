@@ -12,21 +12,16 @@
             </template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.salesCampaign.pageTitle') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.salesCampaign.pageSubtitle') }}
-                        </p>
-                    </div>
-                    <button @click="showNewCampaignSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.salesCampaign.newCampaign') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.salesCampaign.pageTitle')"
+                    :subtitle="$t('superadmin.salesCampaign.pageSubtitle')">
+                    <template #actions>
+                        <button @click="showNewCampaignSlider = true"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.salesCampaign.newCampaign') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white border border-line rounded-xl px-5 py-4 shadow-sm">

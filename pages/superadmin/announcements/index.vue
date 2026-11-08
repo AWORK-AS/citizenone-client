@@ -7,15 +7,14 @@
             <template #header>{{ $t('superadmin.announcements.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5 flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.announcements.title') }}</h1>
-                        <p class="max-w-2xl text-sm text-ink-body">{{ $t('superadmin.announcements.intro') }}</p>
-                    </div>
-                    <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
-                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.announcements.new') }}
-                    </FormButton>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.announcements.title')"
+                    :subtitle="$t('superadmin.announcements.intro')">
+                    <template #actions>
+                        <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
+                            <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.announcements.new') }}
+                        </FormButton>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="mb-4 flex flex-wrap gap-2">
                     <button v-for="filter in filters" :key="filter" type="button" @click="state.filter = filter"

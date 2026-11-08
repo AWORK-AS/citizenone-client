@@ -12,19 +12,12 @@
             </template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.invoices.invoices') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            <!-- `meta.total` is where a paginated collection carries
-                                 its count; `total` was never in the response, so this
-                                 line read "0 invoices in total" above a full page. -->
-                            {{ $t('superadmin.invoices.totalInvoices', { count: state.invoices?.meta?.total ?? 0 }) }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
+                <!-- `meta.total` is where a paginated collection carries
+                     its count; `total` was never in the response, so the
+                     subtitle read "0 invoices in total" above a full page. -->
+                <ModulesSuperadminPageHeader :title="$t('superadmin.invoices.invoices')"
+                    :subtitle="$t('superadmin.invoices.totalInvoices', { count: state.invoices?.meta?.total ?? 0 })">
+                    <template #actions>
                         <button
                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition-colors"
                             @click="setTabFilter('pending')">
@@ -43,8 +36,8 @@
                             <Icon name="ph:download-simple" class="h-4 w-4" />
                             {{ $t('superadmin.invoices.download.download') }}
                         </FormButton>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <div class="flex items-center bg-white border border-line rounded-lg p-0.5">

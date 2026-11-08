@@ -8,25 +8,24 @@
             <template #header>{{ $t('paymentDunning.problems.title') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5 gap-3">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('paymentDunning.problems.title') }}</h1>
-                        <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('paymentDunning.problems.intro') }}</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <select v-if="state.tab === 'active'" v-model="state.status"
-                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
-                            :aria-label="$t('paymentDunning.problems.col.status')">
-                            <option value="">{{ $t('paymentDunning.problems.filterAll') }}</option>
-                            <option v-for="s in statuses" :key="s" :value="s">{{ $t(`paymentDunning.problems.status.${s}`) }}</option>
-                        </select>
-                        <Tooltip :text="$t('paymentDunning.problems.refresh')" position="bottom">
-                            <FormButton buttonStyle="action" :aria-label="$t('paymentDunning.problems.refresh')" @click="fetchRows">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
-                            </FormButton>
-                        </Tooltip>
-                    </div>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('paymentDunning.problems.title')"
+                    :subtitle="$t('paymentDunning.problems.intro')">
+                    <template #actions>
+                        <div class="flex items-center gap-2">
+                            <select v-if="state.tab === 'active'" v-model="state.status"
+                                class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
+                                :aria-label="$t('paymentDunning.problems.col.status')">
+                                <option value="">{{ $t('paymentDunning.problems.filterAll') }}</option>
+                                <option v-for="s in statuses" :key="s" :value="s">{{ $t(`paymentDunning.problems.status.${s}`) }}</option>
+                            </select>
+                            <Tooltip :text="$t('paymentDunning.problems.refresh')" position="bottom">
+                                <FormButton buttonStyle="action" :aria-label="$t('paymentDunning.problems.refresh')" @click="fetchRows">
+                                    <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                </FormButton>
+                            </Tooltip>
+                        </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex gap-1 mb-4 border-b border-line" role="tablist">
                     <button v-for="tab in DUNNING_TABS" :key="tab" type="button" role="tab"

@@ -12,22 +12,16 @@
             </template>
 
             <div class="p-1">
-                <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.licenses.header') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.licenses.subtitle') }}
-                        </p>
-                    </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.licenses.header')"
+                    :subtitle="$t('superadmin.licenses.subtitle')">
+                    <template #actions>
                     <NuxtLink to="/superadmin/apps"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.licenses.newLicense') }}
                     </NuxtLink>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- Info banner -->
                 <div

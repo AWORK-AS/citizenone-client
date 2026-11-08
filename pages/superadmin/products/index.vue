@@ -13,27 +13,22 @@
 
             <div class="p-1">
                 <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.products.productCatalog') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.products.subtitle') }}
-                        </p>
-                    </div>
-                    <!-- Contextual create button -->
-                    <button v-if="activeTab === 'plans'" @click="openPlanSlider(null)"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.products.newPackage') }}
-                    </button>
-                    <button v-if="activeTab === 'apps'" @click="openAppSlider(null)"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.products.newApp') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.products.productCatalog')"
+                    :subtitle="$t('superadmin.products.subtitle')">
+                    <template #actions>
+                        <!-- Contextual create button -->
+                        <button v-if="activeTab === 'plans'" @click="openPlanSlider(null)"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.products.newPackage') }}
+                        </button>
+                        <button v-if="activeTab === 'apps'" @click="openAppSlider(null)"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.products.newApp') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- Tabs -->
                 <div class="flex items-center gap-0 border-b border-line mb-6">

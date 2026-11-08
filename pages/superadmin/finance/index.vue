@@ -12,16 +12,12 @@
 				{{ $t('superadmin.finance.header') }}
 			</template>
 
-			<div class="p-7 max-w-[1320px]">
+			<div class="p-1 max-w-[1320px]">
 
 				<!-- Header + filters -->
-				<div class="flex items-end justify-between mb-6">
-					<div>
-						<p class="text-sm text-ink-body">
-							{{ $t('superadmin.finance.subtitle') }}
-						</p>
-					</div>
-					<div class="flex items-center gap-2 flex-wrap">
+				<ModulesSuperadminPageHeader :title="$t('superadmin.finance.header')"
+					:subtitle="$t('superadmin.finance.subtitle')">
+					<template #actions>
 						<div class="flex items-center bg-white border border-line-strong rounded-lg p-0.5">
 							<button v-for="r in timeRanges" :key="r.key"
 								class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
@@ -60,8 +56,8 @@
 							class="text-[11px] text-ink-body bg-surface-canvas px-2.5 py-1.5 rounded-lg border border-line">
 							{{ activePeriodLabel }}
 						</div>
-					</div>
-				</div>
+					</template>
+				</ModulesSuperadminPageHeader>
 
 				<!-- ═══ SECTION 1: REVENUE ═══ -->
 				<div class="mb-2">

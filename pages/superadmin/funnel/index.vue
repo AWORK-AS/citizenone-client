@@ -19,12 +19,9 @@
 
                 <template v-else>
                     <!-- Header + period -->
-                    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                        <div>
-                            <h1 class="text-[22px] font-bold text-ink">{{ $t('superadmin.funnel.title') }}</h1>
-                            <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.subtitle') }}</p>
-                        </div>
-
+                    <ModulesSuperadminPageHeader :title="$t('superadmin.funnel.title')"
+                        :subtitle="$t('superadmin.funnel.subtitle')">
+                        <template #actions>
                         <div class="flex flex-wrap items-end gap-3">
                             <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
                                 <button v-for="preset in presets" :key="preset"
@@ -47,7 +44,8 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                        </template>
+                    </ModulesSuperadminPageHeader>
 
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message && state.error.message.length > 0" />
 

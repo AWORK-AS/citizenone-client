@@ -13,38 +13,28 @@
 
             <div class="p-1">
                 <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.companies.companies') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{
-                                $t('superadmin.companies.totalClients', {
-                                    count:
-                                        state.companies?.meta?.total ?? 0
-                                })
-                            }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button @click="exportCompanies" :disabled="state.isExporting"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50">
-                            <Icon name="ph:download-simple" class="w-4 h-4" />
-                            {{ $t('superadmin.companies.export') }}
-                        </button>
-                        <button @click="state.modal.isImportCompanyOpen = true"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors">
-                            <Icon name="ph:upload-simple" class="w-4 h-4" />
-                            {{ $t('superadmin.companies.import') }}
-                        </button>
-                        <button @click="navigateTo('/superadmin/companies/new')"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors bg-tertiary">
-                            <Icon name="ph:plus" class="w-4 h-4" />
-                            {{ $t('superadmin.companies.newCompany') }}
-                        </button>
-                    </div>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.companies.companies')"
+                    :subtitle="$t('superadmin.companies.totalClients', { count: state.companies?.meta?.total ?? 0 })">
+                    <template #actions>
+                        <div class="flex items-center gap-2">
+                            <button @click="exportCompanies" :disabled="state.isExporting"
+                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50">
+                                <Icon name="ph:download-simple" class="w-4 h-4" />
+                                {{ $t('superadmin.companies.export') }}
+                            </button>
+                            <button @click="state.modal.isImportCompanyOpen = true"
+                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors">
+                                <Icon name="ph:upload-simple" class="w-4 h-4" />
+                                {{ $t('superadmin.companies.import') }}
+                            </button>
+                            <button @click="navigateTo('/superadmin/companies/new')"
+                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors bg-tertiary">
+                                <Icon name="ph:plus" class="w-4 h-4" />
+                                {{ $t('superadmin.companies.newCompany') }}
+                            </button>
+                        </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery"

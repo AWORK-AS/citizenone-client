@@ -8,21 +8,16 @@
             <div class="p-7 max-w-[1320px]">
 
                 <!-- Header -->
-                <div class="flex items-end justify-between mb-6">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.cancellations.pageTitle') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-1">
-                            {{ $t('superadmin.cancellations.pageSubtitle') }}
-                        </p>
-                    </div>
-                    <button @click="openModal()"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-danger">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.cancellations.registerBtn') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.cancellations.pageTitle')"
+                    :subtitle="$t('superadmin.cancellations.pageSubtitle')">
+                    <template #actions>
+                        <button @click="openModal()"
+                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-danger">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.cancellations.registerBtn') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="grid grid-cols-4 gap-4 mb-6">
                     <div class="bg-white border border-line rounded-xl p-4 shadow-sm">

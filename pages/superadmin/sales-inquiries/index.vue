@@ -8,16 +8,9 @@
             <template #header>{{ $t('superadmin.salesInquiries.pageTitle') }}</template>
 
             <div class="p-1">
-                <div class="flex items-start justify-between mb-4 gap-4 flex-wrap">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.salesInquiries.pageTitle') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-1 max-w-2xl">
-                            {{ $t('superadmin.salesInquiries.description') }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.salesInquiries.pageTitle')"
+                    :subtitle="$t('superadmin.salesInquiries.description')">
+                    <template #actions>
                         <!-- List or board. The board is the same inquiries in the
                              same statuses; what it adds is moving one by hand. -->
                         <div class="inline-flex rounded-lg border border-line-strong overflow-hidden bg-white">
@@ -49,8 +42,8 @@
                             <Icon name="ph:arrows-clockwise" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.refresh') }}
                         </button>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error?.message?.length > 0" />

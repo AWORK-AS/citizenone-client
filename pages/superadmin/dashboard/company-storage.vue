@@ -13,12 +13,16 @@
             <template #header>{{ $t('superadmin.dashboard.companyStorage.companyStorage') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                    to="/superadmin/dashboard">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
-                <div class="mt-5 space-y-5">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.dashboard.companyStorage.companyStorage')">
+                    <template #back>
+                        <NuxtLink class="inline-flex items-center gap-1.5 max-w-fit text-sm text-ink-body hover:text-ink transition-colors"
+                            to="/superadmin/dashboard">
+                            <Icon name="ph:arrow-left" class="w-4 h-4" />
+                            <span>{{ $t('back') }}</span>
+                        </NuxtLink>
+                    </template>
+                </ModulesSuperadminPageHeader>
+                <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />

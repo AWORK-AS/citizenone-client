@@ -13,24 +13,17 @@
 
             <div class="p-1 space-y-5">
                 <!-- Header + period -->
-                <div class="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.orders.header') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.orders.report.subtitle') }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.orders.header')"
+                    :subtitle="$t('superadmin.orders.report.subtitle')">
+                    <template #actions>
                         <label class="text-[12px] text-ink-body">{{ $t('superadmin.orders.report.from') }}</label>
                         <input type="date" v-model="state.period.from" @change="onPeriodChange"
                             class="text-xs border border-line rounded-lg px-2 py-1.5 text-ink-body bg-white outline-none focus:border-accent" />
                         <label class="text-[12px] text-ink-body">{{ $t('superadmin.orders.report.to') }}</label>
                         <input type="date" v-model="state.period.to" @change="onPeriodChange"
                             class="text-xs border border-line rounded-lg px-2 py-1.5 text-ink-body bg-white outline-none focus:border-accent" />
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

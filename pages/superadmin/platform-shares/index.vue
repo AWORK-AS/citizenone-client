@@ -13,25 +13,17 @@
 
             <!-- Task #16: how many have shared CitizenOne, and who signed up through a shared link. -->
             <div class="p-1" data-testid="superadmin-platform-shares">
-                <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.platformShares.header') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5">
-                            {{ $t('superadmin.platformShares.subtitle') }}
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap items-end gap-2">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.platformShares.header')"
+                    :subtitle="$t('superadmin.platformShares.subtitle')">
+                    <template #actions>
                         <select v-model="state.period" @change="load"
                             class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors">
                             <option v-for="period in PERIODS" :key="period" :value="period">
                                 {{ $t(`superadmin.platformShares.periods.${period}`) }}
                             </option>
                         </select>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

@@ -12,21 +12,15 @@
             </template>
 
             <div class="p-1">
-                <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-ink">
-                            {{ $t('superadmin.teamRoles.header') }}
-                        </h1>
-                        <p class="text-sm text-ink-body mt-0.5 max-w-2xl">
-                            {{ $t('superadmin.teamRoles.subtitle') }}
-                        </p>
-                    </div>
-
-                    <button v-if="canManage" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary"  @click="startNewRole">
-                        <Icon name="ph:plus" class="size-4" />
-                        {{ $t('superadmin.teamRoles.newRole') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.teamRoles.header')"
+                    :subtitle="$t('superadmin.teamRoles.subtitle')">
+                    <template #actions>
+                        <button v-if="canManage" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary" @click="startNewRole">
+                            <Icon name="ph:plus" class="size-4" />
+                            {{ $t('superadmin.teamRoles.newRole') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 

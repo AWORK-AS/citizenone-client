@@ -9,16 +9,15 @@
 
             <div class="p-1">
                 <!-- Header -->
-                <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-ink">
-                        {{ $t('superadmin.appCategories.pageTitle') }}
-                    </h1>
-                    <button @click="openCreate"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.appCategories.newCategory') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.appCategories.pageTitle')">
+                    <template #actions>
+                        <button @click="openCreate"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.appCategories.newCategory') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <!-- Search -->
                 <div class="flex flex-wrap items-center gap-3 mb-4">
