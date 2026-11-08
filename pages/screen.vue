@@ -95,8 +95,8 @@
                         <p v-else class="text-[2.6vh] font-light text-white/50">{{ $t('infoScreenDisplay.noActivities') }}</p>
                     </div>
 
-                    <!-- With large text the menu does not fit here: it takes a turn in the big panel instead -->
-                    <div v-if="feed.show_menu && feed.menu && !large" class="panel panel-in" style="animation-delay: 0.25s">
+                    <!-- With large text, or with staff on duty too, the menu does not fit here: it takes a turn in the big panel instead -->
+                    <div v-if="feed.show_menu && feed.menu && !menuInStage" class="panel panel-in" style="animation-delay: 0.25s">
                         <h2 class="panel-title"><Icon name="ph:fork-knife" /> {{ $t('infoScreenDisplay.menu') }}</h2>
                         <p class="whitespace-pre-line text-[3vh] font-light">{{ feed.menu }}</p>
                     </div>
@@ -357,13 +357,18 @@ function inText(minutes: number): string {
     return rest ? t('infoScreenDisplay.inHoursMinutes', { hours, minutes: rest }) : t('infoScreenDisplay.inHours', { count: hours })
 }
 
+// The program comes first in the side column. With the staff on duty there too, the menu would
+// squeeze it to one row, so the menu takes a turn in the big panel instead (as with large text).
+const showsStaff = computed(() => !!(feed.value?.show_staff_on_duty && feed.value?.staff_on_duty?.length))
+const menuInStage = computed(() => large.value || (showsStaff.value && !!feed.value?.show_activities))
+
 const staffHasPhotos = computed(() => (feed.value?.staff_on_duty ?? []).some((person: any) => person.photo))
 
 const reminder = computed(() => upcomingReminder(feed.value?.activities ?? [], nowMinutes.value, Number(feed.value?.reminder_minutes) || 0))
 const showReminder = computed(() => !!reminder.value && !isNight.value && reminderShowing(screenNow.value.getSeconds()))
 
 const hasSide = computed(() => !!feed.value && (feed.value.show_activities
-    || (feed.value.show_menu && feed.value.menu && !large.value)
+    || (feed.value.show_menu && feed.value.menu && !menuInStage.value)
     || (feed.value.show_staff_on_duty && feed.value.staff_on_duty?.length)))
 
 const slideSeconds = computed(() => Math.max(3, Number(feed.value?.slide_seconds) || 10))
@@ -389,7 +394,7 @@ const rotation = computed(() => {
         if (slides[i]) content.push(slides[i])
         if (news[i]) content.push(news[i])
     }
-    if (large.value && feed.value.show_menu && feed.value.menu) content.unshift({ type: 'menu', key: 'menu' })
+    if (menuInStage.value && feed.value.show_menu && feed.value.menu) content.unshift({ type: 'menu', key: 'menu' })
     if (feed.value.show_weather && feed.value.weather?.hours?.length > 1) content.push({ type: 'weather', key: 'weather' })
     if (feed.value.week?.some((day: any) => day.activities.length)) content.push({ type: 'week', key: 'week' })
     if (feed.value.mood_token) content.push({ type: 'mood', key: 'mood' })
