@@ -189,8 +189,8 @@
                 <p v-else class="px-[3vh]"><Icon name="ph:megaphone-simple" class="mr-[1.5vh] align-[-0.3vh]" /><span class="shimmer">{{ feed.message }}</span></p>
             </footer>
 
-            <!-- Discreet logo in the bottom gutter, away from the offline badge on the right -->
-            <img src="/img/logo-white.svg" alt="CitizenOne" class="pointer-events-none absolute bottom-[1.7vh] left-[3vh] h-[2.1vh] w-auto opacity-50" />
+            <!-- Discreet logo in the bottom gutter, away from the offline badge on the left -->
+            <img src="/img/logo-white.svg" alt="CitizenOne" class="pointer-events-none absolute bottom-[1.7vh] right-[3vh] h-[2.1vh] w-auto opacity-50" />
         </div>
 
         <div v-else-if="previewError" class="relative flex h-full items-center justify-center px-6 text-center">
@@ -202,7 +202,7 @@
         </div>
 
         <!-- Lost the connection: still showing the last content; tells staff why it is not updating -->
-        <div v-if="feed && isStale && !isNight" class="absolute bottom-[1.5vh] right-[1.5vh] flex items-center gap-[1vh] rounded-full bg-black/40 px-[1.6vh] py-[0.6vh] text-[1.8vh] text-white/70">
+        <div v-if="feed && isStale && !isNight" class="absolute bottom-[1.5vh] left-[1.5vh] flex items-center gap-[1vh] rounded-full bg-black/40 px-[1.6vh] py-[0.6vh] text-[1.8vh] text-white/70">
             <Icon name="ph:wifi-slash" /> {{ $t('infoScreenDisplay.offline') }}
         </div>
 
