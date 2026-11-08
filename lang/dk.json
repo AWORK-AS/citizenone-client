@@ -15095,6 +15095,43 @@
             "errorCampaignNameRequired": "Kampagnenavn er påkrævet",
             "labelImage": "Billede"
         },
+        "search": {
+            "trigger": "Søg overalt",
+            "dialogLabel": "Søg overalt i superadmin",
+            "placeholder": "Søg efter virksomhed, CVR, medarbejder, faktura eller side…",
+            "intro": "Find en virksomhed, en medarbejder, en faktura, et e-conomic-nummer eller en side.",
+            "minChars": "Skriv mindst 2 tegn for at søge i virksomheder, medarbejdere og fakturaer.",
+            "loading": "Søger…",
+            "empty": "Ingen resultater for “{query}”",
+            "error": "Søgningen fejlede. Prøv igen.",
+            "clearRecent": "Ryd",
+            "hintNavigate": "Naviger",
+            "hintSelect": "Åbn",
+            "hintClose": "Luk",
+            "results": "{count} resultater",
+            "groups": {
+                "recent": "Seneste",
+                "pages": "Sider",
+                "companies": "Virksomheder",
+                "accounts": "Kundernes medarbejdere",
+                "team": "Vores hold",
+                "invoices": "Fakturaer",
+                "agreements": "Aftaler"
+            },
+            "badge": {
+                "closed": "Lukket",
+                "billingCard": "Kort",
+                "billingInvoice": "Faktura",
+                "archived": "Arkiveret",
+                "inactive": "Inaktiv",
+                "paid": "Betalt",
+                "unpaid": "Ikke betalt",
+                "failed": "Afvist",
+                "economicDraft": "Kladde",
+                "agreement_ended": "Udløbet",
+                "agreement_cancelled": "Opsagt"
+            }
+        },
         "sidebar": {
             "referrals": "Anbefalinger",
             "nps": "Anbefalinger (NPS)",

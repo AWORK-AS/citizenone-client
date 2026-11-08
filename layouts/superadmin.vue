@@ -285,6 +285,9 @@
 
                 <!-- Right side -->
                 <div class="flex items-center gap-x-3">
+                    <!-- Søg overalt (⌘K / Ctrl+K): its own trigger, and the palette itself -->
+                    <ModulesSuperadminSearchCommandPalette />
+
                     <!-- User menu -->
                     <Menu as="div" class="relative">
                         <MenuButton

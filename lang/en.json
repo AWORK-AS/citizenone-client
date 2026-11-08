@@ -15095,6 +15095,43 @@
             "errorCampaignNameRequired": "Campaign name is required",
             "labelImage": "Image"
         },
+        "search": {
+            "trigger": "Search everywhere",
+            "dialogLabel": "Search everywhere in superadmin",
+            "placeholder": "Search company, CVR, staff member, invoice or page…",
+            "intro": "Find a company, a staff member, an invoice, an e-conomic number or a page.",
+            "minChars": "Type at least 2 characters to search companies, staff and invoices.",
+            "loading": "Searching…",
+            "empty": "No results for “{query}”",
+            "error": "Search failed. Please try again.",
+            "clearRecent": "Clear",
+            "hintNavigate": "Navigate",
+            "hintSelect": "Open",
+            "hintClose": "Close",
+            "results": "{count} results",
+            "groups": {
+                "recent": "Recent",
+                "pages": "Pages",
+                "companies": "Companies",
+                "accounts": "Customer staff",
+                "team": "Our team",
+                "invoices": "Invoices",
+                "agreements": "Agreements"
+            },
+            "badge": {
+                "closed": "Closed",
+                "billingCard": "Card",
+                "billingInvoice": "Invoice",
+                "archived": "Archived",
+                "inactive": "Inactive",
+                "paid": "Paid",
+                "unpaid": "Unpaid",
+                "failed": "Rejected",
+                "economicDraft": "Draft",
+                "agreement_ended": "Ended",
+                "agreement_cancelled": "Cancelled"
+            }
+        },
         "sidebar": {
             "referrals": "Referrals",
             "nps": "Recommendations (NPS)",

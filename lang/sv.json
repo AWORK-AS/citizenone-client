@@ -15087,6 +15087,43 @@
             "errorCampaignNameRequired": "Kampanjnamn krävs",
             "labelImage": "Bild"
         },
+        "search": {
+            "trigger": "Sök överallt",
+            "dialogLabel": "Sök överallt i superadmin",
+            "placeholder": "Sök efter företag, org.nr, medarbetare, faktura eller sida…",
+            "intro": "Hitta ett företag, en medarbetare, en faktura, ett e-conomic-nummer eller en sida.",
+            "minChars": "Skriv minst 2 tecken för att söka bland företag, medarbetare och fakturor.",
+            "loading": "Söker…",
+            "empty": "Inga resultat för ”{query}”",
+            "error": "Sökningen misslyckades. Försök igen.",
+            "clearRecent": "Rensa",
+            "hintNavigate": "Navigera",
+            "hintSelect": "Öppna",
+            "hintClose": "Stäng",
+            "results": "{count} resultat",
+            "groups": {
+                "recent": "Senaste",
+                "pages": "Sidor",
+                "companies": "Företag",
+                "accounts": "Kundernas medarbetare",
+                "team": "Vårt team",
+                "invoices": "Fakturor",
+                "agreements": "Avtal"
+            },
+            "badge": {
+                "closed": "Stängt",
+                "billingCard": "Kort",
+                "billingInvoice": "Faktura",
+                "archived": "Arkiverad",
+                "inactive": "Inaktiv",
+                "paid": "Betald",
+                "unpaid": "Obetald",
+                "failed": "Avvisad",
+                "economicDraft": "Utkast",
+                "agreement_ended": "Avslutat",
+                "agreement_cancelled": "Uppsagt"
+            }
+        },
         "sidebar": {
             "referrals": "Rekommendationer",
             "nps": "Rekommendationer (NPS)",
