@@ -29,16 +29,17 @@
                         <div class="relative w-80 shrink-0">
                             <Icon name="ph:magnifying-glass"
                                 class="w-4 h-4 absolute left-[13px] top-1/2 -translate-y-1/2 text-ink-muted pointer-events-none" />
-                            <input v-model="state.filters.search" type="search" class="co-input"
+                            <input v-model="list.searchInput.value" type="search" class="co-input"
                                 style="padding-left: 38px"
                                 :placeholder="$t('superadmin.salesInquiries.searchPlaceholder')"
-                                @keyup.enter="fetchInquiries" @search="fetchInquiries" />
+                                :aria-label="$t('superadmin.salesInquiries.searchPlaceholder')"
+                                @keyup.enter="list.flushSearch" @search="list.flushSearch" />
                         </div>
                         <button class="co-action-btn" @click="openColumnSettings">
                             <Icon name="ph:palette" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.columns.button') }}
                         </button>
-                        <button class="co-action-btn" @click="fetchInquiries">
+                        <button class="co-action-btn" @click="list.reload">
                             <Icon name="ph:arrows-clockwise" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.refresh') }}
                         </button>
@@ -55,7 +56,7 @@
                     <template v-if="state.view === 'list'">
                         <button v-for="tab in statusTabs" :key="tab.key" @click="selectStatus(tab.key)" :class="[
                             'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
-                            state.filters.status === tab.key
+                            list.state.filters.status === tab.key
                                 ? 'bg-tertiary text-white border-tertiary'
                                 : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                         ]">
@@ -68,7 +69,7 @@
 
                     <button @click="toggleAssigned('unassigned')" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
-                        state.filters.assigned === 'unassigned'
+                        list.state.filters.assigned === 'unassigned'
                             ? 'bg-accent text-white border-accent'
                             : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
@@ -77,7 +78,7 @@
                     </button>
                     <button @click="toggleAssigned('me')" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
-                        state.filters.assigned === 'me'
+                        list.state.filters.assigned === 'me'
                             ? 'bg-accent text-white border-accent'
                             : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
@@ -93,7 +94,7 @@
 
                     <button v-for="tab in sourceTabs" :key="tab.key" @click="toggleSource(tab.key)" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
-                        state.filters.source === tab.key
+                        list.state.filters.source === tab.key
                             ? 'bg-accent-soft text-tertiary border-accent'
                             : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
@@ -102,11 +103,10 @@
                     </button>
                 </div>
 
-                <div v-if="state.isLoading" class="flex justify-center py-16">
+                <!-- BOARD -->
+                <div v-if="state.view === 'board' && state.isLoading" class="flex justify-center py-16">
                     <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
-
-                <!-- BOARD -->
                 <div v-else-if="state.view === 'board'" class="overflow-x-auto pb-3">
                     <div class="flex items-start gap-3 min-w-max">
                         <div v-for="status in orderedStatuses" :key="status"
@@ -174,87 +174,56 @@
                     </div>
                 </div>
 
-                <!-- LIST -->
-                <div v-else class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="!inquiries.length" class="flex flex-col items-center gap-3 py-16 text-ink-muted">
-                        <Icon name="ph:tray" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm">{{ $t('superadmin.salesInquiries.empty') }}</p>
-                    </div>
-                    <div v-else class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                                <tr class="border-b border-line bg-surface-subtle">
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colWho') }}</th>
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colType') }}</th>
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colPage') }}</th>
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colStatus') }}</th>
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colOwner') }}</th>
-                                    <th class="co-th">{{ $t('superadmin.salesInquiries.colReceived') }}</th>
-                                    <th class="co-th"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="inquiry in inquiries" :key="inquiry.uuid"
-                                    class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors cursor-pointer"
-                                    @click="openInquiry(inquiry)">
-                                    <td class="co-td">
-                                        <p class="text-[13px] font-semibold text-ink">
-                                            {{ inquiry.company_name || inquiry.name || inquiry.email }}
-                                        </p>
-                                        <p class="text-[12px] text-ink-muted">
-                                            {{ [inquiry.name, inquiry.email, inquiry.phone].filter(Boolean).join(' · ') }}
-                                        </p>
-                                    </td>
-                                    <td class="co-td text-[13px] text-ink-body">
-                                        {{ $t('superadmin.salesInquiries.sources.' + inquiry.source) }}
-                                    </td>
-                                    <td class="co-td text-[13px]">
-                                        <a v-if="inquiry.landing_page" :href="inquiry.landing_page" target="_blank"
-                                            rel="noopener" :title="inquiry.landing_page"
-                                            class="text-tertiary underline" @click.stop>
-                                            {{ shortPath(inquiry.landing_page) }}
-                                        </a>
-                                        <span v-else class="text-ink-subtle">-</span>
-                                    </td>
-                                    <td class="co-td">
-                                        <span class="px-2 py-0.5 rounded-full text-[12px] font-medium"
-                                            :style="statusStyle(inquiry.status)">
-                                            {{ labelFor(inquiry.status) }}
-                                        </span>
-                                    </td>
-                                    <td class="co-td text-[13px] text-ink-body">
-                                        {{ inquiry.assigned_user?.name || $t('superadmin.salesInquiries.nobody') }}
-                                    </td>
-                                    <!-- The time matters as much as the day: it is what
-                                         says whether somebody wrote in during our hours. -->
-                                    <td class="co-td text-[13px] text-ink-body whitespace-nowrap">
-                                        {{ formatDateTime(inquiry.created_at) }}
-                                    </td>
-                                    <td class="co-td">
-                                        <div class="flex justify-end">
-                                            <button class="co-action-btn" @click.stop="openInquiry(inquiry)">
-                                                <Icon name="ph:arrow-right" class="w-3.5 h-3.5" />
-                                                {{ $t('superadmin.salesInquiries.open') }}
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div v-if="state.view === 'list' && lastPage > 1" class="flex items-center justify-end gap-2 mt-4">
-                    <button class="co-action-btn" :disabled="state.page <= 1" @click="changePage(state.page - 1)">
-                        <Icon name="ph:caret-left" class="w-3.5 h-3.5" />
-                        {{ $t('superadmin.salesInquiries.previous') }}
-                    </button>
-                    <span class="text-[13px] text-ink-body">{{ state.page }} / {{ lastPage }}</span>
-                    <button class="co-action-btn" :disabled="state.page >= lastPage" @click="changePage(state.page + 1)">
-                        {{ $t('superadmin.salesInquiries.next') }}
-                        <Icon name="ph:caret-right" class="w-3.5 h-3.5" />
-                    </button>
-                </div>
+                <!-- LIST. The filters above serve the board too, so the table brings only
+                     its count, export, rows and pager. -->
+                <ModulesSuperadminDataTable v-else :columns="columns" :rows="inquiries" rowKey="uuid"
+                    :loading="state.isLoading" :error="state.loadError" :meta="meta" :searchable="false"
+                    :filtered="list.isFiltered.value" clickable emptyIcon="ph:tray"
+                    :emptyTitle="$t('superadmin.salesInquiries.empty')"
+                    :exportName="$t('superadmin.salesInquiries.pageTitle')" :exportPage="exportPage"
+                    :exportColumns="exportColumns"
+                    @page="list.setPage" @reset="list.reset" @retry="list.reload" @row-click="openInquiry">
+                    <template #cell-who="{ row: inquiry }">
+                        <p class="text-[13px] font-semibold text-ink">
+                            {{ inquiry.company_name || inquiry.name || inquiry.email }}
+                        </p>
+                        <p class="text-[12px] text-ink-muted">
+                            {{ [inquiry.name, inquiry.email, inquiry.phone].filter(Boolean).join(' · ') }}
+                        </p>
+                    </template>
+                    <template #cell-source="{ row: inquiry }">
+                        {{ $t('superadmin.salesInquiries.sources.' + inquiry.source) }}
+                    </template>
+                    <template #cell-landing_page="{ row: inquiry }">
+                        <a v-if="inquiry.landing_page" :href="inquiry.landing_page" target="_blank"
+                            rel="noopener" :title="inquiry.landing_page" class="text-tertiary underline">
+                            {{ shortPath(inquiry.landing_page) }}
+                        </a>
+                        <span v-else class="text-ink-subtle">-</span>
+                    </template>
+                    <template #cell-status="{ row: inquiry }">
+                        <span class="px-2 py-0.5 rounded-full text-[12px] font-medium"
+                            :style="statusStyle(inquiry.status)">
+                            {{ labelFor(inquiry.status) }}
+                        </span>
+                    </template>
+                    <template #cell-owner="{ row: inquiry }">
+                        {{ inquiry.assigned_user?.name || $t('superadmin.salesInquiries.nobody') }}
+                    </template>
+                    <!-- The time matters as much as the day: it is what
+                         says whether somebody wrote in during our hours. -->
+                    <template #cell-created_at="{ row: inquiry }">
+                        <span class="whitespace-nowrap">{{ formatDateTime(inquiry.created_at) }}</span>
+                    </template>
+                    <template #cell-actions="{ row: inquiry }">
+                        <div class="flex justify-end">
+                            <button class="co-action-btn" @click.stop="openInquiry(inquiry)">
+                                <Icon name="ph:arrow-right" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.salesInquiries.open') }}
+                            </button>
+                        </div>
+                    </template>
+                </ModulesSuperadminDataTable>
             </div>
 
             <!-- COLUMNS: what each stage is called and what colour it has -->
@@ -457,6 +426,9 @@ import { userService } from '@/components/api/superadmin/UserService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
+import { useListQuery } from '@/composables/useListQuery'
+import { normalizePageMeta, responseRows, type DataTableColumn } from '@/composables/dataTable'
+import type { CsvColumn } from '@/composables/csvExport'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -507,12 +479,11 @@ const state = reactive({
     inquiries: {} as any,
     users: [] as any[],
     error: {} as Error,
+    loadError: null as string | null,
     detailError: {} as Error,
     isLoading: false,
     isSaving: false,
-    page: 1,
     view: 'list' as 'list' | 'board',
-    filters: { status: 'open', assigned: '', search: '', source: '' },
     modal: { isDetailOpen: false, isColumnsOpen: false },
     selected: null as any,
     // How each stage is presented. Empty until the first fetch, and the
@@ -531,12 +502,44 @@ const state = reactive({
     },
 })
 
+// Status, owner, source, search and page live in the URL; `?inquiry=` (the
+// notification mail's link) sits next to them untouched. The view is a
+// preference and stays in localStorage.
+const list = useListQuery({
+    filters: { status: 'open', assigned: '', source: '' },
+    onChange: fetchInquiries,
+    // The first load waits for the stored view, or the board would load as a list first.
+    immediate: false,
+})
+
 const inquiries = computed(() => state.inquiries?.data ?? [])
+const meta = computed(() => normalizePageMeta(state.inquiries))
+
+const columns = computed<DataTableColumn[]>(() => [
+    { key: 'who', label: t('superadmin.salesInquiries.colWho') },
+    { key: 'source', label: t('superadmin.salesInquiries.colType') },
+    { key: 'landing_page', label: t('superadmin.salesInquiries.colPage') },
+    { key: 'status', label: t('superadmin.salesInquiries.colStatus') },
+    { key: 'owner', label: t('superadmin.salesInquiries.colOwner') },
+    { key: 'created_at', label: t('superadmin.salesInquiries.colReceived') },
+    { key: 'actions', label: '', align: 'right' },
+])
+
+const exportColumns = computed<CsvColumn[]>(() => [
+    { label: t('superadmin.salesInquiries.colWho'), value: i => i?.company_name || i?.name || i?.email },
+    { label: t('superadmin.salesInquiries.detail.name'), value: i => i?.name },
+    { label: t('superadmin.salesInquiries.detail.email'), value: i => i?.email },
+    { label: t('superadmin.salesInquiries.detail.phone'), value: i => i?.phone },
+    { label: t('superadmin.salesInquiries.colType'), value: i => (i?.source ? t('superadmin.salesInquiries.sources.' + i.source) : '') },
+    { label: t('superadmin.salesInquiries.colPage'), value: i => i?.landing_page },
+    { label: t('superadmin.salesInquiries.colStatus'), value: i => labelFor(i?.status) },
+    { label: t('superadmin.salesInquiries.colOwner'), value: i => i?.assigned_user?.name },
+    { label: t('superadmin.salesInquiries.colReceived'), value: i => i?.created_at, type: 'datetime' },
+])
 const counts = computed<Record<string, number>>(() => state.inquiries?.counts ?? {})
 
 /** Tallene pr. kilde. Tomme kilder står med som 0, så en fane ikke forsvinder en stille måned. */
 const sourceCounts = computed<Record<string, number>>(() => state.inquiries?.sourceCounts ?? {})
-const lastPage = computed(() => state.inquiries?.meta?.last_page ?? 1)
 const selected = computed(() => state.selected)
 
 /** The board's columns: the same rows, in the status they are in. */
@@ -566,7 +569,7 @@ onMounted(async () => {
         // A browser that refuses storage still gets the list.
     }
 
-    await Promise.all([fetchInquiries(), fetchUsers(), fetchStatusSettings()])
+    await Promise.all([list.start(), fetchUsers(), fetchStatusSettings()])
 
     // The notification mail links straight to one inquiry, so the mail can be
     // acted on without hunting for it in the list.
@@ -579,7 +582,6 @@ function selectView(view: string) {
     if (state.view === view) return
 
     state.view = view as 'list' | 'board'
-    state.page = 1
 
     try {
         localStorage.setItem('salesInquiriesView', state.view)
@@ -587,7 +589,8 @@ function selectView(view: string) {
         // Not being able to remember it is not a reason to refuse the switch.
     }
 
-    fetchInquiries()
+    if (list.state.page !== 1) list.setPage(1)
+    else fetchInquiries()
 }
 
 // What a stage looks like before the settings have loaded, and if they ever
@@ -668,59 +671,71 @@ function shortPath(url: string) {
 }
 
 function selectStatus(status: string) {
-    state.filters.status = status
-    state.page = 1
-    fetchInquiries()
+    list.setFilter('status', status)
 }
 
 /** Et klik på den valgte fane slår den fra igen, som de to knapper for ejerskab ved siden af. */
 function toggleSource(value: string) {
-    state.filters.source = state.filters.source === value ? '' : value
-    state.page = 1
-    fetchInquiries()
+    list.setFilter('source', list.state.filters.source === value ? '' : value)
 }
 
 function toggleAssigned(value: string) {
-    state.filters.assigned = state.filters.assigned === value ? '' : value
-    state.page = 1
-    fetchInquiries()
+    list.setFilter('assigned', list.state.filters.assigned === value ? '' : value)
 }
 
-function changePage(page: number) {
-    state.page = page
-    fetchInquiries()
+function inquiryParams(page: number, perPage?: number) {
+    const filters = list.state.filters
+    const params: Record<string, any> = { page }
+
+    if (perPage) {
+        params.per_page = perPage
+    }
+    if (state.view !== 'board' && filters.status && filters.status !== 'all') {
+        params.status = filters.status
+    }
+    if (filters.assigned) {
+        params.assigned = filters.assigned
+    }
+    if (filters.source) {
+        params.source = filters.source
+    }
+    // The whole phrase as one entry, as this page has always sent it.
+    if (list.state.search?.trim()) {
+        params.search = JSON.stringify([list.state.search.trim()])
+    }
+
+    return params
 }
+
+let requestSeq = 0
 
 async function fetchInquiries() {
+    const seq = ++requestSeq
+    const board = state.view === 'board'
     state.isLoading = true
     state.error = {}
+    state.loadError = null
     try {
-        const params: Record<string, any> = { page: state.page }
-
-        if (state.view === 'board') {
-            params.per_page = BOARD_PAGE_SIZE
-        } else if (state.filters.status && state.filters.status !== 'all') {
-            params.status = state.filters.status
-        }
-
-        if (state.filters.assigned) {
-            params.assigned = state.filters.assigned
-        }
-        if (state.filters.source) {
-            params.source = state.filters.source
-        }
-        if (state.filters.search?.trim()) {
-            params.search = JSON.stringify([state.filters.search.trim()])
-        }
-
-        const response = await salesInquiryService.getInquiries(params)
+        // The board is one big page and has no pager.
+        const response = await salesInquiryService.getInquiries(
+            board ? inquiryParams(1, BOARD_PAGE_SIZE) : inquiryParams(list.state.page))
+        if (seq !== requestSeq) return
         if (response) {
             state.inquiries = response
         }
     } catch (error: any) {
-        state.error = error
+        if (seq !== requestSeq) return
+        if (board) state.error = error
+        else state.loadError = error?.message || t('superadmin.dataTable.errorTitle')
     }
-    state.isLoading = false
+    if (seq === requestSeq) state.isLoading = false
+}
+
+// The board's own page size is the biggest the API takes, so the export asks for it too.
+async function exportPage(page: number) {
+    const response = await salesInquiryService.getInquiries(inquiryParams(page, BOARD_PAGE_SIZE))
+    const pageMeta = normalizePageMeta(response)
+    return { rows: responseRows(response), lastPage: pageMeta?.lastPage ?? 1, total: pageMeta?.total ?? 0 }
 }
 
 async function fetchUsers() {
