@@ -14145,7 +14145,51 @@
                     "yearly": "Yearly",
                     "billingFixed": "Billing: {frequency}",
                     "granted": "Licenses added",
-                    "failed": "Could not add licenses"
+                    "failed": "Could not add licenses",
+                    "term": {
+                        "label": "Contract length",
+                        "agreement": "Follows the agreement “{name}” until {date} (pro rata)",
+                        "year": "1 year",
+                        "years": "{years} years",
+                        "monthly": "Ongoing, month by month",
+                        "createAgreement": "Create agreement…"
+                    },
+                    "billingBox": {
+                        "title": "How the customer is billed",
+                        "included": "{count} included in the plan",
+                        "fee": "Invoice fee",
+                        "vat": "VAT (25%)",
+                        "total": "Total incl. VAT",
+                        "period": "Period: {from} – {to}",
+                        "periodProrated": "Period: {from} – {to} (pro rata to the agreement end)",
+                        "failed": "The price could not be calculated."
+                    },
+                    "billing": {
+                        "economic_auto": "The invoice is booked and emailed from e-conomic to the customer right away (customer no. {customer}).",
+                        "economic_finance": "Finance invoices from e-conomic. CitizenOne creates the invoice and notifies finance.",
+                        "agreement_add_on": "The customer has an agreement: the invoice waits for finance to choose an agreement add-on or a separate invoice. Finance is notified.",
+                        "card_manual_invoice": "Card customer: the purchase is not charged to the card automatically. The invoice is left unpaid in the customer’s invoice list, where the admin can pay by card. The customer gets no email; finance is notified and follows up.",
+                        "none_customer_number": "The customer cannot be billed: no e-conomic customer number.",
+                        "none_economic_off": "The customer cannot be billed: e-conomic is turned off.",
+                        "no_charge": "Granted without charge.",
+                        "included": "The licences are included in the plan. Nothing is billed.",
+                        "unknown": "Billing could not be determined."
+                    },
+                    "noChargeReason": "Without charge – reason",
+                    "noChargeReasonHint": "Required (at least 5 characters). The licences are granted free and the reason is saved in the activity log.",
+                    "save": {
+                        "plain": "Add",
+                        "invoice": "Add and invoice {amount}",
+                        "noCharge": "Add without charge"
+                    },
+                    "toast": {
+                        "economic_auto": "Invoice {number} for {amount} is booked and emailed from e-conomic to the customer (customer no. {customer}).",
+                        "economic_finance": "Invoice {number} for {amount} was created. Finance invoices from e-conomic and has been notified.",
+                        "manual_invoice": "Invoice {number} for {amount} waits for finance to choose an agreement add-on or a separate invoice. Finance has been notified.",
+                        "card": "Invoice {number} for {amount} is unpaid in the customer’s invoice list (not charged to the card). Finance has been notified.",
+                        "noCharge": "The licences were granted without charge. The reason is saved in the activity log.",
+                        "included": "The licences were added. They are included in the plan, so nothing is billed."
+                    }
                 },
                 "addSubscription": {
                     "addSubscription": "Add subscription",
@@ -14825,7 +14869,49 @@
             "successOrderCreated": "Order created!",
             "successOrderCreatedBody": "Order for {name} has been created.",
             "successUpdated": "Updated!",
-            "successOrderCompleted": "The order has been completed."
+            "successOrderCompleted": "The order has been completed.",
+            "licenseOrders": {
+                "title": "Licence orders",
+                "subtitle": "Every licence and storage order, and whether it reached e-conomic.",
+                "attention": "{count} order(s) not booked after 1 day or failed",
+                "allStatuses": "All statuses",
+                "empty": "No orders.",
+                "columns": {
+                    "date": "Date",
+                    "company": "Company",
+                    "orderedBy": "Ordered by",
+                    "items": "Items",
+                    "total": "Total incl. VAT",
+                    "invoice": "Invoice",
+                    "billing": "Billing",
+                    "status": "e-conomic"
+                },
+                "source": {
+                    "customer": "customer",
+                    "superadmin": "superadmin"
+                },
+                "method": {
+                    "economic_auto": "e-conomic (automatic)",
+                    "economic_finance": "Finance invoices",
+                    "manual_invoice": "Awaiting choice (agreement)",
+                    "card": "Card (manual)",
+                    "none": "Without charge",
+                    "included": "Included"
+                },
+                "status": {
+                    "pending": "Pending",
+                    "draft": "Draft created",
+                    "booked": "Booked and sent",
+                    "paid": "Paid",
+                    "finance": "Finance invoices",
+                    "error": "Error",
+                    "no_invoice": "No invoice"
+                },
+                "errorReason": "Error: {reason}",
+                "previous": "Previous",
+                "next": "Next",
+                "page": "Page {page} of {pages}"
+            }
         },
         "polls": {
             "confirmation": {

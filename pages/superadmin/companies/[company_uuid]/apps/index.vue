@@ -172,6 +172,8 @@ import { companyService } from '@/components/api/superadmin/CompanyService'
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { billingService } from '@/components/api/superadmin/BillingService'
 import type { CompanyBilling } from '@/composables/billingMethod'
+import { grantToast } from '@/composables/licenseGrant'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -179,6 +181,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { formatAmount } = useAmountFormatter()
 const { can } = usePermissions()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
@@ -315,8 +318,12 @@ async function increment() {
 
     state.isAdjusting = true
     try {
-        await licenseService.adjustApplicationQuantity(companyUuid as string, companyApp.application_uuid, quantity)
-        successAlert(t('superadmin.companies.companyApps.table.increaseSuccess'), `${quantity} × ${companyApp.name}`)
+        const response = await licenseService.adjustApplicationQuantity(companyUuid as string, companyApp.application_uuid, quantity)
+        // Adding seats is a grant: say which invoice, how much and how it is billed.
+        const toast = grantToast(response?.data)
+        successAlert(t('superadmin.companies.companyApps.table.increaseSuccess'), toast
+            ? `${quantity} × ${companyApp.name}. ${t(toast.key, { ...toast.params, amount: formatAmount(toast.params.amount ?? 0, 'DKK') })}`
+            : `${quantity} × ${companyApp.name}`)
         fetchCompanyApps()
     } catch (error: any) {
         state.error = error
