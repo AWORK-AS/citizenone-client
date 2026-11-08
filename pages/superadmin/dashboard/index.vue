@@ -52,7 +52,7 @@
                     </div>
 
                     <!-- Paying -->
-                    <div @click="navigateTo('/superadmin/companies?paying=true')"
+                    <div @click="navigateTo('/superadmin/companies?status=paying')"
                         class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.success.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
