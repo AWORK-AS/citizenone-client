@@ -23,96 +23,75 @@
                     </template>
                 </ModulesSuperadminPageHeader>
 
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.users.searchPlaceholder')"
-                        @input="debouncedSearch" />
-
-                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
-                        <button v-for="tab in tabs" :key="tab.key"
-                            class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                            :class="state.activeTab === tab.key ? 'bg-tertiary text-white' : 'text-ink-body'"
-                            @click="setTab(tab.key)">
-                            {{ tab.label }}
-                            <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
-                        </button>
-                    </div>
-
-                    <select v-model="sortLabel"
-                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors ml-auto"
-                        @change="handleSortChange">
-                        <option value="firstname_asc">{{ $t('superadmin.users.sort.nameAsc') }}</option>
-                        <option value="firstname_desc">{{ $t('superadmin.users.sort.nameDesc') }}</option>
-                        <option value="id_desc">{{ $t('superadmin.users.sort.newestFirst') }}</option>
-                        <option value="id_asc">{{ $t('superadmin.users.sort.oldestFirst') }}</option>
-                    </select>
-                </div>
-
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.users"
-                    :isLoading="state.isTableLoading" :sortData="state.sortData"
-                    :emptyMessage="$t('superadmin.users.noUsersFound')"
-                    :emptySubMessage="$t('superadmin.users.createFirstUser')" emptyIcon="ph:user" rowKey="uuid"
-                    @sort="handleSort">
-                    <template #body>
-                        <tr v-for="(user, index) in state.users?.data" :key="index"
-                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
-                            <td class="co-td">
-                                <div class="flex items-center gap-3">
-                                    <img :src="user?.image ?? avatarUrl(`${(user?.firstname || '?') + '+' + (user?.lastname || '')}`)"
-                                        class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                                    <p class="text-[13px] font-semibold text-ink">
-                                        {{ user?.firstname }} {{ user?.lastname }}
-                                    </p>
-                                </div>
-                            </td>
-                            <td class="co-td text-[13px] text-ink-body">
-                                {{ user?.email }}
-                            </td>
-                            <td class="co-td">
-                                <span v-if="user?.company?.name" class="text-[12px] font-medium text-ink">
-                                    {{ user.company.name }}
-                                </span>
-                                <span v-else class="text-ink-muted text-[13px]">—</span>
-                            </td>
-                            <td class="co-td text-[13px] text-ink-body">
-                                {{ user?.phone || '—' }}
-                            </td>
-                            <td class="co-td">
-                                <span v-if="user?.is_superadmin" class="co-badge co-badge-navy">
-                                    <Icon name="ph:crown-simple" class="w-3 h-3" />
-                                    {{ $t('superadmin.sidebar.superAdmin') }}
-                                </span>
-                                <span v-else-if="user?.roles?.length" class="co-badge co-badge-gray">
-                                    {{ user.roles[0]?.name }}
-                                </span>
-                                <span v-else class="text-ink-muted text-[12px]">—</span>
-                            </td>
-                            <td class="co-td">
-                                <ModulesSuperadminStatusPill v-if="user?.is_active !== false" variant="success">
-                                    {{ $t('superadmin.companies.table.active') }}
-                                </ModulesSuperadminStatusPill>
-                                <ModulesSuperadminStatusPill v-else variant="neutral">
-                                    {{ $t('superadmin.companies.table.inactive') }}
-                                </ModulesSuperadminStatusPill>
-                            </td>
-                            <td class="co-td" @click.stop>
-                                <div
-                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <SuperadminTableButton @click="openEditSlider(user)">
-                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.users.table.actions.edit') }}
-                                    </SuperadminTableButton>
-                                    <SuperadminTableButton buttonStyle="danger" @click="deleteConfirmation(user)">
-                                        <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                    </SuperadminTableButton>
-                                </div>
-                            </td>
-                        </tr>
+                <ModulesSuperadminDataTable :columns="columns" :rows="state.users?.data ?? []" rowKey="uuid"
+                    :loading="state.isTableLoading" :error="state.loadError" :meta="meta"
+                    :sort="list.state.sort" :order="list.state.order"
+                    v-model:search="list.searchInput.value"
+                    :searchPlaceholder="$t('superadmin.users.searchPlaceholder')"
+                    :filtered="list.isFiltered.value" clickable
+                    emptyIcon="ph:user" :emptyTitle="$t('superadmin.users.noUsersFound')"
+                    :emptyHint="$t('superadmin.users.createFirstUser')"
+                    :exportName="$t('superadmin.users.users')" :exportPage="exportPage"
+                    :exportColumns="exportColumns"
+                    @sort="list.toggleSort" @page="list.setPage" @reset="list.reset" @retry="list.reload"
+                    @row-click="openEditSlider">
+                    <template #filters>
+                        <ModulesSuperadminDataTableTabs :modelValue="list.state.filters.status || 'all'" :tabs="tabs"
+                            @update:modelValue="(tab) => list.setFilter('status', tab === 'all' ? '' : tab)" />
+                        <ModulesSuperadminDataTableSelect :modelValue="sortLabel" :options="sortOptions"
+                            :placeholder="sortOptions.some(o => o.value === sortLabel) ? undefined : '—'"
+                            @update:modelValue="handleSortChange" />
                     </template>
-                </SuperadminTable>
-                <Pagination :data="state.users" @previous="previous" @next="next" />
+
+                    <template #cell-firstname="{ row: user }">
+                        <div class="flex items-center gap-3">
+                            <img :src="user?.image ?? avatarUrl(`${(user?.firstname || '?') + '+' + (user?.lastname || '')}`)"
+                                class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                            <p class="text-[13px] font-semibold text-ink">
+                                {{ user?.firstname }} {{ user?.lastname }}
+                            </p>
+                        </div>
+                    </template>
+                    <template #cell-company="{ row: user }">
+                        <span v-if="user?.company?.name" class="text-[12px] font-medium text-ink">
+                            {{ user.company.name }}
+                        </span>
+                        <span v-else class="text-ink-muted">—</span>
+                    </template>
+                    <template #cell-role="{ row: user }">
+                        <span v-if="user?.is_superadmin" class="co-badge co-badge-navy">
+                            <Icon name="ph:crown-simple" class="w-3 h-3" />
+                            {{ $t('superadmin.sidebar.superAdmin') }}
+                        </span>
+                        <span v-else-if="user?.roles?.length" class="co-badge co-badge-gray">
+                            {{ user.roles[0]?.name }}
+                        </span>
+                        <span v-else class="text-ink-muted text-[12px]">—</span>
+                    </template>
+                    <template #cell-status="{ row: user }">
+                        <ModulesSuperadminStatusPill v-if="user?.is_active !== false" variant="success">
+                            {{ $t('superadmin.companies.table.active') }}
+                        </ModulesSuperadminStatusPill>
+                        <ModulesSuperadminStatusPill v-else variant="neutral">
+                            {{ $t('superadmin.companies.table.inactive') }}
+                        </ModulesSuperadminStatusPill>
+                    </template>
+                    <template #cell-actions="{ row: user }">
+                        <div
+                            class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                            <SuperadminTableButton @click="openEditSlider(user)">
+                                <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.users.table.actions.edit') }}
+                            </SuperadminTableButton>
+                            <SuperadminTableButton buttonStyle="danger" @click="deleteConfirmation(user)">
+                                <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                            </SuperadminTableButton>
+                        </div>
+                    </template>
+                </ModulesSuperadminDataTable>
             </div>
 
             <ModulesSuperadminUserSlideOverNewUser :isOpen="showNewUserSlider" @close="showNewUserSlider = false"
@@ -129,6 +108,10 @@
 <script setup lang="ts">
 import { userService } from '@/components/api/superadmin/UserService'
 import { useAlert } from '@/composables/alert'
+import { useListQuery } from '@/composables/useListQuery'
+import { apiSearchParam } from '@/composables/listQuery'
+import { normalizePageMeta, responseRows, type DataTableColumn } from '@/composables/dataTable'
+import type { CsvColumn } from '@/composables/csvExport'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -140,36 +123,46 @@ const showNewUserSlider = ref(false)
 const showEditUserSlider = ref(false)
 const editUserUuid = ref<string | null>(null)
 
-let currentTablePage = 1
-let searchTimeout: any = null
-const searchQuery = ref('')
-const sortLabel = ref('id_desc')
-
 const state = reactive({
     activeCount: 0,
-    activeTab: 'all',
     adminCount: 0,
     allCount: 0,
-    columnHeaders: computed(() => [
-        { key: 'firstname', name: t('superadmin.users.table.name'), sorter: true },
-        { key: 'email', name: t('superadmin.users.table.email'), sorter: true },
-        { key: 'company', name: t('superadmin.users.table.company') },
-        { key: 'phone', name: t('superadmin.users.table.phone') },
-        { key: 'role', name: t('superadmin.users.table.role') },
-        { key: 'status', name: t('superadmin.users.table.status') },
-        { key: 'actions', name: '' },
-    ]),
-    dataFilter: {
-        search: ''
-    } as any,
     error: {} as Error,
+    loadError: null as string | null,
     inactiveCount: 0,
     isTableLoading: false,
     modal: { isDeleteUserOpen: false },
     selectedUser: {} as any,
-    sortData: { sortField: 'id', sortOrder: 'descend' },
     users: [] as any,
 })
+
+const list = useListQuery({
+    filters: { status: '' },
+    defaultSort: 'id',
+    defaultOrder: 'desc',
+    onChange: fetchUsers,
+})
+
+const meta = computed(() => normalizePageMeta(state.users))
+
+const columns = computed<DataTableColumn[]>(() => [
+    { key: 'firstname', label: t('superadmin.users.table.name'), sortable: true },
+    { key: 'email', label: t('superadmin.users.table.email'), sortable: true },
+    { key: 'company', label: t('superadmin.users.table.company') },
+    { key: 'phone', label: t('superadmin.users.table.phone') },
+    { key: 'role', label: t('superadmin.users.table.role') },
+    { key: 'status', label: t('superadmin.users.table.status') },
+    { key: 'actions', label: '', align: 'right' },
+])
+
+const exportColumns = computed<CsvColumn[]>(() => [
+    { label: t('superadmin.users.table.name'), value: u => [u?.firstname, u?.lastname].filter(Boolean).join(' ') },
+    { label: t('superadmin.users.table.email'), value: u => u?.email },
+    { label: t('superadmin.users.table.company'), value: u => u?.company?.name },
+    { label: t('superadmin.users.table.phone'), value: u => u?.phone },
+    { label: t('superadmin.users.table.role'), value: u => (u?.is_superadmin ? t('superadmin.sidebar.superAdmin') : u?.roles?.[0]?.name) },
+    { label: t('superadmin.users.table.status'), value: u => t(u?.is_active !== false ? 'superadmin.companies.table.active' : 'superadmin.companies.table.inactive') },
+])
 
 const tabs = computed(() => [
     { key: 'all', label: t('superadmin.users.tabs.all'), count: (state.activeCount + state.inactiveCount) || 0 },
@@ -178,25 +171,42 @@ const tabs = computed(() => [
     { key: 'admins', label: t('superadmin.users.tabs.admins'), count: state.adminCount },
 ])
 
-onMounted(() => {
-    fetchUsers()
-})
+const sortOptions = computed(() => [
+    { value: 'firstname_asc', label: t('superadmin.users.sort.nameAsc') },
+    { value: 'firstname_desc', label: t('superadmin.users.sort.nameDesc') },
+    { value: 'id_desc', label: t('superadmin.users.sort.newestFirst') },
+    { value: 'id_asc', label: t('superadmin.users.sort.oldestFirst') },
+])
+
+const sortLabel = computed(() => `${list.state.sort}_${list.state.order}`)
+
+function handleSortChange(value: string) {
+    if (!value) return
+    const parts = value.split('_')
+    const order = parts.pop()
+    list.setSort(parts.join('_'), order === 'asc' ? 'asc' : 'desc')
+}
+
+function listParams(page: number) {
+    const params: any = { page, ...list.apiSort() }
+    const search = apiSearchParam(list.state.search)
+    if (search) params.search = search
+    const tab = list.state.filters.status
+    if (tab === 'active') params.is_active = true
+    if (tab === 'inactive') params.is_active = false
+    if (tab === 'admins') params.is_superadmin = true
+    return params
+}
+
+let requestSeq = 0
 
 async function fetchUsers() {
-    state.error = {}
+    const seq = ++requestSeq
+    state.loadError = null
     state.isTableLoading = true
     try {
-        const params: any = {
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter,
-        }
-        if (state.activeTab === 'active') params.is_active = true
-        if (state.activeTab === 'inactive') params.is_active = false
-        if (state.activeTab === 'admins') params.is_superadmin = true
-
-        const response = await userService.getUsers(params)
+        const response = await userService.getUsers(listParams(list.state.page))
+        if (seq !== requestSeq) return
         if (response) {
             state.users = response
             const items = response?.data ?? []
@@ -205,46 +215,17 @@ async function fetchUsers() {
             state.inactiveCount = response?.inactive_count || 0
             state.adminCount = response?.admins_count || 0
         }
-    } catch (error: any) { state.error = error }
-    state.isTableLoading = false
+    } catch (error: any) {
+        if (seq !== requestSeq) return
+        state.loadError = error?.message || t('superadmin.dataTable.errorTitle')
+    }
+    if (seq === requestSeq) state.isTableLoading = false
 }
 
-function debouncedSearch() {
-    clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => {
-        const trimmed = searchQuery.value.trim()
-        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
-        currentTablePage = 1
-        fetchUsers()
-    }, 350)
-}
-
-function setTab(tab: string) { state.activeTab = tab; currentTablePage = 1; fetchUsers() }
-
-function handleSortChange() {
-    const parts = sortLabel.value.split('_')
-    const order = parts.pop()
-    state.sortData.sortField = parts.join('_')
-    state.sortData.sortOrder = order === 'asc' ? 'ascend' : 'descend'
-    currentTablePage = 1
-    fetchUsers()
-}
-
-function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
-    state.sortData.sortField = column ?? 'id'
-    state.sortData.sortOrder = sort ?? 'descend'
-    currentTablePage = 1
-    fetchUsers()
-}
-
-function previous() {
-    currentTablePage--
-    fetchUsers()
-}
-
-function next() {
-    currentTablePage++
-    fetchUsers()
+async function exportPage(page: number) {
+    const response = await userService.getUsers(listParams(page))
+    const pageMeta = normalizePageMeta(response)
+    return { rows: responseRows(response), lastPage: pageMeta?.lastPage ?? 1, total: pageMeta?.total ?? 0 }
 }
 
 function openEditSlider(user: any) {
@@ -258,7 +239,7 @@ function deleteConfirmation(user: any) {
 }
 
 async function deleteUser() {
-    state.isTableLoading = true
+    state.error = {}
     try {
         const response = await userService.deleteUser(state.selectedUser?.uuid)
         if (response) {
@@ -266,6 +247,5 @@ async function deleteUser() {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.userSuccessfullyDeleted')}.`)
         }
     } catch (error: any) { state.error = error }
-    state.isTableLoading = false
 }
 </script>
