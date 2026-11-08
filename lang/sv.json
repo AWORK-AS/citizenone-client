@@ -15124,7 +15124,8 @@
             "salesInquiries": "Förfrågningar",
             "news": "Nyheter",
             "campaigns": "Kampanjer",
-            "announcements": "Meddelanden"
+            "announcements": "Meddelanden",
+            "today": "Idag"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -16368,6 +16369,94 @@
             "upcomingDates": "Slutar {ends} - uppsägningstid {notice}",
             "noAutoRenew": "Förnyas inte",
             "noAutoRenewHelp": "Avtalet förnyas inte automatiskt och upphör när bindningen går ut."
+        },
+        "today": {
+            "title": "Idag",
+            "refresh": "Uppdatera",
+            "seeAll": "Se alla",
+            "more": "{count} till",
+            "daysOverdue": "{days} dag efter förfallodag | {days} dagar efter förfallodag",
+            "invoiceCount": "{count} fakturor",
+            "greeting": {
+                "morning": "God morgon",
+                "day": "God dag",
+                "evening": "God kväll",
+                "morningName": "God morgon, {name}",
+                "dayName": "God dag, {name}",
+                "eveningName": "God kväll, {name}"
+            },
+            "kpi": {
+                "open_items": "öppna uppgifter",
+                "outstanding_amount": "utestående",
+                "orders_awaiting_economic": "ordrar saknas i e-conomic",
+                "new_inquiries": "nya förfrågningar"
+            },
+            "allClear": {
+                "title": "Allt är i ordning",
+                "text": "Det finns inget som väntar på dig just nu.",
+                "noSections": "Det finns inga uppgifter att visa för din roll."
+            },
+            "date": {
+                "closes": "Stängs {date}",
+                "ordered": "Beställd {date}",
+                "ends": "Upphör {date}",
+                "received": "Mottagen {date}",
+                "due": "Förföll {date}"
+            },
+            "reason": {
+                "payment_failed": "Betalning misslyckades",
+                "reminder_1": "Påminnelse 1",
+                "reminder_2": "Påminnelse 2",
+                "reminder_3": "Påminnelse 3",
+                "overdue": "Förfallen",
+                "ready_to_close": "Redo att stängas",
+                "economic_error": "Fel i e-conomic",
+                "economic_pending": "Inte skickad",
+                "economic_draft": "Utkast, inte bokförd",
+                "economic_finance": "Väntar på ekonomi",
+                "economic_no_invoice": "Ingen faktura",
+                "no_auto_renew": "Förnyas inte automatiskt",
+                "renewal_plan_missing": "Förnyelse måste avtalas",
+                "source_contact": "Kontaktformulär",
+                "source_book_demo": "Demobokning",
+                "source_quick_ask": "Snabb fråga",
+                "source_price_quote": "Prisförslag",
+                "source_trial": "Provperiod",
+                "source_other": "Annan källa",
+                "unknown": "Kräver åtgärd"
+            },
+            "section": {
+                "payment_problems": {
+                    "title": "Betalningsproblem",
+                    "hint": "Kortkunder i påminnelseflöde",
+                    "action": "Hantera",
+                    "empty": "Inga betalningsproblem"
+                },
+                "license_orders": {
+                    "title": "Licensordrar till e-conomic",
+                    "hint": "Ordrar som inte skickats eller bokförts",
+                    "action": "Se order",
+                    "empty": "Alla ordrar finns i e-conomic"
+                },
+                "agreements": {
+                    "title": "Avtal som löper ut",
+                    "hint": "Inom 60 dagar, kräver ett beslut",
+                    "action": "Se avtal",
+                    "empty": "Inga avtal kräver beslut"
+                },
+                "sales_inquiries": {
+                    "title": "Nya förfrågningar",
+                    "hint": "Inte tagna ännu",
+                    "action": "Ta den",
+                    "empty": "Inga nya förfrågningar"
+                },
+                "overdue_invoices": {
+                    "title": "Fakturakunder med förfallna fakturor",
+                    "hint": "Obetalda fakturor efter förfallodag",
+                    "action": "Se fakturor",
+                    "empty": "Inga förfallna fakturor"
+                }
+            }
         }
     },
     "support": {

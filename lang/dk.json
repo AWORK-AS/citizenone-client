@@ -15134,7 +15134,8 @@
             "supportAccess": "Adgang hos kunder",
             "news": "Nyheder",
             "campaigns": "Kampagner",
-            "announcements": "Beskeder"
+            "announcements": "Beskeder",
+            "today": "I dag"
         },
         "teamRoles": {
             "pageTitle": "Roller",
@@ -16453,6 +16454,94 @@
             "upcomingDates": "Udløber {ends} - opsigelsesfrist {notice}",
             "noAutoRenew": "Fornyes ikke",
             "noAutoRenewHelp": "Aftalen fornyes ikke automatisk og udløber ved bindingens slutning."
+        },
+        "today": {
+            "title": "I dag",
+            "refresh": "Opdater",
+            "seeAll": "Se alle",
+            "more": "{count} mere",
+            "daysOverdue": "{days} dag over forfald | {days} dage over forfald",
+            "invoiceCount": "{count} fakturaer",
+            "greeting": {
+                "morning": "Godmorgen",
+                "day": "Goddag",
+                "evening": "Godaften",
+                "morningName": "Godmorgen, {name}",
+                "dayName": "Goddag, {name}",
+                "eveningName": "Godaften, {name}"
+            },
+            "kpi": {
+                "open_items": "åbne opgaver",
+                "outstanding_amount": "udestående",
+                "orders_awaiting_economic": "ordrer mangler e-conomic",
+                "new_inquiries": "nye henvendelser"
+            },
+            "allClear": {
+                "title": "Alt er i orden",
+                "text": "Der er ikke noget der venter på dig lige nu.",
+                "noSections": "Der er ingen opgaver at vise for din rolle."
+            },
+            "date": {
+                "closes": "Lukker {date}",
+                "ordered": "Bestilt {date}",
+                "ends": "Udløber {date}",
+                "received": "Modtaget {date}",
+                "due": "Forfaldt {date}"
+            },
+            "reason": {
+                "payment_failed": "Betaling fejlet",
+                "reminder_1": "Rykker 1",
+                "reminder_2": "Rykker 2",
+                "reminder_3": "Rykker 3",
+                "overdue": "Over forfald",
+                "ready_to_close": "Klar til lukning",
+                "economic_error": "Fejl i e-conomic",
+                "economic_pending": "Ikke sendt",
+                "economic_draft": "Kladde, ikke bogført",
+                "economic_finance": "Afventer bogholderi",
+                "economic_no_invoice": "Ingen faktura",
+                "no_auto_renew": "Fornyes ikke automatisk",
+                "renewal_plan_missing": "Fornyelse skal aftales",
+                "source_contact": "Kontaktformular",
+                "source_book_demo": "Demo-booking",
+                "source_quick_ask": "Hurtigt spørgsmål",
+                "source_price_quote": "Pristilbud",
+                "source_trial": "Prøveperiode",
+                "source_other": "Anden kilde",
+                "unknown": "Kræver handling"
+            },
+            "section": {
+                "payment_problems": {
+                    "title": "Betalingsproblemer",
+                    "hint": "Kortkunder i rykkerforløb",
+                    "action": "Håndter",
+                    "empty": "Ingen betalingsproblemer"
+                },
+                "license_orders": {
+                    "title": "Licensordrer til e-conomic",
+                    "hint": "Ordrer der ikke er sendt eller bogført",
+                    "action": "Se ordre",
+                    "empty": "Alle ordrer er i e-conomic"
+                },
+                "agreements": {
+                    "title": "Aftaler der udløber",
+                    "hint": "Inden for 60 dage, kræver en beslutning",
+                    "action": "Se aftale",
+                    "empty": "Ingen aftaler kræver beslutning"
+                },
+                "sales_inquiries": {
+                    "title": "Nye henvendelser",
+                    "hint": "Ikke taget endnu",
+                    "action": "Tag den",
+                    "empty": "Ingen nye henvendelser"
+                },
+                "overdue_invoices": {
+                    "title": "Fakturakunder over forfald",
+                    "hint": "Ubetalte fakturaer efter forfaldsdato",
+                    "action": "Se fakturaer",
+                    "empty": "Ingen fakturaer over forfald"
+                }
+            }
         }
     },
     "support": {

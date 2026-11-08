@@ -15124,7 +15124,8 @@
             "salesInquiries": "Henvendelser",
             "news": "Nyheter",
             "campaigns": "Kampanjer",
-            "announcements": "Meldinger"
+            "announcements": "Meldinger",
+            "today": "I dag"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -16368,6 +16369,94 @@
             "upcomingDates": "Utløper {ends} - oppsigelsesfrist {notice}",
             "noAutoRenew": "Fornyes ikke",
             "noAutoRenewHelp": "Avtalen fornyes ikke automatisk og utløper når bindingen slutter."
+        },
+        "today": {
+            "title": "I dag",
+            "refresh": "Oppdater",
+            "seeAll": "Se alle",
+            "more": "{count} til",
+            "daysOverdue": "{days} dag over forfall | {days} dager over forfall",
+            "invoiceCount": "{count} fakturaer",
+            "greeting": {
+                "morning": "God morgen",
+                "day": "God dag",
+                "evening": "God kveld",
+                "morningName": "God morgen, {name}",
+                "dayName": "God dag, {name}",
+                "eveningName": "God kveld, {name}"
+            },
+            "kpi": {
+                "open_items": "åpne oppgaver",
+                "outstanding_amount": "utestående",
+                "orders_awaiting_economic": "ordrer mangler e-conomic",
+                "new_inquiries": "nye henvendelser"
+            },
+            "allClear": {
+                "title": "Alt er i orden",
+                "text": "Det er ingenting som venter på deg akkurat nå.",
+                "noSections": "Det er ingen oppgaver å vise for din rolle."
+            },
+            "date": {
+                "closes": "Stenges {date}",
+                "ordered": "Bestilt {date}",
+                "ends": "Utløper {date}",
+                "received": "Mottatt {date}",
+                "due": "Forfalt {date}"
+            },
+            "reason": {
+                "payment_failed": "Betaling feilet",
+                "reminder_1": "Purring 1",
+                "reminder_2": "Purring 2",
+                "reminder_3": "Purring 3",
+                "overdue": "Over forfall",
+                "ready_to_close": "Klar til stenging",
+                "economic_error": "Feil i e-conomic",
+                "economic_pending": "Ikke sendt",
+                "economic_draft": "Utkast, ikke bokført",
+                "economic_finance": "Venter på regnskap",
+                "economic_no_invoice": "Ingen faktura",
+                "no_auto_renew": "Fornyes ikke automatisk",
+                "renewal_plan_missing": "Fornyelse må avtales",
+                "source_contact": "Kontaktskjema",
+                "source_book_demo": "Demo-booking",
+                "source_quick_ask": "Raskt spørsmål",
+                "source_price_quote": "Pristilbud",
+                "source_trial": "Prøveperiode",
+                "source_other": "Annen kilde",
+                "unknown": "Krever handling"
+            },
+            "section": {
+                "payment_problems": {
+                    "title": "Betalingsproblemer",
+                    "hint": "Kortkunder i purreløp",
+                    "action": "Håndter",
+                    "empty": "Ingen betalingsproblemer"
+                },
+                "license_orders": {
+                    "title": "Lisensordrer til e-conomic",
+                    "hint": "Ordrer som ikke er sendt eller bokført",
+                    "action": "Se ordre",
+                    "empty": "Alle ordrer er i e-conomic"
+                },
+                "agreements": {
+                    "title": "Avtaler som utløper",
+                    "hint": "Innen 60 dager, krever en beslutning",
+                    "action": "Se avtale",
+                    "empty": "Ingen avtaler krever beslutning"
+                },
+                "sales_inquiries": {
+                    "title": "Nye henvendelser",
+                    "hint": "Ikke tatt ennå",
+                    "action": "Ta den",
+                    "empty": "Ingen nye henvendelser"
+                },
+                "overdue_invoices": {
+                    "title": "Fakturakunder over forfall",
+                    "hint": "Ubetalte fakturaer etter forfallsdato",
+                    "action": "Se fakturaer",
+                    "empty": "Ingen fakturaer over forfall"
+                }
+            }
         }
     },
     "support": {

@@ -15134,7 +15134,8 @@
             "supportAccess": "Customer access",
             "news": "News",
             "campaigns": "Campaigns",
-            "announcements": "Messages"
+            "announcements": "Messages",
+            "today": "Today"
         },
         "teamRoles": {
             "pageTitle": "Roles",
@@ -16453,6 +16454,94 @@
             "upcomingDates": "Ends {ends} - notice deadline {notice}",
             "noAutoRenew": "No renewal",
             "noAutoRenewHelp": "The agreement does not renew automatically and ends with the binding."
+        },
+        "today": {
+            "title": "Today",
+            "refresh": "Refresh",
+            "seeAll": "See all",
+            "more": "{count} more",
+            "daysOverdue": "{days} day overdue | {days} days overdue",
+            "invoiceCount": "{count} invoices",
+            "greeting": {
+                "morning": "Good morning",
+                "day": "Good afternoon",
+                "evening": "Good evening",
+                "morningName": "Good morning, {name}",
+                "dayName": "Good afternoon, {name}",
+                "eveningName": "Good evening, {name}"
+            },
+            "kpi": {
+                "open_items": "open tasks",
+                "outstanding_amount": "outstanding",
+                "orders_awaiting_economic": "orders missing e-conomic",
+                "new_inquiries": "new inquiries"
+            },
+            "allClear": {
+                "title": "All is well",
+                "text": "Nothing is waiting for you right now.",
+                "noSections": "There are no tasks to show for your role."
+            },
+            "date": {
+                "closes": "Closes {date}",
+                "ordered": "Ordered {date}",
+                "ends": "Ends {date}",
+                "received": "Received {date}",
+                "due": "Due {date}"
+            },
+            "reason": {
+                "payment_failed": "Payment failed",
+                "reminder_1": "Reminder 1",
+                "reminder_2": "Reminder 2",
+                "reminder_3": "Reminder 3",
+                "overdue": "Overdue",
+                "ready_to_close": "Ready to close",
+                "economic_error": "e-conomic error",
+                "economic_pending": "Not sent",
+                "economic_draft": "Draft, not booked",
+                "economic_finance": "Awaiting finance",
+                "economic_no_invoice": "No invoice",
+                "no_auto_renew": "Does not renew automatically",
+                "renewal_plan_missing": "Renewal needs a plan",
+                "source_contact": "Contact form",
+                "source_book_demo": "Demo booking",
+                "source_quick_ask": "Quick question",
+                "source_price_quote": "Price quote",
+                "source_trial": "Trial",
+                "source_other": "Other source",
+                "unknown": "Needs action"
+            },
+            "section": {
+                "payment_problems": {
+                    "title": "Payment problems",
+                    "hint": "Card customers in dunning",
+                    "action": "Handle",
+                    "empty": "No payment problems"
+                },
+                "license_orders": {
+                    "title": "Licence orders for e-conomic",
+                    "hint": "Orders not sent or booked",
+                    "action": "View order",
+                    "empty": "All orders are in e-conomic"
+                },
+                "agreements": {
+                    "title": "Agreements ending",
+                    "hint": "Within 60 days, needs a decision",
+                    "action": "View agreement",
+                    "empty": "No agreements need a decision"
+                },
+                "sales_inquiries": {
+                    "title": "New inquiries",
+                    "hint": "Not picked up yet",
+                    "action": "Take it",
+                    "empty": "No new inquiries"
+                },
+                "overdue_invoices": {
+                    "title": "Invoice customers overdue",
+                    "hint": "Unpaid invoices past their due date",
+                    "action": "View invoices",
+                    "empty": "No overdue invoices"
+                }
+            }
         }
     },
     "support": {

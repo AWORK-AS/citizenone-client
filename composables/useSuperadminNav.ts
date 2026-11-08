@@ -42,6 +42,7 @@ export type SuperadminNavGroups = {
 
 export const superadminNav: SuperadminNavGroups = {
     oversigt: [
+        { name: 'Today', label: 'superadmin.sidebar.today', href: '/superadmin/today', icon: 'ph:sun', permission: null, routes: ['superadmin-today'] },
         { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', permission: 'view_dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics', 'superadmin-funnel'] },
         { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', permission: 'view_companies', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', permission: 'view_team', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },

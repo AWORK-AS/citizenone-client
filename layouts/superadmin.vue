@@ -17,7 +17,7 @@
                             <div class="flex grow flex-col overflow-y-auto co-sidebar pb-4">
                                 <!-- Logo -->
                                 <div class="px-5 py-5 cursor-pointer"
-                                    @click="navigateTo('/superadmin/dashboard'); sidebarOpen = false">
+                                    @click="navigateTo('/superadmin/today'); sidebarOpen = false">
                                     <LogoWhite />
                                     <p class="text-[10px] text-white/35 font-medium tracking-[0.1em] uppercase mt-1.5">
                                         {{ $t('superadmin.sidebar.superAdminPanel') }}
@@ -147,7 +147,7 @@
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
             <div class="flex grow flex-col overflow-y-auto co-sidebar pb-4">
                 <!-- Logo -->
-                <div class="px-5 py-5 cursor-pointer" @click="navigateTo('/superadmin/dashboard')">
+                <div class="px-5 py-5 cursor-pointer" @click="navigateTo('/superadmin/today')">
                     <LogoWhite />
                     <p class="text-[10px] text-white/35 font-medium tracking-[0.1em] uppercase mt-1.5">
                         {{ $t('superadmin.sidebar.superAdminPanel') }}
