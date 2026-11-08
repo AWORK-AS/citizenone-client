@@ -91,9 +91,8 @@
                                         {{ row.company?.name || row.title || '—' }}
                                     </p>
                                     <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-slate-500">
-                                        <span class="co-badge" :class="toneBadgeClass(reasonTone(row.reason))">
-                                            {{ $t(reasonKey(row.reason)) }}
-                                        </span>
+                                        <ModulesSuperadminStatusPill :variant="reasonTone(row.reason)" :dot="false"
+                                            :label="$t(reasonKey(row.reason))" />
                                         <span v-if="row.company && row.title && row.title !== row.company.name" class="truncate max-w-[260px]">{{ row.title }}</span>
                                         <span v-if="row.date">{{ $t(dateLabelKey(row.date_kind), { date: todayDate(row.date) }) }}</span>
                                         <span v-if="row.meta?.days_overdue">{{ $t('superadmin.today.daysOverdue', { days: row.meta.days_overdue }, row.meta.days_overdue) }}</span>
@@ -166,7 +165,6 @@ import {
     rowHref,
     sectionKey,
     splitSections,
-    toneBadgeClass,
     type TodayOverview,
 } from '@/composables/superadminToday'
 

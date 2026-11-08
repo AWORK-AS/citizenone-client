@@ -42,9 +42,8 @@
                         <tbody>
                             <tr v-for="item in state.requests" :key="item.uuid" class="border-t border-line">
                                 <td class="px-4 py-3">
-                                    <span class="co-badge" :class="badgeClass(item)">
-                                        {{ $t('superadmin.supportAccess.status.' + item.status) }}
-                                    </span>
+                                    <ModulesSuperadminStatusPill :variant="badgeVariant(item)"
+                                        :label="$t('superadmin.supportAccess.status.' + item.status)" />
                                 </td>
                                 <td class="px-4 py-3 text-ink">{{ item.user?.name }}</td>
                                 <td class="px-4 py-3 text-ink-body">{{ item.company?.name }}</td>
@@ -173,12 +172,12 @@ function durationLabel(hours: number | null | undefined): string {
     return te(key) ? t(key) : t('superadmin.supportAccess.duration.hours', { count: hours ?? 4 })
 }
 
-function badgeClass(item: any): string {
-    if (item.grants_access_now) return 'co-badge-green'
-    if (item.is_actionable) return 'co-badge-blue'
-    if (item.status === 'denied' || item.status === 'revoked') return 'co-badge-red'
+function badgeVariant(item: any) {
+    if (item.grants_access_now) return 'success'
+    if (item.is_actionable) return 'warning'
+    if (item.status === 'denied' || item.status === 'revoked') return 'danger'
 
-    return 'co-badge-gray'
+    return 'neutral'
 }
 
 function formatDateTime(value: string | null): string {

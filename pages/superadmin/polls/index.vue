@@ -37,14 +37,12 @@
                                 {{ poll?.title }}
                             </td>
                             <td class="co-td">
-                                <span v-if="poll?.is_active" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                <ModulesSuperadminStatusPill v-if="poll?.is_active" variant="success">
                                     {{ $t('superadmin.polls.table.active') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-gray">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-ink-muted"></span>
+                                </ModulesSuperadminStatusPill>
+                                <ModulesSuperadminStatusPill v-else variant="neutral">
                                     {{ $t('superadmin.polls.table.inactive') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                             </td>
                             <td class="co-td" @click.stop>
                                 <div

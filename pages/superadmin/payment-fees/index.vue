@@ -158,10 +158,8 @@
                                     {{ formatAmount(row.fee_amount) }}
                                 </td>
                                 <td class="co-td">
-                                    <span class="co-badge" :class="row.status === 'charged'
-                                        ? 'co-badge-green' : 'co-badge-navy'">
-                                        {{ $t(`superadmin.paymentFees.statuses.${row.status}`) }}
-                                    </span>
+                                    <ModulesSuperadminStatusPill :variant="row.status === 'charged' ? 'success' : 'warning'"
+                                        :label="$t(`superadmin.paymentFees.statuses.${row.status}`)" />
                                 </td>
                             </tr>
                             <tr v-if="!state.statements.length && !state.isLoading">

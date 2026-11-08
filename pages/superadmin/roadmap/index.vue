@@ -46,9 +46,8 @@
                                 <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                         <span class="font-semibold text-gray-900">{{ item.title }}</span>
-                                        <span class="co-badge" :class="item.is_published ? 'co-badge-green' : 'co-badge-gray'">
-                                            {{ item.is_published ? $t('superadmin.roadmap.published') : $t('superadmin.roadmap.draft') }}
-                                        </span>
+                                        <ModulesSuperadminStatusPill :variant="item.is_published ? 'success' : 'neutral'"
+                                            :label="item.is_published ? $t('superadmin.roadmap.published') : $t('superadmin.roadmap.draft')" />
                                         <span v-if="item.expected_period" class="co-badge co-badge-blue">{{ item.expected_period }}</span>
                                         <span v-for="industry in item.industries" :key="industry.uuid" class="co-badge co-badge-navy">
                                             {{ industryName(industry) }}

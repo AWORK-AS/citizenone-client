@@ -133,11 +133,8 @@
                                     </span>
                                 </td>
                                 <td class="co-td">
-                                    <span class="co-badge text-[11px]" :class="campaignStatusStyle(campaign)">
-                                        <span class="w-1.5 h-1.5 rounded-full"
-                                            :class="campaignStatusDot(campaign)"></span>
-                                        {{ campaignStatusLabel(campaign) }}
-                                    </span>
+                                    <ModulesSuperadminStatusPill :variant="campaignStatusVariant(campaign)"
+                                        :label="campaignStatusLabel(campaign)" />
                                 </td>
                                 <td class="co-td" @click.stop>
                                     <div
@@ -433,17 +430,11 @@ const campaignStatusLabel = (c: any) => {
     if (s === 'expired') return t('superadmin.salesCampaign.statusExpired')
     return t('superadmin.salesCampaign.statusInactive')
 }
-const campaignStatusStyle = (c: any) => {
+const campaignStatusVariant = (c: any) => {
     const s = campaignStatus(c)
-    if (s === 'active') return 'bg-success-soft text-success'
-    if (s === 'expired') return 'bg-danger-soft text-danger'
-    return 'bg-surface-canvas text-ink-body'
-}
-const campaignStatusDot = (c: any) => {
-    const s = campaignStatus(c)
-    if (s === 'active') return 'bg-success'
-    if (s === 'expired') return 'bg-danger'
-    return 'bg-ink-muted'
+    if (s === 'active') return 'success'
+    if (s === 'expired') return 'danger'
+    return 'neutral'
 }
 
 const state = reactive({

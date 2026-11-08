@@ -100,9 +100,8 @@
                                 {{ row.closes_on ? formatDateToReadable(row.closes_on) : $t('paymentDunning.problems.noClosingDate') }}
                             </td>
                             <td class="co-td">
-                                <span class="co-badge" :class="statusClass(row)">
-                                    {{ $t(dunningStatusKey(row)) }}
-                                </span>
+                                <ModulesSuperadminStatusPill :variant="statusVariant(row)" :dot="false"
+                                    :label="$t(dunningStatusKey(row))" />
                                 <Tooltip v-if="row.postponed_until" :text="row.postpone_note || $t('paymentDunning.problems.help.postpone')"
                                     position="top" wrap>
                                     <span class="co-badge co-badge-blue ml-1.5">
@@ -208,18 +207,18 @@ const columns = computed(() => [
 
 const visibleRows = computed(() => state.tab === 'active' && state.status ? state.rows.filter((row) => row.status === state.status) : state.rows)
 
-function statusClass(row: DunningRow) {
-    if (row.tab === 'written_off') return 'co-badge-gray'
-    if (row.tab !== 'active') return 'co-badge-red'
-    if (row.billing_method === 'card' && row.reminder_stage >= 3) return 'co-badge-red'
-    return {
-        past_due: 'co-badge-gray',
-        overdue: 'co-badge-gray',
-        ready_to_close: 'co-badge-red',
-        suspended: 'co-badge-red',
-        collection: 'co-badge-red',
-        written_off: 'co-badge-gray',
-    }[row.status]
+function statusVariant(row: DunningRow) {
+    if (row.tab === 'written_off') return 'neutral'
+    if (row.tab !== 'active') return 'danger'
+    if (row.billing_method === 'card' && row.reminder_stage >= 3) return 'danger'
+    return ({
+        past_due: 'warning',
+        overdue: 'warning',
+        ready_to_close: 'danger',
+        suspended: 'danger',
+        collection: 'danger',
+        written_off: 'neutral',
+    } as Record<string, 'warning' | 'danger' | 'neutral'>)[row.status] ?? 'neutral'
 }
 
 function collectionDate(row: DunningRow) {

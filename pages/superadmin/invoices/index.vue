@@ -140,26 +140,25 @@
                                         {{ $t('superadmin.agreements.covered.chip') }}
                                     </span>
                                 </Tooltip>
-                                <span v-else-if="invoice?.is_paid || invoice?.status === 'paid'"
-                                    class="co-badge co-badge-green">
+                                <ModulesSuperadminStatusPill v-else-if="invoice?.is_paid || invoice?.status === 'paid'" variant="success" :dot="false">
                                     <Icon name="ph:check" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.table.paid') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                                 <Tooltip v-else-if="invoiceChip(invoice) === 'resolved'"
                                     :text="$t('paymentDunning.invoices.resolvedHelp')" position="top" wrap>
-                                    <span class="co-badge co-badge-gray">
+                                    <ModulesSuperadminStatusPill variant="neutral" :dot="false">
                                         <Icon name="ph:arrow-counter-clockwise" class="w-3 h-3" aria-hidden="true" />
                                         {{ $t('paymentDunning.invoices.resolvedChip') }}
-                                    </span>
+                                    </ModulesSuperadminStatusPill>
                                 </Tooltip>
-                                <span v-else-if="invoiceChip(invoice) === 'failed'" class="co-badge co-badge-red">
+                                <ModulesSuperadminStatusPill v-else-if="invoiceChip(invoice) === 'failed'" variant="danger" :dot="false">
                                     <Icon name="ph:x" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.tabs.failed') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-gray">
+                                </ModulesSuperadminStatusPill>
+                                <ModulesSuperadminStatusPill v-else variant="warning" :dot="false">
                                     <Icon name="ph:clock" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.tabs.pending') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                             </td>
                             <td class="co-td font-mono text-[13px] text-ink font-medium">
                                 #{{ invoice?.invoice_number }}

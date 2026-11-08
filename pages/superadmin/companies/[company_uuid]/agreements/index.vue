@@ -82,9 +82,8 @@
                                 </td>
                                 <td class="co-td">
                                     <Tooltip :text="$t('superadmin.agreements.help.status')" position="top" wrap>
-                                        <span class="co-badge" :class="statusClass(agreement.status)">
-                                            {{ $t(`superadmin.agreements.statuses.${agreement.status}`) }}
-                                        </span>
+                                        <ModulesSuperadminStatusPill :variant="statusVariant(agreement.status)"
+                                            :label="$t(`superadmin.agreements.statuses.${agreement.status}`)" />
                                     </Tooltip>
                                     <ModulesSuperadminAgreementRenewalPlanChip v-if="renewalPlanMissing(agreement)"
                                         :due="agreement.renewal_plan_due ?? null" class="mt-1" />
@@ -168,8 +167,8 @@ const state = reactive({
     form: { open: false, agreement: null as Agreement | null, addRenewalPlan: false },
 })
 
-function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-warning-soft text-warning-ink' : 'co-badge-gray'
+function statusVariant(status: string) {
+    return status === 'active' ? 'success' : status === 'cancelled' ? 'danger' : status === 'ended' ? 'warning' : 'neutral'
 }
 
 const showMissingNumber = computed(() => missingEconomicNumber(state.company, state.agreements))

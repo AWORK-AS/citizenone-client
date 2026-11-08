@@ -40,7 +40,7 @@
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                     <span class="co-badge co-badge-navy">{{ $t(`superadmin.announcements.kind.${item.kind}`) }}</span>
                                     <span class="font-semibold text-gray-900">{{ item.title }}</span>
-                                    <span class="co-badge" :class="statusClass(item)">{{ $t(`superadmin.announcements.filter.${statusOf(item)}`) }}</span>
+                                    <ModulesSuperadminStatusPill :variant="statusVariant(item)" :label="$t(`superadmin.announcements.filter.${statusOf(item)}`)" />
                                     <span v-if="item.application" class="co-badge co-badge-blue">{{ item.application.name }}</span>
                                 </div>
                                 <p class="mt-1 line-clamp-2 text-sm text-gray-600">{{ item.body }}</p>
@@ -138,8 +138,8 @@ function statusOf(item: any): Filter {
     return 'live'
 }
 
-function statusClass(item: any): string {
-    return { live: 'co-badge-green', scheduled: 'co-badge-blue', draft: 'co-badge-gray', ended: 'co-badge-gray' }[statusOf(item)]
+function statusVariant(item: any) {
+    return ({ live: 'success', scheduled: 'info', draft: 'neutral', ended: 'neutral' } as Record<string, 'success' | 'info' | 'neutral'>)[statusOf(item)] ?? 'neutral'
 }
 
 function itemsFor(filter: Filter) {

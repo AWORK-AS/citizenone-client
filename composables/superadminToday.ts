@@ -180,7 +180,7 @@ export function reasonTone(reason: string): Tone {
  * the pages use; composables/ is not in Tailwind's content list.
  */
 export function toneBadgeClass(tone: Tone): string {
-    return tone === 'danger' ? 'co-badge-red' : tone === 'warning' ? 'bg-amber-50 text-amber-700' : 'co-badge-gray'
+    return tone === 'danger' ? 'co-badge-red' : tone === 'warning' ? 'bg-warning-soft text-warning-ink' : 'co-badge-gray'
 }
 
 export function reasonKey(reason: string): string {

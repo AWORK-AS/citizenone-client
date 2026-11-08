@@ -90,14 +90,12 @@
                                 <span v-else class="text-ink-muted text-[12px]">—</span>
                             </td>
                             <td class="co-td">
-                                <span v-if="user?.is_active !== false" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                                <ModulesSuperadminStatusPill v-if="user?.is_active !== false" variant="success">
                                     {{ $t('superadmin.companies.table.active') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-red">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
+                                </ModulesSuperadminStatusPill>
+                                <ModulesSuperadminStatusPill v-else variant="neutral">
                                     {{ $t('superadmin.companies.table.inactive') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                             </td>
                             <td class="co-td" @click.stop>
                                 <div
