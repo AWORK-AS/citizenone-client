@@ -13359,7 +13359,8 @@
             "moodWeek": "Uke {week}",
             "moodTooFew": "Under {min} svar",
             "moodNone": "Ingen svar",
-            "moodAnswers": "{count} svar"
+            "moodAnswers": "{count} svar",
+            "buyMore": "Kjøp flere skjermer"
         }
     },
     "supportAccess": {

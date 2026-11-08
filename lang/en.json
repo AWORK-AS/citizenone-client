@@ -13364,7 +13364,8 @@
             "moodWeek": "Week {week}",
             "moodTooFew": "Fewer than {min} answers",
             "moodNone": "No answers",
-            "moodAnswers": "{count} answers"
+            "moodAnswers": "{count} answers",
+            "buyMore": "Buy more screens"
         }
     },
     "supportAccess": {

@@ -43,10 +43,17 @@
                                 </p>
                                 <p class="mt-1 text-xs text-slate-400">{{ $t('settings.infoScreen.seatsHint') }}</p>
                             </div>
-                            <FormButton buttonStyle="primary" @click="newScreen">
-                                <Icon name="ph:plus" class="h-4 w-4" />
-                                {{ $t('settings.infoScreen.newScreen') }}
-                            </FormButton>
+                            <div class="flex flex-wrap gap-2">
+                                <!-- One paired screen uses one licence: more are bought on the app's page -->
+                                <FormButton buttonStyle="action" @click="navigateTo('/apps/info-screen')">
+                                    <Icon name="ph:shopping-cart-simple" class="h-4 w-4" />
+                                    {{ $t('settings.infoScreen.buyMore') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary" @click="newScreen">
+                                    <Icon name="ph:plus" class="h-4 w-4" />
+                                    {{ $t('settings.infoScreen.newScreen') }}
+                                </FormButton>
+                            </div>
                         </div>
 
                         <!-- Urgent message on every screen -->

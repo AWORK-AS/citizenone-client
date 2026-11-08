@@ -13359,7 +13359,8 @@
             "moodWeek": "Vecka {week}",
             "moodTooFew": "Under {min} svar",
             "moodNone": "Inga svar",
-            "moodAnswers": "{count} svar"
+            "moodAnswers": "{count} svar",
+            "buyMore": "Köp fler skärmar"
         }
     },
     "supportAccess": {
