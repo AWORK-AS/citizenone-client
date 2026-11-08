@@ -303,6 +303,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { suspendedLogin } from '@/composables/billingMethod'
+import { isStaffTwoFactorChallenge } from '@/composables/staffTwoFactor'
 import { socialRedirectUrl } from '@/composables/signupQuery'
 import { EMAIL_CODE_LENGTH, EMAIL_CODE_RESEND_SECONDS, isPlausibleEmail, sanitizeEmailCode, shouldSubmitEmailCode } from '@/composables/emailLoginCode'
 
@@ -546,7 +547,14 @@ async function signInAsStaff() {
 			email: state.formLogin.email,
 			password: state.formLogin.password,
 		})
-		if (response.data) {
+		// Staff with 2FA: the superadmin login page asks for the code.
+		if (isStaffTwoFactorChallenge(response.data)) {
+			sessionStorage.setItem('staffTwoFactorChallenge', JSON.stringify({
+				challenge: response.data.challenge,
+				expiresAt: Date.now() + (response.data.expires_in ?? 300) * 1000,
+			}))
+			navigateTo('/superadmin')
+		} else if (response.data) {
 			await setSessionToken(response.data?.token)
 			localStorage.removeItem("_original_token")
 			userStore.setUser(response?.data?.user)

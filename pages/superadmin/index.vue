@@ -29,7 +29,38 @@
                         </button>
                     </div>
 
-                    <form class="mt-5 space-y-3" method="POST" @submit.prevent="login">
+                    <!-- Second step: staff with 2FA get a challenge, not a token, from the password. -->
+                    <form v-if="state.twoFactor.challenge" class="mt-5 space-y-4" method="POST"
+                        @submit.prevent="verifyTwoFactor">
+                        <Alert type="danger" :text="state?.error?.message"
+                            v-if="state.error?.message && state.error.message.length > 0" />
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0faf9]">
+                                <Icon name="ph:shield-check" class="h-5 w-5 text-[#2dbab2]" />
+                            </div>
+                            <h2 class="font-medium text-[#1a2332]">
+                                {{ $t('superadmin.twoFactor.codeTitle') }}
+                            </h2>
+                        </div>
+                        <p class="text-sm text-[#64748b]">
+                            {{ $t('superadmin.twoFactor.codeIntro') }}
+                        </p>
+                        <ModulesSuperadminTwoFactorCodeInput id="staff-2fa-code" v-model="state.twoFactor.code"
+                            :label="$t('superadmin.twoFactor.codeLabel')" @submit="verifyTwoFactor" />
+                        <p class="text-xs text-[#64748b]" v-if="state.twoFactor.secondsLeft > 0">
+                            {{ $t('superadmin.twoFactor.expiresIn', { seconds: state.twoFactor.secondsLeft }) }}
+                        </p>
+                        <FormButton type="submit" buttonStyle="primary" class="w-full"
+                            :disabled="!isCompleteTotpCode(state.twoFactor.code)">
+                            {{ $t('superadmin.twoFactor.verify') }}
+                        </FormButton>
+                        <button type="button" class="w-full text-sm text-primary hover:text-primary-800"
+                            @click="backToPassword()">
+                            {{ $t('superadmin.twoFactor.back') }}
+                        </button>
+                    </form>
+
+                    <form v-else class="mt-5 space-y-3" method="POST" @submit.prevent="login">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h2 class="font-medium">
@@ -86,6 +117,12 @@ import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import {
+    isChallengeExpired,
+    isCompleteTotpCode,
+    isStaffTwoFactorChallenge,
+    secondsLeft,
+} from '@/composables/staffTwoFactor'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
@@ -103,7 +140,94 @@ const state = reactive({
     slideOver: {
         isLanguageSwitcherOpen: false
     },
+    twoFactor: {
+        challenge: '' as string,
+        code: '' as string,
+        expiresAt: 0,
+        secondsLeft: 0,
+    },
 })
+
+let twoFactorTimer: ReturnType<typeof setInterval> | null = null
+
+// The customer login sends staff here (pages/index.vue) with a challenge already in hand.
+const HANDOFF_KEY = 'staffTwoFactorChallenge'
+
+onMounted(() => {
+    try {
+        const handoff = JSON.parse(sessionStorage.getItem(HANDOFF_KEY) || 'null')
+        sessionStorage.removeItem(HANDOFF_KEY)
+        if (handoff?.challenge && handoff.expiresAt > Date.now()) {
+            startTwoFactor(handoff.challenge, handoff.expiresAt)
+        }
+    } catch {
+        // No handoff: the ordinary login.
+    }
+})
+
+onBeforeUnmount(stopTimer)
+
+function startTwoFactor(challenge: string, expiresAt: number) {
+    state.twoFactor.challenge = challenge
+    state.twoFactor.code = ''
+    state.twoFactor.expiresAt = expiresAt
+    tick()
+    stopTimer()
+    twoFactorTimer = setInterval(tick, 1000)
+}
+
+function tick() {
+    state.twoFactor.secondsLeft = secondsLeft(state.twoFactor.expiresAt, Date.now())
+    if (state.twoFactor.challenge && state.twoFactor.secondsLeft === 0) {
+        backToPassword(t('superadmin.twoFactor.expired'))
+    }
+}
+
+function stopTimer() {
+    if (twoFactorTimer) clearInterval(twoFactorTimer)
+    twoFactorTimer = null
+}
+
+function backToPassword(message?: string) {
+    stopTimer()
+    state.twoFactor.challenge = ''
+    state.twoFactor.code = ''
+    state.twoFactor.secondsLeft = 0
+    state.password = null
+    state.error = message ? ({ message } as Error) : {}
+}
+
+async function finishLogin(data: any) {
+    await setSessionToken(data?.token)
+    userStore.setUser(data?.user)
+    userStore.setLanguage(data?.user?.language?.code)
+    language.locale.value = data?.user?.language?.code
+    navigateTo('/superadmin/today')
+}
+
+async function verifyTwoFactor() {
+    if (!isCompleteTotpCode(state.twoFactor.code) || state.isPageLoading) return
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await authService.verifyTwoFactor({
+            challenge: state.twoFactor.challenge,
+            code: state.twoFactor.code,
+        })
+        if (response.data?.token) {
+            stopTimer()
+            await finishLogin(response.data)
+        }
+    } catch (error: any) {
+        if (isChallengeExpired(error)) {
+            backToPassword(error?.message || t('superadmin.twoFactor.expired'))
+        } else {
+            state.error = error
+            state.twoFactor.code = ''
+        }
+    }
+    state.isPageLoading = false
+}
 
 const rules = computed(() => {
     return {
@@ -128,12 +252,10 @@ async function login() {
                 password: state.password,
             }
             const response = await authService.login(params)
-            if (response.data) {
-                await setSessionToken(response.data?.token)
-                userStore.setUser(response?.data?.user)
-                userStore.setLanguage(response?.data?.user?.language?.code)
-                language.locale.value = response?.data?.user?.language?.code
-                navigateTo('/superadmin/today')
+            if (isStaffTwoFactorChallenge(response.data)) {
+                startTwoFactor(response.data.challenge, Date.now() + (response.data.expires_in ?? 300) * 1000)
+            } else if (response.data) {
+                await finishLogin(response.data)
             }
         } catch (error: any) {
             state.error = error

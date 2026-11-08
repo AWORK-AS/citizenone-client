@@ -79,6 +79,9 @@
                             {{ $t('superadmin.companies.table.inactive') }}
                         </ModulesSuperadminStatusPill>
                     </template>
+                    <template #cell-two_factor="{ row: user }">
+                        <ModulesSuperadminTwoFactorStatusBadge :user="user" />
+                    </template>
                     <template #cell-actions="{ row: user }">
                         <div
                             class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
@@ -152,6 +155,7 @@ const columns = computed<DataTableColumn[]>(() => [
     { key: 'phone', label: t('superadmin.users.table.phone') },
     { key: 'role', label: t('superadmin.users.table.role') },
     { key: 'status', label: t('superadmin.users.table.status') },
+    { key: 'two_factor', label: t('superadmin.twoFactor.column') },
     { key: 'actions', label: '', align: 'right' },
 ])
 
