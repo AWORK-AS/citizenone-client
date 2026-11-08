@@ -14684,11 +14684,9 @@
                 "from": "Fra",
                 "to": "Til",
                 "allPayments": "Alle betalinger",
-                "unpaid": "Ubetalt",
-                "clearFilters": "Fjern filtre"
+                "unpaid": "Ubetalt"
             },
             "noInvoicesFound": "Ingen fakturaer funnet",
-            "tryToClearFilters": "Prøv å fjerne filtrene",
             "tabs": {
                 "all": "Alle",
                 "paid": "Betalt",
@@ -14725,7 +14723,6 @@
                 "kindApp": "App",
                 "kindOther": "Annet",
                 "filterProduct": "Produkt: {name}",
-                "clearFilter": "Fjern filter",
                 "allTypes": "Alle typer",
                 "typeNew": "Nye kjøp",
                 "typeRecurring": "Fornyelser",
@@ -14899,10 +14896,7 @@
                     "error": "Feil",
                     "no_invoice": "Ingen faktura"
                 },
-                "errorReason": "Feil: {reason}",
-                "previous": "Forrige",
-                "next": "Neste",
-                "page": "Side {page} av {pages}"
+                "errorReason": "Feil: {reason}"
             }
         },
         "polls": {
@@ -15980,8 +15974,6 @@
             "unassigned": "Uten eier",
             "mine": "Mine",
             "sourceLabel": "Kilde",
-            "previous": "Forrige",
-            "next": "Neste",
             "tabs": {
                 "open": "Åpne",
                 "all": "Alle"

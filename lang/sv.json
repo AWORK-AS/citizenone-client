@@ -14684,11 +14684,9 @@
                 "from": "Från",
                 "to": "Till",
                 "allPayments": "Alla betalningar",
-                "unpaid": "Obetald",
-                "clearFilters": "Rensa filter"
+                "unpaid": "Obetald"
             },
             "noInvoicesFound": "Inga fakturor hittades",
-            "tryToClearFilters": "Försök rensa filtren",
             "tabs": {
                 "all": "Alla",
                 "paid": "Betald",
@@ -14725,7 +14723,6 @@
                 "kindApp": "App",
                 "kindOther": "Övrigt",
                 "filterProduct": "Produkt: {name}",
-                "clearFilter": "Rensa filter",
                 "allTypes": "Alla typer",
                 "typeNew": "Nya köp",
                 "typeRecurring": "Förnyelser",
@@ -14899,10 +14896,7 @@
                     "error": "Fel",
                     "no_invoice": "Ingen faktura"
                 },
-                "errorReason": "Fel: {reason}",
-                "previous": "Föregående",
-                "next": "Nästa",
-                "page": "Sida {page} av {pages}"
+                "errorReason": "Fel: {reason}"
             }
         },
         "polls": {
@@ -15980,8 +15974,6 @@
             "unassigned": "Utan ägare",
             "mine": "Mina",
             "sourceLabel": "Källa",
-            "previous": "Föregående",
-            "next": "Nästa",
             "tabs": {
                 "open": "Öppna",
                 "all": "Alla"
