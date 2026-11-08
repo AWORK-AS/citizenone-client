@@ -49,11 +49,20 @@ const STATUS_TONES: Record<CompanyStatus, StatusTone> = {
 
 /** Tailwind classes per tone: green ok, amber pending, red failure, grey closed. */
 export const TONE_CLASSES: Record<StatusTone, { pill: string; dot: string }> = {
-    ok: { pill: 'bg-green-50 text-green-700 border-green-200', dot: 'bg-green-500' },
-    pending: { pill: 'bg-orange-50 text-orange-700 border-orange-200', dot: 'bg-orange-500' },
-    failure: { pill: 'bg-red-50 text-red-600 border-red-200', dot: 'bg-red-500' },
-    muted: { pill: 'bg-gray-100 text-gray-600 border-gray-200', dot: 'bg-gray-400' },
-    info: { pill: 'bg-primary-50 text-primary border-primary-100', dot: 'bg-primary' },
+    ok: { pill: 'bg-success-soft text-success-ink border-success-line', dot: 'bg-success' },
+    pending: { pill: 'bg-warning-soft text-warning-ink border-warning-line', dot: 'bg-warning' },
+    failure: { pill: 'bg-danger-soft text-danger-ink border-danger-line', dot: 'bg-danger' },
+    muted: { pill: 'bg-surface-canvas text-ink-body border-line', dot: 'bg-ink-subtle' },
+    info: { pill: 'bg-info-soft text-info border-info-line', dot: 'bg-info' },
+}
+
+/* The same tones, as variants of ModulesSuperadminStatusPill. */
+export const TONE_PILL_VARIANT: Record<StatusTone, 'success' | 'warning' | 'danger' | 'neutral' | 'info'> = {
+    ok: 'success',
+    pending: 'warning',
+    failure: 'danger',
+    muted: 'neutral',
+    info: 'info',
 }
 
 const KNOWN_STATUSES = Object.keys(STATUS_TONES) as CompanyStatus[]
