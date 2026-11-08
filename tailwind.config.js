@@ -97,6 +97,13 @@ export default {
         },
         /* Semantic accent colors for stats/badges */
         accent: {
+          /* Superadmin accent: toggles, focus rings, chart highlights. */
+          DEFAULT: '#42AED9',
+          soft: '#F0FAFD',
+          /* Superadmin's calm sea-green, for stats that are neither good nor bad. */
+          sea: '#368F8B',
+          'sea-soft': '#EEF8F8',
+          'sea-ink': '#22706A',
           blue: '#3B82F6',
           green: '#10B981',
           orange: '#F59E0B',
@@ -121,6 +128,49 @@ export default {
           100: '#F1F5F9',
           200: '#E2E8F0',
           border: '#E5E7EB',
+          /* Superadmin page canvas, and the quieter fill for table heads and wells. */
+          canvas: '#F5F6F8',
+          subtle: '#F9FAFB',
+        },
+        /* Superadmin text scale: headings, body copy, labels, placeholders. */
+        ink: {
+          DEFAULT: '#1F2533',
+          body: '#5C6478',
+          muted: '#8891A4',
+          subtle: '#B4BBC7',
+        },
+        /* Superadmin hairlines: card/table borders and the firmer input edge. */
+        line: {
+          DEFAULT: '#EAECF0',
+          strong: '#D5D9E2',
+        },
+        /* Superadmin feedback colours. DEFAULT is the dot/icon/text, `soft` the
+           pill or banner fill, `ink` text on `soft`, `line` its border.
+           Meaning: success = paid/ok, warning = pending/reminder,
+           danger = failed/collection, info = neutral information. */
+        success: {
+          DEFAULT: '#2E9E33',
+          soft: '#EDF7EE',
+          ink: '#1B6B1E',
+          line: '#BFE3C1',
+        },
+        warning: {
+          DEFAULT: '#D4900A',
+          soft: '#FFF9EC',
+          ink: '#B45309',
+          line: '#F5D9A8',
+        },
+        danger: {
+          DEFAULT: '#CC3B2D',
+          soft: '#FFF0F0',
+          ink: '#B42318',
+          line: '#F5C6C3',
+        },
+        info: {
+          DEFAULT: '#1A4D99',
+          soft: '#EEF4FB',
+          ink: '#003080',
+          line: '#C9D9F0',
         },
         shifts: {
           regular: '#8BA687',
@@ -155,8 +205,11 @@ export default {
           900: '#0f172a',
           950: '#020617',
         },
+        /* Superadmin's primary action colour (buttons, active tabs, links).
+           Hover uses tertiary-700, selected/soft fills tertiary-soft. */
         tertiary: {
           DEFAULT: '#205E77',
+          soft: '#E4F1F6',
           25: '#EAF3F6',
           50: '#D5E7ED',
           100: '#ABCFDB',
