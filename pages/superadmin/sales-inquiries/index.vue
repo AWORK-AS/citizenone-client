@@ -457,6 +457,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import moment from 'moment'
 import { salesInquiryService } from '@/components/api/superadmin/SalesInquiryService'
 import { userService } from '@/components/api/superadmin/UserService'
@@ -599,12 +600,12 @@ function selectView(view: string) {
 // What a stage looks like before the settings have loaded, and if they ever
 // fail to: a board with no colours is worse than a board with these.
 const FALLBACK_COLORS: Record<string, string> = {
-    new: '#42AED9',
-    contacted: '#205E77',
-    qualified: '#7C5CBF',
-    demo_booked: '#2E9E33',
-    won: '#2E9E33',
-    lost: '#8891A4',
+    new: SA_COLORS.accent,
+    contacted: SA_COLORS.primary,
+    qualified: SA_COLORS.plum,
+    demo_booked: SA_COLORS.success,
+    won: SA_COLORS.success,
+    lost: SA_COLORS.inkMuted,
 }
 
 /**
@@ -635,7 +636,7 @@ function labelFor(status: string) {
 }
 
 function colorFor(status: string) {
-    return settingFor(status)?.color || FALLBACK_COLORS[status] || '#8891A4'
+    return settingFor(status)?.color || FALLBACK_COLORS[status] || SA_COLORS.inkMuted
 }
 
 function tabLabel(tab: { key: string; label: string }) {

@@ -84,8 +84,7 @@
                                         {{ $t('superadmin.emailTemplates.cancel') }}
                                     </button>
                                     <button type="button" @click="save" :disabled="state.isSaving"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm disabled:opacity-60"
-                                        style="background:#205E77">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm disabled:opacity-60 bg-tertiary">
                                         <Icon name="ph:check" class="w-4 h-4" /> {{ $t('superadmin.emailTemplates.save') }}
                                     </button>
                                 </div>

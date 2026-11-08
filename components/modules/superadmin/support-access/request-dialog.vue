@@ -69,8 +69,7 @@
                                     {{ $t('cancel') }}
                                 </button>
                                 <button type="button" @click="send" :disabled="!canSend"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40"
-                                    style="background:#205E77">
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary">
                                     {{ $t('superadmin.supportAccess.dialog.send') }}
                                 </button>
                             </div>

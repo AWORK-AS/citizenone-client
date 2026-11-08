@@ -18,8 +18,7 @@
                         </p>
                     </div>
                     <button @click="openModal()"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#CC3B2D">
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-danger">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.cancellations.registerBtn') }}
                     </button>
@@ -117,7 +116,7 @@
                             <td class="co-td">
                                 <span
                                     class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium"
-                                    :style="reasonStyle(cancellation.reason)">
+                                    :class="reasonStyle(cancellation.reason)">
                                     <Icon :name="reasonIcon(cancellation.reason)" class="w-3 h-3" />
                                     {{ reasonLabel(cancellation.reason) }}
                                 </span>
@@ -215,9 +214,9 @@
                             <div class="grid grid-cols-2 gap-2 mt-1">
                                 <button v-for="r in cancelReasons" :key="r.key"
                                     class="py-2.5 px-3 rounded-xl border-2 text-[12px] font-medium text-left transition-colors flex items-center gap-2"
-                                    :style="modal.form.reason === r.key
-                                        ? 'border-color:#CC3B2D;background:#FFF0F0;color:#CC3B2D'
-                                        : 'border-color:#EAECF0;color:#5C6478'" @click="modal.form.reason = r.key">
+                                    :class="modal.form.reason === r.key
+                                        ? 'border-danger bg-danger-soft text-danger'
+                                        : 'border-line text-ink-body'" @click="modal.form.reason = r.key">
                                     <Icon :name="r.icon" class="w-3.5 h-3.5 flex-shrink-0" />
                                     {{ r.label }}
                                 </button>
@@ -254,7 +253,7 @@
                             {{ $t('superadmin.cancellations.cancel') }}
                         </button>
                         <button @click="saveCancellation"
-                            :disabled="!modal.form.company_name || !modal.form.reason || modal.saving"
+                           :disabled="!modal.form.company_name || !modal.form.reason || modal.saving"
                             class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 transition-colors">
                             <span v-if="modal.saving" class="flex items-center justify-center gap-2">
                                 <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
@@ -277,6 +276,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_SOFT_PAIRS } from '@/utils/superadminPalette'
 import { localDateString, localMonthString } from '@/composables/localDate'
 import { useI18n } from 'vue-i18n'
 
@@ -382,7 +382,7 @@ const filteredCancellations = computed(() => {
 const cancellationsTableData = computed(() => ({ data: filteredCancellations.value }))
 
 // ── Helpers ───────────────────────────────────────────────────────────────
-const COLORS = [['#EEF4FB', '#003080'], ['#EEF8F8', '#22706A'], ['#EAF3DE', '#3B6D11'], ['#FAEEDA', '#633806']]
+const COLORS = SA_SOFT_PAIRS
 const avatarColor = (n: string) => COLORS[(n?.charCodeAt(0) ?? 0) % COLORS.length][1]
 
 function fmt(v: number) {
@@ -404,14 +404,14 @@ function reasonIcon(key: string) {
 
 function reasonStyle(key: string) {
     const map: Record<string, string> = {
-        price: 'background:#FFF0F0;color:#CC3B2D',
-        features: 'background:#FFF9EC;color:#D4900A',
-        competitor: 'background:#F0F4FF;color:#3357CC',
-        closed: 'background:#F5F6F8;color:#5C6478',
-        trial_end: 'background:#EEF8F8;color:#22706A',
-        other: 'background:#F5F6F8;color:#8891A4',
+        price: 'bg-danger-soft text-danger',
+        features: 'bg-warning-soft text-warning-ink',
+        competitor: 'bg-info-soft text-info',
+        closed: 'bg-surface-canvas text-ink-body',
+        trial_end: 'bg-accent-sea-soft text-accent-sea-ink',
+        other: 'bg-surface-canvas text-ink-muted',
     }
-    return map[key] ?? 'background:#F5F6F8;color:#8891A4'
+    return map[key] ?? 'bg-surface-canvas text-ink-muted'
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────

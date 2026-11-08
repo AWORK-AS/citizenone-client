@@ -238,7 +238,7 @@
                             </div>
                             <button type="button" @click="toggleAssign"
                                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ml-4"
-                                :style="state.assignEnabled ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                :class="state.assignEnabled ? 'bg-accent' : 'bg-line-strong'">
                                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                     :class="state.assignEnabled ? 'translate-x-6' : 'translate-x-1'"></span>
                             </button>
@@ -249,7 +249,7 @@
                                 <Icon name="ph:magnifying-glass"
                                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                                 <input v-model="state.userSearch" type="text"
-                                    :disabled="!effectiveCompanyUuid"
+                                   :disabled="!effectiveCompanyUuid"
                                     :placeholder="$t('superadmin.grantLicense.searchUserPlaceholder')"
                                     class="co-input !pl-8" @input="searchUsers" />
                             </div>
@@ -289,8 +289,8 @@
                         {{ $t('cancel') }}
                     </button>
                     <button @click="submit"
-                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77" :disabled="state.isSaving">
+                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary"
+                        :disabled="state.isSaving">
                         <span v-if="state.isSaving" class="flex items-center justify-center gap-2">
                             <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
                             {{ $t('superadmin.grantLicense.saving') }}
@@ -306,6 +306,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS, SA_SERIES } from '@/utils/superadminPalette'
 import { billingService } from '@/components/api/superadmin/BillingService'
 import type { CompanyBilling } from '@/composables/billingMethod'
 import { appService } from '@/components/api/superadmin/AppService'
@@ -344,7 +345,7 @@ const { t } = useI18n()
 let companySearchTimeout: any = null
 let userSearchTimeout: any = null
 
-const APP_COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B', '#CC3B2D']
+const APP_COLORS = [...SA_SERIES, SA_COLORS.danger]
 const appColor = (name: string) => APP_COLORS[(name?.charCodeAt(0) ?? 0) % APP_COLORS.length]
 
 function appPriceLabel(app: any) {

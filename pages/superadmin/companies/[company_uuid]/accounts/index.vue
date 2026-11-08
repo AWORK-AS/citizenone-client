@@ -12,8 +12,7 @@
                 <ModulesSuperadminCompanyHeader>
                     <template #actions>
                         <button @click="impersonateCompany"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors"
-                            style="background:#F3F0FF;color:#7C3AED;border-color:#DDD6FE">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors bg-violet-50 text-violet-600 border-violet-200">
                             <Icon name="ph:user-switch" class="w-4 h-4" />
                             {{ $t('superadmin.companies.accounts.loginAs') }}
                         </button>
@@ -73,7 +72,7 @@
                                     </span>
                                 </p>
                                 <div class="mt-2 h-1.5 bg-line rounded-full overflow-hidden">
-                                    <div class="h-full rounded-full transition-all" style="background:#42AED9"
+                                    <div class="h-full rounded-full transition-all bg-accent"
                                         :style="`width:${licencePercent}%`"></div>
                                 </div>
                             </div>
@@ -198,8 +197,7 @@
                                     <div v-for="(app, i) in state.apps?.data" :key="i"
                                         class="flex items-center justify-between py-2.5 px-3 rounded-lg bg-surface-subtle border border-line">
                                         <div class="flex items-center gap-2.5">
-                                            <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                                                style="background:#E4F1F6">
+                                            <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
                                                 <Icon name="ph:squares-four" class="w-4 h-4 text-tertiary" />
                                             </div>
                                             <span class="text-[13px] font-medium text-ink">
@@ -233,8 +231,7 @@
                                         @input="debouncedAccountsSearch" style="min-width: 320px; max-width: none" />
                                 </div>
                                 <button @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-white transition-colors"
-                                    style="background:#205E77">
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-white transition-colors bg-tertiary">
                                     <Icon name="ph:plus" class="w-3.5 h-3.5" />
                                     {{ $t('superadmin.companies.accounts.newAccount') }}
                                 </button>

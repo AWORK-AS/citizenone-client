@@ -41,7 +41,7 @@
             <div class="grid grid-cols-3 gap-2">
                 <button v-for="ct in campaignTypes" :key="ct.value" type="button"
                     class="py-2.5 px-2 rounded-xl border-2 text-[12px] font-semibold transition-colors flex items-center justify-center gap-1.5"
-                    :style="state.form.type === ct.value ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;color:#5C6478'"
+                    :class="state.form.type === ct.value ? 'border-accent bg-accent-soft text-tertiary' : 'border-line text-ink-body'"
                     @click="state.form.type = ct.value">
                     <Icon :name="ct.icon" class="w-3.5 h-3.5" />
                     {{ ct.label }}
@@ -109,7 +109,7 @@
             </div>
             <button type="button" @click="state.form.is_active = !state.form.is_active"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                :style="state.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                :class="state.form.is_active ? 'bg-accent' : 'bg-line-strong'">
                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                     :class="state.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
             </button>
@@ -122,8 +122,7 @@
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>

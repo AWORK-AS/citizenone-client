@@ -46,8 +46,8 @@
                                             {{ $t('cancel') }}
                                         </button>
                                         <button @click="formRef?.submit()"
-                                            class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                                            style="background:#205E77" :disabled="state.isPageLoading">
+                                            class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary"
+                                            :disabled="state.isPageLoading">
                                             {{ $t('superadmin.users.createUser') }}
                                         </button>
                                     </div>

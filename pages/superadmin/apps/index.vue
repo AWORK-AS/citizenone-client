@@ -47,12 +47,12 @@
 
                     <div class="flex items-center bg-white border border-line rounded-lg p-0.5 ml-auto">
                         <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
-                            :style="viewMode === 'grid' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
+                            :class="viewMode === 'grid' ? 'bg-tertiary text-white' : 'text-ink-muted'"
                             :aria-label="'Grid'" @click="viewMode = 'grid'">
                             <Icon name="ph:squares-four" class="w-4 h-4" />
                         </button>
                         <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
-                            :style="viewMode === 'list' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
+                            :class="viewMode === 'list' ? 'bg-tertiary text-white' : 'text-ink-muted'"
                             :aria-label="'List'" @click="viewMode = 'list'">
                             <Icon name="ph:list" class="w-4 h-4" />
                         </button>

@@ -190,26 +190,26 @@
                                      kontrast til at bære forskellen. -->
                                 <div class="flex flex-wrap items-center gap-x-5 gap-y-1 mb-3 text-[12px]">
                                     <span class="flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#1C6E9C"></span>
+                                        <span class="w-2.5 h-2.5 rounded-sm bg-secondary"></span>
                                         <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.contracted') }}</span>
                                         <strong class="text-ink">{{ formatAmount(state.forecast.contracted_total, 'DKK') }}</strong>
                                         <span class="text-ink-muted">({{ contractedShare }}%)</span>
                                     </span>
                                     <Tooltip :text="$t('superadmin.report.forecast.help.installments')" position="top" wrap>
                                         <span class="flex items-center gap-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#368F8B"></span>
+                                            <span class="w-2.5 h-2.5 rounded-sm bg-accent-sea"></span>
                                             <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.installments') }}</span>
                                             <strong class="text-ink">{{ formatAmount(bucketTotals.installments, 'DKK') }}</strong>
                                         </span>
                                     </Tooltip>
                                     <span class="flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#E0A83D"></span>
+                                        <span class="w-2.5 h-2.5 rounded-sm bg-warning"></span>
                                         <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.assumed') }}</span>
                                         <strong class="text-ink">{{ formatAmount(state.forecast.assumed_total, 'DKK') }}</strong>
                                     </span>
                                     <Tooltip :text="$t('superadmin.report.forecast.help.assumedRenewal')" position="top" wrap>
                                         <span class="flex items-center gap-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#F0CE8B"></span>
+                                            <span class="w-2.5 h-2.5 rounded-sm bg-warning-line"></span>
                                             <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.assumedRenewal') }}</span>
                                             <strong class="text-ink">{{ formatAmount(bucketTotals.assumed_renewal, 'DKK') }}</strong>
                                         </span>
@@ -353,6 +353,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
@@ -402,19 +403,19 @@ const hasFinancials = computed(() => state.totals?.revenue !== null && state.tot
 const totalCards = computed(() => {
     const totals = state.totals ?? {}
     const cards = [
-        { key: 'new', accent: '#2E9E33', label: t('superadmin.report.totals.newCompanies'), value: totals.new_companies ?? 0, tone: 'text-success' },
+        { key: 'new', accent: SA_COLORS.success, label: t('superadmin.report.totals.newCompanies'), value: totals.new_companies ?? 0, tone: 'text-success' },
         {
-            key: 'churned', accent: '#CC3B2D', label: t('superadmin.report.totals.churnedCompanies'),
+            key: 'churned', accent: SA_COLORS.danger, label: t('superadmin.report.totals.churnedCompanies'),
             value: totals.churned_companies ?? 0,
             tone: (totals.churned_companies ?? 0) > 0 ? 'text-danger' : 'text-ink',
         },
-        { key: 'net', accent: '#205E77', label: t('superadmin.report.totals.netCompanies'), value: formatSigned(totals.net_companies ?? 0), tone: 'text-ink' },
-        { key: 'users', accent: '#368F8B', label: t('superadmin.report.totals.newUsers'), value: totals.new_users ?? 0, tone: 'text-ink' },
+        { key: 'net', accent: SA_COLORS.primary, label: t('superadmin.report.totals.netCompanies'), value: formatSigned(totals.net_companies ?? 0), tone: 'text-ink' },
+        { key: 'users', accent: SA_COLORS.sea, label: t('superadmin.report.totals.newUsers'), value: totals.new_users ?? 0, tone: 'text-ink' },
     ]
 
     if (hasFinancials.value) {
         cards.push({
-            key: 'revenue', accent: '#42AED9', label: t('superadmin.report.totals.revenue'),
+            key: 'revenue', accent: SA_COLORS.accent, label: t('superadmin.report.totals.revenue'),
             value: formatAmount(totals.revenue, 'DKK'), tone: 'text-ink',
         })
     }
@@ -502,29 +503,29 @@ const forecastOption = computed(() => ({
     xAxis: {
         type: 'category',
         data: forecastMonths.value.map((month: any) => moment(month.month + '-01').format('MMM YY')),
-        axisLabel: { rotate: forecastMonths.value.length > 14 ? 45 : 0, color: '#5C6478' },
+        axisLabel: { rotate: forecastMonths.value.length > 14 ? 45 : 0, color: SA_COLORS.inkBody },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     series: [
         {
             name: t('superadmin.report.forecast.series.contracted'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#1C6E9C', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.secondary, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.contracted),
         },
         {
             name: t('superadmin.report.forecast.series.installments'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#368F8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.sea, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.installments ?? 0),
         },
         {
             name: t('superadmin.report.forecast.series.assumed'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#E0A83D', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.warning, borderColor: SA_COLORS.white, borderWidth: 2 },
             // Skravering oveni farven: den del der hviler på en antagelse skal
             // også kunne ses i sort/hvid, på en projektor og af en farveblind.
             // Farven alene bærer ikke den skelnen.
@@ -537,7 +538,7 @@ const forecastOption = computed(() => ({
             name: t('superadmin.report.forecast.series.assumedRenewal'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#F0CE8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.warningLine, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.assumed_renewal ?? 0),
             decal: { symbol: 'rect', dashArrayX: [1, 0], dashArrayY: [8, 4], rotation: -Math.PI / 4, color: 'rgba(31,37,51,0.25)' },
         },
@@ -575,14 +576,14 @@ const forecastCumulativeOption = computed(() => ({
         axisLabel: { show: false },
         axisTick: { show: false },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     series: [
         {
             name: t('superadmin.report.forecast.series.cumulative'),
             type: 'line',
             smooth: true,
             showSymbol: false,
-            itemStyle: { color: '#205E77' },
+            itemStyle: { color: SA_COLORS.primary },
             lineStyle: { width: 2 },
             areaStyle: { color: 'rgba(32,94,119,0.08)' },
             data: forecastMonths.value.map((month: any) => month.cumulative),
@@ -609,9 +610,9 @@ const baseOption = (extra: any) => ({
     xAxis: {
         type: 'category',
         data: labels.value,
-        axisLabel: { rotate: labels.value.length > 8 ? 35 : 0, color: '#5C6478' },
+        axisLabel: { rotate: labels.value.length > 8 ? 35 : 0, color: SA_COLORS.inkBody },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     ...extra,
 })
 
@@ -621,20 +622,20 @@ const customersOption = computed(() => baseOption({
         {
             name: t('superadmin.report.series.newCompanies'),
             type: 'bar',
-            itemStyle: { color: '#2E9E33' },
+            itemStyle: { color: SA_COLORS.success },
             data: state.buckets.map((b: any) => b.new_companies),
         },
         {
             name: t('superadmin.report.series.churnedCompanies'),
             type: 'bar',
-            itemStyle: { color: '#CC3B2D' },
+            itemStyle: { color: SA_COLORS.danger },
             data: state.buckets.map((b: any) => b.churned_companies),
         },
         {
             name: t('superadmin.report.series.netCompanies'),
             type: 'line',
             smooth: true,
-            itemStyle: { color: '#205E77' },
+            itemStyle: { color: SA_COLORS.primary },
             lineStyle: { width: 2 },
             data: state.buckets.map((b: any) => b.net_companies),
         },
@@ -649,7 +650,7 @@ const revenueOption = computed(() => baseOption({
     series: [{
         name: t('superadmin.report.series.revenue'),
         type: 'bar',
-        itemStyle: { color: '#42AED9' },
+        itemStyle: { color: SA_COLORS.accent },
         data: state.buckets.map((b: any) => b.revenue ?? 0),
     }],
 }))
@@ -666,7 +667,7 @@ const mrrOption = computed(() => baseOption({
         // Buckets before recording started stay null, so the line starts where
         // the data does instead of climbing out of a fake zero.
         connectNulls: false,
-        itemStyle: { color: '#2E9E33' },
+        itemStyle: { color: SA_COLORS.success },
         areaStyle: { opacity: 0.08 },
         data: state.buckets.map((b: any) => b.mrr),
     }],
@@ -676,7 +677,7 @@ const usersOption = computed(() => baseOption({
     series: [{
         name: t('superadmin.report.series.newUsers'),
         type: 'bar',
-        itemStyle: { color: '#368F8B' },
+        itemStyle: { color: SA_COLORS.sea },
         data: state.buckets.map((b: any) => b.new_users),
     }],
 }))

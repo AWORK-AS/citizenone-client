@@ -25,7 +25,7 @@
 						<div class="flex items-center bg-white border border-line-strong rounded-lg p-0.5">
 							<button v-for="r in timeRanges" :key="r.key"
 								class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
-								:style="timeRange === r.key && !customRange ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+								:class="timeRange === r.key && !customRange ? 'bg-tertiary text-white' : 'text-ink-body'"
 								@click="setTimeRange(r.key)">
 								{{ r.label }}
 							</button>
@@ -66,7 +66,7 @@
 				<!-- ═══ SECTION 1: REVENUE ═══ -->
 				<div class="mb-2">
 					<div class="flex items-center gap-2 mb-4">
-						<div class="w-2 h-6 rounded-full" style="background:#42AED9"></div>
+						<div class="w-2 h-6 rounded-full bg-accent"></div>
 						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.revenue') }}
 						</h2>
@@ -203,7 +203,7 @@
 									<span class="text-ink-body">MRR</span>
 								</div>
 								<div class="flex items-center gap-1.5">
-									<div class="w-2.5 h-2.5 rounded-sm bg-[#99BBE0]"></div>
+									<div class="w-2.5 h-2.5 rounded-sm bg-accent-pale"></div>
 									<span class="text-ink-body">
 										{{ $t('superadmin.finance.newARR') }}
 									</span>
@@ -217,16 +217,15 @@
 									class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-ink text-white text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
 									{{ m.month }}: {{ fmt(m.mrr) }}
 								</div>
-								<div class="w-full rounded-t-sm transition-all"
-									:style="`height:${Math.max(m.pct, 8)}%;background:#42AED9;opacity:${kpis.mrr > 0 ? (i === chartData.length - 1 ? 1 : 0.5 + i * 0.07) : 0.18 + i * 0.04}`" />
-								<div class="text-[9px] absolute bottom-0" style="color:#8891A4">
+								<div class="w-full rounded-t-sm transition-all bg-accent"
+									:style="`height:${Math.max(m.pct, 8)}%;opacity:${kpis.mrr > 0 ? (i === chartData.length - 1 ? 1 : 0.5 + i * 0.07) : 0.18 + i * 0.04}`" />
+								<div class="text-[9px] absolute bottom-0 text-ink-muted">
 									{{ m.shortMonth }}
 								</div>
 							</div>
 							<div v-if="kpis.mrr === 0"
 								class="absolute inset-x-0 top-0 bottom-6 flex items-center justify-center pointer-events-none z-10">
-								<div class="flex flex-col items-center gap-1.5 bg-white/80 px-4 py-2 rounded-lg"
-									style="color:#8891A4">
+								<div class="flex flex-col items-center gap-1.5 bg-white/80 px-4 py-2 rounded-lg text-ink-muted">
 									<svg class="w-6 h-6 opacity-40" fill="none" viewBox="0 0 24 24"
 										stroke="currentColor">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -301,7 +300,7 @@
 				<!-- ═══ SECTION 2: COMPANIES & LICENSES ═══ -->
 				<div class="mb-5">
 					<div class="flex items-center gap-2 mb-4">
-						<div class="w-2 h-6 rounded-full" style="background:#205E77"></div>
+						<div class="w-2 h-6 rounded-full bg-tertiary"></div>
 						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.companiesLicenses') }}
 						</h2>
@@ -474,7 +473,7 @@
 				<!-- ═══ SECTION 3: GROWTH ═══ -->
 				<div class="mb-5">
 					<div class="flex items-center gap-2 mb-4">
-						<div class="w-2 h-6 rounded-full" style="background:#2E9E33"></div>
+						<div class="w-2 h-6 rounded-full bg-success"></div>
 						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.growth') }}
 						</h2>
@@ -584,7 +583,7 @@
 				<!-- ═══ SECTION 4: RISK ═══ -->
 				<div>
 					<div class="flex items-center gap-2 mb-4">
-						<div class="w-2 h-6 rounded-full" style="background:#CC3B2D"></div>
+						<div class="w-2 h-6 rounded-full bg-danger"></div>
 						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.risk') }}
 						</h2>
@@ -703,7 +702,8 @@
 											{{ m.month }}: {{ m.rate.toFixed(1) }}%
 										</div>
 										<div class="w-full rounded-t-sm"
-											:style="`height:${Math.max(m.pct, 6)}%;background:${m.rate > 3 ? '#CC3B2D' : m.rate > 1.5 ? '#D4900A' : '#42AED9'}`" />
+											:class="m.rate > 3 ? 'bg-danger' : m.rate > 1.5 ? 'bg-warning' : 'bg-accent'"
+											:style="`height:${Math.max(m.pct, 6)}%`" />
 										<div class="text-[9px] text-ink-muted">
 											{{ m.shortMonth }}
 										</div>
@@ -745,6 +745,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS, SA_SOFT_PAIRS } from '@/utils/superadminPalette'
 import { invoiceService } from '~/components/api/superadmin/InvoiceService'
 import { companyService } from '~/components/api/superadmin/CompanyService'
 import { useI18n } from 'vue-i18n'
@@ -802,9 +803,9 @@ const churnedRevenuePct = computed(() => kpis.mrr ? Math.min(100, Math.round(kpi
 const planDistribution = computed(() => {
 	const total = kpis.activeClients || 1
 	return [
-		{ name: 'Pro', color: '#205E77', count: Math.round(total * 0.35), revenue: kpis.mrr * 0.65, pct: 65 },
-		{ name: 'Basis', color: '#42AED9', count: Math.round(total * 0.50), revenue: kpis.mrr * 0.32, pct: 32 },
-		{ name: 'Gratis', color: '#A8D9F0', count: Math.round(total * 0.15), revenue: 0, pct: 3 },
+		{ name: 'Pro', color: SA_COLORS.primary, count: Math.round(total * 0.35), revenue: kpis.mrr * 0.65, pct: 65 },
+		{ name: 'Basis', color: SA_COLORS.accent, count: Math.round(total * 0.50), revenue: kpis.mrr * 0.32, pct: 32 },
+		{ name: 'Gratis', color: SA_COLORS.accentPale, count: Math.round(total * 0.15), revenue: 0, pct: 3 },
 	]
 })
 
@@ -814,10 +815,10 @@ const funnel = computed(() => {
 	const trials = Math.max(1, kpis.trialCount + kpis.activeClients)
 	const paying = kpis.activeClients
 	return [
-		{ label: t('superadmin.finance.visitors'), count: visitors, pct: 100, convRate: 100, color: '#99BBE0' },
-		{ label: t('superadmin.finance.signup'), count: signups, pct: 100, convRate: Math.round(signups / visitors * 100), color: '#42AED9' },
-		{ label: 'Trial', count: trials, pct: Math.round(trials / Math.max(1, signups) * 100), convRate: Math.round(trials / Math.max(1, signups) * 100), color: '#2C8F89' },
-		{ label: t('superadmin.finance.paying'), count: paying, pct: Math.round(paying / Math.max(1, trials) * 100), convRate: Math.round(paying / Math.max(1, trials) * 100), color: '#205E77' },
+		{ label: t('superadmin.finance.visitors'), count: visitors, pct: 100, convRate: 100, color: SA_COLORS.accentPale },
+		{ label: t('superadmin.finance.signup'), count: signups, pct: 100, convRate: Math.round(signups / visitors * 100), color: SA_COLORS.accent },
+		{ label: 'Trial', count: trials, pct: Math.round(trials / Math.max(1, signups) * 100), convRate: Math.round(trials / Math.max(1, signups) * 100), color: SA_COLORS.sea },
+		{ label: t('superadmin.finance.paying'), count: paying, pct: Math.round(paying / Math.max(1, trials) * 100), convRate: Math.round(paying / Math.max(1, trials) * 100), color: SA_COLORS.primary },
 	]
 })
 
@@ -838,7 +839,7 @@ const alerts = computed(() => {
 })
 
 // ── Helpers ───────────────────────────────────────────────────────────────
-const COLORS = [['#E4F1F6', '#205E77'], ['#EEF8F8', '#22706A'], ['#EAF3DE', '#3B6D11'], ['#FAEEDA', '#633806'], ['#FBEAF0', '#72243E']]
+const COLORS = SA_SOFT_PAIRS
 const initials = (n: string) => (n || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 const avatarBg = (n: string) => COLORS[(n?.charCodeAt(0) ?? 0) % COLORS.length][0]
 const avatarColor = (n: string) => COLORS[(n?.charCodeAt(0) ?? 0) % COLORS.length][1]

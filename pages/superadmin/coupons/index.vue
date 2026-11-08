@@ -15,8 +15,7 @@
                         </h1>
                     </div>
                     <button @click="navigateTo('/superadmin/coupons/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.coupons.newCoupon') }}
                     </button>

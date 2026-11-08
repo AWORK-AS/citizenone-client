@@ -159,7 +159,7 @@
                 <button type="button"
                     @click="state.formCompany.send_welcome_email = !state.formCompany.send_welcome_email"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.send_welcome_email ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.send_welcome_email ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.send_welcome_email ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -178,7 +178,7 @@
                 </div>
                 <button type="button" @click="state.formCompany.is_active = !state.formCompany.is_active"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.is_active ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -193,7 +193,7 @@
                 <button type="button"
                     @click="state.formCompany.vat_exempt_invoicing_enabled = !state.formCompany.vat_exempt_invoicing_enabled"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.vat_exempt_invoicing_enabled ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.vat_exempt_invoicing_enabled ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.vat_exempt_invoicing_enabled ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -207,8 +207,7 @@
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ formType === 'create' ? $t('superadmin.companies.saveCompany') : $t('update') }}
             </button>
         </div>

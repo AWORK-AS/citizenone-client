@@ -100,6 +100,7 @@ export default {
           /* Superadmin accent: toggles, focus rings, chart highlights. */
           DEFAULT: '#42AED9',
           soft: '#F0FAFD',
+          pale: '#A8D9F0',
           /* Superadmin's calm sea-green, for stats that are neither good nor bad. */
           sea: '#368F8B',
           'sea-soft': '#EEF8F8',

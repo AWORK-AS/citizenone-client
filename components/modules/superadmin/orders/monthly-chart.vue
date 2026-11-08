@@ -17,7 +17,7 @@
                     :aria-label="$t('superadmin.orders.report.monthly')">
                     <!-- Recessive grid with value labels -->
                     <g v-for="tick in ticks" :key="tick.value">
-                        <line :x1="PAD_LEFT" :x2="WIDTH - PAD_RIGHT" :y1="tick.y" :y2="tick.y" stroke="#EEF0F3" stroke-width="1" />
+                        <line :x1="PAD_LEFT" :x2="WIDTH - PAD_RIGHT" :y1="tick.y" :y2="tick.y" class="stroke-line" stroke-width="1" />
                         <text :x="PAD_LEFT - 6" :y="tick.y + 3" text-anchor="end" class="co-chart-axis">{{ tick.label }}</text>
                     </g>
 
@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
@@ -67,9 +68,9 @@ const { locale } = useI18n()
 // Validated with the dataviz palette check (light surface): all checks pass;
 // the teal sits under 3:1 contrast, so the legend and tooltip carry the values.
 const SERIES = [
-    { key: 'new_revenue', label: 'superadmin.orders.report.seriesNew', color: '#0B6FA4' },
-    { key: 'recurring_revenue', label: 'superadmin.orders.report.seriesRecurring', color: '#2DBAB2' },
-    { key: 'sms_credit_revenue', label: 'superadmin.orders.report.seriesSms', color: '#9B4D9B' },
+    { key: 'new_revenue', label: 'superadmin.orders.report.seriesNew', color: SA_COLORS.secondary },
+    { key: 'recurring_revenue', label: 'superadmin.orders.report.seriesRecurring', color: SA_COLORS.teal },
+    { key: 'sms_credit_revenue', label: 'superadmin.orders.report.seriesSms', color: SA_COLORS.plum },
 ] as const
 
 const WIDTH = 640

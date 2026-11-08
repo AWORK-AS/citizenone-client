@@ -37,28 +37,28 @@
 
                 <!-- Key figures -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="co-stat-card" style="--accent:#2E9E33">
+                    <div class="co-stat-card [--accent:theme(colors.success.DEFAULT)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.revenue') }}</p>
                         <p class="co-stat-value text-success">{{ dkk(summary.revenue) }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.revenueSub', { new: dkk(summary.new_revenue), recurring: dkk(summary.recurring_revenue) }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card" style="--accent:#0B6FA4">
+                    <div class="co-stat-card [--accent:theme(colors.secondary.DEFAULT)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.ordersCount') }}</p>
                         <p class="co-stat-value">{{ summary.orders }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.ordersSub', { new: summary.new_orders, recurring: summary.recurring_orders }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card" style="--accent:#2DBAB2">
+                    <div class="co-stat-card [--accent:theme(colors.secondary.400)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.average') }}</p>
                         <p class="co-stat-value">{{ dkk(summary.average_order) }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.averageSub', { count: summary.buying_companies }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#CC3B2D"
+                    <div class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.danger.DEFAULT)]"
                         @click="filterByStatus('failed')">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.attention') }}</p>
                         <p class="co-stat-value" :class="summary.failed_orders > 0 ? 'text-danger' : ''">

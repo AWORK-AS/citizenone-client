@@ -35,7 +35,7 @@
                          hvor meget der ikke kommer ind, og hvor mange aftaler det
                          er. CARR er udeladt; den er ARR ganget med det samme
                          forhold og tilføjede intet man kunne handle på. -->
-                    <div v-if="state.recurringRevenue" class="co-stat-card" style="--accent:#2E9E33">
+                    <div v-if="state.recurringRevenue" class="co-stat-card [--accent:theme(colors.success.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
@@ -71,16 +71,14 @@
                                     </Tooltip>
                                 </div>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EDF7EE">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-success-soft">
                                 <Icon name="ph:chart-line-up" class="w-5 h-5 text-success" />
                             </div>
                         </div>
                     </div>
 
                     <!-- Contracted: what the agreements are scheduled to bill -->
-                    <div v-if="state.recurringRevenue?.contracted_next_12_months !== undefined" class="co-stat-card"
-                        style="--accent:#42AED9">
+                    <div v-if="state.recurringRevenue?.contracted_next_12_months !== undefined" class="co-stat-card [--accent:theme(colors.accent.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
@@ -103,15 +101,14 @@
                                     <Icon name="ph:arrow-right" class="w-3 h-3" />
                                 </NuxtLink>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E8F6FC">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-soft">
                                 <Icon name="ph:calendar-check" class="w-5 h-5 text-accent" />
                             </div>
                         </div>
                     </div>
 
                     <!-- Churn -->
-                    <div v-if="state.churn" class="co-stat-card" style="--accent:#CC3B2D">
+                    <div v-if="state.churn" class="co-stat-card [--accent:theme(colors.danger.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
@@ -131,8 +128,7 @@
                                     }) }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#FFF0F0">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-danger-soft">
                                 <Icon name="ph:user-minus" class="w-5 h-5 text-danger" />
                             </div>
                         </div>
@@ -175,8 +171,8 @@
                                 <!-- Andelen som en tynd streg: den gør rangordenen
                                      synlig uden at gøre listen til en graf. -->
                                 <div class="h-1 bg-surface-canvas rounded-full mt-1 overflow-hidden">
-                                    <div class="h-full rounded-full"
-                                        :style="`width:${Math.min(100, row.share)}%;background:#1C6E9C`"></div>
+                                    <div class="h-full rounded-full bg-secondary"
+                                        :style="`width:${Math.min(100, row.share)}%`"></div>
                                 </div>
                             </div>
                             <div class="text-right shrink-0">

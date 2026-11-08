@@ -2,7 +2,7 @@
     <div v-if="hasData" class="space-y-4">
         <div class="grid grid-cols-2 gap-4" :class="showHeadline ? 'lg:grid-cols-5' : 'lg:grid-cols-4'">
             <!-- Contract MRR / ARR: the headline -->
-            <div v-if="showHeadline" class="co-metric-card" style="--accent:#2E9E33">
+            <div v-if="showHeadline" class="co-metric-card [--accent:theme(colors.success.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.contractMrr') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.contractMrr')" position="bottom" wrap>
@@ -17,7 +17,7 @@
             </div>
 
             <!-- Cash MRR. The 12-month total is the "Kontraheret, næste 12 mdr." card on Ledelse. -->
-            <div class="co-metric-card" style="--accent:#42AED9">
+            <div class="co-metric-card [--accent:theme(colors.accent.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.cashMrr') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.cashMrr')" position="bottom" wrap>
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Backlog -->
-            <div class="co-metric-card" style="--accent:#205E77">
+            <div class="co-metric-card [--accent:theme(colors.tertiary.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.backlog') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.backlog')" position="bottom" wrap>
@@ -42,7 +42,7 @@
             </div>
 
             <!-- Outstanding -->
-            <div class="co-metric-card" style="--accent:#CC3B2D">
+            <div class="co-metric-card [--accent:theme(colors.danger.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.outstanding') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.outstanding')" position="bottom" wrap>
@@ -57,7 +57,7 @@
             </div>
 
             <!-- Bindings ending -->
-            <div class="co-metric-card" style="--accent:#E0A83D">
+            <div class="co-metric-card [--accent:theme(colors.warning.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.bindingsEnding') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.bindingsEnding')" position="bottom" wrap>

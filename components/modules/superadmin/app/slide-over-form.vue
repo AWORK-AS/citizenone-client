@@ -110,7 +110,7 @@
             <div class="flex items-center gap-2 cursor-pointer select-none"
                 @click="state.form.is_public = !state.form.is_public">
                 <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                    :style="state.form.is_public ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                    :class="state.form.is_public ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                     <Icon v-if="state.form.is_public" name="ph:check" class="w-2.5 h-2.5 text-white" />
                 </div>
                 <span class="text-[13px] font-medium text-ink">{{ $t('superadmin.apps.form.isPublic') }}</span>
@@ -138,7 +138,7 @@
                     <SuperadminFormTextField v-model="state.newScreenshot.url" type="url" placeholder="https://..." />
                     <button type="button"
                         class="rounded-lg border border-line-strong px-3 text-[12px] font-medium text-tertiary disabled:opacity-50"
-                        :disabled="!state.newScreenshot.url || state.isUploadingScreenshot" @click="addScreenshot">
+                       :disabled="!state.newScreenshot.url || state.isUploadingScreenshot" @click="addScreenshot">
                         {{ $t('superadmin.apps.form.addScreenshot') }}
                     </button>
                 </div>
@@ -149,7 +149,7 @@
                         class="hidden" @change="uploadScreenshot" />
                     <button type="button"
                         class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-line-strong px-3 py-2 text-[12px] font-medium text-ink-body hover:border-accent hover:text-tertiary disabled:opacity-50"
-                        :disabled="state.isUploadingScreenshot" @click="screenshotFile?.click()">
+                       :disabled="state.isUploadingScreenshot" @click="screenshotFile?.click()">
                         <Icon :name="state.isUploadingScreenshot ? 'ph:spinner' : 'ph:upload-simple'"
                             :class="['w-4 h-4', state.isUploadingScreenshot && 'animate-spin']" />
                         {{ $t('superadmin.apps.form.uploadScreenshot') }}
@@ -163,7 +163,7 @@
         <div class="flex items-center gap-2 cursor-pointer select-none"
             @click="state.form.is_one_time_fee = !state.form.is_one_time_fee">
             <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                :style="state.form.is_one_time_fee ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                :class="state.form.is_one_time_fee ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                 <Icon v-if="state.form.is_one_time_fee" name="ph:check" class="w-2.5 h-2.5 text-white" />
             </div>
             <span class="text-[13px] font-medium text-ink">{{ $t('superadmin.apps.form.isOneTimeFee') }}</span>
@@ -285,7 +285,7 @@
             <div v-for="flag in boolFlags" :key="flag.key" class="flex items-center gap-2 cursor-pointer select-none"
                 @click="(state.form as any)[flag.key] = !(state.form as any)[flag.key]">
                 <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                    :style="(state.form as any)[flag.key] ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                    :class="(state.form as any)[flag.key] ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                     <Icon v-if="(state.form as any)[flag.key]" name="ph:check" class="w-2.5 h-2.5 text-white" />
                 </div>
                 <span class="text-[13px] font-medium text-ink">{{ $t(flag.label) }}</span>
@@ -300,7 +300,7 @@
             </div>
             <button type="button" @click="state.form.is_active = !state.form.is_active"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                :style="state.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                :class="state.form.is_active ? 'bg-accent' : 'bg-line-strong'">
                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                     :class="state.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
             </button>
@@ -313,8 +313,7 @@
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>

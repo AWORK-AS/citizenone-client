@@ -22,7 +22,7 @@
                         </p>
                     </div>
 
-                    <button v-if="canManage" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40" style="background:#205E77" @click="startNewRole">
+                    <button v-if="canManage" type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary"  @click="startNewRole">
                         <Icon name="ph:plus" class="size-4" />
                         {{ $t('superadmin.teamRoles.newRole') }}
                     </button>
@@ -45,7 +45,7 @@
                                 <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-ink-body border border-line bg-white transition-colors disabled:opacity-40" @click="draft = null">
                                     {{ $t('cancel') }}
                                 </button>
-                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40" style="background:#205E77" :disabled="!draft.name || state.isSaving"
+                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary"  :disabled="!draft.name || state.isSaving"
                                     @click="createRole">
                                     {{ $t('save') }}
                                 </button>
@@ -70,15 +70,15 @@
 
                             <div class="flex gap-2 ml-auto" v-if="canManage && !role.is_locked">
                                 <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-ink-body border border-line bg-white transition-colors disabled:opacity-40"
-                                    :disabled="state.isSaving || !isDirty(role)" @click="resetRole(role)">
+                                   :disabled="state.isSaving || !isDirty(role)" @click="resetRole(role)">
                                     {{ $t('cancel') }}
                                 </button>
-                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40" style="background:#205E77"
-                                    :disabled="state.isSaving || !isDirty(role)" @click="saveRole(role)">
+                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary"
+                                   :disabled="state.isSaving || !isDirty(role)" @click="saveRole(role)">
                                     {{ $t('save') }}
                                 </button>
                                 <button type="button" class="co-badge co-badge-red disabled:opacity-40"
-                                    :disabled="state.isSaving" @click="removeRole(role)">
+                                   :disabled="state.isSaving" @click="removeRole(role)">
                                     <Icon name="ph:trash" class="size-4" />
                                 </button>
                             </div>
@@ -89,7 +89,7 @@
                         </p>
 
                         <PermissionGrid v-model="role.permissions" :permissions="state.permissions"
-                            :disabled="role.is_locked || !canManage" />
+                           :disabled="role.is_locked || !canManage" />
                     </div>
                 </div>
             </div>

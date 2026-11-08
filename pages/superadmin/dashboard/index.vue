@@ -26,8 +26,7 @@
                         </p>
                     </div>
                     <button @click="navigateTo('/superadmin/companies/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.companies.newCompany') }}
                     </button>
@@ -37,7 +36,7 @@
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Clients -->
                     <div @click="navigateTo('/superadmin/companies')"
-                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#42AED9">
+                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.accent.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="co-stat-label">
@@ -51,8 +50,7 @@
                                     {{ $t('superadmin.dashboard.activeCompanies') }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
                                 <Icon name="ph:buildings" class="w-5 h-5 text-tertiary" />
                             </div>
                         </div>
@@ -60,7 +58,7 @@
 
                     <!-- Paying -->
                     <div @click="navigateTo('/superadmin/companies?paying=true')"
-                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#2E9E33">
+                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.success.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="co-stat-label">
@@ -74,15 +72,14 @@
                                     {{ $t('superadmin.dashboard.activeSubscribers') }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EDF7EE">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-success-soft">
                                 <Icon name="ph:currency-circle-dollar" class="w-5 h-5 text-success" />
                             </div>
                         </div>
                     </div>
 
                     <!-- Users -->
-                    <div class="co-stat-card" style="--accent:#368F8B">
+                    <div class="co-stat-card [--accent:theme(colors.accent.sea)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="co-stat-label">
@@ -96,8 +93,7 @@
                                     {{ $t('superadmin.dashboard.registeredUsers') }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EEF8F8">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-sea-soft">
                                 <Icon name="ph:users-three" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
@@ -105,7 +101,7 @@
 
                     <!-- Invoices -->
                     <div @click="navigateTo('/superadmin/invoices')"
-                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#368F8B">
+                        class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.accent.sea)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <p class="co-stat-label">
@@ -119,8 +115,7 @@
                                     {{ $t('superadmin.dashboard.invoicesCreated') }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EEF8F8">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-sea-soft">
                                 <Icon name="ph:invoice" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
@@ -131,7 +126,7 @@
                      Ledelse-fanen, bag sin egen rettighed. -->
                 <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
                     <!-- Users right now -->
-                    <div class="co-stat-card" style="--accent:#42AED9">
+                    <div class="co-stat-card [--accent:theme(colors.accent.DEFAULT)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
@@ -146,15 +141,14 @@
                                     {{ $t('superadmin.dashboard.adoption.activeToday', { count: state.usersActiveToday }) }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
                                 <Icon name="ph:pulse" class="w-5 h-5 text-tertiary" />
                             </div>
                         </div>
                     </div>
 
                     <!-- Companies active today -->
-                    <div class="co-stat-card" style="--accent:#368F8B">
+                    <div class="co-stat-card [--accent:theme(colors.accent.sea)]">
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
@@ -169,8 +163,7 @@
                                     {{ $t('superadmin.dashboard.adoption.activeThisWeek', { count: state.companiesActiveThisWeek }) }}
                                 </p>
                             </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EEF8F8">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-accent-sea-soft">
                                 <Icon name="ph:buildings" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
@@ -367,6 +360,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_SERIES } from '@/utils/superadminPalette'
 import moment from 'moment'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
@@ -395,7 +389,7 @@ const formattedDate = computed(() => {
     return new Date().toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 })
 
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
+const COLORS = SA_SERIES
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 

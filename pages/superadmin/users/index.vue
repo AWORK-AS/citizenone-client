@@ -24,8 +24,7 @@
                         </p>
                     </div>
                     <button @click="showNewUserSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.users.newUser') }}
                     </button>
@@ -38,7 +37,7 @@
                     <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                         <button v-for="tab in tabs" :key="tab.key"
                             class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                            :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                            :class="state.activeTab === tab.key ? 'bg-tertiary text-white' : 'text-ink-body'"
                             @click="setTab(tab.key)">
                             {{ tab.label }}
                             <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>

@@ -28,18 +28,16 @@
                             </button>
                             <button v-for="role in roles" :key="role.key"
                                 @click="viewAs = viewAs === role.key ? null : role.key"
-                                class="px-3 py-1.5 rounded-md text-[12px] font-semibold transition-colors" :style="viewAs === role.key
-                                    ? `background:${role.color};color:white`
-                                    : 'color:#5C6478'">
+                                class="px-3 py-1.5 rounded-md text-[12px] font-semibold transition-colors"
+                                :class="viewAs === role.key ? 'text-white' : 'text-ink-body'"
+                                :style="viewAs === role.key ? { background: role.color } : undefined">
                                 {{ role.name }}
                             </button>
                         </div>
                         <!-- Edit button -->
                         <button @click="saveOrEdit"
                             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-colors border"
-                            :style="editMode
-                                ? 'background:#205E77;color:white;border-color:#205E77'
-                                : 'background:white;color:#5C6478;border-color:#EAECF0'">
+                            :class="editMode ? 'bg-tertiary text-white border-tertiary' : 'text-ink-body border-line bg-white'">
                             <Icon :name="editMode ? 'ph:check' : 'ph:pencil-simple'" class="w-4 h-4" />
                             {{
                                 editMode ?
@@ -125,14 +123,14 @@
                                     <button v-if="editMode && !role.fixed && !perm.locked"
                                         @click="togglePerm(role.key, perm.key)"
                                         class="w-5 h-5 rounded flex items-center justify-center transition-colors flex-shrink-0"
-                                        :style="perm.enabled
-                                            ? `background:${role.color}20;color:${role.color}`
-                                            : 'background:#F5F6F8;color:#D5D9E2'">
+                                        :class="perm.enabled ? '' : 'bg-surface-canvas text-line-strong'"
+                                        :style="perm.enabled ? `background:${role.color}20;color:${role.color}` : undefined">
                                         <Icon :name="perm.enabled ? 'ph:check-bold' : 'ph:minus'" class="w-3 h-3" />
                                     </button>
                                     <!-- Read mode: check/dash -->
                                     <span v-else class="flex-shrink-0"
-                                        :style="perm.enabled ? `color:${role.color}` : 'color:#D5D9E2'">
+                                        :class="perm.enabled ? '' : 'text-line-strong'"
+                                        :style="perm.enabled ? { color: role.color } : undefined">
                                         <Icon v-if="perm.enabled" name="ph:check-bold" class="w-3.5 h-3.5" />
                                         <Icon v-else-if="perm.locked" name="ph:lock-simple"
                                             class="w-3.5 h-3.5 text-line-strong" />
@@ -156,7 +154,7 @@
                     </div>
                     <table class="w-full">
                         <thead>
-                            <tr class="border-b border-line" style="background:#1A3D52">
+                            <tr class="border-b border-line bg-tertiary-800">
                                 <th
                                     class="text-left px-6 py-3 text-[11px] font-semibold text-white/70 uppercase tracking-[0.08em]">
                                     {{ $t('superadmin.clientRoles.colFunction') }}
@@ -310,6 +308,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
@@ -370,7 +369,7 @@ const ROLE_CONFIGS = [
         nameKey: 'superadmin.clientRoles.roleAdminName',
         descKey: 'superadmin.clientRoles.roleAdminDescription',
         icon: 'ph:shield-star',
-        color: '#205E77',
+        color: SA_COLORS.primary,
         fixed: true,
         gdpr: false,
     },
@@ -379,7 +378,7 @@ const ROLE_CONFIGS = [
         nameKey: 'superadmin.clientRoles.roleBusinessName',
         descKey: 'superadmin.clientRoles.roleBusinessDescription',
         icon: 'ph:briefcase',
-        color: '#42AED9',
+        color: SA_COLORS.accent,
         fixed: false,
         gdpr: true,
     },
@@ -388,7 +387,7 @@ const ROLE_CONFIGS = [
         nameKey: 'superadmin.clientRoles.roleEndUserName',
         descKey: 'superadmin.clientRoles.roleEndUserDescription',
         icon: 'ph:user-circle',
-        color: '#2E9E33',
+        color: SA_COLORS.success,
         fixed: false,
         gdpr: true,
     },

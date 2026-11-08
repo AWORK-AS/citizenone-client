@@ -94,7 +94,7 @@
                 </p>
                 <button type="button" @click="state.formCoupon.is_active = !state.formCoupon.is_active"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCoupon.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCoupon.is_active ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCoupon.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -108,8 +108,7 @@
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>

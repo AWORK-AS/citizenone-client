@@ -51,7 +51,7 @@
                         <Tooltip v-for="tab in tabs" :key="tab.key" :text="tab.help" position="bottom" wrap>
                             <button
                                 class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                                :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                                :class="state.activeTab === tab.key ? 'bg-tertiary text-white' : 'text-ink-body'"
                                 @click="setTabFilter(tab.key)">
                                 {{ tab.label }}
                                 <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>

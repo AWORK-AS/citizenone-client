@@ -353,6 +353,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/superadmin/AuthService'
 import { userService } from '@/components/api/superadmin/UserService'
@@ -435,9 +436,9 @@ async function fetchUser() {
 }
 
 const viewAsRoles = [
-    { key: 'admin', label: 'Administrator', color: '#205E77' },
-    { key: 'business', label: 'Forretning', color: '#42AED9' },
-    { key: 'end_user', label: 'Slutbruger', color: '#2E9E33' },
+    { key: 'admin', label: 'Administrator', color: SA_COLORS.primary },
+    { key: 'business', label: 'Forretning', color: SA_COLORS.accent },
+    { key: 'end_user', label: 'Slutbruger', color: SA_COLORS.success },
 ]
 const viewAsRole = ref<string | null>(null)
 

@@ -23,8 +23,7 @@
                         </p>
                     </div>
                     <NuxtLink to="/superadmin/apps"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.licenses.newLicense') }}
                     </NuxtLink>
@@ -66,10 +65,10 @@
                         <div class="flex items-center gap-3 flex-1 min-w-0">
                             <!-- App icon squares -->
                             <div class="grid grid-cols-2 gap-0.5 w-7 h-7 flex-shrink-0">
-                                <div class="rounded-sm" style="background:#42AED9"></div>
-                                <div class="rounded-sm" style="background:#205E77"></div>
-                                <div class="rounded-sm" style="background:#205E77"></div>
-                                <div class="rounded-sm" style="background:#42AED9"></div>
+                                <div class="rounded-sm bg-accent"></div>
+                                <div class="rounded-sm bg-tertiary"></div>
+                                <div class="rounded-sm bg-tertiary"></div>
+                                <div class="rounded-sm bg-accent"></div>
                             </div>
                             <div class="min-w-0">
                                 <div class="flex items-center gap-2">

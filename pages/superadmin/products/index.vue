@@ -24,14 +24,12 @@
                     </div>
                     <!-- Contextual create button -->
                     <button v-if="activeTab === 'plans'" @click="openPlanSlider(null)"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.products.newPackage') }}
                     </button>
                     <button v-if="activeTab === 'apps'" @click="openAppSlider(null)"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.products.newApp') }}
                     </button>
@@ -41,9 +39,9 @@
                 <div class="flex items-center gap-0 border-b border-line mb-6">
                     <button v-for="tab in tabs" :key="tab.key"
                         class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px flex items-center gap-1.5"
-                        :style="activeTab === tab.key
-                            ? 'border-color:#205E77;color:#205E77'
-                            : 'border-color:transparent;color:#8891A4'" @click="activeTab = tab.key">
+                        :class="activeTab === tab.key
+                            ? 'border-tertiary text-tertiary'
+                            : 'border-transparent text-ink-muted'" @click="activeTab = tab.key">
                         <Icon :name="tab.icon" class="w-3.5 h-3.5" />
                         {{ tab.label }}
                     </button>
@@ -169,17 +167,16 @@
                                 </p>
                             </div>
                             <button @click="openAddonSlider"
-                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-semibold transition-colors"
-                                style="color:#205E77;background:#F0FAFD;border:1px solid rgba(66,174,217,0.3)">
+                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-semibold transition-colors text-tertiary bg-accent-soft"
+                                style="border:1px solid rgba(66,174,217,0.3)">
                                 <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                 {{ $t('superadmin.products.editPrices') }}
                             </button>
                         </div>
                         <div class="grid grid-cols-2 divide-x divide-surface-canvas">
                             <div class="px-6 py-4 flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                                    style="background:#E4F1F6">
-                                    <Icon name="ph:user-plus" class="w-5 h-5" style="color:#205E77" />
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
+                                    <Icon name="ph:user-plus" class="w-5 h-5 text-tertiary"  />
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-[13px] font-semibold text-ink">
@@ -199,9 +196,8 @@
                                 </div>
                             </div>
                             <div class="px-6 py-4 flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                                    style="background:#EDF7EE">
-                                    <Icon name="ph:buildings" class="w-5 h-5" style="color:#2E9E33" />
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-success-soft">
+                                    <Icon name="ph:buildings" class="w-5 h-5 text-success"  />
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-[13px] font-semibold text-ink">
@@ -232,9 +228,8 @@
                         <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                     </div>
                     <div v-else-if="!state.apps.length" class="flex flex-col items-center gap-3 py-20 text-ink-muted">
-                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-2"
-                            style="background:#E4F1F6">
-                            <Icon name="ph:squares-four" class="w-8 h-8" style="color:#205E77" />
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-2 bg-tertiary-soft">
+                            <Icon name="ph:squares-four" class="w-8 h-8 text-tertiary"  />
                         </div>
                         <p class="text-[15px] font-semibold text-ink">
                             {{ $t('superadmin.products.noAppsYet') }}
@@ -243,8 +238,7 @@
                             {{ $t('superadmin.products.addAppsToStore') }}
                         </p>
                         <button @click="openAppSlider(null)"
-                            class="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                            style="background:#205E77">
+                            class="mt-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                             <Icon name="ph:plus" class="w-4 h-4 inline mr-1.5" />
                             {{ $t('superadmin.products.addFirstApp') }}
                         </button>
@@ -466,9 +460,8 @@
                                 <div class="space-y-2">
                                     <div v-for="(feat, i) in planSlider.form.featureList" :key="i"
                                         class="flex items-center gap-2">
-                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                                            style="background:#E4F1F6">
-                                            <Icon name="ph:check" class="w-3.5 h-3.5" style="color:#205E77" />
+                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
+                                            <Icon name="ph:check" class="w-3.5 h-3.5 text-tertiary"  />
                                         </div>
                                         <input v-model="planSlider.form.featureList[i]" type="text"
                                             :placeholder="$t('superadmin.products.phFeatureN', { n: i + 1 })"
@@ -500,7 +493,7 @@
                                         <button type="button"
                                             @click="planSlider.form.features[feat.key] = !planSlider.form.features[feat.key]"
                                             class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                                            :style="planSlider.form.features[feat.key] ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                            :class="planSlider.form.features[feat.key] ? 'bg-accent' : 'bg-line-strong'">
                                             <span
                                                 class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                                 :class="planSlider.form.features[feat.key] ? 'translate-x-6' : 'translate-x-1'"></span>
@@ -515,8 +508,8 @@
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="savePlan"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                                style="background:#205E77" :disabled="planSlider.isSaving">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary"
+                                :disabled="planSlider.isSaving">
                                 <span v-if="planSlider.isSaving" class="flex items-center justify-center gap-2">
                                     <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
                                     {{ $t('superadmin.products.saving') }}
@@ -560,9 +553,8 @@
                         <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
                             <div class="p-4 border border-line rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center"
-                                        style="background:#E4F1F6">
-                                        <Icon name="ph:user-plus" class="w-4 h-4" style="color:#205E77" />
+                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center bg-tertiary-soft">
+                                        <Icon name="ph:user-plus" class="w-4 h-4 text-tertiary"  />
                                     </div>
                                     <div>
                                         <p class="text-[13px] font-semibold text-ink">
@@ -583,9 +575,8 @@
                             </div>
                             <div class="p-4 border border-line rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
-                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center"
-                                        style="background:#EDF7EE">
-                                        <Icon name="ph:buildings" class="w-4 h-4" style="color:#2E9E33" />
+                                    <div class="w-9 h-9 rounded-lg flex items-center justify-center bg-success-soft">
+                                        <Icon name="ph:buildings" class="w-4 h-4 text-success"  />
                                     </div>
                                     <div>
                                         <p class="text-[13px] font-semibold text-ink">
@@ -616,8 +607,8 @@
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="saveAddonPrices"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                                style="background:#205E77" :disabled="addonSlider.isSaving">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary"
+                                :disabled="addonSlider.isSaving">
                                 <span v-if="addonSlider.isSaving" class="flex items-center justify-center gap-2">
                                     <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
                                     {{ $t('superadmin.products.saving') }}
@@ -685,9 +676,7 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <button v-for="appType in appTypes" :key="appType.value"
                                         class="py-2.5 px-3 rounded-xl border-2 text-[12px] font-medium transition-colors flex items-center gap-2"
-                                        :style="appSlider.form.type === appType.value
-                                            ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77'
-                                            : 'border-color:#EAECF0;color:#5C6478'"
+                                        :class="appSlider.form.type === appType.value ? 'border-accent bg-accent-soft text-tertiary' : 'border-line text-ink-body'"
                                         @click="appSlider.form.type = appType.value">
                                         <Icon :name="appType.icon" class="w-4 h-4" />
                                         {{ appType.label }}
@@ -755,7 +744,7 @@
                                 </div>
                                 <button type="button" @click="appSlider.form.is_active = !appSlider.form.is_active"
                                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                                    :style="appSlider.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                    :class="appSlider.form.is_active ? 'bg-accent' : 'bg-line-strong'">
                                     <span
                                         class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                         :class="appSlider.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
@@ -768,8 +757,8 @@
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="saveApp"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                                style="background:#205E77" :disabled="appSlider.isSaving">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary"
+                                :disabled="appSlider.isSaving">
                                 <span v-if="appSlider.isSaving" class="flex items-center justify-center gap-2">
                                     <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
                                     {{ $t('superadmin.products.saving') }}
@@ -793,6 +782,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS, SA_SERIES } from '@/utils/superadminPalette'
 import { appService } from '@/components/api/superadmin/AppService'
 import { productService } from '@/components/api/superadmin/ProductService'
 import { useAlert } from '@/composables/alert'
@@ -839,7 +829,7 @@ const plans = computed(() => [
         tagline: planPriceOverrides['gratis']?.tagline ?? t('superadmin.products.planTaglineFree'),
         price: planPriceOverrides['gratis']?.price ?? 0,
         yearly_price: planPriceOverrides['gratis']?.yearly_price ?? 0,
-        color: '#8891A4', icon: 'ph:gift',
+        color: SA_COLORS.inkMuted, icon: 'ph:gift',
         features: [
             { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
             { key: 'users', label: t('superadmin.products.featureUsers'), value: '1', rawValue: 1 },
@@ -855,7 +845,7 @@ const plans = computed(() => [
         tagline: planPriceOverrides['basis']?.tagline ?? t('superadmin.products.planTaglineBasis'),
         price: planPriceOverrides['basis']?.price ?? 249,
         yearly_price: planPriceOverrides['basis']?.yearly_price ?? 0,
-        color: '#42AED9', icon: 'ph:star',
+        color: SA_COLORS.accent, icon: 'ph:star',
         features: [
             { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
             { key: 'users', label: t('superadmin.products.featureUsers'), value: `1 ${t('superadmin.products.incl')}`, rawValue: 1 },
@@ -874,7 +864,7 @@ const plans = computed(() => [
         tagline: planPriceOverrides['pro']?.tagline ?? t('superadmin.products.planTaglinePro'),
         price: planPriceOverrides['pro']?.price ?? 449,
         yearly_price: planPriceOverrides['pro']?.yearly_price ?? 0,
-        color: '#205E77', icon: 'ph:crown-simple',
+        color: SA_COLORS.primary, icon: 'ph:crown-simple',
         features: [
             { key: 'admin', label: t('superadmin.products.featureAdmin'), value: '1', rawValue: 1 },
             { key: 'users', label: t('superadmin.products.featureUsers'), value: `3 ${t('superadmin.products.incl')}`, rawValue: 3 },
@@ -891,7 +881,7 @@ const plans = computed(() => [
     },
 ])
 
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
+const COLORS = SA_SERIES
 const APP_ICONS: Record<string, string> = {
     mail: 'ph:envelope', booking: 'ph:calendar', kursus: 'ph:graduation-cap',
     leads: 'ph:funnel', ai: 'ph:robot',

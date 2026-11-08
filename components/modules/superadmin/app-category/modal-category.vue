@@ -55,8 +55,8 @@
                         {{ $t('cancel') }}
                     </button>
                     <button type="submit"
-                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                        style="background:#205E77" :disabled="state.isLoading">
+                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary"
+                        :disabled="state.isLoading">
                         {{ props.category ? $t('update') : $t('save') }}
                     </button>
                 </div>

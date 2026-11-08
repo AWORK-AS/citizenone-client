@@ -22,8 +22,7 @@
                         </p>
                     </div>
                     <button @click="showNewCampaignSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.salesCampaign.newCampaign') }}
                     </button>
@@ -31,7 +30,7 @@
 
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white border border-line rounded-xl px-5 py-4 shadow-sm">
-                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#205E77`">
+                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl bg-tertiary">
                         </div>
                         <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                             {{ $t('superadmin.salesCampaign.statActiveCampaigns') }}
@@ -44,7 +43,7 @@
                         </p>
                     </div>
                     <div class="bg-white border border-line rounded-xl px-5 py-4 shadow-sm">
-                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#D4900A`">
+                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl bg-warning">
                         </div>
                         <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                             {{ $t('superadmin.salesCampaign.statExpiringSoon') }}
@@ -60,13 +59,13 @@
 
                 <!-- <div class="flex items-center gap-0 border-b border-line mb-5">
                     <button v-for="tab in mainTabs" :key="tab.key"
-                        class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px" :style="activeTab === tab.key
-                            ? 'border-color:#205E77;color:#205E77'
-                            : 'border-color:transparent;color:#8891A4'" @click="activeTab = tab.key">
+                        class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px" :class="activeTab === tab.key
+                            ? 'border-tertiary text-tertiary'
+                            : 'border-transparent text-ink-muted'" @click="activeTab = tab.key">
                         {{ tab.label }}
                         <span v-if="tab.count !== undefined"
                             class="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full font-bold"
-                            :style="activeTab === tab.key ? 'background:#E4F1F6;color:#205E77' : 'background:#F5F6F8;color:#8891A4'">
+                            :class="activeTab === tab.key ? 'bg-tertiary-soft text-tertiary' : 'bg-surface-canvas text-ink-muted'">
                             {{ tab.count }}
                         </span>
                     </button>
@@ -82,7 +81,7 @@
                         <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                             <button v-for="filter in campaignFilters" :key="filter.key"
                                 class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
-                                :style="campaignFilter === filter.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                                :class="campaignFilter === filter.key ? 'bg-tertiary text-white' : 'text-ink-body'"
                                 @click="campaignFilter = filter.key">
                                 {{ filter.label }}
                             </button>
@@ -139,9 +138,9 @@
                                     </span>
                                 </td>
                                 <td class="co-td">
-                                    <span class="co-badge text-[11px]" :style="campaignStatusStyle(campaign)">
+                                    <span class="co-badge text-[11px]" :class="campaignStatusStyle(campaign)">
                                         <span class="w-1.5 h-1.5 rounded-full"
-                                            :style="`background:${campaignStatusDot(campaign)}`"></span>
+                                            :class="campaignStatusDot(campaign)"></span>
                                         {{ campaignStatusLabel(campaign) }}
                                     </span>
                                 </td>
@@ -170,9 +169,8 @@
                     <!-- Extend trial -->
                     <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
-                                <Icon name="ph:clock-countdown" class="w-5 h-5" style="color:#205E77" />
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
+                                <Icon name="ph:clock-countdown" class="w-5 h-5 text-tertiary"  />
                             </div>
                             <div>
                                 <p class="text-[14px] font-semibold text-ink">
@@ -212,15 +210,15 @@
                                 <div class="flex gap-2">
                                     <button v-for="d in [7, 14, 30]" :key="d"
                                         class="px-4 py-2 rounded-lg border-2 text-[13px] font-medium transition-colors"
-                                        :style="tools.trial.days === d ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;color:#5C6478'"
+                                        :class="tools.trial.days === d ? 'border-accent bg-accent-soft text-tertiary' : 'border-line text-ink-body'"
                                         @click="tools.trial.days = d">
                                         {{ d }} {{ $t('superadmin.salesCampaign.days') }}
                                     </button>
                                 </div>
                             </div>
                             <button @click="extendTrial"
-                                class="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity"
-                                style="background:#205E77" :disabled="!tools.trial.company">
+                                class="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity bg-tertiary"
+                                :disabled="!tools.trial.company">
                                 {{ $t('superadmin.salesCampaign.btnExtendTrial') }}
                             </button>
                         </div>
@@ -229,9 +227,8 @@
                     <!-- Mass campaign -->
                     <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
-                                <Icon name="ph:broadcast" class="w-5 h-5" style="color:#205E77" />
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-tertiary-soft">
+                                <Icon name="ph:broadcast" class="w-5 h-5 text-tertiary"  />
                             </div>
                             <div>
                                 <p class="text-[14px] font-semibold text-ink">
@@ -271,9 +268,8 @@
                     <!-- Referral programme -->
                     <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                style="background:#EDF7EE">
-                                <Icon name="ph:share-network" class="w-5 h-5" style="color:#2E9E33" />
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-success-soft">
+                                <Icon name="ph:share-network" class="w-5 h-5 text-success"  />
                             </div>
                             <div>
                                 <p class="text-[14px] font-semibold text-ink">
@@ -291,7 +287,7 @@
                                 </span>
                                 <button type="button" @click="tools.referral.active = !tools.referral.active"
                                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                                    :style="tools.referral.active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                    :class="tools.referral.active ? 'bg-accent' : 'bg-line-strong'">
                                     <span
                                         class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                         :class="tools.referral.active ? 'translate-x-6' : 'translate-x-1'"></span>
@@ -314,9 +310,8 @@
                     <!-- Ad banner -->
                     <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
-                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                style="background:#FFF9EC">
-                                <Icon name="ph:megaphone-simple" class="w-5 h-5" style="color:#D4900A" />
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-warning-soft">
+                                <Icon name="ph:megaphone-simple" class="w-5 h-5 text-warning"  />
                             </div>
                             <div>
                                 <p class="text-[14px] font-semibold text-ink">
@@ -334,7 +329,7 @@
                                 </span>
                                 <button type="button" @click="tools.banner.active = !tools.banner.active"
                                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                                    :style="tools.banner.active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                    :class="tools.banner.active ? 'bg-accent' : 'bg-line-strong'">
                                     <span
                                         class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                         :class="tools.banner.active ? 'translate-x-6' : 'translate-x-1'"></span>
@@ -355,7 +350,7 @@
                                 <div class="flex gap-2">
                                     <button v-for="bt in bannerTypes" :key="bt.value"
                                         class="flex-1 py-2 rounded-lg border-2 text-[12px] font-semibold transition-colors"
-                                        :style="tools.banner.type === bt.value ? `border-color:${bt.color};background:${bt.bg};color:${bt.color}` : 'border-color:#EAECF0;color:#5C6478'"
+                                        :style="tools.banner.type === bt.value ? `border-color:${bt.color};background:${bt.bg};color:${bt.color}` : `border-color:${SA_COLORS.line};color:${SA_COLORS.inkBody}`"
                                         @click="tools.banner.type = bt.value">
                                         {{ bt.label }}
                                     </button>
@@ -384,6 +379,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS, SA_SERIES } from '@/utils/superadminPalette'
 import { campaignService } from '@/components/api/superadmin/CampaignService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
@@ -402,7 +398,7 @@ let currentTablePage = 1
 let searchTimeout: any = null
 let trialSearchTimeout: any = null
 
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
+const COLORS = SA_SERIES
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'
 
@@ -426,9 +422,9 @@ const campaignFilters = computed(() => [
 ])
 
 const bannerTypes = computed(() => [
-    { value: 'info', label: t('superadmin.salesCampaign.bannerInfo'), color: '#205E77', bg: '#E4F1F6' },
-    { value: 'success', label: t('superadmin.salesCampaign.bannerSuccess'), color: '#2E9E33', bg: '#EDF7EE' },
-    { value: 'warning', label: t('superadmin.salesCampaign.bannerWarning'), color: '#D4900A', bg: '#FFF9EC' },
+    { value: 'info', label: t('superadmin.salesCampaign.bannerInfo'), color: SA_COLORS.primary, bg: SA_COLORS.primarySoft },
+    { value: 'success', label: t('superadmin.salesCampaign.bannerSuccess'), color: SA_COLORS.success, bg: SA_COLORS.successSoft },
+    { value: 'warning', label: t('superadmin.salesCampaign.bannerWarning'), color: SA_COLORS.warning, bg: SA_COLORS.warningSoft },
 ])
 
 const campaignStatus = (c: any): 'active' | 'inactive' | 'expired' => {
@@ -444,15 +440,15 @@ const campaignStatusLabel = (c: any) => {
 }
 const campaignStatusStyle = (c: any) => {
     const s = campaignStatus(c)
-    if (s === 'active') return 'background:#EDF7EE;color:#2E9E33'
-    if (s === 'expired') return 'background:#FFF0F0;color:#CC3B2D'
-    return 'background:#F5F6F8;color:#5C6478'
+    if (s === 'active') return 'bg-success-soft text-success'
+    if (s === 'expired') return 'bg-danger-soft text-danger'
+    return 'bg-surface-canvas text-ink-body'
 }
 const campaignStatusDot = (c: any) => {
     const s = campaignStatus(c)
-    if (s === 'active') return '#2E9E33'
-    if (s === 'expired') return '#CC3B2D'
-    return '#8891A4'
+    if (s === 'active') return 'bg-success'
+    if (s === 'expired') return 'bg-danger'
+    return 'bg-ink-muted'
 }
 
 const state = reactive({
@@ -476,14 +472,14 @@ const state = reactive({
 const statCards = computed(() => [
     {
         label: t('superadmin.salesCampaign.statActiveCampaigns'),
-        value: (state.campaigns?.data ?? []).filter((c: any) => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: '#205E77'
+        value: (state.campaigns?.data ?? []).filter((c: any) => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: SA_COLORS.primary
     },
     {
         label: t('superadmin.salesCampaign.statExpiringSoon'), value: (state.campaigns?.data ?? []).filter((c: any) => {
             if (!c.end_date) return false
             const days = (new Date(c.end_date).getTime() - Date.now()) / 86400000
             return days >= 0 && days <= 7
-        }).length, sub: t('superadmin.salesCampaign.statWithin7Days'), color: '#D4900A'
+        }).length, sub: t('superadmin.salesCampaign.statWithin7Days'), color: SA_COLORS.warning
     },
 ])
 

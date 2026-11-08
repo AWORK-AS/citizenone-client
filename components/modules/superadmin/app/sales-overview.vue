@@ -96,7 +96,7 @@
                             <td class="co-td">
                                 <svg width="62" height="20" viewBox="0 0 62 20" role="img"
                                     :aria-label="$t('superadmin.apps.sales.trendLabel', { name: row.name })">
-                                    <polyline :points="sparkline(row.trend)" fill="none" stroke="#1B6D8A" stroke-width="2"
+                                    <polyline :points="sparkline(row.trend)" fill="none" class="stroke-secondary" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </td>

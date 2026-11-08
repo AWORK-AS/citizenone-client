@@ -22,6 +22,7 @@ export const SA_COLORS = {
     teal: '#2DBAB2', // secondary-400
     accent: '#42AED9', // accent
     accentSoft: '#F0FAFD', // accent-soft
+    accentPale: '#A8D9F0', // accent-pale
     sea: '#368F8B', // accent-sea
     seaSoft: '#EEF8F8', // accent-sea-soft
     seaInk: '#22706A', // accent-sea-ink

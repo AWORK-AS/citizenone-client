@@ -39,8 +39,7 @@
                             {{ $t('superadmin.companies.import') }}
                         </button>
                         <button @click="navigateTo('/superadmin/companies/new')"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
-                            style="background:#205E77">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white transition-colors bg-tertiary">
                             <Icon name="ph:plus" class="w-4 h-4" />
                             {{ $t('superadmin.companies.newCompany') }}
                         </button>
@@ -55,7 +54,7 @@
                     <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                         <button v-for="tab in tabs" :key="tab.key"
                             class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                            :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                            :class="state.activeTab === tab.key ? 'bg-tertiary text-white' : 'text-ink-body'"
                             @click="setTab(tab.key)">
                             {{ tab.label }}
                             <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
@@ -227,6 +226,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_SERIES } from '@/utils/superadminPalette'
 import type { ComputedRef } from 'vue'
 import moment from 'moment'
 import { companyService } from '@/components/api/superadmin/CompanyService'
@@ -313,7 +313,7 @@ const tabs = computed(() => [
 ])
 
 // Avatar colours based on name
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
+const COLORS = SA_SERIES
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
