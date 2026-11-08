@@ -50,29 +50,37 @@ export function useListQuery(options: UseListQueryOptions) {
         options.onChange(state)
     }
 
+    // A change that is on its way to the URL. Two quick changes (a filter, then
+    // the search) build on each other instead of the second undoing the first.
+    let pending: ListQueryState | null = null
+
     function push(patch: Partial<ListQueryState>) {
+        const base = pending ?? state
         const next: ListQueryState = {
-            search: state.search,
-            page: state.page,
-            sort: state.sort,
-            order: state.order,
-            filters: { ...state.filters },
+            search: base.search,
+            page: base.page,
+            sort: base.sort,
+            order: base.order,
             ...patch,
+            filters: { ...base.filters, ...(patch.filters ?? {}) },
         }
-        if (patch.filters) next.filters = { ...state.filters, ...patch.filters }
         // Nothing changed for this list: still reload, a click on the same tab is a refresh.
-        if (applied && sameListQuery(applied, next, options)) {
+        if (!pending && applied && sameListQuery(applied, next, options)) {
             options.onChange(state)
             return
         }
+        pending = next
         router.replace({ query: mergeListQuery(route.query as any, next, options) as any })
+            .finally(() => {
+                if (pending === next) pending = null
+            })
     }
 
     function flushSearch() {
         if (timer) clearTimeout(timer)
         timer = null
         const search = searchInput.value.trim()
-        if (search === state.search) return
+        if (search === (pending ?? state).search) return
         push({ search, page: 1 })
     }
 
@@ -108,10 +116,13 @@ export function useListQuery(options: UseListQueryOptions) {
         setPage: (page: number) => push({ page: Math.max(1, page) }),
         setSort: (sort: string | null, order: ListSortOrder | null) => push({ sort, order, page: 1 }),
         toggleSort: (field: string) => push({ ...nextSort(state, field, options), page: 1 }),
-        reset: () => {
+        /** Search and filters back to their defaults; `keep` names filters that stay (a page-wide period). */
+        reset: (keep: string[] = []) => {
             if (timer) clearTimeout(timer)
             searchInput.value = ''
-            push({ search: '', page: 1, filters: { ...(options.filters ?? {}) } })
+            const filters = { ...(options.filters ?? {}) }
+            for (const name of keep) filters[name] = (pending ?? state).filters[name] ?? filters[name]
+            push({ search: '', page: 1, filters })
         },
         isFiltered: computed(() => hasListFilters(state, options)),
         apiSort: () => apiSortParams(state),
