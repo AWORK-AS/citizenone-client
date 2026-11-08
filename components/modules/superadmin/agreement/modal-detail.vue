@@ -21,9 +21,8 @@
 
                     <div class="flex flex-wrap items-center gap-2 text-[12px]">
                         <Tooltip :text="$t('superadmin.agreements.help.status')" position="top" wrap>
-                            <span class="co-badge" :class="statusClass(state.agreement.status)">
-                                {{ $t(`superadmin.agreements.statuses.${state.agreement.status}`) }}
-                            </span>
+                            <ModulesSuperadminStatusPill :variant="statusVariant(state.agreement.status)"
+                                :label="$t(`superadmin.agreements.statuses.${state.agreement.status}`)" />
                         </Tooltip>
                         <Tooltip :text="$t('superadmin.agreements.help.billingPlanBadge')" position="top" wrap>
                             <span class="co-badge co-badge-navy">
@@ -505,8 +504,8 @@ const linkedChanged = computed(() => {
     return original !== [...state.linked].sort().join(',')
 })
 
-function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-warning-soft text-warning-ink' : 'co-badge-gray'
+function statusVariant(status: string) {
+    return status === 'active' ? 'success' : status === 'cancelled' ? 'danger' : status === 'ended' ? 'warning' : 'neutral'
 }
 
 watch(() => props.isModalOpen, (open: boolean) => { if (open) load() })

@@ -375,18 +375,17 @@ function clearRecent() {
 
 function badgeClass(badge: string): string {
     switch (badge) {
-        case 'closed':
         case 'failed':
-            return 'border-red-200 bg-red-50 text-red-600'
+            return 'border-danger-line bg-danger-soft text-danger-ink'
         case 'unpaid':
-            return 'border-orange-200 bg-orange-50 text-orange-700'
+            return 'border-warning-line bg-warning-soft text-warning-ink'
         case 'paid':
-            return 'border-secondary-100 bg-secondary-25 text-secondary-700'
+            return 'border-success-line bg-success-soft text-success-ink'
         case 'billingCard':
         case 'billingInvoice':
             return 'border-primary-100 bg-primary-25 text-primary'
         default:
-            return 'border-slate-200 bg-slate-50 text-slate-500'
+            return 'border-line bg-surface-canvas text-ink-body'
     }
 }
 

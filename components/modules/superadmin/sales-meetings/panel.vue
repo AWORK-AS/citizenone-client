@@ -84,9 +84,8 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="rounded-full px-2 py-0.5 text-xs" :class="statusClass(meeting.status)">
-                        {{ $t(`superadmin.salesMeetings.status.${meeting.status}`) }}
-                    </span>
+                    <ModulesSuperadminStatusPill :variant="statusVariant(meeting.status)"
+                        :label="$t(`superadmin.salesMeetings.status.${meeting.status}`)" />
                     <a v-if="meeting.host_url && ['scheduled', 'live'].includes(meeting.status)" :href="meeting.host_url" target="_blank"
                         rel="noopener" class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
                         {{ $t('superadmin.salesMeetings.open') }}
@@ -227,11 +226,11 @@ async function save() {
     state.isSaving = false
 }
 
-function statusClass(status: string): string {
-    if (status === 'live') return 'bg-green-50 text-green-700'
-    if (status === 'scheduled') return 'bg-blue-50 text-blue-700'
-    if (status === 'cancelled') return 'bg-red-50 text-red-700'
-    return 'bg-gray-100 text-gray-600'
+function statusVariant(status: string) {
+    if (status === 'live') return 'success'
+    if (status === 'scheduled') return 'info'
+    if (status === 'cancelled') return 'danger'
+    return 'neutral'
 }
 
 const formatDateTime = (value: string) => value ? moment(value).format('DD-MM-YYYY HH:mm') : ''
