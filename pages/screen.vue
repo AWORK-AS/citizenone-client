@@ -103,7 +103,19 @@
 
                     <div v-if="feed.show_staff_on_duty && feed.staff_on_duty.length" class="panel panel-in" style="animation-delay: 0.35s">
                         <h2 class="panel-title"><Icon name="ph:users-three" /> {{ $t('infoScreenDisplay.onDuty') }}</h2>
-                        <div class="flex flex-wrap gap-[1vh]">
+                        <!-- With photos: faces with first names, so residents know who to go to -->
+                        <div v-if="staffHasPhotos" class="flex flex-wrap gap-[2vh]">
+                            <div v-for="(person, index) in feed.staff_on_duty" :key="person.firstname + person.until"
+                                class="panel-in flex flex-col items-center text-center" :class="large ? 'w-[13vh]' : 'w-[10vh]'"
+                                :style="{ animationDelay: `${0.45 + index * 0.06}s` }">
+                                <img v-if="person.photo" :src="person.photo" alt="" class="aspect-square w-full rounded-full object-cover ring-[0.3vh] ring-white/20" />
+                                <span v-else class="flex aspect-square w-full items-center justify-center rounded-full bg-[#1b6d8a] font-semibold"
+                                    :class="large ? 'text-[4.6vh]' : 'text-[3.6vh]'">{{ initials(person.firstname) }}</span>
+                                <span class="mt-[0.6vh] w-full truncate" :class="large ? 'text-[3vh]' : 'text-[2.3vh]'">{{ person.firstname }}</span>
+                                <span v-if="person.until" class="text-[1.8vh] text-white/50">{{ $t('infoScreenDisplay.until', { time: person.until }) }}</span>
+                            </div>
+                        </div>
+                        <div v-else class="flex flex-wrap gap-[1vh]">
                             <span v-for="(person, index) in feed.staff_on_duty" :key="person.firstname + person.until"
                                 class="panel-in rounded-full bg-white/10 px-[2vh] py-[0.8vh]" :class="large ? 'text-[3.6vh]' : 'text-[2.6vh]'"
                                 :style="{ animationDelay: `${0.45 + index * 0.06}s` }">
@@ -151,6 +163,11 @@
                             <WeatherCard v-else-if="current?.type === 'weather'" :weather="feed.weather" :place="feed.weather_place" />
 
                             <PollCard v-else-if="current?.type === 'poll'" :poll="feed.poll" :voteUrl="voteUrl" />
+
+                            <MoodCard v-else-if="current?.type === 'mood'" :url="moodUrl" />
+
+                            <BirthdayCard v-else-if="current?.type === 'birthday'" :names="feed.birthdays"
+                                :locale="LANGUAGE_TAGS[locale] ?? 'da-DK'" />
                         </div>
                     </Transition>
 
@@ -186,6 +203,18 @@
             <Icon name="ph:wifi-slash" /> {{ $t('infoScreenDisplay.offline') }}
         </div>
 
+        <!-- An activity about to start takes the screen part of each minute: "In 8 min: Walk" -->
+        <Transition name="reminder">
+            <div v-if="showReminder" class="absolute inset-0 z-30 flex flex-col items-center justify-center gap-[3vh] bg-[#0f4c75] px-[8vh] text-center">
+                <p class="text-[4vh] font-semibold uppercase tracking-widest text-[#2dbab2]">
+                    {{ reminder!.minutesLeft === 0 ? $t('infoScreenDisplay.now') : inText(reminder!.minutesLeft) }}
+                </p>
+                <Icon v-if="activityIcon(reminder!.activity.icon)" :name="activityIcon(reminder!.activity.icon)!" class="reminder-icon text-[22vh]" />
+                <p class="max-w-[85%] text-[9vh] font-semibold leading-tight">{{ reminder!.activity.title }}</p>
+                <p class="text-[4vh] font-light tabular-nums text-white/70">{{ reminder!.activity.time }}</p>
+            </div>
+        </Transition>
+
         <!-- Urgent message from settings: over everything, also at night, until it is removed -->
         <Transition name="alert">
             <div v-if="feed?.alert" class="absolute inset-0 z-40 flex flex-col items-center justify-center gap-[4vh] bg-[#fff7ed] px-[8vh] text-center text-[#c2410c]">
@@ -205,12 +234,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
-import { activityIcon, activityStates, isNightTime, msUntilNextReload, weatherIcon } from '@/composables/infoScreen'
+import { activityIcon, activityStates, initials, isNightTime, msUntilNextReload, reminderShowing, upcomingReminder, weatherIcon } from '@/composables/infoScreen'
 import { infoScreenService } from '@/components/api/user/InfoScreenService'
 import DayTimeline from '@/components/modules/info-screen/day-timeline.vue'
 import WeatherCard from '@/components/modules/info-screen/weather-card.vue'
 import PollCard from '@/components/modules/info-screen/poll-card.vue'
 import WeekCard from '@/components/modules/info-screen/week-card.vue'
+import MoodCard from '@/components/modules/info-screen/mood-card.vue'
+import BirthdayCard from '@/components/modules/info-screen/birthday-card.vue'
 
 /**
  * The Info Screen display: opened on a TV in a common room. No login. The TV
@@ -238,6 +269,8 @@ const POLL_SECONDS = 20
 const WEATHER_SECONDS = 15
 const NEWS_SECONDS = 15
 const WEEK_SECONDS = 20
+const MOOD_SECONDS = 20
+const BIRTHDAY_SECONDS = 15
 
 const mode = ref<'loading' | 'pair' | 'blocked' | 'show'>('loading')
 const feed = ref<any>(null)
@@ -321,11 +354,20 @@ function inText(minutes: number): string {
     return rest ? t('infoScreenDisplay.inHoursMinutes', { hours, minutes: rest }) : t('infoScreenDisplay.inHours', { count: hours })
 }
 
+const staffHasPhotos = computed(() => (feed.value?.staff_on_duty ?? []).some((person: any) => person.photo))
+
+const reminder = computed(() => upcomingReminder(feed.value?.activities ?? [], nowMinutes.value, Number(feed.value?.reminder_minutes) || 0))
+const showReminder = computed(() => !!reminder.value && !isNight.value && reminderShowing(screenNow.value.getSeconds()))
+
 const hasSide = computed(() => !!feed.value && (feed.value.show_activities
     || (feed.value.show_menu && feed.value.menu && !large.value)
     || (feed.value.show_staff_on_duty && feed.value.staff_on_duty?.length)))
 
 const slideSeconds = computed(() => Math.max(3, Number(feed.value?.slide_seconds) || 10))
+
+const moodUrl = computed(() => feed.value?.mood_token && import.meta.client
+    ? `${window.location.origin}/screen-mood/${feed.value.mood_token}`
+    : null)
 
 const voteUrl = computed(() => feed.value?.poll_token && import.meta.client
     ? `${window.location.origin}/screen-vote/${feed.value.poll_token}`
@@ -347,6 +389,12 @@ const rotation = computed(() => {
     if (large.value && feed.value.show_menu && feed.value.menu) content.unshift({ type: 'menu', key: 'menu' })
     if (feed.value.show_weather && feed.value.weather?.hours?.length > 1) content.push({ type: 'weather', key: 'weather' })
     if (feed.value.week?.some((day: any) => day.activities.length)) content.push({ type: 'week', key: 'week' })
+    if (feed.value.mood_token) content.push({ type: 'mood', key: 'mood' })
+    // A birthday is the first thing seen, and seen again halfway round.
+    if (feed.value.birthdays?.length) {
+        content.unshift({ type: 'birthday', key: 'birthday' })
+        if (content.length > 4) content.splice(Math.ceil(content.length / 2), 0, { type: 'birthday', key: 'birthday2' })
+    }
 
     if (!feed.value.poll) return content
     const items: any[] = []
@@ -368,6 +416,8 @@ function scheduleRotation() {
         week: WEEK_SECONDS,
         weather: WEATHER_SECONDS,
         poll: POLL_SECONDS,
+        mood: MOOD_SECONDS,
+        birthday: BIRTHDAY_SECONDS,
     }[current.value?.type as string] ?? slideSeconds.value
     rotateTimer = setTimeout(() => {
         rotationIndex.value = rotation.value.length ? (rotationIndex.value + 1) % rotation.value.length : 0
@@ -553,6 +603,27 @@ onBeforeUnmount(() => {
     opacity: 0;
 }
 
+.reminder-enter-active,
+.reminder-leave-active {
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reminder-enter-from,
+.reminder-leave-to {
+    opacity: 0;
+    transform: scale(1.03);
+}
+
+.reminder-icon {
+    animation: reminder-bob 2.4s ease-in-out infinite;
+}
+
+@keyframes reminder-bob {
+    50% {
+        transform: translateY(-1.6vh);
+    }
+}
+
 .alert-icon {
     animation: alert-pulse 1.6s ease-in-out infinite;
 }
@@ -564,7 +635,8 @@ onBeforeUnmount(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .alert-icon {
+    .alert-icon,
+    .reminder-icon {
         animation: none;
     }
 }

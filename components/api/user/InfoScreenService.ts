@@ -28,8 +28,14 @@ class InfoScreenService extends BaseAPIService {
     }
 
     /** The picture shows to and including `until`, then hides; null shows it until removed. */
-    async updateSlide(uuid: string, slideUuid: string, until: string | null): Promise<any> {
-        return await this.request(`/user/info-screens/${uuid}/slides/${slideUuid}`, 'PATCH', { until })
+    /** Only the dates given are changed: { from?, until? }, null clears one. */
+    async updateSlide(uuid: string, slideUuid: string, dates: { from?: string | null; until?: string | null }): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/slides/${slideUuid}`, 'PATCH', dates)
+    }
+
+    /** Mood answers per week, for the last weeks. */
+    async getMood(uuid: string): Promise<any> {
+        return await this.request(`/user/info-screens/${uuid}/mood`, 'GET')
     }
 
     /** The urgent message shown full screen on all the company's screens. */

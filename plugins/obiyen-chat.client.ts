@@ -11,6 +11,7 @@ export default defineNuxtPlugin(() => {
         && !window.location.pathname.startsWith('/accept-company-invite')
         && window.location.pathname !== '/screen'
         && !window.location.pathname.startsWith('/screen-vote/')
+        && !window.location.pathname.startsWith('/screen-mood/')
     ) {
         const d = document
         const s = d.createElement("script")

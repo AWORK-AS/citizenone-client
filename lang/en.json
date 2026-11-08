@@ -13338,7 +13338,33 @@
             "copyDayTo": "to",
             "copyWeekdays": "All weekdays",
             "copyAllDays": "All days",
-            "copy": "Copy"
+            "copy": "Copy",
+            "messageFrom": "Show from",
+            "staffPhotos": "Staff photos",
+            "staffPhotosHint": "Shows the profile photo by the first name. Without a photo, initials are shown.",
+            "reminder": "Reminder before an activity",
+            "reminderOff": "Off",
+            "reminderMinutes": "{count} min before",
+            "reminderHint": "The activity fills the screen for a moment each minute until it starts.",
+            "slideFrom": "Show from",
+            "birthdays": "Birthdays",
+            "birthdaysHint": "The screen says happy birthday on the day. First names only, and only for those who want to be celebrated.",
+            "birthdayName": "First name",
+            "birthdayDay": "Day",
+            "birthdayMonth": "Month",
+            "addBirthday": "Add birthday",
+            "showMood": "Well-being",
+            "showMoodHint": "\"How are you today?\" with a QR code. Anonymous, one answer per phone per day.",
+            "mood": "Well-being",
+            "moodHint": "Answers per week for the last 8 weeks. Weeks with few answers are hidden, so no one can be recognised.",
+            "moodLink": "Link behind the QR code:",
+            "mood_sad": "Bad",
+            "mood_meh": "Okay",
+            "mood_happy": "Good",
+            "moodWeek": "Week {week}",
+            "moodTooFew": "Fewer than {min} answers",
+            "moodNone": "No answers",
+            "moodAnswers": "{count} answers"
         }
     },
     "supportAccess": {
@@ -22286,7 +22312,12 @@
         "offline": "No connection",
         "preview": "Preview",
         "previewFailed": "The preview could not be loaded. Log in as an administrator and try again.",
-        "week": "This week's program"
+        "week": "This week's program",
+        "mood": "Well-being",
+        "moodQuestion": "How are you today?",
+        "moodAnonymous": "Your answer is anonymous.",
+        "moodScan": "Scan and answer",
+        "birthday": "Happy birthday"
     },
     "infoScreenVote": {
         "title": "Poll",
@@ -22297,5 +22328,17 @@
         "anonymous": "Your vote is anonymous.",
         "failed": "Your vote was not sent. Try again.",
         "changed": "The question has just changed. Please vote again."
+    },
+    "infoScreenMood": {
+        "title": "Well-being",
+        "question": "How are you today?",
+        "sad": "Bad",
+        "meh": "Okay",
+        "happy": "Good",
+        "thanks": "Thank you for your answer",
+        "tomorrow": "You can answer again tomorrow.",
+        "closed": "The question is not open right now.",
+        "failed": "The answer was not sent. Try again.",
+        "anonymous": "Anonymous. We do not ask who you are."
     }
 }

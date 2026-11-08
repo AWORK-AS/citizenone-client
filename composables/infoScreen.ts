@@ -18,7 +18,7 @@ export interface ActivityWithState extends ScreenActivity {
     minutesUntil: number | null
 }
 
-/** How long the last activity of the day counts as "now" without a next one. */
+/** How long an activity counts as "now" at most, also the last of the day. */
 export const LAST_ACTIVITY_MINUTES = 90
 
 export function toMinutes(time: string | null | undefined): number | null {
@@ -30,7 +30,8 @@ export function toMinutes(time: string | null | undefined): number | null {
 
 /**
  * Each activity marked past, now, next or later at `nowMinutes` (minutes since
- * midnight). An activity is "now" from its start until the next one starts.
+ * midnight). An activity is "now" from its start until the next one starts,
+ * for LAST_ACTIVITY_MINUTES at most.
  * Activities without a time are listed last and never marked.
  */
 export function activityStates(activities: ScreenActivity[], nowMinutes: number): ActivityWithState[] {
@@ -44,8 +45,11 @@ export function activityStates(activities: ScreenActivity[], nowMinutes: number)
     const marked = timed.map((activity, index) => {
         const start = activity.minutes as number
         // Activities sharing a start time run together, so the next one is the first later start.
-        const nextStart = (timed.slice(index + 1).find((other) => (other.minutes as number) > start)?.minutes as number | undefined)
-            ?? start + LAST_ACTIVITY_MINUTES
+        // A morning activity is not "now" all afternoon: it ends after LAST_ACTIVITY_MINUTES at most.
+        const nextStart = Math.min(
+            (timed.slice(index + 1).find((other) => (other.minutes as number) > start)?.minutes as number | undefined) ?? Infinity,
+            start + LAST_ACTIVITY_MINUTES,
+        )
         let state: ActivityState = 'later'
         if (nowMinutes >= nextStart) state = 'past'
         else if (nowMinutes >= start) state = 'now'
@@ -251,4 +255,49 @@ export function copyDayProgram<T extends WeekdayActivity>(activities: T[], from:
         ...activities.filter((row) => !days.includes(row.weekday)),
         ...days.flatMap((day) => source.map((row) => ({ ...row, weekday: day }))),
     ].sort((a, b) => a.weekday - b.weekday || String(a.time ?? '').localeCompare(String(b.time ?? '')))
+}
+
+export interface Reminder {
+    activity: ScreenActivity
+    minutesLeft: number
+}
+
+/**
+ * The activity starting within `minutes` of `nowMinutes`, soonest first, for
+ * the full-screen "In 10 min: Walk" reminder. Null when none, or when off (0).
+ */
+export function upcomingReminder(activities: ScreenActivity[], nowMinutes: number, minutes: number): Reminder | null {
+    if (!minutes || minutes <= 0) return null
+    let best: Reminder | null = null
+    for (const activity of activities) {
+        const start = toMinutes(activity.time)
+        if (start === null) continue
+        const left = start - nowMinutes
+        if (left < 0 || left > minutes) continue
+        if (!best || left < best.minutesLeft) best = { activity, minutesLeft: left }
+    }
+    return best
+}
+
+/**
+ * The reminder takes the screen this many seconds of each minute, so the rest
+ * of the screen (and the clock) is still seen in between.
+ */
+export const REMINDER_SHOW_SECONDS = 25
+
+export function reminderShowing(secondOfMinute: number): boolean {
+    return secondOfMinute < REMINDER_SHOW_SECONDS
+}
+
+/** One or two letters for a staff member without a photo. */
+export function initials(name: string | null | undefined): string {
+    const parts = String(name ?? '').trim().split(/[\s-]+/).filter(Boolean)
+    return parts.slice(0, 2).map((part) => part[0].toLocaleUpperCase()).join('')
+}
+
+/** Mood answers: 1 sad, 2 so-so, 3 happy. Shares sum to 100, like the poll's. */
+export const MOODS = [1, 2, 3] as const
+
+export function moodShares(counts: number[] | null | undefined): number[] {
+    return pollShares((counts ?? [0, 0, 0]).map((votes) => ({ title: '', votes })))
 }

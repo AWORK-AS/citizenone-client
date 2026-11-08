@@ -9,6 +9,7 @@ import assert from 'node:assert/strict'
 import {
     activityStates, pollShares, timelinePercent, timelineRange, toMinutes, weatherCurve, weatherIcon,
     ACTIVITY_ICONS, activityIcon, isNightTime, isOffline, msUntilNextReload, copyDayProgram,
+    upcomingReminder, reminderShowing, initials, moodShares,
 } from '../../composables/infoScreen.ts'
 
 const program = [
@@ -186,5 +187,60 @@ describe('copyDayProgram', () => {
         assert.deepEqual(copied.filter((row) => row.weekday === 6).map((row) => row.title), ['Brunch'])
         assert.equal(copied.filter((row) => row.weekday === 3).length, 2)
         assert.equal(copied.filter((row) => row.weekday === 2).length, 1)
+    })
+})
+
+describe('activityStates over a long gap', () => {
+    test('a morning activity is not "now" all afternoon', () => {
+        const day = [{ time: '10:00', title: 'Gudstjeneste' }, { time: '16:00', title: 'Kaffe' }]
+        assert.deepEqual(activityStates(day, toMinutes('11:00')).map((a) => a.state), ['now', 'next'])
+        assert.deepEqual(activityStates(day, toMinutes('15:00')).map((a) => a.state), ['past', 'next'])
+    })
+})
+
+describe('upcomingReminder', () => {
+    const day = [
+        { time: '10:00', title: 'Gåtur' },
+        { time: '10:05', title: 'Kaffe' },
+        { time: null, title: 'Frisør' },
+    ]
+
+    test('finds the soonest activity within the window', () => {
+        assert.deepEqual(upcomingReminder(day, toMinutes('09:52'), 10), { activity: day[0], minutesLeft: 8 })
+        assert.equal(upcomingReminder(day, toMinutes('10:00'), 10).activity.title, 'Gåtur')
+        assert.equal(upcomingReminder(day, toMinutes('10:00'), 10).minutesLeft, 0)
+        assert.equal(upcomingReminder(day, toMinutes('10:01'), 10).activity.title, 'Kaffe')
+    })
+
+    test('is null outside the window, after the start or when off', () => {
+        assert.equal(upcomingReminder(day, toMinutes('09:40'), 10), null)
+        assert.equal(upcomingReminder(day, toMinutes('10:06'), 10), null)
+        assert.equal(upcomingReminder(day, toMinutes('09:55'), 0), null)
+        assert.equal(upcomingReminder([], toMinutes('09:55'), 10), null)
+    })
+
+    test('shows part of each minute only', () => {
+        assert.equal(reminderShowing(0), true)
+        assert.equal(reminderShowing(24), true)
+        assert.equal(reminderShowing(25), false)
+        assert.equal(reminderShowing(59), false)
+    })
+})
+
+describe('initials', () => {
+    test('takes one or two letters', () => {
+        assert.equal(initials('mette'), 'M')
+        assert.equal(initials('Anne-Marie'), 'AM')
+        assert.equal(initials('  Øjvind Bo Lund '), 'ØB')
+        assert.equal(initials(''), '')
+        assert.equal(initials(null), '')
+    })
+})
+
+describe('moodShares', () => {
+    test('sums to 100 and survives no answers', () => {
+        assert.deepEqual(moodShares([1, 1, 1]), [34, 33, 33])
+        assert.deepEqual(moodShares([0, 0, 4]), [0, 0, 100])
+        assert.deepEqual(moodShares(null), [0, 0, 0])
     })
 })

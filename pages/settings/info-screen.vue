@@ -159,7 +159,7 @@
                             <div>
                                 <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.widgets') }}</p>
                                 <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                                    <div v-for="widget in widgets" :key="widget.key" class="flex items-start gap-3">
+                                    <div v-for="widget in widgets" v-show="!widget.when || state.form[widget.when]" :key="widget.key" class="flex items-start gap-3">
                                         <FormSwitch :value="state.form[widget.key]" :label="widget.label"
                                             @toggleSwitch="state.form[widget.key] = !state.form[widget.key]" />
                                         <div>
@@ -175,6 +175,9 @@
                                 <FormTextArea name="screen-message" v-model="state.form.message" :rows="2"
                                     :placeholder="$t('settings.infoScreen.messagePlaceholder')" />
                                 <div v-if="state.form.message" class="mt-2 flex flex-wrap items-center gap-2">
+                                    <label for="screen-message-from" class="text-xs text-slate-500">{{ $t('settings.infoScreen.messageFrom') }}</label>
+                                    <input id="screen-message-from" type="date" v-model="state.form.message_from"
+                                        class="h-9 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
                                     <label for="screen-message-until" class="text-xs text-slate-500">{{ $t('settings.infoScreen.messageUntil') }}</label>
                                     <input id="screen-message-until" type="date" v-model="state.form.message_until"
                                         class="h-9 rounded-lg border border-gray-200 px-2 text-sm text-gray-900 focus:border-primary-700 focus:outline-none" />
@@ -237,6 +240,19 @@
                                         <FormButton buttonStyle="action" @click="copyDay">{{ $t('settings.infoScreen.copy') }}</FormButton>
                                     </div>
                                 </div>
+                                <!-- The activity takes the whole screen a little before it starts -->
+                                <div class="mt-4 flex flex-wrap items-center gap-2">
+                                    <Icon name="ph:bell-ringing" class="h-4 w-4 text-[#0f4c75]" />
+                                    <label for="screen-reminder" class="text-sm text-slate-900">{{ $t('settings.infoScreen.reminder') }}</label>
+                                    <select id="screen-reminder" v-model.number="state.form.reminder_minutes"
+                                        class="h-9 rounded-lg border border-gray-200 py-0 pl-2 pr-8 text-sm">
+                                        <option :value="0">{{ $t('settings.infoScreen.reminderOff') }}</option>
+                                        <option v-for="minutes in [5, 10, 15, 30]" :key="minutes" :value="minutes">
+                                            {{ $t('settings.infoScreen.reminderMinutes', { count: minutes }) }}
+                                        </option>
+                                    </select>
+                                    <span class="text-xs text-slate-400">{{ $t('settings.infoScreen.reminderHint') }}</span>
+                                </div>
                             </div>
 
                             <!-- Menu -->
@@ -268,12 +284,18 @@
                                 <div v-else class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                                     <div v-for="slide in state.form.slides" :key="slide.uuid" class="group relative overflow-hidden rounded-lg border border-surface-200">
                                         <img :src="slide.url" :alt="slide.name" class="aspect-video w-full object-cover"
-                                            :class="isExpired(slide.until) && 'opacity-40 grayscale'" />
+                                            :class="!isShowing(slide) && 'opacity-40 grayscale'" />
+                                        <label class="flex items-center gap-1 border-t border-surface-200 px-2 py-1 text-[11px] text-slate-500">
+                                            <Icon name="ph:calendar-plus" class="h-3.5 w-3.5 shrink-0" :aria-label="$t('settings.infoScreen.slideFrom')" />
+                                            <input type="date" :value="slide.from ?? ''" :title="$t('settings.infoScreen.slideFrom')"
+                                                class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[11px] text-slate-700 focus:ring-0"
+                                                @change="setSlideDate(slide, 'from', ($event.target as HTMLInputElement).value)" />
+                                        </label>
                                         <label class="flex items-center gap-1 border-t border-surface-200 px-2 py-1 text-[11px] text-slate-500">
                                             <Icon name="ph:calendar-x" class="h-3.5 w-3.5 shrink-0" :aria-label="$t('settings.infoScreen.slideUntil')" />
                                             <input type="date" :value="slide.until ?? ''" :title="$t('settings.infoScreen.slideUntil')"
                                                 class="min-w-0 flex-1 border-0 bg-transparent p-0 text-[11px] text-slate-700 focus:ring-0"
-                                                @change="setSlideUntil(slide, ($event.target as HTMLInputElement).value)" />
+                                                @change="setSlideDate(slide, 'until', ($event.target as HTMLInputElement).value)" />
                                         </label>
                                         <button type="button" @click="removeSlide(slide)"
                                             class="absolute right-1 top-1 rounded-full bg-white/90 p-1 text-[#dc2626] shadow"
@@ -303,6 +325,50 @@
                                         @select="(place: any) => { state.form.weather_latitude = place.lat; state.form.weather_longitude = place.lng }"
                                         @clear="state.form.weather_latitude = null; state.form.weather_longitude = null" />
                                 </div>
+                            </div>
+
+                            <!-- Birthdays: typed in by staff, first names only -->
+                            <div>
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.birthdays') }}</p>
+                                <p class="text-xs text-slate-400">{{ $t('settings.infoScreen.birthdaysHint') }}</p>
+                                <div class="mt-3 space-y-2">
+                                    <div v-for="(row, index) in state.form.birthdays" :key="index" class="grid grid-cols-[1fr_5rem_9rem_auto] items-center gap-2">
+                                        <FormTextField v-model="row.name" :maxLength="60" :placeholder="$t('settings.infoScreen.birthdayName')" />
+                                        <select v-model="row.day" :aria-label="$t('settings.infoScreen.birthdayDay')"
+                                            class="h-11 rounded-lg border border-gray-200 py-0 pl-2 pr-6 text-sm">
+                                            <option v-for="day in 31" :key="day" :value="day">{{ day }}.</option>
+                                        </select>
+                                        <select v-model="row.month" :aria-label="$t('settings.infoScreen.birthdayMonth')"
+                                            class="h-11 rounded-lg border border-gray-200 py-0 pl-2 pr-6 text-sm">
+                                            <option v-for="month in monthOptions" :key="month.value" :value="month.value">{{ month.label }}</option>
+                                        </select>
+                                        <button type="button" class="p-2 text-slate-400 hover:text-[#dc2626]" :aria-label="$t('settings.infoScreen.remove')"
+                                            @click="state.form.birthdays.splice(index, 1)">
+                                            <Icon name="ph:x" class="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="mt-2 text-sm font-semibold text-primary hover:underline"
+                                    @click="state.form.birthdays.push({ name: '', day: new Date().getDate(), month: new Date().getMonth() + 1 })">
+                                    + {{ $t('settings.infoScreen.addBirthday') }}
+                                </button>
+                            </div>
+
+                            <!-- Mood: how residents feel, week by week -->
+                            <div v-if="state.form.show_mood">
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.infoScreen.mood') }}</p>
+                                <p class="text-xs text-slate-400">{{ $t('settings.infoScreen.moodHint') }}</p>
+                                <p v-if="!state.form.mood_token" class="mt-3 text-xs text-slate-500">{{ $t('settings.infoScreen.saveFirst') }}</p>
+                                <template v-else>
+                                    <div class="mt-3 flex flex-wrap items-center gap-2 rounded-lg bg-surface-50 p-3 text-xs text-slate-500">
+                                        <Icon name="ph:qr-code" class="h-4 w-4" />
+                                        <span>{{ $t('settings.infoScreen.moodLink') }}</span>
+                                        <a :href="moodUrl(state.form.mood_token)" target="_blank" rel="noopener" class="font-semibold text-primary hover:underline">
+                                            {{ moodUrl(state.form.mood_token) }}
+                                        </a>
+                                    </div>
+                                    <MoodStats v-if="state.mood" class="mt-4" :weeks="state.mood.weeks" :minAnswers="state.mood.min_answers" />
+                                </template>
                             </div>
 
                             <!-- Poll -->
@@ -375,6 +441,7 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { ACTIVITY_ICONS, activityIcon, copyDayProgram, isOffline } from '@/composables/infoScreen'
+import MoodStats from '@/components/modules/info-screen/mood-stats.vue'
 
 /**
  * The Info Screen app: screens in common rooms. An admin sets up what each
@@ -383,7 +450,7 @@ import { ACTIVITY_ICONS, activityIcon, copyDayProgram, isOffline } from '@/compo
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const breadcrumbLinks = [
     { name: 'settings.infoScreen.title', translate: true, href: '/settings/info-screen' },
@@ -409,6 +476,7 @@ const state = reactive({
     alertSaving: false,
     copyFrom: 1,
     copyTo: 'weekdays' as 'weekdays' | 'all' | number,
+    mood: null as null | { weeks: any[]; min_answers: number },
 })
 
 const departmentOptions = computed(() => state.departments.map((department: any) => ({ value: department.uuid, label: department.name })))
@@ -426,10 +494,12 @@ const widgets = computed(() => [
     { key: 'show_news', label: t('settings.infoScreen.showNews'), hint: t('settings.infoScreen.showNewsHint') },
     { key: 'show_slides', label: t('settings.infoScreen.showSlides') },
     { key: 'show_staff_on_duty', label: t('settings.infoScreen.showStaff'), hint: t('settings.infoScreen.showStaffHint') },
+    { key: 'staff_photos', label: t('settings.infoScreen.staffPhotos'), hint: t('settings.infoScreen.staffPhotosHint'), when: 'show_staff_on_duty' },
     { key: 'show_timeline', label: t('settings.infoScreen.showTimeline'), hint: t('settings.infoScreen.showTimelineHint') },
     { key: 'show_week', label: t('settings.infoScreen.showWeek'), hint: t('settings.infoScreen.showWeekHint') },
     { key: 'show_weather', label: t('settings.infoScreen.showWeather'), hint: t('settings.infoScreen.showWeatherHint') },
     { key: 'show_poll', label: t('settings.infoScreen.showPoll'), hint: t('settings.infoScreen.showPollHint') },
+    { key: 'show_mood', label: t('settings.infoScreen.showMood'), hint: t('settings.infoScreen.showMoodHint') },
     { key: 'night_mode', label: t('settings.infoScreen.nightMode'), hint: t('settings.infoScreen.nightModeHint') },
     { key: 'large_text', label: t('settings.infoScreen.largeText'), hint: t('settings.infoScreen.largeTextHint') },
 ])
@@ -444,6 +514,27 @@ function preview(screen: any) {
 }
 
 const MAX_POLL_OPTIONS = 6
+
+// Month names in the user's language, from the browser.
+const monthOptions = computed(() => Array.from({ length: 12 }, (_, index) => ({
+    value: index + 1,
+    label: new Date(Date.UTC(2024, index, 1)).toLocaleDateString(locale.value === 'dk' ? 'da-DK' : locale.value === 'no' ? 'nb-NO' : locale.value === 'sv' ? 'sv-SE' : 'en-GB', { month: 'long', timeZone: 'UTC' }),
+})))
+
+function moodUrl(moodToken: string): string {
+    return (import.meta.client ? window.location.origin : '') + `/screen-mood/${moodToken}`
+}
+
+async function fetchMood() {
+    state.mood = null
+    if (!state.form?.uuid || !state.form.show_mood || !state.form.mood_token) return
+    try {
+        const response = await infoScreenService.getMood(state.form.uuid)
+        state.mood = response?.data ?? null
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function voteUrl(pollToken: string): string {
     return (import.meta.client ? window.location.origin : '') + `/screen-vote/${pollToken}`
@@ -505,19 +596,22 @@ async function duplicate(screen: any) {
         const response = await infoScreenService.duplicateScreen(screen.uuid, t('settings.infoScreen.copyName', { name: screen.name }))
         await fetchScreens()
         state.form = toForm(response?.data)
+        fetchMood()
         successAlert(`${t('alert.success')}!`, t('settings.infoScreen.duplicated'))
     } catch (error: any) {
         state.error = error
     }
 }
 
-function isExpired(until: string | null | undefined): boolean {
-    return !!until && until < new Date().toLocaleDateString('sv-SE')
+/** Whether the picture is on the screen today, given its dates. */
+function isShowing(slide: { from?: string | null; until?: string | null }): boolean {
+    const today = new Date().toLocaleDateString('sv-SE')
+    return (!slide.from || slide.from <= today) && (!slide.until || slide.until >= today)
 }
 
-async function setSlideUntil(slide: any, value: string) {
+async function setSlideDate(slide: any, key: 'from' | 'until', value: string) {
     try {
-        const response = await infoScreenService.updateSlide(state.form.uuid, slide.uuid, value || null)
+        const response = await infoScreenService.updateSlide(state.form.uuid, slide.uuid, { [key]: value || null })
         state.form.slides = response?.data?.slides ?? state.form.slides
     } catch (error: any) {
         state.error = error
@@ -557,7 +651,17 @@ function toForm(screen: any = null) {
         show_slides: screen?.show_slides ?? true,
         show_staff_on_duty: screen?.show_staff_on_duty ?? false,
         message: screen?.message ?? '',
+        message_from: screen?.message_from ?? '',
         message_until: screen?.message_until ?? '',
+        staff_photos: screen?.staff_photos ?? false,
+        reminder_minutes: screen?.reminder_minutes ?? 0,
+        show_mood: screen?.show_mood ?? false,
+        mood_token: screen?.mood_token ?? null,
+        birthdays: (screen?.birthdays ?? []).map((row: any) => ({
+            name: row.name,
+            day: Number(String(row.date).slice(3, 5)),
+            month: Number(String(row.date).slice(0, 2)),
+        })),
         night_mode: screen?.night_mode ?? false,
         night_from: screen?.night_from ?? '22:00',
         night_to: screen?.night_to ?? '06:00',
@@ -585,6 +689,7 @@ function newScreen() {
 
 function edit(screen: any) {
     state.form = toForm(screen)
+    fetchMood()
 }
 
 function addActivity() {
@@ -595,11 +700,15 @@ function addActivity() {
 async function save() {
     state.error = {}
     state.isSaving = true
-    const { uuid, slides: _slides, poll_token: _pollToken, ...form } = state.form
+    const { uuid, slides: _slides, poll_token: _pollToken, mood_token: _moodToken, ...form } = state.form
     const payload = {
         ...form,
         message: form.message || null,
+        message_from: (form.message && form.message_from) || null,
         message_until: (form.message && form.message_until) || null,
+        birthdays: form.birthdays
+            .filter((row: any) => row.name?.trim())
+            .map((row: any) => ({ name: row.name.trim(), date: `${String(row.month).padStart(2, '0')}-${String(row.day).padStart(2, '0')}` })),
         weather_place: form.weather_place || null,
         poll_question: form.poll_question || null,
         poll_options: form.poll_options.map((option: string) => option.trim()).filter(Boolean),
@@ -614,6 +723,7 @@ async function save() {
             : await infoScreenService.createScreen(payload)
         await fetchScreens()
         state.form = toForm(response?.data)
+        fetchMood()
         successAlert(`${t('alert.success')}!`, t('settings.infoScreen.saved'))
     } catch (error: any) {
         state.error = error

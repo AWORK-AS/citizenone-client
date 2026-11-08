@@ -13338,7 +13338,33 @@
             "copyDayTo": "til",
             "copyWeekdays": "Alle hverdage",
             "copyAllDays": "Alle dage",
-            "copy": "Kopiér"
+            "copy": "Kopiér",
+            "messageFrom": "Vis fra",
+            "staffPhotos": "Billeder af personalet",
+            "staffPhotosHint": "Viser profilbilledet ved fornavnet. Uden billede vises forbogstaver.",
+            "reminder": "Påmindelse før aktivitet",
+            "reminderOff": "Fra",
+            "reminderMinutes": "{count} min før",
+            "reminderHint": "Aktiviteten fylder hele skærmen et øjeblik hvert minut, indtil den starter.",
+            "slideFrom": "Vis fra",
+            "birthdays": "Fødselsdage",
+            "birthdaysHint": "Skærmen ønsker tillykke på dagen. Skriv kun fornavn, og kun for dem, der gerne vil fejres.",
+            "birthdayName": "Fornavn",
+            "birthdayDay": "Dag",
+            "birthdayMonth": "Måned",
+            "addBirthday": "Tilføj fødselsdag",
+            "showMood": "Trivsel",
+            "showMoodHint": "\"Hvordan har du det i dag?\" med QR-kode. Anonymt, ét svar pr. mobil pr. dag.",
+            "mood": "Trivsel",
+            "moodHint": "Svar pr. uge de sidste 8 uger. Uger med få svar skjules, så ingen kan genkendes.",
+            "moodLink": "Link bag QR-koden:",
+            "mood_sad": "Dårligt",
+            "mood_meh": "Okay",
+            "mood_happy": "Godt",
+            "moodWeek": "Uge {week}",
+            "moodTooFew": "Under {min} svar",
+            "moodNone": "Ingen svar",
+            "moodAnswers": "{count} svar"
         }
     },
     "supportAccess": {
@@ -22286,7 +22312,12 @@
         "offline": "Ingen forbindelse",
         "preview": "Forhåndsvisning",
         "previewFailed": "Forhåndsvisningen kunne ikke hentes. Log ind som administrator og prøv igen.",
-        "week": "Ugens program"
+        "week": "Ugens program",
+        "mood": "Trivsel",
+        "moodQuestion": "Hvordan har du det i dag?",
+        "moodAnonymous": "Dit svar er anonymt.",
+        "moodScan": "Scan og svar",
+        "birthday": "Tillykke med fødselsdagen"
     },
     "infoScreenVote": {
         "title": "Afstemning",
@@ -22297,5 +22328,17 @@
         "anonymous": "Din stemme er anonym.",
         "failed": "Stemmen blev ikke sendt. Prøv igen.",
         "changed": "Spørgsmålet er lige blevet ændret. Stem igen."
+    },
+    "infoScreenMood": {
+        "title": "Trivsel",
+        "question": "Hvordan har du det i dag?",
+        "sad": "Dårligt",
+        "meh": "Okay",
+        "happy": "Godt",
+        "thanks": "Tak for dit svar",
+        "tomorrow": "Du kan svare igen i morgen.",
+        "closed": "Spørgsmålet er ikke åbent lige nu.",
+        "failed": "Svaret blev ikke sendt. Prøv igen.",
+        "anonymous": "Anonymt. Vi spørger ikke, hvem du er."
     }
 }

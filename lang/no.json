@@ -13333,7 +13333,33 @@
             "copyDayTo": "til",
             "copyWeekdays": "Alle hverdager",
             "copyAllDays": "Alle dager",
-            "copy": "Kopier"
+            "copy": "Kopier",
+            "messageFrom": "Vis fra",
+            "staffPhotos": "Bilder av personalet",
+            "staffPhotosHint": "Viser profilbildet ved fornavnet. Uten bilde vises forbokstaver.",
+            "reminder": "Påminnelse før aktivitet",
+            "reminderOff": "Av",
+            "reminderMinutes": "{count} min før",
+            "reminderHint": "Aktiviteten fyller hele skjermen et øyeblikk hvert minutt til den starter.",
+            "slideFrom": "Vis fra",
+            "birthdays": "Bursdager",
+            "birthdaysHint": "Skjermen gratulerer på dagen. Skriv bare fornavn, og bare for dem som vil feires.",
+            "birthdayName": "Fornavn",
+            "birthdayDay": "Dag",
+            "birthdayMonth": "Måned",
+            "addBirthday": "Legg til bursdag",
+            "showMood": "Trivsel",
+            "showMoodHint": "\"Hvordan har du det i dag?\" med QR-kode. Anonymt, ett svar per mobil per dag.",
+            "mood": "Trivsel",
+            "moodHint": "Svar per uke de siste 8 ukene. Uker med få svar skjules, så ingen kan gjenkjennes.",
+            "moodLink": "Lenke bak QR-koden:",
+            "mood_sad": "Dårlig",
+            "mood_meh": "Ok",
+            "mood_happy": "Bra",
+            "moodWeek": "Uke {week}",
+            "moodTooFew": "Under {min} svar",
+            "moodNone": "Ingen svar",
+            "moodAnswers": "{count} svar"
         }
     },
     "supportAccess": {
@@ -22201,7 +22227,12 @@
         "offline": "Ingen tilkobling",
         "preview": "Forhåndsvisning",
         "previewFailed": "Forhåndsvisningen kunne ikke hentes. Logg inn som administrator og prøv igjen.",
-        "week": "Ukens program"
+        "week": "Ukens program",
+        "mood": "Trivsel",
+        "moodQuestion": "Hvordan har du det i dag?",
+        "moodAnonymous": "Svaret ditt er anonymt.",
+        "moodScan": "Skann og svar",
+        "birthday": "Gratulerer med dagen"
     },
     "infoScreenVote": {
         "title": "Avstemning",
@@ -22212,5 +22243,17 @@
         "anonymous": "Stemmen din er anonym.",
         "failed": "Stemmen ble ikke sendt. Prøv igjen.",
         "changed": "Spørsmålet ble nettopp endret. Stem igjen."
+    },
+    "infoScreenMood": {
+        "title": "Trivsel",
+        "question": "Hvordan har du det i dag?",
+        "sad": "Dårlig",
+        "meh": "Ok",
+        "happy": "Bra",
+        "thanks": "Takk for svaret",
+        "tomorrow": "Du kan svare igjen i morgen.",
+        "closed": "Spørsmålet er ikke åpent nå.",
+        "failed": "Svaret ble ikke sendt. Prøv igjen.",
+        "anonymous": "Anonymt. Vi spør ikke hvem du er."
     }
 }

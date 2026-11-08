@@ -13333,7 +13333,33 @@
             "copyDayTo": "till",
             "copyWeekdays": "Alla vardagar",
             "copyAllDays": "Alla dagar",
-            "copy": "Kopiera"
+            "copy": "Kopiera",
+            "messageFrom": "Visa från",
+            "staffPhotos": "Foton på personalen",
+            "staffPhotosHint": "Visar profilbilden vid förnamnet. Utan bild visas initialer.",
+            "reminder": "Påminnelse före aktivitet",
+            "reminderOff": "Av",
+            "reminderMinutes": "{count} min före",
+            "reminderHint": "Aktiviteten fyller hela skärmen en stund varje minut tills den börjar.",
+            "slideFrom": "Visa från",
+            "birthdays": "Födelsedagar",
+            "birthdaysHint": "Skärmen gratulerar på dagen. Skriv bara förnamn, och bara för dem som vill firas.",
+            "birthdayName": "Förnamn",
+            "birthdayDay": "Dag",
+            "birthdayMonth": "Månad",
+            "addBirthday": "Lägg till födelsedag",
+            "showMood": "Välmående",
+            "showMoodHint": "\"Hur mår du i dag?\" med QR-kod. Anonymt, ett svar per mobil per dag.",
+            "mood": "Välmående",
+            "moodHint": "Svar per vecka de senaste 8 veckorna. Veckor med få svar döljs, så att ingen kan kännas igen.",
+            "moodLink": "Länk bakom QR-koden:",
+            "mood_sad": "Dåligt",
+            "mood_meh": "Okej",
+            "mood_happy": "Bra",
+            "moodWeek": "Vecka {week}",
+            "moodTooFew": "Under {min} svar",
+            "moodNone": "Inga svar",
+            "moodAnswers": "{count} svar"
         }
     },
     "supportAccess": {
@@ -22201,7 +22227,12 @@
         "offline": "Ingen anslutning",
         "preview": "Förhandsvisning",
         "previewFailed": "Förhandsvisningen kunde inte hämtas. Logga in som administratör och försök igen.",
-        "week": "Veckans program"
+        "week": "Veckans program",
+        "mood": "Välmående",
+        "moodQuestion": "Hur mår du i dag?",
+        "moodAnonymous": "Ditt svar är anonymt.",
+        "moodScan": "Skanna och svara",
+        "birthday": "Grattis på födelsedagen"
     },
     "infoScreenVote": {
         "title": "Omröstning",
@@ -22212,5 +22243,17 @@
         "anonymous": "Din röst är anonym.",
         "failed": "Rösten skickades inte. Försök igen.",
         "changed": "Frågan har just ändrats. Rösta igen."
+    },
+    "infoScreenMood": {
+        "title": "Välmående",
+        "question": "Hur mår du i dag?",
+        "sad": "Dåligt",
+        "meh": "Okej",
+        "happy": "Bra",
+        "thanks": "Tack för ditt svar",
+        "tomorrow": "Du kan svara igen i morgon.",
+        "closed": "Frågan är inte öppen just nu.",
+        "failed": "Svaret skickades inte. Försök igen.",
+        "anonymous": "Anonymt. Vi frågar inte vem du är."
     }
 }
