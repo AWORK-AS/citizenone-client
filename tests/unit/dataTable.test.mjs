@@ -24,6 +24,11 @@ test('paging is read from a bare paginator', () => {
         { page: 1, lastPage: 1, from: 1, to: 3, total: 3 })
 })
 
+test('a meta without from/to gets them from per_page', () => {
+    assert.deepEqual(normalizePageMeta({ meta: { current_page: 3, last_page: 3, per_page: 25, total: 57 } }),
+        { page: 3, lastPage: 3, from: 51, to: 57, total: 57 })
+})
+
 test('an empty page says 0 to 0 of 0, and no paging at all is null', () => {
     assert.deepEqual(normalizePageMeta({ meta: { current_page: 1, last_page: 1, from: null, to: null, total: 0 } }),
         { page: 1, lastPage: 1, from: 0, to: 0, total: 0 })

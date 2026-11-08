@@ -33,8 +33,11 @@ export function normalizePageMeta(response: any): PageMeta | null {
     const page = Math.max(1, toInt(source.current_page, 1))
     const lastPage = Math.max(1, toInt(source.last_page, page))
     const total = Math.max(0, toInt(source.total, 0))
-    const from = total ? Math.max(0, toInt(source.from, 0)) : 0
-    const to = total ? Math.max(from, toInt(source.to, from)) : 0
+    // Some endpoints leave `from`/`to` out; with `per_page` they follow from the page.
+    const perPage = toInt(source.per_page, 0)
+    const hasRange = source.from !== null && source.from !== undefined
+    const from = !total ? 0 : hasRange ? Math.max(0, toInt(source.from, 0)) : perPage ? (page - 1) * perPage + 1 : 0
+    const to = !total ? 0 : hasRange ? Math.max(from, toInt(source.to, from)) : perPage ? Math.min(total, page * perPage) : 0
     return { page, lastPage, from, to, total }
 }
 
