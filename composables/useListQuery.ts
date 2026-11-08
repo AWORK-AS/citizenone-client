@@ -16,6 +16,8 @@ export interface UseListQueryOptions extends ListQueryOptions {
     onChange: (state: ListQueryState) => void | Promise<void>
     /** How long typing waits before it searches. */
     debounceMs?: number
+    /** Load on mount (default). `false` leaves the first load to the page, through `start()`. */
+    immediate?: boolean
 }
 
 /**
@@ -88,7 +90,11 @@ export function useListQuery(options: UseListQueryOptions) {
         apply(next)
     })
 
-    onMounted(() => apply(parseListQuery(route.query as any, options)))
+    const start = () => apply(parseListQuery(route.query as any, options))
+
+    onMounted(() => {
+        if (options.immediate !== false) start()
+    })
     onBeforeUnmount(() => {
         if (timer) clearTimeout(timer)
     })
@@ -110,5 +116,6 @@ export function useListQuery(options: UseListQueryOptions) {
         isFiltered: computed(() => hasListFilters(state, options)),
         apiSort: () => apiSortParams(state),
         reload: () => options.onChange(state),
+        start,
     }
 }
