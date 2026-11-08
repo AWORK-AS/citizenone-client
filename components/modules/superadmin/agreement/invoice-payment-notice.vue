@@ -49,5 +49,5 @@ const message = computed(() => {
     }
 })
 
-const tone = computed(() => paymentState.value === 'failed' ? 'text-[#CC3B2D]' : 'text-primary')
+const tone = computed(() => paymentState.value === 'failed' ? 'text-danger' : 'text-primary')
 </script>

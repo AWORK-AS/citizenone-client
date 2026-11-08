@@ -10,21 +10,21 @@
             <div class="p-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                    <h1 class="text-[22px] font-semibold text-ink">
                         {{ $t('superadmin.apps.pageTitle') }}
                     </h1>
                     <button @click="showNewAppSlider = true"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#205E77] bg-white border border-[#D5D9E2] hover:bg-[#F5F6F8] shadow-sm transition-colors">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.apps.newApp') }}
                     </button>
                 </div>
 
                 <!-- Catalogue is what the store shows; sales is what it earns. -->
-                <div class="mb-4 flex gap-1 rounded-lg border border-[#EAECF0] bg-white p-1 w-fit">
+                <div class="mb-4 flex gap-1 rounded-lg border border-line bg-white p-1 w-fit">
                     <button type="button" v-for="tab in tabs" :key="tab.value" @click="view = tab.value"
                         class="rounded-md px-4 py-1.5 text-[13px] font-medium transition-colors"
-                        :class="view === tab.value ? 'bg-[#205E77] text-white' : 'text-[#8891A4] hover:text-[#1F2533]'">
+                        :class="view === tab.value ? 'bg-tertiary text-white' : 'text-ink-muted hover:text-ink'">
                         {{ tab.label }}
                     </button>
                 </div>
@@ -38,14 +38,14 @@
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.apps.searchPlaceholder')" />
 
                     <select v-model="categoryFilter" :aria-label="$t('superadmin.apps.filterCategory')"
-                        class="h-9 rounded-lg border border-[#EAECF0] bg-white pl-3 pr-8 text-[13px] text-[#1F2533] focus:border-[#205E77] focus:ring-0">
+                        class="h-9 rounded-lg border border-line bg-white pl-3 pr-8 text-[13px] text-ink focus:border-tertiary focus:ring-0">
                         <option value="all">{{ $t('superadmin.apps.allCategories') }} ({{ allApps.length }})</option>
                         <option v-for="category in categories" :key="category.slug" :value="category.slug">
                             {{ category.name }} ({{ category.count }})
                         </option>
                     </select>
 
-                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5 ml-auto">
+                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5 ml-auto">
                         <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
                             :style="viewMode === 'grid' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
                             :aria-label="'Grid'" @click="viewMode = 'grid'">
@@ -64,18 +64,18 @@
                     <button v-for="status in statuses" :key="status.value" type="button"
                         class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-medium border transition-colors"
                         :class="statusFilter === status.value
-                            ? 'bg-[#205E77] border-[#205E77] text-white'
-                            : 'bg-white border-[#EAECF0] text-[#5C6478] hover:text-[#1F2533]'"
+                            ? 'bg-tertiary border-tertiary text-white'
+                            : 'bg-white border-line text-ink-body hover:text-ink'"
                         :aria-pressed="statusFilter === status.value" @click="statusFilter = status.value">
                         <span v-if="status.dot" class="w-1.5 h-1.5 rounded-full" :class="status.dot"></span>
                         {{ status.label }}
                         <span class="opacity-70">{{ status.count }}</span>
                     </button>
 
-                    <span class="ml-auto text-[12px] text-[#8891A4]">
+                    <span class="ml-auto text-[12px] text-ink-muted">
                         {{ $t('superadmin.apps.shownCount', { shown: visibleApps.length, total: allApps.length }) }}
                     </span>
-                    <button v-if="isFiltered" type="button" class="text-[12px] font-medium text-[#205E77] hover:underline"
+                    <button v-if="isFiltered" type="button" class="text-[12px] font-medium text-tertiary hover:underline"
                         @click="clearFilters">
                         {{ $t('superadmin.apps.clearFilters') }}
                     </button>
@@ -85,14 +85,14 @@
                     v-if="state.error?.message && state.error?.message?.length > 0" />
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
                 <div v-else-if="!visibleApps.length"
-                    class="bg-white border border-[#EAECF0] rounded-xl flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                    class="bg-white border border-line rounded-xl flex flex-col items-center gap-3 py-16 text-ink-muted">
                     <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
                     <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
-                    <button v-if="isFiltered" type="button" class="text-[13px] font-medium text-[#205E77] hover:underline"
+                    <button v-if="isFiltered" type="button" class="text-[13px] font-medium text-tertiary hover:underline"
                         @click="clearFilters">
                         {{ $t('superadmin.apps.clearFilters') }}
                     </button>
@@ -101,13 +101,13 @@
                 <!-- GRID VIEW -->
                 <div v-else-if="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div v-for="app in visibleApps" :key="app.uuid ?? app.id"
-                        class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        class="bg-white border border-line rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         @click="openEditAppSlider(app)">
                         <div class="flex items-start gap-3">
                             <ModulesSuperadminAppMark :app="app" size="lg" />
                             <div class="min-w-0 flex-1">
-                                <h3 class="text-[14px] font-semibold text-[#1F2533] truncate">{{ app.name }}</h3>
-                                <p class="text-[11px] text-[#8891A4] truncate">{{ app.category?.name ?? $t('superadmin.apps.noCategory') }}</p>
+                                <h3 class="text-[14px] font-semibold text-ink truncate">{{ app.name }}</h3>
+                                <p class="text-[11px] text-ink-muted truncate">{{ app.category?.name ?? $t('superadmin.apps.noCategory') }}</p>
                             </div>
                         </div>
 
@@ -121,13 +121,13 @@
                             </span>
                         </div>
 
-                        <p v-if="app.tagline || app.description" class="text-[12px] text-[#5C6478] mt-2 line-clamp-2">
+                        <p v-if="app.tagline || app.description" class="text-[12px] text-ink-body mt-2 line-clamp-2">
                             {{ app.tagline || app.description }}
                         </p>
 
-                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-[#F5F6F8] text-[12px]">
-                            <span class="font-medium text-[#1F2533]">{{ priceSummary(app) }}</span>
-                            <span class="text-[#8891A4]">{{ $t('superadmin.apps.customersCount', app.install_count ?? 0) }}</span>
+                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-surface-canvas text-[12px]">
+                            <span class="font-medium text-ink">{{ priceSummary(app) }}</span>
+                            <span class="text-ink-muted">{{ $t('superadmin.apps.customersCount', app.install_count ?? 0) }}</span>
                         </div>
                     </div>
                 </div>
@@ -135,10 +135,10 @@
                 <!-- LIST VIEW, grouped by category in the order the store shows them -->
                 <div v-else class="space-y-6">
                     <section v-for="group in groups" :key="group.key"
-                        class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                        <header class="flex items-center gap-2 px-4 py-2.5 border-b border-[#EAECF0] bg-[#F9FAFB]">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ group.name }}</h2>
-                            <span class="text-[12px] text-[#8891A4]">{{ group.apps.length }}</span>
+                        class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
+                        <header class="flex items-center gap-2 px-4 py-2.5 border-b border-line bg-surface-subtle">
+                            <h2 class="text-[13px] font-semibold text-ink">{{ group.name }}</h2>
+                            <span class="text-[12px] text-ink-muted">{{ group.apps.length }}</span>
                         </header>
                         <table class="w-full table-fixed">
                             <colgroup>
@@ -159,23 +159,23 @@
                             </thead>
                             <tbody>
                                 <tr v-for="app in group.apps" :key="app.uuid ?? app.id"
-                                    class="border-b border-[#F5F6F8] last:border-b-0 hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                                    class="border-b border-surface-canvas last:border-b-0 hover:bg-surface-subtle transition-colors cursor-pointer"
                                     @click="openEditAppSlider(app)">
                                     <td class="co-td">
                                         <div class="flex items-center gap-3 min-w-0">
                                             <ModulesSuperadminAppMark :app="app" />
                                             <div class="min-w-0">
                                                 <div class="flex items-center gap-1.5 min-w-0">
-                                                    <span class="text-[13px] font-semibold text-[#1F2533] truncate">{{ app.name }}</span>
+                                                    <span class="text-[13px] font-semibold text-ink truncate">{{ app.name }}</span>
                                                     <span v-for="badge in appBadges(app)" :key="badge.key"
                                                         class="co-badge co-badge-navy text-[10px] shrink-0">{{ badge.label }}</span>
                                                 </div>
-                                                <p class="text-[11px] text-[#8891A4] truncate">{{ app.slug }}</p>
+                                                <p class="text-[11px] text-ink-muted truncate">{{ app.slug }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="co-td text-[12px] text-[#1F2533]">{{ priceSummary(app) }}</td>
-                                    <td class="co-td text-[12px] text-[#5C6478] tabular-nums"
+                                    <td class="co-td text-[12px] text-ink">{{ priceSummary(app) }}</td>
+                                    <td class="co-td text-[12px] text-ink-body tabular-nums"
                                         :title="$t('superadmin.apps.colCustomers')">
                                         {{ app.install_count ?? 0 }}
                                     </td>
@@ -322,10 +322,10 @@ const inCategory = computed(() => allApps.value.filter(app =>
 
 const statuses = computed(() => [
     { value: 'all', label: t('superadmin.apps.statusAll'), dot: '' },
-    { value: 'live', label: t('superadmin.apps.statusLive'), dot: 'bg-[#2E9E33]' },
-    { value: 'hidden', label: t('superadmin.apps.statusHidden'), dot: 'bg-[#8891A4]' },
-    { value: 'inactive', label: t('superadmin.apps.inactive'), dot: 'bg-[#CC3B2D]' },
-    { value: 'incomplete', label: t('superadmin.apps.statusIncomplete'), dot: 'bg-[#D4900A]' },
+    { value: 'live', label: t('superadmin.apps.statusLive'), dot: 'bg-success' },
+    { value: 'hidden', label: t('superadmin.apps.statusHidden'), dot: 'bg-ink-muted' },
+    { value: 'inactive', label: t('superadmin.apps.inactive'), dot: 'bg-danger' },
+    { value: 'incomplete', label: t('superadmin.apps.statusIncomplete'), dot: 'bg-warning' },
 ].map(status => ({ ...status, count: inCategory.value.filter(STATUS_TESTS[status.value]).length })))
 
 const visibleApps = computed(() => {
@@ -372,11 +372,11 @@ function appBadges(app: any) {
 function statusPills(app: any) {
     const pills: { key: string; label: string; class: string; dot?: string; title?: string }[] = []
     if (isInactive(app)) {
-        pills.push({ key: 'inactive', label: t('superadmin.apps.inactive'), class: 'co-badge-red', dot: 'bg-[#CC3B2D]' })
+        pills.push({ key: 'inactive', label: t('superadmin.apps.inactive'), class: 'co-badge-red', dot: 'bg-danger' })
     } else if (isHidden(app)) {
-        pills.push({ key: 'hidden', label: t('superadmin.apps.statusHidden'), class: 'co-badge-gray', dot: 'bg-[#8891A4]' })
+        pills.push({ key: 'hidden', label: t('superadmin.apps.statusHidden'), class: 'co-badge-gray', dot: 'bg-ink-muted' })
     } else {
-        pills.push({ key: 'live', label: t('superadmin.apps.statusLive'), class: 'co-badge-green', dot: 'bg-[#2E9E33]' })
+        pills.push({ key: 'live', label: t('superadmin.apps.statusLive'), class: 'co-badge-green', dot: 'bg-success' })
     }
     if (isIncomplete(app)) {
         pills.push({
@@ -467,7 +467,7 @@ function next() {
     padding: 10px 16px;
     font-size: 11px;
     font-weight: 600;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     text-transform: uppercase;
     letter-spacing: 0.06em
 }
@@ -486,16 +486,16 @@ function next() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #5C6478;
-    border: 1px solid #D5D9E2;
+    color: theme('colors.ink.body');
+    border: 1px solid theme('colors.line.strong');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn:hover {
-    background: #F5F6F8;
-    color: #205E77;
-    border-color: #205E77
+    background: theme('colors.surface.canvas');
+    color: theme('colors.tertiary.DEFAULT');
+    border-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-action-btn-danger {
@@ -507,15 +507,15 @@ function next() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #CC3B2D;
-    border: 1px solid #F5C6C3;
+    color: theme('colors.danger.DEFAULT');
+    border: 1px solid theme('colors.danger.line');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn-danger:hover {
-    background: #FEF2F2;
-    border-color: #CC3B2D
+    background: theme('colors.danger.soft');
+    border-color: theme('colors.danger.DEFAULT')
 }
 
 .co-badge {
@@ -529,28 +529,28 @@ function next() {
 }
 
 .co-badge-green {
-    background: #EDF7EE;
-    color: #2E9E33
+    background: theme('colors.success.soft');
+    color: theme('colors.success.DEFAULT')
 }
 
 .co-badge-navy {
-    background: #E4F1F6;
-    color: #205E77
+    background: theme('colors.tertiary.soft');
+    color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-badge-gray {
-    background: #F5F6F8;
-    color: #5C6478
+    background: theme('colors.surface.canvas');
+    color: theme('colors.ink.body')
 }
 
 .co-badge-red {
-    background: #FEF2F2;
-    color: #CC3B2D
+    background: theme('colors.danger.soft');
+    color: theme('colors.danger.DEFAULT')
 }
 
 .co-badge-amber {
-    background: #FFF7E6;
-    color: #B45309
+    background: theme('colors.warning.soft');
+    color: theme('colors.warning.ink')
 }
 
 .co-icon-btn-danger {
@@ -560,16 +560,16 @@ function next() {
     width: 30px;
     height: 30px;
     border-radius: 8px;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     border: 1px solid transparent;
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-icon-btn-danger:hover {
-    background: #FEF2F2;
-    color: #CC3B2D;
-    border-color: #F5C6C3
+    background: theme('colors.danger.soft');
+    color: theme('colors.danger.DEFAULT');
+    border-color: theme('colors.danger.line')
 }
 
 .line-clamp-2 {

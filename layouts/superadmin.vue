@@ -6,7 +6,7 @@
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300"
                     enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300"
                     leave-from="opacity-100" leave-to="opacity-0">
-                    <div class="fixed inset-0 bg-[#205E77]/80" />
+                    <div class="fixed inset-0 bg-tertiary/80" />
                 </TransitionChild>
                 <div class="fixed inset-0 flex">
                     <TransitionChild as="template" enter="transition ease-in-out duration-300 transform"
@@ -265,7 +265,7 @@
         </div>
 
         <!-- Main content -->
-        <div class="lg:pl-64 bg-[#F5F6F8] min-h-screen">
+        <div class="lg:pl-64 bg-surface-canvas min-h-screen">
             <!-- Top bar -->
             <div
                 class="sticky top-0 z-40 flex h-14 items-center gap-x-3 border-b border-gray-200 bg-white px-4 shadow-sm sm:px-6 lg:px-8">
@@ -476,7 +476,7 @@ function identifyFlag() {
 
 <style scoped>
 .co-sidebar {
-    background: linear-gradient(180deg, #1a5068 0%, #154055 100%);
+    background: linear-gradient(180deg, theme('colors.tertiary.700') 0%, theme('colors.tertiary.800') 100%);
     border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -504,8 +504,8 @@ function identifyFlag() {
 
 .co-nav-active {
     background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    box-shadow: inset 2px 0 0 #42AED9;
+    color: theme('colors.white');
+    box-shadow: inset 2px 0 0 theme('colors.accent.DEFAULT');
 }
 
 .co-nav-badge {
@@ -518,8 +518,8 @@ function identifyFlag() {
     border-radius: 10px;
     font-size: 11px;
     font-weight: 700;
-    background: #CC3B2D;
-    color: #ffffff;
+    background: theme('colors.danger.DEFAULT');
+    color: theme('colors.white');
 }
 
 .co-nav-inactive {
@@ -536,7 +536,7 @@ function identifyFlag() {
     flex-wrap: wrap;
     gap: 4px;
     margin-bottom: 24px;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 1px solid theme('colors.line.DEFAULT');
 }
 
 .co-hub-tab {
@@ -549,18 +549,18 @@ function identifyFlag() {
     border-bottom: 2px solid transparent;
     font-size: 14px;
     font-weight: 500;
-    color: #6B7280;
+    color: theme('colors.ink.body');
     transition: color 0.15s, border-color 0.15s;
 }
 
 .co-hub-tab:hover {
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
 }
 
 .co-hub-tab-active {
-    color: #1a5068;
+    color: theme('colors.tertiary.700');
     font-weight: 600;
-    border-bottom-color: #1a5068;
+    border-bottom-color: theme('colors.tertiary.700');
 }
 
 .co-user-footer {

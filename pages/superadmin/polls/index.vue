@@ -10,7 +10,7 @@
             <div class="p-1">
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.polls.polls') }}
                         </h1>
                     </div>
@@ -36,17 +36,17 @@
                     @sort="handleSort">
                     <template #body>
                         <tr v-for="(poll, index) in state.polls?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                            <td class="co-td text-[13px] font-medium text-[#1F2533]">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                            <td class="co-td text-[13px] font-medium text-ink">
                                 {{ poll?.title }}
                             </td>
                             <td class="co-td">
                                 <span v-if="poll?.is_active" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                     {{ $t('superadmin.polls.table.active') }}
                                 </span>
                                 <span v-else class="co-badge co-badge-gray">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#8891A4]"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-ink-muted"></span>
                                     {{ $t('superadmin.polls.table.inactive') }}
                                 </span>
                             </td>

@@ -5,8 +5,8 @@
             v-if="props.error?.message && props.error.message.length > 0" />
 
         <!-- Poll item information -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-5">
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-5">
                 {{ $t('superadmin.polls.form.pollItemInformation') }}
             </h2>
 
@@ -53,13 +53,13 @@
         </div>
 
         <!-- Settings -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-4">
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-4">
                 {{ $t('superadmin.companies.form.settings') }}
             </h2>
 
             <div class="flex items-center justify-between py-3">
-                <p class="text-[13px] font-medium text-[#1F2533]">
+                <p class="text-[13px] font-medium text-ink">
                     {{ $t('superadmin.polls.form.active') }}
                 </p>
                 <button type="button" @click="state.formPoll.is_active = !state.formPoll.is_active"
@@ -74,7 +74,7 @@
         <!-- Action buttons -->
         <div class="flex items-center justify-end gap-3 pb-6">
             <button type="button" @click="navigateTo(`/superadmin/polls/${pollUuid}`)"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
@@ -192,24 +192,24 @@ function submitForm() {
     width: 100%;
     padding: 9px 13px;
     font-size: 14px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     background: white;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 10px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .co-textarea:focus {
-    border-color: #42AED9;
+    border-color: theme('colors.accent.DEFAULT');
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
 }
 
 .co-textarea::placeholder {
-    color: #B0B8C4;
+    color: theme('colors.ink.subtle');
 }
 
 .co-textarea.border-red-400 {
-    border-color: #f87171;
+    border-color: theme('colors.danger.DEFAULT');
 }
 </style>

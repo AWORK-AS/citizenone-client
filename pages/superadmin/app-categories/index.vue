@@ -10,11 +10,11 @@
             <div class="p-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                    <h1 class="text-[22px] font-semibold text-ink">
                         {{ $t('superadmin.appCategories.pageTitle') }}
                     </h1>
                     <button @click="openCreate"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#205E77] bg-white border border-[#D5D9E2] hover:bg-[#F5F6F8] shadow-sm transition-colors">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.appCategories.newCategory') }}
                     </button>
@@ -30,27 +30,27 @@
                     v-if="state.error?.message && state.error?.message?.length > 0" />
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
                 <!-- Two categories on the same position are drawn alphabetically by the store, which
                      is rarely what anyone meant. Say so, and name them, rather than leave a silent tie. -->
                 <div v-if="!state.isLoading && sharedPositions.length"
-                    class="mb-4 flex items-start gap-2 rounded-lg border border-[#F5D9A8] bg-[#FFF7E6] px-4 py-3 text-[13px] text-[#8A5A00]">
+                    class="mb-4 flex items-start gap-2 rounded-lg border border-warning-line bg-warning-soft px-4 py-3 text-[13px] text-warning-ink">
                     <Icon name="ph:info" class="w-4 h-4 mt-0.5 shrink-0" />
                     <p>{{ $t('superadmin.appCategories.sharedPositionsHint') }}</p>
                 </div>
 
                 <!-- LIST VIEW -->
-                <div v-if="!state.isLoading" class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
+                <div v-if="!state.isLoading" class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
                     <div v-if="!filteredCategories.length"
-                        class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                        class="flex flex-col items-center gap-3 py-16 text-ink-muted">
                         <Icon name="ic:baseline-category" class="w-12 h-12 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.appCategories.noCategoriesFound') }}</p>
                     </div>
                     <table v-else class="w-full">
                         <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                            <tr class="border-b border-line bg-surface-subtle">
                                 <th class="co-th w-[90px]">{{ $t('superadmin.appCategories.colPosition') }}</th>
                                 <th class="co-th">{{ $t('superadmin.appCategories.colName') }}</th>
                                 <th class="co-th w-[120px]">{{ $t('superadmin.appCategories.colStatus') }}</th>
@@ -60,31 +60,31 @@
                         </thead>
                         <tbody>
                             <tr v-for="category in filteredCategories" :key="category.uuid ?? category.id"
-                                class="border-b border-[#F5F6F8] last:border-b-0 hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                                class="border-b border-surface-canvas last:border-b-0 hover:bg-surface-subtle transition-colors cursor-pointer"
                                 @click="openEdit(category)">
 
                                 <td class="co-td">
-                                    <span class="inline-flex items-center gap-1 text-[13px] tabular-nums text-[#5C6478]"
+                                    <span class="inline-flex items-center gap-1 text-[13px] tabular-nums text-ink-body"
                                         :title="sharedWith(category).length
                                             ? $t('superadmin.appCategories.sharedPosition', { names: sharedWith(category).join(', ') })
                                             : undefined">
                                         {{ category.sort_order }}
                                         <Icon v-if="sharedWith(category).length" name="ph:warning-circle"
-                                            class="w-3.5 h-3.5 text-[#D4900A]" />
+                                            class="w-3.5 h-3.5 text-warning" />
                                     </span>
                                 </td>
 
                                 <td class="co-td">
                                     <div class="flex items-center gap-3">
-                                        <span class="w-9 h-9 shrink-0 rounded-lg bg-[#E4F1F6] text-[#205E77] flex items-center justify-center"
+                                        <span class="w-9 h-9 shrink-0 rounded-lg bg-tertiary-soft text-tertiary flex items-center justify-center"
                                             :title="category.icon || undefined">
                                             <Icon v-if="isIconName(category.icon)" :name="category.icon" class="w-5 h-5" />
                                             <span v-else-if="category.icon" class="text-[16px] leading-none">{{ category.icon }}</span>
                                             <Icon v-else name="ic:baseline-category" class="w-5 h-5 opacity-60" />
                                         </span>
                                         <div class="min-w-0">
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">{{ category.name }}</p>
-                                            <p class="text-[11px] text-[#8891A4]">{{ category.slug }}</p>
+                                            <p class="text-[13px] font-semibold text-ink">{{ category.name }}</p>
+                                            <p class="text-[11px] text-ink-muted">{{ category.slug }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -92,7 +92,7 @@
                                 <td class="co-td">
                                     <span v-if="category.is_active !== false"
                                         class="co-badge co-badge-green text-[10px]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                         {{ $t('superadmin.appCategories.active') }}
                                     </span>
                                     <span v-else class="co-badge co-badge-gray text-[10px]">
@@ -104,12 +104,12 @@
                                 <td class="co-td">
                                     <NuxtLink v-if="(category.applications_count ?? 0) > 0"
                                         :to="{ path: '/superadmin/apps', query: { category: category.slug } }"
-                                        class="inline-flex items-center gap-1 text-[13px] font-medium text-[#205E77] hover:underline"
+                                        class="inline-flex items-center gap-1 text-[13px] font-medium text-tertiary hover:underline"
                                         @click.stop>
                                         {{ $t('superadmin.appCategories.appsCount', category.applications_count) }}
                                         <Icon name="ph:arrow-right" class="w-3.5 h-3.5" />
                                     </NuxtLink>
-                                    <span v-else class="text-[13px] text-[#8891A4]">
+                                    <span v-else class="text-[13px] text-ink-muted">
                                         {{ $t('superadmin.appCategories.noApps') }}
                                     </span>
                                 </td>
@@ -267,7 +267,7 @@ function next() {
     padding: 10px 16px;
     font-size: 11px;
     font-weight: 600;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     text-transform: uppercase;
     letter-spacing: 0.06em
 }
@@ -286,16 +286,16 @@ function next() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #5C6478;
-    border: 1px solid #D5D9E2;
+    color: theme('colors.ink.body');
+    border: 1px solid theme('colors.line.strong');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn:hover {
-    background: #F5F6F8;
-    color: #205E77;
-    border-color: #205E77
+    background: theme('colors.surface.canvas');
+    color: theme('colors.tertiary.DEFAULT');
+    border-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-action-btn-danger {
@@ -307,15 +307,15 @@ function next() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #CC3B2D;
-    border: 1px solid #F5C6C3;
+    color: theme('colors.danger.DEFAULT');
+    border: 1px solid theme('colors.danger.line');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn-danger:hover {
-    background: #FEF2F2;
-    border-color: #CC3B2D
+    background: theme('colors.danger.soft');
+    border-color: theme('colors.danger.DEFAULT')
 }
 
 .co-badge {
@@ -329,13 +329,13 @@ function next() {
 }
 
 .co-badge-green {
-    background: #EDF7EE;
-    color: #2E9E33
+    background: theme('colors.success.soft');
+    color: theme('colors.success.DEFAULT')
 }
 
 .co-badge-gray {
-    background: #F5F6F8;
-    color: #5C6478
+    background: theme('colors.surface.canvas');
+    color: theme('colors.ink.body')
 }
 
 .co-icon-btn-danger {
@@ -345,16 +345,16 @@ function next() {
     width: 30px;
     height: 30px;
     border-radius: 8px;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     border: 1px solid transparent;
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-icon-btn-danger:hover:not(:disabled) {
-    background: #FEF2F2;
-    color: #CC3B2D;
-    border-color: #F5C6C3
+    background: theme('colors.danger.soft');
+    color: theme('colors.danger.DEFAULT');
+    border-color: theme('colors.danger.line')
 }
 
 .co-icon-btn-danger:disabled {

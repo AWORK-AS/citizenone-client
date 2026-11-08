@@ -80,7 +80,7 @@ const current = computed(() => {
 const chip = computed(() => economicStatus(current.value))
 const chipClass = computed(() => ({
     gray: 'co-badge-gray', green: 'co-badge-green', red: 'co-badge-red',
-    navy: 'co-badge-navy', amber: 'bg-[#FEF3C7] text-[#B45309]',
+    navy: 'co-badge-navy', amber: 'bg-warning-soft text-warning-ink',
 } as Record<string, string>)[chip.value?.color ?? 'gray'])
 const chipHelp = computed(() => t(`superadmin.agreements.economic.state.${chip.value!.state}Help`, {
     error: chip.value?.error ?? '',

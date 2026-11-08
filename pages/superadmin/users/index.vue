@@ -14,10 +14,10 @@
             <div class="p-1">
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.users.users') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             {{ $t('superadmin.users.totalUsers', {
                                 count: state.users?.meta?.total ?? 0
                             }) }}
@@ -35,7 +35,7 @@
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.users.searchPlaceholder')"
                         @input="debouncedSearch" />
 
-                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                         <button v-for="tab in tabs" :key="tab.key"
                             class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
                             :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
@@ -46,7 +46,7 @@
                     </div>
 
                     <select v-model="sortLabel"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
+                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors ml-auto"
                         @change="handleSortChange">
                         <option value="firstname_asc">{{ $t('superadmin.users.sort.nameAsc') }}</option>
                         <option value="firstname_desc">{{ $t('superadmin.users.sort.nameDesc') }}</option>
@@ -65,26 +65,26 @@
                     @sort="handleSort">
                     <template #body>
                         <tr v-for="(user, index) in state.users?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
                             <td class="co-td">
                                 <div class="flex items-center gap-3">
                                     <img :src="user?.image ?? avatarUrl(`${(user?.firstname || '?') + '+' + (user?.lastname || '')}`)"
                                         class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ user?.firstname }} {{ user?.lastname }}
                                     </p>
                                 </div>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ user?.email }}
                             </td>
                             <td class="co-td">
-                                <span v-if="user?.company?.name" class="text-[12px] font-medium text-[#1F2533]">
+                                <span v-if="user?.company?.name" class="text-[12px] font-medium text-ink">
                                     {{ user.company.name }}
                                 </span>
-                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                                <span v-else class="text-ink-muted text-[13px]">—</span>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ user?.phone || '—' }}
                             </td>
                             <td class="co-td">
@@ -95,15 +95,15 @@
                                 <span v-else-if="user?.roles?.length" class="co-badge co-badge-gray">
                                     {{ user.roles[0]?.name }}
                                 </span>
-                                <span v-else class="text-[#8891A4] text-[12px]">—</span>
+                                <span v-else class="text-ink-muted text-[12px]">—</span>
                             </td>
                             <td class="co-td">
                                 <span v-if="user?.is_active !== false" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                     {{ $t('superadmin.companies.table.active') }}
                                 </span>
                                 <span v-else class="co-badge co-badge-red">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                     {{ $t('superadmin.companies.table.inactive') }}
                                 </span>
                             </td>

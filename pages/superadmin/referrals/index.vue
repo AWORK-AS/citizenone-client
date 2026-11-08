@@ -15,12 +15,12 @@
             <div class="p-1" data-testid="superadmin-referrals">
                 <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('superadmin.referrals.header') }}</h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.referrals.subtitle') }}</p>
+                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.referrals.header') }}</h1>
+                        <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.referrals.subtitle') }}</p>
                     </div>
                     <div class="flex flex-wrap items-end gap-2">
                         <select v-model="state.status" @change="load" :aria-label="$t('superadmin.referrals.statusColumn')"
-                            class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9]">
+                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent">
                             <option value="">{{ $t('superadmin.referrals.allStatuses') }}</option>
                             <option v-for="status in REFERRAL_STATUSES" :key="status" :value="status">
                                 {{ $t(`superadmin.referrals.status.${status}`) }}
@@ -31,23 +31,23 @@
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                <p class="mb-4 rounded-lg border border-[#FDE7C7] bg-[#FFFAF2] px-4 py-3 text-[13px] text-[#7A4B0B]">
+                <p class="mb-4 rounded-lg border border-warning-line bg-warning-soft px-4 py-3 text-[13px] text-warning-ink">
                     {{ $t('superadmin.referrals.manualHint') }}
                 </p>
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div class="grid grid-cols-2 gap-4 mb-5 xl:grid-cols-5">
-                        <div v-for="card in cards" :key="card.key" class="bg-white border border-[#EAECF0] rounded-xl shadow-sm px-4 py-4">
-                            <p class="text-[11px] font-semibold uppercase tracking-wide text-[#8891A4]">{{ card.label }}</p>
-                            <p class="mt-1 text-2xl font-semibold text-[#1F2533] tabular-nums">{{ card.value }}</p>
+                        <div v-for="card in cards" :key="card.key" class="bg-white border border-line rounded-xl shadow-sm px-4 py-4">
+                            <p class="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">{{ card.label }}</p>
+                            <p class="mt-1 text-2xl font-semibold text-ink tabular-nums">{{ card.value }}</p>
                         </div>
                     </div>
 
-                    <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-x-auto">
-                        <p v-if="!state.referrals.length" class="p-8 text-center text-sm text-[#8891A4]">{{ $t('superadmin.referrals.empty') }}</p>
+                    <div class="bg-white border border-line rounded-xl shadow-sm overflow-x-auto">
+                        <p v-if="!state.referrals.length" class="p-8 text-center text-sm text-ink-muted">{{ $t('superadmin.referrals.empty') }}</p>
                         <table v-else class="w-full">
                             <thead>
-                                <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                <tr class="bg-surface-subtle border-b border-line">
                                     <th class="co-th">{{ $t('superadmin.referrals.referrer') }}</th>
                                     <th class="co-th">{{ $t('superadmin.referrals.referred') }}</th>
                                     <th class="co-th">{{ $t('superadmin.referrals.signedUp') }}</th>
@@ -56,26 +56,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="row in state.referrals" :key="row.uuid" class="border-b border-[#F5F6F8] align-top">
+                                <tr v-for="row in state.referrals" :key="row.uuid" class="border-b border-surface-canvas align-top">
                                     <td class="co-td text-[13px]">
                                         <NuxtLink v-if="row.referrer.uuid" :to="`/superadmin/companies/${row.referrer.uuid}/overview`" class="hover:underline">{{ row.referrer.name }}</NuxtLink>
                                     </td>
                                     <td class="co-td text-[13px]">
                                         <NuxtLink v-if="row.referred.uuid" :to="`/superadmin/companies/${row.referred.uuid}/overview`" class="hover:underline">{{ row.referred.name }}</NuxtLink>
                                     </td>
-                                    <td class="co-td text-[13px] text-[#5C6478] whitespace-nowrap">{{ formatDate(row.created_at) }}</td>
+                                    <td class="co-td text-[13px] text-ink-body whitespace-nowrap">{{ formatDate(row.created_at) }}</td>
                                     <td class="co-td text-[13px]">
                                         <span class="co-badge" :class="row.status === 'rewarded' ? 'co-badge-navy' : ''">{{ $t(`superadmin.referrals.status.${row.status}`) }}</span>
-                                        <p v-if="row.rejection_reason" class="mt-1 text-[12px] text-[#8891A4]">{{ $t(`superadmin.referrals.reasons.${row.rejection_reason}`) }}</p>
-                                        <p v-if="row.qualifying_invoice" class="mt-1 text-[12px] text-[#5C6478]">{{ $t('superadmin.referrals.qualifyingInvoice', { number: row.qualifying_invoice.number, amount: formatAmount(row.qualifying_invoice.total_amount) }) }}</p>
-                                        <p v-if="row.status === 'rewarded' && row.referrer_rewarded === false" class="mt-1 text-[12px] text-[#8891A4] max-w-[16rem]">{{ $t('superadmin.referrals.capped') }}</p>
+                                        <p v-if="row.rejection_reason" class="mt-1 text-[12px] text-ink-muted">{{ $t(`superadmin.referrals.reasons.${row.rejection_reason}`) }}</p>
+                                        <p v-if="row.qualifying_invoice" class="mt-1 text-[12px] text-ink-body">{{ $t('superadmin.referrals.qualifyingInvoice', { number: row.qualifying_invoice.number, amount: formatAmount(row.qualifying_invoice.total_amount) }) }}</p>
+                                        <p v-if="row.status === 'rewarded' && row.referrer_rewarded === false" class="mt-1 text-[12px] text-ink-muted max-w-[16rem]">{{ $t('superadmin.referrals.capped') }}</p>
                                     </td>
                                     <td class="co-td text-[13px]">
                                         <div v-for="credit in row.credits" :key="credit.uuid" class="mb-2 last:mb-0">
-                                            <p class="text-[#1F2533]">
+                                            <p class="text-ink">
                                                 {{ credit.company_name }} · {{ $t(`superadmin.referrals.role.${credit.role}`) }}
                                             </p>
-                                            <p class="text-[12px] text-[#5C6478]">
+                                            <p class="text-[12px] text-ink-body">
                                                 {{ credit.amount !== null ? $t('superadmin.referrals.amount', { amount: formatAmount(credit.amount) }) : $t('superadmin.referrals.noAmount') }}
                                                 · {{ $t(`superadmin.referrals.creditStatus.${credit.status}`) }}
                                                 <template v-if="credit.applied_note"> · {{ credit.applied_note }}</template>
@@ -84,14 +84,14 @@
                                                 <div v-if="state.settling === credit.uuid" class="mt-1 flex flex-wrap items-center gap-2">
                                                     <input v-model="state.note" type="text" maxlength="255" :placeholder="$t('superadmin.referrals.notePlaceholder')"
                                                         :aria-label="$t('superadmin.referrals.notePlaceholder')"
-                                                        class="min-w-[14rem] flex-1 rounded-lg border border-[#EAECF0] px-2.5 py-1.5 text-[12px]" />
-                                                    <button type="button" class="text-[12px] font-semibold text-[#205E77] disabled:opacity-50" :disabled="!state.note.trim() || state.saving"
+                                                        class="min-w-[14rem] flex-1 rounded-lg border border-line px-2.5 py-1.5 text-[12px]" />
+                                                    <button type="button" class="text-[12px] font-semibold text-tertiary disabled:opacity-50" :disabled="!state.note.trim() || state.saving"
                                                         @click="settle(credit.uuid)">{{ $t('superadmin.referrals.save') }}</button>
-                                                    <button type="button" class="text-[12px] text-[#5C6478]" @click="state.settling = null">{{ $t('superadmin.referrals.cancel') }}</button>
+                                                    <button type="button" class="text-[12px] text-ink-body" @click="state.settling = null">{{ $t('superadmin.referrals.cancel') }}</button>
                                                 </div>
                                                 <div v-else class="mt-1 flex gap-3">
-                                                    <button type="button" class="text-[12px] font-semibold text-[#205E77]" @click="startSettling(credit.uuid, 'applied')">{{ $t('superadmin.referrals.apply') }}</button>
-                                                    <button type="button" class="text-[12px] text-[#B42318]" @click="startSettling(credit.uuid, 'void')">{{ $t('superadmin.referrals.void') }}</button>
+                                                    <button type="button" class="text-[12px] font-semibold text-tertiary" @click="startSettling(credit.uuid, 'applied')">{{ $t('superadmin.referrals.apply') }}</button>
+                                                    <button type="button" class="text-[12px] text-danger-ink" @click="startSettling(credit.uuid, 'void')">{{ $t('superadmin.referrals.void') }}</button>
                                                 </div>
                                             </template>
                                         </div>

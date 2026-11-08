@@ -10,17 +10,17 @@
             <div class="p-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                    <h1 class="text-[22px] font-semibold text-ink">
                         {{ $t('superadmin.storagePackages.pageTitle') }}
                     </h1>
                     <button @click="openCreate"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-[#205E77] bg-white border border-[#D5D9E2] hover:bg-[#F5F6F8] shadow-sm transition-colors">
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-tertiary bg-white border border-line-strong hover:bg-surface-canvas shadow-sm transition-colors">
                         <Icon name="ph:plus" class="w-4 h-4" />
                         {{ $t('superadmin.storagePackages.newPackage') }}
                     </button>
                 </div>
 
-                <p class="text-sm text-[#5C6478] mb-4">
+                <p class="text-sm text-ink-body mb-4">
                     {{ $t('superadmin.storagePackages.description') }}
                 </p>
 
@@ -28,18 +28,18 @@
                     v-if="state.error?.message && state.error?.message?.length > 0" />
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
                 <!-- LIST VIEW -->
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="!packages.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                <div v-else class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
+                    <div v-if="!packages.length" class="flex flex-col items-center gap-3 py-16 text-ink-muted">
                         <Icon name="ph:cloud" class="w-12 h-12 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.storagePackages.noPackagesFound') }}</p>
                     </div>
                     <table v-else class="w-full">
                         <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                            <tr class="border-b border-line bg-surface-subtle">
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colName') }}</th>
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colSize') }}</th>
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colMonthlyPrice') }}</th>
@@ -50,14 +50,14 @@
                         </thead>
                         <tbody>
                             <tr v-for="pkg in packages" :key="pkg.uuid"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] font-semibold text-[#1F2533]">{{ pkg.name }}</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ pkg.storage_size_gb }} GB</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ pkg.monthly_price }} kr.</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
+                                <td class="co-td text-[13px] font-semibold text-ink">{{ pkg.name }}</td>
+                                <td class="co-td text-[13px] text-ink-body">{{ pkg.storage_size_gb }} GB</td>
+                                <td class="co-td text-[13px] text-ink-body">{{ pkg.monthly_price }} kr.</td>
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ pkg.yearly_price != null ? pkg.yearly_price + ' kr.' : '-' }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ pricePerGb(pkg) }}</td>
+                                <td class="co-td text-[13px] text-ink-body">{{ pricePerGb(pkg) }}</td>
                                 <td class="co-td">
                                     <div class="flex items-center gap-2 justify-end">
                                         <button class="co-action-btn" @click="openEdit(pkg)">
@@ -79,7 +79,7 @@
             <!-- CREATE/EDIT MODAL -->
             <Modal size="sm" :show="state.modal.isFormOpen" @close="state.modal.isFormOpen = false">
                 <template #modal-body>
-                    <h3 class="text-base font-semibold text-[#1F2533] mb-4">
+                    <h3 class="text-base font-semibold text-ink mb-4">
                         {{ state.form.uuid
                             ? $t('superadmin.storagePackages.editPackage')
                             : $t('superadmin.storagePackages.newPackage') }}
@@ -88,26 +88,26 @@
                         v-if="state.formError?.message && state.formError?.message?.length > 0" />
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-medium text-[#5C6478] mb-1">
+                            <label class="block text-xs font-medium text-ink-body mb-1">
                                 {{ $t('superadmin.storagePackages.colName') }}
                             </label>
                             <input v-model="state.form.name" type="text" class="co-input"
                                 :placeholder="$t('superadmin.storagePackages.namePlaceholder')" />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-[#5C6478] mb-1">
+                            <label class="block text-xs font-medium text-ink-body mb-1">
                                 {{ $t('superadmin.storagePackages.colSize') }} (GB)
                             </label>
                             <input v-model.number="state.form.storage_size_gb" type="number" min="1" class="co-input" />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-[#5C6478] mb-1">
+                            <label class="block text-xs font-medium text-ink-body mb-1">
                                 {{ $t('superadmin.storagePackages.colMonthlyPrice') }} (kr.)
                             </label>
                             <input v-model.number="state.form.monthly_price" type="number" min="0" class="co-input" />
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-[#5C6478] mb-1">
+                            <label class="block text-xs font-medium text-ink-body mb-1">
                                 {{ $t('superadmin.storagePackages.colYearlyPrice') }} (kr.)
                             </label>
                             <input v-model.number="state.form.yearly_price" type="number" min="0" class="co-input"
@@ -255,7 +255,7 @@ async function deletePackage() {
     padding: 10px 16px;
     font-size: 11px;
     font-weight: 600;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     text-transform: uppercase;
     letter-spacing: 0.06em
 }
@@ -268,15 +268,15 @@ async function deletePackage() {
 .co-input {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 8px;
     font-size: 13px;
-    color: #1F2533
+    color: theme('colors.ink.DEFAULT')
 }
 
 .co-input:focus {
     outline: none;
-    border-color: #205E77
+    border-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-action-btn {
@@ -288,16 +288,16 @@ async function deletePackage() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #5C6478;
-    border: 1px solid #D5D9E2;
+    color: theme('colors.ink.body');
+    border: 1px solid theme('colors.line.strong');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn:hover {
-    background: #F5F6F8;
-    color: #205E77;
-    border-color: #205E77
+    background: theme('colors.surface.canvas');
+    color: theme('colors.tertiary.DEFAULT');
+    border-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-action-btn-danger {
@@ -309,14 +309,14 @@ async function deletePackage() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #CC3B2D;
-    border: 1px solid #F5C6C3;
+    color: theme('colors.danger.DEFAULT');
+    border: 1px solid theme('colors.danger.line');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn-danger:hover {
-    background: #FEF2F2;
-    border-color: #CC3B2D
+    background: theme('colors.danger.soft');
+    border-color: theme('colors.danger.DEFAULT')
 }
 </style>

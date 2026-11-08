@@ -1,9 +1,9 @@
 <template>
-    <section class="border border-[#EAECF0] rounded-xl p-4">
+    <section class="border border-line rounded-xl p-4">
         <div class="flex items-center gap-1">
             <SuperadminFormLabel :label="$t('superadmin.companies.form.economicCustomerNumber')" />
             <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
-                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                     :aria-label="$t('superadmin.companies.form.economicCustomerNumberHelp')" />
             </Tooltip>
         </div>
@@ -24,7 +24,7 @@
                 </FormButton>
             </Tooltip>
         </form>
-        <p class="text-[11px] text-[#8891A4] mt-1">
+        <p class="text-[11px] text-ink-muted mt-1">
             {{ $t('superadmin.companies.form.economicCustomerNumberHelp') }}
         </p>
         <SuperadminFormError :error="state.error" />

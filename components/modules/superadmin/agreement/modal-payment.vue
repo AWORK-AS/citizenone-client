@@ -6,7 +6,7 @@
                 <div class="space-y-3">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <p class="text-sm text-[#5C6478]">
+                    <p class="text-sm text-ink-body">
                         {{ $t('superadmin.agreements.payment.intro', { number: props.invoice?.invoice_number ?? '' }) }}
                     </p>
                     <form @submit.prevent="submit">
@@ -19,7 +19,7 @@
                                 <SuperadminFormLabel :label="$t('superadmin.agreements.payment.paidAmount')" required />
                                 <input type="number" step="0.01" min="0" v-model="state.form.paid_amount"
                                     class="co-input" required />
-                                <p class="text-[11px] text-[#8891A4] mt-1">
+                                <p class="text-[11px] text-ink-muted mt-1">
                                     {{ $t('superadmin.agreements.payment.paidAmountHint') }}
                                 </p>
                             </div>

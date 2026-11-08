@@ -15,15 +15,15 @@
 /* Header cells were used everywhere but never defined, so every table header
    fell back to the browser's centred bold. */
 .co-th {
-    @apply py-3 px-4 text-left text-[12px] font-semibold uppercase tracking-wide text-[#5C6478] whitespace-nowrap;
+    @apply py-3 px-4 text-left text-[12px] font-semibold uppercase tracking-wide text-ink-body whitespace-nowrap;
 }
 
 /* A field inside a table row: the same look as .co-input, but only as tall and
    as wide as a cell can carry. */
 .co-cell-input {
-    @apply block px-3 h-9 text-sm text-[#1F2533] bg-white border border-[#D5D9E2] rounded-[10px] outline-none transition-all
+    @apply block px-3 h-9 text-sm text-ink bg-white border border-line-strong rounded-[10px] outline-none transition-all
         focus:border-primary focus:ring-1 focus:ring-primary
-        disabled:bg-[#F5F6F8] disabled:text-[#8891A4];
+        disabled:bg-surface-canvas disabled:text-ink-muted;
 }
 
 /* ----------------------------------------------------------------------------------------------------
@@ -34,33 +34,33 @@
     @apply inline-flex items-center gap-1 px-2 py-[3px] rounded-full text-[11px] font-semibold whitespace-nowrap;
 }
 
-.co-badge-blue  { @apply bg-[#EEF4FB] text-[#1A4D99]; }
-.co-badge-green { @apply bg-[#EDF7EE] text-[#2E9E33]; }
-.co-badge-gray  { @apply bg-[#F5F6F8] text-[#5C6478]; }
-.co-badge-navy  { @apply bg-[#E4F1F6] text-[#205E77]; }
-.co-badge-red   { @apply bg-[#FFF0F0] text-[#CC3B2D]; }
+.co-badge-blue  { @apply bg-info-soft text-info; }
+.co-badge-green { @apply bg-success-soft text-success; }
+.co-badge-gray  { @apply bg-surface-canvas text-ink-body; }
+.co-badge-navy  { @apply bg-tertiary-soft text-tertiary; }
+.co-badge-red   { @apply bg-danger-soft text-danger; }
 
 /* ----------------------------------------------------------------------------------------------------
     Form
 ---------------------------------------------------------------------------------------------------- */
 
 .co-label {
-    @apply block text-[13px] font-semibold text-[#1F2533] mb-[5px];
+    @apply block text-[13px] font-semibold text-ink mb-[5px];
 }
 
 .co-input {
-    @apply w-full px-[13px] py-[9px] text-sm text-[#1F2533] bg-white border border-[#D5D9E2] rounded-[10px] outline-none transition-all;
+    @apply w-full px-[13px] py-[9px] text-sm text-ink bg-white border border-line-strong rounded-[10px] outline-none transition-all;
 }
 
 .co-input:focus {
-    @apply border-[#42AED9];
+    @apply border-accent;
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
 }
 
 .co-input::placeholder {
-    @apply text-[#B0B8C4];
+    @apply text-ink-subtle;
 }
 
 .co-error {
-    @apply text-[11px] text-[#CC3B2D] mt-1;
+    @apply text-[11px] text-danger mt-1;
 }

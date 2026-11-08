@@ -8,7 +8,7 @@
         </Tooltip>
         <Tooltip v-if="props.companyUuid" :text="$t('paymentDunning.leverandorservice.linkHelp')" position="top" wrap>
             <NuxtLink :to="`/superadmin/companies/${props.companyUuid}/overview`"
-                class="text-[#205E77] underline underline-offset-2 text-[13px]">
+                class="text-tertiary underline underline-offset-2 text-[13px]">
                 {{ $t('paymentDunning.leverandorservice.link') }}
             </NuxtLink>
         </Tooltip>

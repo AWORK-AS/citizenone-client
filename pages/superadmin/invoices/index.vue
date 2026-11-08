@@ -14,10 +14,10 @@
             <div class="p-1">
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.invoices.invoices') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             <!-- `meta.total` is where a paginated collection carries
                                  its count; `total` was never in the response, so this
                                  line read "0 invoices in total" above a full page. -->
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                         <Tooltip v-for="tab in tabs" :key="tab.key" :text="tab.help" position="bottom" wrap>
                             <button
                                 class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
@@ -60,7 +60,7 @@
                     </div>
 
                     <select v-model="state.sortData.sortField"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors"
+                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
                         @change="() => { state.sortData.sortOrder = 'descend'; currentTablePage = 1; fetchInvoices() }">
                         <option value="id">{{ $t('superadmin.invoices.sort.newestFirst') }}</option>
                         <option value="total_amount">{{ $t('superadmin.invoices.sort.highestAmount') }}</option>
@@ -68,30 +68,30 @@
                     </select>
                 </div>
 
-                <div class="bg-white border border-[#EAECF0] rounded-xl p-4 mb-5 flex flex-wrap items-center gap-3">
+                <div class="bg-white border border-line rounded-xl p-4 mb-5 flex flex-wrap items-center gap-3">
                     <SuperadminTableSearch v-model="searchQuery"
                         :placeholder="$t('superadmin.invoices.searchPlaceholder')" @input="debouncedSearch" />
 
                     <div class="flex items-center gap-1.5">
-                        <label class="text-xs text-[#5C6478] whitespace-nowrap">
+                        <label class="text-xs text-ink-body whitespace-nowrap">
                             {{ $t('superadmin.invoices.filter.from') }}
                         </label>
                         <input type="date" v-model="state.dataFilter.date_from"
-                            class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#1F2533] outline-none focus:border-[#42AED9] transition-colors"
+                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink outline-none focus:border-accent transition-colors"
                             @change="handleFilterChange" />
                     </div>
 
                     <div class="flex items-center gap-1.5">
-                        <label class="text-xs text-[#5C6478] whitespace-nowrap">
+                        <label class="text-xs text-ink-body whitespace-nowrap">
                             {{ $t('superadmin.invoices.filter.to') }}
                         </label>
                         <input type="date" v-model="state.dataFilter.date_to"
-                            class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#1F2533] outline-none focus:border-[#42AED9] transition-colors"
+                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink outline-none focus:border-accent transition-colors"
                             @change="handleFilterChange" />
                     </div>
 
                     <select v-model="state.dataFilter.is_paid"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors"
+                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
                         @change="handleFilterChange">
                         <option value="">{{ $t('superadmin.invoices.filter.allPayments') }}</option>
                         <option value="true">{{ $t('superadmin.invoices.table.paid') }}</option>
@@ -99,7 +99,7 @@
                     </select>
 
                     <button v-if="hasActiveFilters"
-                        class="text-xs text-[#5C6478] hover:text-[#CC3B2D] flex items-center gap-1 transition-colors"
+                        class="text-xs text-ink-body hover:text-danger flex items-center gap-1 transition-colors"
                         @click="clearFilters">
                         <Icon name="ph:x-circle" class="w-3.5 h-3.5" />
                         {{ $t('superadmin.invoices.filter.clearFilters') }}
@@ -116,8 +116,8 @@
                     emptyIcon="ph:receipt" rowKey="uuid" @sort="handleSort">
                     <template #body>
                         <tr v-for="(invoice, index) in state.invoices?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                            <td class="co-td text-[#5C6478] text-[13px]">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                            <td class="co-td text-ink-body text-[13px]">
                                 {{ formatDateTimeToReadable(invoice?.created_at) }}
                             </td>
                             <td class="co-td">
@@ -168,23 +168,23 @@
                                     {{ $t('superadmin.invoices.tabs.pending') }}
                                 </span>
                             </td>
-                            <td class="co-td font-mono text-[13px] text-[#1F2533] font-medium">
+                            <td class="co-td font-mono text-[13px] text-ink font-medium">
                                 #{{ invoice?.invoice_number }}
                             </td>
                             <td class="co-td">
-                                <span class="text-[14px] font-semibold text-[#1F2533]">
+                                <span class="text-[14px] font-semibold text-ink">
                                     {{ formatAmount(invoice?.total_amount, 'DKK') }}
                                 </span>
                             </td>
                             <td class="co-td">
                                 <div class="flex items-center gap-2">
                                     <div
-                                        class="w-6 h-6 rounded-full bg-[#42AED9]/10 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-[10px] font-bold text-[#42AED9]">
+                                        class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                                        <span class="text-[10px] font-bold text-accent">
                                             {{ (invoice?.user?.company?.name || '?').charAt(0).toUpperCase() }}
                                         </span>
                                     </div>
-                                    <span class="text-[13px] text-[#1F2533] truncate max-w-[160px]">
+                                    <span class="text-[13px] text-ink truncate max-w-[160px]">
                                         {{ invoice?.user?.company?.name || '—' }}
                                     </span>
                                 </div>

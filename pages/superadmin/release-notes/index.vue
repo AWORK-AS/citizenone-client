@@ -9,8 +9,8 @@
             <div class="p-1">
                 <div class="mb-5 flex items-start justify-between gap-x-4">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('releaseNotes.title') }}</h1>
-                        <p class="text-sm text-[#6B7280]">{{ $t('releaseNotes.gate') }}</p>
+                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('releaseNotes.title') }}</h1>
+                        <p class="text-sm text-ink-body">{{ $t('releaseNotes.gate') }}</p>
                     </div>
                     <div class="flex items-center gap-x-2">
                         <button type="button" @click="toggleFilter"
@@ -33,7 +33,7 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div v-if="!state.isLoading && !state.notes.data?.length"
-                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
+                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-ink-body">
                         <Icon name="ph:sparkle" class="h-8 w-8 text-gray-300" />
                         {{ state.filterStatus === 'draft' ? $t('releaseNotes.noPendingNotes') : $t('releaseNotes.noNotes') }}
                     </div>
@@ -43,7 +43,7 @@
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                     <span v-if="note.number"
-                                        class="rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-semibold text-[#205E77]">#{{ note.number }}</span>
+                                        class="rounded-full bg-tertiary-25 px-2 py-0.5 text-[11px] font-semibold text-tertiary">#{{ note.number }}</span>
                                     <span class="font-semibold text-gray-900">{{ note.title }}</span>
                                     <span v-if="note.version"
                                         class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">{{ note.version }}</span>
@@ -52,7 +52,7 @@
                                         {{ note.status === 'published' ? $t('releaseNotes.published') : $t('releaseNotes.draft') }}
                                     </span>
                                     <span v-if="note.is_public"
-                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        class="inline-flex items-center gap-1 rounded-full bg-tertiary-25 px-2 py-0.5 text-[11px] font-medium text-tertiary">
                                         <Icon name="ph:globe" class="h-3 w-3" />
                                         {{ $t('releaseNotes.onWebsite') }}
                                     </span>
@@ -62,7 +62,7 @@
                                         {{ $t('releaseNotes.popupOn', { route: note.popup_route }) }}
                                     </span>
                                     <span v-if="note.status === 'published' && note.send_to_milo"
-                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        class="inline-flex items-center gap-1 rounded-full bg-tertiary-25 px-2 py-0.5 text-[11px] font-medium text-tertiary">
                                         <Icon name="ph:lifebuoy" class="h-3 w-3" />
                                         {{ $t('releaseNotes.toMilo') }}
                                     </span>
@@ -78,7 +78,7 @@
                                     </span>
                                 </div>
                                 <p v-if="note.status !== 'published' && note.ai_status === 'failed'"
-                                    class="mt-1 flex items-center gap-1 text-xs text-[#CC3B2D]">
+                                    class="mt-1 flex items-center gap-1 text-xs text-danger">
                                     <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
                                     {{ $t('releaseNotes.aiFailed', { error: note.ai_error ?? '' }) }}
                                 </p>
@@ -88,14 +88,14 @@
                                     {{ $t('releaseNotes.publishedTo') }}
                                 </p>
                                 <p v-else-if="note.approver_notification_error"
-                                    class="mt-1 flex items-center gap-1 text-xs text-[#CC3B2D]">
+                                    class="mt-1 flex items-center gap-1 text-xs text-danger">
                                     <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
                                     {{ $t('releaseNotes.approvalRequestFailed', { error: note.approver_notification_error }) }}
                                 </p>
                                 <p v-else-if="note.approver_notified_at" class="mt-1 text-xs text-gray-400">
                                     {{ $t('releaseNotes.approvalRequestSent', { date: formatDateTime(note.approver_notified_at) }) }}
                                 </p>
-                                <p v-else class="mt-1 flex items-center gap-1 text-xs text-[#D4900A]">
+                                <p v-else class="mt-1 flex items-center gap-1 text-xs text-warning">
                                     <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
                                     {{ $t('releaseNotes.approvalRequestNotSent') }}
                                 </p>
@@ -184,7 +184,7 @@
                                             class="rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-primary focus:outline-none">
                                             <option v-for="k in ITEM_KINDS" :key="k" :value="k">{{ kindLabel(k) }}</option>
                                         </select>
-                                        <button type="button" class="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-[#CC3B2D]"
+                                        <button type="button" class="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-danger"
                                             :aria-label="$t('releaseNotes.removeItem')" :title="$t('releaseNotes.removeItem')"
                                             @click="removeItem(item.key)">
                                             <Icon name="ph:trash" class="h-4 w-4" />

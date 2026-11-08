@@ -6,47 +6,47 @@
 
         <!-- Attach to company -->
         <div v-if="showExtendedFields">
-            <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-2">
+            <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-2">
                 {{ $t('superadmin.users.slider.attachToCompany') }}
             </p>
             <div class="relative">
                 <Icon name="ph:magnifying-glass"
-                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                 <SuperadminFormTextField v-model="state.companySearch"
                     :placeholder="$t('superadmin.users.slider.searchCompany')" class="!pl-8" @input="searchCompanies" />
             </div>
             <div v-if="state.companyResults.length"
-                class="mt-1 border border-[#EAECF0] rounded-lg bg-white shadow-lg max-h-40 overflow-y-auto">
+                class="mt-1 border border-line rounded-lg bg-white shadow-lg max-h-40 overflow-y-auto">
                 <button v-for="c in state.companyResults" :key="c.uuid" type="button"
-                    class="w-full text-left px-3 py-2.5 hover:bg-[#F5F6F8] transition-colors flex items-center gap-2.5"
+                    class="w-full text-left px-3 py-2.5 hover:bg-surface-canvas transition-colors flex items-center gap-2.5"
                     @click="selectCompany(c)">
                     <div class="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0"
                         style="background:#42AED9">
                         {{ (c.name || '?').charAt(0).toUpperCase() }}
                     </div>
-                    <span class="text-[13px] text-[#1F2533]">{{ c.name }}</span>
+                    <span class="text-[13px] text-ink">{{ c.name }}</span>
                 </button>
             </div>
             <div v-if="state.selectedCompany"
-                class="mt-2 flex items-center gap-2 px-3 py-2 bg-[#E4F1F6] rounded-lg border border-[#42AED9]/20">
+                class="mt-2 flex items-center gap-2 px-3 py-2 bg-tertiary-soft rounded-lg border border-accent/20">
                 <div class="w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0"
                     style="background:#205E77">
                     {{ (state.selectedCompany.name || '?').charAt(0).toUpperCase() }}
                 </div>
-                <span class="text-[13px] font-medium text-[#205E77] flex-1">{{ state.selectedCompany.name }}</span>
+                <span class="text-[13px] font-medium text-tertiary flex-1">{{ state.selectedCompany.name }}</span>
                 <button type="button" @click="state.selectedCompany = null; state.companySearch = ''"
-                    class="text-[#205E77]/50 hover:text-[#205E77] transition-colors">
+                    class="text-tertiary/50 hover:text-tertiary transition-colors">
                     <Icon name="ph:x" class="w-3.5 h-3.5" />
                 </button>
             </div>
-            <p v-else class="text-[11px] text-[#8891A4] mt-1.5">
+            <p v-else class="text-[11px] text-ink-muted mt-1.5">
                 {{ $t('superadmin.users.slider.searchToAttach') }}
             </p>
         </div>
 
         <!-- User info -->
         <div>
-            <p v-if="showExtendedFields" class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+            <p v-if="showExtendedFields" class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-3">
                 {{ $t('superadmin.users.slider.userInfo') }}
             </p>
 
@@ -98,7 +98,7 @@
                 <SuperadminFormLabel :label="$t('superadmin.users.slider.password')" />
                 <SuperadminFormPasswordField v-model="state.formUser.password"
                     :placeholder="$t('superadmin.users.slider.minChars')" :hasError="v$?.formUser?.password?.$error" />
-                <p class="text-[11px] text-[#8891A4] mt-1">
+                <p class="text-[11px] text-ink-muted mt-1">
                     {{ $t('superadmin.users.slider.leaveEmptyForWelcomeEmail') }}
                 </p>
                 <SuperadminFormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
@@ -108,12 +108,12 @@
 
         <!-- Active toggle -->
         <div v-if="showExtendedFields"
-            class="flex items-center justify-between py-3 border border-[#EAECF0] rounded-xl px-4">
+            class="flex items-center justify-between py-3 border border-line rounded-xl px-4">
             <div>
-                <p class="text-[13px] font-medium text-[#1F2533]">
+                <p class="text-[13px] font-medium text-ink">
                     {{ $t('superadmin.companies.table.active') }}
                 </p>
-                <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.users.slider.userCanLogin') }}</p>
+                <p class="text-[11px] text-ink-muted">{{ $t('superadmin.users.slider.userCanLogin') }}</p>
             </div>
             <button type="button" @click="state.formUser.is_active = !state.formUser.is_active"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
@@ -125,12 +125,12 @@
 
         <!-- Financial access toggle -->
         <div v-if="showExtendedFields"
-            class="flex items-center justify-between py-3 border border-[#EAECF0] rounded-xl px-4">
+            class="flex items-center justify-between py-3 border border-line rounded-xl px-4">
             <div>
-                <p class="text-[13px] font-medium text-[#1F2533]">
+                <p class="text-[13px] font-medium text-ink">
                     {{ $t('superadmin.users.slider.financialAccess') }}
                 </p>
-                <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.users.slider.financialAccessHint') }}</p>
+                <p class="text-[11px] text-ink-muted">{{ $t('superadmin.users.slider.financialAccessHint') }}</p>
             </div>
             <button type="button" @click="state.formUser.can_view_financials = !state.formUser.can_view_financials"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
@@ -149,7 +149,7 @@
         <!-- Action buttons (page context) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/users')"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"

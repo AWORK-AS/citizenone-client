@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-if="!months.length" class="py-10 text-center text-[13px] text-[#8891A4]">
+        <div v-if="!months.length" class="py-10 text-center text-[13px] text-ink-muted">
             {{ $t('superadmin.orders.report.monthlyEmpty') }}
         </div>
         <div v-else>
             <!-- Legend: identity is never colour alone -->
             <div class="flex flex-wrap gap-x-4 gap-y-1 mb-3">
-                <span v-for="serie in SERIES" :key="serie.key" class="inline-flex items-center gap-1.5 text-[11px] text-[#5C6478]">
+                <span v-for="serie in SERIES" :key="serie.key" class="inline-flex items-center gap-1.5 text-[11px] text-ink-body">
                     <span class="w-2.5 h-2.5 rounded-sm" :style="{ background: serie.color }"></span>
                     {{ $t(serie.label) }}
                 </span>
@@ -34,19 +34,19 @@
                 </svg>
 
                 <div v-if="hovered !== null && bars[hovered]"
-                    class="absolute z-10 pointer-events-none bg-white border border-[#EAECF0] rounded-lg shadow-md px-3 py-2 text-[12px] min-w-[180px]"
+                    class="absolute z-10 pointer-events-none bg-white border border-line rounded-lg shadow-md px-3 py-2 text-[12px] min-w-[180px]"
                     :style="tooltipStyle">
-                    <p class="font-semibold text-[#1F2533] mb-1">{{ bars[hovered].longLabel }}</p>
-                    <div v-for="serie in SERIES" :key="serie.key" class="flex items-center justify-between gap-3 text-[#5C6478]">
+                    <p class="font-semibold text-ink mb-1">{{ bars[hovered].longLabel }}</p>
+                    <div v-for="serie in SERIES" :key="serie.key" class="flex items-center justify-between gap-3 text-ink-body">
                         <span class="inline-flex items-center gap-1.5">
                             <span class="w-2 h-2 rounded-sm" :style="{ background: serie.color }"></span>
                             {{ $t(serie.label) }}
                         </span>
-                        <span class="tabular-nums text-[#1F2533]">{{ format(bars[hovered].values[serie.key]) }}</span>
+                        <span class="tabular-nums text-ink">{{ format(bars[hovered].values[serie.key]) }}</span>
                     </div>
-                    <div class="flex items-center justify-between gap-3 mt-1 pt-1 border-t border-[#F0F1F4]">
-                        <span class="text-[#5C6478]">{{ $t('superadmin.orders.report.total') }}</span>
-                        <span class="tabular-nums font-semibold text-[#1F2533]">{{ format(bars[hovered].total) }}</span>
+                    <div class="flex items-center justify-between gap-3 mt-1 pt-1 border-t border-line">
+                        <span class="text-ink-body">{{ $t('superadmin.orders.report.total') }}</span>
+                        <span class="tabular-nums font-semibold text-ink">{{ format(bars[hovered].total) }}</span>
                     </div>
                 </div>
             </div>
@@ -166,7 +166,7 @@ const tooltipStyle = computed(() => {
 <style scoped>
 .co-chart-axis {
     font-size: 10px;
-    fill: #8891A4;
+    fill: theme('colors.ink.muted');
     font-variant-numeric: tabular-nums;
 }
 </style>

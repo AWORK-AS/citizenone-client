@@ -15,10 +15,10 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.companies.companies') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             {{
                                 $t('superadmin.companies.totalClients', {
                                     count:
@@ -29,12 +29,12 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <button @click="exportCompanies" :disabled="state.isExporting"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors disabled:opacity-50">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50">
                             <Icon name="ph:download-simple" class="w-4 h-4" />
                             {{ $t('superadmin.companies.export') }}
                         </button>
                         <button @click="state.modal.isImportCompanyOpen = true"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors">
                             <Icon name="ph:upload-simple" class="w-4 h-4" />
                             {{ $t('superadmin.companies.import') }}
                         </button>
@@ -52,7 +52,7 @@
                         :placeholder="$t('superadmin.companies.searchPlaceholder')" @input="debouncedSearch" />
 
                     <!-- Status tabs -->
-                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                         <button v-for="tab in tabs" :key="tab.key"
                             class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
                             :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
@@ -64,7 +64,7 @@
 
                     <!-- Source -->
                     <select v-model="state.dataFilter.source"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
+                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors ml-auto"
                         @change="handleSourceChange">
                         <option value="">{{ $t('superadmin.companies.source.all') }}</option>
                         <option value="google_ads">Google Ads</option>
@@ -80,7 +80,7 @@
 
                     <!-- Sort -->
                     <select v-model="sortLabel"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors"
+                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
                         @change="handleSortChange">
                         <option value="name_asc">{{ $t('superadmin.companies.sort.nameAsc') }}</option>
                         <option value="name_desc">{{ $t('superadmin.companies.sort.nameDesc') }}</option>
@@ -99,7 +99,7 @@
                     :emptySubMessage="$t('superadmin.companies.createFirstClient')" rowKey="uuid" @sort="handleSort">
                     <template #body>
                         <tr v-for="(company, index) in state.companies?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group cursor-pointer"
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group cursor-pointer"
                             @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
                             <td class="co-td">
                                 <div class="flex items-center gap-3">
@@ -108,10 +108,10 @@
                                         {{ initials(company?.name) }}
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ company?.name || '—' }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">
+                                        <p class="text-[11px] text-ink-muted">
                                             {{ company?.email || '' }}
                                         </p>
                                     </div>
@@ -119,39 +119,39 @@
                             </td>
                             <td class="co-td">
                                 <span v-if="company?.is_active"
-                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-success-soft text-success">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                     {{ $t('superadmin.companies.table.active') }}
                                 </span>
                                 <span v-else
-                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-danger-soft text-danger">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                     {{ $t('superadmin.companies.table.inactive') }}
                                 </span>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ company?.phone || '—' }}
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478] font-mono">
+                            <td class="co-td text-[13px] text-ink-body font-mono">
                                 {{ company?.cvr || '—' }}
                             </td>
                             <td class="co-td">
                                 <a v-if="company?.website" :href="company.website" target="_blank"
-                                    class="text-[12px] text-[#42AED9] hover:underline truncate block max-w-[160px]"
+                                    class="text-[12px] text-accent hover:underline truncate block max-w-[160px]"
                                     @click.stop>
                                     {{ company.website.replace(/^https?:\/\//, '') }}
                                 </a>
-                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                                <span v-else class="text-ink-muted text-[13px]">—</span>
                             </td>
                             <td class="co-td">
                                 <span v-if="company?.signup_source?.channel"
                                     class="inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold"
-                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : company.signup_source.channel === 'share' ? 'bg-[#E9F7EA] text-[#2E7D32]' : 'bg-[#F2F4F7] text-[#5C6478]'"
+                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-accent-soft text-secondary' : company.signup_source.channel === 'share' ? 'bg-success-soft text-success-ink' : 'bg-surface-canvas text-ink-body'"
                                     :title="[company.signup_source.detail, company.signup_source.landing_page].filter(Boolean).join(' · ')">
                                     {{ company.signup_source.label }}
                                 </span>
-                                <span v-else class="text-[#8891A4] text-[13px]">{{ $t('superadmin.companies.source.unknown') }}</span>
-                                <div v-if="company?.signup_source?.detail" class="text-[11px] text-[#8891A4] truncate max-w-[180px] mt-0.5">
+                                <span v-else class="text-ink-muted text-[13px]">{{ $t('superadmin.companies.source.unknown') }}</span>
+                                <div v-if="company?.signup_source?.detail" class="text-[11px] text-ink-muted truncate max-w-[180px] mt-0.5">
                                     {{ company.signup_source.detail }}
                                 </div>
                             </td>
@@ -160,42 +160,42 @@
                                     class="min-w-[110px]">
                                     <p class="text-[13px]" :class="storageTextClass(company)">
                                         {{ formatStorageUsed(company.storage_used_bytes, company.storage_used_gb) }}
-                                        <span class="text-[#8891A4]">/ {{ formatGb(company.storage_quota_gb) }} GB</span>
+                                        <span class="text-ink-muted">/ {{ formatGb(company.storage_quota_gb) }} GB</span>
                                     </p>
-                                    <div class="mt-1 h-1 bg-[#F5F6F8] rounded-full overflow-hidden">
+                                    <div class="mt-1 h-1 bg-surface-canvas rounded-full overflow-hidden">
                                         <div class="h-full rounded-full" :class="storageBarClass(company)"
                                             :style="`width:${storagePercent(company)}%`"></div>
                                     </div>
                                 </div>
-                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                                <span v-else class="text-ink-muted text-[13px]">—</span>
                             </td>
                             <td v-if="hasAgreementData" class="co-td">
                                 <div v-if="company?.binding_ends_on" class="min-w-[130px]">
-                                    <p class="text-[13px] text-[#1F2533]">{{ formatDay(company.binding_ends_on) }}</p>
+                                    <p class="text-[13px] text-ink">{{ formatDay(company.binding_ends_on) }}</p>
                                     <Tooltip :text="$t('superadmin.agreements.help.mrrArr')" position="top" wrap>
-                                        <p class="text-[11px] text-[#8891A4]">
+                                        <p class="text-[11px] text-ink-muted">
                                             {{ $t('superadmin.agreements.companyList.mrr', { amount: formatAmount(company.contract_mrr ?? 0, 'DKK') }) }}
                                         </p>
                                     </Tooltip>
                                 </div>
-                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                                <span v-else class="text-ink-muted text-[13px]">—</span>
                             </td>
                             <td v-if="hasPaymentData" class="co-td">
                                 <div v-if="company?.next_payment_at" class="min-w-[130px]">
-                                    <p class="text-[13px] text-[#1F2533]">
+                                    <p class="text-[13px] text-ink">
                                         {{ formatAmount(company.next_payment_amount, 'DKK') }}
                                     </p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[11px] text-ink-muted">
                                         {{ formatDay(company.next_payment_at) }}
                                         · {{ $t('superadmin.companies.table.perYear', {
                                             amount: formatAmount(company.payments_next_12_months, 'DKK')
                                         }) }}
                                     </p>
-                                    <p v-if="company.is_collecting === false" class="text-[11px] text-[#CC3B2D]">
+                                    <p v-if="company.is_collecting === false" class="text-[11px] text-danger">
                                         {{ $t('superadmin.companies.table.notCollecting') }}
                                     </p>
                                 </div>
-                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                                <span v-else class="text-ink-muted text-[13px]">—</span>
                             </td>
                             <td class="co-td" @click.stop>
                                 <div
@@ -329,16 +329,16 @@ function storagePercent(company: any) {
 
 function storageTextClass(company: any) {
     const percent = storagePercent(company)
-    if (percent >= 100) return 'text-[#CC3B2D] font-semibold'
-    if (percent >= 80) return 'text-[#D4900A] font-semibold'
-    return 'text-[#5C6478]'
+    if (percent >= 100) return 'text-danger font-semibold'
+    if (percent >= 80) return 'text-warning font-semibold'
+    return 'text-ink-body'
 }
 
 function storageBarClass(company: any) {
     const percent = storagePercent(company)
-    if (percent >= 100) return 'bg-[#CC3B2D]'
-    if (percent >= 80) return 'bg-[#D4900A]'
-    return 'bg-[#42AED9]'
+    if (percent >= 100) return 'bg-danger'
+    if (percent >= 80) return 'bg-warning'
+    return 'bg-accent'
 }
 
 onMounted(() => {

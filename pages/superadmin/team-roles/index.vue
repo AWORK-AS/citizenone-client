@@ -14,10 +14,10 @@
             <div class="p-1">
                 <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.teamRoles.header') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">
+                        <p class="text-sm text-ink-body mt-0.5 max-w-2xl">
                             {{ $t('superadmin.teamRoles.subtitle') }}
                         </p>
                     </div>
@@ -30,19 +30,19 @@
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                <div v-if="state.isLoading" class="text-sm text-[#8891A4] py-8 text-center">
+                <div v-if="state.isLoading" class="text-sm text-ink-muted py-8 text-center">
                     {{ $t('superadmin.teamRoles.loading') }}
                 </div>
 
                 <div v-else class="space-y-4">
                     <!-- Ny rolle. Redigeres i samme form som de andre, så der kun er ét sted
                          hvor et hak betyder noget. -->
-                    <div v-if="draft" class="bg-white border border-[#0F4C75]/30 rounded-xl shadow-sm p-5">
+                    <div v-if="draft" class="bg-white border border-primary/30 rounded-xl shadow-sm p-5">
                         <div class="flex flex-wrap items-center gap-3 mb-4">
                             <input v-model="draft.name" type="text" class="co-input max-w-xs"
                                 :placeholder="$t('superadmin.teamRoles.namePlaceholder')" />
                             <div class="flex gap-2 ml-auto">
-                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-[#5C6478] border border-[#EAECF0] bg-white transition-colors disabled:opacity-40" @click="draft = null">
+                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-ink-body border border-line bg-white transition-colors disabled:opacity-40" @click="draft = null">
                                     {{ $t('cancel') }}
                                 </button>
                                 <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40" style="background:#205E77" :disabled="!draft.name || state.isSaving"
@@ -56,20 +56,20 @@
                     </div>
 
                     <div v-for="role in state.roles" :key="role.id"
-                        class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5">
+                        class="bg-white border border-line rounded-xl shadow-sm p-5">
                         <div class="flex flex-wrap items-center gap-3 mb-1">
-                            <h2 class="text-[15px] font-semibold text-[#1F2533]">{{ role.label }}</h2>
+                            <h2 class="text-[15px] font-semibold text-ink">{{ role.label }}</h2>
 
                             <span v-if="role.is_locked" class="co-badge co-badge-navy">
                                 {{ $t('superadmin.teamRoles.locked') }}
                             </span>
 
-                            <span class="text-xs text-[#8891A4]">
+                            <span class="text-xs text-ink-muted">
                                 {{ $t('superadmin.teamRoles.members', { count: role.member_count ?? 0 }) }}
                             </span>
 
                             <div class="flex gap-2 ml-auto" v-if="canManage && !role.is_locked">
-                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-[#5C6478] border border-[#EAECF0] bg-white transition-colors disabled:opacity-40"
+                                <button type="button" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-ink-body border border-line bg-white transition-colors disabled:opacity-40"
                                     :disabled="state.isSaving || !isDirty(role)" @click="resetRole(role)">
                                     {{ $t('cancel') }}
                                 </button>
@@ -84,7 +84,7 @@
                             </div>
                         </div>
 
-                        <p class="text-xs text-[#8891A4] mb-4" v-if="role.is_locked">
+                        <p class="text-xs text-ink-muted mb-4" v-if="role.is_locked">
                             {{ $t('superadmin.teamRoles.lockedHint') }}
                         </p>
 

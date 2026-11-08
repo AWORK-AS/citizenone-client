@@ -11,39 +11,39 @@
 
                 <ModulesSuperadminDashboardTab />
 
-                <div v-if="!canView" class="bg-white border border-[#EAECF0] rounded-xl p-10 text-center">
-                    <Icon name="ph:lock-simple" class="w-8 h-8 text-[#D5D9E2] mx-auto" />
-                    <p class="text-[14px] font-semibold text-[#1F2533] mt-3">{{ $t('superadmin.report.noAccess.title') }}</p>
-                    <p class="text-[12px] text-[#8891A4] mt-1">{{ $t('superadmin.report.noAccess.hint') }}</p>
+                <div v-if="!canView" class="bg-white border border-line rounded-xl p-10 text-center">
+                    <Icon name="ph:lock-simple" class="w-8 h-8 text-line-strong mx-auto" />
+                    <p class="text-[14px] font-semibold text-ink mt-3">{{ $t('superadmin.report.noAccess.title') }}</p>
+                    <p class="text-[12px] text-ink-muted mt-1">{{ $t('superadmin.report.noAccess.hint') }}</p>
                 </div>
 
                 <template v-else>
                     <!-- Header + period -->
                     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                         <div>
-                            <h1 class="text-[22px] font-bold text-[#1F2533]">{{ $t('superadmin.funnel.title') }}</h1>
-                            <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.subtitle') }}</p>
+                            <h1 class="text-[22px] font-bold text-ink">{{ $t('superadmin.funnel.title') }}</h1>
+                            <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.subtitle') }}</p>
                         </div>
 
                         <div class="flex flex-wrap items-end gap-3">
-                            <div class="flex items-center gap-1 bg-white border border-[#EAECF0] rounded-lg p-1">
+                            <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
                                 <button v-for="preset in presets" :key="preset"
                                     class="px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-colors"
-                                    :class="state.activePreset === preset ? 'bg-[#205E77] text-white' : 'text-[#5C6478] hover:bg-[#F5F6F8]'"
+                                    :class="state.activePreset === preset ? 'bg-tertiary text-white' : 'text-ink-body hover:bg-surface-canvas'"
                                     @click="applyPreset(preset)">
                                     {{ $t(`superadmin.report.presets.${preset}`) }}
                                 </button>
                             </div>
                             <div class="flex items-end gap-2">
                                 <label class="flex flex-col gap-1">
-                                    <span class="text-[11px] font-semibold text-[#8891A4] uppercase tracking-wide">{{ $t('superadmin.report.from') }}</span>
+                                    <span class="text-[11px] font-semibold text-ink-muted uppercase tracking-wide">{{ $t('superadmin.report.from') }}</span>
                                     <input type="date" v-model="state.from" @change="onRangeChanged"
-                                        class="border border-[#EAECF0] rounded-lg px-2.5 py-1.5 text-[13px] text-[#1F2533]" />
+                                        class="border border-line rounded-lg px-2.5 py-1.5 text-[13px] text-ink" />
                                 </label>
                                 <label class="flex flex-col gap-1">
-                                    <span class="text-[11px] font-semibold text-[#8891A4] uppercase tracking-wide">{{ $t('superadmin.report.to') }}</span>
+                                    <span class="text-[11px] font-semibold text-ink-muted uppercase tracking-wide">{{ $t('superadmin.report.to') }}</span>
                                     <input type="date" v-model="state.to" @change="onRangeChanged"
-                                        class="border border-[#EAECF0] rounded-lg px-2.5 py-1.5 text-[13px] text-[#1F2533]" />
+                                        class="border border-line rounded-lg px-2.5 py-1.5 text-[13px] text-ink" />
                                 </label>
                             </div>
                         </div>
@@ -54,10 +54,10 @@
                     <LoadingSpinner :isActive="state.isLoading">
                         <!-- The whole cohort -->
                         <div v-if="state.totals" class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                            <div v-for="stage in FUNNEL_STAGES" :key="stage" class="bg-white border border-[#EAECF0] rounded-xl p-4">
-                                <p class="text-[12px] font-medium text-[#8891A4]">{{ $t(`superadmin.funnel.stages.${stage}`) }}</p>
-                                <p class="text-[24px] font-bold text-[#1F2533] mt-1 tabular-nums">{{ state.totals[stage] }}</p>
-                                <p v-if="stage !== 'signed_up'" class="text-[12px] text-[#5C6478] mt-0.5 tabular-nums">
+                            <div v-for="stage in FUNNEL_STAGES" :key="stage" class="bg-white border border-line rounded-xl p-4">
+                                <p class="text-[12px] font-medium text-ink-muted">{{ $t(`superadmin.funnel.stages.${stage}`) }}</p>
+                                <p class="text-[24px] font-bold text-ink mt-1 tabular-nums">{{ state.totals[stage] }}</p>
+                                <p v-if="stage !== 'signed_up'" class="text-[12px] text-ink-body mt-0.5 tabular-nums">
                                     {{ pct(shareOfSignups(state.totals, stage)) }} {{ $t('superadmin.funnel.ofSignups') }}
                                     <template v-if="state.totals.median_days?.[stage] != null">
                                         · {{ $t('superadmin.funnel.medianDays', { days: state.totals.median_days[stage] }) }}
@@ -67,10 +67,10 @@
                         </div>
 
                         <!-- Per channel -->
-                        <div class="mt-5 bg-white border border-[#EAECF0] rounded-xl overflow-x-auto">
-                            <p v-if="!state.channels.length" class="p-8 text-center text-sm text-[#8891A4]">{{ $t('superadmin.funnel.empty') }}</p>
+                        <div class="mt-5 bg-white border border-line rounded-xl overflow-x-auto">
+                            <p v-if="!state.channels.length" class="p-8 text-center text-sm text-ink-muted">{{ $t('superadmin.funnel.empty') }}</p>
                             <table v-else class="w-full text-sm">
-                                <thead class="bg-[#F9FAFB] text-left text-[12px] text-[#5C6478]">
+                                <thead class="bg-surface-subtle text-left text-[12px] text-ink-body">
                                     <tr>
                                         <th class="px-4 py-3 font-medium">{{ $t('superadmin.funnel.channel') }}</th>
                                         <th v-for="stage in FUNNEL_STAGES" :key="stage" class="px-4 py-3 font-medium text-right">
@@ -80,22 +80,22 @@
                                         <th class="px-4 py-3 font-medium">{{ $t('superadmin.funnel.biggestDrop') }}</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-[#EAECF0]">
+                                <tbody class="divide-y divide-line">
                                     <tr v-for="row in state.channels" :key="row.channel">
                                         <td class="px-4 py-3">
-                                            <span class="font-medium text-[#1F2533]">{{ channelLabel(row) }}</span>
-                                            <span v-if="isSmallSample(row)" class="ml-2 text-[11px] text-[#8891A4]">{{ $t('superadmin.funnel.smallSample') }}</span>
+                                            <span class="font-medium text-ink">{{ channelLabel(row) }}</span>
+                                            <span v-if="isSmallSample(row)" class="ml-2 text-[11px] text-ink-muted">{{ $t('superadmin.funnel.smallSample') }}</span>
                                         </td>
                                         <td v-for="stage in FUNNEL_STAGES" :key="stage" class="px-4 py-3 text-right tabular-nums">
-                                            <span class="text-[#1F2533]">{{ row[stage] }}</span>
-                                            <span v-if="stage !== 'signed_up'" class="ml-1 text-[12px] text-[#8891A4]">{{ pct(shareOfSignups(row, stage)) }}</span>
+                                            <span class="text-ink">{{ row[stage] }}</span>
+                                            <span v-if="stage !== 'signed_up'" class="ml-1 text-[12px] text-ink-muted">{{ pct(shareOfSignups(row, stage)) }}</span>
                                         </td>
                                         <td class="px-4 py-3 min-w-[9rem]">
-                                            <div class="h-2 rounded-full bg-[#F2F4F7]" aria-hidden="true">
-                                                <div class="h-2 rounded-full bg-[#205E77]" :style="{ width: `${shareOfSignups(row, 'paying') ?? 0}%` }" />
+                                            <div class="h-2 rounded-full bg-surface-canvas" aria-hidden="true">
+                                                <div class="h-2 rounded-full bg-tertiary" :style="{ width: `${shareOfSignups(row, 'paying') ?? 0}%` }" />
                                             </div>
                                         </td>
-                                        <td class="px-4 py-3 text-[12px] text-[#5C6478]">
+                                        <td class="px-4 py-3 text-[12px] text-ink-body">
                                             <template v-if="biggestDrop(row)">
                                                 {{ $t(`superadmin.funnel.stages.${biggestDrop(row)}`) }} ({{ pct(stepRate(row, biggestDrop(row)!)) }})
                                             </template>
@@ -103,51 +103,51 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot v-if="state.totals" class="bg-[#F9FAFB] font-semibold">
+                                <tfoot v-if="state.totals" class="bg-surface-subtle font-semibold">
                                     <tr>
-                                        <td class="px-4 py-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
-                                        <td v-for="stage in FUNNEL_STAGES" :key="stage" class="px-4 py-3 text-right tabular-nums text-[#1F2533]">{{ state.totals[stage] }}</td>
+                                        <td class="px-4 py-3 text-ink">{{ $t('superadmin.funnel.all') }}</td>
+                                        <td v-for="stage in FUNNEL_STAGES" :key="stage" class="px-4 py-3 text-right tabular-nums text-ink">{{ state.totals[stage] }}</td>
                                         <td class="px-4 py-3" colspan="2" />
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
 
-                        <p class="mt-3 text-[12px] text-[#8891A4] max-w-3xl">{{ $t('superadmin.funnel.footnote') }}</p>
+                        <p class="mt-3 text-[12px] text-ink-muted max-w-3xl">{{ $t('superadmin.funnel.footnote') }}</p>
 
                         <!-- Growth loops: "suggest to my manager" and shared links, per period. -->
                         <section v-if="state.loops" class="mt-8" data-testid="funnel-growth-loops">
-                            <h2 class="text-[17px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.title') }}</h2>
-                            <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.loops.subtitle') }}</p>
+                            <h2 class="text-[17px] font-semibold text-ink">{{ $t('superadmin.funnel.loops.title') }}</h2>
+                            <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.loops.subtitle') }}</p>
 
                             <div class="mt-4 grid grid-cols-1 gap-5 xl:grid-cols-2">
-                                <div class="bg-white border border-[#EAECF0] rounded-xl p-4" data-testid="funnel-loop-suggestions">
+                                <div class="bg-white border border-line rounded-xl p-4" data-testid="funnel-loop-suggestions">
                                     <div class="flex flex-wrap items-baseline justify-between gap-2">
-                                        <p class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.suggestions.title') }}</p>
-                                        <p class="text-[13px] text-[#5C6478] tabular-nums">
+                                        <p class="text-[14px] font-semibold text-ink">{{ $t('superadmin.funnel.loops.suggestions.title') }}</p>
+                                        <p class="text-[13px] text-ink-body tabular-nums">
                                             {{ $t('superadmin.funnel.loops.suggestions.rate', { days: state.loops.suggestions.window_days }) }}:
-                                            <span class="font-semibold text-[#1F2533]">{{ pct(suggestionConversion(state.loops.suggestions.totals)) }}</span>
+                                            <span class="font-semibold text-ink">{{ pct(suggestionConversion(state.loops.suggestions.totals)) }}</span>
                                         </p>
                                     </div>
-                                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.funnel.loops.suggestions.hint', { days: state.loops.suggestions.window_days }) }}</p>
+                                    <p class="mt-1 text-[12px] text-ink-muted">{{ $t('superadmin.funnel.loops.suggestions.hint', { days: state.loops.suggestions.window_days }) }}</p>
                                     <div class="mt-3 overflow-x-auto">
                                         <table class="w-full text-sm">
-                                            <thead class="text-left text-[12px] text-[#5C6478]">
+                                            <thead class="text-left text-[12px] text-ink-body">
                                                 <tr>
                                                     <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.loops.period') }}</th>
                                                     <th v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.loops.suggestions.${col.label}`) }}</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-[#EAECF0]">
-                                                <tr v-if="!suggestionRows.length"><td :colspan="SUGGESTION_COLUMNS.length + 1" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                            <tbody class="divide-y divide-line">
+                                                <tr v-if="!suggestionRows.length"><td :colspan="SUGGESTION_COLUMNS.length + 1" class="py-4 text-center text-ink-muted">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
                                                 <tr v-for="row in suggestionRows" :key="row.key">
-                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ row.key }}</td>
+                                                    <td class="py-2 pr-3 text-ink">{{ row.key }}</td>
                                                     <td v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ row[col.field] }}</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot class="font-semibold">
                                                 <tr>
-                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
+                                                    <td class="py-2 pr-3 text-ink">{{ $t('superadmin.funnel.all') }}</td>
                                                     <td v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ state.loops.suggestions.totals[col.field] }}</td>
                                                 </tr>
                                             </tfoot>
@@ -155,36 +155,36 @@
                                     </div>
                                 </div>
 
-                                <div class="bg-white border border-[#EAECF0] rounded-xl p-4" data-testid="funnel-loop-referrals">
+                                <div class="bg-white border border-line rounded-xl p-4" data-testid="funnel-loop-referrals">
                                     <div class="flex flex-wrap items-baseline justify-between gap-2">
-                                        <p class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.referrals.title') }}</p>
-                                        <p class="text-[13px] text-[#5C6478] tabular-nums">
+                                        <p class="text-[14px] font-semibold text-ink">{{ $t('superadmin.funnel.loops.referrals.title') }}</p>
+                                        <p class="text-[13px] text-ink-body tabular-nums">
                                             {{ $t('superadmin.funnel.loops.referrals.rate') }}:
-                                            <span class="font-semibold text-[#1F2533]">{{ pct(referralPaidRate(state.loops.referrals.totals)) }}</span>
+                                            <span class="font-semibold text-ink">{{ pct(referralPaidRate(state.loops.referrals.totals)) }}</span>
                                             <template v-if="state.loops.referrals.totals.median_days_to_paid != null">
                                                 · {{ $t('superadmin.funnel.loops.referrals.medianDays', { days: state.loops.referrals.totals.median_days_to_paid }) }}
                                             </template>
                                         </p>
                                     </div>
-                                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.funnel.loops.referrals.hint') }}</p>
+                                    <p class="mt-1 text-[12px] text-ink-muted">{{ $t('superadmin.funnel.loops.referrals.hint') }}</p>
                                     <div class="mt-3 overflow-x-auto">
                                         <table class="w-full text-sm">
-                                            <thead class="text-left text-[12px] text-[#5C6478]">
+                                            <thead class="text-left text-[12px] text-ink-body">
                                                 <tr>
                                                     <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.loops.period') }}</th>
                                                     <th v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.loops.referrals.${col.label}`) }}</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-[#EAECF0]">
-                                                <tr v-if="!referralRows.length"><td :colspan="REFERRAL_COLUMNS.length + 1" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                            <tbody class="divide-y divide-line">
+                                                <tr v-if="!referralRows.length"><td :colspan="REFERRAL_COLUMNS.length + 1" class="py-4 text-center text-ink-muted">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
                                                 <tr v-for="row in referralRows" :key="row.key">
-                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ row.key }}</td>
+                                                    <td class="py-2 pr-3 text-ink">{{ row.key }}</td>
                                                     <td v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ row[col.field] }}</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot class="font-semibold">
                                                 <tr>
-                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
+                                                    <td class="py-2 pr-3 text-ink">{{ $t('superadmin.funnel.all') }}</td>
                                                     <td v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ state.loops.referrals.totals[col.field] }}</td>
                                                 </tr>
                                             </tfoot>
@@ -195,35 +195,35 @@
                         </section>
                         <!-- Cody nudges for admins: impression -> click -> trial started -> bought, per surface and week. -->
                         <section v-if="state.nudges" class="mt-8" data-testid="funnel-cody-nudges">
-                            <h2 class="text-[17px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.codyNudges.title') }}</h2>
-                            <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.codyNudges.subtitle', { days: state.nudges.attribution_days }) }}</p>
-                            <div class="mt-4 bg-white border border-[#EAECF0] rounded-xl p-4 overflow-x-auto">
+                            <h2 class="text-[17px] font-semibold text-ink">{{ $t('superadmin.funnel.codyNudges.title') }}</h2>
+                            <p class="text-sm text-ink-body mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.codyNudges.subtitle', { days: state.nudges.attribution_days }) }}</p>
+                            <div class="mt-4 bg-white border border-line rounded-xl p-4 overflow-x-auto">
                                 <table class="w-full text-sm">
-                                    <thead class="text-left text-[12px] text-[#5C6478]">
+                                    <thead class="text-left text-[12px] text-ink-body">
                                         <tr>
                                             <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.codyNudges.week') }}</th>
                                             <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.codyNudges.surface') }}</th>
                                             <th v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.codyNudges.columns.${col}`) }}</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-[#EAECF0]">
-                                        <tr v-if="!nudgeRows.length"><td :colspan="NUDGE_COLUMNS.length + 2" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                    <tbody class="divide-y divide-line">
+                                        <tr v-if="!nudgeRows.length"><td :colspan="NUDGE_COLUMNS.length + 2" class="py-4 text-center text-ink-muted">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
                                         <tr v-for="row in nudgeRows" :key="`${row.week}-${row.surface}`">
-                                            <td class="py-2 pr-3 text-[#1F2533]">{{ row.week }}</td>
-                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${row.surface}`) }}</td>
+                                            <td class="py-2 pr-3 text-ink">{{ row.week }}</td>
+                                            <td class="py-2 pr-3 text-ink">{{ $t(`superadmin.funnel.codyNudges.surfaces.${row.surface}`) }}</td>
                                             <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ nudgeCellText(state.nudges, row.surface, col, row[col]) }}</td>
                                         </tr>
                                     </tbody>
                                     <tfoot class="font-semibold">
                                         <tr v-for="surface in state.nudges.surfaces" :key="surface">
-                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
-                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${surface}`) }}</td>
+                                            <td class="py-2 pr-3 text-ink">{{ $t('superadmin.funnel.all') }}</td>
+                                            <td class="py-2 pr-3 text-ink">{{ $t(`superadmin.funnel.codyNudges.surfaces.${surface}`) }}</td>
                                             <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ nudgeCellText(state.nudges, surface, col, state.nudges.totals?.[surface]?.[col]) }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                            <p class="mt-2 text-[12px] text-[#8891A4] max-w-3xl">{{ $t('superadmin.funnel.codyNudges.footnote') }}</p>
+                            <p class="mt-2 text-[12px] text-ink-muted max-w-3xl">{{ $t('superadmin.funnel.codyNudges.footnote') }}</p>
                         </section>
                     </LoadingSpinner>
                 </template>

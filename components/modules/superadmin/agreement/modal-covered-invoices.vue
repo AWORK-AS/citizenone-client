@@ -6,18 +6,18 @@
                 <div class="space-y-3">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <p class="text-sm text-[#5C6478]">{{ $t('superadmin.agreements.covered.addIntro') }}</p>
-                    <p v-if="!state.isLoading && !state.invoices.length" class="text-[12px] text-[#8891A4]">
+                    <p class="text-sm text-ink-body">{{ $t('superadmin.agreements.covered.addIntro') }}</p>
+                    <p v-if="!state.isLoading && !state.invoices.length" class="text-[12px] text-ink-muted">
                         {{ $t('superadmin.agreements.covered.noneToAdd') }}
                     </p>
                     <div class="max-h-72 overflow-y-auto space-y-1">
                         <label v-for="invoice in state.invoices" :key="invoice.uuid"
-                            class="flex items-center gap-2 text-sm text-[#1F2533] cursor-pointer py-1">
-                            <input type="checkbox" class="rounded border-[#D5D9E2]" :value="invoice.uuid"
+                            class="flex items-center gap-2 text-sm text-ink cursor-pointer py-1">
+                            <input type="checkbox" class="rounded border-line-strong" :value="invoice.uuid"
                                 v-model="state.selected" />
                             <span class="font-mono">#{{ invoice.invoice_number }}</span>
-                            <span class="text-[#5C6478]">{{ formatAmount(invoice.total_amount, 'DKK') }}</span>
-                            <span class="text-[11px] text-[#8891A4]">{{ formatDateToReadable(invoice.created_at) }}</span>
+                            <span class="text-ink-body">{{ formatAmount(invoice.total_amount, 'DKK') }}</span>
+                            <span class="text-[11px] text-ink-muted">{{ formatDateToReadable(invoice.created_at) }}</span>
                         </label>
                     </div>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">

@@ -30,9 +30,9 @@
                         rowKey="uuid" @sort="handleSort">
                         <template #body>
                             <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.name }}</td>
-                                <td class="co-td text-[13px] text-[#1F2533]">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
+                                <td class="co-td text-[13px] text-ink">{{ companyApp?.name }}</td>
+                                <td class="co-td text-[13px] text-ink">
                                     <div v-if="canManageLicenses && companyApp?.is_quantifiable" class="flex items-center gap-2">
                                         <button class="co-action-btn" :disabled="state.isAdjusting"
                                             :title="$t('superadmin.companies.companyApps.table.decrease')"
@@ -51,11 +51,11 @@
                                 <td class="co-td">
                                     <div class="flex items-center gap-3">
                                         <span v-if="companyApp?.active_quantity > 0" class="co-badge co-badge-green">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                             {{ $t('superadmin.companies.companyApps.table.active') }}
                                         </span>
                                         <span v-else class="co-badge co-badge-red">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                            <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                             {{ $t('superadmin.companies.companyApps.table.inactive') }}
                                         </span>
                                         <button v-if="canManageLicenses" class="co-action-btn"

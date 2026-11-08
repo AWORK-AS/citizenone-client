@@ -6,7 +6,7 @@
                 <div class="space-y-3">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <p class="text-sm text-[#5C6478]">
+                    <p class="text-sm text-ink-body">
                         {{ $t('superadmin.agreements.linkInvoice.intro', {
                             label: props.installment?.label ?? '',
                             amount: formatAmount(props.installment?.amount ?? 0, 'DKK') }) }}
@@ -20,7 +20,7 @@
                                 - {{ invoice.is_paid ? $t('superadmin.invoices.table.paid') : $t('superadmin.invoices.table.unpaid') }}
                             </option>
                         </SuperadminFormSelectField>
-                        <p v-if="!state.isLoading && !state.invoices.length" class="text-[12px] text-[#8891A4] mt-2">
+                        <p v-if="!state.isLoading && !state.invoices.length" class="text-[12px] text-ink-muted mt-2">
                             {{ $t('superadmin.agreements.linkInvoice.none') }}
                         </p>
                         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">

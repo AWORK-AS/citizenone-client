@@ -9,8 +9,8 @@
             <div class="p-1">
                 <div class="mb-5 flex flex-wrap items-start justify-between gap-4">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('superadmin.announcements.title') }}</h1>
-                        <p class="max-w-2xl text-sm text-[#6B7280]">{{ $t('superadmin.announcements.intro') }}</p>
+                        <h1 class="text-[22px] font-semibold text-ink">{{ $t('superadmin.announcements.title') }}</h1>
+                        <p class="max-w-2xl text-sm text-ink-body">{{ $t('superadmin.announcements.intro') }}</p>
                     </div>
                     <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
                         <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.announcements.new') }}
@@ -30,7 +30,7 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div v-if="!state.isLoading && !visibleItems.length"
-                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
+                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-ink-body">
                         <Icon name="ph:megaphone" class="h-8 w-8 text-gray-300" />
                         {{ $t('superadmin.announcements.empty') }}
                     </div>

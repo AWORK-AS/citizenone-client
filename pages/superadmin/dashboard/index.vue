@@ -18,10 +18,10 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-[22px] font-bold text-[#1F2533]">
+                        <h1 class="text-[22px] font-bold text-ink">
                             {{ $t('superadmin.dashboard.dashboard') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5 capitalize">
+                        <p class="text-sm text-ink-body mt-0.5 capitalize">
                             {{ formattedDate }}
                         </p>
                     </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#E4F1F6">
-                                <Icon name="ph:buildings" class="w-5 h-5 text-[#205E77]" />
+                                <Icon name="ph:buildings" class="w-5 h-5 text-tertiary" />
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                 <p class="co-stat-label">
                                     {{ $t('superadmin.dashboard.paying') }}
                                 </p>
-                                <p class="co-stat-value text-[#2E9E33]">
+                                <p class="co-stat-value text-success">
                                     <ModulesSuperadminDashboardMetricValue :value="state.payingCompanies"
                                         metric-key="paying_companies" :ready="state.loaded" />
                                 </p>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#EDF7EE">
-                                <Icon name="ph:currency-circle-dollar" class="w-5 h-5 text-[#2E9E33]" />
+                                <Icon name="ph:currency-circle-dollar" class="w-5 h-5 text-success" />
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#EEF8F8">
-                                <Icon name="ph:users-three" class="w-5 h-5 text-[#368F8B]" />
+                                <Icon name="ph:users-three" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#EEF8F8">
-                                <Icon name="ph:invoice" class="w-5 h-5 text-[#368F8B]" />
+                                <Icon name="ph:invoice" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                                     <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.usersOnlineNow') }}</p>
                                     <Tooltip :text="$t('superadmin.dashboard.adoption.help.usersOnlineNow')"
                                         position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body" />
                                     </Tooltip>
                                 </div>
                                 <p class="co-stat-value">{{ state.usersOnlineNow }}</p>
@@ -148,7 +148,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#E4F1F6">
-                                <Icon name="ph:pulse" class="w-5 h-5 text-[#205E77]" />
+                                <Icon name="ph:pulse" class="w-5 h-5 text-tertiary" />
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                                     <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.companiesActiveToday') }}</p>
                                     <Tooltip :text="$t('superadmin.dashboard.adoption.help.companiesActiveToday')"
                                         position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body" />
                                     </Tooltip>
                                 </div>
                                 <p class="co-stat-value">{{ state.companiesActiveToday }}</p>
@@ -171,7 +171,7 @@
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#EEF8F8">
-                                <Icon name="ph:buildings" class="w-5 h-5 text-[#368F8B]" />
+                                <Icon name="ph:buildings" class="w-5 h-5 text-accent-sea" />
                             </div>
                         </div>
                     </div>
@@ -179,29 +179,29 @@
 
                 <!-- Row 2: small licence stats -->
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
                         <p class="co-stat-label">
                             {{ $t('superadmin.dashboard.totalPaidLicenses') }}
                         </p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                        <p class="text-[22px] font-bold text-ink mt-1">
                             <ModulesSuperadminDashboardMetricValue :value="state.totalPaidLicenses"
                                 metric-key="total_paid_licenses" :ready="state.loaded" />
                         </p>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
                         <p class="co-stat-label">
                             {{ $t('superadmin.dashboard.activeLicenses') }}
                         </p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                        <p class="text-[22px] font-bold text-ink mt-1">
                             <ModulesSuperadminDashboardMetricValue :value="state.totalActiveLicenses"
                                 metric-key="total_active_licenses" :ready="state.loaded" />
                         </p>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
                         <p class="co-stat-label">
                             {{ $t('superadmin.dashboard.unusedLicenses') }}
                         </p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
+                        <p class="text-[22px] font-bold text-ink mt-1">
                             <ModulesSuperadminDashboardMetricValue :value="state.unusedLicenses"
                                 metric-key="unused_licenses" :ready="state.loaded" />
                         </p>
@@ -212,22 +212,22 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
                     <!-- Recent companies (2/3) -->
-                    <div class="lg:col-span-2 bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-                        <div class="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0]">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{
+                    <div class="lg:col-span-2 bg-white border border-line rounded-xl shadow-sm overflow-hidden">
+                        <div class="flex items-center justify-between px-5 py-4 border-b border-line">
+                            <h2 class="text-[13px] font-semibold text-ink">{{
                                 $t('superadmin.dashboard.recentCompanies') }}
                             </h2>
                             <button @click="navigateTo('/superadmin/companies')"
-                                class="text-[12px] text-[#42AED9] hover:underline flex items-center gap-1">
+                                class="text-[12px] text-accent hover:underline flex items-center gap-1">
                                 {{ $t('superadmin.dashboard.viewAll') }}
                                 <Icon name="ph:arrow-right" class="w-3 h-3" />
                             </button>
                         </div>
                         <div v-if="state.isLoading" class="flex justify-center py-10">
-                            <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
+                            <Icon name="ph:spinner" class="w-6 h-6 text-accent animate-spin" />
                         </div>
                         <div v-else-if="!state.recentCompanies.length"
-                            class="flex flex-col items-center gap-2 py-10 text-[#8891A4]">
+                            class="flex flex-col items-center gap-2 py-10 text-ink-muted">
                             <Icon name="ph:buildings" class="w-10 h-10 opacity-30" />
                             <p class="text-sm">
                                 {{ $t('superadmin.dashboard.noCompaniesYet') }}
@@ -235,7 +235,7 @@
                         </div>
                         <div v-else>
                             <div v-for="(company, i) in state.recentCompanies" :key="i"
-                                class="flex items-center justify-between px-5 py-3.5 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] cursor-pointer transition-colors"
+                                class="flex items-center justify-between px-5 py-3.5 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle cursor-pointer transition-colors"
                                 @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
@@ -243,26 +243,26 @@
                                         {{ initials(company.name) }}
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ company.name || '—' }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">
+                                        <p class="text-[11px] text-ink-muted">
                                             {{ company.email || company.phone || '' }}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span v-if="company.is_active"
-                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#EDF7EE] text-[#2E9E33]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-success-soft text-success">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                         {{ $t('superadmin.dashboard.active') }}
                                     </span>
                                     <span v-else
-                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#FFF0F0] text-[#CC3B2D]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                        class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-danger-soft text-danger">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                         {{ $t('superadmin.dashboard.inactive') }}
                                     </span>
-                                    <Icon name="ph:caret-right" class="w-3.5 h-3.5 text-[#D5D9E2]" />
+                                    <Icon name="ph:caret-right" class="w-3.5 h-3.5 text-line-strong" />
                                 </div>
                             </div>
                         </div>
@@ -271,23 +271,23 @@
                     <!-- Right column: revenue + storage -->
                     <div class="space-y-4">
                         <!-- Storage -->
-                        <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                        <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
-                                <h2 class="text-[13px] font-semibold text-[#1F2533]">{{
+                                <h2 class="text-[13px] font-semibold text-ink">{{
                                     $t('superadmin.dashboard.companyStorage.companyStorage') }}</h2>
                                 <NuxtLink to="/superadmin/dashboard/company-storage"
-                                    class="text-[12px] text-[#42AED9] hover:underline">
+                                    class="text-[12px] text-accent hover:underline">
                                     {{ $t('superadmin.dashboard.companyStorage.seeAll') }}
                                 </NuxtLink>
                             </div>
-                            <div v-if="!state.companyStorage?.length" class="text-[12px] text-[#8891A4]">
+                            <div v-if="!state.companyStorage?.length" class="text-[12px] text-ink-muted">
                                 {{ $t('superadmin.dashboard.companyStorage.notMeasuredYet') }}
                             </div>
                             <div v-else class="space-y-3">
                                 <div v-for="(storage, storageIndex) in state.companyStorage.slice(0, 5)"
                                     :key="storageIndex">
                                     <div class="flex items-center justify-between text-[12px] mb-1">
-                                        <span class="text-[#1F2533] font-medium truncate max-w-[140px]">
+                                        <span class="text-ink font-medium truncate max-w-[140px]">
                                             {{ storage.name }}
                                         </span>
                                         <span class="ml-2" :class="storageUsageClass(storage)">
@@ -295,7 +295,7 @@
                                             {{ formatGb(storage.storage_quota_gb) }} GB
                                         </span>
                                     </div>
-                                    <div class="h-1.5 bg-[#F5F6F8] rounded-full overflow-hidden">
+                                    <div class="h-1.5 bg-surface-canvas rounded-full overflow-hidden">
                                         <div class="h-full rounded-full transition-all" :class="storageBarClass(storage)"
                                             :style="`width:${storagePercent(storage)}%`">
                                         </div>
@@ -307,31 +307,31 @@
                 </div>
 
                 <!-- Row 4: customers who have gone quiet -->
-                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-                    <div class="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0]">
+                <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
+                    <div class="flex items-center justify-between px-5 py-4 border-b border-line">
                         <div>
                             <div class="flex items-center gap-1.5">
-                                <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                                <h2 class="text-[13px] font-semibold text-ink">
                                     {{ $t('superadmin.dashboard.adoption.quietCustomers') }}
                                 </h2>
                                 <Tooltip :text="$t('superadmin.dashboard.adoption.help.quietCustomers')" position="bottom"
                                     wrap>
-                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body" />
                                 </Tooltip>
                             </div>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5">
+                            <p class="text-[11px] text-ink-muted mt-0.5">
                                 {{ $t('superadmin.dashboard.adoption.quietCustomersHint') }}
                             </p>
                         </div>
                     </div>
                     <div v-if="!state.quietCompanies.length"
-                        class="flex flex-col items-center gap-2 py-10 text-[#8891A4]">
+                        class="flex flex-col items-center gap-2 py-10 text-ink-muted">
                         <Icon name="ph:check-circle" class="w-10 h-10 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.dashboard.adoption.everyoneActive') }}</p>
                     </div>
                     <div v-else>
                         <div v-for="(company, i) in state.quietCompanies" :key="i"
-                            class="flex items-center justify-between px-5 py-3.5 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] cursor-pointer transition-colors"
+                            class="flex items-center justify-between px-5 py-3.5 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle cursor-pointer transition-colors"
                             @click="navigateTo(`/superadmin/companies/${company.uuid}/accounts`)">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
@@ -339,8 +339,8 @@
                                     {{ initials(company.name) }}
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-[13px] font-semibold text-[#1F2533] truncate">{{ company.name }}</p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[13px] font-semibold text-ink truncate">{{ company.name }}</p>
+                                    <p class="text-[11px] text-ink-muted">
                                         <template v-if="company.has_ever_been_active">
                                             {{ $t('superadmin.dashboard.adoption.lastActive', {
                                                 date: formatDay(company.last_active_at)
@@ -432,10 +432,10 @@ function formatDay(value: string) {
 // all escalates faster: that is onboarding failing, not a quiet week.
 function quietToneClass(company: any) {
     const days = company.quiet_days ?? 0
-    if (!company.has_ever_been_active) return days >= 7 ? 'text-[#CC3B2D]' : 'text-[#D4900A]'
-    if (days >= 30) return 'text-[#CC3B2D]'
-    if (days >= 7) return 'text-[#D4900A]'
-    return 'text-[#8891A4]'
+    if (!company.has_ever_been_active) return days >= 7 ? 'text-danger' : 'text-warning'
+    if (days >= 30) return 'text-danger'
+    if (days >= 7) return 'text-warning'
+    return 'text-ink-muted'
 }
 
 function quietLabel(company: any) {
@@ -452,16 +452,16 @@ function storagePercent(storage: any) {
 
 function storageUsageClass(storage: any) {
     const percent = storagePercent(storage)
-    if (percent >= 100) return 'text-[#CC3B2D] font-semibold'
-    if (percent >= 80) return 'text-[#D4900A] font-semibold'
-    return 'text-[#8891A4]'
+    if (percent >= 100) return 'text-danger font-semibold'
+    if (percent >= 80) return 'text-warning font-semibold'
+    return 'text-ink-muted'
 }
 
 function storageBarClass(storage: any) {
     const percent = storagePercent(storage)
-    if (percent >= 100) return 'bg-[#CC3B2D]'
-    if (percent >= 80) return 'bg-[#D4900A]'
-    return 'bg-[#42AED9]'
+    if (percent >= 100) return 'bg-danger'
+    if (percent >= 80) return 'bg-warning'
+    return 'bg-accent'
 }
 
 onMounted(() => {
@@ -505,7 +505,7 @@ async function fetchRecentCompanies() {
 <style scoped>
 .co-stat-card {
     background: white;
-    border: 1px solid #EAECF0;
+    border: 1px solid theme('colors.line.DEFAULT');
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -521,13 +521,13 @@ async function fetchRecentCompanies() {
     right: 0;
     height: 3px;
     border-radius: 12px 12px 0 0;
-    background: var(--accent, #42AED9);
+    background: var(--accent, theme('colors.accent.DEFAULT'));
 }
 
 .co-stat-label {
     font-size: 10px;
     font-weight: 700;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     text-transform: uppercase;
     letter-spacing: 0.07em;
 }
@@ -535,14 +535,14 @@ async function fetchRecentCompanies() {
 .co-stat-value {
     font-size: 28px;
     font-weight: 800;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     line-height: 1;
     margin-top: 6px;
 }
 
 .co-stat-sub {
     font-size: 11px;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     margin-top: 4px;
 }
 </style>

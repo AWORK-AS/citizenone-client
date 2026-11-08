@@ -24,8 +24,8 @@
                         @sort="handleSort">
                         <template #body>
                             <tr v-for="(invoice, index) in state.invoices?.data" :key="index"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ formatDateTimeToReadable(invoice?.created_at) }}
                                 </td>
                                 <td class="co-td">
@@ -51,18 +51,18 @@
                                         </span>
                                     </Tooltip>
                                     <span v-else-if="invoice?.is_paid" class="co-badge co-badge-green">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                         {{ $t('superadmin.invoices.table.paid') }}
                                     </span>
                                     <span v-else class="co-badge co-badge-red">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                         {{ $t('superadmin.invoices.table.unpaid') }}
                                     </span>
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478] font-mono">
+                                <td class="co-td text-[13px] text-ink-body font-mono">
                                     {{ invoice?.invoice_number }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#1F2533] font-medium">
+                                <td class="co-td text-[13px] text-ink font-medium">
                                     {{ formatAmount(invoice?.total_amount, 'DKK') }}
                                 </td>
                                 <td class="co-td" @click.stop>

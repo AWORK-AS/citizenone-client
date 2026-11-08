@@ -17,12 +17,12 @@
 				<!-- Header + filters -->
 				<div class="flex items-end justify-between mb-6">
 					<div>
-						<p class="text-sm text-[#5C6478]">
+						<p class="text-sm text-ink-body">
 							{{ $t('superadmin.finance.subtitle') }}
 						</p>
 					</div>
 					<div class="flex items-center gap-2 flex-wrap">
-						<div class="flex items-center bg-white border border-[#D5D9E2] rounded-lg p-0.5">
+						<div class="flex items-center bg-white border border-line-strong rounded-lg p-0.5">
 							<button v-for="r in timeRanges" :key="r.key"
 								class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
 								:style="timeRange === r.key && !customRange ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
@@ -31,24 +31,24 @@
 							</button>
 						</div>
 						<div class="flex items-center gap-1.5 bg-white border rounded-lg px-3 py-1.5 transition-colors"
-							:class="customRange ? 'border-[#42AED9] ring-2 ring-[#42AED9]/10' : 'border-[#D5D9E2]'">
-							<svg class="w-3.5 h-3.5 text-[#8891A4] flex-shrink-0" fill="none" viewBox="0 0 16 16">
+							:class="customRange ? 'border-accent ring-2 ring-accent/10' : 'border-line-strong'">
+							<svg class="w-3.5 h-3.5 text-ink-muted flex-shrink-0" fill="none" viewBox="0 0 16 16">
 								<rect x="1.5" y="2.5" width="13" height="12" rx="2" stroke="currentColor"
 									stroke-width="1.3" />
 								<path d="M1.5 6.5h13M5 1v3M11 1v3" stroke="currentColor" stroke-width="1.3"
 									stroke-linecap="round" />
 							</svg>
 							<input v-model="dateFrom" type="date" :max="dateTo || undefined"
-								class="text-[12px] text-[#1F2533] outline-none bg-transparent w-[110px] cursor-pointer"
+								class="text-[12px] text-ink outline-none bg-transparent w-[110px] cursor-pointer"
 								@change="onCustomDate" />
-							<span class="text-[#D5D9E2] text-[12px]">
+							<span class="text-line-strong text-[12px]">
 								–
 							</span>
 							<input v-model="dateTo" type="date" :min="dateFrom || undefined"
-								class="text-[12px] text-[#1F2533] outline-none bg-transparent w-[110px] cursor-pointer"
+								class="text-[12px] text-ink outline-none bg-transparent w-[110px] cursor-pointer"
 								@change="onCustomDate" />
 							<button v-if="customRange"
-								class="ml-1 text-[#8891A4] hover:text-[#E02C20] transition-colors"
+								class="ml-1 text-ink-muted hover:text-danger transition-colors"
 								@click="clearCustomDate">
 								<svg class="w-3 h-3" fill="none" viewBox="0 0 16 16">
 									<path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5"
@@ -57,7 +57,7 @@
 							</button>
 						</div>
 						<div v-if="activePeriodLabel"
-							class="text-[11px] text-[#5C6478] bg-[#F5F6F8] px-2.5 py-1.5 rounded-lg border border-[#EAECF0]">
+							class="text-[11px] text-ink-body bg-surface-canvas px-2.5 py-1.5 rounded-lg border border-line">
 							{{ activePeriodLabel }}
 						</div>
 					</div>
@@ -67,10 +67,10 @@
 				<div class="mb-2">
 					<div class="flex items-center gap-2 mb-4">
 						<div class="w-2 h-6 rounded-full" style="background:#42AED9"></div>
-						<h2 class="text-[15px] font-semibold text-[#1F2533]">
+						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.revenue') }}
 						</h2>
-						<span class="text-[12px] text-[#8891A4]">
+						<span class="text-[12px] text-ink-muted">
 							{{ $t('superadmin.finance.revenueSubtitle') }}
 						</span>
 					</div>
@@ -79,25 +79,25 @@
 						<!-- MRR -->
 						<div class="co-metric-card accent-teal">
 							<div
-								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-[#E4F1F6] flex items-center justify-center">
-								<svg class="w-3.5 h-3.5 text-[#205E77]" fill="none" viewBox="0 0 16 16">
+								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-tertiary-soft flex items-center justify-center">
+								<svg class="w-3.5 h-3.5 text-tertiary" fill="none" viewBox="0 0 16 16">
 									<path d="M8 2v12M4.5 5.5h4a2 2 0 0 1 0 4H4.5" stroke="currentColor"
 										stroke-width="1.4" stroke-linecap="round" />
 								</svg>
 							</div>
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								MRR
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none tracking-tight">
+							<div class="text-[24px] font-semibold text-ink leading-none tracking-tight">
 								<span v-if="loading" class="inline-block w-20 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.mrr) }}</template>
 							</div>
 							<div class="text-[11px] mt-1.5 flex items-center gap-1"
-								:class="kpis.mrrGrowth >= 0 ? 'text-[#1B6B1E]' : 'text-[#8B1A14]'">
+								:class="kpis.mrrGrowth >= 0 ? 'text-success-ink' : 'text-danger-ink'">
 								{{ kpis.mrrGrowth >= 0 ? '↑' : '↓' }} {{ Math.abs(kpis.mrrGrowth).toFixed(1) }}% {{
 									$t('superadmin.finance.vsPrevious') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.mrrFull') }}
 							</div>
 						</div>
@@ -105,24 +105,24 @@
 						<!-- ARR -->
 						<div class="co-metric-card accent-navy">
 							<div
-								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-[#E4F1F6] flex items-center justify-center">
-								<svg class="w-3.5 h-3.5 text-[#205E77]" fill="none" viewBox="0 0 16 16">
+								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-tertiary-soft flex items-center justify-center">
+								<svg class="w-3.5 h-3.5 text-tertiary" fill="none" viewBox="0 0 16 16">
 									<path d="M2 8h12M8 2v12" stroke="currentColor" stroke-width="1.4"
 										stroke-linecap="round" />
 									<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4" />
 								</svg>
 							</div>
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								ARR
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none tracking-tight">
+							<div class="text-[24px] font-semibold text-ink leading-none tracking-tight">
 								<span v-if="loading" class="inline-block w-20 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.mrr * 12) }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ $t('superadmin.finance.forecastMRR') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.arrFull') }}
 							</div>
 						</div>
@@ -130,25 +130,25 @@
 						<!-- Collected -->
 						<div class="co-metric-card accent-success">
 							<div
-								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-[#EDF7EE] flex items-center justify-center">
-								<svg class="w-3.5 h-3.5 text-[#2E9E33]" fill="none" viewBox="0 0 16 16">
+								class="absolute top-4 right-4 w-7 h-7 rounded-lg bg-success-soft flex items-center justify-center">
+								<svg class="w-3.5 h-3.5 text-success" fill="none" viewBox="0 0 16 16">
 									<rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor"
 										stroke-width="1.4" />
 									<path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.4"
 										stroke-linecap="round" />
 								</svg>
 							</div>
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.collected') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none tracking-tight">
+							<div class="text-[24px] font-semibold text-ink leading-none tracking-tight">
 								<span v-if="loading" class="inline-block w-20 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.collected) }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ kpis.collectionRate.toFixed(0) }}% {{ $t('superadmin.finance.collectionRateLabel') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.paidInPeriod') }}
 							</div>
 						</div>
@@ -156,55 +156,55 @@
 						<!-- Outstanding -->
 						<div class="co-metric-card" :class="kpis.outstanding > 0 ? 'accent-warn' : 'accent-success'">
 							<div class="absolute top-4 right-4 w-7 h-7 rounded-lg flex items-center justify-center"
-								:class="kpis.outstanding > 0 ? 'bg-[#FFF9EC]' : 'bg-[#EDF7EE]'">
+								:class="kpis.outstanding > 0 ? 'bg-warning-soft' : 'bg-success-soft'">
 								<svg class="w-3.5 h-3.5"
-									:class="kpis.outstanding > 0 ? 'text-[#D4900A]' : 'text-[#2E9E33]'" fill="none"
+									:class="kpis.outstanding > 0 ? 'text-warning' : 'text-success'" fill="none"
 									viewBox="0 0 16 16">
 									<circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4" />
 									<path d="M8 5v3M8 10v.5" stroke="currentColor" stroke-width="1.4"
 										stroke-linecap="round" />
 								</svg>
 							</div>
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.outstanding') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none tracking-tight">
+							<div class="text-[24px] font-semibold text-ink leading-none tracking-tight">
 								<span v-if="loading" class="inline-block w-20 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.outstanding) }}</template>
 							</div>
 							<div class="text-[11px] mt-1.5"
-								:class="kpis.outstanding > 0 ? 'text-[#7A5200]' : 'text-[#8891A4]'">
+								:class="kpis.outstanding > 0 ? 'text-warning-ink' : 'text-ink-muted'">
 								{{
 									kpis.outstanding > 0 ? kpis.overdueCount + ' ' +
 										$t('superadmin.finance.invoicesPending') :
 										$t('superadmin.finance.allPaid')
 								}}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.notYetCollected') }}
 							</div>
 						</div>
 					</div>
 
 					<!-- MRR Chart -->
-					<div class="bg-white border border-[#EAECF0] rounded-xl p-5 mb-4 shadow-sm">
+					<div class="bg-white border border-line rounded-xl p-5 mb-4 shadow-sm">
 						<div class="flex items-center justify-between mb-4">
 							<div>
-								<div class="text-[13px] font-medium text-[#1F2533]">
+								<div class="text-[13px] font-medium text-ink">
 									{{ $t('superadmin.finance.mrrOverTime') }}
 								</div>
-								<div class="text-[11px] text-[#8891A4] mt-0.5">
+								<div class="text-[11px] text-ink-muted mt-0.5">
 									{{ $t('superadmin.finance.mrrHelp') }}
 								</div>
 							</div>
 							<div class="flex items-center gap-4 text-[11px]">
 								<div class="flex items-center gap-1.5">
-									<div class="w-2.5 h-2.5 rounded-sm bg-[#42AED9]"></div>
-									<span class="text-[#5C6478]">MRR</span>
+									<div class="w-2.5 h-2.5 rounded-sm bg-accent"></div>
+									<span class="text-ink-body">MRR</span>
 								</div>
 								<div class="flex items-center gap-1.5">
 									<div class="w-2.5 h-2.5 rounded-sm bg-[#99BBE0]"></div>
-									<span class="text-[#5C6478]">
+									<span class="text-ink-body">
 										{{ $t('superadmin.finance.newARR') }}
 									</span>
 								</div>
@@ -214,7 +214,7 @@
 							<div v-for="(m, i) in chartData" :key="i"
 								class="flex-1 flex flex-col items-center gap-1 h-full justify-end group relative">
 								<div v-if="kpis.mrr > 0"
-									class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#1F2533] text-white text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+									class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-ink text-white text-[11px] px-2.5 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
 									{{ m.month }}: {{ fmt(m.mrr) }}
 								</div>
 								<div class="w-full rounded-t-sm transition-all"
@@ -239,7 +239,7 @@
 							</div>
 						</div>
 						<div
-							class="flex justify-between text-[10px] text-[#8891A4] mt-1 border-t border-[#EAECF0] pt-2">
+							class="flex justify-between text-[10px] text-ink-muted mt-1 border-t border-line pt-2">
 							<span>{{ fmt(kpis.mrr * 0.7) }}</span>
 							<span>{{ fmt(kpis.mrr * 0.85) }}</span>
 							<span>{{ fmt(kpis.mrr) }}</span>
@@ -248,51 +248,51 @@
 
 					<!-- Revenue breakdown -->
 					<div class="grid grid-cols-3 gap-3 mb-5">
-						<div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-2">
+						<div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-2">
 								{{ $t('superadmin.finance.newRevenue') }}
 							</div>
-							<div class="text-[20px] font-semibold text-[#2E9E33]">
+							<div class="text-[20px] font-semibold text-success">
 								{{ fmt(kpis.newRevenue) }}
 							</div>
-							<div class="text-[11px] text-[#8891A4] mt-1">
+							<div class="text-[11px] text-ink-muted mt-1">
 								{{ $t('superadmin.finance.fromCompanies') }}
 							</div>
-							<div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
-								<div class="h-full bg-[#2E9E33] rounded-full" :style="`width:${newRevenuePct}%`" />
+							<div class="mt-2 h-1.5 bg-line rounded-full overflow-hidden">
+								<div class="h-full bg-success rounded-full" :style="`width:${newRevenuePct}%`" />
 							</div>
 						</div>
-						<div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-2">
+						<div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-2">
 								{{ $t('superadmin.finance.expansionRevenue') }}
 							</div>
-							<div class="text-[20px] font-semibold text-[#205E77]">
+							<div class="text-[20px] font-semibold text-tertiary">
 								{{ fmt(kpis.expansionRevenue) }}
 							</div>
-							<div class="text-[11px] text-[#8891A4] mt-1">
+							<div class="text-[11px] text-ink-muted mt-1">
 								{{ $t('superadmin.finance.upgrades') }}
 							</div>
-							<div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
-								<div class="h-full bg-[#205E77] rounded-full"
+							<div class="mt-2 h-1.5 bg-line rounded-full overflow-hidden">
+								<div class="h-full bg-tertiary rounded-full"
 									:style="`width:${expansionRevenuePct}%`" />
 							</div>
 						</div>
-						<div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-2">
+						<div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-2">
 								{{ $t('superadmin.finance.lostRevenue') }}
 							</div>
-							<div class="text-[20px] font-semibold text-[#CC3B2D]">
+							<div class="text-[20px] font-semibold text-danger">
 								{{
 									kpis.churnedRevenue > 0 ?
 										'-' + fmt(kpis.churnedRevenue) :
 										fmt(kpis.churnedRevenue)
 								}}
 							</div>
-							<div class="text-[11px] text-[#8891A4] mt-1">
+							<div class="text-[11px] text-ink-muted mt-1">
 								{{ $t('superadmin.finance.fromChurn') }}
 							</div>
-							<div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
-								<div class="h-full bg-[#CC3B2D] rounded-full" :style="`width:${churnedRevenuePct}%`" />
+							<div class="mt-2 h-1.5 bg-line rounded-full overflow-hidden">
+								<div class="h-full bg-danger rounded-full" :style="`width:${churnedRevenuePct}%`" />
 							</div>
 						</div>
 					</div>
@@ -302,81 +302,81 @@
 				<div class="mb-5">
 					<div class="flex items-center gap-2 mb-4">
 						<div class="w-2 h-6 rounded-full" style="background:#205E77"></div>
-						<h2 class="text-[15px] font-semibold text-[#1F2533]">
+						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.companiesLicenses') }}
 						</h2>
-						<span class="text-[12px] text-[#8891A4]">
+						<span class="text-[12px] text-ink-muted">
 							{{ $t('superadmin.finance.subscriptions') }}
 						</span>
 					</div>
 
 					<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
 						<div class="co-metric-card accent-navy">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.activeCompanies') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.activeClients }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ $t('superadmin.finance.payingSubscribers') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.activeLicenses') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-teal">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								ARPU
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.arpu) }}</template>
 							</div>
 							<div class="text-[11px] mt-1.5"
-								:class="kpis.arpu > 300 ? 'text-[#1B6B1E]' : 'text-[#8891A4]'">
+								:class="kpis.arpu > 300 ? 'text-success-ink' : 'text-ink-muted'">
 								{{
 									kpis.arpu > 300 ?
 										$t('superadmin.finance.overBenchmark') :
 										$t('superadmin.finance.underBenchmark')
 								}}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.arpuFull') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-success">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.trialPeriods') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.trialCount }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ kpis.trialConvRate.toFixed(0) }}%
 								{{ $t('superadmin.finance.conversionRate') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.activeTrials') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-warn">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.expiringSoon') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.expiringTrials }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#7A5200]">
+							<div class="text-[11px] mt-1.5 text-warning-ink">
 								{{ $t('superadmin.finance.within7Days') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.requiresFollowUp') }}
 							</div>
 						</div>
@@ -384,62 +384,62 @@
 
 					<div class="grid grid-cols-5 gap-4">
 						<!-- Plan distribution -->
-						<div class="col-span-2 bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-							<div class="text-[13px] font-medium text-[#1F2533] mb-1">
+						<div class="col-span-2 bg-white border border-line rounded-xl p-5 shadow-sm">
+							<div class="text-[13px] font-medium text-ink mb-1">
 								{{ $t('superadmin.finance.planDistribution') }}
 							</div>
-							<div class="text-[11px] text-[#8891A4] mb-4">
+							<div class="text-[11px] text-ink-muted mb-4">
 								{{ $t('superadmin.finance.plans') }}
 							</div>
 							<div v-for="plan in planDistribution" :key="plan.name" class="mb-3">
 								<div class="flex justify-between text-[12px] mb-1">
 									<div class="flex items-center gap-2">
 										<div class="w-2 h-2 rounded-full" :style="`background:${plan.color}`"></div>
-										<span class="font-medium text-[#1F2533]">
+										<span class="font-medium text-ink">
 											{{ plan.name }}
 										</span>
 									</div>
 									<div class="flex gap-3">
-										<span class="text-[#5C6478]">
+										<span class="text-ink-body">
 											{{ plan.count }} {{ $t('superadmin.finance.comp') }}
 										</span>
-										<span class="font-medium text-[#1F2533]">
+										<span class="font-medium text-ink">
 											{{ fmt(plan.revenue) }}
 										</span>
 									</div>
 								</div>
-								<div class="h-2 bg-[#EAECF0] rounded-full overflow-hidden">
+								<div class="h-2 bg-line rounded-full overflow-hidden">
 									<div class="h-full rounded-full transition-all"
 										:style="`width:${plan.pct}%;background:${plan.color}`" />
 								</div>
 							</div>
-							<div class="mt-4 pt-3 border-t border-[#EAECF0] flex justify-between text-[11px]">
-								<span class="text-[#8891A4]">
+							<div class="mt-4 pt-3 border-t border-line flex justify-between text-[11px]">
+								<span class="text-ink-muted">
 									{{ $t('superadmin.finance.annualPlanShare') }}
 								</span>
-								<span class="font-semibold text-[#1F2533]">
+								<span class="font-semibold text-ink">
 									{{ kpis.annualPct.toFixed(0) }}%
 								</span>
 							</div>
 						</div>
 
 						<!-- Top companies -->
-						<div class="col-span-3 bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-							<div class="text-[13px] font-medium text-[#1F2533] mb-1">
+						<div class="col-span-3 bg-white border border-line rounded-xl p-5 shadow-sm">
+							<div class="text-[13px] font-medium text-ink mb-1">
 								{{ $t('superadmin.finance.topCompanies') }}
 							</div>
-							<div class="text-[11px] text-[#8891A4] mb-4">
+							<div class="text-[11px] text-ink-muted mb-4">
 								{{ $t('superadmin.finance.top') }}
 								{{ topClients.length }}
 								{{ $t('superadmin.finance.highestPaying') }}
 							</div>
-							<div v-if="!topClients.length" class="text-[12px] text-[#8891A4] py-4 text-center">
+							<div v-if="!topClients.length" class="text-[12px] text-ink-muted py-4 text-center">
 								{{ $t('superadmin.finance.noDataYet') }}
 							</div>
 							<div v-for="(client, i) in topClients" :key="client.uuid"
-								class="flex items-center gap-3 py-2 border-b border-[#EAECF0] last:border-0">
+								class="flex items-center gap-3 py-2 border-b border-line last:border-0">
 								<div
-									class="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold text-[#8891A4]">
+									class="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold text-ink-muted">
 									{{ i + 1 }}
 								</div>
 								<div class="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-semibold flex-shrink-0"
@@ -447,23 +447,23 @@
 									{{ initials(client.name) }}
 								</div>
 								<div class="flex-1 min-w-0">
-									<div class="text-[13px] font-medium text-[#1F2533] truncate">
+									<div class="text-[13px] font-medium text-ink truncate">
 										{{ client.name }}
 									</div>
-									<div class="text-[11px] text-[#8891A4]">
+									<div class="text-[11px] text-ink-muted">
 										{{ client.plan }}
 									</div>
 								</div>
 								<div class="text-right">
-									<div class="text-[13px] font-medium text-[#1F2533] font-mono">
+									<div class="text-[13px] font-medium text-ink font-mono">
 										{{ fmt(client.mrr) }}
 									</div>
-									<div class="text-[10px] text-[#8891A4]">
+									<div class="text-[10px] text-ink-muted">
 										{{ $t('superadmin.finance.mo') }}
 									</div>
 								</div>
-								<div class="w-16 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden ml-2">
-									<div class="h-full bg-[#42AED9] rounded-full"
+								<div class="w-16 h-1.5 bg-line rounded-full overflow-hidden ml-2">
+									<div class="h-full bg-accent rounded-full"
 										:style="`width:${topClients[0]?.mrr ? (client.mrr / topClients[0].mrr * 100).toFixed(0) : 0}%`" />
 								</div>
 							</div>
@@ -475,105 +475,105 @@
 				<div class="mb-5">
 					<div class="flex items-center gap-2 mb-4">
 						<div class="w-2 h-6 rounded-full" style="background:#2E9E33"></div>
-						<h2 class="text-[15px] font-semibold text-[#1F2533]">
+						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.growth') }}
 						</h2>
-						<span class="text-[12px] text-[#8891A4]">
+						<span class="text-[12px] text-ink-muted">
 							{{ $t('superadmin.finance.marketingRoas') }}
 						</span>
 					</div>
 
 					<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
 						<div class="co-metric-card accent-success">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.momGrowth') }}
 							</div>
 							<div class="text-[24px] font-semibold leading-none"
-								:class="kpis.momGrowth >= 0 ? 'text-[#2E9E33]' : 'text-[#CC3B2D]'">
+								:class="kpis.momGrowth >= 0 ? 'text-success' : 'text-danger'">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>
 									{{ kpis.momGrowth >= 0 ? '+' : '' }}
 									{{ kpis.momGrowth.toFixed(1) }}%
 								</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ $t('superadmin.finance.newCompaniesVs') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.momFull') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-teal">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.newCompanies') }}
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.newClients }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ $t('superadmin.finance.inPeriod') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.netGrowth') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-navy">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								ROAS
 							</div>
 							<div class="text-[24px] font-semibold leading-none"
-								:class="kpis.roas >= 3 ? 'text-[#2E9E33]' : 'text-[#D4900A]'">
+								:class="kpis.roas >= 3 ? 'text-success' : 'text-warning'">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.roas.toFixed(1) }}x</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{ $t('superadmin.finance.goalRoas') }}
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.roasFull') }}
 							</div>
 						</div>
 
 						<div class="co-metric-card accent-success">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								LTV
 							</div>
-							<div class="text-[24px] font-semibold text-[#1F2533] leading-none">
+							<div class="text-[24px] font-semibold text-ink leading-none">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ fmt(kpis.ltv) }}</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								LTV:CAC = {{ kpis.ltvCacRatio.toFixed(1) }}x
 							</div>
-							<div class="text-[10px] text-[#8891A4] mt-0.5">
+							<div class="text-[10px] text-ink-muted mt-0.5">
 								{{ $t('superadmin.finance.ltvFull') }}
 							</div>
 						</div>
 					</div>
 
 					<!-- Conversion funnel -->
-					<div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-						<div class="text-[13px] font-medium text-[#1F2533] mb-1">
+					<div class="bg-white border border-line rounded-xl p-5 shadow-sm">
+						<div class="text-[13px] font-medium text-ink mb-1">
 							{{ $t('superadmin.finance.conversionFunnel') }}
 						</div>
-						<div class="text-[11px] text-[#8891A4] mb-5">
+						<div class="text-[11px] text-ink-muted mb-5">
 							{{ $t('superadmin.finance.dropOffTrial') }}
 						</div>
 						<div class="flex items-end gap-2">
 							<div v-for="(step, i) in funnel" :key="i" class="flex-1 flex flex-col items-center gap-2">
-								<div class="text-[13px] font-semibold text-[#1F2533]">
+								<div class="text-[13px] font-semibold text-ink">
 									{{ step.count }}
 								</div>
 								<div class="w-full rounded-t-lg transition-all"
 									:style="`height:${step.pct * 1.4}px;background:${step.color};opacity:${0.5 + i * 0.15}`" />
-								<div class="text-[10px] text-[#5C6478] text-center leading-tight">
+								<div class="text-[10px] text-ink-body text-center leading-tight">
 									{{ step.label }}
 								</div>
 								<div class="text-[11px] font-medium"
-									:class="i > 0 ? 'text-[#42AED9]' : 'text-[#8891A4]'">
+									:class="i > 0 ? 'text-accent' : 'text-ink-muted'">
 									{{ i > 0 ? step.convRate + '%' : '100%' }}
 								</div>
 							</div>
@@ -585,10 +585,10 @@
 				<div>
 					<div class="flex items-center gap-2 mb-4">
 						<div class="w-2 h-6 rounded-full" style="background:#CC3B2D"></div>
-						<h2 class="text-[15px] font-semibold text-[#1F2533]">
+						<h2 class="text-[15px] font-semibold text-ink">
 							{{ $t('superadmin.finance.risk') }}
 						</h2>
-						<span class="text-[12px] text-[#8891A4]">
+						<span class="text-[12px] text-ink-muted">
 							{{ $t('superadmin.finance.churnIssues') }}
 						</span>
 					</div>
@@ -596,7 +596,7 @@
 					<div v-if="alerts.length > 0" class="space-y-2 mb-4">
 						<div v-for="alert in alerts" :key="alert.id"
 							class="flex items-start gap-3 px-4 py-3 rounded-lg text-[12px]"
-							:class="alert.type === 'error' ? 'bg-[#FFF0F0] border-l-[3px] border-[#E02C20] text-[#8B1A14]' : 'bg-[#FFF9EC] border-l-[3px] border-[#D4900A] text-[#7A5200]'">
+							:class="alert.type === 'error' ? 'bg-danger-soft border-l-[3px] border-danger text-danger-ink' : 'bg-warning-soft border-l-[3px] border-warning text-warning-ink'">
 							<svg class="w-3.5 h-3.5 flex-shrink-0 mt-px" fill="none" viewBox="0 0 16 16">
 								<circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4" />
 								<path d="M8 5v3M8 10v.5" stroke="currentColor" stroke-width="1.4"
@@ -611,29 +611,29 @@
 					<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
 						<div class="co-metric-card"
 							:class="kpis.churnRate > 5 ? 'accent-error' : kpis.churnRate > 2 ? 'accent-warn' : 'accent-success'">
-							<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+							<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 								{{ $t('superadmin.finance.churnRate') }}
 							</div>
 							<div class="text-[24px] font-semibold leading-none"
-								:class="kpis.churnRate > 5 ? 'text-[#CC3B2D]' : kpis.churnRate > 2 ? 'text-[#D4900A]' : 'text-[#2E9E33]'">
+								:class="kpis.churnRate > 5 ? 'text-danger' : kpis.churnRate > 2 ? 'text-warning' : 'text-success'">
 								<span v-if="loading" class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 								<template v-else>{{ kpis.churnRate.toFixed(1) }}%</template>
 							</div>
-							<div class="text-[11px] mt-1.5 text-[#8891A4]">
+							<div class="text-[11px] mt-1.5 text-ink-muted">
 								{{
 									kpis.churnRate <= 2 ? $t('superadmin.finance.healthyLevel') : kpis.churnRate <= 5 ?
 										$t('superadmin.finance.requiresAttention') : $t('superadmin.finance.critical') }}
 									</div>
-									<div class="text-[10px] text-[#8891A4] mt-0.5">
+									<div class="text-[10px] text-ink-muted mt-0.5">
 										{{ $t('superadmin.finance.goalUnder2') }}
 									</div>
 							</div>
 
 							<div class="co-metric-card accent-error">
-								<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+								<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 									{{ $t('superadmin.finance.churnedRevenue') }}
 								</div>
-								<div class="text-[24px] font-semibold text-[#CC3B2D] leading-none">
+								<div class="text-[24px] font-semibold text-danger leading-none">
 									<span v-if="loading"
 										class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 									<template v-else>
@@ -643,96 +643,96 @@
 										}}
 									</template>
 								</div>
-								<div class="text-[11px] mt-1.5 text-[#8891A4]">
+								<div class="text-[11px] mt-1.5 text-ink-muted">
 									{{ kpis.churnedClients }} {{ $t('superadmin.finance.companiesLost') }}
 								</div>
-								<div class="text-[10px] text-[#8891A4] mt-0.5">
+								<div class="text-[10px] text-ink-muted mt-0.5">
 									{{ $t('superadmin.finance.lostMRR') }}
 								</div>
 							</div>
 
 							<div class="co-metric-card accent-warn">
-								<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+								<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 									{{ $t('superadmin.finance.paymentFailures') }}
 								</div>
-								<div class="text-[24px] font-semibold text-[#D4900A] leading-none">
+								<div class="text-[24px] font-semibold text-warning leading-none">
 									<span v-if="loading"
 										class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 									<template v-else>{{ kpis.failedPayments }}</template>
 								</div>
-								<div class="text-[11px] mt-1.5 text-[#8891A4]">
+								<div class="text-[11px] mt-1.5 text-ink-muted">
 									{{ $t('superadmin.finance.requiresFollowUpShort') }}
 								</div>
-								<div class="text-[10px] text-[#8891A4] mt-0.5">
+								<div class="text-[10px] text-ink-muted mt-0.5">
 									{{ $t('superadmin.finance.declined') }}
 								</div>
 							</div>
 
 							<div class="co-metric-card accent-navy">
-								<div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1.5">
+								<div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1.5">
 									{{ $t('superadmin.finance.nrrFull') }}
 								</div>
 								<div class="text-[24px] font-semibold leading-none"
-									:class="kpis.nrr >= 100 ? 'text-[#2E9E33]' : 'text-[#CC3B2D]'">
+									:class="kpis.nrr >= 100 ? 'text-success' : 'text-danger'">
 									<span v-if="loading"
 										class="inline-block w-14 h-7 bg-gray-100 rounded animate-pulse" />
 									<template v-else>{{ kpis.nrr.toFixed(0) }}%</template>
 								</div>
-								<div class="text-[11px] mt-1.5 text-[#8891A4]">
+								<div class="text-[11px] mt-1.5 text-ink-muted">
 									{{ $t('superadmin.finance.goalNRR') }}
 								</div>
-								<div class="text-[10px] text-[#8891A4] mt-0.5">
+								<div class="text-[10px] text-ink-muted mt-0.5">
 									{{ $t('superadmin.finance.nrrFull') }}
 								</div>
 							</div>
 						</div>
 
 						<div class="grid grid-cols-5 gap-4">
-							<div class="col-span-3 bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-								<div class="text-[13px] font-medium text-[#1F2533] mb-1">
+							<div class="col-span-3 bg-white border border-line rounded-xl p-5 shadow-sm">
+								<div class="text-[13px] font-medium text-ink mb-1">
 									{{ $t('superadmin.finance.churnOverTime') }}
 								</div>
-								<div class="text-[11px] text-[#8891A4] mb-4">
+								<div class="text-[11px] text-ink-muted mb-4">
 									{{ $t('superadmin.finance.churnSpikes') }}
 								</div>
 								<div class="flex items-end gap-2 h-[100px]">
 									<div v-for="(m, i) in churnChart" :key="i"
 										class="flex-1 flex flex-col items-center gap-1 h-full justify-end group relative">
 										<div
-											class="absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 bg-[#1F2533] text-white text-[10px] px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+											class="absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 bg-ink text-white text-[10px] px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
 											{{ m.month }}: {{ m.rate.toFixed(1) }}%
 										</div>
 										<div class="w-full rounded-t-sm"
 											:style="`height:${Math.max(m.pct, 6)}%;background:${m.rate > 3 ? '#CC3B2D' : m.rate > 1.5 ? '#D4900A' : '#42AED9'}`" />
-										<div class="text-[9px] text-[#8891A4]">
+										<div class="text-[9px] text-ink-muted">
 											{{ m.shortMonth }}
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div class="col-span-2 bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-								<div class="text-[13px] font-medium text-[#1F2533] mb-1">
+							<div class="col-span-2 bg-white border border-line rounded-xl p-5 shadow-sm">
+								<div class="text-[13px] font-medium text-ink mb-1">
 									{{ $t('superadmin.finance.churnReasons') }}
 								</div>
-								<div class="text-[11px] text-[#8891A4] mb-4">
+								<div class="text-[11px] text-ink-muted mb-4">
 									{{ $t('superadmin.finance.whatDrives') }}
 								</div>
 								<div v-for="reason in churnReasons" :key="reason.label" class="mb-3">
 									<div class="flex justify-between text-[12px] mb-1">
-										<span class="text-[#5C6478]">
+										<span class="text-ink-body">
 											{{ reason.label }}
 										</span>
-										<span class="font-medium text-[#1F2533]">
+										<span class="font-medium text-ink">
 											{{ reason.pct }}%
 										</span>
 									</div>
-									<div class="h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
-										<div class="h-full rounded-full bg-[#CC3B2D]"
+									<div class="h-1.5 bg-line rounded-full overflow-hidden">
+										<div class="h-full rounded-full bg-danger"
 											:style="`width:${reason.pct}%;opacity:${0.4 + reason.pct / 100}`" />
 									</div>
 								</div>
-								<div class="mt-3 pt-3 border-t border-[#EAECF0] text-[11px] text-[#8891A4]">
+								<div class="mt-3 pt-3 border-t border-line text-[11px] text-ink-muted">
 									{{ $t('superadmin.finance.basedOn') }}
 								</div>
 							</div>
@@ -958,7 +958,7 @@ onMounted(() => fetchData())
 
 <style scoped>
 .co-metric-card {
-	@apply relative bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm overflow-hidden;
+	@apply relative bg-white border border-line rounded-xl p-4 shadow-sm overflow-hidden;
 }
 
 .co-metric-card::before {
@@ -972,22 +972,22 @@ onMounted(() => fetchData())
 }
 
 .accent-teal::before {
-	background: #42AED9
+	background: theme('colors.accent.DEFAULT')
 }
 
 .accent-navy::before {
-	background: #205E77
+	background: theme('colors.tertiary.DEFAULT')
 }
 
 .accent-success::before {
-	background: #2E9E33
+	background: theme('colors.success.DEFAULT')
 }
 
 .accent-warn::before {
-	background: #D4900A
+	background: theme('colors.warning.DEFAULT')
 }
 
 .accent-error::before {
-	background: #CC3B2D
+	background: theme('colors.danger.DEFAULT')
 }
 </style>

@@ -14,10 +14,10 @@
             <div class="p-1">
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.salesCampaign.pageTitle') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             {{ $t('superadmin.salesCampaign.pageSubtitle') }}
                         </p>
                     </div>
@@ -30,35 +30,35 @@
                 </div>
 
                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white border border-[#EAECF0] rounded-xl px-5 py-4 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl px-5 py-4 shadow-sm">
                         <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#205E77`">
                         </div>
-                        <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                        <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                             {{ $t('superadmin.salesCampaign.statActiveCampaigns') }}
                         </p>
-                        <p class="text-[28px] font-bold text-[#1F2533] mt-1 leading-none">
+                        <p class="text-[28px] font-bold text-ink mt-1 leading-none">
                             {{ state.campaigns?.active_count ?? 0 }}
                         </p>
-                        <p class="text-[11px] text-[#8891A4] mt-1">
+                        <p class="text-[11px] text-ink-muted mt-1">
                             {{ $t('superadmin.salesCampaign.statRunningNow') }}
                         </p>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl px-5 py-4 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl px-5 py-4 shadow-sm">
                         <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#D4900A`">
                         </div>
-                        <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                        <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                             {{ $t('superadmin.salesCampaign.statExpiringSoon') }}
                         </p>
-                        <p class="text-[28px] font-bold text-[#1F2533] mt-1 leading-none">
+                        <p class="text-[28px] font-bold text-ink mt-1 leading-none">
                             {{ state.campaigns?.expiring_soon_count ?? 0 }}
                         </p>
-                        <p class="text-[11px] text-[#8891A4] mt-1">
+                        <p class="text-[11px] text-ink-muted mt-1">
                             {{ $t('superadmin.salesCampaign.statWithin7Days') }}
                         </p>
                     </div>
                 </div>
 
-                <!-- <div class="flex items-center gap-0 border-b border-[#EAECF0] mb-5">
+                <!-- <div class="flex items-center gap-0 border-b border-line mb-5">
                     <button v-for="tab in mainTabs" :key="tab.key"
                         class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px" :style="activeTab === tab.key
                             ? 'border-color:#205E77;color:#205E77'
@@ -79,7 +79,7 @@
                     <div class="flex items-center gap-3 mb-4">
                         <SuperadminTableSearch v-model="searchQuery"
                             :placeholder="$t('superadmin.salesCampaign.searchCampaigns')" @input="debouncedSearch" />
-                        <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                        <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                             <button v-for="filter in campaignFilters" :key="filter.key"
                                 class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors"
                                 :style="campaignFilter === filter.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
@@ -95,15 +95,15 @@
                         rowKey="uuid">
                         <template #body>
                             <tr v-for="campaign in filteredCampaigns" :key="campaign.uuid ?? campaign.id"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
                                 <td class="co-td">
                                     <img :src="campaign.image || '/img/icons/asset-app.png'"
                                         :alt="$t('imageFailedToLoad')" class="w-20 h-20 object-cover" />
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ campaign.title }}
                                     </p>
                                     <p v-if="campaign.content"
-                                        class="text-[11px] text-[#8891A4] truncate max-w-[200px]">
+                                        class="text-[11px] text-ink-muted truncate max-w-[200px]">
                                         {{ campaign.content }}
                                     </p>
                                 </td>
@@ -114,7 +114,7 @@
                                     </span>
                                 </td>
                                 <td class="co-td">
-                                    <span class="text-[14px] font-bold text-[#1F2533]">
+                                    <span class="text-[14px] font-bold text-ink">
                                         {{
                                             campaign.discount_type === 'percent' ? `${campaign.discount_value ?? 0}%` :
                                                 campaign.discount_type === 'fixed' ? `kr. ${campaign.discount_value ?? 0}` :
@@ -123,18 +123,18 @@
                                         }}
                                     </span>
                                 </td>
-                                <td class="co-td text-[12px] text-[#5C6478]">
+                                <td class="co-td text-[12px] text-ink-body">
                                     {{
                                         campaign.target_plan ?
                                             campaign.target_plan :
                                             $t('superadmin.salesCampaign.allPlans')
                                     }}
                                 </td>
-                                <td class="co-td text-[12px] text-[#5C6478]">
+                                <td class="co-td text-[12px] text-ink-body">
                                     <span v-if="campaign.start_date">{{ formatDate(campaign.start_date) }}</span>
                                     <span v-if="campaign.start_date && campaign.end_date"> – </span>
                                     <span v-if="campaign.end_date">{{ formatDate(campaign.end_date) }}</span>
-                                    <span v-if="!campaign.start_date && !campaign.end_date" class="text-[#8891A4]">
+                                    <span v-if="!campaign.start_date && !campaign.end_date" class="text-ink-muted">
                                         {{ $t('superadmin.salesCampaign.noExpiry') }}
                                     </span>
                                 </td>
@@ -168,17 +168,17 @@
                 <div v-if="false" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     <!-- Extend trial -->
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
                             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style="background:#E4F1F6">
                                 <Icon name="ph:clock-countdown" class="w-5 h-5" style="color:#205E77" />
                             </div>
                             <div>
-                                <p class="text-[14px] font-semibold text-[#1F2533]">
+                                <p class="text-[14px] font-semibold text-ink">
                                     {{ $t('superadmin.salesCampaign.toolTrialTitle') }}
                                 </p>
-                                <p class="text-[12px] text-[#8891A4]">
+                                <p class="text-[12px] text-ink-muted">
                                     {{ $t('superadmin.salesCampaign.toolTrialDesc') }}
                                 </p>
                             </div>
@@ -193,9 +193,9 @@
                                         :placeholder="$t('superadmin.salesCampaign.phSearchClient')" class="co-input"
                                         @input="searchTrialCompany" />
                                     <div v-if="tools.trial.results.length"
-                                        class="absolute top-full left-0 right-0 mt-1 border border-[#EAECF0] rounded-lg bg-white shadow z-10 max-h-36 overflow-y-auto">
+                                        class="absolute top-full left-0 right-0 mt-1 border border-line rounded-lg bg-white shadow z-10 max-h-36 overflow-y-auto">
                                         <button v-for="c in tools.trial.results" :key="c.uuid"
-                                            class="w-full text-left px-3 py-2 hover:bg-[#F5F6F8] text-[13px] flex items-center gap-2"
+                                            class="w-full text-left px-3 py-2 hover:bg-surface-canvas text-[13px] flex items-center gap-2"
                                             @click="tools.trial.company = c; tools.trial.companySearch = c.name; tools.trial.results = []">
                                             <div class="w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold text-white"
                                                 :style="`background:${avatarColor(c.name)}`">{{
@@ -227,17 +227,17 @@
                     </div>
 
                     <!-- Mass campaign -->
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
                             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style="background:#E4F1F6">
                                 <Icon name="ph:broadcast" class="w-5 h-5" style="color:#205E77" />
                             </div>
                             <div>
-                                <p class="text-[14px] font-semibold text-[#1F2533]">
+                                <p class="text-[14px] font-semibold text-ink">
                                     {{ $t('superadmin.salesCampaign.toolMassTitle') }}
                                 </p>
-                                <p class="text-[12px] text-[#8891A4]">
+                                <p class="text-[12px] text-ink-muted">
                                     {{ $t('superadmin.salesCampaign.toolMassDesc') }}
                                 </p>
                             </div>
@@ -262,31 +262,31 @@
                                     placeholder="20" class="co-input" />
                             </div>
                             <button @click="sendMassCampaign"
-                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#F5F6F8] transition-colors">
+                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-line text-ink-body hover:bg-surface-canvas transition-colors">
                                 {{ $t('superadmin.salesCampaign.btnSendCampaign') }}
                             </button>
                         </div>
                     </div>
 
                     <!-- Referral programme -->
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
                             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style="background:#EDF7EE">
                                 <Icon name="ph:share-network" class="w-5 h-5" style="color:#2E9E33" />
                             </div>
                             <div>
-                                <p class="text-[14px] font-semibold text-[#1F2533]">
+                                <p class="text-[14px] font-semibold text-ink">
                                     {{ $t('superadmin.salesCampaign.toolReferralTitle') }}
                                 </p>
-                                <p class="text-[12px] text-[#8891A4]">
+                                <p class="text-[12px] text-ink-muted">
                                     {{ $t('superadmin.salesCampaign.toolReferralDesc') }}
                                 </p>
                             </div>
                         </div>
                         <div class="space-y-3">
-                            <div class="flex items-center justify-between py-2.5 px-3 bg-[#F5F6F8] rounded-xl">
-                                <span class="text-[13px] font-medium text-[#1F2533]">
+                            <div class="flex items-center justify-between py-2.5 px-3 bg-surface-canvas rounded-xl">
+                                <span class="text-[13px] font-medium text-ink">
                                     {{ $t('superadmin.salesCampaign.referralActive') }}
                                 </span>
                                 <button type="button" @click="tools.referral.active = !tools.referral.active"
@@ -305,31 +305,31 @@
                                     class="co-input" />
                             </div>
                             <button @click="saveReferral"
-                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#F5F6F8] transition-colors">
+                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-line text-ink-body hover:bg-surface-canvas transition-colors">
                                 {{ $t('superadmin.salesCampaign.saveSettings') }}
                             </button>
                         </div>
                     </div>
 
                     <!-- Ad banner -->
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                    <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
                         <div class="flex items-start gap-3 mb-4">
                             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                                 style="background:#FFF9EC">
                                 <Icon name="ph:megaphone-simple" class="w-5 h-5" style="color:#D4900A" />
                             </div>
                             <div>
-                                <p class="text-[14px] font-semibold text-[#1F2533]">
+                                <p class="text-[14px] font-semibold text-ink">
                                     {{ $t('superadmin.salesCampaign.toolBannerTitle') }}
                                 </p>
-                                <p class="text-[12px] text-[#8891A4]">
+                                <p class="text-[12px] text-ink-muted">
                                     {{ $t('superadmin.salesCampaign.toolBannerDesc') }}
                                 </p>
                             </div>
                         </div>
                         <div class="space-y-3">
-                            <div class="flex items-center justify-between py-2.5 px-3 bg-[#F5F6F8] rounded-xl">
-                                <span class="text-[13px] font-medium text-[#1F2533]">
+                            <div class="flex items-center justify-between py-2.5 px-3 bg-surface-canvas rounded-xl">
+                                <span class="text-[13px] font-medium text-ink">
                                     {{ $t('superadmin.salesCampaign.bannerActive') }}
                                 </span>
                                 <button type="button" @click="tools.banner.active = !tools.banner.active"
@@ -362,7 +362,7 @@
                                 </div>
                             </div>
                             <button @click="saveBanner"
-                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#F5F6F8] transition-colors">
+                                class="w-full py-2.5 rounded-lg text-sm font-semibold border border-line text-ink-body hover:bg-surface-canvas transition-colors">
                                 {{ $t('superadmin.salesCampaign.saveBanner') }}
                             </button>
                         </div>

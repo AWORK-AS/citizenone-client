@@ -8,7 +8,7 @@
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <p class="text-[12px] text-[#8891A4] -mt-2">
+                <p class="text-[12px] text-ink-muted -mt-2">
                     {{
                         props.category ?
                             $t('superadmin.appCategories.sliderEditSubtitle') :
@@ -41,8 +41,8 @@
                 </div>
 
                 <!-- Is active -->
-                <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
-                    <span class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.appCategories.form.isActive')
+                <div class="flex items-center justify-between py-3 px-4 border border-line rounded-xl">
+                    <span class="text-[13px] font-medium text-ink">{{ $t('superadmin.appCategories.form.isActive')
                         }}</span>
                     <FormSwitch :value="state.form.is_active"
                         @toggleSwitch="state.form.is_active = !state.form.is_active" />
@@ -51,7 +51,7 @@
                 <!-- Footer buttons -->
                 <div class="flex items-center gap-3 pt-2">
                     <button type="button" @click="emit('close')"
-                        class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                        class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                         {{ $t('cancel') }}
                     </button>
                     <button type="submit"

@@ -138,15 +138,15 @@ onBeforeUnmount(() => cancelAnimationFrame(frame))
 }
 
 .co-metric-delta--up {
-    background: #EDF7EE;
-    color: #2E9E33;
+    background: theme('colors.success.soft');
+    color: theme('colors.success.DEFAULT');
     animation: co-metric-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
         co-metric-ring 1.6s ease-out 0.5s 2;
 }
 
 .co-metric-delta--down {
-    background: #F5F6F8;
-    color: #5C6478;
+    background: theme('colors.surface.canvas');
+    color: theme('colors.ink.body');
 }
 
 .co-metric-delta-hint {
@@ -178,7 +178,7 @@ onBeforeUnmount(() => cancelAnimationFrame(frame))
 
 @keyframes co-metric-glow {
     0% {
-        color: #2E9E33;
+        color: theme('colors.success.DEFAULT');
         transform: scale(1.06);
     }
 

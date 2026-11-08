@@ -10,10 +10,10 @@
                 <!-- Header -->
                 <div class="flex items-end justify-between mb-6">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.cancellations.pageTitle') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-1">
+                        <p class="text-sm text-ink-body mt-1">
                             {{ $t('superadmin.cancellations.pageSubtitle') }}
                         </p>
                     </div>
@@ -26,47 +26,47 @@
                 </div>
 
                 <div class="grid grid-cols-4 gap-4 mb-6">
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                        <div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1">
                             {{ $t('superadmin.cancellations.statTotal') }}
                         </div>
-                        <div class="text-[24px] font-semibold text-[#1F2533]">
+                        <div class="text-[24px] font-semibold text-ink">
                             {{ cancellations.length }}
                         </div>
-                        <div class="text-[11px] text-[#8891A4] mt-0.5">
+                        <div class="text-[11px] text-ink-muted mt-0.5">
                             {{ $t('superadmin.cancellations.statSinceLaunch') }}
                         </div>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                        <div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1">
                             {{ $t('superadmin.cancellations.statThisMonth') }}
                         </div>
-                        <div class="text-[24px] font-semibold text-[#CC3B2D]">
+                        <div class="text-[24px] font-semibold text-danger">
                             {{ thisMonthCount }}
                         </div>
-                        <div class="text-[11px] text-[#8891A4] mt-0.5">
+                        <div class="text-[11px] text-ink-muted mt-0.5">
                             {{ $t('superadmin.cancellations.statNewCancellations') }}
                         </div>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                        <div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1">
                             {{ $t('superadmin.cancellations.statLostMRR') }}
                         </div>
-                        <div class="text-[24px] font-semibold text-[#CC3B2D]">
+                        <div class="text-[24px] font-semibold text-danger">
                             {{ fmt(lostMRR) }}
                         </div>
-                        <div class="text-[11px] text-[#8891A4] mt-0.5">
+                        <div class="text-[11px] text-ink-muted mt-0.5">
                             {{ $t('superadmin.cancellations.statThisMonth') }}
                         </div>
                     </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <div class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-[.06em] mb-1">
+                    <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                        <div class="text-[10px] font-semibold text-ink-muted uppercase tracking-[.06em] mb-1">
                             {{ $t('superadmin.cancellations.statPrimaryReason') }}
                         </div>
-                        <div class="text-[16px] font-semibold text-[#1F2533] truncate">
+                        <div class="text-[16px] font-semibold text-ink truncate">
                             {{ topReason }}
                         </div>
-                        <div class="text-[11px] text-[#8891A4] mt-0.5">
+                        <div class="text-[11px] text-ink-muted mt-0.5">
                             {{ $t('superadmin.cancellations.statMostCommon') }}
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                     <SuperadminTableSearch v-model="search"
                         :placeholder="$t('superadmin.cancellations.searchPlaceholder')" />
                     <select v-model="reasonFilter"
-                        class="bg-white border border-[#D5D9E2] rounded-lg px-3 py-2 text-sm text-[#5C6478] outline-none">
+                        class="bg-white border border-line-strong rounded-lg px-3 py-2 text-sm text-ink-body outline-none">
                         <option value="">
                             {{ $t('superadmin.cancellations.allReasons') }}
                         </option>
@@ -85,7 +85,7 @@
                         </option>
                     </select>
                     <select v-model="periodFilter"
-                        class="bg-white border border-[#D5D9E2] rounded-lg px-3 py-2 text-sm text-[#5C6478] outline-none">
+                        class="bg-white border border-line-strong rounded-lg px-3 py-2 text-sm text-ink-body outline-none">
                         <option value="">{{ $t('superadmin.cancellations.allPeriods') }}</option>
                         <option value="this_month">{{ $t('superadmin.cancellations.thisMonth') }}</option>
                         <option value="last_month">{{ $t('superadmin.cancellations.lastMonth') }}</option>
@@ -98,7 +98,7 @@
                     :emptySubMessage="$t('superadmin.cancellations.emptyDesc')" emptyIcon="ph:x-circle" rowKey="id">
                     <template #body>
                         <tr v-for="cancellation in filteredCancellations" :key="cancellation.id ?? cancellation.uuid"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
                             <td class="co-td">
                                 <div class="flex items-center gap-2.5">
                                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
@@ -106,12 +106,12 @@
                                         {{ (cancellation.company_name ?? cancellation.company?.name ??
                                             '?').charAt(0).toUpperCase() }}
                                     </div>
-                                    <span class="text-[13px] font-medium text-[#1F2533]">
+                                    <span class="text-[13px] font-medium text-ink">
                                         {{ cancellation.company_name ?? cancellation.company?.name ?? '—' }}
                                     </span>
                                 </div>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ cancellation.product_name ?? cancellation.license?.product?.name ?? '—' }}
                             </td>
                             <td class="co-td">
@@ -122,13 +122,13 @@
                                     {{ reasonLabel(cancellation.reason) }}
                                 </span>
                             </td>
-                            <td class="co-td text-[13px] font-medium text-[#CC3B2D]">
+                            <td class="co-td text-[13px] font-medium text-danger">
                                 {{ cancellation.mrr_lost ? fmt(cancellation.mrr_lost) : '—' }}
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ formatDate(cancellation.cancelled_at) }}
                             </td>
-                            <td class="co-td text-[12px] text-[#8891A4] max-w-[200px] truncate">
+                            <td class="co-td text-[12px] text-ink-muted max-w-[200px] truncate">
                                 {{ cancellation.notes || '—' }}
                             </td>
                             <td class="co-td" @click.stop>
@@ -145,21 +145,21 @@
 
                 <!-- Reason breakdown -->
                 <div v-if="cancellations.length > 0"
-                    class="mt-6 bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                    <h3 class="text-[13px] font-semibold text-[#1F2533] mb-4">
+                    class="mt-6 bg-white border border-line rounded-xl p-5 shadow-sm">
+                    <h3 class="text-[13px] font-semibold text-ink mb-4">
                         {{ $t('superadmin.cancellations.reasonBreakdown') }}
                     </h3>
                     <div class="space-y-3">
                         <div v-for="reason in reasonDistribution" :key="reason.key">
                             <div class="flex justify-between text-[12px] mb-1">
-                                <span class="text-[#5C6478] flex items-center gap-1.5">
+                                <span class="text-ink-body flex items-center gap-1.5">
                                     <Icon :name="reasonIcon(reason.key)" class="w-3.5 h-3.5" />
                                     {{ reason.label }}
                                 </span>
-                                <span class="font-medium text-[#1F2533]">{{ reason.count }} ({{ reason.pct }}%)</span>
+                                <span class="font-medium text-ink">{{ reason.count }} ({{ reason.pct }}%)</span>
                             </div>
-                            <div class="h-2 bg-[#EAECF0] rounded-full overflow-hidden">
-                                <div class="h-full rounded-full bg-[#CC3B2D] transition-all"
+                            <div class="h-2 bg-line rounded-full overflow-hidden">
+                                <div class="h-full rounded-full bg-danger transition-all"
                                     :style="`width:${reason.pct}%;opacity:${0.4 + reason.pct / 100}`" />
                             </div>
                         </div>
@@ -171,20 +171,20 @@
             <div v-if="modal.open" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
                 <div class="bg-white rounded-2xl shadow-2xl w-full max-w-[500px] overflow-hidden">
                     <!-- Header -->
-                    <div class="px-6 py-5 border-b border-[#EAECF0]">
+                    <div class="px-6 py-5 border-b border-line">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
                                 <Icon name="ph:x-circle" class="w-5 h-5 text-red-500" />
                             </div>
                             <div>
-                                <h3 class="text-[15px] font-semibold text-[#1F2533]">
+                                <h3 class="text-[15px] font-semibold text-ink">
                                     {{
                                         modal.editing
                                             ? $t('superadmin.cancellations.modalEditTitle')
                                             : $t('superadmin.cancellations.modalNewTitle')
                                     }}
                                 </h3>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                <p class="text-[12px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.cancellations.modalSubtitle') }}
                                 </p>
                             </div>
@@ -248,9 +248,9 @@
                         </div>
                     </div>
                     <!-- Footer -->
-                    <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
+                    <div class="flex items-center gap-3 px-6 py-4 border-t border-line">
                         <button @click="modal.open = false"
-                            class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
+                            class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body border border-line hover:bg-surface-canvas">
                             {{ $t('superadmin.cancellations.cancel') }}
                         </button>
                         <button @click="saveCancellation"

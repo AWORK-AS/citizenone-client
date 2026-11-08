@@ -28,7 +28,7 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.companyStorage?.data?.length === 0))">
                                 <tr v-for="(company, index) in state.companyStorage?.data" :key="index"
-                                    class="hover:bg-[#F9FAFB] cursor-pointer"
+                                    class="hover:bg-surface-subtle cursor-pointer"
                                     @click="navigateTo(`/superadmin/companies/${company.uuid}/overview`)">
                                     <td width="28%">
                                         <span>{{ company?.name }}</span>
@@ -43,7 +43,7 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-center gap-2">
-                                            <div class="h-1.5 w-24 bg-[#F5F6F8] rounded-full overflow-hidden">
+                                            <div class="h-1.5 w-24 bg-surface-canvas rounded-full overflow-hidden">
                                                 <div class="h-full rounded-full" :class="usageBarClass(company)"
                                                     :style="`width:${usagePercent(company)}%`"></div>
                                             </div>
@@ -56,7 +56,7 @@
                                         <span>{{ formatAmount(company?.storage_paid, 'DKK') }}</span>
                                     </td>
                                     <td width="8%">
-                                        <span class="text-[12px] text-[#8891A4]">
+                                        <span class="text-[12px] text-ink-muted">
                                             {{ company?.storage_used_at ? formatMeasuredAt(company.storage_used_at) : '—' }}
                                         </span>
                                     </td>
@@ -114,16 +114,16 @@ function usagePercent(company: any) {
 // Same thresholds as the customer-facing quota warnings (80% / 100%).
 function usageTextClass(company: any) {
     const percent = usagePercent(company)
-    if (percent >= 100) return 'text-[#CC3B2D] font-semibold'
-    if (percent >= 80) return 'text-[#D4900A] font-semibold'
+    if (percent >= 100) return 'text-danger font-semibold'
+    if (percent >= 80) return 'text-warning font-semibold'
     return ''
 }
 
 function usageBarClass(company: any) {
     const percent = usagePercent(company)
-    if (percent >= 100) return 'bg-[#CC3B2D]'
-    if (percent >= 80) return 'bg-[#D4900A]'
-    return 'bg-[#42AED9]'
+    if (percent >= 100) return 'bg-danger'
+    if (percent >= 80) return 'bg-warning'
+    return 'bg-accent'
 }
 
 function formatMeasuredAt(value: string) {

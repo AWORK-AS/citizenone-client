@@ -43,11 +43,11 @@
                         :emptySubMessage="$t('superadmin.agreements.emptyHint')" emptyIcon="ph:handshake" rowKey="uuid">
                         <template #body>
                             <tr v-for="agreement in state.agreements" :key="agreement.uuid"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group cursor-pointer"
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group cursor-pointer"
                                 @click="openDetail(agreement)">
                                 <td class="co-td">
-                                    <p class="text-[14px] font-medium text-[#1F2533]">{{ agreement.name }}</p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[14px] font-medium text-ink">{{ agreement.name }}</p>
+                                    <p class="text-[11px] text-ink-muted">
                                         {{ $t('superadmin.agreements.months', { count: agreement.term_months }) }}
                                         <template v-if="agreement.auto_renews"> · {{ $t('superadmin.agreements.autoRenews') }}</template>
                                         <Tooltip v-if="agreement.renewals_count > 0"
@@ -56,7 +56,7 @@
                                         </Tooltip>
                                     </p>
                                 </td>
-                                <td class="co-td text-[13px] text-[#1F2533] whitespace-nowrap">
+                                <td class="co-td text-[13px] text-ink whitespace-nowrap">
                                     {{ formatDateToReadable(agreement.starts_on) }} -
                                     {{ formatDateToReadable(agreement.ends_on) }}
                                 </td>
@@ -67,17 +67,17 @@
                                         </span>
                                     </Tooltip>
                                 </td>
-                                <td class="co-td text-[13px] font-medium text-[#1F2533] text-right">
+                                <td class="co-td text-[13px] font-medium text-ink text-right">
                                     {{ formatAmount(agreement.contract_value, 'DKK') }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#1F2533] text-right whitespace-nowrap">
+                                <td class="co-td text-[13px] text-ink text-right whitespace-nowrap">
                                     {{ formatAmount(agreement.contract_mrr, 'DKK') }}
                                     <ModulesSuperadminAgreementMrrEstimatedChip v-if="contractMrrIsEstimated(agreement)" class="ml-1" />
-                                    <span class="block text-[11px] text-[#8891A4]">
+                                    <span class="block text-[11px] text-ink-muted">
                                         {{ $t('superadmin.agreements.perYear', { amount: formatAmount(agreement.contract_arr, 'DKK') }) }}
                                     </span>
                                 </td>
-                                <td class="co-td text-[13px] text-[#1F2533] text-right">
+                                <td class="co-td text-[13px] text-ink text-right">
                                     {{ formatAmount(agreement.backlog, 'DKK') }}
                                 </td>
                                 <td class="co-td">
@@ -169,7 +169,7 @@ const state = reactive({
 })
 
 function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-[#FEF3C7] text-[#B45309]' : 'co-badge-gray'
+    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-warning-soft text-warning-ink' : 'co-badge-gray'
 }
 
 const showMissingNumber = computed(() => missingEconomicNumber(state.company, state.agreements))

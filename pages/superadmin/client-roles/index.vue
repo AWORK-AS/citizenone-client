@@ -11,18 +11,18 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.clientRoles.pageTitle') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             {{ $t('superadmin.clientRoles.pageSubtitle') }}
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
                         <!-- View as -->
-                        <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                        <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
                             <button
-                                class="px-2 py-1.5 rounded-md text-[11px] font-semibold text-[#8891A4] flex items-center gap-1 select-none cursor-default">
+                                class="px-2 py-1.5 rounded-md text-[11px] font-semibold text-ink-muted flex items-center gap-1 select-none cursor-default">
                                 <Icon name="ph:eye" class="w-3.5 h-3.5" />
                                 {{ $t('superadmin.clientRoles.viewAs') }}
                             </button>
@@ -52,7 +52,7 @@
 
                 <!-- GDPR banner -->
                 <div
-                    class="flex items-start gap-3 px-4 py-3.5 bg-[#EEF4FB] border border-[#42AED9]/20 rounded-xl mb-6 text-[13px] text-[#205E77]">
+                    class="flex items-start gap-3 px-4 py-3.5 bg-info-soft border border-accent/20 rounded-xl mb-6 text-[13px] text-tertiary">
                     <Icon name="ph:shield-check" class="w-4 h-4 flex-shrink-0 mt-0.5" />
                     <p>
                         <span class="font-semibold">
@@ -65,13 +65,13 @@
                 <!-- Role cards -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
                     <div v-for="role in roles" :key="role.key"
-                        class="bg-white border border-[#EAECF0] rounded-2xl overflow-hidden shadow-sm">
+                        class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm">
 
                         <!-- Top stripe -->
                         <div class="h-1" :style="`background:${role.color}`"></div>
 
                         <!-- Header -->
-                        <div class="px-5 pt-5 pb-4 border-b border-[#F5F6F8]">
+                        <div class="px-5 pt-5 pb-4 border-b border-surface-canvas">
                             <div class="flex items-start justify-between mb-3">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -80,19 +80,19 @@
                                     </div>
                                     <div>
                                         <div class="flex items-center gap-2">
-                                            <h3 class="text-[15px] font-bold text-[#1F2533]">
+                                            <h3 class="text-[15px] font-bold text-ink">
                                                 {{ role.name }}
                                             </h3>
                                             <span v-if="role.fixed"
-                                                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#8891A4]">
+                                                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-canvas text-ink-muted">
                                                 {{ $t('superadmin.clientRoles.fixed') }}
                                             </span>
                                             <span v-if="role.gdpr"
-                                                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EEF4FB] text-[#205E77]">
+                                                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-info-soft text-tertiary">
                                                 GDPR
                                             </span>
                                         </div>
-                                        <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                        <p class="text-[11px] text-ink-muted mt-0.5">
                                             {{
                                                 $t('superadmin.clientRoles.ofPermissions', {
                                                     count: role.permissions.filter(p => p.enabled).length,
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="text-[12px] text-[#5C6478] leading-relaxed">
+                            <p class="text-[12px] text-ink-body leading-relaxed">
                                 {{ role.description }}
                             </p>
                         </div>
@@ -113,11 +113,11 @@
                             <ul class="space-y-2">
                                 <li v-for="perm in role.permissions" :key="perm.key"
                                     class="flex items-center justify-between text-[12px]">
-                                    <span class="flex items-center gap-1.5 text-[#5C6478]">
-                                        <Icon :name="perm.icon" class="w-3.5 h-3.5 flex-shrink-0 text-[#8891A4]" />
+                                    <span class="flex items-center gap-1.5 text-ink-body">
+                                        <Icon :name="perm.icon" class="w-3.5 h-3.5 flex-shrink-0 text-ink-muted" />
                                         {{ perm.label }}
                                         <span v-if="perm.gdpr"
-                                            class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#EEF4FB] text-[#205E77]">
+                                            class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-info-soft text-tertiary">
                                             GDPR
                                         </span>
                                     </span>
@@ -135,8 +135,8 @@
                                         :style="perm.enabled ? `color:${role.color}` : 'color:#D5D9E2'">
                                         <Icon v-if="perm.enabled" name="ph:check-bold" class="w-3.5 h-3.5" />
                                         <Icon v-else-if="perm.locked" name="ph:lock-simple"
-                                            class="w-3.5 h-3.5 text-[#D5D9E2]" />
-                                        <span v-else class="inline-block w-6 h-px bg-[#D5D9E2]"></span>
+                                            class="w-3.5 h-3.5 text-line-strong" />
+                                        <span v-else class="inline-block w-6 h-px bg-line-strong"></span>
                                     </span>
                                 </li>
                             </ul>
@@ -145,18 +145,18 @@
                 </div>
 
                 <!-- Permission matrix -->
-                <div class="bg-white border border-[#EAECF0] rounded-2xl shadow-sm overflow-hidden">
-                    <div class="px-6 py-4 border-b border-[#EAECF0]">
-                        <h2 class="text-[15px] font-semibold text-[#1F2533]">
+                <div class="bg-white border border-line rounded-2xl shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-line">
+                        <h2 class="text-[15px] font-semibold text-ink">
                             {{ $t('superadmin.clientRoles.matrixTitle') }}
                         </h2>
-                        <p class="text-[12px] text-[#8891A4] mt-0.5">
+                        <p class="text-[12px] text-ink-muted mt-0.5">
                             {{ $t('superadmin.clientRoles.matrixSubtitle') }}
                         </p>
                     </div>
                     <table class="w-full">
                         <thead>
-                            <tr class="border-b border-[#EAECF0]" style="background:#1A3D52">
+                            <tr class="border-b border-line" style="background:#1A3D52">
                                 <th
                                     class="text-left px-6 py-3 text-[11px] font-semibold text-white/70 uppercase tracking-[0.08em]">
                                     {{ $t('superadmin.clientRoles.colFunction') }}
@@ -171,22 +171,22 @@
                         <tbody>
                             <template v-for="group in permissionGroups" :key="group.key">
                                 <!-- Group header -->
-                                <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                <tr class="bg-surface-subtle border-b border-line">
                                     <td colspan="4" class="px-6 py-2">
-                                        <span class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.1em]">
+                                        <span class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.1em]">
                                             {{ group.label }}
                                         </span>
                                     </td>
                                 </tr>
                                 <!-- Permission rows -->
                                 <tr v-for="perm in group.permissions" :key="perm.key"
-                                    class="border-b border-[#F5F6F8] hover:bg-[#FAFBFC] transition-colors">
+                                    class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
                                     <td class="px-6 py-3">
-                                        <span class="flex items-center gap-2 text-[13px] text-[#5C6478]">
-                                            <Icon :name="perm.icon" class="w-3.5 h-3.5 text-[#8891A4] flex-shrink-0" />
+                                        <span class="flex items-center gap-2 text-[13px] text-ink-body">
+                                            <Icon :name="perm.icon" class="w-3.5 h-3.5 text-ink-muted flex-shrink-0" />
                                             {{ perm.label }}
                                             <span v-if="perm.gdpr"
-                                                class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#EEF4FB] text-[#205E77]">GDPR</span>
+                                                class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-info-soft text-tertiary">GDPR</span>
                                         </span>
                                     </td>
                                     <td v-for="role in roles" :key="role.key" class="px-6 py-3">
@@ -194,9 +194,9 @@
                                             <Icon name="ph:check-bold" class="w-4 h-4" />
                                         </span>
                                         <span v-else-if="perm.gdpr && role.key !== 'admin'">
-                                            <Icon name="ph:lock-simple" class="w-3.5 h-3.5 text-[#D5D9E2]" />
+                                            <Icon name="ph:lock-simple" class="w-3.5 h-3.5 text-line-strong" />
                                         </span>
-                                        <span v-else class="inline-block w-6 h-px bg-[#D5D9E2]"></span>
+                                        <span v-else class="inline-block w-6 h-px bg-line-strong"></span>
                                     </td>
                                 </tr>
                             </template>
@@ -241,23 +241,23 @@
                         </div>
 
                         <!-- Preview content -->
-                        <div class="flex-1 overflow-y-auto bg-[#F5F6F8]">
+                        <div class="flex-1 overflow-y-auto bg-surface-canvas">
                             <div class="max-w-[900px] mx-auto px-6 py-8">
 
                                 <!-- What this role CAN do -->
                                 <div class="mb-6">
-                                    <h2 class="text-[18px] font-bold text-[#1F2533] mb-1">
+                                    <h2 class="text-[18px] font-bold text-ink mb-1">
                                         {{ $t('superadmin.clientRoles.whatCanDo', { name: viewAsRole?.name }) }}
                                     </h2>
-                                    <p class="text-[13px] text-[#5C6478]">{{ viewAsRole?.description }}</p>
+                                    <p class="text-[13px] text-ink-body">{{ viewAsRole?.description }}</p>
                                 </div>
 
                                 <!-- Permissions grid -->
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
                                     <div v-for="group in permissionGroups" :key="group.key"
-                                        class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                                        <div class="px-4 py-3 border-b border-[#F5F6F8]">
-                                            <p class="text-[11px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                                        class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
+                                        <div class="px-4 py-3 border-b border-surface-canvas">
+                                            <p class="text-[11px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                                                 {{
                                                     group.label
                                                 }}
@@ -267,7 +267,7 @@
                                             <div v-for="perm in group.permissions" :key="perm.key"
                                                 class="flex items-center justify-between text-[13px]">
                                                 <span class="flex items-center gap-2"
-                                                    :class="hasPermission(perm.key) ? 'text-[#1F2533]' : 'text-[#C0C6D0] line-through'">
+                                                    :class="hasPermission(perm.key) ? 'text-ink' : 'text-ink-subtle line-through'">
                                                     <Icon :name="perm.icon" class="w-3.5 h-3.5 flex-shrink-0" />
                                                     {{ perm.label }}
                                                     <span v-if="perm.gdpr && !hasPermission(perm.key)"
@@ -279,8 +279,8 @@
                                                     class="w-4 h-4 flex-shrink-0"
                                                     :style="`color:${viewAsRole?.color}`" />
                                                 <Icon v-else-if="perm.locked || perm.gdpr" name="ph:lock-simple-fill"
-                                                    class="w-3.5 h-3.5 flex-shrink-0 text-[#D5D9E2]" />
-                                                <span v-else class="inline-block w-4 h-px bg-[#D5D9E2]"></span>
+                                                    class="w-3.5 h-3.5 flex-shrink-0 text-line-strong" />
+                                                <span v-else class="inline-block w-4 h-px bg-line-strong"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -288,12 +288,12 @@
 
                                 <!-- Simulated menu -->
                                 <div>
-                                    <h3 class="text-[14px] font-semibold text-[#1F2533] mb-3">
+                                    <h3 class="text-[14px] font-semibold text-ink mb-3">
                                         {{ $t('superadmin.clientRoles.visibleMenuItems') }}
                                     </h3>
                                     <div class="flex flex-wrap gap-2">
                                         <div v-for="item in viewAsMenuItems" :key="item.label"
-                                            class="flex items-center gap-2 px-3 py-2 bg-white border border-[#EAECF0] rounded-xl text-[13px] font-medium text-[#1F2533] shadow-sm">
+                                            class="flex items-center gap-2 px-3 py-2 bg-white border border-line rounded-xl text-[13px] font-medium text-ink shadow-sm">
                                             <Icon :name="item.icon" class="w-4 h-4"
                                                 :style="`color:${viewAsRole?.color}`" />
                                             {{ item.label }}

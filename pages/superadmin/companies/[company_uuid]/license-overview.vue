@@ -471,11 +471,11 @@
 
                         <!-- Sådan faktureres kunden: straight from the quote endpoint. -->
                         <section class="rounded-lg border px-3 py-3 text-[13px] space-y-2"
-                            :class="grantNeedsReasonNow ? 'border-red-200 bg-red-50 text-red-900' : 'border-[#CDE3EC] bg-[#F3F9FC] text-[#1F2533]'"
+                            :class="grantNeedsReasonNow ? 'border-red-200 bg-red-50 text-red-900' : 'border-tertiary-50 bg-accent-soft text-ink'"
                             data-testid="grant-billing-box" aria-live="polite">
                             <div class="flex items-center justify-between gap-2">
                                 <h3 class="font-semibold">{{ $t('superadmin.companies.licenseOverview.grant.billingBox.title') }}</h3>
-                                <Icon v-if="state.grant.quoteLoading" name="ph:spinner" class="w-4 h-4 animate-spin text-[#42AED9]" aria-hidden="true" />
+                                <Icon v-if="state.grant.quoteLoading" name="ph:spinner" class="w-4 h-4 animate-spin text-accent" aria-hidden="true" />
                             </div>
                             <p v-if="state.grant.quoteError" class="text-red-700">{{ state.grant.quoteError }}</p>
                             <template v-else-if="state.grant.quote">

@@ -2,8 +2,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-2">
         <label v-for="permission in selectable" :key="permission.name"
             class="flex items-start gap-2 text-sm"
-            :class="disabled ? 'text-[#8891A4] cursor-default' : 'text-[#1F2533] cursor-pointer'">
-            <input type="checkbox" class="mt-0.5 size-4 rounded border-[#CBD2DD] text-[#205E77]"
+            :class="disabled ? 'text-ink-muted cursor-default' : 'text-ink cursor-pointer'">
+            <input type="checkbox" class="mt-0.5 size-4 rounded border-line-strong text-tertiary"
                 :checked="isChecked(permission.name)" :disabled="disabled"
                 @change="toggle(permission.name)" />
             <span>{{ permission.label }}</span>

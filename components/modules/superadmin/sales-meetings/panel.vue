@@ -88,7 +88,7 @@
                         {{ $t(`superadmin.salesMeetings.status.${meeting.status}`) }}
                     </span>
                     <a v-if="meeting.host_url && ['scheduled', 'live'].includes(meeting.status)" :href="meeting.host_url" target="_blank"
-                        rel="noopener" class="text-[#205E77] underline" :title="$t('superadmin.salesMeetings.openHint')">
+                        rel="noopener" class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
                         {{ $t('superadmin.salesMeetings.open') }}
                     </a>
                 </div>

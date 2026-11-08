@@ -15,10 +15,10 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-5">
                     <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                        <h1 class="text-[22px] font-semibold text-ink">
                             {{ $t('superadmin.products.productCatalog') }}
                         </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
+                        <p class="text-sm text-ink-body mt-0.5">
                             {{ $t('superadmin.products.subtitle') }}
                         </p>
                     </div>
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Tabs -->
-                <div class="flex items-center gap-0 border-b border-[#EAECF0] mb-6">
+                <div class="flex items-center gap-0 border-b border-line mb-6">
                     <button v-for="tab in tabs" :key="tab.key"
                         class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px flex items-center gap-1.5"
                         :style="activeTab === tab.key
@@ -57,13 +57,13 @@
                     <!-- Plan cards -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
                         <div v-for="plan in plans" :key="plan.key"
-                            class="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#EAECF0] flex flex-col">
+                            class="bg-white rounded-2xl overflow-hidden shadow-sm border border-line flex flex-col">
 
                             <!-- Coloured top stripe -->
                             <div class="h-1.5" :style="`background:${plan.color}`"></div>
 
                             <!-- Plan header -->
-                            <div class="px-5 pt-4 pb-4 border-b border-[#F5F6F8]">
+                            <div class="px-5 pt-4 pb-4 border-b border-surface-canvas">
                                 <div class="flex items-center justify-between mb-3">
                                     <div class="flex items-center gap-3">
                                         <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -71,8 +71,8 @@
                                             <Icon :name="plan.icon" class="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p class="text-[15px] font-bold text-[#1F2533]">{{ plan.name }}</p>
-                                            <p class="text-[11px] text-[#8891A4]">{{ plan.tagline }}</p>
+                                            <p class="text-[15px] font-bold text-ink">{{ plan.name }}</p>
+                                            <p class="text-[11px] text-ink-muted">{{ plan.tagline }}</p>
                                         </div>
                                     </div>
                                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
@@ -83,16 +83,16 @@
 
                                 <!-- Price -->
                                 <div class="flex items-end gap-1 mt-2">
-                                    <span class="text-[28px] font-extrabold leading-none text-[#1F2533]">
+                                    <span class="text-[28px] font-extrabold leading-none text-ink">
                                         {{ plan.price === 0 ? $t('superadmin.products.free') : `kr. ${plan.price}` }}
                                     </span>
-                                    <span v-if="plan.price > 0" class="text-[12px] text-[#8891A4] mb-0.5">
+                                    <span v-if="plan.price > 0" class="text-[12px] text-ink-muted mb-0.5">
                                         {{ $t('superadmin.products.perMonth') }}
                                     </span>
                                 </div>
-                                <p v-if="plan.yearly_price > 0" class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p v-if="plan.yearly_price > 0" class="text-[11px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.products.orYearly', { price: plan.yearly_price }) }}
-                                    <span class="text-[#2E9E33] font-semibold ml-1">
+                                    <span class="text-success font-semibold ml-1">
                                         {{ $t('superadmin.products.saveAmount', {
                                             amount: plan.price * 12 -
                                                 plan.yearly_price
@@ -103,35 +103,35 @@
 
                             <!-- Included -->
                             <div class="px-5 py-3 flex-1">
-                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">
+                                <p class="text-[9px] font-bold text-ink-muted uppercase tracking-[0.1em] mb-2">
                                     {{ $t('superadmin.products.included') }}
                                 </p>
                                 <ul class="space-y-1.5">
                                     <li v-for="feat in plan.features" :key="feat.key"
                                         class="flex items-center justify-between text-[12px]">
-                                        <span class="flex items-center gap-1.5 text-[#5C6478]">
+                                        <span class="flex items-center gap-1.5 text-ink-body">
                                             <Icon name="ph:check" class="w-3 h-3 flex-shrink-0"
                                                 :style="`color:${plan.color}`" />
                                             {{ feat.label }}
                                         </span>
-                                        <span class="font-semibold text-[#1F2533]">{{ feat.value }}</span>
+                                        <span class="font-semibold text-ink">{{ feat.value }}</span>
                                     </li>
                                 </ul>
                             </div>
 
                             <!-- Add-ons -->
-                            <div v-if="plan.addons.length" class="px-5 py-3 bg-[#F9FAFB] border-t border-[#F5F6F8]">
-                                <p class="text-[9px] font-bold text-[#8891A4] uppercase tracking-[0.1em] mb-2">
+                            <div v-if="plan.addons.length" class="px-5 py-3 bg-surface-subtle border-t border-surface-canvas">
+                                <p class="text-[9px] font-bold text-ink-muted uppercase tracking-[0.1em] mb-2">
                                     {{ $t('superadmin.products.addons') }}
                                 </p>
                                 <div class="space-y-1.5">
                                     <div v-for="addon in plan.addons" :key="addon.key"
                                         class="flex items-center justify-between text-[11px]">
-                                        <span class="flex items-center gap-1.5 text-[#5C6478]">
+                                        <span class="flex items-center gap-1.5 text-ink-body">
                                             <Icon :name="addon.icon" class="w-3 h-3" />
                                             {{ addon.label }}
                                         </span>
-                                        <span class="font-semibold text-[#1F2533]">
+                                        <span class="font-semibold text-ink">
                                             +kr. {{ addon.price }}{{ $t('superadmin.products.perMonth') }}
                                         </span>
                                     </div>
@@ -139,7 +139,7 @@
                             </div>
 
                             <!-- Actions -->
-                            <div class="px-5 py-3 border-t border-[#F5F6F8] flex gap-2">
+                            <div class="px-5 py-3 border-t border-surface-canvas flex gap-2">
                                 <button @click="openPlanSlider(plan)"
                                     class="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-colors flex items-center justify-center gap-1.5 text-white"
                                     :style="`background:${plan.color};opacity:0.9`"
@@ -150,7 +150,7 @@
                                 </button>
                                 <button v-if="!['gratis', 'basis', 'pro'].includes(plan.key)"
                                     @click="confirmDeletePlan(plan)"
-                                    class="w-9 h-9 rounded-xl flex items-center justify-center border border-[#EAECF0] text-[#CC3B2D] hover:bg-red-50 transition-colors">
+                                    class="w-9 h-9 rounded-xl flex items-center justify-center border border-line text-danger hover:bg-red-50 transition-colors">
                                     <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                 </button>
                             </div>
@@ -158,13 +158,13 @@
                     </div>
 
                     <!-- Add-on prices panel -->
-                    <div class="bg-white border border-[#EAECF0] rounded-2xl shadow-sm overflow-hidden">
-                        <div class="px-6 py-4 border-b border-[#EAECF0] flex items-center justify-between">
+                    <div class="bg-white border border-line rounded-2xl shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-line flex items-center justify-between">
                             <div>
-                                <h3 class="text-[14px] font-semibold text-[#1F2533]">
+                                <h3 class="text-[14px] font-semibold text-ink">
                                     {{ $t('superadmin.products.addonPricesTitle') }}
                                 </h3>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                <p class="text-[12px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.products.addonPricesSubtitle') }}
                                 </p>
                             </div>
@@ -175,25 +175,25 @@
                                 {{ $t('superadmin.products.editPrices') }}
                             </button>
                         </div>
-                        <div class="grid grid-cols-2 divide-x divide-[#F5F6F8]">
+                        <div class="grid grid-cols-2 divide-x divide-surface-canvas">
                             <div class="px-6 py-4 flex items-center gap-4">
                                 <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                                     style="background:#E4F1F6">
                                     <Icon name="ph:user-plus" class="w-5 h-5" style="color:#205E77" />
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ $t('superadmin.products.extraUser') }}
                                     </p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[11px] text-ink-muted">
                                         {{ $t('superadmin.products.perEmployeePerMonth') }}
                                     </p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-[22px] font-extrabold text-[#205E77]">
+                                    <p class="text-[22px] font-extrabold text-tertiary">
                                         kr. {{ addonPrices.extra_user }}
                                     </p>
-                                    <p class="text-[10px] text-[#8891A4]">
+                                    <p class="text-[10px] text-ink-muted">
                                         {{ $t('superadmin.products.perMonth') }}
                                     </p>
                                 </div>
@@ -204,18 +204,18 @@
                                     <Icon name="ph:buildings" class="w-5 h-5" style="color:#2E9E33" />
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ $t('superadmin.products.extraDepartment') }}
                                     </p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[11px] text-ink-muted">
                                         {{ $t('superadmin.products.perDepartmentPerMonth') }}
                                     </p>
                                 </div>
                                 <div class="text-right">
-                                    <p class="text-[22px] font-extrabold text-[#2E9E33]">
+                                    <p class="text-[22px] font-extrabold text-success">
                                         kr. {{ addonPrices.extra_department }}
                                     </p>
-                                    <p class="text-[10px] text-[#8891A4]">
+                                    <p class="text-[10px] text-ink-muted">
                                         {{ $t('superadmin.products.perMonth') }}
                                     </p>
                                 </div>
@@ -229,14 +229,14 @@
                 ══════════════════════════════════ -->
                 <div v-if="activeTab === 'apps'">
                     <div v-if="state.isLoading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                        <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                     </div>
-                    <div v-else-if="!state.apps.length" class="flex flex-col items-center gap-3 py-20 text-[#8891A4]">
+                    <div v-else-if="!state.apps.length" class="flex flex-col items-center gap-3 py-20 text-ink-muted">
                         <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-2"
                             style="background:#E4F1F6">
                             <Icon name="ph:squares-four" class="w-8 h-8" style="color:#205E77" />
                         </div>
-                        <p class="text-[15px] font-semibold text-[#1F2533]">
+                        <p class="text-[15px] font-semibold text-ink">
                             {{ $t('superadmin.products.noAppsYet') }}
                         </p>
                         <p class="text-[12px]">
@@ -251,7 +251,7 @@
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         <div v-for="app in state.apps" :key="app.uuid ?? app.id"
-                            class="bg-white border border-[#EAECF0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
+                            class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all group">
                             <div class="h-1" :style="`background:${appColor(app.name)}`"></div>
                             <div class="p-5">
                                 <div class="flex items-start justify-between mb-3">
@@ -262,64 +262,64 @@
                                             :style="`color:${appColor(app.name)}`" />
                                     </div>
                                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-full" :class="app.is_active !== false
-                                        ? 'bg-[#EDF7EE] text-[#2E9E33]'
-                                        : 'bg-[#F5F6F8] text-[#8891A4]'">
+                                        ? 'bg-success-soft text-success'
+                                        : 'bg-surface-canvas text-ink-muted'">
                                         {{ app.is_active !== false ? $t('superadmin.products.active') :
                                             $t('superadmin.products.inactive') }}
                                     </span>
                                 </div>
-                                <h3 class="text-[14px] font-bold text-[#1F2533]">{{ app.name }}</h3>
-                                <p v-if="app.description" class="text-[12px] text-[#8891A4] mt-1 leading-relaxed"
+                                <h3 class="text-[14px] font-bold text-ink">{{ app.name }}</h3>
+                                <p v-if="app.description" class="text-[12px] text-ink-muted mt-1 leading-relaxed"
                                     style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">
                                     {{ app.description }}
                                 </p>
-                                <div class="mt-3 pt-3 border-t border-[#F5F6F8] space-y-1">
+                                <div class="mt-3 pt-3 border-t border-surface-canvas space-y-1">
                                     <div v-if="app.monthly_price > 0" class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">
+                                        <span class="text-ink-muted">
                                             {{ $t('superadmin.products.monthly') }}
                                         </span>
-                                        <span class="font-bold text-[#1F2533]">
+                                        <span class="font-bold text-ink">
                                             kr. {{ app.monthly_price }}{{ $t('superadmin.products.perMonth') }}
                                         </span>
                                     </div>
                                     <div v-if="app.yearly_price > 0" class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">
+                                        <span class="text-ink-muted">
                                             {{ $t('superadmin.products.yearly') }}
                                         </span>
-                                        <span class="font-bold text-[#1F2533]">
+                                        <span class="font-bold text-ink">
                                             kr. {{ app.yearly_price }}/{{ $t('superadmin.products.yearly').toLowerCase()
                                             }}
                                         </span>
                                     </div>
                                     <div v-if="(app.one_time_price ?? app.one_time_fee) > 0"
                                         class="flex justify-between text-[12px]">
-                                        <span class="text-[#8891A4]">
+                                        <span class="text-ink-muted">
                                             {{ $t('superadmin.products.oneTime') }}
                                         </span>
-                                        <span class="font-bold text-[#D4900A]">
+                                        <span class="font-bold text-warning">
                                             kr. {{ app.one_time_price ?? app.one_time_fee }}
                                         </span>
                                     </div>
                                     <div v-if="!app.monthly_price && !app.yearly_price && !(app.one_time_price ?? app.one_time_fee)"
-                                        class="text-[12px] text-[#8891A4]">
+                                        class="text-[12px] text-ink-muted">
                                         {{ $t('superadmin.products.free') }}
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between mt-3">
                                     <span
-                                        class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#5C6478]">
+                                        class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-surface-canvas text-ink-body">
                                         {{ app.type ?? 'Other' }}
                                     </span>
                                 </div>
                                 <div class="flex gap-2 mt-4">
                                     <button
-                                        class="flex-1 py-2 rounded-xl text-[12px] font-semibold border border-[#EAECF0] text-[#5C6478] hover:bg-[#EEF4FB] hover:text-[#205E77] hover:border-[#42AED9]/30 transition-colors flex items-center justify-center gap-1.5"
+                                        class="flex-1 py-2 rounded-xl text-[12px] font-semibold border border-line text-ink-body hover:bg-info-soft hover:text-tertiary hover:border-accent/30 transition-colors flex items-center justify-center gap-1.5"
                                         @click="openAppSlider(app)">
                                         <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                         {{ $t('superadmin.products.edit') }}
                                     </button>
                                     <button
-                                        class="w-9 h-9 rounded-xl flex items-center justify-center border border-[#EAECF0] text-[#CC3B2D] hover:bg-red-50 hover:border-red-200 transition-colors flex-shrink-0"
+                                        class="w-9 h-9 rounded-xl flex items-center justify-center border border-line text-danger hover:bg-red-50 hover:border-red-200 transition-colors flex-shrink-0"
                                         @click="confirmDeleteApp(app)">
                                         <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                     </button>
@@ -343,21 +343,21 @@
                     leave-to-class="translate-x-full">
                     <div v-if="planSlider.open"
                         class="fixed inset-y-0 right-0 z-50 w-full max-w-[480px] bg-white shadow-2xl flex flex-col">
-                        <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
+                        <div class="flex items-start justify-between px-6 py-5 border-b border-line">
                             <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                <h2 class="text-[16px] font-semibold text-ink">
                                     {{ planSlider.editMode
                                         ? $t('superadmin.products.planSliderEditTitle', { name: planSlider.form.name })
                                         : $t('superadmin.products.planSliderNewTitle') }}
                                 </h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                <p class="text-[12px] text-ink-muted mt-0.5">
                                     {{ planSlider.editMode
                                         ? $t('superadmin.products.planSliderEditSubtitle')
                                         : $t('superadmin.products.planSliderNewSubtitle') }}
                                 </p>
                             </div>
                             <button @click="closePlanSlider"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-muted hover:bg-surface-canvas">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
@@ -388,7 +388,7 @@
 
                             <!-- Prices -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-3">
                                     {{ $t('superadmin.products.prices') }}
                                 </p>
                                 <div class="grid grid-cols-2 gap-3">
@@ -398,7 +398,7 @@
                                             <input v-model.number="planSlider.form.price" type="number" min="0"
                                                 class="co-input pr-8" />
                                             <span
-                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
@@ -407,7 +407,7 @@
                                             <input v-model.number="planSlider.form.yearly_price" type="number" min="0"
                                                 class="co-input pr-8" />
                                             <span
-                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">kr</span>
                                         </div>
                                     </div>
                                 </div>
@@ -415,7 +415,7 @@
 
                             <!-- Included -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-3">
                                     {{ $t('superadmin.products.includedInPackage') }}
                                 </p>
                                 <div class="space-y-3">
@@ -454,11 +454,11 @@
                             <!-- Features — dynamic list -->
                             <div>
                                 <div class="flex items-center justify-between mb-3">
-                                    <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                                    <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em]">
                                         {{ $t('superadmin.products.featuresAndBenefits') }}
                                     </p>
                                     <button type="button" @click="addFeature"
-                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-[#205E77] bg-[#E4F1F6] hover:bg-[#D4EAF4] transition-colors">
+                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-tertiary bg-tertiary-soft hover:bg-tertiary-50 transition-colors">
                                         <Icon name="ph:plus" class="w-3 h-3" />
                                         {{ $t('superadmin.products.add') }}
                                     </button>
@@ -472,14 +472,14 @@
                                         </div>
                                         <input v-model="planSlider.form.featureList[i]" type="text"
                                             :placeholder="$t('superadmin.products.phFeatureN', { n: i + 1 })"
-                                            class="flex-1 px-3 py-2 text-[13px] border border-[#EAECF0] rounded-xl outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 text-[#1F2533] bg-white transition-colors" />
+                                            class="flex-1 px-3 py-2 text-[13px] border border-line rounded-xl outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 text-ink bg-white transition-colors" />
                                         <button type="button" @click="removeFeature(i)"
-                                            class="w-7 h-7 rounded-lg flex items-center justify-center text-[#CC3B2D] hover:bg-red-50 transition-colors flex-shrink-0">
+                                            class="w-7 h-7 rounded-lg flex items-center justify-center text-danger hover:bg-red-50 transition-colors flex-shrink-0">
                                             <Icon name="ph:x" class="w-3.5 h-3.5" />
                                         </button>
                                     </div>
                                     <div v-if="!planSlider.form.featureList.length"
-                                        class="text-[12px] text-[#8891A4] text-center py-3 border border-dashed border-[#EAECF0] rounded-xl">
+                                        class="text-[12px] text-ink-muted text-center py-3 border border-dashed border-line rounded-xl">
                                         {{ $t('superadmin.products.noFeaturesYet') }}
                                     </div>
                                 </div>
@@ -487,15 +487,15 @@
 
                             <!-- Feature toggles -->
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-3">
                                     {{ $t('superadmin.products.specialFeatures') }}
                                 </p>
                                 <div class="space-y-2">
                                     <div v-for="feat in planFeatureToggles" :key="feat.key"
-                                        class="flex items-center justify-between py-2.5 px-4 border border-[#EAECF0] rounded-xl">
+                                        class="flex items-center justify-between py-2.5 px-4 border border-line rounded-xl">
                                         <div class="flex items-center gap-2.5">
-                                            <Icon :name="feat.icon" class="w-4 h-4 text-[#8891A4]" />
-                                            <p class="text-[13px] font-medium text-[#1F2533]">{{ feat.label }}</p>
+                                            <Icon :name="feat.icon" class="w-4 h-4 text-ink-muted" />
+                                            <p class="text-[13px] font-medium text-ink">{{ feat.label }}</p>
                                         </div>
                                         <button type="button"
                                             @click="planSlider.form.features[feat.key] = !planSlider.form.features[feat.key]"
@@ -509,9 +509,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
+                        <div class="flex items-center gap-3 px-6 py-4 border-t border-line">
                             <button @click="closePlanSlider"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body border border-line hover:bg-surface-canvas">
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="savePlan"
@@ -543,32 +543,32 @@
                     leave-to-class="translate-x-full">
                     <div v-if="addonSlider.open"
                         class="fixed inset-y-0 right-0 z-50 w-full max-w-[420px] bg-white shadow-2xl flex flex-col">
-                        <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
+                        <div class="flex items-start justify-between px-6 py-5 border-b border-line">
                             <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                <h2 class="text-[16px] font-semibold text-ink">
                                     {{ $t('superadmin.products.addonSliderTitle') }}
                                 </h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                <p class="text-[12px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.products.addonSliderSubtitle') }}
                                 </p>
                             </div>
                             <button @click="closeAddonSlider"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-muted hover:bg-surface-canvas">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
                         <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-                            <div class="p-4 border border-[#EAECF0] rounded-xl">
+                            <div class="p-4 border border-line rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
                                     <div class="w-9 h-9 rounded-lg flex items-center justify-center"
                                         style="background:#E4F1F6">
                                         <Icon name="ph:user-plus" class="w-4 h-4" style="color:#205E77" />
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ $t('superadmin.products.extraUser') }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">
+                                        <p class="text-[11px] text-ink-muted">
                                             {{ $t('superadmin.products.perEmployeePerMonth') }}
                                         </p>
                                     </div>
@@ -576,22 +576,22 @@
                                 <div class="relative">
                                     <input v-model.number="addonSlider.form.extra_user" type="number" min="0"
                                         class="co-input pr-14" />
-                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">
                                         kr{{ $t('superadmin.products.perMonth') }}
                                     </span>
                                 </div>
                             </div>
-                            <div class="p-4 border border-[#EAECF0] rounded-xl">
+                            <div class="p-4 border border-line rounded-xl">
                                 <div class="flex items-center gap-3 mb-3">
                                     <div class="w-9 h-9 rounded-lg flex items-center justify-center"
                                         style="background:#EDF7EE">
                                         <Icon name="ph:buildings" class="w-4 h-4" style="color:#2E9E33" />
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ $t('superadmin.products.extraDepartment') }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">
+                                        <p class="text-[11px] text-ink-muted">
                                             {{ $t('superadmin.products.perDepartmentPerMonth') }}
                                         </p>
                                     </div>
@@ -599,20 +599,20 @@
                                 <div class="relative">
                                     <input v-model.number="addonSlider.form.extra_department" type="number" min="0"
                                         class="co-input pr-14" />
-                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
+                                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">
                                         kr{{ $t('superadmin.products.perMonth') }}
                                     </span>
                                 </div>
                             </div>
                             <div
-                                class="px-4 py-3 bg-[#FFF9EC] rounded-xl border border-[#D4900A]/20 text-[12px] text-[#D4900A] flex items-start gap-2">
+                                class="px-4 py-3 bg-warning-soft rounded-xl border border-warning/20 text-[12px] text-warning flex items-start gap-2">
                                 <Icon name="ph:warning" class="w-4 h-4 flex-shrink-0 mt-0.5" />
                                 {{ $t('superadmin.products.priceChangeWarning') }}
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
+                        <div class="flex items-center gap-3 px-6 py-4 border-t border-line">
                             <button @click="closeAddonSlider"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body border border-line hover:bg-surface-canvas">
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="saveAddonPrices"
@@ -640,21 +640,21 @@
                     leave-to-class="translate-x-full">
                     <div v-if="appSlider.open"
                         class="fixed inset-y-0 right-0 z-50 w-full max-w-[460px] bg-white shadow-2xl flex flex-col">
-                        <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
+                        <div class="flex items-start justify-between px-6 py-5 border-b border-line">
                             <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                <h2 class="text-[16px] font-semibold text-ink">
                                     {{ appSlider.editMode
                                         ? $t('superadmin.products.editApp')
                                         : $t('superadmin.products.newAppTitle') }}
                                 </h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                <p class="text-[12px] text-ink-muted mt-0.5">
                                     {{ appSlider.editMode
                                         ? $t('superadmin.products.editAppSubtitle')
                                         : $t('superadmin.products.newAppSubtitle') }}
                                 </p>
                             </div>
                             <button @click="closeAppSlider"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-muted hover:bg-surface-canvas">
                                 <Icon name="ph:x" class="w-4 h-4" />
                             </button>
                         </div>
@@ -696,7 +696,7 @@
                             </div>
 
                             <div>
-                                <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-3">
+                                <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.08em] mb-3">
                                     {{ $t('superadmin.products.prices') }}
                                 </p>
                                 <div class="space-y-3">
@@ -706,7 +706,7 @@
                                             <input v-model.number="appSlider.form.monthly_price" type="number" min="0"
                                                 placeholder="0" class="co-input pr-8" />
                                             <span
-                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
@@ -715,7 +715,7 @@
                                             <input v-model.number="appSlider.form.yearly_price" type="number" min="0"
                                                 placeholder="0" class="co-input pr-8" />
                                             <span
-                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">kr</span>
                                         </div>
                                     </div>
                                     <div>
@@ -724,9 +724,9 @@
                                             <input v-model.number="appSlider.form.one_time_price" type="number" min="0"
                                                 placeholder="0" class="co-input pr-8" />
                                             <span
-                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">kr</span>
+                                                class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">kr</span>
                                         </div>
-                                        <p class="text-[11px] text-[#8891A4] mt-1">
+                                        <p class="text-[11px] text-ink-muted mt-1">
                                             {{ $t('superadmin.products.oneTimeFeeHint') }}
                                         </p>
                                     </div>
@@ -736,7 +736,7 @@
                             <div>
                                 <label class="co-label">
                                     {{ $t('superadmin.products.imageUrl') }}
-                                    <span class="text-[#8891A4] font-normal">
+                                    <span class="text-ink-muted font-normal">
                                         {{ $t('superadmin.products.optional') }}
                                     </span>
                                 </label>
@@ -744,12 +744,12 @@
                                     class="co-input" />
                             </div>
 
-                            <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
+                            <div class="flex items-center justify-between py-3 px-4 border border-line rounded-xl">
                                 <div>
-                                    <p class="text-[13px] font-medium text-[#1F2533]">
+                                    <p class="text-[13px] font-medium text-ink">
                                         {{ $t('superadmin.products.visibleInAppStore') }}
                                     </p>
-                                    <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                    <p class="text-[11px] text-ink-muted mt-0.5">
                                         {{ $t('superadmin.products.visibleInAppStoreHint') }}
                                     </p>
                                 </div>
@@ -762,9 +762,9 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
+                        <div class="flex items-center gap-3 px-6 py-4 border-t border-line">
                             <button @click="closeAppSlider"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8]">
+                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body border border-line hover:bg-surface-canvas">
                                 {{ $t('superadmin.products.cancel') }}
                             </button>
                             <button @click="saveApp"
@@ -1135,7 +1135,7 @@ onMounted(() => {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     margin-bottom: 5px
 }
 
@@ -1143,26 +1143,26 @@ onMounted(() => {
     width: 100%;
     padding: 9px 13px;
     font-size: 14px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     background: white;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 10px;
     outline: none;
     transition: border-color 0.15s
 }
 
 .co-input:focus {
-    border-color: #42AED9;
+    border-color: theme('colors.accent.DEFAULT');
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
 }
 
 .co-input::placeholder {
-    color: #B0B8C4
+    color: theme('colors.ink.subtle')
 }
 
 .co-error {
     font-size: 11px;
-    color: #CC3B2D;
+    color: theme('colors.danger.DEFAULT');
     margin-top: 4px
 }
 </style>

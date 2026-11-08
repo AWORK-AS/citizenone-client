@@ -19,20 +19,20 @@
                         </button>
                         <button v-if="state.subscription?.data?.payment_method === 'card'"
                             @click="sendCardUpdateLink"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors">
                             <Icon name="ph:envelope" class="w-4 h-4" />
                             {{ $t('superadmin.companies.accounts.sendCardLink') }}
                         </button>
                         <button @click="navigateTo(`/superadmin/companies/${companyUuid}/edit`)"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors">
                             <Icon name="ph:pencil-simple" class="w-4 h-4" />
                             {{ $t('superadmin.companies.table.actions.edit') }}
                         </button>
                         <button @click="toggleActive"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                             :class="state.company?.data?.is_active
-                                ? 'bg-red-50 text-[#CC3B2D] border border-red-200 hover:bg-red-100'
-                                : 'bg-green-50 text-[#2E9E33] border border-green-200 hover:bg-green-100'">
+                                ? 'bg-red-50 text-danger border border-red-200 hover:bg-red-100'
+                                : 'bg-green-50 text-success border border-green-200 hover:bg-green-100'">
                             <Icon :name="state.company?.data?.is_active ? 'ph:x-circle' : 'ph:check-circle'"
                                 class="w-4 h-4" />
                             {{ state.company?.data?.is_active ?
@@ -50,51 +50,51 @@
 
                         <!-- Stats row -->
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
+                            <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                                <p class="text-[10px] font-semibold text-ink-muted uppercase tracking-wide mb-1">
                                     {{ $t('superadmin.dashboard.users') }}
                                 </p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                <p class="text-[26px] font-bold text-ink">
                                     {{ state.licensesCount?.data?.used ?? 0 }}
                                 </p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p class="text-[11px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.companies.accounts.stats.activeLicenses') }}
                                 </p>
                             </div>
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
+                            <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                                <p class="text-[10px] font-semibold text-ink-muted uppercase tracking-wide mb-1">{{
                                     $t('superadmin.sidebar.licenses') }}</p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                <p class="text-[26px] font-bold text-ink">
                                     {{ state.licensesCount?.data?.used ?? 0 }}
-                                    <span class="text-[16px] font-normal text-[#8891A4]">/
+                                    <span class="text-[16px] font-normal text-ink-muted">/
                                         {{
                                             (state.licensesCount?.data?.used + state.licensesCount?.data?.unused) || 0
                                         }}
                                     </span>
                                 </p>
-                                <div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
+                                <div class="mt-2 h-1.5 bg-line rounded-full overflow-hidden">
                                     <div class="h-full rounded-full transition-all" style="background:#42AED9"
                                         :style="`width:${licencePercent}%`"></div>
                                 </div>
                             </div>
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
+                            <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                                <p class="text-[10px] font-semibold text-ink-muted uppercase tracking-wide mb-1">{{
                                     $t('superadmin.companies.accounts.stats.unused') }}</p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                <p class="text-[26px] font-bold text-ink">
                                     {{ state.licensesCount?.data?.unused ?? 0 }}
                                 </p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p class="text-[11px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.companies.accounts.stats.availableLicenses') }}
                                 </p>
                             </div>
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
+                            <div class="bg-white border border-line rounded-xl p-4 shadow-sm">
+                                <p class="text-[10px] font-semibold text-ink-muted uppercase tracking-wide mb-1">
                                     {{ $t('superadmin.sidebar.apps') }}
                                 </p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                <p class="text-[26px] font-bold text-ink">
                                     {{ state.apps?.data?.length }}
                                 </p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p class="text-[11px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.companies.accounts.stats.activatedModules') }}
                                 </p>
                             </div>
@@ -107,55 +107,55 @@
                         <!-- Details + apps -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <!-- Company info -->
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                                <h3 class="text-[13px] font-semibold text-[#1F2533] mb-4">{{
+                            <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
+                                <h3 class="text-[13px] font-semibold text-ink mb-4">{{
                                     $t('superadmin.companies.form.companyInformation') }}</h3>
                                 <div class="space-y-3">
                                     <div v-if="state.company?.data?.email" class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:envelope" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:envelope" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
-                                        <span class="text-[#5C6478]">
+                                        <span class="text-ink-body">
                                             {{ state.company?.data.email }}
                                         </span>
                                     </div>
                                     <div v-if="state.company?.data?.phone" class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:phone" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:phone" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
-                                        <span class="text-[#5C6478]">
+                                        <span class="text-ink-body">
                                             {{ state.company?.data.phone }}
                                         </span>
                                     </div>
                                     <div v-if="state.company?.data?.cvr" class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:identification-card" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:identification-card" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
-                                        <span class="text-[#5C6478]">
+                                        <span class="text-ink-body">
                                             CVR: {{ state.company?.data.cvr }}
                                         </span>
                                     </div>
                                     <div v-if="state.company?.data?.website"
                                         class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:globe" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:globe" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
                                         <a :href="state.company?.data.website" target="_blank"
-                                            class="text-[#42AED9] hover:underline truncate">
+                                            class="text-accent hover:underline truncate">
                                             {{ state.company?.data.website }}
                                         </a>
                                     </div>
                                     <div v-if="state.subscription?.data?.deal"
                                         class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:credit-card" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:credit-card" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
-                                        <span class="text-[#5C6478]">
+                                        <span class="text-ink-body">
                                             {{ state.subscription.data.deal.name }} —
                                             <template v-if="state.subscription.data.type === 'free'">
                                                 {{ $t('superadmin.companies.accounts.free') }}
@@ -172,10 +172,10 @@
                                     </div>
                                     <div class="flex items-center gap-3 text-[13px]">
                                         <div
-                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
-                                            <Icon name="ph:building" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                            class="w-7 h-7 rounded-lg bg-surface-canvas flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:building" class="w-3.5 h-3.5 text-ink-muted" />
                                         </div>
-                                        <span class="text-[#5C6478]">
+                                        <span class="text-ink-body">
                                             74312{{ state.company?.data.id }}
                                         </span>
                                     </div>
@@ -183,36 +183,36 @@
                             </div>
 
                             <!-- Apps -->
-                            <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                                <h3 class="text-[13px] font-semibold text-[#1F2533] mb-4">{{
+                            <div class="bg-white border border-line rounded-xl p-5 shadow-sm">
+                                <h3 class="text-[13px] font-semibold text-ink mb-4">{{
                                     $t('superadmin.companies.accounts.activatedAppsAndModules') }}</h3>
                                 <div v-if="state.isAppsLoading" class="flex justify-center py-4">
-                                    <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
+                                    <Icon name="ph:spinner" class="w-5 h-5 text-accent animate-spin" />
                                 </div>
                                 <div v-else-if="!state.apps?.data?.length"
-                                    class="flex flex-col items-center gap-2 py-4 text-[#8891A4]">
+                                    class="flex flex-col items-center gap-2 py-4 text-ink-muted">
                                     <Icon name="ph:squares-four" class="w-8 h-8 opacity-30" />
                                     <p class="text-[12px]">{{ $t('superadmin.companies.accounts.noAppsActivated') }}</p>
                                 </div>
                                 <div v-else class="space-y-2">
                                     <div v-for="(app, i) in state.apps?.data" :key="i"
-                                        class="flex items-center justify-between py-2.5 px-3 rounded-lg bg-[#F9FAFB] border border-[#EAECF0]">
+                                        class="flex items-center justify-between py-2.5 px-3 rounded-lg bg-surface-subtle border border-line">
                                         <div class="flex items-center gap-2.5">
                                             <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
                                                 style="background:#E4F1F6">
-                                                <Icon name="ph:squares-four" class="w-4 h-4 text-[#205E77]" />
+                                                <Icon name="ph:squares-four" class="w-4 h-4 text-tertiary" />
                                             </div>
-                                            <span class="text-[13px] font-medium text-[#1F2533]">
+                                            <span class="text-[13px] font-medium text-ink">
                                                 {{ app?.name }}
                                             </span>
                                         </div>
                                         <div class="flex items-center gap-2">
                                             <span v-if="app?.active_quantity > 0" class="co-badge co-badge-green text-[10px]">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                                <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                                 {{ $t('superadmin.companies.table.active') }}
                                             </span>
                                             <span v-else class="co-badge co-badge-red text-[10px]">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                                <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                                 {{ $t('superadmin.companies.companyApps.table.inactive') }}
                                             </span>
                                         </div>
@@ -222,11 +222,11 @@
                         </div>
 
                         <!-- Accounts table -->
-                        <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
+                        <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
                             <div
-                                class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#EAECF0]">
+                                class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-line">
                                 <div class="flex items-center gap-3">
-                                    <h3 class="text-[13px] font-semibold text-[#1F2533]">{{
+                                    <h3 class="text-[13px] font-semibold text-ink">{{
                                         $t('superadmin.companies.accounts.userAccounts') }}</h3>
                                     <SuperadminTableSearch v-model="searchQuery"
                                         :placeholder="$t('superadmin.companies.accounts.searchPlaceholder')"
@@ -246,18 +246,18 @@
                                     rowKey="uuid">
                                     <template #body>
                                         <tr v-for="(account, i) in state.accounts?.data" :key="i"
-                                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
                                             <td class="co-td">
                                                 <div class="flex items-center gap-2.5">
                                                     <img :src="account?.image ?? avatarUrl(`${account?.firstname}+${account?.lastname}`)"
                                                         class="w-8 h-8 rounded-full object-cover" />
-                                                    <span class="text-[13px] font-medium text-[#1F2533]">{{
+                                                    <span class="text-[13px] font-medium text-ink">{{
                                                         account?.firstname }} {{
                                                             account?.lastname }}</span>
                                                 </div>
                                             </td>
-                                            <td class="co-td text-[13px] text-[#5C6478]">{{ account?.email }}</td>
-                                            <td class="co-td text-[13px] text-[#5C6478]">{{ account?.phone || '—' }}
+                                            <td class="co-td text-[13px] text-ink-body">{{ account?.email }}</td>
+                                            <td class="co-td text-[13px] text-ink-body">{{ account?.phone || '—' }}
                                             </td>
                                             <td class="co-td">
                                                 <span v-for="(role, ri) in account?.roles" :key="ri"

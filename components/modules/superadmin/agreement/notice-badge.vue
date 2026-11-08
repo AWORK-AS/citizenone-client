@@ -38,7 +38,7 @@ const tooltip = computed(() => {
 
 const toneClass = computed(() => ({
     'co-badge-red': notice.value.tone === 'passed',
-    'bg-[#FEF3C7] text-[#B45309]': notice.value.tone === 'soon',
+    'bg-warning-soft text-warning-ink': notice.value.tone === 'soon',
     'co-badge-gray': notice.value.tone === 'ok',
 }))
 </script>
