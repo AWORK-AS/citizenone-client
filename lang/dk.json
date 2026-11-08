@@ -16716,6 +16716,31 @@
                 "support_access_revoked": "Supportadgang trukket tilbage",
                 "support_access_decided": "Supportadgang besvaret"
             }
+        },
+        "dataTable": {
+            "search": "Søg",
+            "results": "{count} resultat | {count} resultater",
+            "range": "{from}–{to} af {total}",
+            "previous": "Forrige",
+            "next": "Næste",
+            "pages": "Sider",
+            "page": "Side {page}",
+            "sortBy": "Sortér efter {column}",
+            "loading": "Henter…",
+            "exportCsv": "Eksportér CSV",
+            "exportHelp": "Hent listen med de valgte filtre som CSV til Excel",
+            "exporting": "Henter {done} af {total}…",
+            "exportTruncated": "Kun de første {count} rækker kom med. Indsnævr filtrene for at få resten.",
+            "exportFailed": "Eksporten mislykkedes. Prøv igen.",
+            "exportEmpty": "Der er ingen rækker at eksportere.",
+            "emptyTitle": "Ingen resultater",
+            "emptyFiltered": "Ingen rækker passer til filtrene.",
+            "clearFilters": "Ryd filtre",
+            "removeFilter": "Fjern filter",
+            "errorTitle": "Listen kunne ikke hentes",
+            "retry": "Prøv igen",
+            "all": "Alle",
+            "dismiss": "Luk"
         }
     },
     "support": {

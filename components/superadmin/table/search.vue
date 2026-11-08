@@ -1,11 +1,12 @@
 <template>
     <div class="relative flex-1 min-w-[220px] max-w-[380px]">
-        <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+        <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted pointer-events-none" aria-hidden="true" />
         <input
             :value="modelValue"
             type="text"
             :placeholder="placeholder"
-            class="w-full pl-9 pr-3 py-2 text-sm border border-[#EAECF0] rounded-lg bg-white text-[#1F2533] placeholder-[#8891A4] outline-none focus:border-[#42AED9] focus:ring-2 focus:ring-[#42AED9]/10 transition-colors"
+            class="w-full h-9 pl-9 pr-3 text-sm border border-line rounded-lg bg-white text-ink placeholder-ink-muted outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-colors"
+            :aria-label="placeholder || undefined"
             @input="emit('update:modelValue', ($event.target as HTMLInputElement).value); emit('input', $event)"
         />
     </div>
