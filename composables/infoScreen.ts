@@ -290,7 +290,7 @@ export function reminderShowing(secondOfMinute: number): boolean {
 }
 
 /** One or two letters for a staff member without a photo. */
-export function initials(name: string | null | undefined): string {
+export function staffInitials(name: string | null | undefined): string {
     const parts = String(name ?? '').trim().split(/[\s-]+/).filter(Boolean)
     return parts.slice(0, 2).map((part) => part[0].toLocaleUpperCase()).join('')
 }

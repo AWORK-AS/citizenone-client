@@ -45,7 +45,7 @@
         </div>
 
         <!-- The screen. The whole picture drifts a few pixels over the hours against burn-in. -->
-        <div v-else-if="feed" class="burn-in-shift relative flex h-full flex-col gap-[2vh] p-[3vh]">
+        <div v-else-if="feed" class="burn-in-shift relative flex h-full flex-col gap-[2vh] p-[3vh] pb-[5.5vh]">
             <header class="panel-in flex items-start justify-between gap-8">
                 <div>
                     <p class="text-[2.2vh] font-semibold uppercase tracking-widest text-[#2dbab2]">{{ feed.department_name ?? feed.name }}</p>
@@ -110,7 +110,7 @@
                                 :style="{ animationDelay: `${0.45 + index * 0.06}s` }">
                                 <img v-if="person.photo" :src="person.photo" alt="" class="aspect-square w-full rounded-full object-cover ring-[0.3vh] ring-white/20" />
                                 <span v-else class="flex aspect-square w-full items-center justify-center rounded-full bg-[#1b6d8a] font-semibold"
-                                    :class="large ? 'text-[4.6vh]' : 'text-[3.6vh]'">{{ initials(person.firstname) }}</span>
+                                    :class="large ? 'text-[4.6vh]' : 'text-[3.6vh]'">{{ staffInitials(person.firstname) }}</span>
                                 <span class="mt-[0.6vh] w-full truncate" :class="large ? 'text-[3vh]' : 'text-[2.3vh]'">{{ person.firstname }}</span>
                                 <span v-if="person.until" class="text-[1.8vh] text-white/50">{{ $t('infoScreenDisplay.until', { time: person.until }) }}</span>
                             </div>
@@ -188,6 +188,9 @@
                 </div>
                 <p v-else class="px-[3vh]"><Icon name="ph:megaphone-simple" class="mr-[1.5vh] align-[-0.3vh]" /><span class="shimmer">{{ feed.message }}</span></p>
             </footer>
+
+            <!-- Discreet logo in the bottom gutter, away from the offline badge on the right -->
+            <img src="/img/logo-white.svg" alt="CitizenOne" class="pointer-events-none absolute bottom-[1.7vh] left-[3vh] h-[2.1vh] w-auto opacity-50" />
         </div>
 
         <div v-else-if="previewError" class="relative flex h-full items-center justify-center px-6 text-center">
@@ -234,7 +237,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
-import { activityIcon, activityStates, initials, isNightTime, msUntilNextReload, reminderShowing, upcomingReminder, weatherIcon } from '@/composables/infoScreen'
+import { activityIcon, activityStates, isNightTime, staffInitials, msUntilNextReload, reminderShowing, upcomingReminder, weatherIcon } from '@/composables/infoScreen'
 import { infoScreenService } from '@/components/api/user/InfoScreenService'
 import DayTimeline from '@/components/modules/info-screen/day-timeline.vue'
 import WeatherCard from '@/components/modules/info-screen/weather-card.vue'

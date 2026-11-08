@@ -9,7 +9,7 @@ import assert from 'node:assert/strict'
 import {
     activityStates, pollShares, timelinePercent, timelineRange, toMinutes, weatherCurve, weatherIcon,
     ACTIVITY_ICONS, activityIcon, isNightTime, isOffline, msUntilNextReload, copyDayProgram,
-    upcomingReminder, reminderShowing, initials, moodShares,
+    upcomingReminder, reminderShowing, staffInitials, moodShares,
 } from '../../composables/infoScreen.ts'
 
 const program = [
@@ -227,13 +227,13 @@ describe('upcomingReminder', () => {
     })
 })
 
-describe('initials', () => {
+describe('staffInitials', () => {
     test('takes one or two letters', () => {
-        assert.equal(initials('mette'), 'M')
-        assert.equal(initials('Anne-Marie'), 'AM')
-        assert.equal(initials('  Øjvind Bo Lund '), 'ØB')
-        assert.equal(initials(''), '')
-        assert.equal(initials(null), '')
+        assert.equal(staffInitials('mette'), 'M')
+        assert.equal(staffInitials('Anne-Marie'), 'AM')
+        assert.equal(staffInitials('  Øjvind Bo Lund '), 'ØB')
+        assert.equal(staffInitials(''), '')
+        assert.equal(staffInitials(null), '')
     })
 })
 
