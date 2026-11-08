@@ -10,25 +10,8 @@
             <template #header>{{ $t('superadmin.companies.migration.pageTitle') }}</template>
 
             <div class="p-1">
-                <!-- Back -->
-                <NuxtLink to="/superadmin/companies"
-                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-5 transition-colors">
-                    <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('superadmin.companies.accounts.allCompanies') }}
-                </NuxtLink>
+                <ModulesSuperadminCompanyHeader />
 
-                <!-- Sub-nav tabs -->
-                <div class="flex items-center gap-1 mb-6 border-b border-[#EAECF0]">
-                    <button v-for="tab in detailTabs" :key="tab.href"
-                        class="px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px" :class="$route.path === tab.href
-                            ? 'border-[#42AED9] text-[#205E77]'
-                            : 'border-transparent text-[#5C6478] hover:text-[#1F2533]'" @click="navigateTo(tab.href)">
-                        <div class="flex items-center gap-1.5">
-                            <Icon :name="tab.icon" class="w-4 h-4" />
-                            {{ tab.label }}
-                        </div>
-                    </button>
-                </div>
 
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
@@ -41,7 +24,7 @@
                         </div>
                         <div class="min-w-0">
                             <h2 class="text-[15px] font-semibold text-[#1F2533]">
-                                {{ state.company?.name || $t('superadmin.companies.migration.pageTitle') }}
+                                {{ $t('superadmin.companies.migration.pageTitle') }}
                             </h2>
                             <p class="mt-1 text-sm text-[#5C6478]">
                                 {{ $t('superadmin.companies.migration.description') }}
@@ -128,7 +111,6 @@
 </template>
 
 <script setup lang="ts">
-import { companyService } from '@/components/api/superadmin/CompanyService'
 import { companyImportService } from '@/components/api/superadmin/CompanyImportService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -140,18 +122,8 @@ const { t } = useI18n()
 const { successAlert } = useAlert()
 const companyUuid = String(route.params.company_uuid ?? '')
 
-const detailTabs = computed(() => [
-    { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
-    { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
-    { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
-    { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
-    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
-    { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
-    { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
-])
 
 const state = reactive({
-    company: null as any,
     batches: [] as any[],
     importOpen: false,
     isTableLoading: false,
@@ -162,15 +134,6 @@ const state = reactive({
 function formatDate(value: string) {
     if (!value) return '-'
     return new Date(value).toLocaleString('da-DK', { dateStyle: 'short', timeStyle: 'short' })
-}
-
-async function loadCompany() {
-    try {
-        const response: any = await companyService.getCompany(companyUuid)
-        state.company = response?.data ?? response
-    } catch (error: any) {
-        state.error = error
-    }
 }
 
 async function loadBatches() {
@@ -197,7 +160,6 @@ async function undoBatch(batch: any) {
 }
 
 onMounted(() => {
-    loadCompany()
     loadBatches()
 })
 </script>

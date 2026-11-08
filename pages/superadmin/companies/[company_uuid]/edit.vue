@@ -7,17 +7,12 @@
             </Head>
             <template #header>{{ $t('superadmin.companies.editCompany') }}</template>
 
-            <div class="p-1 max-w-2xl">
+            <div class="p-1">
+                <ModulesSuperadminCompanyHeader />
 
-                <!-- Back -->
-                <button @click="router.back()"
-                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-6 transition-colors">
-                    <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('back') }}
-                </button>
-
-                <ModulesSuperadminCompanyEditCompany />
-
+                <div class="max-w-2xl">
+                    <ModulesSuperadminCompanyEditCompany />
+                </div>
             </div>
         </NuxtLayout>
     </div>
@@ -25,5 +20,4 @@
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
 </script>

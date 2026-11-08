@@ -9,130 +9,44 @@
             <template #header>{{ state.company?.data?.name || $t('superadmin.companies.company') }}</template>
 
             <div class="p-1">
-                <!-- Back -->
-                <NuxtLink to="/superadmin/companies"
-                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-5 transition-colors">
-                    <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('superadmin.companies.accounts.allCompanies') }}
-                </NuxtLink>
-
-                <!-- Sub-nav tabs -->
-                <div class="flex items-center gap-1 mb-6 border-b border-[#EAECF0]">
-                    <button v-for="tab in detailTabs" :key="tab.href"
-                        class="px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px" :class="$route.path === tab.href
-                            ? 'border-[#42AED9] text-[#205E77]'
-                            : 'border-transparent text-[#5C6478] hover:text-[#1F2533]'" @click="navigateTo(tab.href)">
-                        <div class="flex items-center gap-1.5">
-                            <Icon :name="tab.icon" class="w-4 h-4" />
-                            {{ tab.label }}
-                        </div>
-                    </button>
-                </div>
+                <ModulesSuperadminCompanyHeader>
+                    <template #actions>
+                        <button @click="impersonateCompany"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors"
+                            style="background:#F3F0FF;color:#7C3AED;border-color:#DDD6FE">
+                            <Icon name="ph:user-switch" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.accounts.loginAs') }}
+                        </button>
+                        <button v-if="state.subscription?.data?.payment_method === 'card'"
+                            @click="sendCardUpdateLink"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                            <Icon name="ph:envelope" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.accounts.sendCardLink') }}
+                        </button>
+                        <button @click="navigateTo(`/superadmin/companies/${companyUuid}/edit`)"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                            <Icon name="ph:pencil-simple" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.table.actions.edit') }}
+                        </button>
+                        <button @click="toggleActive"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                            :class="state.company?.data?.is_active
+                                ? 'bg-red-50 text-[#CC3B2D] border border-red-200 hover:bg-red-100'
+                                : 'bg-green-50 text-[#2E9E33] border border-green-200 hover:bg-green-100'">
+                            <Icon :name="state.company?.data?.is_active ? 'ph:x-circle' : 'ph:check-circle'"
+                                class="w-4 h-4" />
+                            {{ state.company?.data?.is_active ?
+                                $t('superadmin.companies.table.actions.deactivate') :
+                                $t('superadmin.companies.table.actions.activate') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminCompanyHeader>
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error?.message?.length > 0" />
 
                     <div v-if="!state.isPageLoading" class="space-y-5">
-
-                        <!-- Company header card -->
-                        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
-                                <div class="flex items-center gap-4">
-                                    <!-- Avatar -->
-                                    <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold text-white flex-shrink-0"
-                                        :style="`background:${avatarColor(state.company?.data?.name)}`">
-                                        {{ initials(state.company?.data?.name) }}
-                                    </div>
-                                    <div>
-                                        <h2 class="text-[20px] font-bold text-[#1F2533]">{{ state.company?.data?.name ||
-                                            '—'
-                                            }}</h2>
-                                        <div class="flex flex-wrap items-center gap-2 mt-2">
-                                            <!-- Active status -->
-                                            <span v-if="state.company?.data?.is_active" class="co-badge co-badge-green">
-                                                <span
-                                                    class="w-1.5 h-1.5 rounded-full bg-[#2E9E33] animate-pulse"></span>
-                                                {{ $t('superadmin.companies.table.active') }}
-                                            </span>
-                                            <span v-else class="co-badge co-badge-red">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
-                                                {{ $t('superadmin.companies.table.inactive') }}
-                                            </span>
-
-                                            <!-- e-conomic customer number -->
-                                            <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
-                                                <span class="co-badge co-badge-gray">
-                                                    <Icon name="ph:hash" class="w-3 h-3" aria-hidden="true" />
-                                                    {{ state.company?.data?.economic_customer_number
-                                                        ? $t('superadmin.companies.economicCustomerNumber', { number: state.company?.data.economic_customer_number })
-                                                        : $t('superadmin.companies.economicCustomerNumberNone') }}
-                                                </span>
-                                            </Tooltip>
-
-                                            <!-- Plan badge -->
-                                            <span v-if="state.subscription?.data?.deal?.name"
-                                                class="co-badge co-badge-navy">
-                                                <Icon name="ph:crown-simple" class="w-3 h-3" />
-                                                {{ state.subscription.data.deal.name }}
-                                            </span>
-
-                                            <!-- Payment method -->
-                                            <span v-if="state.subscription?.data?.payment_method === 'card'"
-                                                class="co-badge co-badge-blue">
-                                                <Icon name="ph:credit-card" class="w-3 h-3" />
-                                                {{ $t('superadmin.companies.accounts.paymentCard') }}
-                                            </span>
-                                            <span
-                                                v-else-if="state.subscription?.data?.payment_method === 'invoice'"
-                                                class="co-badge co-badge-gray">
-                                                <Icon name="ph:file-text" class="w-3 h-3" />
-                                                {{ $t('superadmin.companies.accounts.manualInvoice') }}
-                                            </span>
-                                            <Tooltip v-else-if="state.subscription?.data?.payment_method === 'bank_transfer'"
-                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
-                                                <span class="co-badge co-badge-navy">
-                                                    <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
-                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
-                                                </span>
-                                            </Tooltip>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Action buttons -->
-                                <div class="flex flex-wrap gap-2">
-                                    <button @click="impersonateCompany"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors"
-                                        style="background:#F3F0FF;color:#7C3AED;border-color:#DDD6FE">
-                                        <Icon name="ph:user-switch" class="w-4 h-4" />
-                                        {{ $t('superadmin.companies.accounts.loginAs') }}
-                                    </button>
-                                    <button v-if="state.subscription?.data?.payment_method === 'card'"
-                                        @click="sendCardUpdateLink"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
-                                        <Icon name="ph:envelope" class="w-4 h-4" />
-                                        {{ $t('superadmin.companies.accounts.sendCardLink') }}
-                                    </button>
-                                    <button @click="navigateTo(`/superadmin/companies/${companyUuid}/edit`)"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
-                                        <Icon name="ph:pencil-simple" class="w-4 h-4" />
-                                        {{ $t('superadmin.companies.table.actions.edit') }}
-                                    </button>
-                                    <button @click="toggleActive"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-                                        :class="state.company?.data?.is_active
-                                            ? 'bg-red-50 text-[#CC3B2D] border border-red-200 hover:bg-red-100'
-                                            : 'bg-green-50 text-[#2E9E33] border border-green-200 hover:bg-green-100'">
-                                        <Icon :name="state.company?.data?.is_active ? 'ph:x-circle' : 'ph:check-circle'"
-                                            class="w-4 h-4" />
-                                        {{ state.company?.data?.is_active ?
-                                            $t('superadmin.companies.table.actions.deactivate') :
-                                            $t('superadmin.companies.table.actions.activate') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Stats row -->
                         <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -476,15 +390,6 @@ const state = reactive({
     subscription: null as any,
 })
 
-const detailTabs = computed(() => [
-    { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
-    { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
-    { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
-    { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
-    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
-    { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
-    { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
-])
 
 const licencePercent = computed(() => {
     const used = state.licensesCount?.data?.used ?? 0
@@ -492,9 +397,8 @@ const licencePercent = computed(() => {
     return total ? Math.min(100, Math.round((used / total) * 100)) : 0
 })
 
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
-const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
-const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
+// The header shows whether the company is active; it is told when that changes.
+const { refresh: refreshCompanySummary } = useCompanySummary(String(companyUuid))
 
 let accountsPage = 1
 let accountsSearchTimeout: any = null
@@ -634,6 +538,7 @@ async function toggleActive() {
                 ? 'superadmin.companies.form.alert.companySuccessfullyActivated'
                 : 'superadmin.companies.form.alert.companySuccessfullyDeactivated'
             successAlert(`${t('alert.success')}!`, `${t(key)}.`)
+            refreshCompanySummary()
         }
     } catch (error: any) {
         state.error = error

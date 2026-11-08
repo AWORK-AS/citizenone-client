@@ -47,6 +47,8 @@ const props = defineProps({
     number: { type: [Number, String], default: null },
 })
 const emit = defineEmits(['saved'])
+// The company header shows the number too.
+const { refresh: refreshCompanySummary } = useCompanySummary(props.companyUuid)
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -71,6 +73,7 @@ async function save() {
         const response = await companyService.updateEconomicCustomerNumber(props.companyUuid, number)
         const saved = unwrapData(response)?.economic_customer_number
         emit('saved', saved === undefined ? number : saved)
+        refreshCompanySummary()
         successAlert(`${t('alert.success')}!`, t('superadmin.companies.form.economicCustomerNumberSaved'))
     } catch (error: any) {
         // 422: the number is already used by another company (the server says so).

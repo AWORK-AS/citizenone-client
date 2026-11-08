@@ -122,6 +122,8 @@ const props = defineProps({
     underAgreement: { type: Boolean, default: false },
 })
 const emit = defineEmits(['saved'])
+// The company header shows how the company pays.
+const { refresh: refreshCompanySummary } = useCompanySummary(props.companyUuid)
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -173,6 +175,7 @@ async function save() {
         apply(await billingService.saveBillingMethod(props.companyUuid, billingMethodPayload(state.form)))
         successAlert(`${t('alert.success')}!`, t('paymentDunning.company.saved'))
         emit('saved', state.saved)
+        refreshCompanySummary()
     } catch (error: any) {
         state.error = error?.message || t('paymentDunning.company.saveFailed')
     }

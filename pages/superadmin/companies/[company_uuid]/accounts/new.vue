@@ -9,10 +9,12 @@
             <template #header>{{ $t('superadmin.accounts.newAccount') }}</template>
 
             <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                <ModulesSuperadminCompanyHeader />
+
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer text-sm text-gray-600 hover:text-gray-900"
                     :to="`/superadmin/companies/${companyUuid}/accounts`">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
+                    <Icon name="ph:arrow-left" class="w-4 h-4" />
+                    <span>{{ $t('superadmin.companyHeader.backToAccounts') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesSuperadminAccountForm formType="create" :selectedAccount="state.formAccount"
