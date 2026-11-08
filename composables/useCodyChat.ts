@@ -587,6 +587,18 @@ export function createCodyChat() {
         })
     }
 
+    function monthlyCapMessage(error: any): string {
+        const server = typeof error?.message === 'string' ? error.message.trim() : ''
+        if (server !== '' && !server.startsWith('exception.')) return server
+
+        const resets = error?.resets_at ? new Date(error.resets_at) : null
+        if (resets && !Number.isNaN(resets.getTime())) {
+            return t('assistants.monthlyCapUntil', { date: resets.toLocaleDateString() })
+        }
+
+        return t('assistants.monthlyCap')
+    }
+
     // The assistant has its own request ceiling. Telling the user "something went
     // wrong" for a limit they will be under again shortly is the wrong story.
     function rateLimitError(error: any) {
@@ -611,6 +623,14 @@ export function createCodyChat() {
         // - and offers a purchase that would not help.
         if (error?.limit === 'user_daily') {
             return { message: error?.message ?? t('assistants.ownDailyLimit'), isLimit: true }
+        }
+
+        // The company's monthly spend cap. It lifts on the 1st, not in minutes,
+        // and neither buying capacity nor an admin can raise it, so no button and
+        // no "ask your administrator". Without
+        // this branch it fell to the burst message: "try again in 1 minute".
+        if (error?.limit === 'monthly_cap') {
+            return { message: monthlyCapMessage(error), isLimit: true }
         }
 
         const seconds = Number(error.retryAfter) || 0

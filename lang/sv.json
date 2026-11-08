@@ -1700,6 +1700,8 @@
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
         "budgetSpent": "Er extra kapacitet är slut, och dagens inkluderade svar är också använda. Fyll på för att fortsätta i dag.",
         "ownDailyLimit": "Du har använt din egen dagsgräns för Cody AI. Din administratör kan höja den.",
+        "monthlyCap": "Cody AI har nått ert månatliga förbrukningstak. Cody AI är tillgänglig igen från den 1:a nästa månad. Kontakta CitizenOne om taket ska höjas.",
+        "monthlyCapUntil": "Cody AI har nått ert månatliga förbrukningstak. Cody AI är tillgänglig igen från {date}. Kontakta CitizenOne om taket ska höjas.",
         "dictate": {
             "start": "Diktera",
             "stop": "Stoppa inspelning",

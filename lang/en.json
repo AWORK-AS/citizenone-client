@@ -1700,6 +1700,8 @@
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
         "ownDailyLimit": "You have used your own daily Cody AI allowance. Your administrator can raise it.",
+        "monthlyCap": "Cody AI has reached your organisation's monthly usage cap. It is available again from the 1st of next month. Contact CitizenOne if the cap should be raised.",
+        "monthlyCapUntil": "Cody AI has reached your organisation's monthly usage cap. It is available again from {date}. Contact CitizenOne if the cap should be raised.",
         "dictate": {
             "start": "Dictate",
             "stop": "Stop recording",
