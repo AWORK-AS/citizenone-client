@@ -116,7 +116,7 @@
                                     {{ $t('citizens.calendar.viewSchedule') }}
                                 </a>
                                 </MenuItem>
-                                <template v-if="event?.completion_status !== 'completed' && event?.completion_status !== 'cancelled'">
+                                <template v-if="canManageEvent(event) && event?.completion_status !== 'completed' && event?.completion_status !== 'cancelled'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -126,7 +126,7 @@
                                     </a>
                                     </MenuItem>
                                 </template>
-                                <template v-if="event?.completion_status !== 'not_completed' && event?.completion_status !== 'cancelled'">
+                                <template v-if="canManageEvent(event) && event?.completion_status !== 'not_completed' && event?.completion_status !== 'cancelled'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -159,6 +159,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { canManageEvent } from '@/composables/calendarOwnership'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
@@ -219,6 +220,8 @@ function viewMyCalendarEvent(myCalendarEvent: any) {
 }
 
 function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     emit('markEventAsStatus', myCalendarEvent, status)
 }
 

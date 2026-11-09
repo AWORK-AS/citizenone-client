@@ -8659,6 +8659,13 @@
             "noData": "No data for the selected period",
             "startDate": "From",
             "endDate": "To"
+        },
+        "readOnly": {
+            "title": "Event details",
+            "notice": "This event belongs to {owner}. You can see it, but only they or a coordinator can change or delete it.",
+            "noticeNoOwner": "You can see this event, but only the people on it or a coordinator can change or delete it.",
+            "when": "When",
+            "view": "View"
         }
     },
     "excludeVat": "excl. vat",
@@ -12560,6 +12567,8 @@
                 "autoAiForNewEmployeesHint": "A new employee gets a free AI seat when created. With none free, the employee is created without one",
                 "calendarSubscriptions": "Users can subscribe to their calendar",
                 "calendarSubscriptionsHint": "When off, the calendar can no longer be added to Outlook, Google or iPhone, and existing subscriptions stop",
+                "calendarEventsOwnerOnly": "Only the people on an event can change or delete it",
+                "calendarEventsOwnerOnlyHint": "Colleagues still see each other's events, but only the person who created it, its owner and the invitees can edit, delete, cancel or mark it. Managers, Admins and roles with the right \"Manage colleagues' calendar events\" always can",
                 "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",
                 "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
                 "hidePatientFormsTab": "Hide the \"Patient forms\" tab",

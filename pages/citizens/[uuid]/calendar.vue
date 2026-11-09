@@ -285,6 +285,8 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
         completion_status: selectedCalendarEvent.completion_status,
         journal: selectedCalendarEvent.journal,
         citizen_uuid: citizenUuid,
+        // False for a colleague's event while the company keeps those read-only (AW-2026-9924).
+        can_manage: selectedCalendarEvent.can_manage,
     }
     state.viewedEvent = selectedCalendarEvent
     state.modal.isViewEventOpen = true

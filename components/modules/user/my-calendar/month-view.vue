@@ -223,18 +223,18 @@
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="editMyCalendarEvent(myCalendarEvent)">
-                                                                <Icon name="ph:pencil-simple" class="h-4 w-4" />
-                                                                {{ $t('calendar.edit') }}
+                                                                <Icon :name="canManageEvent(myCalendarEvent) ? 'ph:pencil-simple' : 'ph:eye'" class="h-4 w-4" />
+                                                                {{ canManageEvent(myCalendarEvent) ? $t('calendar.edit') : $t('events.readOnly.view') }}
                                                             </a>
                                                             </MenuItem>
-                                                            <MenuItem v-slot="{ active }">
+                                                            <MenuItem v-if="canManageEvent(myCalendarEvent)" v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="confirmEventDeletion(myCalendarEvent)">
                                                                 <Icon name="ph:trash" class="h-4 w-4" />
                                                                 {{ $t('calendar.delete') }}
                                                             </a>
                                                             </MenuItem>
-                                                            <template v-if="myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
+                                                            <template v-if="canManageEvent(myCalendarEvent) && myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                                                 <MenuItem v-slot="{ active }">
                                                                 <a href="#" :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                     @click.stop="markEventAsStatus(myCalendarEvent, 'completed')">
@@ -243,7 +243,7 @@
                                                                 </a>
                                                                 </MenuItem>
                                                             </template>
-                                                            <template v-if="myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
+                                                            <template v-if="canManageEvent(myCalendarEvent) && myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                                                 <MenuItem v-slot="{ active }">
                                                                 <a href="#" :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                     @click.stop="markEventAsStatus(myCalendarEvent, 'not_completed')">
@@ -484,11 +484,11 @@
                                         <a href="#"
                                             :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                             @click="editMyCalendarEvent(myCalendarEvent)">
-                                            <Icon name="ph:pencil-simple" class="h-4 w-4" />
-                                            {{ $t('calendar.edit') }}
+                                            <Icon :name="canManageEvent(myCalendarEvent) ? 'ph:pencil-simple' : 'ph:eye'" class="h-4 w-4" />
+                                            {{ canManageEvent(myCalendarEvent) ? $t('calendar.edit') : $t('events.readOnly.view') }}
                                         </a>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }">
+                                        <MenuItem v-if="canManageEvent(myCalendarEvent)" v-slot="{ active }">
                                         <a href="#"
                                             :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                             @click="confirmEventDeletion(myCalendarEvent)">
@@ -496,7 +496,7 @@
                                             {{ $t('calendar.delete') }}
                                         </a>
                                         </MenuItem>
-                                        <template v-if="myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
+                                        <template v-if="canManageEvent(myCalendarEvent) && myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                             <MenuItem v-slot="{ active }">
                                             <a href="#"
                                                 :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -506,7 +506,7 @@
                                             </a>
                                             </MenuItem>
                                         </template>
-                                        <template v-if="myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
+                                        <template v-if="canManageEvent(myCalendarEvent) && myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                             <MenuItem v-slot="{ active }">
                                             <a href="#"
                                                 :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -581,6 +581,7 @@ import { eventTagColor, tintColor } from '@/composables/calendarEventPresentatio
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { canManageEvent } from '@/composables/calendarOwnership'
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
@@ -820,6 +821,8 @@ function editMyCalendarEvent(myCalendarEvent: any) {
 }
 
 function confirmEventDeletion(myCalendarEvent: any) {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     state.selectedSchedule = myCalendarEvent
     state.modal.isDeleteScheduleOpen = true
 }
@@ -830,6 +833,8 @@ function deleteMyCalendarEvent() {
 }
 
 function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     emit('markEventAsStatus', myCalendarEvent, status)
 }
 

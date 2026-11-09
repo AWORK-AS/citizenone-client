@@ -8659,6 +8659,13 @@
             "noData": "Ingen data for den valgte perioden",
             "startDate": "Fra",
             "endDate": "Til"
+        },
+        "readOnly": {
+            "title": "Arrangementsdetaljer",
+            "notice": "Dette arrangementet tilhører {owner}. Du kan se det, men bare vedkommende eller en koordinator kan endre eller slette det.",
+            "noticeNoOwner": "Du kan se dette arrangementet, men bare de som er med på det, eller en koordinator kan endre eller slette det.",
+            "when": "Når",
+            "view": "Se"
         }
     },
     "excludeVat": "ekskl. mva",
@@ -12555,6 +12562,8 @@
                 "autoAiForNewEmployeesHint": "En ny medarbeider får en ledig AI-lisens når den opprettes. Er det ingen ledig, opprettes medarbeideren uten",
                 "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
                 "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
+                "calendarEventsOwnerOnly": "Bare de som er med på et arrangement, kan endre eller slette det",
+                "calendarEventsOwnerOnlyHint": "Kolleger ser fortsatt hverandres arrangementer, men bare den som opprettet det, eieren og de inviterte kan redigere, slette, avlyse eller markere det. Ledere, administratorer og roller med rettigheten \"Administrer kollegers kalenderarrangementer\" kan alltid",
                 "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",
                 "matchIncludesDoNotContactHint": "Bare konsulenter med en fratredelsesdato utelates. De vises med status og kan ikke spørres",
                 "hidePatientFormsTab": "Skjul fanen \"Skjemaer til pasienten\"",

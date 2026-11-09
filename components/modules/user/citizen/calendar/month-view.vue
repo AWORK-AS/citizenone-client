@@ -352,6 +352,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { canManageEvent } from '@/composables/calendarOwnership'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
@@ -569,6 +570,8 @@ function viewMyCalendarEvent(myCalendarEvent: any) {
 }
 
 function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     emit('markEventAsStatus', myCalendarEvent, status)
 }
 
