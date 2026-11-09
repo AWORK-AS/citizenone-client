@@ -8,7 +8,13 @@ import assert from 'node:assert/strict'
 import {
     ORDER_STATUSES,
     availableProducts,
+    discountError,
+    discountLabel,
+    discountPayload,
+    discountedUnitPrice,
+    lineDiscountAmount,
     offersOrderFlow,
+    quoteDiscounts,
     orderCanComplete,
     orderConfirmKey,
     orderEconomicLabel,
@@ -165,4 +171,66 @@ test('e-conomic label for every state and partial payloads', () => {
     assert.equal(label({}).key, 'superadmin.companyOrders.economic.notYet')
     assert.equal(label(null).key, 'superadmin.companyOrders.economic.notYet')
     assert.equal(label(undefined).key, 'superadmin.companyOrders.economic.notYet')
+})
+
+test('net unit price is rounded half up in cents, as the API does', () => {
+    assert.equal(discountedUnitPrice(2539.27, 12.5), 2221.86)
+    assert.equal(discountedUnitPrice(0.01, 50), 0.01)
+    assert.equal(discountedUnitPrice(0.05, 50), 0.03)
+    assert.equal(discountedUnitPrice(99.99, 33.33), 66.66)
+    assert.equal(discountedUnitPrice(2.3, 50), 1.15)
+    assert.equal(discountedUnitPrice(690, 0), 690)
+    assert.equal(discountedUnitPrice(690, 100), 0)
+    assert.equal(discountedUnitPrice('690', '20'), 552)
+    assert.equal(discountedUnitPrice(690, null), 690)
+    assert.equal(discountedUnitPrice(undefined, 10), 0)
+    // 10 seats: 22.218,60 on our invoice (e-conomic's own line discount would say 22.218,61).
+    assert.equal(Math.round(discountedUnitPrice(2539.27, 12.5) * 10 * 100) / 100, 22218.6)
+    assert.equal(lineDiscountAmount(2539.27, 12.5, 10), 3174.1)
+    assert.equal(lineDiscountAmount(2539.27, 12.5, 0), 0)
+    assert.equal(lineDiscountAmount(2539.27, 0, 10), 0)
+})
+
+test('discount validation follows the API', () => {
+    assert.equal(discountError(10, 'Aftalt ved demo'), null)
+    assert.equal(discountError('12,5', 'Aftalt ved demo'), null)
+    assert.equal(discountError(0, ''), null)
+    assert.equal(discountError(10, ''), 'reasonRequired')
+    assert.equal(discountError(10, '   '), 'reasonRequired')
+    assert.equal(discountError(10, null), 'reasonRequired')
+    assert.equal(discountError(10, 'kort'), 'reasonTooShort')
+    assert.equal(discountError(10, 'x'.repeat(501)), 'reasonTooLong')
+    assert.equal(discountError(10, 'x'.repeat(500)), null)
+    assert.equal(discountError(10.125, 'Aftalt ved demo'), 'percentDecimals')
+    assert.equal(discountError(-1, 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError(101, 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError('', 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError('ti', 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError(50, 'Aftalt ved demo'), null)
+    assert.equal(discountError(50.01, 'Aftalt ved demo'), 'percentAboveMax')
+    assert.equal(discountError(25, 'Aftalt ved demo', 20), 'percentAboveMax')
+    assert.equal(discountError(25, 'Aftalt ved demo', null), null)
+})
+
+test('discount payload: 0 clears the reason and the renewal flag', () => {
+    assert.deepEqual(discountPayload('12,5', ' Aftalt ved demo ', true), { discount_percent: 12.5, discount_reason: 'Aftalt ved demo', discount_on_renewal: true })
+    assert.deepEqual(discountPayload(10, 'Aftalt ved demo', 'yes'), { discount_percent: 10, discount_reason: 'Aftalt ved demo', discount_on_renewal: false })
+    assert.deepEqual(discountPayload(0, 'old reason', true), { discount_percent: 0, discount_reason: null, discount_on_renewal: false })
+    assert.equal(discountPayload(10, ''), null)
+    assert.equal(discountPayload(60, 'Aftalt ved demo', false, 50), null)
+})
+
+test('discount labels and the discounted lines of a quote', () => {
+    assert.equal(discountLabel(12.5), '12,5')
+    assert.equal(discountLabel(10), '10')
+    assert.equal(discountLabel('33.33'), '33,33')
+    const quote = { lines: [
+        { uuid: 'a', discount_percent: 0, paid: 10 },
+        { uuid: 'b', discount_percent: 12.5, paid: 10 },
+        { uuid: 'c', discount_percent: 20, paid: 0 },
+        { uuid: 'd' },
+    ] }
+    assert.deepEqual(quoteDiscounts(quote).map(line => line.uuid), ['b'])
+    assert.deepEqual(quoteDiscounts(null), [])
+    assert.deepEqual(quoteDiscounts({}), [])
 })

@@ -33,6 +33,11 @@ class CompanyOrderService extends BaseAPIService {
         return await this.request(`/superadmin/company-orders/${orderUuid}/lines/${lineUuid}`, 'PATCH', { quantity })
     }
 
+    /** 0 removes the discount; above 0 needs a reason. */
+    async setDiscount(orderUuid: string, lineUuid: string, params: { discount_percent: number; discount_reason: string | null; discount_on_renewal: boolean }): Promise<any> {
+        return await this.request(`/superadmin/company-orders/${orderUuid}/lines/${lineUuid}/discount`, 'PUT', params)
+    }
+
     async removeLine(orderUuid: string, lineUuid: string): Promise<any> {
         return await this.request(`/superadmin/company-orders/${orderUuid}/lines/${lineUuid}`, 'DELETE')
     }

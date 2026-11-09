@@ -9702,7 +9702,8 @@
             "quantity": "Mengde",
             "tax": "Mva"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+        "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet",
+        "discount": "{percent} % rabatt"
     },
     "invoices": {
         "alert": {
@@ -16996,7 +16997,10 @@
                 "support_access_approved": "Supporttilgang godkjent",
                 "support_access_denied": "Supporttilgang avvist",
                 "support_access_revoked": "Supporttilgang trukket tilbake",
-                "support_access_decided": "Supporttilgang besvart"
+                "support_access_decided": "Supporttilgang besvart",
+                "order_discount_set": "Rabatt gitt på ordre: {to} % på {name}",
+                "order_discount_changed": "Rabatt endret på ordre: {from} % → {to} % på {name}",
+                "order_discount_removed": "Rabatt fjernet på ordre: {name}"
             }
         },
         "dataTable": {
@@ -17094,7 +17098,34 @@
             "listSubtitle": "Ordrer med flere linjer som blir én ordre i e-conomic.",
             "empty": "Ingen ordrer ennå.",
             "allStatuses": "Alle statuser",
-            "failedCount": "{count} feilet i e-conomic"
+            "failedCount": "{count} feilet i e-conomic",
+            "discount": {
+                "give": "Gi rabatt",
+                "edit": "Endre rabatt",
+                "percent": "Rabatt (%)",
+                "reason": "Begrunnelse",
+                "reasonPlaceholder": "Hvorfor får kunden rabatt? F.eks. avtalt ved demo",
+                "onRenewal": "Behold rabatten ved fornyelse (ellers fornyes til listepris)",
+                "hint": "Maksimalt {max} %. Listeprisen endres ikke. Servicegebyret får aldri rabatt.",
+                "preview": "Ny stykkpris {price}",
+                "save": "Lagre rabatt",
+                "remove": "Fjern rabatt",
+                "close": "Lukk",
+                "reasonLine": "Rabatt {percent} %: {reason}",
+                "keptOnRenewal": "beholdes ved fornyelse",
+                "totalsLine": "Rabatt {percent} % av {price}",
+                "total": "Rabatt totalt",
+                "confirm": "Rabatt totalt {total} eks. mva.: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "Rabatten må være mellom 0 og 100 %.",
+                    "percentDecimals": "Bruk maksimalt to desimaler.",
+                    "percentAboveMax": "Rabatten kan være maksimalt {max} %.",
+                    "reasonRequired": "Skriv en begrunnelse for rabatten.",
+                    "reasonTooShort": "Begrunnelsen må være minst 5 tegn.",
+                    "reasonTooLong": "Begrunnelsen kan være maksimalt 500 tegn."
+                }
+            }
         },
         "teamMeetings": {
             "pageTitle": "Møter",

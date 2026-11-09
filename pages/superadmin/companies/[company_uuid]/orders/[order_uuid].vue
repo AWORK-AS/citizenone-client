@@ -84,33 +84,95 @@
                                         <tr v-if="!order.lines.length">
                                             <td colspan="5" class="px-5 py-8 text-center text-ink-muted">{{ $t('superadmin.companyOrders.noLines') }}</td>
                                         </tr>
-                                        <tr v-for="line in order.lines" :key="line.uuid" class="border-t border-surface-canvas">
-                                            <td class="px-5 py-2.5">
-                                                <p class="font-medium text-ink">{{ line.name }}</p>
-                                                <p v-if="quoteLine(line.uuid)?.free" class="text-[11px] text-ink-muted">
-                                                    {{ $t('superadmin.companies.licenseOverview.grant.billingBox.included', { count: quoteLine(line.uuid)?.free }) }}
-                                                </p>
-                                                <p v-if="quoteLine(line.uuid)?.period_to" class="text-[11px] text-ink-muted">
-                                                    {{ formatDate(quoteLine(line.uuid)?.period_from) }} – {{ formatDate(quoteLine(line.uuid)?.period_to) }}
-                                                </p>
-                                            </td>
-                                            <td class="px-3 py-2.5 text-right">
-                                                <input v-if="isDraft" type="number" min="1" max="1000" :value="line.quantity"
-                                                    :aria-label="$t('superadmin.companyOrders.col.quantity')"
-                                                    :disabled="state.saving" @change="onQuantityChange(line, $event)"
-                                                    class="w-20 text-right text-sm border border-line rounded-lg px-2 py-1 outline-none focus:border-accent" />
-                                                <span v-else class="tabular-nums">{{ line.quantity }}</span>
-                                            </td>
-                                            <td class="px-3 py-2.5 text-right tabular-nums">{{ dkk(quoteLine(line.uuid)?.unit_price) }}</td>
-                                            <td class="px-3 py-2.5 text-right tabular-nums">{{ dkk(quoteLine(line.uuid)?.amount) }}</td>
-                                            <td class="px-5 py-2.5 text-right">
-                                                <button v-if="isDraft" type="button" :disabled="state.saving" @click="removeLine(line)"
-                                                    :aria-label="$t('superadmin.companyOrders.remove')"
-                                                    class="text-ink-muted hover:text-danger">
-                                                    <Icon name="ph:trash" class="w-4 h-4" aria-hidden="true" />
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <template v-for="line in order.lines" :key="line.uuid">
+                                            <tr class="border-t border-surface-canvas" :data-testid="`order-line-${line.uuid}`">
+                                                <td class="px-5 py-2.5">
+                                                    <p class="font-medium text-ink">{{ line.name }}</p>
+                                                    <p v-if="line.discount_percent > 0" class="text-[11px] text-ink-muted" data-testid="order-line-discount-reason">
+                                                        {{ $t('superadmin.companyOrders.discount.reasonLine', { percent: discountLabel(line.discount_percent), reason: line.discount_reason }) }}
+                                                        <template v-if="line.discount_on_renewal"> · {{ $t('superadmin.companyOrders.discount.keptOnRenewal') }}</template>
+                                                    </p>
+                                                    <p v-if="quoteLine(line.uuid)?.free" class="text-[11px] text-ink-muted">
+                                                        {{ $t('superadmin.companies.licenseOverview.grant.billingBox.included', { count: quoteLine(line.uuid)?.free }) }}
+                                                    </p>
+                                                    <p v-if="quoteLine(line.uuid)?.period_to" class="text-[11px] text-ink-muted">
+                                                        {{ formatDate(quoteLine(line.uuid)?.period_from) }} – {{ formatDate(quoteLine(line.uuid)?.period_to) }}
+                                                    </p>
+                                                </td>
+                                                <td class="px-3 py-2.5 text-right">
+                                                    <input v-if="isDraft" type="number" min="1" max="1000" :value="line.quantity"
+                                                        :aria-label="$t('superadmin.companyOrders.col.quantity')"
+                                                        :disabled="state.saving" @change="onQuantityChange(line, $event)"
+                                                        class="w-20 text-right text-sm border border-line rounded-lg px-2 py-1 outline-none focus:border-accent" />
+                                                    <span v-else class="tabular-nums">{{ line.quantity }}</span>
+                                                </td>
+                                                <td class="px-3 py-2.5 text-right tabular-nums">
+                                                    <template v-if="quoteLine(line.uuid)?.discount_percent > 0 && quoteLine(line.uuid)?.paid > 0">
+                                                        <span class="block text-[11px] text-ink-muted line-through" data-testid="order-line-list-price">{{ dkk(quoteLine(line.uuid)?.list_unit_price) }}</span>
+                                                        <span class="block">
+                                                            <span class="text-[11px] font-semibold text-info-ink">−{{ discountLabel(quoteLine(line.uuid)?.discount_percent) }} %</span>
+                                                            {{ dkk(quoteLine(line.uuid)?.unit_price) }}
+                                                        </span>
+                                                    </template>
+                                                    <template v-else>{{ dkk(quoteLine(line.uuid)?.unit_price) }}</template>
+                                                </td>
+                                                <td class="px-3 py-2.5 text-right tabular-nums">{{ dkk(quoteLine(line.uuid)?.amount) }}</td>
+                                                <td class="px-5 py-2.5 text-right whitespace-nowrap">
+                                                    <button v-if="isDraft && canManage" type="button" :disabled="state.saving" @click="openDiscount(line)"
+                                                        :aria-expanded="state.discount.lineUuid === line.uuid"
+                                                        :aria-label="$t(line.discount_percent > 0 ? 'superadmin.companyOrders.discount.edit' : 'superadmin.companyOrders.discount.give')"
+                                                        :title="$t(line.discount_percent > 0 ? 'superadmin.companyOrders.discount.edit' : 'superadmin.companyOrders.discount.give')"
+                                                        class="mr-2 text-ink-muted hover:text-info" data-testid="order-line-discount">
+                                                        <Icon name="ph:tag" class="w-4 h-4" aria-hidden="true" />
+                                                    </button>
+                                                    <button v-if="isDraft" type="button" :disabled="state.saving" @click="removeLine(line)"
+                                                        :aria-label="$t('superadmin.companyOrders.remove')"
+                                                        class="text-ink-muted hover:text-danger">
+                                                        <Icon name="ph:trash" class="w-4 h-4" aria-hidden="true" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- Inline discount editor: percent and a required reason -->
+                                            <tr v-if="isDraft && canManage && state.discount.lineUuid === line.uuid" class="bg-surface-canvas"
+                                                data-testid="order-discount-editor">
+                                                <td colspan="5" class="px-5 py-3">
+                                                    <div class="flex flex-wrap items-start gap-3">
+                                                        <div class="w-28">
+                                                            <FormLabel :for="`discount_percent_${line.uuid}`" :label="$t('superadmin.companyOrders.discount.percent')" />
+                                                            <input :id="`discount_percent_${line.uuid}`" type="number" min="0" :max="maxDiscount" step="0.01"
+                                                                v-model="state.discount.percent"
+                                                                class="w-full text-sm text-right border border-line rounded-lg px-2 py-1.5 bg-white outline-none focus:border-accent" />
+                                                        </div>
+                                                        <div class="flex-1 min-w-[14rem]">
+                                                            <FormLabel :for="`discount_reason_${line.uuid}`" :label="$t('superadmin.companyOrders.discount.reason')" />
+                                                            <textarea :id="`discount_reason_${line.uuid}`" rows="2" maxlength="500" v-model="state.discount.reason"
+                                                                :placeholder="$t('superadmin.companyOrders.discount.reasonPlaceholder')"
+                                                                class="w-full text-sm border border-line rounded-lg px-2 py-1.5 bg-white text-ink outline-none focus:border-accent resize-none"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <label class="mt-2 inline-flex items-center gap-2 text-[12px] text-ink-body">
+                                                        <input type="checkbox" v-model="state.discount.onRenewal" class="rounded border-line text-accent focus:ring-accent" />
+                                                        {{ $t('superadmin.companyOrders.discount.onRenewal') }}
+                                                    </label>
+                                                    <p class="text-[11px] text-ink-muted mt-1">
+                                                        {{ $t('superadmin.companyOrders.discount.hint', { max: discountLabel(maxDiscount) }) }}
+                                                        <template v-if="discountPreview !== null"> · {{ $t('superadmin.companyOrders.discount.preview', { price: dkk(discountPreview) }) }}</template>
+                                                    </p>
+                                                    <p v-if="discountErrorText" class="text-[12px] text-danger-ink mt-1" role="alert">{{ discountErrorText }}</p>
+                                                    <div class="mt-3 flex flex-wrap gap-2">
+                                                        <FormButton buttonStyle="action" :disabled="!discountBody || state.saving" @click="saveDiscount(line)">
+                                                            {{ $t('superadmin.companyOrders.discount.save') }}
+                                                        </FormButton>
+                                                        <FormButton v-if="line.discount_percent > 0" buttonStyle="danger" :disabled="state.saving" @click="removeDiscount(line)">
+                                                            {{ $t('superadmin.companyOrders.discount.remove') }}
+                                                        </FormButton>
+                                                        <FormButton buttonStyle="link" :disabled="state.saving" @click="closeDiscount">
+                                                            {{ $t('superadmin.companyOrders.discount.close') }}
+                                                        </FormButton>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </tbody>
                                 </table>
 
@@ -148,13 +210,23 @@
                                 </div>
                                 <template v-if="order.quote">
                                     <ul class="space-y-1">
-                                        <li v-for="line in order.quote.lines" :key="line.uuid" class="flex justify-between gap-3">
-                                            <span class="text-ink-body">{{ line.paid }} × {{ line.name }}</span>
-                                            <span class="tabular-nums">{{ dkk(line.amount) }}</span>
+                                        <li v-for="line in order.quote.lines" :key="line.uuid">
+                                            <div class="flex justify-between gap-3">
+                                                <span class="text-ink-body">{{ line.paid }} × {{ line.name }}</span>
+                                                <span class="tabular-nums">{{ dkk(line.amount) }}</span>
+                                            </div>
+                                            <div v-if="line.discount_percent > 0 && line.paid > 0" class="flex justify-between gap-3 text-[12px] text-ink-muted">
+                                                <span>{{ $t('superadmin.companyOrders.discount.totalsLine', { percent: discountLabel(line.discount_percent), price: dkk(line.list_unit_price) }) }}</span>
+                                                <span class="tabular-nums">−{{ dkk(line.discount_amount) }}</span>
+                                            </div>
                                         </li>
                                         <li v-if="order.quote.fee > 0" class="flex justify-between gap-3">
                                             <span class="text-ink-body">{{ $t('superadmin.companies.licenseOverview.grant.billingBox.fee') }}</span>
                                             <span class="tabular-nums">{{ dkk(order.quote.fee) }}</span>
+                                        </li>
+                                        <li v-if="order.quote.discount_total > 0" class="flex justify-between gap-3 font-medium text-ink" data-testid="order-discount-total">
+                                            <span>{{ $t('superadmin.companyOrders.discount.total') }}</span>
+                                            <span class="tabular-nums">−{{ dkk(order.quote.discount_total) }}</span>
                                         </li>
                                         <li class="flex justify-between gap-3 text-ink-muted">
                                             <span>{{ $t('superadmin.companies.licenseOverview.grant.billingBox.vat') }}</span>
@@ -220,7 +292,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { CREATE_AGREEMENT, grantTermOptions } from '@/composables/licenseGrant'
 import {
+    DEFAULT_MAX_DISCOUNT_PERCENT,
     availableProducts,
+    discountError,
+    discountLabel,
+    discountPayload,
+    discountedUnitPrice,
+    quoteDiscounts,
     orderCanComplete,
     orderConfirmKey,
     orderEconomicLabel,
@@ -252,6 +330,7 @@ const state = reactive({
     confirmOpen: false,
     cancelOpen: false,
     newLine: { product: '', quantity: 1 },
+    discount: { lineUuid: '' as string, percent: '' as string | number, reason: '', onRenewal: false },
 })
 
 const order = computed(() => state.order)
@@ -277,11 +356,38 @@ const economicText = computed(() => {
 
 const refusalText = computed(() => t(`superadmin.companyOrders.refusal.${order.value?.company_refusal}`))
 
-const confirmText = computed(() => t(orderConfirmKey(order.value?.quote), {
-    seats: orderSeatCount(order.value?.quote),
-    amount: dkk(order.value?.quote?.total_amount),
-    customer: order.value?.company?.economic_customer_number ?? '—',
-}))
+const maxDiscount = computed(() => Number(order.value?.max_discount_percent ?? DEFAULT_MAX_DISCOUNT_PERCENT))
+
+const discountBody = computed(() => discountPayload(state.discount.percent, state.discount.reason, state.discount.onRenewal, maxDiscount.value))
+
+/** Shown once the staff member has typed something; empty fields are not an error yet. */
+const discountErrorText = computed(() => {
+    if (state.discount.percent === '' && state.discount.reason === '') return ''
+    const code = discountError(state.discount.percent, state.discount.reason, maxDiscount.value)
+    return code ? t(`superadmin.companyOrders.discount.errors.${code}`, { max: discountLabel(maxDiscount.value) }) : ''
+})
+
+const discountPreview = computed(() => {
+    const line = quoteLine(state.discount.lineUuid)
+    const percent = Number(String(state.discount.percent).replace(',', '.'))
+    if (!line || !(line.paid > 0) || !Number.isFinite(percent) || percent <= 0 || percent > 100) return null
+    return discountedUnitPrice(line.list_unit_price ?? line.unit_price, percent)
+})
+
+const confirmText = computed(() => {
+    const quote = order.value?.quote
+    const text = t(orderConfirmKey(quote), {
+        seats: orderSeatCount(quote),
+        amount: dkk(quote?.total_amount),
+        customer: order.value?.company?.economic_customer_number ?? '—',
+    })
+    const discounts = quoteDiscounts(quote)
+    if (!discounts.length) return text
+    const list = discounts.map((line: any) => t('superadmin.companyOrders.discount.confirmLine', {
+        name: line.name, percent: discountLabel(line.discount_percent), reason: line.discount_reason ?? '',
+    })).join('; ')
+    return `${text} ${t('superadmin.companyOrders.discount.confirm', { total: dkk(quote?.discount_total), list })}`
+})
 
 function quoteLine(uuid: string) {
     return (order.value?.quote?.lines ?? []).find((line: any) => line.uuid === uuid)
@@ -334,6 +440,33 @@ function onQuantityChange(line: any, event: Event) {
     const quantity = Number((event.target as HTMLInputElement).value)
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 1000 || quantity === line.quantity) return
     save(() => companyOrderService.updateLine(orderUuid, line.uuid, quantity))
+}
+
+function openDiscount(line: any) {
+    if (state.discount.lineUuid === line.uuid) return closeDiscount()
+    state.discount.lineUuid = line.uuid
+    state.discount.percent = line.discount_percent > 0 ? line.discount_percent : ''
+    state.discount.reason = line.discount_reason ?? ''
+    state.discount.onRenewal = !!line.discount_on_renewal
+}
+
+function closeDiscount() {
+    state.discount.lineUuid = ''
+    state.discount.percent = ''
+    state.discount.reason = ''
+    state.discount.onRenewal = false
+}
+
+async function saveDiscount(line: any) {
+    const body = discountBody.value
+    if (!body) return
+    await save(() => companyOrderService.setDiscount(orderUuid, line.uuid, body))
+    closeDiscount()
+}
+
+async function removeDiscount(line: any) {
+    await save(() => companyOrderService.setDiscount(orderUuid, line.uuid, { discount_percent: 0, discount_reason: null, discount_on_renewal: false }))
+    closeDiscount()
 }
 
 function removeLine(line: any) {

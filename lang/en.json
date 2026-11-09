@@ -9702,7 +9702,8 @@
             "quantity": "Quantity",
             "tax": "Tax"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system",
+        "discount": "{percent} % discount"
     },
     "invoices": {
         "alert": {
@@ -17081,7 +17082,10 @@
                 "support_access_approved": "Support access approved",
                 "support_access_denied": "Support access denied",
                 "support_access_revoked": "Support access revoked",
-                "support_access_decided": "Support access answered"
+                "support_access_decided": "Support access answered",
+                "order_discount_set": "Discount given on order: {to} % on {name}",
+                "order_discount_changed": "Discount changed on order: {from} % → {to} % on {name}",
+                "order_discount_removed": "Discount removed on order: {name}"
             }
         },
         "dataTable": {
@@ -17179,7 +17183,34 @@
             "listSubtitle": "Orders with several lines that become one order in e-conomic.",
             "empty": "No orders yet.",
             "allStatuses": "All statuses",
-            "failedCount": "{count} failed in e-conomic"
+            "failedCount": "{count} failed in e-conomic",
+            "discount": {
+                "give": "Give discount",
+                "edit": "Edit discount",
+                "percent": "Discount (%)",
+                "reason": "Reason",
+                "reasonPlaceholder": "Why does the customer get a discount? E.g. agreed at the demo",
+                "onRenewal": "Keep the discount on renewal (otherwise it renews at list price)",
+                "hint": "At most {max} %. The list price does not change. The service fee is never discounted.",
+                "preview": "New unit price {price}",
+                "save": "Save discount",
+                "remove": "Remove discount",
+                "close": "Close",
+                "reasonLine": "Discount {percent} %: {reason}",
+                "keptOnRenewal": "kept on renewal",
+                "totalsLine": "Discount {percent} % of {price}",
+                "total": "Total discount",
+                "confirm": "Total discount {total} excl. VAT: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "The discount must be between 0 and 100 %.",
+                    "percentDecimals": "Use at most two decimals.",
+                    "percentAboveMax": "The discount may be at most {max} %.",
+                    "reasonRequired": "Write a reason for the discount.",
+                    "reasonTooShort": "The reason must be at least 5 characters.",
+                    "reasonTooLong": "The reason may be at most 500 characters."
+                }
+            }
         },
         "teamMeetings": {
             "pageTitle": "Meetings",
