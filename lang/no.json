@@ -11817,6 +11817,7 @@
             "noMail": "Ingen e-post etter noen minutter? Sjekk søppelpost, eller skriv til support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Ja takk, send meg CitizenOnes nyhetsbrev. Jeg kan melde meg av med lenken i hver e-post.",
             "passwordHint": "Minst 8 tegn",
             "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
