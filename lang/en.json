@@ -13821,7 +13821,10 @@
             "unlimitedCitizens": "Unlimited number of citizens and clients",
             "storage": "{size} storage",
             "support": "Phone support on weekdays 10-14, chat and written support",
-            "extraPerMonth": "Extra: EUR {amount} per month"
+            "extraPerMonth": "Extra: EUR {amount} per month",
+            "monthly": "Monthly",
+            "annually": "Annually",
+            "frequency": "Payment frequency"
         }
     },
     "superadmin": {

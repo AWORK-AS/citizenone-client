@@ -19,99 +19,43 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
                 <div id="subscribe-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
-                <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
+                <!-- Laid out and worded as the pricing on the CitizenOne homepage. -->
+                <div class="mt-12 flex justify-center"
                     v-if="!state.isDealsHidden && userStore.getUser?.user_subscription?.type !== 'yearly'">
-                    <div class="flex justify-center">
-                        <fieldset aria-label="Payment frequency">
-                            <RadioGroup v-model="frequency"
-                                class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
-                                <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
-                                    :value="option" v-slot="{ checked }">
-                                    <div
-                                        :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-3 py-1 flex items-center justify-center gap-x-2']">
-                                        <span v-if="option.label === 'Monthly'">
-                                            {{ $t('subscription.deal.monthly') }}
+                    <fieldset :aria-label="$t('subscription.plan.frequency')">
+                        <RadioGroup v-model="frequency"
+                            class="flex gap-x-1 rounded-full bg-white p-1 text-sm font-semibold leading-5 ring-1 ring-inset ring-gray-200 shadow-sm">
+                            <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
+                                :value="option" v-slot="{ checked }">
+                                <div :data-testid="`plan-frequency-${option.value}`"
+                                    :class="[checked ? 'bg-primary-900 text-white' : 'text-gray-600 hover:text-gray-900', 'cursor-pointer rounded-full px-5 py-2 flex items-center gap-x-2 whitespace-nowrap']">
+                                    <template v-if="option.value === 'annually'">
+                                        <span>{{ $t('subscription.plan.annually') }}</span>
+                                        <!-- The yearly plan costs ten months. -->
+                                        <span class="rounded-full bg-secondary-400 px-2 py-0.5 text-xs font-semibold text-primary-900">
+                                            {{ $t('subscription.plan.saveTwoMonths') }}
                                         </span>
-                                        <template v-else-if="option.label === 'Annually'">
-                                            <span>{{ $t('subscription.deal.annually') }}</span>
-                                            <!-- As on the homepage: the yearly plan costs ten months. -->
-                                            <span class="rounded-full bg-secondary px-2 py-0.5 text-xxs font-semibold text-tertiary whitespace-nowrap">
-                                                {{ $t('subscription.plan.saveTwoMonths') }}
-                                            </span>
-                                        </template>
-                                        <span v-else>
-                                            {{ option.label }}
-                                        </span>
-                                    </div>
-                                </RadioGroupOption>
-                            </RadioGroup>
-                        </fieldset>
-                    </div>
+                                    </template>
+                                    <span v-else>{{ $t('subscription.plan.monthly') }}</span>
+                                </div>
+                            </RadioGroupOption>
+                        </RadioGroup>
+                    </fieldset>
                 </div>
-                <div v-if="state.deals?.data?.length === 1 && !state.isDealsHidden">
-                    <div class="isolate mx-auto mt-10 grid max-w-md">
-                        <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
-                            <div class="flex items-center justify-between gap-x-4">
-                                <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
-                                    {{ deal.name }}
-                                </h3>
-                            </div>
-
-                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="false" />
-                            <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
-                                    @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.selectPackage') }}
-                                </FormButton>
-                                <FormButton type="button" class="w-full" v-else @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.selectPackage') }}
-                                </FormButton>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else-if="state.deals?.data?.length === 2 && !state.isDealsHidden">
-                    <!-- Done here -->
-                    <div
-                        class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-                        <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            :class="[index === 1 ? 'relative bg-tertiary shadow-2xl' : 'bg-white/60 sm:mx-8 lg:mx-0', index === 1 ? '' : index === 0 ? 'rounded-t-3xl sm:rounded-b-none lg:rounded-bl-3xl lg:rounded-tr-none' : 'sm:rounded-t-none lg:rounded-bl-none lg:rounded-tr-3xl', 'rounded-md p-8 ring-1 ring-gray-900/10 sm:p-10']">
-                            <h3 :id="deal.id"
-                                :class="[index === 1 ? 'text-white' : 'text-tertiary', 'text-base font-semibold leading-7']">
-                                {{ deal.name }}
-                            </h3>
-                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="index === 1" />
-                            <div class="mt-8">
-                                <FormButton type="button" class="w-full" buttonStyle="primary" @click="subscribe(deal)"
-                                    v-if="index === 0">
-                                    {{ $t('subscription.deal.selectPackage') }}
-                                </FormButton>
-                                <FormButton type="button" class="w-full" buttonStyle="white" @click="subscribe(deal)"
-                                    v-else>
-                                    {{ $t('subscription.deal.selectPackage') }}
-                                </FormButton>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else v-if="!state.isDealsHidden">
-                    <div
-                        class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                        <div v-for="(deal, index) in state.deals?.data" :key="index"
-                            class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
-                            <div class="flex items-center justify-between gap-x-4">
-                                <h3 :id="deal.id" class="text-base font-semibold leading-7 text-tertiary">
-                                    {{ deal.name }}
-                                </h3>
-                            </div>
-                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="false" />
-                            <div class="mt-8">
-                                <FormButton type="button" buttonStyle="primary" class="w-full" @click="subscribe(deal)">
-                                    {{ $t('subscription.deal.selectPackage') }}
-                                </FormButton>
-                            </div>
-                        </div>
+                <div v-if="!state.isDealsHidden && (state.deals?.data?.length ?? 0) > 0"
+                    :class="['isolate mx-auto mt-10 grid grid-cols-1 gap-6',
+                        state.deals.data.length === 1 ? 'max-w-md' : state.deals.data.length === 2 ? 'max-w-md lg:max-w-4xl lg:grid-cols-2' : 'max-w-md lg:max-w-6xl lg:grid-cols-3']">
+                    <div v-for="deal in state.deals.data" :key="deal.uuid ?? deal.id" :data-testid="`plan-card-${deal.name}`"
+                        :class="[isHighlighted(deal) ? 'bg-primary-900 ring-primary-900' : 'bg-white ring-gray-200', 'rounded-2xl p-8 ring-1 shadow-sm']">
+                        <h3 :id="deal.id" :class="[isHighlighted(deal) ? 'text-white' : 'text-gray-900', 'text-lg font-semibold leading-7']">
+                            {{ deal.name }}
+                        </h3>
+                        <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="isHighlighted(deal)">
+                            <button type="button" @click="subscribe(deal)"
+                                :class="[isHighlighted(deal) ? 'bg-secondary-400 text-primary-900 hover:bg-secondary-300' : 'bg-primary text-white hover:bg-primary-600', 'w-full rounded-lg px-4 py-3 text-sm font-semibold transition-colors']">
+                                {{ $t('subscription.deal.selectPackage') }}
+                            </button>
+                        </ModulesUserSubscriptionPlanDetails>
                     </div>
                 </div>
                 <div class="mt-5" v-if="!state.isDealsHidden" @click="state.modal.isEnterCouponShow = true">
@@ -173,6 +117,11 @@ const frequencies = [
     { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
 const frequency = ref(frequencies[0])
+
+// The dark, highlighted card, as Pro is on the homepage.
+function isHighlighted(deal: any) {
+    return deal?.name === 'Pro'
+}
 
 onMounted(() => {
     fetchDeals()

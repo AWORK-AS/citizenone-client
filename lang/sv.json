@@ -13790,7 +13790,10 @@
             "unlimitedCitizens": "Obegränsat antal medborgare och klienter",
             "storage": "{size} lagringsutrymme",
             "support": "Telefonsupport vardagar kl. 10-14, chatt och skriftlig support",
-            "extraPerMonth": "Extra: {amount} kr. per månad"
+            "extraPerMonth": "Extra: {amount} kr. per månad",
+            "monthly": "Månadsvis",
+            "annually": "Årsvis",
+            "frequency": "Betalningsfrekvens"
         }
     },
     "superadmin": {

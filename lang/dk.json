@@ -13821,7 +13821,10 @@
             "unlimitedCitizens": "Ubegrænset antal borgere og klienter",
             "storage": "{size} lagerplads",
             "support": "Support på telefon hverdage kl. 10-14, chat og skriftlig support",
-            "extraPerMonth": "Ekstra: {amount} kr. pr. måned"
+            "extraPerMonth": "Ekstra: {amount} kr. pr. måned",
+            "monthly": "Månedlig",
+            "annually": "Årlig",
+            "frequency": "Betalingsfrekvens"
         }
     },
     "superadmin": {

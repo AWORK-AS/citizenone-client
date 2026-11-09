@@ -67,6 +67,11 @@ describe('what the plan includes', () => {
         assert.equal(features.length, 5)
     })
 
+    test('counts the admin in, as the plans list sends it apart (1 admin + 1 user on Basis, 1 + 3 on Pro)', () => {
+        assert.deepEqual(planFeatures({ ...basis, admin: 1, users: 1 })[0].params, { count: 2, max: 4 })
+        assert.deepEqual(planFeatures({ ...pro, admin: 1, users: 3 })[0].params, { count: 4 })
+    })
+
     test('a cap the deal carries itself wins', () => {
         assert.deepEqual(planFeatures({ ...pro, max_users: 10 })[0].params, { count: 4, max: 10 })
     })

@@ -9,6 +9,8 @@ export type PlanFrequency = 'monthly' | 'annually'
 
 export interface PlanDeal {
     name?: string
+    /** The plans list (GET /deals) counts the admin apart: 1 admin + 1 user on Basis. A plan read from the database has no admin and users is everyone. */
+    admin?: number | string | null
     users?: number | string | null
     max_users?: number | string | null
     departments?: number | string | null
@@ -59,7 +61,8 @@ export function planTaglineKey(deal: PlanDeal | null | undefined): string {
 
 /** What the plan includes, top to bottom, as the homepage lists it. */
 export function planFeatures(deal: PlanDeal | null | undefined): PlanFeature[] {
-    const users = toNumber(deal?.users)
+    // Everyone, admin included, as the homepage counts them ("alle roller").
+    const users = toNumber(deal?.users) + toNumber(deal?.admin)
     const maxUsers = toNumber(deal?.max_users) || MAX_USERS_BY_PLAN[deal?.name ?? ''] || 0
     const departments = toNumber(deal?.departments)
 
