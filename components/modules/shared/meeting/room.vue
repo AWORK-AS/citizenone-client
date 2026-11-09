@@ -92,8 +92,8 @@
         </div>
 
         <!-- In the meeting: a dark stage with the people, chat beside, controls below. -->
-        <div v-else-if="state.phase === 'connected' || state.phase === 'connecting'"
-            class="relative rounded-2xl bg-[#0b1726] p-3 sm:p-4 space-y-3">
+        <div v-else-if="state.phase === 'connected' || state.phase === 'connecting'" ref="stage"
+            class="relative bg-[#0b1726] p-3 sm:p-4 space-y-3" :class="state.fullscreen ? 'h-screen overflow-y-auto' : 'rounded-2xl'">
             <div class="flex items-center justify-between gap-3 text-white/80 text-sm min-h-7">
                 <div class="flex items-center gap-2">
                     <span v-if="state.recording" class="inline-flex items-center gap-1.5 rounded-full bg-red-600/90 px-2.5 py-1 text-xs font-medium text-white">
@@ -115,20 +115,24 @@
 
             <div v-else class="flex flex-col lg:flex-row gap-3">
                 <div class="flex-1 min-w-0 space-y-3">
-                    <!-- A shared screen is shown large, everyone else beside it. -->
-                    <div v-if="screenTile" class="grid grid-cols-1 xl:grid-cols-4 gap-3">
-                        <MeetingTile class="xl:col-span-3" :key="screenTile.key" :track="screenTile.track" :label="screenTile.label"
-                            :is-local="screenTile.isLocal" is-screen />
+                    <!-- A shared screen, or the person in focus, is shown large and everyone else beside it. -->
+                    <div v-if="mainTile" class="grid grid-cols-1 xl:grid-cols-4 gap-3">
+                        <MeetingTile class="xl:col-span-3" :key="mainTile.key" :track="mainTile.track" :label="mainTile.label"
+                            :is-local="mainTile.isLocal" :is-screen="mainTile.isScreen" :microphone-muted="mainTile.microphoneMuted"
+                            :speaking="mainTile.speaking" :hand-raised="mainTile.handRaised" :reaction="state.reactions[mainTile.identity]?.emoji"
+                            focusable :focused="state.focused === mainTile.key" @toggle-focus="toggleFocus(mainTile.key)" />
                         <div class="grid grid-cols-2 xl:grid-cols-1 gap-3 content-start">
-                            <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
-                                :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
-                                :hand-raised="tile.handRaised" />
+                            <MeetingTile v-for="tile in sideTiles" :key="tile.key" :track="tile.track" :label="tile.label"
+                                :is-local="tile.isLocal" :is-screen="tile.isScreen" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
+                                :hand-raised="tile.handRaised" :reaction="state.reactions[tile.identity]?.emoji"
+                                focusable :focused="false" @toggle-focus="toggleFocus(tile.key)" />
                         </div>
                     </div>
                     <div v-else class="grid gap-3" :class="gridClass">
                         <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
                             :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
-                            :hand-raised="tile.handRaised" />
+                            :hand-raised="tile.handRaised" :reaction="state.reactions[tile.identity]?.emoji"
+                            :focusable="cameraTiles.length > 1" :focused="false" @toggle-focus="toggleFocus(tile.key)" />
                     </div>
                     <p v-if="cameraTiles.length === 1" class="text-center text-sm text-white/60">
                         {{ $t('meetings.room.aloneInMeeting') }}
@@ -267,6 +271,23 @@
                 <button type="button" :class="roundButton(false, false, handRaisedByMe)" :aria-pressed="handRaisedByMe"
                     :title="handRaisedByMe ? $t('meetings.room.lowerHand') : $t('meetings.room.raiseHand')" @click="toggleHand">
                     <Icon :name="handRaisedByMe ? 'ph:hand-palm-fill' : 'ph:hand-palm'" class="h-5 w-5" />
+                </button>
+                <!-- Reactions: a short emoji on the sender's picture, nothing stored. -->
+                <div class="relative">
+                    <button type="button" :class="roundButton(false, false, state.reactionsOpen)" :aria-pressed="state.reactionsOpen"
+                        aria-haspopup="true" :title="$t('meetings.room.react')" @click="state.reactionsOpen = !state.reactionsOpen">
+                        <Icon name="ph:smiley" class="h-5 w-5" />
+                    </button>
+                    <div v-if="state.reactionsOpen" role="menu"
+                        class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-10 flex gap-1 rounded-full bg-white px-2 py-1.5 shadow-lg">
+                        <button v-for="emoji in REACTIONS" :key="emoji" type="button" role="menuitem"
+                            class="h-9 w-9 rounded-full text-xl hover:bg-gray-100 transition-transform hover:scale-110"
+                            :aria-label="$t(`meetings.room.reactions.${REACTION_NAMES[emoji]}`)" @click="react(emoji)">{{ emoji }}</button>
+                    </div>
+                </div>
+                <button v-if="fullscreenSupported" type="button" :class="roundButton(false, false, state.fullscreen)" :aria-pressed="state.fullscreen"
+                    :title="state.fullscreen ? $t('meetings.room.exitFullscreen') : $t('meetings.room.fullscreen')" @click="toggleFullscreen">
+                    <Icon :name="state.fullscreen ? 'ph:corners-in' : 'ph:corners-out'" class="h-5 w-5" />
                 </button>
                 <button type="button" class="relative" :class="roundButton(false, false, state.chatOpen)" :aria-pressed="state.chatOpen"
                     :title="$t('meetings.room.chat')" @click="toggleChat">
@@ -408,6 +429,12 @@ const state = reactive({
     unread: 0,
     // Raised hands by participant identity.
     hands: {} as Record<string, boolean>,
+    // The latest reaction per participant identity, shown for a few seconds.
+    reactions: {} as Record<string, { emoji: string, id: number }>,
+    reactionsOpen: false,
+    // The tile shown large (a camera or a shared screen), chosen by the viewer.
+    focused: null as string | null,
+    fullscreen: false,
     // Bumped on every room event; the tiles are recomputed from the room.
     version: 0,
 })
@@ -416,7 +443,7 @@ watch(() => props.isWaiting, (waiting) => {
     if (waiting && state.phase === 'prejoin') state.phase = 'waiting'
 })
 
-type Tile = { key: string, track: any, label: string, isLocal: boolean, microphoneMuted: boolean, speaking: boolean, handRaised?: boolean }
+type Tile = { key: string, identity: string, track: any, label: string, isLocal: boolean, isScreen?: boolean, microphoneMuted: boolean, speaking: boolean, handRaised?: boolean }
 
 function participants(): Participant[] {
     const r = room.value
@@ -429,6 +456,7 @@ const cameraTiles = computed<Tile[]>(() => {
     const r = room.value
     return participants().map((participant) => ({
         key: participant.identity,
+        identity: participant.identity,
         track: participant.getTrackPublication(Track.Source.Camera)?.track ?? null,
         label: (participant === r?.localParticipant
             ? t('meetings.room.you', { name: participant.name || '' })
@@ -448,6 +476,8 @@ const screenTile = computed<Tile | null>(() => {
         if (track) {
             return {
                 key: `${participant.identity}-screen`,
+                identity: participant.identity,
+                isScreen: true,
                 track,
                 label: t('meetings.room.sharedBy', { name: participant.name || participant.identity }),
                 isLocal: participant === room.value?.localParticipant,
@@ -458,6 +488,24 @@ const screenTile = computed<Tile | null>(() => {
     }
     return null
 })
+
+/*
+ * What is shown large: the tile the viewer put in focus, else a shared
+ * screen. Everyone else (and the screen, when someone is in focus) beside it.
+ */
+const mainTile = computed<Tile | null>(() => {
+    const all = [...(screenTile.value ? [screenTile.value] : []), ...cameraTiles.value]
+    return all.find((tile) => tile.key === state.focused) ?? screenTile.value
+})
+
+const sideTiles = computed<Tile[]>(() => {
+    const main = mainTile.value
+    return [...(screenTile.value ? [screenTile.value] : []), ...cameraTiles.value].filter((tile) => tile.key !== main?.key)
+})
+
+function toggleFocus(key: string) {
+    state.focused = state.focused === key ? null : key
+}
 
 const gridClass = computed(() => {
     const count = cameraTiles.value.length
@@ -721,6 +769,9 @@ function onData(payload: Uint8Array, participant?: RemoteParticipant) {
         state.hands[participant.identity] = !!message.raised
         refresh()
     }
+    if (message?.type === 'reaction' && participant && REACTIONS.includes(message.emoji)) {
+        showReaction(participant.identity, message.emoji)
+    }
 }
 
 async function send(message: object) {
@@ -821,6 +872,51 @@ async function toggleHand() {
     refresh()
     await send({ type: 'hand', raised })
 }
+
+/* Reactions: only these, so a message cannot put anything else on screen. */
+const REACTIONS = ['👍', '❤️', '😂', '👏', '🎉', '😮']
+const REACTION_NAMES: Record<string, string> = { '👍': 'thumbsUp', '❤️': 'heart', '😂': 'laugh', '👏': 'clap', '🎉': 'celebrate', '😮': 'wow' }
+const REACTION_MS = 3500
+let reactionSeq = 0
+
+function showReaction(identity: string, emoji: string) {
+    const id = ++reactionSeq
+    state.reactions[identity] = { emoji, id }
+    setTimeout(() => {
+        if (state.reactions[identity]?.id === id) delete state.reactions[identity]
+    }, REACTION_MS)
+}
+
+async function react(emoji: string) {
+    state.reactionsOpen = false
+    const identity = room.value?.localParticipant.identity
+    if (!identity) return
+    showReaction(identity, emoji)
+    await send({ type: 'reaction', emoji })
+}
+
+/* Fullscreen: the whole stage, controls included, so nothing is out of reach. */
+const stage = ref<HTMLDivElement>()
+const fullscreenSupported = ref(false)
+
+async function toggleFullscreen() {
+    try {
+        if (document.fullscreenElement) await document.exitFullscreen()
+        else await stage.value?.requestFullscreen()
+    } catch {
+        // Refused by the browser (e.g. inside a frame): the button just does nothing.
+    }
+}
+
+function onFullscreenChange() {
+    state.fullscreen = !!document.fullscreenElement && document.fullscreenElement === stage.value
+}
+
+onMounted(() => {
+    fullscreenSupported.value = !!document.fullscreenEnabled
+    document.addEventListener('fullscreenchange', onFullscreenChange)
+})
+onBeforeUnmount(() => document.removeEventListener('fullscreenchange', onFullscreenChange))
 
 
 /*

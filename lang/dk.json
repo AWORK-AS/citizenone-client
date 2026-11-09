@@ -22496,7 +22496,20 @@
             "fileNotSent": "Filen kunne ikke sendes. Prøv igen.",
             "joinedElsewhere": "Du er gået ind i mødet fra et andet vindue eller en anden enhed, så denne forbindelse er lukket.",
             "microphoneFailed": "Mikrofonen kunne ikke startes. Du er med i mødet uden lyd.",
-            "cameraFailed": "Kameraet kunne ikke startes. Du er med i mødet uden video."
+            "cameraFailed": "Kameraet kunne ikke startes. Du er med i mødet uden video.",
+            "react": "Reaktion",
+            "fullscreen": "Fuld skærm",
+            "exitFullscreen": "Afslut fuld skærm",
+            "focus": "Vis stort",
+            "unfocus": "Tilbage i rækken",
+            "reactions": {
+                "thumbsUp": "Tommel op",
+                "heart": "Hjerte",
+                "laugh": "Grin",
+                "clap": "Klap",
+                "celebrate": "Fejr",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} fra {company} har inviteret dig til et online møde.",

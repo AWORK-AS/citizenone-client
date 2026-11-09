@@ -22411,7 +22411,20 @@
             "fileNotSent": "Filen kunne ikke sendes. Prøv igjen.",
             "joinedElsewhere": "Du har gått inn i møtet fra et annet vindu eller en annen enhet, så denne tilkoblingen er lukket.",
             "microphoneFailed": "Mikrofonen kunne ikke startes. Du er med i møtet uten lyd.",
-            "cameraFailed": "Kameraet kunne ikke startes. Du er med i møtet uten video."
+            "cameraFailed": "Kameraet kunne ikke startes. Du er med i møtet uten video.",
+            "react": "Reaksjon",
+            "fullscreen": "Fullskjerm",
+            "exitFullscreen": "Avslutt fullskjerm",
+            "focus": "Vis stort",
+            "unfocus": "Tilbake i raden",
+            "reactions": {
+                "thumbsUp": "Tommel opp",
+                "heart": "Hjerte",
+                "laugh": "Latter",
+                "clap": "Klapp",
+                "celebrate": "Feire",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} fra {company} har invitert deg til et nettmøte.",
