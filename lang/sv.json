@@ -9702,7 +9702,8 @@
             "quantity": "Mängd",
             "tax": "Moms"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "Denna faktura är allerede betald via din valda betalingsmetode i CitizenOne™ systemet"
+        "thisInvoiceHasAlreadyBeenPaid": "Denna faktura är allerede betald via din valda betalingsmetode i CitizenOne™ systemet",
+        "discount": "{percent} % rabatt"
     },
     "invoices": {
         "alert": {
@@ -16953,7 +16954,10 @@
                 "support_access_approved": "Supportåtkomst godkänd",
                 "support_access_denied": "Supportåtkomst nekad",
                 "support_access_revoked": "Supportåtkomst återkallad",
-                "support_access_decided": "Supportåtkomst besvarad"
+                "support_access_decided": "Supportåtkomst besvarad",
+                "order_discount_set": "Rabatt given på order: {to} % på {name}",
+                "order_discount_changed": "Rabatt ändrad på order: {from} % → {to} % på {name}",
+                "order_discount_removed": "Rabatt borttagen på order: {name}"
             }
         },
         "dataTable": {
@@ -17051,7 +17055,34 @@
             "listSubtitle": "Ordrar med flera rader som blir en order i e-conomic.",
             "empty": "Inga ordrar ännu.",
             "allStatuses": "Alla statusar",
-            "failedCount": "{count} misslyckades i e-conomic"
+            "failedCount": "{count} misslyckades i e-conomic",
+            "discount": {
+                "give": "Ge rabatt",
+                "edit": "Ändra rabatt",
+                "percent": "Rabatt (%)",
+                "reason": "Motivering",
+                "reasonPlaceholder": "Varför får kunden rabatt? T.ex. avtalat vid demo",
+                "onRenewal": "Behåll rabatten vid förnyelse (annars förnyas till listpris)",
+                "hint": "Högst {max} %. Listpriset ändras inte. Serviceavgiften får aldrig rabatt.",
+                "preview": "Nytt styckpris {price}",
+                "save": "Spara rabatt",
+                "remove": "Ta bort rabatt",
+                "close": "Stäng",
+                "reasonLine": "Rabatt {percent} %: {reason}",
+                "keptOnRenewal": "behålls vid förnyelse",
+                "totalsLine": "Rabatt {percent} % av {price}",
+                "total": "Rabatt totalt",
+                "confirm": "Rabatt totalt {total} exkl. moms: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "Rabatten måste vara mellan 0 och 100 %.",
+                    "percentDecimals": "Använd högst två decimaler.",
+                    "percentAboveMax": "Rabatten får vara högst {max} %.",
+                    "reasonRequired": "Skriv en motivering för rabatten.",
+                    "reasonTooShort": "Motiveringen måste vara minst 5 tecken.",
+                    "reasonTooLong": "Motiveringen får vara högst 500 tecken."
+                }
+            }
         },
         "teamMeetings": {
             "pageTitle": "Möten",
