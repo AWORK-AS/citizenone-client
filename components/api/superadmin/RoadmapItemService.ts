@@ -21,6 +21,18 @@ class RoadmapItemService extends BaseAPIService {
         return await this.request(`/superadmin/roadmap-items/${uuid}`, 'DELETE')
     }
 
+    async importRoadmapItems(items: object[], dryRun: boolean): Promise<any> {
+        return await this.request(`/superadmin/roadmap-items/import`, 'POST', { items, dry_run: dryRun })
+    }
+
+    async addRoadmapRequest(uuid: string, params: object): Promise<any> {
+        return await this.request(`/superadmin/roadmap-items/${uuid}/requests`, 'POST', params)
+    }
+
+    async removeRoadmapRequest(uuid: string, requestUuid: string): Promise<any> {
+        return await this.request(`/superadmin/roadmap-items/${uuid}/requests/${requestUuid}`, 'DELETE')
+    }
+
     async reorderRoadmapItems(items: { uuid: string, sort_order: number }[]): Promise<any> {
         return await this.request(`/superadmin/roadmap-items/reorder`, 'POST', { items })
     }

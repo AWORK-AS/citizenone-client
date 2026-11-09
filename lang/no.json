@@ -303,7 +303,10 @@
             "in_progress": "Pågår",
             "planned": "Planlagt",
             "released": "Lansert"
-        }
+        },
+        "wantThisToo": "Det vil vi også ha",
+        "interested": "Dere ønsker denne",
+        "interestCount": "{count} virksomhet ønsker denne | {count} virksomheter ønsker denne"
     },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
@@ -14096,6 +14099,68 @@
                 "industriesHint": "La feltet stå tomt for å vise punktet for alle bransjer.",
                 "published": "Vis for brukerne",
                 "publishedHint": "Utkast er bare synlige her i superadmin."
+            },
+            "requestCount": "{count} wishes",
+            "internal": {
+                "title": "Internal (only CitizenOne)",
+                "hint": "Never shown to users. Users only see how many companies want the item.",
+                "category": "Category",
+                "priority": "Priority",
+                "stage": "Development stage",
+                "owner": "Owner",
+                "ticket": "Ticket",
+                "eta": "Internal ETA",
+                "important": "Important",
+                "originalText": "Original request",
+                "notes": "Internal notes",
+                "source": "Imported from {source} ({ref})",
+                "requests": "Customers who want it ({count})",
+                "addRequestPlaceholder": "Customer name - matched to the customer if it exists",
+                "removeRequest": "Remove"
+            },
+            "categories": {
+                "feature": "New function",
+                "improvement": "Improvement",
+                "integration": "Integration",
+                "bug": "Error"
+            },
+            "priorities": {
+                "top": "Top",
+                "high": "High",
+                "medium": "Medium",
+                "low": "Low"
+            },
+            "stages": {
+                "idea": "Idea",
+                "ready": "Ready for development",
+                "in_development": "In development",
+                "qa": "QA",
+                "staging": "Staging",
+                "live": "Live"
+            },
+            "filters": {
+                "search": "Search title, customer, notes ...",
+                "allCategories": "All categories",
+                "allPriorities": "All priorities",
+                "allStages": "All stages",
+                "publishedAndDrafts": "Published and drafts",
+                "importantOnly": "Important only"
+            },
+            "sort": {
+                "manual": "Users' order",
+                "priority": "Priority",
+                "requests": "Most wishes"
+            },
+            "import": {
+                "button": "Import",
+                "title": "Import roadmap items",
+                "intro": "Choose a JSON file with items. All items are created as drafts, and items already imported are skipped - nothing existing is changed.",
+                "wouldCreate": "{count} new items will be created as drafts",
+                "created": "{count} items created as drafts",
+                "skipped": "{count} already imported - skipped",
+                "matched": "{count} customers matched to a company",
+                "unmatched": "Not matched (saved by name)",
+                "confirm": "Import {count} items"
             }
         },
         "accounts": {
