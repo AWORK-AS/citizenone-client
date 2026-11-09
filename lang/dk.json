@@ -18271,6 +18271,7 @@
             "descriptionPlaceholder": "Vises til @:terms.citizenDefinite{''} før spørgsmålene",
             "question": "Spørgsmål",
             "questionPlaceholder": "Skriv dit spørgsmål her",
+            "headingPlaceholder": "Overskrift, f.eks. Hårtab",
             "option": "Svarmulighed",
             "addOption": "Tilføj svarmulighed",
             "score": "Point",
@@ -18300,7 +18301,8 @@
                 "datefield": "Dato",
                 "choice": "Enkeltvalg",
                 "checkbox": "Flervalg",
-                "rating": "Vurdering"
+                "rating": "Vurdering",
+                "heading": "Overskrift"
             }
         },
         "citizen": {

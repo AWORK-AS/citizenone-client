@@ -60,8 +60,38 @@
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
             <div class="space-y-8" v-if="state.survey.questions.length > 0">
                 <div v-for="(question, qi) in state.survey.questions" :key="question.key"
-                    class="bg-gray-100 rounded-md border-t-2 border-primary"
+                    class="rounded-md border-t-2"
+                    :class="question.type === 'heading' ? 'bg-primary/5 border-primary/40' : 'bg-gray-100 border-primary'"
                     :style="{ marginLeft: `${depthOf(question) * 2}rem` }">
+                    <!-- A heading groups the questions below it under a topic; it is read, not answered. -->
+                    <div v-if="question.type === 'heading'" class="p-5 space-y-3" :data-testid="`survey-heading-${qi}`">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                                {{ $t('surveys.builder.types.heading') }}
+                            </span>
+                            <div class="flex items-center gap-x-1">
+                                <button type="button" :disabled="adjacentSibling(qi, -1) === undefined"
+                                    class="disabled:opacity-30" :title="$t('surveys.builder.moveUp')"
+                                    :aria-label="$t('surveys.builder.moveUp')" @click="moveQuestion(qi, -1)">
+                                    <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <button type="button" :disabled="adjacentSibling(qi, 1) === undefined"
+                                    class="disabled:opacity-30" :title="$t('surveys.builder.moveDown')"
+                                    :aria-label="$t('surveys.builder.moveDown')" @click="moveQuestion(qi, 1)">
+                                    <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <button type="button" :title="$t('delete')" :aria-label="$t('delete')"
+                                    @click="removeQuestion(qi)">
+                                    <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </div>
+                        </div>
+                        <FormTextField :name="`q_${qi}`" class="font-semibold"
+                            :placeholder="$t('surveys.builder.headingPlaceholder')" v-model="question.value" />
+                        <FormError
+                            :error="state.submitted && !String(question.value ?? '').trim() ? $t('validation.thisFieldIsRequired') + '.' : ''" />
+                    </div>
+                    <template v-else>
                     <div class="p-5 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
@@ -173,6 +203,7 @@
                             </div>
                         </button>
                     </div>
+                    </template>
                 </div>
             </div>
 
@@ -211,6 +242,14 @@
                         <div class="flex items-center gap-x-2 text-sm">
                             <Icon :name="type.icon" class="w-5 h-5 text-primary" aria-hidden="true" />
                             {{ type.label }}
+                        </div>
+                    </button>
+                    <button type="button" data-testid="survey-add-heading"
+                        class="px-5 py-4 border border-primary rounded-md bg-primary/5 hover:bg-primary/10"
+                        @click="addHeading()">
+                        <div class="flex items-center gap-x-2 text-sm">
+                            <Icon name="ph:text-h" class="w-5 h-5 text-primary" aria-hidden="true" />
+                            {{ $t('surveys.builder.types.heading') }}
                         </div>
                     </button>
                 </div>
@@ -318,11 +357,13 @@ function moveQuestion(index: number, direction: -1 | 1) {
 }
 
 // 1, 2, 2.1, 2.2, 3 ... so a follow-up reads as belonging to its parent.
+// Headings are not questions and take no number.
 const questionNumbers = computed(() => {
     const numbers = new Map<string, string>()
     const childCounts = new Map<string, number>()
     let top = 0
     return state.survey.questions.map((q: any) => {
+        if (q.type === 'heading') return ''
         const parent = parentOf(q)
         let number: string
         if (parent && numbers.has(parent.key)) {
@@ -377,6 +418,12 @@ function makeQuestion(type: string) {
 
 function addQuestion(type: string) {
     state.survey.questions.push(makeQuestion(type))
+    state.showAdder = false
+}
+
+// A heading such as "Hair loss" or "Mental health" that groups the questions after it.
+function addHeading() {
+    state.survey.questions.push({ key: newKey(), type: 'heading', value: '', required: false })
     state.showAdder = false
 }
 
@@ -452,6 +499,11 @@ function cleanScoreRanges(ranges: any[]) {
 
 function normalizeQuestions(questions: any[]) {
     return questions.map((q: any) => {
+        if (q.type === 'heading') {
+            const heading: any = { type: 'heading', value: String(q.value ?? '').trim(), required: false, key: q.key }
+            if (q.uuid) heading.uuid = q.uuid
+            return heading
+        }
         const out: any = { type: q.type, value: q.value, required: !!q.required, key: q.key }
         if (q.uuid) out.uuid = q.uuid
         if (q.show_if) out.show_if = { question: q.show_if.question, options: [...q.show_if.options] }
@@ -478,7 +530,8 @@ function submitForm() {
     v$.value.$validate()
     state.submitted = true
     const followUpWithoutCondition = state.survey.questions.some((q: any) => q.show_if && q.show_if.options.length === 0)
-    if (v$.value.$error || state.survey.questions.length === 0 || followUpWithoutCondition) return
+    const emptyHeading = state.survey.questions.some((q: any) => q.type === 'heading' && !String(q.value ?? '').trim())
+    if (v$.value.$error || state.survey.questions.length === 0 || followUpWithoutCondition || emptyHeading) return
     emit('submitForm', {
         title: state.survey.title,
         description: state.survey.description,

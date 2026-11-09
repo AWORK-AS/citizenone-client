@@ -293,7 +293,7 @@
                         <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
                         <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
                             :questions="assignment?.survey?.questions ?? []"
-                            :answers="state.surveyAnswers[assignment.uuid]" />
+                            :answers="state.surveyAnswers[assignment.uuid]" withLayout />
                     </div>
                 </div>
             </div>

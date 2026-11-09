@@ -18271,6 +18271,7 @@
             "descriptionPlaceholder": "Shown to the @:terms.citizen{''} before the questions",
             "question": "Question",
             "questionPlaceholder": "Enter your question here",
+            "headingPlaceholder": "Heading, e.g. Hair loss",
             "option": "Option",
             "addOption": "Add option",
             "score": "Score",
@@ -18300,7 +18301,8 @@
                 "datefield": "Date",
                 "choice": "Single choice",
                 "checkbox": "Multiple choice",
-                "rating": "Rating"
+                "rating": "Rating",
+                "heading": "Heading"
             }
         },
         "citizen": {
