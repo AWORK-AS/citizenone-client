@@ -15223,7 +15223,8 @@
                     "manual_invoice": "Afventer valg (aftale)",
                     "card": "Kort (manuel)",
                     "none": "Uden betaling",
-                    "included": "Inkluderet"
+                    "included": "Inkluderet",
+                    "economic_draft": "Kladde til økonomi"
                 },
                 "status": {
                     "pending": "Afventer",
@@ -17064,6 +17065,77 @@
             "retry": "Prøv igen",
             "all": "Alle",
             "dismiss": "Luk"
+        },
+        "companyOrders": {
+            "title": "Ordre",
+            "new": "Ny ordre",
+            "back": "Tilbage til licenser",
+            "entryHint": "Kunden betaler på faktura: saml flere produkter i én ordre, så de bliver én fakturakladde med ét fakturagebyr.",
+            "grantHint": "Skal kunden have flere produkter? Opret en ordre i stedet, så det bliver én faktura med ét fakturagebyr.",
+            "createdBy": "Oprettet af {name} {date}",
+            "completedBy": "gennemført af {name} {date}",
+            "invoice": "Faktura #{number}",
+            "lines": "Ordrelinjer",
+            "noLines": "Ingen linjer endnu. Tilføj et produkt nedenfor.",
+            "product": "Produkt",
+            "pickProduct": "Vælg produkt",
+            "listPrice": "{price} pr. år",
+            "addLine": "Tilføj linje",
+            "remove": "Fjern linje",
+            "col": {
+                "product": "Produkt",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "amount": "Beløb",
+                "date": "Dato",
+                "company": "Virksomhed",
+                "products": "Produkter",
+                "total": "I alt inkl. moms",
+                "status": "Status"
+            },
+            "billingDraft": "Én fakturakladde sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+            "billingFree": "Alt er inkluderet i planen. Der faktureres intet.",
+            "noQuote": "Ingen pris endnu.",
+            "complete": "Gennemfør ordre",
+            "retry": "Prøv igen",
+            "cancel": "Annullér kladde",
+            "open": "Åbn",
+            "cancelConfirm": "Kladden annulleres. Kunden får intet, og der faktureres intet.",
+            "confirm": {
+                "title": "Gennemfør ordre?",
+                "body": "Kunden får {seats} licenser nu. Én fakturakladde på {amount} inkl. moms sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+                "bodyFree": "Kunden får {seats} licenser nu. Alt er inkluderet i planen, så der sendes ingen faktura."
+            },
+            "completed": "Ordren er gennemført. Licenserne er aktive.",
+            "retried": "Kladden sendes til e-conomic igen.",
+            "cancelled": "Kladden er annulleret.",
+            "saveFailed": "Ordren kunne ikke gemmes.",
+            "loadFailed": "Ordren kunne ikke hentes.",
+            "status": {
+                "draft": "Kladde",
+                "completed": "Gennemført",
+                "transferred": "Overført til e-conomic",
+                "failed": "Fejl i e-conomic",
+                "cancelled": "Annulleret"
+            },
+            "economic": {
+                "notYet": "Ikke sendt endnu",
+                "pending": "Sendes til e-conomic…",
+                "none": "Ingen faktura",
+                "draft": "Kladde nr. {number}",
+                "booked": "Bogført som faktura {number}",
+                "failed": "Fejl: {reason}"
+            },
+            "refusal": {
+                "superadmin_order_not_invoice_company": "Ordrer er kun for kunder, der betaler på faktura.",
+                "superadmin_order_economic_off": "e-conomic er slået fra.",
+                "superadmin_order_no_customer_number": "Kunden mangler et e-conomic kundenummer."
+            },
+            "listTitle": "Ordrer fra superadmin",
+            "listSubtitle": "Ordrer med flere linjer, der bliver én fakturakladde i e-conomic.",
+            "empty": "Ingen ordrer endnu.",
+            "allStatuses": "Alle statusser",
+            "failedCount": "{count} fejlet i e-conomic"
         },
         "teamMeetings": {
             "pageTitle": "Møder",

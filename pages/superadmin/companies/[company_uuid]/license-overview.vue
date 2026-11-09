@@ -12,8 +12,17 @@
                 <ModulesSuperadminCompanyHeader />
 
 
-                <div v-if="canManageLicenses" class="flex justify-end mb-4">
-                    <FormButton buttonStyle="action" @click="openGrantModal">
+                <div v-if="canManageLicenses || canCreateOrder" class="flex flex-wrap items-center justify-end gap-2 mb-4">
+                    <!-- An invoice customer gets one order: one invoice, one fee, one e-conomic draft. -->
+                    <p v-if="canCreateOrder" class="text-[12px] text-ink-muted mr-auto">
+                        {{ $t('superadmin.companyOrders.entryHint') }}
+                    </p>
+                    <FormButton v-if="canCreateOrder" buttonStyle="primary" :disabled="state.creatingOrder"
+                        @click="createOrder" data-testid="new-order">
+                        <Icon name="ph:shopping-cart" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.companyOrders.new') }}
+                    </FormButton>
+                    <FormButton v-if="canManageLicenses" buttonStyle="action" @click="openGrantModal">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.companies.licenseOverview.grant.addLicenses') }}
                     </FormButton>
@@ -417,6 +426,10 @@
                         </div>
                     </LoadingSpinner>
                 </div>
+
+                <div v-if="orderFlow && canViewFinancials" class="mt-8">
+                    <ModulesSuperadminOrdersCompanyOrders :companyUuid="companyUuid" />
+                </div>
             </div>
 
             <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.grant.addLicenses')"
@@ -426,6 +439,17 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.description') }}
                         </p>
+                        <div v-if="canCreateOrder" class="flex items-start gap-2 rounded-lg border border-line bg-accent-soft px-3 py-2 text-[13px] text-ink"
+                            data-testid="grant-order-hint">
+                            <Icon name="ph:shopping-cart" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
+                            <div class="space-y-1">
+                                <p>{{ $t('superadmin.companyOrders.grantHint') }}</p>
+                                <button type="button" class="font-semibold text-secondary hover:underline" :disabled="state.creatingOrder"
+                                    @click="state.grant.isOpen = false; createOrder()">
+                                    {{ $t('superadmin.companyOrders.new') }}
+                                </button>
+                            </div>
+                        </div>
                         <p class="text-sm font-semibold text-gray-900">
                             {{ state.activeLicenseType === 'department'
                                 ? $t('superadmin.companies.licenseOverview.departmentLicenses')
@@ -897,6 +921,8 @@
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
 import { billingService } from '@/components/api/superadmin/BillingService'
+import { companyOrderService } from '@/components/api/superadmin/CompanyOrderService'
+import { offersOrderFlow } from '@/composables/superadminOrder'
 import { errorMessageKey, type CompanyBilling } from '@/composables/billingMethod'
 import {
     CREATE_AGREEMENT,
@@ -939,6 +965,7 @@ function formatDate(value?: string | null): string {
 let currentTablePage = 1
 
 const state = reactive({
+    creatingOrder: false,
     activeLicenseType: 'user' as 'user' | 'department',
     columnHeaders: [
         { name: 'superadmin.companies.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
@@ -1068,6 +1095,23 @@ const formatNumber = (value: unknown) =>
     new Intl.NumberFormat('da-DK', { maximumFractionDigits: 0 }).format(Number(value) || 0)
 
 const canManageCompanies = computed(() => can('manage_companies'))
+
+// Invoice customers build one order (several lines, one invoice, one fee) instead
+// of a grant per product; card customers keep the one-off dialog.
+const orderFlow = computed(() => offersOrderFlow(billing.value?.billing_method))
+const canCreateOrder = computed(() => orderFlow.value && can('manage_financials'))
+
+async function createOrder() {
+    if (state.creatingOrder) return
+    state.creatingOrder = true
+    try {
+        const response = await companyOrderService.create(companyUuid as string)
+        await navigateTo(`/superadmin/companies/${companyUuid}/orders/${response?.data?.uuid}`)
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companyOrders.saveFailed'))
+    }
+    state.creatingOrder = false
+}
 
 const grantStoragePackageOptions = computed(() =>
     state.grantStorage.packages.map((pkg: any) => ({

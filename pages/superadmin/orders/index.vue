@@ -182,6 +182,9 @@
                     </ModulesSuperadminDataTable>
                 </div>
 
+                <!-- Superadmin orders: several lines, one invoice, one e-conomic draft. -->
+                <ModulesSuperadminOrdersCompanyOrders />
+
                 <!-- Licensordrer: licence/storage orders and whether each reached e-conomic. -->
                 <ModulesSuperadminOrdersLicenseOrders />
             </div>
