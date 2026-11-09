@@ -9,13 +9,15 @@
  */
 
 export type TodaySectionKey =
+    | 'meetings_today'
+    | 'missed_demos'
     | 'payment_problems'
     | 'license_orders'
     | 'agreements'
     | 'sales_inquiries'
     | 'overdue_invoices'
 
-export type TodayDateKind = 'closes' | 'ordered' | 'ends' | 'received' | 'due'
+export type TodayDateKind = 'closes' | 'ordered' | 'ends' | 'received' | 'due' | 'starts' | 'demo'
 
 export type TodayRow = {
     id: string
@@ -51,6 +53,8 @@ export type TodayOverview = {
 export type Tone = 'danger' | 'warning' | 'neutral'
 
 export const SECTION_ORDER: TodaySectionKey[] = [
+    'meetings_today',
+    'missed_demos',
     'payment_problems',
     'license_orders',
     'agreements',
@@ -59,6 +63,8 @@ export const SECTION_ORDER: TodaySectionKey[] = [
 ]
 
 export const SECTION_ICONS: Record<TodaySectionKey, string> = {
+    meetings_today: 'ph:video-camera',
+    missed_demos: 'ph:phone-call',
     payment_problems: 'ph:credit-card',
     license_orders: 'ph:receipt',
     agreements: 'ph:handshake',
@@ -68,6 +74,8 @@ export const SECTION_ICONS: Record<TodaySectionKey, string> = {
 
 /** The page "Se alle" opens for a section. */
 export const SECTION_HREFS: Record<TodaySectionKey, string> = {
+    meetings_today: '/superadmin/meetings',
+    missed_demos: '/superadmin/sales-inquiries',
     payment_problems: '/superadmin/billing-problems',
     license_orders: '/superadmin/orders',
     agreements: '/superadmin/companies',
@@ -154,7 +162,11 @@ export function rowHref(key: TodaySectionKey, row: TodayRow): string {
         case 'overdue_invoices':
             return company ? `/superadmin/companies/${company}/invoices` : SECTION_HREFS.overdue_invoices
         case 'sales_inquiries':
-            return row.id ? `/superadmin/sales-inquiries?inquiry=${encodeURIComponent(row.id)}` : SECTION_HREFS.sales_inquiries
+        case 'missed_demos':
+            return row.id ? `/superadmin/sales-inquiries?inquiry=${encodeURIComponent(row.id)}` : SECTION_HREFS[key]
+        case 'meetings_today':
+            // The host's meeting page; only a relative path is followed.
+            return typeof row.meta?.path === 'string' && row.meta.path.startsWith('/meetings/') ? row.meta.path : SECTION_HREFS.meetings_today
         default:
             return SECTION_HREFS[key]
     }
@@ -165,7 +177,7 @@ export function rowHref(key: TodaySectionKey, row: TodayRow): string {
  * e-conomic error. The rest is something to do, not an alarm.
  */
 export function reasonTone(reason: string): Tone {
-    if (['reminder_3', 'ready_to_close', 'economic_error'].includes(reason)) {
+    if (['reminder_3', 'ready_to_close', 'economic_error', 'demo_missed', 'demo_not_held'].includes(reason)) {
         return 'danger'
     }
     if (/^reminder_[12]$/.test(reason) || ['overdue', 'payment_failed', 'renewal_plan_missing', 'no_auto_renew', 'economic_pending', 'economic_draft', 'economic_finance'].includes(reason)) {

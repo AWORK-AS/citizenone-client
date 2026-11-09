@@ -97,6 +97,9 @@
                                         <span v-if="row.date">{{ $t(dateLabelKey(row.date_kind), { date: todayDate(row.date) }) }}</span>
                                         <span v-if="row.meta?.days_overdue">{{ $t('superadmin.today.daysOverdue', { days: row.meta.days_overdue }, row.meta.days_overdue) }}</span>
                                         <span v-if="row.meta?.invoices > 1">{{ $t('superadmin.today.invoiceCount', { count: row.meta.invoices }) }}</span>
+                                        <span v-if="row.meta?.host">{{ row.meta.host }}</span>
+                                        <a v-if="row.meta?.phone" :href="`tel:${String(row.meta.phone).replace(/\s+/g, '')}`"
+                                            class="font-medium text-primary hover:underline">{{ row.meta.phone }}</a>
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between gap-4 sm:justify-end">

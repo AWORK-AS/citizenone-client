@@ -130,5 +130,14 @@ test('kpiChips leaves out figures the colleague may not see', () => {
 })
 
 test('SECTION_ORDER matches the API order', () => {
-    assert.deepEqual(SECTION_ORDER, ['payment_problems', 'license_orders', 'agreements', 'sales_inquiries', 'overdue_invoices'])
+    assert.deepEqual(SECTION_ORDER, ['meetings_today', 'missed_demos', 'payment_problems', 'license_orders', 'agreements', 'sales_inquiries', 'overdue_invoices'])
+})
+
+test('a meeting row opens the host page, a missed demo its inquiry', () => {
+    const row = (meta, id = 'abc') => ({ id, company: null, title: null, amount: null, date: null, date_kind: 'starts', reason: '', meta })
+    assert.equal(rowHref('meetings_today', row({ path: '/meetings/u-1' })), '/meetings/u-1')
+    // Never an outside address from the payload.
+    assert.equal(rowHref('meetings_today', row({ path: 'https://evil.test/meetings/x' })), '/superadmin/meetings')
+    assert.equal(rowHref('missed_demos', row({}, 'inq-1')), '/superadmin/sales-inquiries?inquiry=inq-1')
+    assert.equal(reasonTone('demo_missed'), 'danger')
 })
