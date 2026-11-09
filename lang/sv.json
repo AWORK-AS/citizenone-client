@@ -22548,7 +22548,13 @@
             "since": {
                 "collection": "Skickat till inkasso {date}",
                 "written_off": "Avskrivet {date}"
-            }
+            },
+            "invoiceCount": "{count} obetalda fakturor",
+            "oldest": "äldsta {date}",
+            "showDetails": "Visa fakturor och åtgärder",
+            "hideDetails": "Dölj detaljer",
+            "invoicesTitle": "Obetalda fakturor",
+            "actionsTitle": "Åtgärder"
         },
         "company": {
             "title": "Betalningssätt",

@@ -22633,7 +22633,13 @@
             "since": {
                 "collection": "Sendt til inkasso {date}",
                 "written_off": "Afskrevet {date}"
-            }
+            },
+            "invoiceCount": "{count} ubetalte fakturaer",
+            "oldest": "ældste {date}",
+            "showDetails": "Vis fakturaer og handlinger",
+            "hideDetails": "Skjul detaljer",
+            "invoicesTitle": "Ubetalte fakturaer",
+            "actionsTitle": "Handlinger"
         },
         "company": {
             "title": "Betalingsmåde",

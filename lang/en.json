@@ -22633,7 +22633,13 @@
             "since": {
                 "collection": "Sent to collection {date}",
                 "written_off": "Written off {date}"
-            }
+            },
+            "invoiceCount": "{count} unpaid invoices",
+            "oldest": "oldest {date}",
+            "showDetails": "Show invoices and actions",
+            "hideDetails": "Hide details",
+            "invoicesTitle": "Unpaid invoices",
+            "actionsTitle": "Actions"
         },
         "company": {
             "title": "Payment method",
