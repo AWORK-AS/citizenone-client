@@ -16372,6 +16372,11 @@
                 "live": "Live",
                 "finished": "Held",
                 "cancelled": "Cancelled"
+            },
+            "outcome": {
+                "held": "Prospect came",
+                "missed": "No-show",
+                "not_held": "Not held"
             }
         },
         "salesInquiries": {
