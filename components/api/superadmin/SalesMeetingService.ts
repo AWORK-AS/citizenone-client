@@ -14,6 +14,15 @@ class SalesMeetingService extends BaseAPIService {
         return await this.request(`/superadmin/sales-inquiries/${inquiryUuid}/meetings`, 'POST', params)
     }
 
+    /** A ready-to-edit follow-up mail after a demo. */
+    async followUpDraft(inquiryUuid: string): Promise<any> {
+        return await this.request(`/superadmin/sales-inquiries/${inquiryUuid}/follow-up`, 'GET')
+    }
+
+    async sendFollowUp(inquiryUuid: string, params: object): Promise<any> {
+        return await this.request(`/superadmin/sales-inquiries/${inquiryUuid}/follow-up`, 'POST', params)
+    }
+
     async companyMeetings(companyUuid: string): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/meetings`, 'GET')
     }

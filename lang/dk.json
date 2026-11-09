@@ -16377,6 +16377,23 @@
                 "held": "Prospect deltog",
                 "missed": "Udeblev",
                 "not_held": "Ikke holdt"
+            },
+            "startNow": "Start nu",
+            "followUp": {
+                "button": "Send opfølgning",
+                "to": "Til",
+                "subject": "Emne",
+                "body": "Tekst",
+                "buttonText": "Knaptekst",
+                "buttonUrl": "Knaplink",
+                "noButton": "Tomt = ingen knap",
+                "send": "Send opfølgning",
+                "sent": "Opfølgningen er sendt til {to}.",
+                "source": {
+                    "summary": "Opsummeringen er Codys resumé af optagelsen. Læs den igennem, før du sender.",
+                    "notes": "Opsummeringen er mødets noter. Læs dem igennem, før du sender.",
+                    "none": "Der er hverken resumé eller noter fra mødet. Skriv selv kort, hvad I talte om."
+                }
             }
         },
         "salesInquiries": {

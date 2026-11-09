@@ -4,16 +4,60 @@
             <p class="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <Icon name="ph:video-camera" class="h-4 w-4" /> {{ $t('superadmin.salesMeetings.title') }}
             </p>
-            <FormButton v-if="state.configured && canPlan && !state.isFormOpen" type="button" buttonStyle="secondary"
-                @click="openForm">
-                <Icon name="ph:plus" class="h-4 w-4 mr-1" /> {{ $t('superadmin.salesMeetings.plan') }}
-            </FormButton>
+            <div v-if="state.configured && canPlan && !state.isFormOpen && !state.isFollowUpOpen" class="flex flex-wrap items-center gap-2">
+                <!-- On the phone with the prospect: send the link now and open the meeting. -->
+                <FormButton v-if="inquiryUuid" type="button" buttonStyle="secondary" :disabled="state.isSaving" @click="startNow">
+                    <Icon name="ph:video-camera" class="h-4 w-4 mr-1" /> {{ $t('superadmin.salesMeetings.startNow') }}
+                </FormButton>
+                <FormButton v-if="inquiryUuid && hasHeldDemo" type="button" buttonStyle="secondary" @click="openFollowUp">
+                    <Icon name="ph:envelope-simple" class="h-4 w-4 mr-1" /> {{ $t('superadmin.salesMeetings.followUp.button') }}
+                </FormButton>
+                <FormButton type="button" buttonStyle="secondary" @click="openForm">
+                    <Icon name="ph:plus" class="h-4 w-4 mr-1" /> {{ $t('superadmin.salesMeetings.plan') }}
+                </FormButton>
+            </div>
         </div>
 
         <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" class="mt-3" />
         <p v-if="!state.isLoading && !state.configured" class="mt-2 text-[13px] text-gray-500">
             {{ $t('superadmin.salesMeetings.notConfigured') }}
         </p>
+
+        <!-- Follow-up after a demo: a draft to edit, sent to the prospect -->
+        <form v-if="state.isFollowUpOpen" class="mt-3 space-y-3 rounded-lg bg-gray-50 p-3" @submit.prevent="sendFollowUp">
+            <p class="text-[12px] text-gray-500">{{ $t(`superadmin.salesMeetings.followUp.source.${followUp.source || 'none'}`) }}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="co-detail-label" for="fu-to">{{ $t('superadmin.salesMeetings.followUp.to') }}</label>
+                    <input id="fu-to" v-model="followUp.to" type="email" required class="co-input mt-1" />
+                </div>
+                <div>
+                    <label class="co-detail-label" for="fu-subject">{{ $t('superadmin.salesMeetings.followUp.subject') }}</label>
+                    <input id="fu-subject" v-model="followUp.subject" type="text" maxlength="200" required class="co-input mt-1" />
+                </div>
+            </div>
+            <div>
+                <label class="co-detail-label" for="fu-body">{{ $t('superadmin.salesMeetings.followUp.body') }}</label>
+                <textarea id="fu-body" v-model="followUp.body" rows="12" maxlength="10000" required class="co-input mt-1"></textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="co-detail-label" for="fu-btn">{{ $t('superadmin.salesMeetings.followUp.buttonText') }}</label>
+                    <input id="fu-btn" v-model="followUp.button_text" type="text" maxlength="60" class="co-input mt-1" />
+                </div>
+                <div>
+                    <label class="co-detail-label" for="fu-url">{{ $t('superadmin.salesMeetings.followUp.buttonUrl') }}</label>
+                    <input id="fu-url" v-model="followUp.button_url" type="url" maxlength="500" class="co-input mt-1"
+                        :placeholder="$t('superadmin.salesMeetings.followUp.noButton')" />
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <FormButton type="button" buttonStyle="cancel" @click="state.isFollowUpOpen = false">{{ $t('cancel') }}</FormButton>
+                <FormButton type="submit" :disabled="state.isSaving || !followUp.to || !followUp.subject.trim() || !followUp.body.trim()">
+                    {{ $t('superadmin.salesMeetings.followUp.send') }}
+                </FormButton>
+            </div>
+        </form>
 
         <!-- Plan a meeting -->
         <form v-if="state.isFormOpen" class="mt-3 space-y-3 rounded-lg bg-gray-50 p-3" @submit.prevent="save">
@@ -131,6 +175,7 @@ const state = reactive({
     isLoading: false,
     isSaving: false,
     isFormOpen: false,
+    isFollowUpOpen: false,
     configured: true,
     hosts: [] as any[],
     suggestedHost: '' as string,
@@ -149,6 +194,84 @@ const form = reactive({
     extra_name: '',
     extra_email: '',
 })
+
+const followUp = reactive({
+    to: '',
+    subject: '',
+    body: '',
+    button_text: '',
+    button_url: '',
+    source: null as string | null,
+})
+
+// A demo that has happened: something to follow up on.
+const hasHeldDemo = computed(() => state.meetings.some((m: any) =>
+    m.status === 'finished' || (m.status !== 'cancelled' && m.starts_at && moment(m.starts_at).isBefore(moment()))))
+
+async function openFollowUp() {
+    state.saved = ''
+    state.error = {}
+    try {
+        const response = await salesMeetingService.followUpDraft(props.inquiryUuid as string)
+        const draft = response?.data ?? {}
+        Object.assign(followUp, {
+            to: draft.to ?? '',
+            subject: draft.subject ?? '',
+            body: draft.body ?? '',
+            button_text: draft.button_text ?? '',
+            button_url: draft.button_url ?? '',
+            source: draft.source ?? null,
+        })
+        state.isFormOpen = false
+        state.isFollowUpOpen = true
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function sendFollowUp() {
+    state.isSaving = true
+    state.error = {}
+    const params: any = { to: followUp.to.trim(), subject: followUp.subject.trim(), body: followUp.body }
+    if (followUp.button_url.trim() && followUp.button_text.trim()) {
+        params.button_text = followUp.button_text.trim()
+        params.button_url = followUp.button_url.trim()
+    }
+    try {
+        await salesMeetingService.sendFollowUp(props.inquiryUuid as string, params)
+        state.isFollowUpOpen = false
+        state.saved = t('superadmin.salesMeetings.followUp.sent', { to: params.to })
+        emit('scheduled')
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isSaving = false
+}
+
+/** Starts a demo this minute: the prospect gets the link, the host's meeting opens in a new tab. */
+async function startNow() {
+    state.isSaving = true
+    state.error = {}
+    state.saved = ''
+    // Opened before the request so the browser does not block it as a popup.
+    const tab = window.open('', '_blank')
+    try {
+        const params: any = { start_now: true, minutes: 30 }
+        if (state.suggestedHost) params.host_uuid = state.suggestedHost
+        else if (state.hosts.length === 1) params.host_uuid = state.hosts[0].uuid
+        const response = await salesMeetingService.scheduleForInquiry(props.inquiryUuid as string, params)
+        if (tab && response?.data?.host_url) tab.location.href = response.data.host_url
+        else tab?.close()
+        const guests = (response?.data?.guests ?? []).map((g: any) => g.email).join(', ')
+        state.saved = t('superadmin.salesMeetings.sent', { guests })
+        await load()
+        emit('scheduled')
+    } catch (error: any) {
+        tab?.close()
+        state.error = error
+    }
+    state.isSaving = false
+}
 
 const canSave = computed(() => {
     if (!form.starts_at || !form.host_uuid) return false
@@ -186,6 +309,7 @@ async function openForm() {
     form.user_uuids = []
     form.extra_name = ''
     form.extra_email = ''
+    state.isFollowUpOpen = false
     state.isFormOpen = true
 
     if (props.companyUuid && !state.accounts.length) {
@@ -246,6 +370,7 @@ const formatDateTime = (value: string) => value ? moment(value).format('DD-MM-YY
 
 watch(() => [props.inquiryUuid, props.companyUuid], () => {
     state.isFormOpen = false
+    state.isFollowUpOpen = false
     state.saved = ''
     load()
 })
