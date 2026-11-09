@@ -11830,6 +11830,7 @@
             "noMail": "Ingen mail efter et par minutter? Kig i spam, eller skriv til support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Ja tak, send mig CitizenOnes nyhedsbrev. Jeg kan afmelde igen med linket i hver mail.",
             "passwordHint": "Mindst 8 tegn",
             "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",

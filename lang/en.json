@@ -11830,6 +11830,7 @@
             "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Yes, send me the CitizenOne newsletter. I can unsubscribe with the link in every mail.",
             "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",

@@ -11825,6 +11825,7 @@
             "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Ja tack, skicka mig CitizenOnes nyhetsbrev. Jag kan avregistrera mig med länken i varje mejl.",
             "passwordHint": "Minst 8 tecken",
             "agreetoTAC": "Du ska acceptere vilkår och betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
