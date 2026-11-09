@@ -1,5 +1,9 @@
 <template>
-    <NuxtLink :to="card.link ?? undefined"
+    <!-- Something Cody AI proposed (a task, a journal draft) is not a record
+    yet: it has its own card, with the button that writes it. Drawn from here
+    so every place that lists cards draws it without knowing about it. -->
+    <ModulesUserAssistantProposalCard v-if="isProposalCard(card.type)" :card="card" />
+    <NuxtLink v-else :to="card.link ?? undefined"
         class="group block rounded-xl border border-gray-200 bg-white transition-colors hover:border-cody/50">
         <div class="flex items-start gap-2.5 px-3 py-2.5">
             <Icon :name="ICONS[card.type] ?? 'ph:file-text'" class="mt-0.5 size-4 shrink-0 text-cody-deep"
@@ -20,12 +24,14 @@
                 </div>
             </div>
             <Icon name="ph:arrow-up-right"
-                class="mt-0.5 size-3.5 shrink-0 text-gray-300 transition-colors group-hover:text-cody" aria-hidden="true" />
+                class="mt-0.5 size-3.5 shrink-0 text-gray-300 transition group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-cody motion-reduce:transition-none motion-reduce:transform-none"
+                aria-hidden="true" />
         </div>
     </NuxtLink>
 </template>
 
 <script setup lang="ts">
+import { isProposalCard } from '@/composables/codyProposal'
 import type { AnswerCard } from '@/composables/useCodyChat'
 
 /**

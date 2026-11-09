@@ -4,6 +4,9 @@ import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedbac
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
 import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
 import { codyMemoryService } from '@/components/api/user/CodyMemoryService'
+import { isProposalCard } from '@/composables/codyProposal'
+import { sourceLinksFrom, withoutSourcesComment } from '@/composables/codySources'
+import type { SourceLink } from '@/composables/codySources'
 import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -67,6 +70,8 @@ export interface AnswerCard {
     link?: string | null
     /** Only on a `milo` card: which kind of CitizenOne question it was. */
     intent?: 'citizenone_support' | 'citizenone_sales'
+    /** Only on a journal draft proposal: the note as it would be saved, as text. */
+    preview?: string
     /** Only on a `chat_message` card: who it is for, the text Cody AI wrote, and where it goes. */
     recipient?: 'colleague' | 'group'
     draft?: string
@@ -78,6 +83,8 @@ export interface CodyMessage {
     text: string
     files?: Array<{ name: string, size: number }>
     sources?: Array<{ uuid: string, name: string }>
+    /** "Kilde": the records the answer rests on, as links the server built. */
+    sourceLinks?: SourceLink[]
     companyDataStatus?: 'ready' | 'missing' | 'building'
     receipts?: ToolReceipt[]
     cards?: AnswerCard[]
@@ -95,6 +102,11 @@ export interface CodyMessage {
      * answer, or that it cannot remember because the storage is full.
      */
     memoryNote?: CodyMemoryNote | null
+    /**
+     * Answered in this session, so the thread may roll the text out word by
+     * word. Answers loaded from history are shown as they are.
+     */
+    live?: boolean
 }
 
 export { ANSWER_FEEDBACK_REASONS }
@@ -127,6 +139,11 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
  * for is dropped, so the server can add one before the client learns it.
  */
 const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo', 'chat_message']
+
+/** A proposal (task, journal draft) is drawn too: answer-card hands it to its own component. */
+function isDrawnCard(type: unknown): boolean {
+    return KNOWN_CARDS.includes(type as string) || isProposalCard(type)
+}
 
 export function createCodyChat() {
     const { t } = useI18n()
@@ -579,6 +596,18 @@ export function createCodyChat() {
         })
     }
 
+    function monthlyCapMessage(error: any): string {
+        const server = typeof error?.message === 'string' ? error.message.trim() : ''
+        if (server !== '' && !server.startsWith('exception.')) return server
+
+        const resets = error?.resets_at ? new Date(error.resets_at) : null
+        if (resets && !Number.isNaN(resets.getTime())) {
+            return t('assistants.monthlyCapUntil', { date: resets.toLocaleDateString() })
+        }
+
+        return t('assistants.monthlyCap')
+    }
+
     // The assistant has its own request ceiling. Telling the user "something went
     // wrong" for a limit they will be under again shortly is the wrong story.
     function rateLimitError(error: any) {
@@ -603,6 +632,14 @@ export function createCodyChat() {
         // - and offers a purchase that would not help.
         if (error?.limit === 'user_daily') {
             return { message: error?.message ?? t('assistants.ownDailyLimit'), isLimit: true }
+        }
+
+        // The company's monthly spend cap. It lifts on the 1st, not in minutes,
+        // and neither buying capacity nor an admin can raise it, so no button and
+        // no "ask your administrator". Without
+        // this branch it fell to the burst message: "try again in 1 minute".
+        if (error?.limit === 'monthly_cap') {
+            return { message: monthlyCapMessage(error), isLimit: true }
         }
 
         const seconds = Number(error.retryAfter) || 0
@@ -675,7 +712,7 @@ export function createCodyChat() {
                     // A type this client does not know is dropped rather than
                     // improvised: it is what lets a new card ship on the server
                     // before the component that draws it exists.
-                    if (KNOWN_CARDS.includes(data?.type) && data?.title) {
+                    if (isDrawnCard(data?.type) && data?.title) {
                         state.cards.push(data as AnswerCard)
                     }
                     return
@@ -689,12 +726,14 @@ export function createCodyChat() {
                         streamed.index = state.messages.push({
                             type: 'bot',
                             text: '',
+                            live: true,
                             receipts: state.receipts,
                             cards: state.cards,
                         }) - 1
                     }
                     streamed.text += data?.text ?? ''
-                    state.messages[streamed.index].text = streamed.text
+                    // The sources comment is for the server; it never shows.
+                    state.messages[streamed.index].text = withoutSourcesComment(streamed.text)
                     return
                 }
                 if (event === 'done') streamed.done = data
@@ -705,7 +744,7 @@ export function createCodyChat() {
 
             // Stopping is a choice, not a failure: whatever was written is kept.
             if (error?.name === 'AbortError') {
-                return streamed.done ?? (streamed.text ? { data: { answer: streamed.text }, stopped: true } : null)
+                return streamed.done ?? (streamed.text ? { data: { answer: withoutSourcesComment(streamed.text) }, stopped: true } : null)
             }
 
             // Drop a partial answer before retrying, so nothing is shown twice.
@@ -740,8 +779,10 @@ export function createCodyChat() {
         state.messages.push({
             type: 'bot',
             text: response?.data?.answer,
+            live: true,
             uuid: response?.message_uuid ?? response?.data?.message_uuid ?? null,
             sources: response?.sources ?? [],
+            sourceLinks: sourceLinksFrom(response?.source_links),
             companyDataStatus: response?.company_data_status ?? 'ready',
             // Copied, not referenced: the next question resets these, and an
             // answer's receipt and cards belong to that answer for as long as it
@@ -751,7 +792,7 @@ export function createCodyChat() {
             // stream and carries them in the body instead. Whichever answered,
             // the answer ends up with the same cards.
             cards: response?.cards?.length
-                ? (response.cards as AnswerCard[]).filter((card) => KNOWN_CARDS.includes(card.type))
+                ? (response.cards as AnswerCard[]).filter((card) => isDrawnCard(card.type))
                 : [...state.cards],
             memoryNote,
         })

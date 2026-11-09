@@ -39,14 +39,16 @@ const documentLanguage = computed<string>(() => {
 })
 
 // The duty schedule embedded on a customer's website sits in their page, so
-// our cookie banner must not pop up inside it.
-const isEmbeddedDutySchedule = useRoute().path.startsWith('/embed/duty-schedules/')
+// our cookie banner must not pop up inside it. Nor on the info screen in a
+// common room: nobody there can answer it, and it would cover the screen.
+const currentPath = useRoute().path
+const hideCookieBanner = currentPath.startsWith('/embed/duty-schedules/') || currentPath === '/screen'
 
 useHead({
 	htmlAttrs: {
 		lang: documentLanguage,
 	},
-	script: isEmbeddedDutySchedule ? [] : [
+	script: hideCookieBanner ? [] : [
 		{
 			id: "awork-cmp",
 			src: runtimeConfig.public.cmp,

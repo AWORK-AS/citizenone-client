@@ -35,11 +35,14 @@
                     </p>
 
                     <div v-if="takesNote">
-                        <SuperadminFormLabel :label="needsNote ? $t('paymentDunning.problems.dialog.noteLabel') : `${$t('paymentDunning.problems.dialog.noteLabel')} (${$t('paymentDunning.problems.dialog.optional')})`" :required="needsNote" />
-                        <Tooltip :text="$t('paymentDunning.problems.dialog.noteHelp')" position="top" wrap class="!block w-full">
+                        <SuperadminFormLabel :label="noteLabel" :required="needsNote" />
+                        <Tooltip :text="collectionAction ? $t('paymentDunning.problems.dialog.collectionNoteHelp') : $t('paymentDunning.problems.dialog.noteHelp')" position="top" wrap class="!block w-full">
                             <textarea v-model="state.note" rows="3" maxlength="500" class="co-input"
                                 :placeholder="$t('paymentDunning.problems.dialog.notePlaceholder')" />
                         </Tooltip>
+                        <p v-if="collectionAction" class="text-[12px] text-[#5C6478] mt-1">
+                            {{ $t('paymentDunning.problems.dialog.collectionNoteHelp') }}
+                        </p>
                         <p v-if="state.invalid === 'note'" class="text-[12px] text-[#CC3B2D] mt-1" role="alert">
                             {{ $t('paymentDunning.problems.dialog.noteRequired') }}
                         </p>
@@ -87,7 +90,14 @@ const state = reactive({
 const takesNote = computed(() => !!props.action && actionTakesNote(props.action))
 const needsNote = computed(() => !!props.action && actionNeedsNote(props.action))
 const needsDays = computed(() => props.action === 'postpone' || props.action === 'reopen')
-const destructive = computed(() => ['close', 'charge_security_card', 'revoke_security_card', 'retry_unknown_charge'].includes(props.action ?? ''))
+const destructive = computed(() => ['close', 'charge_security_card', 'revoke_security_card', 'retry_unknown_charge', 'collection', 'write_off'].includes(props.action ?? ''))
+// Collection and write-off ask for a plain "Note", which goes to the activity log.
+const collectionAction = computed(() => props.action === 'collection' || props.action === 'write_off')
+const noteLabel = computed(() => {
+    if (collectionAction.value) return t('paymentDunning.problems.dialog.collectionNoteLabel')
+    const label = t('paymentDunning.problems.dialog.noteLabel')
+    return needsNote.value ? label : `${label} (${t('paymentDunning.problems.dialog.optional')})`
+})
 const title = computed(() => (props.action ? t(`paymentDunning.problems.dialog.title.${props.action}`) : ''))
 
 watch(() => props.isModalOpen, (open: boolean) => {
