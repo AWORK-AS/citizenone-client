@@ -17093,6 +17093,32 @@
             "empty": "Ingen ordrer ennå.",
             "allStatuses": "Alle statuser",
             "failedCount": "{count} feilet i e-conomic"
+        },
+        "salesStats": {
+            "button": "Demo-tall",
+            "title": "Demo-tall",
+            "subtitle": "Hvor mange demoer som holdes, hvem som uteblir, og hvor langt henvendelsene kommer.",
+            "period": "Periode",
+            "days": "{n} dager",
+            "year": "1 år",
+            "demos": "Demoer",
+            "held": "Holdt",
+            "missed": "Uteble",
+            "notHeld": "Ikke holdt",
+            "pending": "Venter",
+            "noShowRate": "Uteblivelser",
+            "funnel": "Fra henvendelse til kunde",
+            "funnelHint": "Henvendelser mottatt i perioden, og hvor langt de har kommet.",
+            "inquiries": "Henvendelser",
+            "demoPlanned": "Demo planlagt",
+            "demoHeld": "Demo holdt",
+            "won": "Vunnet",
+            "lost": "Tapt",
+            "perSeller": "Per selger",
+            "seller": "Selger",
+            "wonAfterDemo": "Vunnet etter demo",
+            "none": "Ingen demoer i perioden.",
+            "back": "Henvendelser"
         }
     },
     "support": {

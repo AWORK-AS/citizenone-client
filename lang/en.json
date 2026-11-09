@@ -17178,6 +17178,32 @@
             "empty": "No orders yet.",
             "allStatuses": "All statuses",
             "failedCount": "{count} failed in e-conomic"
+        },
+        "salesStats": {
+            "button": "Demo figures",
+            "title": "Demo figures",
+            "subtitle": "How many demos are held, who does not show, and how far inquiries get.",
+            "period": "Period",
+            "days": "{n} days",
+            "year": "1 year",
+            "demos": "Demos",
+            "held": "Held",
+            "missed": "No-show",
+            "notHeld": "Not held",
+            "pending": "Pending",
+            "noShowRate": "No-shows",
+            "funnel": "From inquiry to customer",
+            "funnelHint": "Inquiries received in the period, and how far they got.",
+            "inquiries": "Inquiries",
+            "demoPlanned": "Demo planned",
+            "demoHeld": "Demo held",
+            "won": "Won",
+            "lost": "Lost",
+            "perSeller": "Per salesperson",
+            "seller": "Salesperson",
+            "wonAfterDemo": "Won after demo",
+            "none": "No demos in the period.",
+            "back": "Inquiries"
         }
     },
     "support": {
