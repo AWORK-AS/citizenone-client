@@ -128,6 +128,10 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/polls`, 'GET')
     }
 
+    async getUnvotedPollCount(): Promise<any> {
+        return await this.request(`/user/polls/unvoted-count`, 'GET')
+    }
+
     async updateDailyOverviewFilter(params: object): Promise<any> {
         return await this.request(`/user/daily-overview-filter`, 'PUT', params)
     }

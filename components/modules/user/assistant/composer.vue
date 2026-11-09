@@ -117,6 +117,14 @@
                     </div>
                 </div>
 
+                <!-- A CPR number in the question: only the date part is sent, the
+                     server hides the last four digits. A friendly heads-up while
+                     typing, not a warning - nothing has gone wrong. -->
+                <p v-if="hasCpr" class="mt-1 flex items-center gap-1.5 text-xs text-gray-500" role="status">
+                    <Icon name="ph:info" class="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                    {{ $t('assistants.cprNotice') }}
+                </p>
+
                 <p v-if="dictation.isRecording.value || dictation.isTranscribing.value || dictationError"
                     class="mt-1 flex items-center gap-1.5 text-xs"
                     :class="dictationError ? 'text-amber-700' : 'text-cody-deep'">
@@ -185,6 +193,7 @@
 import { useI18n } from 'vue-i18n'
 import { useCodyChat } from '@/composables/useCodyChat'
 import { useDictation } from '@/composables/useDictation'
+import { containsCpr } from '@/composables/cprNotice'
 
 /**
  * Where the question gets written: the prompt field and everything attached to
@@ -210,6 +219,8 @@ const {
     insertMentionTrigger,
     togglePreview,
 } = useCodyChat()
+
+const hasCpr = computed(() => containsCpr(state.newMessage))
 
 const fileInput = ref<HTMLInputElement | null>(null)
 const promptTextarea = ref<HTMLTextAreaElement | null>(null)

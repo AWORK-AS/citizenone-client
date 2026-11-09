@@ -33,24 +33,20 @@ describe('month, half year and year cap a day at three shifts', () => {
     }
 })
 
-describe('a one-time notice says the schedule changed', () => {
-    const notice = read('components/modules/user/duty-schedule/notice-optimized.vue')
+describe('"what\'s new" popups come from Release notes, not code', () => {
+    const popup = read('components/modules/user/new-updates/release-note-popup.vue')
+    const layout = read('layouts/user.vue')
 
-    test('shows once per person, then never again', () => {
-        assert.match(notice, /c1:duty-optimized-notice:\$\{VERSION\}:\$\{userStore\.getUser\?\.uuid/)
-        assert.match(notice, /visible\.value = !localStorage\.getItem\(storageKey\.value\)/)
-        assert.match(notice, /localStorage\.setItem\(storageKey\.value/)
+    test('the duty schedule no longer has a hard-coded notice', () => {
+        assert.doesNotMatch(page, /NoticeOptimized/)
     })
 
-    test('is mounted on the duty schedule and offers Milo', () => {
-        assert.match(page, /<ModulesUserDutyScheduleNoticeOptimized \/>/)
-        assert.match(notice, /useObiyenChat\(\)\.revealAndOpenChat\(\)/)
-    })
-
-    test('"show less" has a tooltip in every view', () => {
-        for (const view of ['week-view', 'month-view', 'half-year-view', 'year-view']) {
-            assert.match(read(`components/modules/user/duty-schedule/${view}.vue`), /:text="\$t\('dutySchedules\.showFewerShifts'\)"/, view)
-        }
+    test('the layout asks for the popup of the current page and offers Milo', () => {
+        assert.match(layout, /<ModulesUserNewUpdatesReleaseNotePopup /)
+        assert.match(popup, /releaseNoteService\.getPopup\(path\)/)
+        assert.match(popup, /releaseNoteService\.dismissPopup\(current\.uuid\)/)
+        assert.match(popup, /useObiyenChat\(\)\.revealAndOpenChat\(\)/)
+        assert.doesNotMatch(popup, /localStorage/)
     })
 })
 

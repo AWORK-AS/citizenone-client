@@ -21,6 +21,20 @@
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.powerBi.adminOnly')" />
 
+                    <!-- Progress: app, token, first fetch -->
+                    <ol class="flex flex-wrap items-center gap-2 text-xs">
+                        <template v-for="(step, index) in steps" :key="step.key">
+                            <li class="flex items-center gap-1.5 rounded-full border px-3 py-1.5"
+                                :class="step.done ? 'border-[#1f9d6b]/30 bg-[#1f9d6b]/10 text-[#16754f]' : 'border-surface-200 bg-white text-slate-400'">
+                                <Icon :name="step.done ? 'ph:check-circle-fill' : 'ph:circle'" class="h-4 w-4" />
+                                {{ step.label }}
+                            </li>
+                            <Icon v-if="index < steps.length - 1" name="ph:caret-right" class="h-3.5 w-3.5 text-slate-300" />
+                        </template>
+                    </ol>
+
+                    <ModulesUserSettingsPowerBiPreview v-if="isAdmin" />
+
                     <!-- App not purchased: point the admin to the Apps marketplace -->
                     <div v-if="!state.status.app_active"
                         class="rounded-xl border border-dashed border-surface-200 bg-surface-50 p-8 text-center">
@@ -81,6 +95,51 @@
                                 </FormButton>
                             </div>
                         </div>
+
+                        <!-- Last fetch + connection test -->
+                        <div v-if="state.status.enabled"
+                            class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-surface-100 pt-4">
+                            <p class="text-xs text-slate-500">
+                                <Icon name="ph:clock" class="mr-1 inline h-3.5 w-3.5 align-[-2px]" />
+                                {{ state.status.last_fetched_at
+                                    ? $t('settings.powerBi.lastFetched', { time: formatTime(state.status.last_fetched_at) })
+                                    : $t('settings.powerBi.neverFetched') }}
+                            </p>
+                            <FormButton v-if="isAdmin" buttonStyle="action" :disabled="state.checking" @click="check">
+                                <Icon name="ph:plugs-connected" class="h-4 w-4" />
+                                {{ $t('settings.powerBi.check') }}
+                            </FormButton>
+                        </div>
+                        <p v-if="state.checkResult" class="mt-2 text-sm font-medium text-[#1f9d6b]">
+                            {{ $t('settings.powerBi.checkResult', state.checkResult) }}
+                        </p>
+
+                        <!-- Without citizen names -->
+                        <div v-if="isAdmin" class="mt-4 border-t border-surface-100 pt-4">
+                            <div class="flex items-center gap-3">
+                                <FormSwitch :value="state.status.without_names" :disabled="state.isLoading"
+                                    @toggleSwitch="toggleWithoutNames" :label="$t('settings.powerBi.withoutNames')" />
+                                <p class="text-sm font-semibold text-slate-900">{{ $t('settings.powerBi.withoutNames') }}</p>
+                            </div>
+                            <p class="mt-2 text-xs text-slate-400">{{ $t('settings.powerBi.withoutNamesHint') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Ready-made report -->
+                    <div v-if="state.status.app_active"
+                        class="rounded-xl border border-primary/20 bg-primary-50 p-5 shadow-sm">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div class="max-w-lg">
+                                <h3 class="text-sm font-semibold text-slate-900">{{ $t('settings.powerBi.templateTitle') }}</h3>
+                                <p class="mt-1 text-sm text-slate-600">{{ $t('settings.powerBi.templateText') }}</p>
+                            </div>
+                            <a href="/downloads/CitizenOne.pbit" download="CitizenOne.pbit">
+                                <FormButton buttonStyle="primary">
+                                    <Icon name="ph:download-simple" class="h-4 w-4" />
+                                    {{ $t('settings.powerBi.templateDownload') }}
+                                </FormButton>
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Feed URLs -->
@@ -96,6 +155,11 @@
                                     <FormButton buttonStyle="action" @click="copy(feed.url, feed.key)">
                                         <Icon name="ph:copy" class="h-4 w-4" />
                                         {{ copiedKey === feed.key ? $t('settings.powerBi.copied') : $t('settings.powerBi.copy') }}
+                                    </FormButton>
+                                    <FormButton buttonStyle="action" @click="copy(powerQuery(feed.baseUrl), feed.key + '-m')"
+                                        :title="$t('settings.powerBi.copyQuery')">
+                                        <Icon name="ph:code" class="h-4 w-4" />
+                                        {{ copiedKey === feed.key + '-m' ? $t('settings.powerBi.copied') : $t('settings.powerBi.copyQuery') }}
                                     </FormButton>
                                 </div>
                             </div>
@@ -113,6 +177,15 @@
                             <li>{{ $t('settings.powerBi.how2') }}</li>
                             <li>{{ $t('settings.powerBi.how3') }}</li>
                         </ol>
+                    </div>
+
+                    <!-- Excel -->
+                    <div v-if="state.status.app_active" class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
+                        <h3 class="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                            <Icon name="ph:microsoft-excel-logo" class="h-4 w-4 text-[#1f9d6b]" />
+                            {{ $t('settings.powerBi.excelTitle') }}
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600">{{ $t('settings.powerBi.excelText') }}</p>
                     </div>
                 </div>
             </LoadingSpinner>
@@ -146,7 +219,17 @@ const state = reactive({
     error: {} as Error,
     isLoading: false,
     rawToken: '' as string,
-    status: { app_active: false, enabled: false, last4: null as string | null, created_at: null as string | null, feeds: {} as Record<string, string> },
+    status: {
+        app_active: false,
+        enabled: false,
+        last4: null as string | null,
+        created_at: null as string | null,
+        last_fetched_at: null as string | null,
+        without_names: false,
+        feeds: {} as Record<string, string>,
+    },
+    checking: false,
+    checkResult: null as Record<string, number> | null,
     modal: { confirmRevoke: false },
 })
 
@@ -162,7 +245,16 @@ const feedList = computed(() => {
         { key: 'economy', label: t('settings.powerBi.feedEconomy'), url: (feeds.coordinator_economy ?? '') + tokenSuffix },
         { key: 'inquiries', label: t('settings.powerBi.feedInquiries'), url: (feeds.inquiries ?? '') + tokenSuffix },
         { key: 'cases', label: t('settings.powerBi.feedCases'), url: (feeds.cases ?? '') + tokenSuffix },
+        { key: 'departments', label: t('settings.powerBi.feedDepartments'), url: (feeds.departments ?? '') + tokenSuffix },
+        { key: 'coordinators', label: t('settings.powerBi.feedCoordinators'), url: (feeds.coordinators ?? '') + tokenSuffix },
+        { key: 'stays', label: t('settings.powerBi.feedStays'), url: (feeds.stays ?? '') + tokenSuffix },
+        { key: 'economyMonthly', label: t('settings.powerBi.feedEconomyMonthly'), url: (feeds.coordinator_economy_monthly ?? '') + tokenSuffix },
+        { key: 'employees', label: t('settings.powerBi.feedEmployees'), url: (feeds.employees ?? '') + tokenSuffix },
+        { key: 'shifts', label: t('settings.powerBi.feedShifts'), url: (feeds.shifts ?? '') + tokenSuffix },
+        { key: 'invoices', label: t('settings.powerBi.feedInvoices'), url: (feeds.invoices ?? '') + tokenSuffix },
     ]
+        .map(feed => ({ ...feed, baseUrl: tokenSuffix ? feed.url.slice(0, -tokenSuffix.length) : feed.url }))
+        .filter(feed => feed.baseUrl)
 })
 
 onMounted(() => fetchStatus())
@@ -186,7 +278,8 @@ async function generate() {
         const response = await powerBiService.generateToken()
         const data = response?.data ?? {}
         state.rawToken = data.token ?? ''
-        state.status = { app_active: data.app_active ?? state.status.app_active, enabled: data.enabled, last4: data.last4, created_at: data.created_at, feeds: data.feeds }
+        const { token: _token, ...status } = data
+        state.status = { ...state.status, ...status, app_active: data.app_active ?? state.status.app_active }
         successAlert(`${t('alert.success')}!`, t('settings.powerBi.active'))
     } catch (error: any) {
         state.error = error
@@ -201,11 +294,61 @@ async function revoke() {
     try {
         const response = await powerBiService.revokeToken()
         state.rawToken = ''
-        state.status = response?.data ?? { enabled: false, last4: null, created_at: null, feeds: {} }
+        state.checkResult = null
+        state.status = response?.data ?? { ...state.status, enabled: false, last4: null, created_at: null, last_fetched_at: null }
     } catch (error: any) {
         state.error = error
     }
     state.isLoading = false
+}
+
+const steps = computed(() => [
+    { key: 'app', label: t('settings.powerBi.stepApp'), done: !!state.status.app_active },
+    { key: 'token', label: t('settings.powerBi.stepToken'), done: !!state.status.enabled },
+    { key: 'fetched', label: t('settings.powerBi.stepFetched'), done: !!state.status.last_fetched_at },
+])
+
+// Ready for Power Query's Advanced Editor: the token travels as a header, not in
+// the address, so it stays out of logs. Without the raw token a placeholder
+// marks where it goes.
+function powerQuery(url: string): string {
+    const token = state.rawToken || 'JERES-TOKEN'
+    return [
+        'let',
+        `    Kilde = Json.Document(Web.Contents("${url}", [Headers = [#"X-PowerBI-Token" = "${token}"]])),`,
+        '    Tabel = Table.FromRecords(Kilde)',
+        'in',
+        '    Tabel',
+    ].join('\n')
+}
+
+async function check() {
+    state.error = {}
+    state.checking = true
+    state.checkResult = null
+    try {
+        const response = await powerBiService.check()
+        state.checkResult = response?.data ?? null
+    } catch (error: any) {
+        state.error = error
+    }
+    state.checking = false
+}
+
+async function toggleWithoutNames() {
+    state.error = {}
+    state.isLoading = true
+    try {
+        const response = await powerBiService.updateSettings({ without_names: !state.status.without_names })
+        state.status = { ...state.status, ...(response?.data ?? {}) }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+function formatTime(value: string): string {
+    return new Date(value).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
 async function copy(value: string, key: string) {

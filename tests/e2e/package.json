@@ -38,7 +38,8 @@
     "test:mail-pdf": "node mail-pdf.mjs",
     "test:document-viewer": "node document-viewer.mjs",
     "test:meetings-join": "node meetings-join.mjs",
-    "test:wish-images": "node wish-images.mjs"
+    "test:wish-images": "node wish-images.mjs",
+    "test:release-note-popup-and-polls": "node release-note-popup-and-polls.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

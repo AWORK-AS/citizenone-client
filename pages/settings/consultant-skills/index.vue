@@ -49,7 +49,7 @@
                     <div class="flex flex-wrap items-center gap-3 border-b border-gray-100 px-4 py-3">
                         <div>
                             <p class="text-sm font-semibold text-gray-900">
-                                {{ $t('consultantSkills.types.' + type + '.title') }}
+                                {{ skillTypeTitle(type) }}
                             </p>
                             <p class="text-xs text-gray-400">
                                 {{ $t('consultantSkills.types.' + type + '.hint') }}
@@ -160,11 +160,13 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { skillTypeTitle } = useTerminology()
 
 const TYPES = ['competence', 'course', 'topic']
 

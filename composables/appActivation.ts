@@ -108,6 +108,10 @@ export function useAppActivation(options: { checkoutContainerId: string, onTrial
 
         params.quantity = form?.quantity
 
+        if (form?.assistedSetup) {
+            params.assisted_setup = true
+        }
+
         const response = await appService.activateApp(app?.uuid, params)
 
         if (!response?.paymentId) {

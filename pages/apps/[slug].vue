@@ -79,10 +79,17 @@
                                 v-if="app.url_field" @click="openPartner(app.url_field)">
                                 {{ $t('apps.goToPartner') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
-                                v-else-if="app.user_activated && destination" @click="navigateTo(destination.path)">
-                                {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
-                            </FormButton>
+                            <template v-else-if="app.user_activated && destination">
+                                <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
+                                    @click="navigateTo(destination.path)">
+                                    {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
+                                </FormButton>
+                                <!-- Bought per licence: more can be bought here, also once the app is set up -->
+                                <FormButton v-if="app.is_quantifiable" type="button" buttonStyle="action" class="w-full justify-center"
+                                    @click="requestActivation(app)">
+                                    {{ $t('apps.buyMoreLicenses') }}
+                                </FormButton>
+                            </template>
                             <FormButton type="button" buttonStyle="app-order-now" class="w-full justify-center"
                                 v-else-if="app.user_activated && app.is_quantifiable" @click="requestActivation(app)">
                                 {{ $t('apps.buyMoreLicenses') }}
@@ -247,6 +254,10 @@
                                     <div class="flex justify-between py-2">
                                         <dt class="text-gray-500">{{ $t('apps.setupFee') }}</dt>
                                         <dd class="font-semibold text-muted-800">{{ formatAmount(app.setup_fee || 0) }}</dd>
+                                    </div>
+                                    <div class="flex justify-between border-t border-gray-100 py-2" v-if="app.assisted_setup_price">
+                                        <dt class="text-gray-500">{{ $t('apps.assistedSetupOptional') }}</dt>
+                                        <dd class="font-semibold text-muted-800">{{ formatAmount(app.assisted_setup_price) }}</dd>
                                     </div>
                                 </dl>
                             </section>

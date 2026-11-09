@@ -38,11 +38,16 @@
                                     v-model="state.formFilter.employment_status" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="date_range"
-                                    :label="$t('citizens.interventionHours.filter.filterDate')" />
-                                <FormDateRangeField name="date_range"
-                                    :placeholder="t('citizens.interventionHours.filter.filterDate')"
+                                <FormLabel for="date_range" :label="visitDateLabel" />
+                                <FormDateRangeField name="date_range" :placeholder="visitDateLabel"
                                     v-model="state.formFilter.date_range" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="created_range"
+                                    :label="$t('citizens.interventionHours.filter.filterCreatedDate')" />
+                                <FormDateRangeField name="created_range"
+                                    :placeholder="t('citizens.interventionHours.filter.filterCreatedDate')"
+                                    v-model="state.formFilter.created_range" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -70,6 +75,7 @@ import type { Error } from '@/types'
 import { citizenService } from '~/components/api/user/CitizenService'
 import { useCareHourTypes } from '@/composables/careHourTypeList'
 import { hourTypeFilterOptions } from '@/composables/careHourFilters'
+import { useTerminology } from '@/composables/useTerminology'
 
 const props = defineProps({
     isModalOpen: {
@@ -82,6 +88,11 @@ const props = defineProps({
     }
 })
 const { t } = useI18n()
+const { term } = useTerminology()
+// "Filtrer på besøgsdato", with the company's own word for Besøgsdato from the glossary.
+const visitDateLabel = computed(() => t('citizens.interventionHours.filter.filterVisitDate', {
+    visitDate: term('visitDate', t('citizens.interventionHours.filter.visitDate')).toLowerCase(),
+}))
 const emit = defineEmits(['close', 'setFilter'])
 // The company's hour types (Settings > Timetyper); none unless switched on.
 const { types: hourTypes, loadHourTypes } = useCareHourTypes()
@@ -98,6 +109,7 @@ const state = reactive({
         citizen_uuids: [],
         hour_type_uuids: [] as string[],
         date_range: [] as any,
+        created_range: [] as any,
     },
     isPageLoading: false,
     options: {
