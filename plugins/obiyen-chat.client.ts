@@ -3,11 +3,15 @@ import { supportChatPage } from '~/composables/supportChatPage'
 
 export default defineNuxtPlugin(() => {
     // No support chat inside the duty schedule embedded on a customer's website,
-    // nor on the company-invitation page, whose link carries a signed grant.
+    // nor on the company-invitation page, whose link carries a signed grant,
+    // nor on the info screen hanging in a common room.
     if (
         process.client
         && !window.location.pathname.startsWith('/embed/duty-schedules/')
         && !window.location.pathname.startsWith('/accept-company-invite')
+        && window.location.pathname !== '/screen'
+        && !window.location.pathname.startsWith('/screen-vote/')
+        && !window.location.pathname.startsWith('/screen-mood/')
     ) {
         const d = document
         const s = d.createElement("script")
