@@ -766,6 +766,21 @@
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('epikrise.settings.enableHint') }}</p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.treatment_photos_enabled"
+                                        @toggleSwitch="state.formCompany.treatment_photos_enabled = !state.formCompany.treatment_photos_enabled" :label="$t('treatmentPhotosSettings.enableLabel')" />
+                                    <p>
+                                        {{ $t('treatmentPhotosSettings.enableLabel') }}
+                                    </p>
+                                    <NuxtLink to="/settings/treatment-photo-milestones"
+                                        class="text-xs text-tertiary hover:text-tertiary-800"
+                                        v-if="state.formCompany.treatment_photos_enabled && isAtLeast('Admin')">
+                                        ({{ $t('treatmentPhotosSettings.milestonesLink') }})
+                                    </NuxtLink>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ tt('treatmentPhotosSettings.enableHint') }}</p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
                                     @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" :label="$t('settings.company.form.quickRiskAssessment')" />
@@ -1104,6 +1119,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { roleService } from '@/components/api/user/RoleService'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 import { useUserStore } from '@/store/user'
 import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
@@ -1294,7 +1310,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.auto_ai_for_new_employees])
+const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.treatment_photos_enabled, state.formCompany.auto_ai_for_new_employees])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
 const otherTotal = computed(() => otherSwitches.value.length + 2)
@@ -1305,6 +1321,7 @@ const { t } = useI18n()
 // The two note switches of the Other section, counted apart from otherCount.
 const calendarNoteSwitchCount = computed(() => [state.formCompany.calendar_note_required_enabled, state.formCompany.missing_note_coordinator_reminder_enabled].filter(Boolean).length)
 const { isAtLeast, can } = usePermissions()
+const { tt } = useTerminology()
 
 // Company logo for PDF branding
 const logoInput = ref<HTMLInputElement | null>(null)
@@ -1345,6 +1362,7 @@ const state = reactive({
         chat_cpr_warning_enabled: false,
         birthday_notifications: 'all',
         epikrise_enabled: false,
+        treatment_photos_enabled: false,
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
         calendar_note_required_enabled: false,
@@ -1519,6 +1537,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             chat_cpr_warning_enabled: newValue?.company?.chat_cpr_warning_enabled === true,
             birthday_notifications: newValue?.company?.birthday_notifications ?? 'all',
             epikrise_enabled: newValue?.company?.epikrise_enabled === true,
+            treatment_photos_enabled: newValue?.company?.treatment_photos_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
             calendar_note_required_enabled: newValue?.company?.calendar_note_required_enabled === true,
@@ -1812,6 +1831,7 @@ async function submitForm() {
                 chat_cpr_warning_enabled: state.formCompany.chat_cpr_warning_enabled,
                 birthday_notifications: state.formCompany.birthday_notifications,
                 epikrise_enabled: state.formCompany.epikrise_enabled,
+                treatment_photos_enabled: state.formCompany.treatment_photos_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
                 calendar_note_required_enabled: state.formCompany.calendar_note_required_enabled,

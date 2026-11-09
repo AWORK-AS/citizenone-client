@@ -262,6 +262,9 @@
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
+                                                <span v-if="document?.is_patient_standard"
+                                                    class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
+                                                    data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
                                             </div>
                                             <div v-else class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 @click="viewDirectory(document)">
@@ -271,6 +274,9 @@
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
+                                                <span v-if="document?.is_patient_standard"
+                                                    class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
+                                                    data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
                                             </div>
                                             <p v-if="document?.folder_path !== undefined"
                                                 class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
@@ -373,6 +379,14 @@
                                                     data-testid="drive-send-to-citizen"
                                                     @click="openSendToCitizen(document)">
                                                     <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="patientStandardLabel(document)"
+                                                v-if="canSetPatientStandard && (document.type === 'file' || document.type === 'folder') && state.viewMode === 'local' && !state.isInsideOneDrive && !document?.is_onedrive">
+                                                <FormButton :aria-label="patientStandardLabel(document)" type="button" buttonStyle="action"
+                                                    data-testid="drive-patient-standard"
+                                                    @click="confirmPatientStandard(document)">
+                                                    <Icon :name="document?.is_patient_standard ? 'ph:users-three-fill' : 'ph:users-three'" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')">
@@ -481,6 +495,9 @@
 
 
                     <!-- Unified dialog/modal block for all modes (local, Google Drive, OneDrive) -->
+                    <DialogConfirmation :isModalOpen="state.modal.isPatientStandardOpen"
+                        :title="patientStandardConfirmTitle" :message="patientStandardConfirmMessage"
+                        @close="state.modal.isPatientStandardOpen = false" @confirm="savePatientStandard" />
                     <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                         :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                         @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -560,6 +577,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
+import { standardDocumentService } from '@/components/api/user/StandardDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -850,6 +868,7 @@ const state = reactive({
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isSendToCitizenOpen: false,
+        isPatientStandardOpen: false,
         isViewFolderStructureOpen: false,
         isViewDocumentOpen: false,
         isDownloadDialogConfirmationOpen: false,
@@ -1851,6 +1870,67 @@ async function confirmOpenEditDocFile() {
 function openSendToCitizen(document: any) {
     state.selectedDocument = document
     state.modal.isSendToCitizenOpen = true
+}
+
+// Standard documents: an Admin shows a company file or folder to every patient
+// (read-only). Turning it on says how many patients will see it first.
+const canSetPatientStandard = computed(() => isAtLeast('Admin'))
+const patientStandardCount = ref<number | null>(null)
+
+function patientStandardLabel(document: any): string {
+    return document?.is_patient_standard
+        ? tt('standardDocuments.drive.hide')
+        : tt('standardDocuments.drive.show')
+}
+
+const patientStandardConfirmTitle = computed(() =>
+    state.selectedDocument?.is_patient_standard
+        ? tt('standardDocuments.drive.confirmHideTitle')
+        : tt('standardDocuments.drive.confirmShowTitle'))
+
+const patientStandardConfirmMessage = computed(() => {
+    const name = state.selectedDocument?.name ?? ''
+    if (state.selectedDocument?.is_patient_standard) {
+        return tt('standardDocuments.drive.confirmHide', { name })
+    }
+    return patientStandardCount.value === null
+        ? tt('standardDocuments.drive.confirmShowNoCount', { name })
+        : tt('standardDocuments.drive.confirmShow', { name, count: patientStandardCount.value })
+})
+
+async function confirmPatientStandard(document: any) {
+    state.selectedDocument = document
+    patientStandardCount.value = null
+    if (!document?.is_patient_standard) {
+        try {
+            const response: any = await standardDocumentService.getPatientStandardCount()
+            const count = Number(response?.data?.count)
+            patientStandardCount.value = Number.isFinite(count) ? count : null
+        } catch {
+            // The question still has to be asked; it just cannot name a number.
+            patientStandardCount.value = null
+        }
+    }
+    state.modal.isPatientStandardOpen = true
+}
+
+async function savePatientStandard() {
+    const document = state.selectedDocument
+    if (!document?.uuid) return
+    const turnOn = !document.is_patient_standard
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        await standardDocumentService.setPatientStandard(document.uuid, turnOn)
+        successAlert(
+            `${t('alert.success')}!`,
+            tt(turnOn ? 'standardDocuments.drive.shown' : 'standardDocuments.drive.hidden') + '.',
+        )
+        await fetchDocuments()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function viewDocumentAccess(document: any) {

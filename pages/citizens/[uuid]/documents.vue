@@ -36,6 +36,9 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
+                <!-- Company documents shown to every patient; read-only, hidden when there are none. -->
+                <ModulesUserDocumentStandardDocumentsSection scope="staff" :citizenUuid="citizenUuid" />
+
                 <div class="flex">
                     <div class="ml-auto flex justify-end items-center gap-x-3">
                         <FormButton v-if="showDraftButton" buttonStyle="action"
@@ -104,6 +107,9 @@
                                                 <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                             </Tooltip>
                                             <span class="truncate">{{ document?.name }}</span>
+                                            <span v-if="document?.uploaded_by_patient"
+                                                class="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800"
+                                                data-testid="uploaded-by-patient-badge">{{ tt('treatmentPhotosSettings.documents.uploadedByPatient') }}</span>
                                         </div>
                                         <span v-else class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             @click="viewDirectory(document)">
@@ -224,7 +230,10 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
-import { documentFileName } from '@/composables/documentBlobViewer'
+import { documentFileName, documentExtension } from '@/composables/documentBlobViewer'
+import { standardDocumentService } from '@/components/api/user/StandardDocumentService'
+import { useTreatmentPhotos } from '@/composables/useTreatmentPhotos'
+import { useTerminology } from '@/composables/useTerminology'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -273,6 +282,7 @@ function documentActions(document: any) {
         document?.type === 'file' && { key: 'share', icon: 'ph:share', label: shareLabel(document), run: () => confirmDocumentShareUnshare(document) },
         canDownloadDocuments.value && { key: 'send', icon: 'ph:paper-plane-tilt', label: t('citizens.documents.table.actions.sendLink'), run: () => openSendLink(document) },
         document?.type === 'file' && { key: 'move', icon: 'ph:arrows-out', label: t('citizens.documents.table.actions.move'), run: () => moveFileConfirmation(document) },
+        canMoveToTreatmentPhotos(document) && { key: 'treatment-photo', icon: 'ph:camera', label: t('treatmentPhotosSettings.documents.moveToTreatmentPhotos'), run: () => moveToTreatmentPhotos(document) },
         (isAtLeast('Admin') || can('update_citizen_document')) && { key: 'edit', icon: 'ph:pencil-simple', label: t('citizens.documents.table.actions.edit'), run: () => editDocument(document) },
         isAtLeast('Admin') && { key: 'access', icon: 'ph:lock', label: t('citizens.documents.table.actions.access'), run: () => viewDocumentAccess(document) },
         { key: 'archive', icon: 'ph:archive', label: t('citizens.documents.table.actions.archive'), run: () => confirmDocumentArchiving(document) },
@@ -281,6 +291,33 @@ function documentActions(document: any) {
             run: () => document?.type === 'folder' ? deleteDirectoryConfirmation(document) : deleteFileConfirmation(document),
         },
     ]
+}
+
+// Image files can be moved into the patient's Treatment photos (only where the
+// company has switched that on and the user may write to the documents).
+const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'heic', 'heif', 'webp']
+
+function canMoveToTreatmentPhotos(document: any): boolean {
+    if (!isTreatmentPhotosEnabled.value || document?.type !== 'file') return false
+    if (!(isAtLeast('Admin') || can('update_citizen_document'))) return false
+    // Treatment photos are open to the patient and to everyone with the record, so only an image that is already
+    // that open can move; the server also refuses one inside a folder limited to named staff.
+    if (!(document?.is_shared || document?.uploaded_by_patient) || document?.is_admin_access) return false
+    const mime = String(document?.mime_type || '').toLowerCase()
+    return IMAGE_EXTENSIONS.includes(documentExtension(document)) || /^image\/(jpe?g|png|heic|heif|webp)$/.test(mime)
+}
+
+async function moveToTreatmentPhotos(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        await standardDocumentService.moveToTreatmentPhotos(citizenUuid, document?.uuid, { category: 'treatment_photo' })
+        successAlert(`${t('alert.success')}!`, `${t('treatmentPhotosSettings.documents.movedToTreatmentPhotos')}.`)
+        await fetchDocuments()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function shareLabel(document: any) {
@@ -298,6 +335,8 @@ const shareConfirmationMessage = computed(() => {
     return isShared ? t('citizens.documents.confirmation.unshareConfirmation') : t('citizens.documents.confirmation.shareConfirmation') + '?'
 })
 const { isAtLeast, can } = usePermissions()
+const { tt } = useTerminology()
+const { isEnabled: isTreatmentPhotosEnabled } = useTreatmentPhotos()
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 const router = useRouter()
