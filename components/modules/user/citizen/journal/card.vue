@@ -1,6 +1,11 @@
 <template>
+    <!-- The list fades cards in with a transform (stagger-children), so each card is
+         its own stacking context and the next card painted over this card's open
+         "More actions" menu, hiding everything below "Copy" (AW-2026-9984).
+         Headless UI moves focus into the open menu, so focus-within lifts the card
+         above its neighbours for as long as the menu is open. -->
     <div :class="[
-        'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
+        'relative focus-within:z-20 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
         journal.is_pinned ? 'border-l-primary' : 'border-l-secondary'
     ]" :data-uuid="journal.uuid">
         <div class="space-y-3">
