@@ -1,4 +1,67 @@
 {
+    "treatmentPhotos": {
+        "title": "Treatment photos",
+        "noMilestone": "No milestone",
+        "noPreview": "No preview in this browser",
+        "notAvailable": "Treatment photos are not turned on for this clinic.",
+        "treatmentStart": "Treatment start",
+        "treatmentStartPlaceholder": "Select date",
+        "treatmentStartHelp": "Used to work out how many days after the start of treatment each photo was taken, for {theCitizen}.",
+        "dateTaken": "Date taken",
+        "milestone": "Milestone",
+        "select": "Select photo",
+        "selectedCount": "{count} of 2 selected",
+        "empty": "No treatment photos yet.",
+        "uploadedByPatient": "Uploaded by {theCitizen}",
+        "uploadedByYou": "Uploaded by you",
+        "confirmDelete": "Are you sure you want to delete this photo",
+        "upload": {
+            "button": "Upload photos",
+            "title": "Upload photos",
+            "chooseFiles": "Choose photos",
+            "fileHelp": "JPG, PNG, HEIC or WebP, up to 10 MB each, up to 10 photos at a time.",
+            "removeFile": "Remove",
+            "auto": "Auto",
+            "autoHint": "The photo is placed at the nearest milestone automatically.",
+            "autoNoStart": "Set a treatment start date to place the photo at a milestone automatically.",
+            "autoHintPatient": "If you do not choose, the photo is placed at the nearest milestone once the treatment start is known.",
+            "suggested": "Suggested: {name}",
+            "submit": "Upload",
+            "invalidType": "{name} is not a supported image type.",
+            "tooLarge": "{name} is larger than 10 MB.",
+            "tooMany": "You can upload up to 10 photos at a time."
+        },
+        "edit": {
+            "title": "Edit photo"
+        },
+        "compare": {
+            "title": "Compare photos",
+            "button": "Compare",
+            "start": "Compare photos",
+            "selectHint": "Select two photos to compare.",
+            "sideBySide": "Side by side",
+            "photoA": "Photo 1",
+            "photoB": "Photo 2",
+            "zoomIn": "Zoom in",
+            "zoomOut": "Zoom out",
+            "reset": "Reset",
+            "hint": "Scroll to zoom and drag to move. Both photos move together.",
+            "daysSince": "{days} days since treatment start"
+        },
+        "alert": {
+            "uploaded": "Photos uploaded",
+            "updated": "Photo updated",
+            "deleted": "Photo deleted",
+            "startSaved": "Treatment start saved"
+        },
+        "patient": {
+            "notAvailable": "Treatment photos are not available at your clinic.",
+            "backToOverview": "Back to overview",
+            "intro": "Here you can see and upload photos from your treatment and compare them over time.",
+            "empty": "You have no photos yet.",
+            "deleteHint": "You can delete a photo you uploaded yourself for up to 24 hours after uploading it."
+        }
+    },
     "announcements": {
         "eyebrow": {
             "feature": "New app from CitizenOne",
@@ -4503,6 +4566,7 @@
             }
         },
         "tabs": {
+            "treatmentPhotos": "Treatment photos",
             "attendance": "Attendance",
             "calendar": "Calendar",
             "children": "Children",
@@ -20683,6 +20747,7 @@
     },
     "patient": {
         "nav": {
+            "photos": "Photos",
             "appointments": "Appointments",
             "calendar": "Calendar",
             "journal": "Journal",
@@ -22728,6 +22793,58 @@
     "desktopApp": {
         "notAvailable": "This is not available in the desktop app.",
         "paymentNotAvailable": "The payment card cannot be updated in the desktop app. Contact support if you need help."
+    },
+    "standardDocuments": {
+        "badge": "Standard document",
+        "title": "Standard documents",
+        "introStaff": "Documents the clinic shows to all {citizens}. They are read-only here and are managed under Company documents.",
+        "introPatient": "Documents from the clinic that apply to everyone. You can read and download them.",
+        "view": "View",
+        "download": "Download",
+        "updated": "Updated",
+        "drive": {
+            "show": "Show to all {citizens}",
+            "hide": "Stop showing to all {citizens}",
+            "confirmShowTitle": "Show to all {citizens}?",
+            "confirmShow": "\"{name}\" will be visible, read-only, to all {citizens} in the portal and the app. Number of {citizens} who will see it: {count}. A folder shows every file inside it, including files added later.",
+            "confirmShowNoCount": "\"{name}\" will be visible, read-only, to all {citizens} in the portal and the app. A folder shows every file inside it, including files added later.",
+            "confirmHideTitle": "Stop showing to all {citizens}?",
+            "confirmHide": "\"{name}\" will no longer be shown to all {citizens}. Nothing is deleted.",
+            "shown": "Now shown to all {citizens}",
+            "hidden": "No longer shown to all {citizens}"
+        }
+    },
+    "treatmentPhotosSettings": {
+        "enableLabel": "Treatment photos",
+        "enableHint": "Adds a Treatment photos tab to each {citizen} record. Photos are grouped by milestones (for example before treatment, month 3, month 6) and two photos can be compared side by side.",
+        "milestonesLink": "Milestones",
+        "documents": {
+            "uploadedByPatient": "Uploaded by {citizen}",
+            "moveToTreatmentPhotos": "Move to Treatment photos",
+            "movedToTreatmentPhotos": "The image was moved to Treatment photos"
+        },
+        "milestones": {
+            "title": "Treatment photo milestones",
+            "description": "Milestones group treatment photos by the time since the {citizen} started treatment (for example Day 0 or Month 3). A new photo is placed under the nearest milestone automatically when the {citizen} has a treatment start date.",
+            "featureOff": "Treatment photos are switched off. Turn them on under Company in Settings to use the milestones.",
+            "empty": "No milestones yet.",
+            "add": "Add milestone",
+            "edit": "Edit milestone",
+            "delete": "Delete milestone",
+            "deleteConfirm": "Delete the milestone \"{name}\"? Photos keep their date but lose this milestone.",
+            "name": "Name",
+            "namePlaceholder": "For example Month 3",
+            "offsetDays": "Days after treatment start",
+            "offsetPlaceholder": "0",
+            "offsetHint": "0 is the day treatment starts. Used to place new photos under the nearest milestone.",
+            "offsetValue": "Day {days}",
+            "moveUp": "Move up",
+            "moveDown": "Move down",
+            "saved": "Milestone saved",
+            "deleted": "Milestone deleted",
+            "saveFailed": "The milestone could not be saved",
+            "deleteFailed": "The milestone could not be deleted"
+        }
     },
     "infoScreenDisplay": {
         "title": "Info screen",

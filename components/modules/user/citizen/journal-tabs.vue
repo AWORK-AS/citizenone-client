@@ -17,6 +17,7 @@ const { errorAlert } = useAlert()
 const { industryHasFeature } = useIndustryFeatures()
 const permissions = usePermissions()
 const epikrise = useEpikrise()
+const treatmentPhotos = useTreatmentPhotos()
 
 const state = reactive({
     tabs: [] as any[],
@@ -132,6 +133,15 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             category: 'documentation', primary: true,
             href: `/citizens/${citizenUuid}/documents`,
             routeNames: ['citizens-uuid-documents'],
+        })
+    }
+    // Before/after photos of a treatment: a company switch (Settings -> Company).
+    if (treatmentPhotos.isEnabled.value) {
+        tabs.push({
+            name: 'citizens.tabs.treatmentPhotos', icon: 'ph:camera', isTranslateName: true,
+            category: 'documentation', primary: false,
+            href: `/citizens/${citizenUuid}/treatment-photos`,
+            routeNames: ['citizens-uuid-treatment-photos'],
         })
     }
     if (can('Health')) {

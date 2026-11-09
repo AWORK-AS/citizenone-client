@@ -1,4 +1,67 @@
 {
+    "treatmentPhotos": {
+        "title": "Behandlingsbilleder",
+        "noMilestone": "Ingen milepæl",
+        "noPreview": "Ingen forhåndsvisning i denne browser",
+        "notAvailable": "Behandlingsbilleder er ikke slået til for denne klinik.",
+        "treatmentStart": "Behandlingsstart",
+        "treatmentStartPlaceholder": "Vælg dato",
+        "treatmentStartHelp": "Bruges til at beregne, hvor mange dage efter behandlingsstart hvert billede er taget, for {theCitizen}.",
+        "dateTaken": "Billeddato",
+        "milestone": "Milepæl",
+        "select": "Vælg billede",
+        "selectedCount": "{count} af 2 valgt",
+        "empty": "Der er ingen behandlingsbilleder endnu.",
+        "uploadedByPatient": "Uploadet af {theCitizen}",
+        "uploadedByYou": "Uploadet af dig",
+        "confirmDelete": "Er du sikker på, at du vil slette dette billede",
+        "upload": {
+            "button": "Upload billede",
+            "title": "Upload billeder",
+            "chooseFiles": "Vælg billeder",
+            "fileHelp": "JPG, PNG, HEIC eller WebP, op til 10 MB pr. billede og maks. 10 billeder ad gangen.",
+            "removeFile": "Fjern",
+            "auto": "Automatisk",
+            "autoHint": "Billedet placeres automatisk ved den nærmeste milepæl.",
+            "autoNoStart": "Angiv en behandlingsstart for at placere billedet automatisk ved en milepæl.",
+            "autoHintPatient": "Hvis du ikke vælger, placeres billedet ved den nærmeste milepæl, når behandlingsstart er kendt.",
+            "suggested": "Foreslået: {name}",
+            "submit": "Upload",
+            "invalidType": "{name} er ikke en understøttet billedtype.",
+            "tooLarge": "{name} er større end 10 MB.",
+            "tooMany": "Du kan uploade op til 10 billeder ad gangen."
+        },
+        "edit": {
+            "title": "Rediger billede"
+        },
+        "compare": {
+            "title": "Sammenlign billeder",
+            "button": "Sammenlign",
+            "start": "Sammenlign billeder",
+            "selectHint": "Vælg to billeder, der skal sammenlignes.",
+            "sideBySide": "Side om side",
+            "photoA": "Billede 1",
+            "photoB": "Billede 2",
+            "zoomIn": "Zoom ind",
+            "zoomOut": "Zoom ud",
+            "reset": "Nulstil",
+            "hint": "Scroll for at zoome, og træk for at flytte. Begge billeder følger med.",
+            "daysSince": "{days} dage siden behandlingsstart"
+        },
+        "alert": {
+            "uploaded": "Billederne er uploadet",
+            "updated": "Billedet er opdateret",
+            "deleted": "Billedet er slettet",
+            "startSaved": "Behandlingsstart er gemt"
+        },
+        "patient": {
+            "notAvailable": "Behandlingsbilleder er ikke tilgængelige hos din klinik.",
+            "backToOverview": "Tilbage til oversigten",
+            "intro": "Her kan du se og uploade billeder af din behandling og sammenligne dem over tid.",
+            "empty": "Du har ingen billeder endnu.",
+            "deleteHint": "Du kan selv slette et billede, du har uploadet, i op til 24 timer efter upload."
+        }
+    },
     "announcements": {
         "eyebrow": {
             "feature": "Ny app fra CitizenOne",
@@ -4503,6 +4566,7 @@
             }
         },
         "tabs": {
+            "treatmentPhotos": "Behandlingsbilleder",
             "attendance": "Fremmøde",
             "calendar": "Kalender",
             "children": "Børn",
@@ -20683,6 +20747,7 @@
     },
     "patient": {
         "nav": {
+            "photos": "Billeder",
             "appointments": "Aftaler",
             "calendar": "Kalender",
             "journal": "Journal",
@@ -22728,6 +22793,58 @@
     "desktopApp": {
         "notAvailable": "Det er ikke tilgængeligt i desktop-appen.",
         "paymentNotAvailable": "Betalingskortet kan ikke opdateres i desktop-appen. Kontakt support, hvis I har brug for hjælp."
+    },
+    "standardDocuments": {
+        "badge": "Standarddokument",
+        "title": "Standarddokumenter",
+        "introStaff": "Dokumenter, som klinikken viser til alle {citizens}. De er skrivebeskyttede her og administreres under Virksomhedsdokumenter.",
+        "introPatient": "Dokumenter fra klinikken, der gælder for alle. Du kan læse og downloade dem.",
+        "view": "Vis",
+        "download": "Download",
+        "updated": "Opdateret",
+        "drive": {
+            "show": "Vis for alle {citizens}",
+            "hide": "Stop visning for alle {citizens}",
+            "confirmShowTitle": "Vis for alle {citizens}?",
+            "confirmShow": "\"{name}\" bliver synlig som skrivebeskyttet for alle {citizens} i portalen og appen. Antal {citizens}, der vil kunne se det: {count}. En mappe viser alle filer i den, også filer, der tilføjes senere.",
+            "confirmShowNoCount": "\"{name}\" bliver synlig som skrivebeskyttet for alle {citizens} i portalen og appen. En mappe viser alle filer i den, også filer, der tilføjes senere.",
+            "confirmHideTitle": "Stop visning for alle {citizens}?",
+            "confirmHide": "\"{name}\" vises ikke længere for alle {citizens}. Der bliver ikke slettet noget.",
+            "shown": "Vises nu for alle {citizens}",
+            "hidden": "Vises ikke længere for alle {citizens}"
+        }
+    },
+    "treatmentPhotosSettings": {
+        "enableLabel": "Behandlingsbilleder",
+        "enableHint": "Tilføjer fanen Behandlingsbilleder på hver {citizen}. Billederne grupperes efter milepæle (fx før behandling, måned 3, måned 6), og to billeder kan sammenlignes side om side.",
+        "milestonesLink": "Milepæle",
+        "documents": {
+            "uploadedByPatient": "Uploadet af {citizen}",
+            "moveToTreatmentPhotos": "Flyt til Behandlingsbilleder",
+            "movedToTreatmentPhotos": "Billedet er flyttet til Behandlingsbilleder"
+        },
+        "milestones": {
+            "title": "Milepæle for behandlingsbilleder",
+            "description": "Milepæle grupperer behandlingsbilleder efter tiden siden behandlingens start (fx dag 0 eller måned 3). Et nyt billede placeres automatisk under den nærmeste milepæl, når {citizen} har en startdato for behandlingen.",
+            "featureOff": "Behandlingsbilleder er slået fra. Slå dem til under Virksomhed i Indstillinger for at bruge milepæle.",
+            "empty": "Der er ingen milepæle endnu.",
+            "add": "Tilføj milepæl",
+            "edit": "Rediger milepæl",
+            "delete": "Slet milepæl",
+            "deleteConfirm": "Vil du slette milepælen \"{name}\"? Billederne beholder deres dato, men mister denne milepæl.",
+            "name": "Navn",
+            "namePlaceholder": "Fx måned 3",
+            "offsetDays": "Dage efter behandlingsstart",
+            "offsetPlaceholder": "0",
+            "offsetHint": "0 er den dag, behandlingen starter. Bruges til at placere nye billeder under den nærmeste milepæl.",
+            "offsetValue": "Dag {days}",
+            "moveUp": "Flyt op",
+            "moveDown": "Flyt ned",
+            "saved": "Milepælen er gemt",
+            "deleted": "Milepælen er slettet",
+            "saveFailed": "Milepælen kunne ikke gemmes",
+            "deleteFailed": "Milepælen kunne ikke slettes"
+        }
     },
     "infoScreenDisplay": {
         "title": "Infoskærm",

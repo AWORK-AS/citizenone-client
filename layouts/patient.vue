@@ -266,6 +266,7 @@ import {
 } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { patientService } from '@/components/api/patient/PatientService'
+import { isTreatmentPhotosOn } from '@/composables/useTreatmentPhotos'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -372,6 +373,15 @@ const navigation = ref([
             'patient-documents',
         ]
     },
+    {
+        name: 'Photos',
+        label: 'patient.nav.photos',
+        href: '/patient/photos',
+        icon: 'ph:camera',
+        activeRouteNames: [
+            'patient-photos',
+        ]
+    },
 ] as any[])
 
 // Sections an admin switched off must not appear in the sidebar. The resolved
@@ -396,6 +406,11 @@ const visibleNavigation = computed(() => {
         // The journal is doubly gated: the clinic switches the section on for
         // the company, and then opens it for this patient specifically.
         if (item.name === 'Journal' && !user?.has_journal_access) {
+            return false
+        }
+
+        // Treatment photos are a clinic setting that is off unless an admin turned it on.
+        if (item.name === 'Photos' && !isTreatmentPhotosOn(user?.company)) {
             return false
         }
 
