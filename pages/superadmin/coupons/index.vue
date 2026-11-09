@@ -18,80 +18,68 @@
                     </template>
                 </ModulesSuperadminPageHeader>
 
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search') + '...'"
-                        @input="debouncedSearch" />
-                </div>
-
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.coupons"
-                    :isLoading="state.isTableLoading" :sortData="state.sortData"
-                    :emptyMessage="$t('superadmin.coupons.noCouponsFound')" emptyIcon="ph:ticket" rowKey="uuid"
-                    @sort="handleSort">
-                    <template #body>
-                        <tr v-for="(coupon, index) in state.coupons?.data" :key="index"
-                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
-                            <td class="co-td font-mono text-[13px] font-semibold text-tertiary">
-                                {{ coupon?.code }}
-                            </td>
-                            <td class="co-td">
-                                <span v-if="coupon?.type === 'deal'" class="co-badge co-badge-green">
-                                    {{ $t('superadmin.coupons.table.type.deal') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-navy">
-                                    {{ $t('superadmin.coupons.table.type.addOn') }}
-                                </span>
-                                <p v-if="coupon?.description" class="text-[11px] text-ink-muted mt-0.5">
-                                    {{ coupon.description }}
-                                </p>
-                            </td>
-                            <td class="co-td text-[13px] font-semibold text-ink">
-                                <span v-if="coupon?.unit === 'amount'">{{ formatAmount(coupon?.amount, 'DKK') }}</span>
-                                <span v-else-if="coupon?.unit === 'percentage'">{{ coupon?.amount }}%</span>
-                            </td>
-                            <td class="co-td text-[13px] text-ink-body">
-                                <span v-if="coupon?.unit === 'amount'">
-                                    {{ $t('superadmin.coupons.table.unit.amount') }}
-                                </span>
-                                <span v-else-if="coupon?.unit === 'percentage'">
-                                    {{ $t('superadmin.coupons.table.unit.percentage') }}
-                                </span>
-                            </td>
-                            <td class="co-td text-[13px] text-ink-body">
-                                {{ coupon?.quantity ?? '—' }}
-                            </td>
-                            <td class="co-td text-[13px] text-ink-body">
-                                {{ coupon?.expiration ? formatDateToReadable(coupon.expiration) : '—' }}
-                            </td>
-                            <td class="co-td">
-                                <ModulesSuperadminStatusPill v-if="coupon?.is_active" variant="success">
-                                    {{ $t('superadmin.coupons.table.active') }}
-                                </ModulesSuperadminStatusPill>
-                                <ModulesSuperadminStatusPill v-else variant="neutral">
-                                    {{ $t('superadmin.coupons.table.inactive') }}
-                                </ModulesSuperadminStatusPill>
-                            </td>
-                            <td class="co-td" @click.stop>
-                                <div
-                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <SuperadminTableButton
-                                        @click="navigateTo(`/superadmin/coupons/${coupon.uuid}/edit`)">
-                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.coupons.table.actions.edit') }}
-                                    </SuperadminTableButton>
-                                    <SuperadminTableButton buttonStyle="danger" @click="deleteConfirmation(coupon)">
-                                        <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.coupons.table.actions.delete') }}
-                                    </SuperadminTableButton>
-                                </div>
-                            </td>
-                        </tr>
+                <ModulesSuperadminDataTable :columns="columns" :rows="state.coupons?.data ?? []" rowKey="uuid"
+                    :loading="state.isTableLoading" :error="state.loadError" :meta="meta"
+                    :sort="list.state.sort" :order="list.state.order"
+                    v-model:search="list.searchInput.value" :searchPlaceholder="$t('search') + '...'"
+                    :filtered="list.isFiltered.value" clickable
+                    emptyIcon="ph:ticket" :emptyTitle="$t('superadmin.coupons.noCouponsFound')"
+                    :exportName="$t('superadmin.coupons.coupons')" :exportPage="exportPage"
+                    :exportColumns="exportColumns"
+                    @sort="list.toggleSort" @page="list.setPage" @reset="list.reset" @retry="list.reload"
+                    @row-click="(coupon) => navigateTo(`/superadmin/coupons/${coupon.uuid}/edit`)">
+                    <template #cell-name="{ row: coupon }">
+                        <span class="font-mono font-semibold text-tertiary">{{ coupon?.code }}</span>
                     </template>
-                </SuperadminTable>
-
-                <Pagination :data="state.coupons" @previous="previous" @next="next" />
+                    <template #cell-type="{ row: coupon }">
+                        <span v-if="coupon?.type === 'deal'" class="co-badge co-badge-green">
+                            {{ $t('superadmin.coupons.table.type.deal') }}
+                        </span>
+                        <span v-else class="co-badge co-badge-navy">
+                            {{ $t('superadmin.coupons.table.type.addOn') }}
+                        </span>
+                        <p v-if="coupon?.description" class="text-[11px] text-ink-muted mt-0.5">
+                            {{ coupon.description }}
+                        </p>
+                    </template>
+                    <template #cell-amount="{ row: coupon }">
+                        <span class="font-semibold text-ink tabular-nums">
+                            <template v-if="coupon?.unit === 'amount'">{{ formatAmount(coupon?.amount, 'DKK') }}</template>
+                            <template v-else-if="coupon?.unit === 'percentage'">{{ coupon?.amount }}%</template>
+                        </span>
+                    </template>
+                    <template #cell-unit="{ row: coupon }">
+                        {{ unitLabel(coupon) }}
+                    </template>
+                    <template #cell-expiration="{ row: coupon }">
+                        {{ coupon?.expiration ? formatDateToReadable(coupon.expiration) : '—' }}
+                    </template>
+                    <template #cell-is_active="{ row: coupon }">
+                        <ModulesSuperadminStatusPill v-if="coupon?.is_active" variant="success">
+                            {{ $t('superadmin.coupons.table.active') }}
+                        </ModulesSuperadminStatusPill>
+                        <ModulesSuperadminStatusPill v-else variant="neutral">
+                            {{ $t('superadmin.coupons.table.inactive') }}
+                        </ModulesSuperadminStatusPill>
+                    </template>
+                    <template #cell-actions="{ row: coupon }">
+                        <div
+                            class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                            <SuperadminTableButton
+                                @click="navigateTo(`/superadmin/coupons/${coupon.uuid}/edit`)">
+                                <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.coupons.table.actions.edit') }}
+                            </SuperadminTableButton>
+                            <SuperadminTableButton buttonStyle="danger" @click="deleteConfirmation(coupon)">
+                                <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.coupons.table.actions.delete') }}
+                            </SuperadminTableButton>
+                        </div>
+                    </template>
+                </ModulesSuperadminDataTable>
             </div>
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteCouponOpen"
@@ -107,6 +95,10 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useListQuery } from '@/composables/useListQuery'
+import { apiSearchParam } from '@/composables/listQuery'
+import { normalizePageMeta, responseRows, type DataTableColumn } from '@/composables/dataTable'
+import type { CsvColumn } from '@/composables/csvExport'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -115,82 +107,83 @@ const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 
-let currentTablePage = 1
-let searchTimeout: any = null
-const searchQuery = ref('')
-
 const state = reactive({
-    columnHeaders: computed(() => [
-        { key: 'name', name: t('superadmin.coupons.table.code'), sorter: true },
-        { key: 'type', name: t('superadmin.coupons.table.description') },
-        { key: 'amount', name: t('superadmin.coupons.table.amount'), sorter: true },
-        { key: 'unit', name: t('superadmin.coupons.table.unit.unit'), sorter: true },
-        { key: 'quantity', name: t('superadmin.coupons.table.quantity'), sorter: true },
-        { key: 'expiration', name: t('superadmin.coupons.table.expiration'), sorter: true },
-        { key: 'is_active', name: t('superadmin.coupons.table.status'), sorter: true },
-        { key: 'actions', name: '' },
-    ]),
     coupons: [] as any,
-    dataFilter: {
-        search: ''
-    } as any,
     error: {} as Error,
+    loadError: null as string | null,
     isTableLoading: false,
     modal: {
         isDeleteCouponOpen: false
     },
     selectedCoupon: {} as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
 })
 
-onMounted(() => {
-    fetchCoupons()
+const list = useListQuery({
+    defaultSort: 'id',
+    defaultOrder: 'desc',
+    onChange: fetchCoupons,
 })
+
+const meta = computed(() => normalizePageMeta(state.coupons))
+
+const columns = computed<DataTableColumn[]>(() => [
+    { key: 'name', label: t('superadmin.coupons.table.code'), sortable: true },
+    { key: 'type', label: t('superadmin.coupons.table.description') },
+    { key: 'amount', label: t('superadmin.coupons.table.amount'), sortable: true },
+    { key: 'unit', label: t('superadmin.coupons.table.unit.unit'), sortable: true },
+    { key: 'quantity', label: t('superadmin.coupons.table.quantity'), sortable: true },
+    { key: 'expiration', label: t('superadmin.coupons.table.expiration'), sortable: true },
+    { key: 'is_active', label: t('superadmin.coupons.table.status'), sortable: true },
+    { key: 'actions', label: '', align: 'right' },
+])
+
+function unitLabel(coupon: any) {
+    if (coupon?.unit === 'amount') return t('superadmin.coupons.table.unit.amount')
+    if (coupon?.unit === 'percentage') return t('superadmin.coupons.table.unit.percentage')
+    return ''
+}
+
+const exportColumns = computed<CsvColumn[]>(() => [
+    { label: t('superadmin.coupons.table.code'), value: c => c?.code },
+    { label: t('superadmin.coupons.table.description'), value: c => [
+        c?.type === 'deal' ? t('superadmin.coupons.table.type.deal') : t('superadmin.coupons.table.type.addOn'),
+        c?.description,
+    ].filter(Boolean).join(' - ') },
+    { label: t('superadmin.coupons.table.amount'), value: c => c?.amount, type: 'number' },
+    { label: t('superadmin.coupons.table.unit.unit'), value: unitLabel },
+    { label: t('superadmin.coupons.table.quantity'), value: c => c?.quantity, type: 'number' },
+    { label: t('superadmin.coupons.table.expiration'), value: c => c?.expiration, type: 'date' },
+    { label: t('superadmin.coupons.table.status'), value: c => t(c?.is_active ? 'superadmin.coupons.table.active' : 'superadmin.coupons.table.inactive') },
+])
+
+function listParams(page: number) {
+    const params: any = { page, ...list.apiSort() }
+    const search = apiSearchParam(list.state.search)
+    if (search) params.search = search
+    return params
+}
+
+let requestSeq = 0
 
 async function fetchCoupons() {
-    state.error = {}
+    const seq = ++requestSeq
+    state.loadError = null
     state.isTableLoading = true
     try {
-        const params = {
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter,
-        }
-        const response = await couponService.getCoupons(params)
+        const response = await couponService.getCoupons(listParams(list.state.page))
+        if (seq !== requestSeq) return
         if (response) state.coupons = response
-    } catch (error: any) { state.error = error }
-    state.isTableLoading = false
+    } catch (error: any) {
+        if (seq !== requestSeq) return
+        state.loadError = error?.message || t('superadmin.dataTable.errorTitle')
+    }
+    if (seq === requestSeq) state.isTableLoading = false
 }
 
-function debouncedSearch() {
-    clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => {
-        const trimmed = searchQuery.value.trim()
-        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
-        currentTablePage = 1
-        fetchCoupons()
-    }, 350)
-}
-
-function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
-    state.sortData.sortField = column ?? 'id'
-    state.sortData.sortOrder = sort ?? 'descend'
-    currentTablePage = 1
-    fetchCoupons()
-}
-
-function previous() {
-    currentTablePage--
-    fetchCoupons()
-}
-
-function next() {
-    currentTablePage++
-    fetchCoupons()
+async function exportPage(page: number) {
+    const response = await couponService.getCoupons(listParams(page))
+    const pageMeta = normalizePageMeta(response)
+    return { rows: responseRows(response), lastPage: pageMeta?.lastPage ?? 1, total: pageMeta?.total ?? 0 }
 }
 
 function deleteConfirmation(coupon: any) {
@@ -200,7 +193,6 @@ function deleteConfirmation(coupon: any) {
 
 async function deleteCoupon() {
     state.error = {}
-    state.isTableLoading = true
     try {
         const response = await couponService.deleteCoupon(state.selectedCoupon?.uuid)
         if (response) {
@@ -208,6 +200,5 @@ async function deleteCoupon() {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.coupons.table.alert.couponSuccessfullyDeleted')}.`)
         }
     } catch (error: any) { state.error = error }
-    state.isTableLoading = false
 }
 </script>

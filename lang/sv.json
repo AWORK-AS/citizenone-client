@@ -14964,11 +14964,9 @@
                 "from": "Från",
                 "to": "Till",
                 "allPayments": "Alla betalningar",
-                "unpaid": "Obetald",
-                "clearFilters": "Rensa filter"
+                "unpaid": "Obetald"
             },
             "noInvoicesFound": "Inga fakturor hittades",
-            "tryToClearFilters": "Försök rensa filtren",
             "tabs": {
                 "all": "Alla",
                 "paid": "Betald",
@@ -15005,7 +15003,6 @@
                 "kindApp": "App",
                 "kindOther": "Övrigt",
                 "filterProduct": "Produkt: {name}",
-                "clearFilter": "Rensa filter",
                 "allTypes": "Alla typer",
                 "typeNew": "Nya köp",
                 "typeRecurring": "Förnyelser",
@@ -15179,10 +15176,7 @@
                     "error": "Fel",
                     "no_invoice": "Ingen faktura"
                 },
-                "errorReason": "Fel: {reason}",
-                "previous": "Föregående",
-                "next": "Nästa",
-                "page": "Sida {page} av {pages}"
+                "errorReason": "Fel: {reason}"
             }
         },
         "polls": {
@@ -16260,8 +16254,6 @@
             "unassigned": "Utan ägare",
             "mine": "Mina",
             "sourceLabel": "Källa",
-            "previous": "Föregående",
-            "next": "Nästa",
             "tabs": {
                 "open": "Öppna",
                 "all": "Alla"
@@ -16911,6 +16903,31 @@
                 "support_access_revoked": "Supportåtkomst återkallad",
                 "support_access_decided": "Supportåtkomst besvarad"
             }
+        },
+        "dataTable": {
+            "search": "Sök",
+            "results": "{count} resultat | {count} resultat",
+            "range": "{from}–{to} av {total}",
+            "previous": "Föregående",
+            "next": "Nästa",
+            "pages": "Sidor",
+            "page": "Sida {page}",
+            "sortBy": "Sortera efter {column}",
+            "loading": "Hämtar…",
+            "exportCsv": "Exportera CSV",
+            "exportHelp": "Ladda ner listan med de valda filtren som CSV för Excel",
+            "exporting": "Hämtar {done} av {total}…",
+            "exportTruncated": "Bara de första {count} raderna kom med. Begränsa filtren för att få resten.",
+            "exportFailed": "Exporten misslyckades. Försök igen.",
+            "exportEmpty": "Det finns inga rader att exportera.",
+            "emptyTitle": "Inga resultat",
+            "emptyFiltered": "Inga rader matchar filtren.",
+            "clearFilters": "Rensa filter",
+            "removeFilter": "Ta bort filter",
+            "errorTitle": "Listan kunde inte hämtas",
+            "retry": "Försök igen",
+            "all": "Alla",
+            "dismiss": "Stäng"
         }
     },
     "support": {

@@ -14964,11 +14964,9 @@
                 "from": "Fra",
                 "to": "Til",
                 "allPayments": "Alle betalinger",
-                "unpaid": "Ubetalt",
-                "clearFilters": "Fjern filtre"
+                "unpaid": "Ubetalt"
             },
             "noInvoicesFound": "Ingen fakturaer funnet",
-            "tryToClearFilters": "Prøv å fjerne filtrene",
             "tabs": {
                 "all": "Alle",
                 "paid": "Betalt",
@@ -15005,7 +15003,6 @@
                 "kindApp": "App",
                 "kindOther": "Annet",
                 "filterProduct": "Produkt: {name}",
-                "clearFilter": "Fjern filter",
                 "allTypes": "Alle typer",
                 "typeNew": "Nye kjøp",
                 "typeRecurring": "Fornyelser",
@@ -15179,10 +15176,7 @@
                     "error": "Feil",
                     "no_invoice": "Ingen faktura"
                 },
-                "errorReason": "Feil: {reason}",
-                "previous": "Forrige",
-                "next": "Neste",
-                "page": "Side {page} av {pages}"
+                "errorReason": "Feil: {reason}"
             }
         },
         "polls": {
@@ -16260,8 +16254,6 @@
             "unassigned": "Uten eier",
             "mine": "Mine",
             "sourceLabel": "Kilde",
-            "previous": "Forrige",
-            "next": "Neste",
             "tabs": {
                 "open": "Åpne",
                 "all": "Alle"
@@ -16911,6 +16903,31 @@
                 "support_access_revoked": "Supporttilgang trukket tilbake",
                 "support_access_decided": "Supporttilgang besvart"
             }
+        },
+        "dataTable": {
+            "search": "Søk",
+            "results": "{count} resultat | {count} resultater",
+            "range": "{from}–{to} av {total}",
+            "previous": "Forrige",
+            "next": "Neste",
+            "pages": "Sider",
+            "page": "Side {page}",
+            "sortBy": "Sorter etter {column}",
+            "loading": "Henter…",
+            "exportCsv": "Eksporter CSV",
+            "exportHelp": "Last ned listen med de valgte filtrene som CSV til Excel",
+            "exporting": "Henter {done} av {total}…",
+            "exportTruncated": "Bare de første {count} radene kom med. Snevre inn filtrene for å få resten.",
+            "exportFailed": "Eksporten mislyktes. Prøv igjen.",
+            "exportEmpty": "Det er ingen rader å eksportere.",
+            "emptyTitle": "Ingen resultater",
+            "emptyFiltered": "Ingen rader passer til filtrene.",
+            "clearFilters": "Fjern filtre",
+            "removeFilter": "Fjern filter",
+            "errorTitle": "Listen kunne ikke hentes",
+            "retry": "Prøv igjen",
+            "all": "Alle",
+            "dismiss": "Lukk"
         }
     },
     "support": {

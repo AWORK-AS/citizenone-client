@@ -41,7 +41,7 @@
                     </template>
                 </ModulesSuperadminPageHeader>
 
-                <Alert type="danger" :text="state.error" v-if="state.error" />
+
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
                     <div v-for="card in cards" :key="card.key"
@@ -133,43 +133,31 @@
                     </table>
                 </div>
 
-                <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-surface-subtle border-b border-line">
-                                <th class="co-th">{{ $t('superadmin.paymentFees.company') }}</th>
-                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.payments') }}</th>
-                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.volume') }}</th>
-                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.fee') }}</th>
-                                <th class="co-th">{{ $t('superadmin.paymentFees.status') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="row in state.statements" :key="row.uuid"
-                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
-                                <td class="co-td text-[13px] text-ink">{{ row.company.name }}</td>
-                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
-                                    {{ row.payment_count }}
-                                </td>
-                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
-                                    {{ formatAmount(row.gross_amount) }}
-                                </td>
-                                <td class="co-td text-right text-[13px] font-semibold text-ink tabular-nums">
-                                    {{ formatAmount(row.fee_amount) }}
-                                </td>
-                                <td class="co-td">
-                                    <ModulesSuperadminStatusPill :variant="row.status === 'charged' ? 'success' : 'warning'"
-                                        :label="$t(`superadmin.paymentFees.statuses.${row.status}`)" />
-                                </td>
-                            </tr>
-                            <tr v-if="!state.statements.length && !state.isLoading">
-                                <td class="co-td text-[13px] text-ink-muted" colspan="5">
-                                    {{ $t('superadmin.paymentFees.empty') }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <!-- The month's statements, one per company. The API sends the month
+                     whole, so search, sort and paging happen here. -->
+                <ModulesSuperadminDataTable :columns="columns" :rows="page.rows" rowKey="uuid"
+                    :loading="state.isLoading" :error="state.loadError" :meta="page.meta"
+                    :sort="list.state.sort" :order="list.state.order"
+                    v-model:search="list.searchInput.value"
+                    :filtered="!!list.state.search" emptyIcon="ph:coins"
+                    :emptyTitle="$t('superadmin.paymentFees.empty')"
+                    :exportName="`${$t('superadmin.paymentFees.header')} ${list.state.filters.period}`"
+                    :exportRows="() => page.all"
+                    @sort="list.toggleSort" @page="list.setPage" @reset="list.reset" @retry="reload">
+                    <template #cell-company="{ row }">
+                        <span class="text-ink">{{ row.company?.name }}</span>
+                    </template>
+                    <template #cell-gross_amount="{ row }">
+                        {{ formatAmount(row.gross_amount) }}
+                    </template>
+                    <template #cell-fee_amount="{ row }">
+                        <span class="font-semibold text-ink">{{ formatAmount(row.fee_amount) }}</span>
+                    </template>
+                    <template #cell-status="{ row }">
+                        <ModulesSuperadminStatusPill :variant="row.status === 'charged' ? 'success' : 'warning'"
+                            :label="$t(`superadmin.paymentFees.statuses.${row.status}`)" />
+                    </template>
+                </ModulesSuperadminDataTable>
             </div>
         </NuxtLayout>
     </div>
@@ -179,12 +167,14 @@
 import moment from 'moment'
 import { superadminPaymentFeeService } from '@/components/api/superadmin/PaymentFeeService'
 import { useI18n } from 'vue-i18n'
+import { useListQuery } from '@/composables/useListQuery'
+import { clientPage, type DataTableColumn } from '@/composables/dataTable'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
 
 const state = reactive({
-    period: moment().format('YYYY-MM'),
+    loadedPeriod: '',
     apps: [] as any[],
     byApplication: [] as any[],
     reconciliation: {} as any,
@@ -192,8 +182,40 @@ const state = reactive({
     totals: { company_count: 0, payment_count: 0, gross_amount: 0, fee_amount: 0, uncharged_amount: 0 },
     statements: [] as any[],
     isLoading: true,
-    error: '',
+    loadError: null as string | null,
 })
+
+// The month, search, sort and page live in the URL, so a link shows the same month.
+const list = useListQuery({
+    filters: { period: moment().format('YYYY-MM') },
+    onChange: () => {
+        // Only another month is another request; the rest happens on the rows already here.
+        if (list.state.filters.period !== state.loadedPeriod) load()
+    },
+})
+
+const columns = computed<DataTableColumn[]>(() => [
+    { key: 'company', label: t('superadmin.paymentFees.company'), sortable: true,
+        csv: { value: row => row.company?.name } },
+    { key: 'payment_count', label: t('superadmin.paymentFees.payments'), sortable: true, align: 'right',
+        cellClass: 'text-[13px] text-ink-body tabular-nums', csv: { type: 'number' } },
+    { key: 'gross_amount', label: t('superadmin.paymentFees.volume'), sortable: true, align: 'right',
+        cellClass: 'text-[13px] text-ink-body tabular-nums', csv: { type: 'amount' } },
+    { key: 'fee_amount', label: t('superadmin.paymentFees.fee'), sortable: true, align: 'right',
+        cellClass: 'text-[13px] tabular-nums', csv: { type: 'amount' } },
+    { key: 'status', label: t('superadmin.paymentFees.status'), sortable: true,
+        csv: { value: row => t(`superadmin.paymentFees.statuses.${row.status}`) } },
+])
+
+const page = computed(() => clientPage(state.statements, {
+    search: list.state.search,
+    searchText: row => [row.company?.name, t(`superadmin.paymentFees.statuses.${row.status}`)].join(' '),
+    sort: list.state.sort,
+    order: list.state.order,
+    sortValue: (row, sort) => (sort === 'company' ? row.company?.name : row[sort]),
+    page: list.state.page,
+    perPage: 25,
+}))
 
 // Anything here means money is on its way to being lost, so it sits above the
 // figures rather than under them.
@@ -203,9 +225,11 @@ const hasGaps = computed(() => Boolean(
     || state.reconciliation?.stale_statements?.count
 ))
 
-const isCurrentMonth = computed(() => state.period === moment().format('YYYY-MM'))
+const period = computed(() => (/^\d{4}-\d{2}$/.test(list.state.filters.period) ? list.state.filters.period : moment().format('YYYY-MM')))
 
-const readablePeriod = computed(() => moment(state.period, 'YYYY-MM')
+const isCurrentMonth = computed(() => period.value === moment().format('YYYY-MM'))
+
+const readablePeriod = computed(() => moment(period.value, 'YYYY-MM')
     .locale(locale.value === 'en' ? 'en' : 'da')
     .format('MMMM YYYY'))
 
@@ -249,20 +273,30 @@ function formatRate(rate: number): string {
 
 // The month ahead has nothing in it yet, so the arrow stops at today.
 function stepMonth(step: number) {
-    const next = moment(state.period, 'YYYY-MM').add(step, 'month')
+    const next = moment(period.value, 'YYYY-MM').add(step, 'month')
 
     if (next.isAfter(moment(), 'month')) return
 
-    state.period = next.format('YYYY-MM')
+    // A new month starts on its first page, with the search kept.
+    list.setFilter('period', next.format('YYYY-MM'))
+}
+
+function reload() {
     load()
 }
 
+let requestSeq = 0
+
 async function load() {
-    state.error = ''
+    const seq = ++requestSeq
+    const requested = period.value
+    state.loadedPeriod = list.state.filters.period
+    state.loadError = null
     state.isLoading = true
 
     try {
-        const response = await superadminPaymentFeeService.getPaymentFees({ period: state.period })
+        const response = await superadminPaymentFeeService.getPaymentFees({ period: requested })
+        if (seq !== requestSeq) return
         const data = response?.data
 
         if (data) {
@@ -274,11 +308,10 @@ async function load() {
             state.statements = data.statements || []
         }
     } catch (error: any) {
-        state.error = error?.message || ''
-    } finally {
-        state.isLoading = false
+        if (seq !== requestSeq) return
+        state.loadedPeriod = ''
+        state.loadError = error?.message || t('superadmin.dataTable.errorTitle')
     }
+    if (seq === requestSeq) state.isLoading = false
 }
-
-onMounted(() => load())
 </script>

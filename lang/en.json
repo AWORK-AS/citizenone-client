@@ -14972,11 +14972,9 @@
                 "from": "From",
                 "to": "To",
                 "allPayments": "All payments",
-                "unpaid": "Unpaid",
-                "clearFilters": "Clear filters"
+                "unpaid": "Unpaid"
             },
             "noInvoicesFound": "No invoices found",
-            "tryToClearFilters": "Try clearing your filters",
             "tabs": {
                 "all": "All",
                 "paid": "Paid",
@@ -15013,7 +15011,6 @@
                 "kindApp": "App",
                 "kindOther": "Other",
                 "filterProduct": "Product: {name}",
-                "clearFilter": "Clear filter",
                 "allTypes": "All types",
                 "typeNew": "New purchases",
                 "typeRecurring": "Renewals",
@@ -15187,10 +15184,7 @@
                     "error": "Error",
                     "no_invoice": "No invoice"
                 },
-                "errorReason": "Error: {reason}",
-                "previous": "Previous",
-                "next": "Next",
-                "page": "Page {page} of {pages}"
+                "errorReason": "Error: {reason}"
             }
         },
         "polls": {
@@ -16345,8 +16339,6 @@
             "unassigned": "Unassigned",
             "mine": "Mine",
             "sourceLabel": "Source",
-            "previous": "Previous",
-            "next": "Next",
             "tabs": {
                 "open": "Open",
                 "all": "All"
@@ -16996,6 +16988,31 @@
                 "support_access_revoked": "Support access revoked",
                 "support_access_decided": "Support access answered"
             }
+        },
+        "dataTable": {
+            "search": "Search",
+            "results": "{count} result | {count} results",
+            "range": "{from}–{to} of {total}",
+            "previous": "Previous",
+            "next": "Next",
+            "pages": "Pages",
+            "page": "Page {page}",
+            "sortBy": "Sort by {column}",
+            "loading": "Loading…",
+            "exportCsv": "Export CSV",
+            "exportHelp": "Download the list with the current filters as CSV for Excel",
+            "exporting": "Fetching {done} of {total}…",
+            "exportTruncated": "Only the first {count} rows were included. Narrow the filters to get the rest.",
+            "exportFailed": "The export failed. Try again.",
+            "exportEmpty": "There are no rows to export.",
+            "emptyTitle": "No results",
+            "emptyFiltered": "No rows match the filters.",
+            "clearFilters": "Clear filters",
+            "removeFilter": "Remove filter",
+            "errorTitle": "The list could not be loaded",
+            "retry": "Try again",
+            "all": "All",
+            "dismiss": "Close"
         }
     },
     "support": {

@@ -19,16 +19,16 @@
                     :subtitle="$t('superadmin.invoices.totalInvoices', { count: state.invoices?.meta?.total ?? 0 })">
                     <template #actions>
                         <button
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-50 text-orange-600 border border-orange-200 hover:bg-orange-100 transition-colors"
-                            @click="setTabFilter('pending')">
-                            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warning-soft text-warning-ink border border-warning-line hover:bg-warning-soft/70 transition-colors"
+                            @click="list.setFilter('status', 'pending')">
+                            <span class="w-2 h-2 rounded-full bg-warning animate-pulse"></span>
                             {{ state.pendingCount }} {{ $t('superadmin.invoices.pending') }}
                         </button>
                         <Tooltip :text="$t('paymentDunning.invoices.failedTabHelp')" position="bottom" wrap>
                             <button
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors"
-                                @click="setTabFilter('failed')">
-                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-danger-soft text-danger-ink border border-danger-line hover:bg-danger-soft/70 transition-colors"
+                                @click="list.setFilter('status', 'failed')">
+                                <span class="w-2 h-2 rounded-full bg-danger"></span>
                                 {{ state.failedCount }} {{ $t('superadmin.invoices.failed') }}
                             </button>
                         </Tooltip>
@@ -39,183 +39,148 @@
                     </template>
                 </ModulesSuperadminPageHeader>
 
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <div class="flex items-center bg-white border border-line rounded-lg p-0.5">
-                        <Tooltip v-for="tab in tabs" :key="tab.key" :text="tab.help" position="bottom" wrap>
-                            <button
-                                class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                                :class="state.activeTab === tab.key ? 'bg-tertiary text-white' : 'text-ink-body'"
-                                @click="setTabFilter(tab.key)">
-                                {{ tab.label }}
-                                <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
-                            </button>
-                        </Tooltip>
-                    </div>
-
-                    <select v-model="state.sortData.sortField"
-                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
-                        @change="() => { state.sortData.sortOrder = 'descend'; currentTablePage = 1; fetchInvoices() }">
-                        <option value="id">{{ $t('superadmin.invoices.sort.newestFirst') }}</option>
-                        <option value="total_amount">{{ $t('superadmin.invoices.sort.highestAmount') }}</option>
-                        <option value="invoice_number">{{ $t('superadmin.invoices.sort.invoiceNumber') }}</option>
-                    </select>
-                </div>
-
-                <div class="bg-white border border-line rounded-xl p-4 mb-5 flex flex-wrap items-center gap-3">
-                    <SuperadminTableSearch v-model="searchQuery"
-                        :placeholder="$t('superadmin.invoices.searchPlaceholder')" @input="debouncedSearch" />
-
-                    <div class="flex items-center gap-1.5">
-                        <label class="text-xs text-ink-body whitespace-nowrap">
-                            {{ $t('superadmin.invoices.filter.from') }}
-                        </label>
-                        <input type="date" v-model="state.dataFilter.date_from"
-                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink outline-none focus:border-accent transition-colors"
-                            @change="handleFilterChange" />
-                    </div>
-
-                    <div class="flex items-center gap-1.5">
-                        <label class="text-xs text-ink-body whitespace-nowrap">
-                            {{ $t('superadmin.invoices.filter.to') }}
-                        </label>
-                        <input type="date" v-model="state.dataFilter.date_to"
-                            class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink outline-none focus:border-accent transition-colors"
-                            @change="handleFilterChange" />
-                    </div>
-
-                    <select v-model="state.dataFilter.is_paid"
-                        class="text-sm border border-line rounded-lg px-3 py-2 bg-white text-ink-body outline-none focus:border-accent transition-colors"
-                        @change="handleFilterChange">
-                        <option value="">{{ $t('superadmin.invoices.filter.allPayments') }}</option>
-                        <option value="true">{{ $t('superadmin.invoices.table.paid') }}</option>
-                        <option value="false">{{ $t('superadmin.invoices.filter.unpaid') }}</option>
-                    </select>
-
-                    <button v-if="hasActiveFilters"
-                        class="text-xs text-ink-body hover:text-danger flex items-center gap-1 transition-colors"
-                        @click="clearFilters">
-                        <Icon name="ph:x-circle" class="w-3.5 h-3.5" />
-                        {{ $t('superadmin.invoices.filter.clearFilters') }}
-                    </button>
-                </div>
-
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.invoices"
-                    :isLoading="state.isTableLoading" :sortData="state.sortData"
-                    :emptyMessage="$t('superadmin.invoices.noInvoicesFound')"
-                    :emptySubMessage="hasActiveFilters ? $t('superadmin.invoices.tryToClearFilters') : ''"
-                    emptyIcon="ph:receipt" rowKey="uuid" @sort="handleSort">
-                    <template #body>
-                        <tr v-for="(invoice, index) in state.invoices?.data" :key="index"
-                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
-                            <td class="co-td text-ink-body text-[13px]">
-                                {{ formatDateTimeToReadable(invoice?.created_at) }}
-                            </td>
-                            <td class="co-td">
-                                <span v-if="invoice?.type === 'recurring'" class="co-badge co-badge-blue">
-                                    <Icon name="ph:arrows-clockwise" class="w-3 h-3" />
-                                    {{ $t('recurring.recurring') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-gray">
-                                    {{ $t('superadmin.invoices.table.new') }}
-                                </span>
-                                <Tooltip v-if="invoice?.invoice_type === 'bank_transfer'"
-                                    :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
-                                    <span class="co-badge co-badge-navy ml-1.5">
-                                        <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
-                                        {{ $t('superadmin.agreements.payment.bankTransfer') }}
-                                    </span>
-                                </Tooltip>
-                            </td>
-                            <!-- Three states, because there are three. A rejected
-                                 card payment read as "Unpaid" like an invoice
-                                 nobody had tried to charge yet, which is the
-                                 difference somebody working this list is after. -->
-                            <td class="co-td">
-                                <Tooltip v-if="invoice?.covered_by_agreement" :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
-                                    <span class="co-badge co-badge-navy">
-                                        <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
-                                        {{ $t('superadmin.agreements.covered.chip') }}
-                                    </span>
-                                </Tooltip>
-                                <ModulesSuperadminStatusPill v-else-if="invoice?.is_paid || invoice?.status === 'paid'" variant="success" :dot="false">
-                                    <Icon name="ph:check" class="w-3 h-3" />
-                                    {{ $t('superadmin.invoices.table.paid') }}
-                                </ModulesSuperadminStatusPill>
-                                <Tooltip v-else-if="invoiceChip(invoice) === 'resolved'"
-                                    :text="$t('paymentDunning.invoices.resolvedHelp')" position="top" wrap>
-                                    <ModulesSuperadminStatusPill variant="neutral" :dot="false">
-                                        <Icon name="ph:arrow-counter-clockwise" class="w-3 h-3" aria-hidden="true" />
-                                        {{ $t('paymentDunning.invoices.resolvedChip') }}
-                                    </ModulesSuperadminStatusPill>
-                                </Tooltip>
-                                <ModulesSuperadminStatusPill v-else-if="invoiceChip(invoice) === 'failed'" variant="danger" :dot="false">
-                                    <Icon name="ph:x" class="w-3 h-3" />
-                                    {{ $t('superadmin.invoices.tabs.failed') }}
-                                </ModulesSuperadminStatusPill>
-                                <ModulesSuperadminStatusPill v-else variant="warning" :dot="false">
-                                    <Icon name="ph:clock" class="w-3 h-3" />
-                                    {{ $t('superadmin.invoices.tabs.pending') }}
-                                </ModulesSuperadminStatusPill>
-                            </td>
-                            <td class="co-td font-mono text-[13px] text-ink font-medium">
-                                #{{ invoice?.invoice_number }}
-                            </td>
-                            <td class="co-td">
-                                <span class="text-[14px] font-semibold text-ink">
-                                    {{ formatAmount(invoice?.total_amount, 'DKK') }}
-                                </span>
-                            </td>
-                            <td class="co-td">
-                                <div class="flex items-center gap-2">
-                                    <div
-                                        class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-[10px] font-bold text-accent">
-                                            {{ (invoice?.user?.company?.name || '?').charAt(0).toUpperCase() }}
-                                        </span>
-                                    </div>
-                                    <span class="text-[13px] text-ink truncate max-w-[160px]">
-                                        {{ invoice?.user?.company?.name || '—' }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="co-td" @click.stop>
-                                <div
-                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <SuperadminTableButton
-                                        @click="navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
-                                        <Icon name="ph:eye" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.invoices.table.actions.view') }}
-                                    </SuperadminTableButton>
-                                    <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type && !invoice?.covered_by_agreement"
-                                        buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
-                                        <Icon name="ph:check" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
-                                    </SuperadminTableButton>
-                                    <Tooltip v-if="!invoice?.is_paid && !invoice?.covered_by_agreement"
-                                        :text="$t('superadmin.agreements.payment.registerHelp')" position="top">
-                                        <SuperadminTableButton buttonStyle="success"
-                                            @click="openRegisterPayment(invoice)">
-                                            <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
-                                            {{ $t('superadmin.agreements.payment.register') }}
-                                        </SuperadminTableButton>
-                                    </Tooltip>
-                                    <Tooltip v-if="invoice?.is_paid && invoice?.paid_at && invoice?.paid_source !== 'card'"
-                                        :text="$t('superadmin.agreements.payment.undoHelp')" position="top">
-                                        <SuperadminTableButton buttonStyle="danger" @click="confirmUndoPayment(invoice)">
-                                            <Icon name="ph:arrow-counter-clockwise" class="w-3.5 h-3.5" aria-hidden="true" />
-                                            {{ $t('superadmin.agreements.payment.undo') }}
-                                        </SuperadminTableButton>
-                                    </Tooltip>
-                                </div>
-                            </td>
-                        </tr>
+                <ModulesSuperadminDataTable :columns="columns" :rows="state.invoices?.data ?? []" rowKey="uuid"
+                    :loading="state.isTableLoading" :error="state.loadError" :meta="meta"
+                    :sort="list.state.sort" :order="list.state.order"
+                    v-model:search="list.searchInput.value"
+                    :searchPlaceholder="$t('superadmin.invoices.searchPlaceholder')"
+                    :filtered="list.isFiltered.value" :chips="chips" clickable
+                    emptyIcon="ph:receipt" :emptyTitle="$t('superadmin.invoices.noInvoicesFound')"
+                    :exportName="$t('superadmin.invoices.invoices')" :exportPage="exportPage"
+                    :exportColumns="exportColumns"
+                    @sort="list.toggleSort" @page="list.setPage" @reset="list.reset" @retry="list.reload"
+                    @remove-chip="(key) => list.setFilter(key, '')"
+                    @row-click="(invoice) => navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
+                    <template #filters>
+                        <ModulesSuperadminDataTableTabs :modelValue="list.state.filters.status || 'all'" :tabs="tabs"
+                            @update:modelValue="(tab) => list.setFilter('status', tab === 'all' ? '' : tab)" />
+                        <ModulesSuperadminDataTableSelect :modelValue="sortLabel" :options="sortOptions"
+                            :placeholder="sortOptions.some(o => o.value === sortLabel) ? undefined : '—'"
+                            @update:modelValue="(field) => field && list.setSort(field, 'desc')" />
                     </template>
-                </SuperadminTable>
 
-                <Pagination :data="state.invoices" @previous="previous" @next="next" />
+                    <template #toolbar>
+                        <label class="flex items-center gap-1.5 text-xs text-ink-body whitespace-nowrap">
+                            {{ $t('superadmin.invoices.filter.from') }}
+                            <input type="date" :value="list.state.filters.date_from"
+                                class="h-9 text-sm border border-line rounded-lg px-3 bg-white text-ink outline-none focus:border-accent transition-colors"
+                                @change="list.setFilter('date_from', ($event.target as HTMLInputElement).value)" />
+                        </label>
+                        <label class="flex items-center gap-1.5 text-xs text-ink-body whitespace-nowrap">
+                            {{ $t('superadmin.invoices.filter.to') }}
+                            <input type="date" :value="list.state.filters.date_to"
+                                class="h-9 text-sm border border-line rounded-lg px-3 bg-white text-ink outline-none focus:border-accent transition-colors"
+                                @change="list.setFilter('date_to', ($event.target as HTMLInputElement).value)" />
+                        </label>
+                        <ModulesSuperadminDataTableSelect :modelValue="list.state.filters.is_paid" :options="paidOptions"
+                            :placeholder="$t('superadmin.invoices.filter.allPayments')"
+                            @update:modelValue="(value) => list.setFilter('is_paid', value)" />
+                    </template>
+
+                    <template #cell-created_at="{ row: invoice }">
+                        {{ formatDateTimeToReadable(invoice?.created_at) }}
+                    </template>
+                    <template #cell-type="{ row: invoice }">
+                        <span v-if="invoice?.type === 'recurring'" class="co-badge co-badge-blue">
+                            <Icon name="ph:arrows-clockwise" class="w-3 h-3" />
+                            {{ $t('recurring.recurring') }}
+                        </span>
+                        <span v-else class="co-badge co-badge-gray">
+                            {{ $t('superadmin.invoices.table.new') }}
+                        </span>
+                        <Tooltip v-if="invoice?.invoice_type === 'bank_transfer'"
+                            :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                            <span class="co-badge co-badge-navy ml-1.5">
+                                <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
+                                {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                            </span>
+                        </Tooltip>
+                    </template>
+                    <!-- Three states, because there are three. A rejected
+                         card payment read as "Unpaid" like an invoice
+                         nobody had tried to charge yet, which is the
+                         difference somebody working this list is after. -->
+                    <template #cell-status="{ row: invoice }">
+                        <Tooltip v-if="invoice?.covered_by_agreement" :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
+                            <span class="co-badge co-badge-navy">
+                                <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
+                                {{ $t('superadmin.agreements.covered.chip') }}
+                            </span>
+                        </Tooltip>
+                        <ModulesSuperadminStatusPill v-else-if="invoice?.is_paid || invoice?.status === 'paid'" variant="success" :dot="false">
+                            <Icon name="ph:check" class="w-3 h-3" />
+                            {{ $t('superadmin.invoices.table.paid') }}
+                        </ModulesSuperadminStatusPill>
+                        <Tooltip v-else-if="invoiceChip(invoice) === 'resolved'"
+                            :text="$t('paymentDunning.invoices.resolvedHelp')" position="top" wrap>
+                            <ModulesSuperadminStatusPill variant="neutral" :dot="false">
+                                <Icon name="ph:arrow-counter-clockwise" class="w-3 h-3" aria-hidden="true" />
+                                {{ $t('paymentDunning.invoices.resolvedChip') }}
+                            </ModulesSuperadminStatusPill>
+                        </Tooltip>
+                        <ModulesSuperadminStatusPill v-else-if="invoiceChip(invoice) === 'failed'" variant="danger" :dot="false">
+                            <Icon name="ph:x" class="w-3 h-3" />
+                            {{ $t('superadmin.invoices.tabs.failed') }}
+                        </ModulesSuperadminStatusPill>
+                        <ModulesSuperadminStatusPill v-else variant="warning" :dot="false">
+                            <Icon name="ph:clock" class="w-3 h-3" />
+                            {{ $t('superadmin.invoices.tabs.pending') }}
+                        </ModulesSuperadminStatusPill>
+                    </template>
+                    <template #cell-invoice_number="{ row: invoice }">
+                        <span class="font-mono text-ink font-medium">#{{ invoice?.invoice_number }}</span>
+                    </template>
+                    <template #cell-total_amount="{ row: invoice }">
+                        <span class="text-[14px] font-semibold text-ink tabular-nums">
+                            {{ formatAmount(invoice?.total_amount, 'DKK') }}
+                        </span>
+                    </template>
+                    <template #cell-company="{ row: invoice }">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                                <span class="text-[10px] font-bold text-accent">
+                                    {{ (invoice?.user?.company?.name || '?').charAt(0).toUpperCase() }}
+                                </span>
+                            </div>
+                            <span class="text-[13px] text-ink truncate max-w-[160px]">
+                                {{ invoice?.user?.company?.name || '—' }}
+                            </span>
+                        </div>
+                    </template>
+                    <template #cell-actions="{ row: invoice }">
+                        <div
+                            class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                            <SuperadminTableButton
+                                @click="navigateTo(`/superadmin/invoices/${invoice.uuid}/invoice-details`)">
+                                <Icon name="ph:eye" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.invoices.table.actions.view') }}
+                            </SuperadminTableButton>
+                            <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type && !invoice?.covered_by_agreement"
+                                buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
+                                <Icon name="ph:check" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
+                            </SuperadminTableButton>
+                            <Tooltip v-if="!invoice?.is_paid && !invoice?.covered_by_agreement"
+                                :text="$t('superadmin.agreements.payment.registerHelp')" position="top">
+                                <SuperadminTableButton buttonStyle="success"
+                                    @click="openRegisterPayment(invoice)">
+                                    <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.payment.register') }}
+                                </SuperadminTableButton>
+                            </Tooltip>
+                            <Tooltip v-if="invoice?.is_paid && invoice?.paid_at && invoice?.paid_source !== 'card'"
+                                :text="$t('superadmin.agreements.payment.undoHelp')" position="top">
+                                <SuperadminTableButton buttonStyle="danger" @click="confirmUndoPayment(invoice)">
+                                    <Icon name="ph:arrow-counter-clockwise" class="w-3.5 h-3.5" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.payment.undo') }}
+                                </SuperadminTableButton>
+                            </Tooltip>
+                        </div>
+                    </template>
+                </ModulesSuperadminDataTable>
             </div>
 
             <ModulesSuperadminInvoiceModalDownload :isModalOpen="state.modal.isDownloadOpen"
@@ -240,6 +205,10 @@ import { useAmountFormatter } from '@/composables/amountFormatter'
 import { invoiceChip, invoiceCounts } from '@/composables/billingMethod'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
+import { useListQuery } from '@/composables/useListQuery'
+import { apiSearchParam } from '@/composables/listQuery'
+import { normalizePageMeta, responseRows, type DataTableColumn } from '@/composables/dataTable'
+import type { CsvColumn } from '@/composables/csvExport'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -249,32 +218,9 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
-let currentTablePage = 1
-let searchTimeout: any = null
-const searchQuery = ref('')
-
 const state = reactive({
-    activeTab: 'all',
-    columnHeaders: computed(() => [
-        { key: 'created_at', name: t('superadmin.invoices.table.date'), sorter: true },
-        { key: 'type', name: t('superadmin.invoices.table.type') },
-        { key: 'status', name: t('superadmin.invoices.table.status') },
-        { key: 'invoice_number', name: t('superadmin.invoices.table.invoiceNumber'), sorter: true },
-        { key: 'total_amount', name: t('superadmin.invoices.table.amount'), sorter: true },
-        { key: 'company', name: t('superadmin.invoices.table.company') },
-        { key: 'actions', name: '' },
-    ]),
-    dataFilter: {
-        search: '',
-        date_from: '',
-        date_to: '',
-        is_paid: '',
-        // The tabs. Paid, Pending and Rejected are the `status` column, not
-        // `is_paid`: a rejected card payment is a status of its own, and
-        // filtering two of the tabs on "not paid" made them the same list.
-        status: ''
-    } as any,
     error: {} as Error,
+    loadError: null as string | null,
     failedCount: 0,
     resolvedCount: null as number | null,
     invoices: [] as any,
@@ -289,16 +235,47 @@ const state = reactive({
     totalCount: 0,
     pendingCount: 0,
     selectedInvoice: {} as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend'
-    },
 })
 
-const hasActiveFilters = computed(() =>
-    state.dataFilter.date_from || state.dataFilter.date_to || state.dataFilter.is_paid
-    || state.dataFilter.search || state.dataFilter.status
-)
+// The tabs are `status`, not `is_paid`: Paid, Pending and Rejected are the
+// status column, and a rejected card payment is a status of its own -
+// filtering two of the tabs on "not paid" made them the same list.
+const list = useListQuery({
+    filters: { status: '', date_from: '', date_to: '', is_paid: '' },
+    defaultSort: 'id',
+    defaultOrder: 'desc',
+    onChange: fetchInvoices,
+})
+
+const meta = computed(() => normalizePageMeta(state.invoices))
+
+const columns = computed<DataTableColumn[]>(() => [
+    { key: 'created_at', label: t('superadmin.invoices.table.date'), sortable: true },
+    { key: 'type', label: t('superadmin.invoices.table.type') },
+    { key: 'status', label: t('superadmin.invoices.table.status') },
+    { key: 'invoice_number', label: t('superadmin.invoices.table.invoiceNumber'), sortable: true },
+    { key: 'total_amount', label: t('superadmin.invoices.table.amount'), sortable: true },
+    { key: 'company', label: t('superadmin.invoices.table.company') },
+    { key: 'actions', label: '', align: 'right' },
+])
+
+function statusLabel(invoice: any) {
+    if (invoice?.covered_by_agreement) return t('superadmin.agreements.covered.chip')
+    if (invoice?.is_paid || invoice?.status === 'paid') return t('superadmin.invoices.table.paid')
+    const chip = invoiceChip(invoice)
+    if (chip === 'resolved') return t('paymentDunning.invoices.resolvedChip')
+    if (chip === 'failed') return t('superadmin.invoices.tabs.failed')
+    return t('superadmin.invoices.tabs.pending')
+}
+
+const exportColumns = computed<CsvColumn[]>(() => [
+    { label: t('superadmin.invoices.table.date'), value: i => i?.created_at, type: 'datetime' },
+    { label: t('superadmin.invoices.table.type'), value: i => (i?.type === 'recurring' ? t('recurring.recurring') : t('superadmin.invoices.table.new')) },
+    { label: t('superadmin.invoices.table.status'), value: statusLabel },
+    { label: t('superadmin.invoices.table.invoiceNumber'), value: i => i?.invoice_number },
+    { label: t('superadmin.invoices.table.amount'), value: i => i?.total_amount, type: 'amount' },
+    { label: t('superadmin.invoices.table.company'), value: i => i?.user?.company?.name },
+])
 
 const tabs = computed(() => [
     { key: 'all', label: t('superadmin.invoices.tabs.all'), count: state.totalCount, help: '' },
@@ -308,26 +285,50 @@ const tabs = computed(() => [
     ...(state.resolvedCount === null ? [] : [{ key: 'resolved', label: t('paymentDunning.invoices.resolvedTab'), count: state.resolvedCount, help: t('paymentDunning.invoices.resolvedHelp') }]),
 ])
 
-onMounted(() => {
-    fetchInvoices()
+const sortOptions = computed(() => [
+    { value: 'id', label: t('superadmin.invoices.sort.newestFirst') },
+    { value: 'total_amount', label: t('superadmin.invoices.sort.highestAmount') },
+    { value: 'invoice_number', label: t('superadmin.invoices.sort.invoiceNumber') },
+])
+
+// The quick sort is always descending; a header sort it has no entry for shows a dash.
+const sortLabel = computed(() => (list.state.order === 'desc' ? list.state.sort ?? '' : ''))
+
+const paidOptions = computed(() => [
+    { value: 'true', label: t('superadmin.invoices.table.paid') },
+    { value: 'false', label: t('superadmin.invoices.filter.unpaid') },
+])
+
+const chips = computed(() => {
+    const filters = list.state.filters
+    const out = []
+    if (filters.date_from) out.push({ key: 'date_from', label: `${t('superadmin.invoices.filter.from')} ${filters.date_from}` })
+    if (filters.date_to) out.push({ key: 'date_to', label: `${t('superadmin.invoices.filter.to')} ${filters.date_to}` })
+    if (filters.is_paid) out.push({ key: 'is_paid', label: paidOptions.value.find(o => o.value === filters.is_paid)?.label ?? filters.is_paid })
+    return out
 })
 
+function listParams(page: number) {
+    const filters = list.state.filters
+    const params: any = { page, ...list.apiSort() }
+    const search = apiSearchParam(list.state.search)
+    if (search) params.search = search
+    if (filters.date_from) params.date_from = filters.date_from
+    if (filters.date_to) params.date_to = filters.date_to
+    if (filters.is_paid !== '') params.is_paid = filters.is_paid
+    if (filters.status) params.status = filters.status
+    return params
+}
+
+let requestSeq = 0
+
 async function fetchInvoices() {
-    state.error = {}
+    const seq = ++requestSeq
+    state.loadError = null
     state.isTableLoading = true
     try {
-        const params: any = {
-            page: currentTablePage,
-            sortField: state.sortData.sortField,
-            sortOrder: state.sortData.sortOrder,
-        }
-        if (state.dataFilter.search) params.search = state.dataFilter.search
-        if (state.dataFilter.date_from) params.date_from = state.dataFilter.date_from
-        if (state.dataFilter.date_to) params.date_to = state.dataFilter.date_to
-        if (state.dataFilter.is_paid !== '') params.is_paid = state.dataFilter.is_paid
-        if (state.dataFilter.status) params.status = state.dataFilter.status
-
-        const response = await invoiceService.getInvoices(params)
+        const response = await invoiceService.getInvoices(listParams(list.state.page))
+        if (seq !== requestSeq) return
         if (response) {
             state.invoices = response
             // Older servers lack some counts; invoiceCounts never yields NaN and says
@@ -339,55 +340,17 @@ async function fetchInvoices() {
             state.failedCount = counts.failed
             state.resolvedCount = counts.resolved
         }
-    } catch (error: any) { state.error = error }
-    state.isTableLoading = false
+    } catch (error: any) {
+        if (seq !== requestSeq) return
+        state.loadError = error?.message || t('superadmin.dataTable.errorTitle')
+    }
+    if (seq === requestSeq) state.isTableLoading = false
 }
 
-function debouncedSearch() {
-    clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => {
-        const trimmed = searchQuery.value.trim()
-        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
-        currentTablePage = 1
-        fetchInvoices()
-    }, 350)
-}
-
-function handleFilterChange() {
-    currentTablePage = 1
-    fetchInvoices()
-}
-
-function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
-    state.sortData.sortField = column ?? 'id'
-    state.sortData.sortOrder = sort ?? 'descend'
-    currentTablePage = 1
-    fetchInvoices()
-}
-
-function previous() {
-    currentTablePage--
-    fetchInvoices()
-}
-
-function next() {
-    currentTablePage++
-    fetchInvoices()
-}
-
-function setTabFilter(tab: string) {
-    state.activeTab = tab
-    state.dataFilter.status = tab === 'all' ? '' : tab
-    currentTablePage = 1
-    fetchInvoices()
-}
-
-function clearFilters() {
-    searchQuery.value = ''
-    state.activeTab = 'all'
-    state.dataFilter = { search: '', date_from: '', date_to: '', is_paid: '', status: '' }
-    currentTablePage = 1
-    fetchInvoices()
+async function exportPage(page: number) {
+    const response = await invoiceService.getInvoices(listParams(page))
+    const pageMeta = normalizePageMeta(response)
+    return { rows: responseRows(response), lastPage: pageMeta?.lastPage ?? 1, total: pageMeta?.total ?? 0 }
 }
 
 function confirmMarkInvoiceAsPaid(invoice: any) {
@@ -425,6 +388,7 @@ async function undoPayment() {
 }
 
 async function markInvoiceAsPaid() {
+    state.error = {}
     try {
         await invoiceService.markInvoiceAsPaid(state.selectedInvoice.uuid)
         successAlert(`${t('alert.success')}!`, `${t('superadmin.invoices.form.alert.invoiceMarkedAsPaid')}`)
