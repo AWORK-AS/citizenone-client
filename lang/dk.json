@@ -16870,7 +16870,9 @@
                 "ordered": "Bestilt {date}",
                 "ends": "Udløber {date}",
                 "received": "Modtaget {date}",
-                "due": "Forfaldt {date}"
+                "due": "Forfaldt {date}",
+                "starts": "Starter {date}",
+                "demo": "Demo {date}"
             },
             "reason": {
                 "payment_failed": "Betaling fejlet",
@@ -16892,7 +16894,14 @@
                 "source_price_quote": "Pristilbud",
                 "source_trial": "Prøveperiode",
                 "source_other": "Anden kilde",
-                "unknown": "Kræver handling"
+                "unknown": "Kræver handling",
+                "meeting_live": "I gang",
+                "meeting_over": "Holdt",
+                "meeting_demo": "Demo",
+                "meeting_customer": "Kundemøde",
+                "meeting_team": "Internt",
+                "demo_missed": "Udeblev",
+                "demo_not_held": "Ikke holdt"
             },
             "section": {
                 "payment_problems": {
@@ -16924,6 +16933,18 @@
                     "hint": "Ubetalte fakturaer efter forfaldsdato",
                     "action": "Se fakturaer",
                     "empty": "Ingen fakturaer over forfald"
+                },
+                "meetings_today": {
+                    "title": "Dagens møder",
+                    "empty": "Ingen møder i dag",
+                    "action": "Åbn",
+                    "hint": "Demoer, kundemøder og interne møder i dag. Du åbner dem som værten."
+                },
+                "missed_demos": {
+                    "title": "Udeblevne demoer",
+                    "empty": "Ingen udeblevne demoer",
+                    "action": "Følg op",
+                    "hint": "Ingen har fulgt op endnu. Ring, mens interessen er der."
                 }
             }
         },

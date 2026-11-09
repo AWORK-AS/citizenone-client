@@ -16870,7 +16870,9 @@
                 "ordered": "Ordered {date}",
                 "ends": "Ends {date}",
                 "received": "Received {date}",
-                "due": "Due {date}"
+                "due": "Due {date}",
+                "starts": "Starts {date}",
+                "demo": "Demo {date}"
             },
             "reason": {
                 "payment_failed": "Payment failed",
@@ -16892,7 +16894,14 @@
                 "source_price_quote": "Price quote",
                 "source_trial": "Trial",
                 "source_other": "Other source",
-                "unknown": "Needs action"
+                "unknown": "Needs action",
+                "meeting_live": "Live",
+                "meeting_over": "Held",
+                "meeting_demo": "Demo",
+                "meeting_customer": "Customer meeting",
+                "meeting_team": "Internal",
+                "demo_missed": "No-show",
+                "demo_not_held": "Not held"
             },
             "section": {
                 "payment_problems": {
@@ -16924,6 +16933,18 @@
                     "hint": "Unpaid invoices past their due date",
                     "action": "View invoices",
                     "empty": "No overdue invoices"
+                },
+                "meetings_today": {
+                    "title": "Today's meetings",
+                    "empty": "No meetings today",
+                    "action": "Open",
+                    "hint": "Demos, customer and internal meetings today. You open them as the host."
+                },
+                "missed_demos": {
+                    "title": "Missed demos",
+                    "empty": "No missed demos",
+                    "action": "Follow up",
+                    "hint": "Nobody has followed up yet. Call while the interest is there."
                 }
             }
         },

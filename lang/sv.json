@@ -16785,7 +16785,9 @@
                 "ordered": "Beställd {date}",
                 "ends": "Upphör {date}",
                 "received": "Mottagen {date}",
-                "due": "Förföll {date}"
+                "due": "Förföll {date}",
+                "starts": "Startar {date}",
+                "demo": "Demo {date}"
             },
             "reason": {
                 "payment_failed": "Betalning misslyckades",
@@ -16807,7 +16809,14 @@
                 "source_price_quote": "Prisförslag",
                 "source_trial": "Provperiod",
                 "source_other": "Annan källa",
-                "unknown": "Kräver åtgärd"
+                "unknown": "Kräver åtgärd",
+                "meeting_live": "Pågår",
+                "meeting_over": "Hållet",
+                "meeting_demo": "Demo",
+                "meeting_customer": "Kundmöte",
+                "meeting_team": "Internt",
+                "demo_missed": "Uteblev",
+                "demo_not_held": "Inte hållet"
             },
             "section": {
                 "payment_problems": {
@@ -16839,6 +16848,18 @@
                     "hint": "Obetalda fakturor efter förfallodag",
                     "action": "Se fakturor",
                     "empty": "Inga förfallna fakturor"
+                },
+                "meetings_today": {
+                    "title": "Dagens möten",
+                    "empty": "Inga möten i dag",
+                    "action": "Öppna",
+                    "hint": "Demos, kundmöten och interna möten i dag. Du öppnar dem som värd."
+                },
+                "missed_demos": {
+                    "title": "Uteblivna demos",
+                    "empty": "Inga uteblivna demos",
+                    "action": "Följ upp",
+                    "hint": "Ingen har följt upp än. Ring medan intresset finns."
                 }
             }
         },
