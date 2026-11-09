@@ -16293,6 +16293,23 @@
                 "held": "Prospect deltog",
                 "missed": "Uteblev",
                 "not_held": "Inte hållet"
+            },
+            "startNow": "Starta nu",
+            "followUp": {
+                "button": "Skicka uppföljning",
+                "to": "Till",
+                "subject": "Ämne",
+                "body": "Text",
+                "buttonText": "Knapptext",
+                "buttonUrl": "Knapplänk",
+                "noButton": "Tomt = ingen knapp",
+                "send": "Skicka uppföljning",
+                "sent": "Uppföljningen har skickats till {to}.",
+                "source": {
+                    "summary": "Sammanfattningen är Codys sammanfattning av inspelningen. Läs igenom innan du skickar.",
+                    "notes": "Sammanfattningen är mötesanteckningarna. Läs igenom innan du skickar.",
+                    "none": "Det finns varken sammanfattning eller anteckningar från mötet. Skriv kort själv vad ni pratade om."
+                }
             }
         },
         "salesInquiries": {

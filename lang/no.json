@@ -16293,6 +16293,23 @@
                 "held": "Prospect deltok",
                 "missed": "Uteble",
                 "not_held": "Ikke holdt"
+            },
+            "startNow": "Start nå",
+            "followUp": {
+                "button": "Send oppfølging",
+                "to": "Til",
+                "subject": "Emne",
+                "body": "Tekst",
+                "buttonText": "Knappetekst",
+                "buttonUrl": "Knappelenke",
+                "noButton": "Tomt = ingen knapp",
+                "send": "Send oppfølging",
+                "sent": "Oppfølgingen er sendt til {to}.",
+                "source": {
+                    "summary": "Oppsummeringen er Codys sammendrag av opptaket. Les gjennom før du sender.",
+                    "notes": "Oppsummeringen er møtenotatene. Les gjennom før du sender.",
+                    "none": "Det finnes verken sammendrag eller notater fra møtet. Skriv kort selv hva dere snakket om."
+                }
             }
         },
         "salesInquiries": {
