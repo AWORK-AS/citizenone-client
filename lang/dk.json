@@ -1608,6 +1608,13 @@
             "journal": "Skriv journalnotat",
             "files": "Find vedhæftede filer",
             "shifts": "Hvad har jeg af vagter?",
+            "citizenWeek": "Opsummer sidste uge",
+            "citizenGoals": "Hvilke mål mangler opfølgning?",
+            "citizenNote": "Skriv journalnotat",
+            "nextShift": "Hvornår er min næste vagt?",
+            "myTasks": "Mine åbne opgaver",
+            "newTask": "Opret en opgave",
+            "unread": "Har jeg ulæste beskeder?",
             "message": "Skriv en besked til en kollega",
             "fillHint": "skriv navn"
         },
@@ -1616,6 +1623,13 @@
             "journal": "Skriv et journalnotat for ",
             "files": "Find de vedhæftede filer om ",
             "shifts": "Hvilke vagter har jeg de næste syv dage?",
+            "citizenWeek": "Opsummer den seneste uge",
+            "citizenGoals": "Hvilke mål mangler opfølgning?",
+            "citizenNote": "Skriv et udkast til et journalnotat om ",
+            "nextShift": "Hvornår er min næste vagt?",
+            "myTasks": "Hvilke åbne opgaver har jeg?",
+            "newTask": "Opret en opgave til mig: ",
+            "unread": "Har jeg ulæste beskeder?",
             "message": "Skriv en besked til {'@'}"
         },
         "dataAndAccess": "Om data og adgang",
@@ -1684,7 +1698,7 @@
         "taskProposal": {
             "label": "Cody AI foreslår en opgave",
             "badge": "Forslag fra Cody AI",
-            "board": "Tavle",
+            "subject": "Tavle",
             "create": "Opret opgave",
             "creating": "Opretter…",
             "cancel": "Annullér",
@@ -1693,9 +1707,34 @@
             "expired": "Forslaget er udløbet. Bed Cody AI om opgaven igen.",
             "failed": "Opgaven blev ikke oprettet. Prøv igen."
         },
+        "journalProposal": {
+            "label": "Cody AI foreslår et journalnotat",
+            "badge": "Kladde foreslået af Cody AI",
+            "subject": "Borger",
+            "create": "Gem kladde",
+            "creating": "Gemmer…",
+            "cancel": "Annullér",
+            "created": "Kladden er gemt. Åbn den, læs den igennem og gem den som notat.",
+            "declined": "Forslaget er annulleret. Der blev ikke gemt noget.",
+            "expired": "Forslaget er udløbet. Bed Cody AI om notatet igen.",
+            "failed": "Kladden blev ikke gemt. Prøv igen."
+        },
+        "sourceLinks": {
+            "label": "Kilde",
+            "kinds": {
+                "journal": "Journalnotat",
+                "plan": "Handleplan",
+                "goal": "Mål",
+                "task": "Opgave",
+                "shift": "Vagt",
+                "chat": "Besked"
+            }
+        },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
         "budgetSpent": "Jeres ekstra kapacitet er brugt, og dagens inkluderede svar er også brugt. Fyld op for at fortsætte i dag.",
         "ownDailyLimit": "Du har brugt din egen dagsgrænse for Cody AI. Din administrator kan hæve den.",
+        "monthlyCap": "Cody AI har nået jeres månedlige forbrugsloft. Cody AI er tilgængelig igen fra den 1. i næste måned. Kontakt CitizenOne, hvis loftet skal hæves.",
+        "monthlyCapUntil": "Cody AI har nået jeres månedlige forbrugsloft. Cody AI er tilgængelig igen fra {date}. Kontakt CitizenOne, hvis loftet skal hæves.",
         "dictate": {
             "start": "Diktér",
             "stop": "Stop optagelse",
