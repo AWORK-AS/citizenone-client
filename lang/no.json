@@ -15487,7 +15487,8 @@
             "news": "Nyheter",
             "campaigns": "Kampanjer",
             "announcements": "Meldinger",
-            "today": "I dag"
+            "today": "I dag",
+            "meetings": "Møter"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -16978,6 +16979,24 @@
             "retry": "Prøv igjen",
             "all": "Alle",
             "dismiss": "Lukk"
+        },
+        "teamMeetings": {
+            "pageTitle": "Møter",
+            "description": "Hold deres egne nettmøter i CitizenOne: internt, med partnere eller hvem som helst. Demoer og kundemøter står her også.",
+            "startNow": "Start møte nå",
+            "titlePlaceholder": "F.eks. Ukemøte, Partnermøte",
+            "guestName": "Navn",
+            "guestEmail": "E-post",
+            "addGuest": "+ Legg til deltaker",
+            "removeGuest": "Fjern deltaker",
+            "startNowHint": "Møtet starter nå. Deltakerne får en e-post med lenken, og møtet åpnes i en ny fane der du er vert.",
+            "startAndInvite": "Start og send lenke",
+            "inquiry": "Henvendelse",
+            "customer": "Kunde",
+            "scope": {
+                "upcoming": "Kommende",
+                "past": "Tidligere"
+            }
         }
     },
     "support": {

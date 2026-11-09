@@ -15497,7 +15497,8 @@
             "news": "News",
             "campaigns": "Campaigns",
             "announcements": "Messages",
-            "today": "Today"
+            "today": "Today",
+            "meetings": "Meetings"
         },
         "teamRoles": {
             "pageTitle": "Roles",
@@ -17063,6 +17064,24 @@
             "retry": "Try again",
             "all": "All",
             "dismiss": "Close"
+        },
+        "teamMeetings": {
+            "pageTitle": "Meetings",
+            "description": "Hold your own online meetings in CitizenOne: internal, with partners or anyone. Demos and customer meetings are listed here too.",
+            "startNow": "Start meeting now",
+            "titlePlaceholder": "E.g. Weekly meeting, Partner meeting",
+            "guestName": "Name",
+            "guestEmail": "Email",
+            "addGuest": "+ Add participant",
+            "removeGuest": "Remove participant",
+            "startNowHint": "The meeting starts now. Participants get an email with the link, and the meeting opens in a new tab with you as host.",
+            "startAndInvite": "Start and send link",
+            "inquiry": "Inquiry",
+            "customer": "Customer",
+            "scope": {
+                "upcoming": "Upcoming",
+                "past": "Past"
+            }
         }
     },
     "support": {
