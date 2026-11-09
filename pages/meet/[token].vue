@@ -6,7 +6,10 @@
 
     <div class="min-h-screen bg-[#f8fafc] py-8 px-4">
         <div class="max-w-6xl mx-auto space-y-6">
-            <Logo class="mx-auto" />
+            <!-- The organisation's own logo when it has one: guests trust a link they recognise. -->
+            <img v-if="state.info?.logo_url && !state.inRoom" :src="state.info.logo_url" :alt="state.info.company_name || ''"
+                class="mx-auto max-h-16 max-w-[220px] object-contain" />
+            <Logo v-else-if="!state.info?.logo_url" class="mx-auto" />
 
             <LoadingSpinner :isActive="state.isLoading">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />

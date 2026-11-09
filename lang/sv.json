@@ -22368,7 +22368,20 @@
             "fileNotSent": "Filen kunde inte skickas. Försök igen.",
             "joinedElsewhere": "Du har gått in i mötet från ett annat fönster eller en annan enhet, så den här anslutningen har stängts.",
             "microphoneFailed": "Mikrofonen kunde inte startas. Du är med i mötet utan ljud.",
-            "cameraFailed": "Kameran kunde inte startas. Du är med i mötet utan video."
+            "cameraFailed": "Kameran kunde inte startas. Du är med i mötet utan video.",
+            "react": "Reaktion",
+            "fullscreen": "Helskärm",
+            "exitFullscreen": "Avsluta helskärm",
+            "focus": "Visa stort",
+            "unfocus": "Tillbaka i raden",
+            "reactions": {
+                "thumbsUp": "Tummen upp",
+                "heart": "Hjärta",
+                "laugh": "Skratt",
+                "clap": "Applåd",
+                "celebrate": "Fira",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} från {company} har bjudit in dig till ett onlinemöte.",

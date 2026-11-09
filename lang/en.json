@@ -22453,7 +22453,20 @@
             "fileNotSent": "The file could not be sent. Try again.",
             "joinedElsewhere": "You joined the meeting from another window or device, so this connection was closed.",
             "microphoneFailed": "The microphone could not be started. You are in the meeting without sound.",
-            "cameraFailed": "The camera could not be started. You are in the meeting without video."
+            "cameraFailed": "The camera could not be started. You are in the meeting without video.",
+            "react": "Reaction",
+            "fullscreen": "Full screen",
+            "exitFullscreen": "Exit full screen",
+            "focus": "Show large",
+            "unfocus": "Back in the row",
+            "reactions": {
+                "thumbsUp": "Thumbs up",
+                "heart": "Heart",
+                "laugh": "Laugh",
+                "clap": "Clap",
+                "celebrate": "Celebrate",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} from {company} has invited you to an online meeting.",
