@@ -35,6 +35,7 @@ export function useSettingsHints() {
         'settings-gdpr-retention': 'gdprRetention',
         'settings-sms-notifications': 'smsNotifications',
         'settings-power-bi': 'powerBi',
+        'settings-info-screen': 'infoScreen',
         'settings-zapier': 'zapier',
         'settings-economic': 'economic',
         'settings-dinero': 'dinero',

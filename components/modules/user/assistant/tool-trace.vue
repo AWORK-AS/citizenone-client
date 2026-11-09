@@ -3,7 +3,7 @@
         <!-- Running now. One line per tool, named, because the four to nine
         seconds this takes used to be a typing indicator and nothing else. -->
         <p v-for="call in live" :key="`${call.tool}-${call.turn}`"
-            class="flex items-center gap-2 text-xs text-gray-600">
+            class="tool-line flex items-center gap-2 text-xs text-gray-600">
             <ModulesUserNavbarCodyMark :size="15" state="working" class="shrink-0" />
             <span>{{ label(call.tool) }}</span>
         </p>
@@ -90,6 +90,7 @@ const KNOWN_TOOLS = [
     'create_task',
     'draft_journal_note',
     'refer_to_milo',
+    'remember_about_me',
 ]
 
 const live = computed(() => props.live ?? [])
@@ -101,3 +102,23 @@ function label(tool: string): string {
         : t('assistants.toolTrace.unknown')
 }
 </script>
+
+<style scoped>
+/* Each tool line slides in as the tool starts, so it reads as progress. */
+@media (prefers-reduced-motion: no-preference) {
+    .tool-line {
+        animation: tool-in 200ms ease-out backwards;
+    }
+}
+
+@keyframes tool-in {
+    from {
+        opacity: 0;
+        transform: translateX(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+</style>

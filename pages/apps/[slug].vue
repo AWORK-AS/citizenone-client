@@ -79,10 +79,17 @@
                                 v-if="app.url_field" @click="openPartner(app.url_field)">
                                 {{ $t('apps.goToPartner') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
-                                v-else-if="app.user_activated && destination" @click="navigateTo(destination.path)">
-                                {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
-                            </FormButton>
+                            <template v-else-if="app.user_activated && destination">
+                                <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
+                                    @click="navigateTo(destination.path)">
+                                    {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
+                                </FormButton>
+                                <!-- Bought per licence: more can be bought here, also once the app is set up -->
+                                <FormButton v-if="app.is_quantifiable" type="button" buttonStyle="action" class="w-full justify-center"
+                                    @click="requestActivation(app)">
+                                    {{ $t('apps.buyMoreLicenses') }}
+                                </FormButton>
+                            </template>
                             <FormButton type="button" buttonStyle="app-order-now" class="w-full justify-center"
                                 v-else-if="app.user_activated && app.is_quantifiable" @click="requestActivation(app)">
                                 {{ $t('apps.buyMoreLicenses') }}
