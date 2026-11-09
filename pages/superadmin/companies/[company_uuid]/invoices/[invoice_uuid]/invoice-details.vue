@@ -10,11 +10,13 @@
 
             <template #header>{{ $t('superadmin.invoiceDetails.invoiceDetails') }}</template>
 
+            <ModulesSuperadminCompanyHeader />
+
             <LoadingSpinner :isActive="state.isPageLoading">
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
+                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer text-sm text-gray-600 hover:text-gray-900"
                     :to="`/superadmin/companies/${companyUuid}/invoices`">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
+                    <Icon name="ph:arrow-left" class="w-4 h-4" />
+                    <span>{{ $t('superadmin.companyHeader.backToInvoices') }}</span>
                 </NuxtLink>
                 <div class="flex items-center gap-x-2 justify-end">
                     <Tooltip v-if="state.invoice?.data?.covered_by_agreement"

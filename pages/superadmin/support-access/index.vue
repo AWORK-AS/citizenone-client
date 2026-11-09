@@ -12,30 +12,24 @@
             </template>
 
             <div class="p-1">
-                <div class="mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                        {{ $t('superadmin.supportAccess.header') }}
-                    </h1>
-                    <p class="text-sm text-[#5C6478] mt-0.5 max-w-3xl">
-                        {{ $t('superadmin.supportAccess.subtitle') }}
-                    </p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.supportAccess.header')"
+                    :subtitle="$t('superadmin.supportAccess.subtitle')" />
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                <div v-if="state.isLoading" class="text-sm text-[#8891A4] py-8 text-center">
+                <div v-if="state.isLoading" class="text-sm text-ink-muted py-8 text-center">
                     {{ $t('superadmin.supportAccess.loading') }}
                 </div>
 
                 <div v-else-if="state.requests.length === 0"
-                    class="bg-white border border-[#EAECF0] rounded-xl shadow-sm px-4 py-10 text-center text-sm text-[#8891A4]">
+                    class="bg-white border border-line rounded-xl shadow-sm px-4 py-10 text-center text-sm text-ink-muted">
                     {{ $t('superadmin.supportAccess.empty') }}
                 </div>
 
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
+                <div v-else class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="bg-[#F8F9FB] text-left text-[11px] font-semibold uppercase tracking-wide text-[#8891A4]">
+                            <tr class="bg-surface-subtle text-left text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.status') }}</th>
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.account') }}</th>
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.company') }}</th>
@@ -46,24 +40,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in state.requests" :key="item.uuid" class="border-t border-[#EAECF0]">
+                            <tr v-for="item in state.requests" :key="item.uuid" class="border-t border-line">
                                 <td class="px-4 py-3">
-                                    <span class="co-badge" :class="badgeClass(item)">
-                                        {{ $t('superadmin.supportAccess.status.' + item.status) }}
-                                    </span>
+                                    <ModulesSuperadminStatusPill :variant="badgeVariant(item)"
+                                        :label="$t('superadmin.supportAccess.status.' + item.status)" />
                                 </td>
-                                <td class="px-4 py-3 text-[#1F2533]">{{ item.user?.name }}</td>
-                                <td class="px-4 py-3 text-[#5C6478]">{{ item.company?.name }}</td>
-                                <td class="px-4 py-3 text-[#5C6478] max-w-md">
+                                <td class="px-4 py-3 text-ink">{{ item.user?.name }}</td>
+                                <td class="px-4 py-3 text-ink-body">{{ item.company?.name }}</td>
+                                <td class="px-4 py-3 text-ink-body max-w-md">
                                     {{ item.reason }}
-                                    <span v-if="item.case_reference" class="text-[#8891A4]">
+                                    <span v-if="item.case_reference" class="text-ink-muted">
                                         &middot; {{ item.case_reference }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 text-[#5C6478] whitespace-nowrap">
+                                <td class="px-4 py-3 text-ink-body whitespace-nowrap">
                                     {{ durationLabel(item.access_hours) }}
                                 </td>
-                                <td class="px-4 py-3 text-[#5C6478] whitespace-nowrap">
+                                <td class="px-4 py-3 text-ink-body whitespace-nowrap">
                                     <!-- To forskellige frister, og hvilken der gælder afhænger
                                          af tilstanden: ventetiden på et svar, eller tiden til
                                          adgangen lukker. Én kolonne, fordi kun én er relevant
@@ -87,7 +80,7 @@
                                 <td class="px-4 py-3 text-right whitespace-nowrap">
                                     <template v-if="item.grants_access_now">
                                         <template v-if="state.confirmUuid === item.uuid">
-                                            <span class="text-xs text-[#5C6478] mr-2">
+                                            <span class="text-xs text-ink-body mr-2">
                                                 {{ $t('superadmin.supportAccess.end.confirm') }}
                                             </span>
                                             <button type="button" :disabled="state.endingUuid === item.uuid"
@@ -96,7 +89,7 @@
                                                 {{ $t('superadmin.supportAccess.end.yes') }}
                                             </button>
                                             <button type="button" @click="state.confirmUuid = null"
-                                                class="inline-flex items-center px-3 py-1.5 ml-1 rounded-lg text-xs font-semibold text-[#5C6478] border border-[#EAECF0] bg-white">
+                                                class="inline-flex items-center px-3 py-1.5 ml-1 rounded-lg text-xs font-semibold text-ink-body border border-line bg-white">
                                                 {{ $t('cancel') }}
                                             </button>
                                         </template>
@@ -179,12 +172,12 @@ function durationLabel(hours: number | null | undefined): string {
     return te(key) ? t(key) : t('superadmin.supportAccess.duration.hours', { count: hours ?? 4 })
 }
 
-function badgeClass(item: any): string {
-    if (item.grants_access_now) return 'co-badge-green'
-    if (item.is_actionable) return 'co-badge-blue'
-    if (item.status === 'denied' || item.status === 'revoked') return 'co-badge-red'
+function badgeVariant(item: any) {
+    if (item.grants_access_now) return 'success'
+    if (item.is_actionable) return 'warning'
+    if (item.status === 'denied' || item.status === 'revoked') return 'danger'
 
-    return 'co-badge-gray'
+    return 'neutral'
 }
 
 function formatDateTime(value: string | null): string {

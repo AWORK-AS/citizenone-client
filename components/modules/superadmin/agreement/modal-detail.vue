@@ -11,9 +11,9 @@
                     <!-- Key figures -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                         <Tooltip v-for="card in cards" :key="card.key" :text="card.help" position="bottom" wrap>
-                            <div class="rounded-xl border border-[#EAECF0] bg-white p-3 w-full text-left">
-                                <p class="text-[11px] text-[#8891A4]">{{ card.label }}</p>
-                                <p class="text-[17px] font-semibold text-[#1F2533]">{{ card.value }}</p>
+                            <div class="rounded-xl border border-line bg-white p-3 w-full text-left">
+                                <p class="text-[11px] text-ink-muted">{{ card.label }}</p>
+                                <p class="text-[17px] font-semibold text-ink">{{ card.value }}</p>
                                 <ModulesSuperadminAgreementMrrEstimatedChip v-if="card.key === 'mrr' && contractMrrIsEstimated(state.agreement)" />
                             </div>
                         </Tooltip>
@@ -21,16 +21,15 @@
 
                     <div class="flex flex-wrap items-center gap-2 text-[12px]">
                         <Tooltip :text="$t('superadmin.agreements.help.status')" position="top" wrap>
-                            <span class="co-badge" :class="statusClass(state.agreement.status)">
-                                {{ $t(`superadmin.agreements.statuses.${state.agreement.status}`) }}
-                            </span>
+                            <ModulesSuperadminStatusPill :variant="statusVariant(state.agreement.status)"
+                                :label="$t(`superadmin.agreements.statuses.${state.agreement.status}`)" />
                         </Tooltip>
                         <Tooltip :text="$t('superadmin.agreements.help.billingPlanBadge')" position="top" wrap>
                             <span class="co-badge co-badge-navy">
                                 {{ $t(`superadmin.agreements.plans.${state.agreement.billing_plan}`) }}
                             </span>
                         </Tooltip>
-                        <span class="text-[#5C6478]">
+                        <span class="text-ink-body">
                             {{ formatDateToReadable(state.agreement.starts_on) }} - {{ formatDateToReadable(state.agreement.ends_on) }}
                             ({{ $t('superadmin.agreements.months', { count: state.agreement.term_months }) }})
                         </span>
@@ -48,9 +47,9 @@
                     </div>
 
                     <Tooltip :text="$t('paymentDunning.agreement.cardSecurityHelp')" position="top" wrap class="!block">
-                        <label class="inline-flex items-center gap-2 text-[13px] text-[#1F2533]"
+                        <label class="inline-flex items-center gap-2 text-[13px] text-ink"
                             :class="canManageFinancials ? 'cursor-pointer' : 'opacity-60'">
-                            <input type="checkbox" class="rounded border-[#D5D9E2]" :checked="cardSecurity"
+                            <input type="checkbox" class="rounded border-line-strong" :checked="cardSecurity"
                                 :disabled="!canManageFinancials || state.isSavingCardSecurity"
                                 @change="toggleCardSecurity(($event.target as HTMLInputElement).checked)" />
                             {{ $t('paymentDunning.agreement.cardSecurity') }}
@@ -58,18 +57,18 @@
                     </Tooltip>
 
                     <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap class="!block">
-                        <p class="text-[13px] text-[#1F2533]">
+                        <p class="text-[13px] text-ink">
                             {{ $t('superadmin.agreements.renewal.renewsFor', { term: renewalInfo.months, billing: $t(`superadmin.agreements.renewal.billing.${renewalInfo.billing}`) }) }}
                         </p>
                     </Tooltip>
 
                     <div v-if="state.agreement.estimated_renewal_annual_value != null"
-                        class="flex flex-wrap items-center gap-2 text-[13px] text-[#1F2533]">
+                        class="flex flex-wrap items-center gap-2 text-[13px] text-ink">
                         <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
                             <span class="inline-flex items-center gap-1">
                                 {{ $t('superadmin.agreements.renewal.expected', {
                                     amount: formatNumber(state.agreement.estimated_renewal_annual_value) }) }}
-                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                     :aria-label="$t('superadmin.agreements.renewal.expectedHelp')" />
                             </span>
                         </Tooltip>
@@ -87,20 +86,20 @@
                     </div>
 
                     <p v-if="state.agreement.internal_note"
-                        class="text-[13px] text-[#5C6478] bg-[#F9FAFB] border border-[#EAECF0] rounded-lg px-3 py-2 whitespace-pre-wrap">
+                        class="text-[13px] text-ink-body bg-surface-subtle border border-line rounded-lg px-3 py-2 whitespace-pre-wrap">
                         {{ state.agreement.internal_note }}
                     </p>
 
                     <!-- Installments -->
-                    <section class="border border-[#EAECF0] rounded-xl overflow-hidden">
-                        <div class="px-4 py-2.5 bg-[#F9FAFB] border-b border-[#EAECF0]">
-                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                    <section class="border border-line rounded-xl overflow-hidden">
+                        <div class="px-4 py-2.5 bg-surface-subtle border-b border-line">
+                            <p class="text-[13px] font-semibold text-ink">
                                 {{ $t('superadmin.agreements.detail.installments') }}
                             </p>
                         </div>
                         <table class="w-full text-[13px]">
                             <thead>
-                                <tr class="text-left text-[11px] uppercase text-[#5C6478]">
+                                <tr class="text-left text-[11px] uppercase text-ink-body">
                                     <th class="px-4 py-2">#</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.dueOn') }}</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.label') }}</th>
@@ -109,7 +108,7 @@
                                         <Tooltip :text="$t('superadmin.agreements.table.coversHelp')" position="top" wrap>
                                             <span class="inline-flex items-center gap-1">
                                                 {{ $t('superadmin.agreements.table.covers') }}
-                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                                     :aria-label="$t('superadmin.agreements.table.coversHelp')" />
                                             </span>
                                         </Tooltip>
@@ -120,20 +119,20 @@
                             </thead>
                             <tbody>
                                 <tr v-for="row in state.agreement.installments" :key="row.uuid"
-                                    class="border-t border-[#F5F6F8]">
-                                    <td class="px-4 py-2 text-[#8891A4]">{{ row.sequence }}</td>
+                                    class="border-t border-surface-canvas">
+                                    <td class="px-4 py-2 text-ink-muted">{{ row.sequence }}</td>
                                     <td class="px-4 py-2">{{ formatDateToReadable(row.due_on) }}</td>
-                                    <td class="px-4 py-2 text-[#5C6478]">
+                                    <td class="px-4 py-2 text-ink-body">
                                         {{ row.label }}
                                         <Tooltip v-if="isCancellationRemainder(row.label)"
                                             :text="$t('superadmin.agreements.remainder.help')" position="top" wrap>
-                                            <span class="co-badge bg-[#FEF3C7] text-[#B45309] ml-1.5">
+                                            <span class="co-badge bg-warning-soft text-warning-ink ml-1.5">
                                                 <Icon name="ph:flag" class="w-3 h-3" aria-hidden="true" />
                                                 {{ $t('superadmin.agreements.remainder.chip') }}
                                             </span>
                                         </Tooltip>
                                         <p v-if="row.product_number || row.quantity != null || row.unit_price != null"
-                                            class="text-[11px] text-[#8891A4]">
+                                            class="text-[11px] text-ink-muted">
                                             {{ $t('superadmin.agreements.detail.addOnLine', {
                                                 product: row.product_number ?? '-',
                                                 quantity: row.quantity ?? '-',
@@ -142,18 +141,18 @@
                                         </p>
                                     </td>
                                     <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
-                                    <td class="px-4 py-2 text-[#5C6478] whitespace-nowrap">
+                                    <td class="px-4 py-2 text-ink-body whitespace-nowrap">
                                         <template v-if="row.covers_from || row.covers_to">
                                             {{ row.covers_from ? formatDateToReadable(row.covers_from) : '-' }}
                                             &ndash;
                                             {{ row.covers_to ? formatDateToReadable(row.covers_to) : '-' }}
                                         </template>
-                                        <span v-else class="text-[#B4BBC7]">-</span>
+                                        <span v-else class="text-ink-subtle">-</span>
                                     </td>
                                     <td class="px-4 py-2">
                                         <div v-if="row.invoice" class="flex flex-wrap items-center gap-2">
                                             <Tooltip :text="$t('superadmin.agreements.detail.openInvoice')" position="top">
-                                                <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                                                <NuxtLink class="font-mono text-tertiary hover:underline"
                                                     :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
                                                     #{{ row.invoice.invoice_number }}
                                                 </NuxtLink>
@@ -211,7 +210,7 @@
                                                 </span>
                                             </Tooltip>
                                         </template>
-                                        <span v-else class="text-[#B4BBC7]">-</span>
+                                        <span v-else class="text-ink-subtle">-</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -219,14 +218,14 @@
                     </section>
 
                     <!-- Invoices covered by the agreement -->
-                    <section class="border border-[#EAECF0] rounded-xl p-4 space-y-3">
+                    <section class="border border-line rounded-xl p-4 space-y-3">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-1.5">
-                                <p class="text-[13px] font-semibold text-[#1F2533]">
+                                <p class="text-[13px] font-semibold text-ink">
                                     {{ $t('superadmin.agreements.covered.title') }}
                                 </p>
                                 <Tooltip :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
-                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                         :aria-label="$t('superadmin.agreements.covered.help')" />
                                 </Tooltip>
                             </div>
@@ -237,16 +236,16 @@
                                 </FormButton>
                             </Tooltip>
                         </div>
-                        <p v-if="!(state.agreement.covered_invoices ?? []).length" class="text-[12px] text-[#8891A4]">
+                        <p v-if="!(state.agreement.covered_invoices ?? []).length" class="text-[12px] text-ink-muted">
                             {{ $t('superadmin.agreements.covered.none') }}
                         </p>
                         <div v-for="invoice in state.agreement.covered_invoices ?? []" :key="invoice.uuid"
                             class="flex items-center justify-between gap-3 text-sm">
-                            <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                            <NuxtLink class="font-mono text-tertiary hover:underline"
                                 :to="`/superadmin/companies/${props.companyUuid}/invoices/${invoice.uuid}/invoice-details`">
                                 #{{ invoice.invoice_number }}
                             </NuxtLink>
-                            <span v-if="invoice.total_amount !== undefined" class="text-[#5C6478]">
+                            <span v-if="invoice.total_amount !== undefined" class="text-ink-body">
                                 {{ formatAmount(invoice.total_amount, 'DKK') }}
                             </span>
                             <Tooltip :text="$t('superadmin.agreements.covered.removeHelp')" position="left" wrap>
@@ -259,22 +258,22 @@
                     </section>
 
                     <!-- Subscriptions -->
-                    <section class="border border-[#EAECF0] rounded-xl p-4 space-y-3">
+                    <section class="border border-line rounded-xl p-4 space-y-3">
                         <div class="flex items-center gap-1.5">
-                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                            <p class="text-[13px] font-semibold text-ink">
                                 {{ $t('superadmin.agreements.detail.subscriptions') }}
                             </p>
                             <Tooltip :text="$t('superadmin.agreements.help.subscriptions')" position="top" wrap>
-                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                     :aria-label="$t('superadmin.agreements.help.subscriptions')" />
                             </Tooltip>
                         </div>
-                        <p v-if="!subscriptionOptions.length" class="text-[12px] text-[#8891A4]">
+                        <p v-if="!subscriptionOptions.length" class="text-[12px] text-ink-muted">
                             {{ $t('superadmin.agreements.detail.noSubscriptions') }}
                         </p>
                         <div v-if="subscriptionOptions.length" class="flex flex-wrap items-center justify-between gap-2">
                             <Tooltip :text="$t('superadmin.agreements.detail.subsSummaryHelp')" position="top" wrap>
-                                <p class="text-[12px] text-[#5C6478]" aria-live="polite">
+                                <p class="text-[12px] text-ink-body" aria-live="polite">
                                     {{ $t('superadmin.agreements.detail.subsSummary', { checked: totalSelection.checked, total: totalSelection.total }) }}
                                 </p>
                             </Tooltip>
@@ -292,20 +291,20 @@
                             </div>
                         </div>
                         <div v-for="group in subscriptionGroups" :key="group.key"
-                            class="border border-[#EAECF0] rounded-lg" data-testid="subscription-group">
+                            class="border border-line rounded-lg" data-testid="subscription-group">
                             <div class="flex items-center gap-2 px-3 py-2">
                                 <Tooltip :text="$t('superadmin.agreements.detail.subsGroupToggleHelp')" position="top" wrap>
-                                    <input type="checkbox" class="rounded border-[#D5D9E2]"
+                                    <input type="checkbox" class="rounded border-line-strong"
                                         :checked="selectionOf(group).state === 'all'"
                                         :indeterminate="selectionOf(group).state === 'some'"
                                         :disabled="!group.selectable.length"
                                         :aria-label="group.label" @change="toggleGroup(group)" />
                                 </Tooltip>
-                                <span class="text-sm font-medium text-[#1F2533]">{{ group.label }}</span>
+                                <span class="text-sm font-medium text-ink">{{ group.label }}</span>
                                 <span class="co-badge co-badge-gray">
                                     {{ $t(`superadmin.agreements.detail.dealTypes.${group.deal_type ?? 'deal'}`) }}
                                 </span>
-                                <span class="text-[12px] text-[#5C6478]">
+                                <span class="text-[12px] text-ink-body">
                                     {{ $t('superadmin.agreements.detail.subsGroupCount', { checked: selectionOf(group).checked, total: selectionOf(group).total }) }}
                                     <template v-if="group.elsewhere"> · {{ $t('superadmin.agreements.detail.subsGroupElsewhere', { count: group.elsewhere }) }}</template>
                                 </span>
@@ -313,7 +312,7 @@
                                 <Tooltip :text="state.expanded[group.key]
                                     ? $t('superadmin.agreements.detail.subsGroupCollapseHelp')
                                     : $t('superadmin.agreements.detail.subsGroupExpandHelp')" position="left" wrap>
-                                    <button type="button" class="p-1 rounded hover:bg-[#F5F6F8] text-[#5C6478]"
+                                    <button type="button" class="p-1 rounded hover:bg-surface-canvas text-ink-body"
                                         :aria-expanded="!!state.expanded[group.key]"
                                         :aria-label="state.expanded[group.key]
                                             ? $t('superadmin.agreements.detail.subsGroupCollapseHelp')
@@ -325,15 +324,15 @@
                                 </Tooltip>
                             </div>
                             <div v-if="state.expanded[group.key]"
-                                class="border-t border-[#EAECF0] max-h-72 overflow-y-auto px-3 py-1">
+                                class="border-t border-line max-h-72 overflow-y-auto px-3 py-1">
                                 <Tooltip v-for="option in group.items" :key="option.uuid"
                                     :text="isLinkedElsewhere(option)
                                         ? $t('superadmin.agreements.detail.linkedElsewhere')
                                         : $t('superadmin.agreements.detail.subsLicenceToggleHelp')"
                                     position="top" wrap class="!block w-full">
                                     <label class="flex items-center gap-2 text-sm py-1"
-                                        :class="isLinkedElsewhere(option) ? 'text-[#8891A4] cursor-not-allowed' : 'text-[#1F2533] cursor-pointer'">
-                                        <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
+                                        :class="isLinkedElsewhere(option) ? 'text-ink-muted cursor-not-allowed' : 'text-ink cursor-pointer'">
+                                        <input type="checkbox" class="rounded border-line-strong" :value="option.uuid"
                                             :disabled="isLinkedElsewhere(option)" v-model="state.linked" />
                                         <span>{{ option.user_name || option.label }}</span>
                                     </label>
@@ -505,8 +504,8 @@ const linkedChanged = computed(() => {
     return original !== [...state.linked].sort().join(',')
 })
 
-function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-[#FEF3C7] text-[#B45309]' : 'co-badge-gray'
+function statusVariant(status: string) {
+    return status === 'active' ? 'success' : status === 'cancelled' ? 'danger' : status === 'ended' ? 'warning' : 'neutral'
 }
 
 watch(() => props.isModalOpen, (open: boolean) => { if (open) load() })

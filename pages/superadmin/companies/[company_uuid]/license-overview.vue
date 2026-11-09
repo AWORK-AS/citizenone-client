@@ -9,25 +9,8 @@
             <template #header>{{ $t('superadmin.accounts.accounts') }}</template>
 
             <div class="p-1">
-                <!-- Back -->
-                <NuxtLink to="/superadmin/companies"
-                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-5 transition-colors">
-                    <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('superadmin.companies.accounts.allCompanies') }}
-                </NuxtLink>
+                <ModulesSuperadminCompanyHeader />
 
-                <!-- Sub-nav tabs -->
-                <div class="flex items-center gap-1 mb-6 border-b border-[#EAECF0]">
-                    <button v-for="tab in detailTabs" :key="tab.href"
-                        class="px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px" :class="$route.path === tab.href
-                            ? 'border-[#42AED9] text-[#205E77]'
-                            : 'border-transparent text-[#5C6478] hover:text-[#1F2533]'" @click="navigateTo(tab.href)">
-                        <div class="flex items-center gap-1.5">
-                            <Icon :name="tab.icon" class="w-4 h-4" />
-                            {{ tab.label }}
-                        </div>
-                    </button>
-                </div>
 
                 <div v-if="canManageLicenses" class="flex justify-end mb-4">
                     <FormButton buttonStyle="action" @click="openGrantModal">
@@ -488,11 +471,11 @@
 
                         <!-- Sådan faktureres kunden: straight from the quote endpoint. -->
                         <section class="rounded-lg border px-3 py-3 text-[13px] space-y-2"
-                            :class="grantNeedsReasonNow ? 'border-red-200 bg-red-50 text-red-900' : 'border-[#CDE3EC] bg-[#F3F9FC] text-[#1F2533]'"
+                            :class="grantNeedsReasonNow ? 'border-red-200 bg-red-50 text-red-900' : 'border-tertiary-50 bg-accent-soft text-ink'"
                             data-testid="grant-billing-box" aria-live="polite">
                             <div class="flex items-center justify-between gap-2">
                                 <h3 class="font-semibold">{{ $t('superadmin.companies.licenseOverview.grant.billingBox.title') }}</h3>
-                                <Icon v-if="state.grant.quoteLoading" name="ph:spinner" class="w-4 h-4 animate-spin text-[#42AED9]" aria-hidden="true" />
+                                <Icon v-if="state.grant.quoteLoading" name="ph:spinner" class="w-4 h-4 animate-spin text-accent" aria-hidden="true" />
                             </div>
                             <p v-if="state.grant.quoteError" class="text-red-700">{{ state.grant.quoteError }}</p>
                             <template v-else-if="state.grant.quote">
@@ -953,15 +936,6 @@ function formatDate(value?: string | null): string {
     return value ? formatDateToReadable(value) : '—'
 }
 
-const detailTabs = computed(() => [
-    { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
-    { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
-    { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
-    { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
-    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
-    { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
-    { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
-])
 let currentTablePage = 1
 
 const state = reactive({

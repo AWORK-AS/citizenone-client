@@ -14,17 +14,17 @@
                                 <div class="flex h-full flex-col bg-white shadow-2xl">
 
                                     <!-- Header -->
-                                    <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
+                                    <div class="flex items-start justify-between px-6 py-5 border-b border-line">
                                         <div>
-                                            <DialogTitle class="text-[16px] font-semibold text-[#1F2533]">
+                                            <DialogTitle class="text-[16px] font-semibold text-ink">
                                                 {{ $t('superadmin.salesCampaign.sliderEditCampaignTitle') }}
                                             </DialogTitle>
-                                            <p class="text-[12px] text-[#8891A4] mt-0.5">
+                                            <p class="text-[12px] text-ink-muted mt-0.5">
                                                 {{ state.campaign?.title }}
                                             </p>
                                         </div>
                                         <button @click="emit('close')"
-                                            class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8] hover:text-[#1F2533] transition-colors">
+                                            class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-muted hover:bg-surface-canvas hover:text-ink transition-colors">
                                             <Icon name="ph:x" class="w-4 h-4" />
                                         </button>
                                     </div>
@@ -39,14 +39,14 @@
                                     </div>
 
                                     <!-- Footer buttons -->
-                                    <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0] bg-white">
+                                    <div class="flex items-center gap-3 px-6 py-4 border-t border-line bg-white">
                                         <button @click="emit('close')"
-                                            class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                                            class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                                             {{ $t('cancel') }}
                                         </button>
                                         <button @click="formRef?.submit()"
-                                            class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                                            style="background:#205E77" :disabled="state.isPageLoading">
+                                            class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary"
+                                            :disabled="state.isPageLoading">
                                             {{ $t('update') }}
                                         </button>
                                     </div>

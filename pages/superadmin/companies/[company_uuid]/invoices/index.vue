@@ -10,25 +10,8 @@
             <template #header>{{ $t('superadmin.invoices.invoices') }}</template>
 
             <div class="p-1">
-                <!-- Back -->
-                <NuxtLink to="/superadmin/companies"
-                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-5 transition-colors">
-                    <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('superadmin.companies.accounts.allCompanies') }}
-                </NuxtLink>
+                <ModulesSuperadminCompanyHeader />
 
-                <!-- Sub-nav tabs -->
-                <div class="flex items-center gap-1 mb-6 border-b border-[#EAECF0]">
-                    <button v-for="tab in detailTabs" :key="tab.href"
-                        class="px-4 py-2.5 text-[13px] font-medium transition-colors border-b-2 -mb-px" :class="$route.path === tab.href
-                            ? 'border-[#42AED9] text-[#205E77]'
-                            : 'border-transparent text-[#5C6478] hover:text-[#1F2533]'" @click="navigateTo(tab.href)">
-                        <div class="flex items-center gap-1.5">
-                            <Icon :name="tab.icon" class="w-4 h-4" />
-                            {{ tab.label }}
-                        </div>
-                    </button>
-                </div>
 
                 <div class="mt-5 space-y-4">
                     <Alert type="danger" :text="state?.error?.message"
@@ -41,8 +24,8 @@
                         @sort="handleSort">
                         <template #body>
                             <tr v-for="(invoice, index) in state.invoices?.data" :key="index"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ formatDateTimeToReadable(invoice?.created_at) }}
                                 </td>
                                 <td class="co-td">
@@ -68,18 +51,18 @@
                                         </span>
                                     </Tooltip>
                                     <span v-else-if="invoice?.is_paid" class="co-badge co-badge-green">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
                                         {{ $t('superadmin.invoices.table.paid') }}
                                     </span>
                                     <span v-else class="co-badge co-badge-red">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
                                         {{ $t('superadmin.invoices.table.unpaid') }}
                                     </span>
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478] font-mono">
+                                <td class="co-td text-[13px] text-ink-body font-mono">
                                     {{ invoice?.invoice_number }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#1F2533] font-medium">
+                                <td class="co-td text-[13px] text-ink font-medium">
                                     {{ formatAmount(invoice?.total_amount, 'DKK') }}
                                 </td>
                                 <td class="co-td" @click.stop>
@@ -153,15 +136,6 @@ let currentTablePage = 1
 let searchTimeout: any = null
 const searchQuery = ref('')
 
-const detailTabs = computed(() => [
-    { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
-    { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
-    { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
-    { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
-    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
-    { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
-    { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
-])
 
 const state = reactive({
     columnHeaders: computed(() => [

@@ -18,6 +18,8 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
+// The company header shows the name and whether it is active.
+const { refresh: refreshCompanySummary } = useCompanySummary(String(companyUuid))
 
 const state = reactive({
     error: {} as Error,
@@ -60,6 +62,7 @@ async function updateCompany(formData: Record<string, any>) {
         const response = await companyService.updateCompany(companyUuid, params)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.companySuccessfullyUpdated')}.`)
+            refreshCompanySummary()
             router.back()
         }
     } catch (error: any) {

@@ -5,8 +5,8 @@
             v-if="props.error?.message && props.error.message.length > 0" />
 
         <!-- Poll information -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-5">
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-5">
                 {{ $t('superadmin.polls.form.pollInformation') }}
             </h2>
 
@@ -20,20 +20,20 @@
         </div>
 
         <!-- Settings -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-4">
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-4">
                 {{ $t('superadmin.companies.form.settings') }}
             </h2>
 
             <div class="flex items-center justify-between py-3">
                 <div>
-                    <p class="text-[13px] font-medium text-[#1F2533]">
+                    <p class="text-[13px] font-medium text-ink">
                         {{ $t('superadmin.polls.form.active') }}
                     </p>
                 </div>
                 <button type="button" @click="state.formPoll.is_active = !state.formPoll.is_active"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formPoll.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formPoll.is_active ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formPoll.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -43,12 +43,11 @@
         <!-- Action buttons -->
         <div class="flex items-center justify-end gap-3 pb-6">
             <button type="button" @click="navigateTo('/superadmin/polls')"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>

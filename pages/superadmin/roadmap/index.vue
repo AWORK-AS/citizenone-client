@@ -7,15 +7,13 @@
             <template #header>{{ $t('superadmin.roadmap.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5 flex items-start justify-between gap-x-4">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('superadmin.roadmap.title') }}</h1>
-                        <p class="text-sm text-[#6B7280]">{{ $t('superadmin.roadmap.intro') }}</p>
-                    </div>
-                    <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
-                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.roadmap.newItem') }}
-                    </FormButton>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.roadmap.title')" :subtitle="$t('superadmin.roadmap.intro')">
+                    <template #actions>
+                        <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
+                            <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.roadmap.newItem') }}
+                        </FormButton>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="mb-4 flex flex-wrap gap-2">
                     <button v-for="status in statuses" :key="status" type="button" @click="state.activeStatus = status"
@@ -30,7 +28,7 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div v-if="!state.isLoading && !visibleItems.length"
-                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
+                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-ink-body">
                         <Icon name="ph:map-trifold" class="h-8 w-8 text-gray-300" />
                         {{ $t('superadmin.roadmap.noItems') }}
                     </div>
@@ -48,9 +46,8 @@
                                 <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                         <span class="font-semibold text-gray-900">{{ item.title }}</span>
-                                        <span class="co-badge" :class="item.is_published ? 'co-badge-green' : 'co-badge-gray'">
-                                            {{ item.is_published ? $t('superadmin.roadmap.published') : $t('superadmin.roadmap.draft') }}
-                                        </span>
+                                        <ModulesSuperadminStatusPill :variant="item.is_published ? 'success' : 'neutral'"
+                                            :label="item.is_published ? $t('superadmin.roadmap.published') : $t('superadmin.roadmap.draft')" />
                                         <span v-if="item.expected_period" class="co-badge co-badge-blue">{{ item.expected_period }}</span>
                                         <span v-for="industry in item.industries" :key="industry.uuid" class="co-badge co-badge-navy">
                                             {{ industryName(industry) }}

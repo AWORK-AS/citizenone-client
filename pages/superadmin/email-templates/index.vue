@@ -7,24 +7,22 @@
             <template #header>{{ $t('superadmin.emailTemplates.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('superadmin.emailTemplates.title') }}</h1>
-                    <p class="text-sm text-[#6B7280]">{{ $t('superadmin.emailTemplates.subtitle') }}</p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.emailTemplates.title')"
+                    :subtitle="$t('superadmin.emailTemplates.subtitle')" />
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
                 <LoadingSpinner :isLoading="state.isLoading">
-                    <div v-if="!state.templates.length" class="text-sm text-[#6B7280] py-10 text-center">
+                    <div v-if="!state.templates.length" class="text-sm text-ink-body py-10 text-center">
                         {{ $t('superadmin.emailTemplates.noTemplates') }}
                     </div>
 
                     <div v-else>
                         <!-- Language switcher -->
-                        <div class="inline-flex rounded-xl bg-[#F0F1F4] p-1 mb-5">
+                        <div class="inline-flex rounded-xl bg-surface-canvas p-1 mb-5">
                             <button v-for="loc in locales" :key="loc" @click="setLocale(loc)"
                                 class="px-4 py-1.5 rounded-lg text-sm font-medium transition-colors"
-                                :class="state.locale === loc ? 'bg-white text-[#205E77] shadow-sm' : 'text-[#6B7280] hover:text-[#1F2533]'">
+                                :class="state.locale === loc ? 'bg-white text-tertiary shadow-sm' : 'text-ink-body hover:text-ink'">
                                 {{ localeLabel(loc) }}
                             </button>
                         </div>
@@ -34,58 +32,57 @@
                             <div class="lg:col-span-4 space-y-2">
                                 <button v-for="tpl in filteredTemplates" :key="tpl.uuid" @click="selectTemplate(tpl)"
                                     class="w-full text-left rounded-xl border px-4 py-3 transition-colors"
-                                    :class="state.editing?.uuid === tpl.uuid ? 'border-[#205E77] bg-[#205E77]/5' : 'border-[#F0F1F4] bg-white hover:border-[#205E77]/40'">
-                                    <p class="text-sm font-semibold text-[#1F2533]">{{ keyLabel(tpl.key) }}</p>
-                                    <p class="text-xs text-[#6B7280] mt-0.5 truncate">{{ tpl.subject }}</p>
+                                    :class="state.editing?.uuid === tpl.uuid ? 'border-tertiary bg-tertiary/5' : 'border-line bg-white hover:border-tertiary/40'">
+                                    <p class="text-sm font-semibold text-ink">{{ keyLabel(tpl.key) }}</p>
+                                    <p class="text-xs text-ink-body mt-0.5 truncate">{{ tpl.subject }}</p>
                                 </button>
                             </div>
 
                         <!-- Editor -->
                         <div class="lg:col-span-8" v-if="state.editing">
-                            <div class="rounded-xl border border-[#F0F1F4] bg-white p-5 space-y-4">
+                            <div class="rounded-xl border border-line bg-white p-5 space-y-4">
                                 <div class="flex items-center justify-between">
-                                    <p class="text-sm font-semibold text-[#1F2533]">
+                                    <p class="text-sm font-semibold text-ink">
                                         {{ keyLabel(state.editing.key) }}
-                                        <span class="ml-1 text-xs font-normal text-[#6B7280] uppercase">({{ state.editing.locale }})</span>
+                                        <span class="ml-1 text-xs font-normal text-ink-body uppercase">({{ state.editing.locale }})</span>
                                     </p>
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs font-medium text-[#6B7280] mb-1">{{ $t('superadmin.emailTemplates.subject') }}</label>
+                                    <label class="block text-xs font-medium text-ink-body mb-1">{{ $t('superadmin.emailTemplates.subject') }}</label>
                                     <input v-model="form.subject" type="text"
-                                        class="w-full rounded-lg border border-[#E5E7EB] px-3 py-2 text-sm focus:border-[#205E77] focus:outline-none" />
+                                        class="w-full rounded-lg border border-line px-3 py-2 text-sm focus:border-tertiary focus:outline-none" />
                                 </div>
 
                                 <div>
-                                    <label class="block text-xs font-medium text-[#6B7280] mb-1">{{ $t('superadmin.emailTemplates.body') }}</label>
+                                    <label class="block text-xs font-medium text-ink-body mb-1">{{ $t('superadmin.emailTemplates.body') }}</label>
                                     <textarea v-model="form.body" rows="12"
-                                        class="w-full rounded-lg border border-[#E5E7EB] px-3 py-2 text-[13px] font-mono focus:border-[#205E77] focus:outline-none"></textarea>
+                                        class="w-full rounded-lg border border-line px-3 py-2 text-[13px] font-mono focus:border-tertiary focus:outline-none"></textarea>
                                 </div>
 
                                 <div>
-                                    <p class="text-xs font-medium text-[#6B7280] mb-1">{{ $t('superadmin.emailTemplates.placeholders') }}</p>
+                                    <p class="text-xs font-medium text-ink-body mb-1">{{ $t('superadmin.emailTemplates.placeholders') }}</p>
                                     <div class="flex flex-wrap gap-1.5">
                                         <button v-for="ph in placeholders" :key="ph" type="button" @click="copyPlaceholder(ph)"
-                                            class="inline-flex items-center gap-x-1 rounded-md bg-[#205E77]/10 px-2 py-1 text-xs font-mono text-[#205E77] hover:bg-[#205E77]/20">
+                                            class="inline-flex items-center gap-x-1 rounded-md bg-tertiary/10 px-2 py-1 text-xs font-mono text-tertiary hover:bg-tertiary/20">
                                             <Icon name="ph:copy" class="h-3 w-3" /> {{ phTag(ph) }}
                                         </button>
                                     </div>
-                                    <p class="text-[11px] text-[#9CA3AF] mt-1">{{ $t('superadmin.emailTemplates.placeholdersHint') }}</p>
+                                    <p class="text-[11px] text-ink-muted mt-1">{{ $t('superadmin.emailTemplates.placeholdersHint') }}</p>
                                 </div>
 
                                 <div>
-                                    <p class="text-xs font-medium text-[#6B7280] mb-1">{{ $t('superadmin.emailTemplates.preview') }}</p>
-                                    <div class="rounded-lg border border-[#E5E7EB] bg-[#f8f9fa] p-3 max-h-80 overflow-y-auto" v-html="previewHtml"></div>
+                                    <p class="text-xs font-medium text-ink-body mb-1">{{ $t('superadmin.emailTemplates.preview') }}</p>
+                                    <div class="rounded-lg border border-line bg-surface-subtle p-3 max-h-80 overflow-y-auto" v-html="previewHtml"></div>
                                 </div>
 
                                 <div class="flex justify-end gap-x-3 pt-1">
                                     <button type="button" @click="state.editing = null"
-                                        class="px-4 py-2 rounded-lg text-sm font-medium text-[#6B7280] hover:bg-[#F3F4F6]">
+                                        class="px-4 py-2 rounded-lg text-sm font-medium text-ink-body hover:bg-surface-canvas">
                                         {{ $t('superadmin.emailTemplates.cancel') }}
                                     </button>
                                     <button type="button" @click="save" :disabled="state.isSaving"
-                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm disabled:opacity-60"
-                                        style="background:#205E77">
+                                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm disabled:opacity-60 bg-tertiary">
                                         <Icon name="ph:check" class="w-4 h-4" /> {{ $t('superadmin.emailTemplates.save') }}
                                     </button>
                                 </div>

@@ -4,8 +4,8 @@
         <Alert type="danger" :text="error?.message" v-if="error?.message && error.message.length > 0" />
 
         <!-- Section 1: Company details -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-5">{{
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-5">{{
                 $t('superadmin.companies.form.companyInformation') }}</h2>
 
             <!-- Company name -->
@@ -82,11 +82,11 @@
         </div>
 
         <!-- Section 2: Admin user (create only) -->
-        <div v-if="formType === 'create'" class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-1">
+        <div v-if="formType === 'create'" class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-1">
                 {{ $t('superadmin.companies.form.adminUser') }}
             </h2>
-            <p class="text-[12px] text-[#8891A4] mb-5">
+            <p class="text-[12px] text-ink-muted mb-5">
                 {{ $t('superadmin.companies.form.adminUserDesc') }}
             </p>
 
@@ -142,24 +142,24 @@
         </div>
 
         <!-- Section 3: Settings -->
-        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
-            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-4">{{
+        <div class="bg-white border border-line rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-ink mb-4">{{
                 $t('superadmin.companies.form.settings') }}</h2>
 
             <!-- Send welcome email (create only) -->
-            <div v-if="formType === 'create'" class="flex items-center justify-between py-3 border-b border-[#F5F6F8]">
+            <div v-if="formType === 'create'" class="flex items-center justify-between py-3 border-b border-surface-canvas">
                 <div>
-                    <p class="text-[13px] font-medium text-[#1F2533]">
+                    <p class="text-[13px] font-medium text-ink">
                         {{ $t('superadmin.companies.form.sendWelcomeEmail') }}
                     </p>
-                    <p class="text-[11px] text-[#8891A4] mt-0.5">
+                    <p class="text-[11px] text-ink-muted mt-0.5">
                         {{ $t('superadmin.companies.form.sendWelcomeEmailDesc') }}
                     </p>
                 </div>
                 <button type="button"
                     @click="state.formCompany.send_welcome_email = !state.formCompany.send_welcome_email"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.send_welcome_email ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.send_welcome_email ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.send_welcome_email ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -168,17 +168,17 @@
             <!-- Active -->
             <div class="flex items-center justify-between py-3">
                 <div>
-                    <p class="text-[13px] font-medium text-[#1F2533]">
+                    <p class="text-[13px] font-medium text-ink">
                         {{ formType === 'create' ? $t('superadmin.companies.form.activeImmediately') :
                             $t('superadmin.companies.form.active') }}
                     </p>
-                    <p v-if="formType === 'create'" class="text-[11px] text-[#8891A4] mt-0.5">
+                    <p v-if="formType === 'create'" class="text-[11px] text-ink-muted mt-0.5">
                         {{ $t('superadmin.companies.form.activeImmediatelyDesc') }}
                     </p>
                 </div>
                 <button type="button" @click="state.formCompany.is_active = !state.formCompany.is_active"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.is_active ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -187,13 +187,13 @@
             <!-- VAT-exempt invoicing: lets the company mark customers as VAT-exempt -->
             <div v-if="formType === 'update'" class="flex items-center justify-between py-3">
                 <div>
-                    <p class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.companies.form.vatExemptInvoicing') }}</p>
-                    <p class="text-[11px] text-[#8891A4] mt-0.5">{{ $t('superadmin.companies.form.vatExemptInvoicingDesc') }}</p>
+                    <p class="text-[13px] font-medium text-ink">{{ $t('superadmin.companies.form.vatExemptInvoicing') }}</p>
+                    <p class="text-[11px] text-ink-muted mt-0.5">{{ $t('superadmin.companies.form.vatExemptInvoicingDesc') }}</p>
                 </div>
                 <button type="button"
                     @click="state.formCompany.vat_exempt_invoicing_enabled = !state.formCompany.vat_exempt_invoicing_enabled"
                     class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                    :style="state.formCompany.vat_exempt_invoicing_enabled ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    :class="state.formCompany.vat_exempt_invoicing_enabled ? 'bg-accent' : 'bg-line-strong'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                         :class="state.formCompany.vat_exempt_invoicing_enabled ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
@@ -203,12 +203,11 @@
         <!-- Action buttons -->
         <div class="flex items-center justify-end gap-3 pb-6">
             <button type="button" @click="router.back()"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ formType === 'create' ? $t('superadmin.companies.saveCompany') : $t('update') }}
             </button>
         </div>

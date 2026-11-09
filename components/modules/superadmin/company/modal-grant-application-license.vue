@@ -13,21 +13,21 @@
                 class="fixed inset-y-0 right-0 z-50 w-full max-w-[440px] bg-white shadow-2xl flex flex-col">
 
                 <!-- Header -->
-                <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
+                <div class="flex items-start justify-between px-6 py-5 border-b border-line">
                     <div>
-                        <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                        <h2 class="text-[16px] font-semibold text-ink">
                             {{ $t('superadmin.grantLicense.title') }}
                         </h2>
-                        <p v-if="props.companyUuid && props.companyName" class="text-[12px] text-[#8891A4] mt-0.5">
+                        <p v-if="props.companyUuid && props.companyName" class="text-[12px] text-ink-muted mt-0.5">
                             {{ props.companyName }}
                         </p>
                         <p v-if="props.preselectedApplicationUuid && preselectedAppName"
-                            class="text-[12px] text-[#8891A4] mt-0.5">
+                            class="text-[12px] text-ink-muted mt-0.5">
                             {{ preselectedAppName }}
                         </p>
                     </div>
                     <button @click="close"
-                        class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8] transition-colors">
+                        class="w-8 h-8 rounded-lg flex items-center justify-center text-ink-muted hover:bg-surface-canvas transition-colors">
                         <Icon name="ph:x" class="w-4 h-4" />
                     </button>
                 </div>
@@ -44,26 +44,26 @@
                         </label>
                         <div class="relative">
                             <Icon name="ph:magnifying-glass"
-                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                             <input v-model="state.companySearch" type="text"
                                 :placeholder="$t('superadmin.grantLicense.searchCompanyPlaceholder')"
                                 class="co-input !pl-8" @input="searchCompanies" />
                         </div>
                         <div v-if="state.companyResults.length"
-                            class="mt-1 border border-[#EAECF0] rounded-lg bg-white shadow max-h-36 overflow-y-auto">
+                            class="mt-1 border border-line rounded-lg bg-white shadow max-h-36 overflow-y-auto">
                             <button v-for="c in state.companyResults" :key="c.uuid" type="button"
-                                class="w-full text-left px-3 py-2 hover:bg-[#F5F6F8] flex items-center gap-2 transition-colors text-[13px]"
+                                class="w-full text-left px-3 py-2 hover:bg-surface-canvas flex items-center gap-2 transition-colors text-[13px]"
                                 @click="selectCompany(c)">
                                 {{ c.name }}
                             </button>
                         </div>
                         <div v-if="state.selectedCompany"
-                            class="mt-2 flex items-center gap-2 px-3 py-2 bg-[#E4F1F6] rounded-lg">
-                            <span class="text-[12px] font-medium text-[#205E77] flex-1">
+                            class="mt-2 flex items-center gap-2 px-3 py-2 bg-tertiary-soft rounded-lg">
+                            <span class="text-[12px] font-medium text-tertiary flex-1">
                                 {{ state.selectedCompany.name }}
                             </span>
                             <button type="button" @click="state.selectedCompany = null; state.companySearch = ''"
-                                class="text-[#205E77]/50 hover:text-[#205E77]">
+                                class="text-tertiary/50 hover:text-tertiary">
                                 <Icon name="ph:x" class="w-3 h-3" />
                             </button>
                         </div>
@@ -76,7 +76,7 @@
                         </label>
                         <div class="relative mb-2">
                             <Icon name="ph:magnifying-glass"
-                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                             <input v-model="state.appSearch" type="text"
                                 :placeholder="$t('superadmin.grantLicense.searchAppPlaceholder')"
                                 class="co-input !pl-8" />
@@ -86,11 +86,11 @@
                                 @click="selectApp(a)" :disabled="!isAppPickable(a)"
                                 class="text-left border rounded-xl p-3 transition-colors relative"
                                 :class="[
-                                    state.form.application_uuid === (a.uuid ?? a.id) ? 'border-[#42AED9] bg-[#F0FAFD]' : 'border-[#EAECF0] hover:bg-[#F9FAFB]',
+                                    state.form.application_uuid === (a.uuid ?? a.id) ? 'border-accent bg-accent-soft' : 'border-line hover:bg-surface-subtle',
                                     !isAppPickable(a) && 'opacity-50 cursor-not-allowed hover:bg-transparent'
                                 ]">
                                 <Icon v-if="state.form.application_uuid === (a.uuid ?? a.id)" name="ph:check-circle"
-                                    class="w-4 h-4 text-[#205E77] absolute top-2 right-2" />
+                                    class="w-4 h-4 text-tertiary absolute top-2 right-2" />
                                 <span v-else-if="isAlreadyActivated(a)"
                                     class="absolute top-2 right-2 co-badge co-badge-green text-[9px] !px-1.5 !py-0">
                                     {{ $t('superadmin.grantLicense.alreadyActivated') }}
@@ -103,10 +103,10 @@
                                         {{ (a.name || '?').charAt(0).toUpperCase() }}
                                     </span>
                                 </div>
-                                <p class="text-[12px] font-semibold text-[#1F2533] truncate pr-4">{{ a.name }}</p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">{{ appPriceLabel(a) }}</p>
+                                <p class="text-[12px] font-semibold text-ink truncate pr-4">{{ a.name }}</p>
+                                <p class="text-[11px] text-ink-muted mt-0.5">{{ appPriceLabel(a) }}</p>
                             </button>
-                            <p v-if="!filteredApps.length" class="col-span-2 text-[12px] text-[#8891A4] py-4 text-center">
+                            <p v-if="!filteredApps.length" class="col-span-2 text-[12px] text-ink-muted py-4 text-center">
                                 {{ $t('superadmin.grantLicense.noAppsFound') }}
                             </p>
                         </div>
@@ -118,7 +118,7 @@
                     <!-- Seat summary (only for apps sold as multiple seats - a single-toggle
                          app like Mail/OneDrive has no "seats used" concept) -->
                     <div v-if="effectiveCompanyUuid && state.form.application_uuid && state.seatCounts && selectedApp?.is_quantifiable"
-                        class="text-[12px] text-[#5C6478] bg-[#F9FAFB] border border-[#EAECF0] rounded-lg px-3 py-2">
+                        class="text-[12px] text-ink-body bg-surface-subtle border border-line rounded-lg px-3 py-2">
                         {{ $t('superadmin.grantLicense.seatSummary', {
                             used: state.seatCounts.used, total: state.seatCounts.total
                         }) }}
@@ -132,7 +132,7 @@
                         </label>
                         <input v-model.number="state.form.quantity" type="number" min="0" placeholder="0"
                             class="co-input" />
-                        <p class="text-[11px] text-[#8891A4] mt-1">
+                        <p class="text-[11px] text-ink-muted mt-1">
                             {{ $t('superadmin.grantLicense.quantityHint') }}
                         </p>
                         <p v-if="state.errors.quantity" class="co-error">
@@ -163,7 +163,7 @@
                             {{ state.errors.frequency }}
                         </p>
                     </div>
-                    <p v-else-if="fixedFrequencyLabel" class="text-[12px] text-[#5C6478]">
+                    <p v-else-if="fixedFrequencyLabel" class="text-[12px] text-ink-body">
                         {{ $t('superadmin.grantLicense.billingFixed', { frequency: fixedFrequencyLabel }) }}
                     </p>
 
@@ -176,7 +176,7 @@
                             <FormCheckbox :value="state.form.isIncludedInAgreement" />
                             {{ $t('superadmin.grantLicense.includedInAgreement') }}
                         </div>
-                        <p class="text-[11px] text-[#8891A4] mt-1">
+                        <p class="text-[11px] text-ink-muted mt-1">
                             {{ $t('superadmin.grantLicense.includedInAgreementHint') }}
                         </p>
                     </div>
@@ -185,7 +185,7 @@
                         <label class="co-label">
                             {{ $t('superadmin.companies.licenseOverview.addSubscription.billingMethod') }}
                         </label>
-                        <p class="text-[11px] text-[#8891A4]">
+                        <p class="text-[11px] text-ink-muted">
                             {{ billingMethodLocked ? $t('paymentDunning.grantApp.methodFromCompany') : $t('paymentDunning.grantApp.methodDefaultHelp') }}
                         </p>
                         <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')">
@@ -218,7 +218,7 @@
                             {{ $t('superadmin.companies.licenseOverview.addSubscription.termYears') }}
                         </label>
                         <input id="grant_app_license_term_years" v-model.number="state.form.termYears" type="number" min="1" max="10" class="co-input" />
-                        <p class="text-[11px] text-[#8891A4] mt-1">
+                        <p class="text-[11px] text-ink-muted mt-1">
                             {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
                         </p>
                     </div>
@@ -226,19 +226,19 @@
                     <!-- Assign directly to a user (only for apps sold as multiple seats -
                          a single-toggle app like Mail/OneDrive is a company-wide grant,
                          not a per-user seat, so there's nothing to assign) -->
-                    <div v-if="!selectedApp || selectedApp.is_quantifiable" class="border border-[#EAECF0] rounded-xl p-4">
+                    <div v-if="!selectedApp || selectedApp.is_quantifiable" class="border border-line rounded-xl p-4">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-[13px] font-medium text-[#1F2533]">
+                                <p class="text-[13px] font-medium text-ink">
                                     {{ $t('superadmin.grantLicense.assignToggle') }}
                                 </p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p class="text-[11px] text-ink-muted mt-0.5">
                                     {{ $t('superadmin.grantLicense.assignToggleHint') }}
                                 </p>
                             </div>
                             <button type="button" @click="toggleAssign"
                                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0 ml-4"
-                                :style="state.assignEnabled ? 'background:#42AED9' : 'background:#D5D9E2'">
+                                :class="state.assignEnabled ? 'bg-accent' : 'bg-line-strong'">
                                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                                     :class="state.assignEnabled ? 'translate-x-6' : 'translate-x-1'"></span>
                             </button>
@@ -247,31 +247,31 @@
                         <div v-if="state.assignEnabled" class="mt-3">
                             <div class="relative">
                                 <Icon name="ph:magnifying-glass"
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                                 <input v-model="state.userSearch" type="text"
-                                    :disabled="!effectiveCompanyUuid"
+                                   :disabled="!effectiveCompanyUuid"
                                     :placeholder="$t('superadmin.grantLicense.searchUserPlaceholder')"
                                     class="co-input !pl-8" @input="searchUsers" />
                             </div>
-                            <p v-if="!effectiveCompanyUuid" class="text-[11px] text-[#8891A4] mt-1">
+                            <p v-if="!effectiveCompanyUuid" class="text-[11px] text-ink-muted mt-1">
                                 {{ $t('superadmin.grantLicense.selectCompanyFirst') }}
                             </p>
                             <div v-if="state.userResults.length"
-                                class="mt-1 border border-[#EAECF0] rounded-lg bg-white shadow max-h-36 overflow-y-auto">
+                                class="mt-1 border border-line rounded-lg bg-white shadow max-h-36 overflow-y-auto">
                                 <button v-for="u in state.userResults" :key="u.uuid" type="button"
-                                    class="w-full text-left px-3 py-2 hover:bg-[#F5F6F8] flex items-center gap-2 transition-colors text-[13px]"
+                                    class="w-full text-left px-3 py-2 hover:bg-surface-canvas flex items-center gap-2 transition-colors text-[13px]"
                                     @click="selectUser(u)">
-                                    {{ u.firstname }} {{ u.lastname }} <span class="text-[#8891A4]">— {{ u.email
+                                    {{ u.firstname }} {{ u.lastname }} <span class="text-ink-muted">— {{ u.email
                                     }}</span>
                                 </button>
                             </div>
                             <div v-if="state.selectedUser"
-                                class="mt-2 flex items-center gap-2 px-3 py-2 bg-[#E4F1F6] rounded-lg">
-                                <span class="text-[12px] font-medium text-[#205E77] flex-1">
+                                class="mt-2 flex items-center gap-2 px-3 py-2 bg-tertiary-soft rounded-lg">
+                                <span class="text-[12px] font-medium text-tertiary flex-1">
                                     {{ state.selectedUser.firstname }} {{ state.selectedUser.lastname }}
                                 </span>
                                 <button type="button" @click="state.selectedUser = null; state.userSearch = ''"
-                                    class="text-[#205E77]/50 hover:text-[#205E77]">
+                                    class="text-tertiary/50 hover:text-tertiary">
                                     <Icon name="ph:x" class="w-3 h-3" />
                                 </button>
                             </div>
@@ -283,14 +283,14 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
+                <div class="flex items-center gap-3 px-6 py-4 border-t border-line">
                     <button @click="close"
-                        class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                        class="flex-1 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                         {{ $t('cancel') }}
                     </button>
                     <button @click="submit"
-                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                        style="background:#205E77" :disabled="state.isSaving">
+                        class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm bg-tertiary"
+                        :disabled="state.isSaving">
                         <span v-if="state.isSaving" class="flex items-center justify-center gap-2">
                             <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
                             {{ $t('superadmin.grantLicense.saving') }}
@@ -306,6 +306,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS, SA_SERIES } from '@/utils/superadminPalette'
 import { billingService } from '@/components/api/superadmin/BillingService'
 import type { CompanyBilling } from '@/composables/billingMethod'
 import { appService } from '@/components/api/superadmin/AppService'
@@ -344,7 +345,7 @@ const { t } = useI18n()
 let companySearchTimeout: any = null
 let userSearchTimeout: any = null
 
-const APP_COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B', '#CC3B2D']
+const APP_COLORS = [...SA_SERIES, SA_COLORS.danger]
 const appColor = (name: string) => APP_COLORS[(name?.charCodeAt(0) ?? 0) % APP_COLORS.length]
 
 function appPriceLabel(app: any) {
@@ -681,7 +682,7 @@ onMounted(() => {
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     margin-bottom: 5px
 }
 
@@ -689,26 +690,26 @@ onMounted(() => {
     width: 100%;
     padding: 9px 13px;
     font-size: 14px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     background: white;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 10px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s
 }
 
 .co-input:focus {
-    border-color: #42AED9;
+    border-color: theme('colors.accent.DEFAULT');
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
 }
 
 .co-input::placeholder {
-    color: #B0B8C4
+    color: theme('colors.ink.subtle')
 }
 
 .co-error {
     font-size: 11px;
-    color: #CC3B2D;
+    color: theme('colors.danger.DEFAULT');
     margin-top: 4px
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
-    <section class="bg-white border border-[#EAECF0] rounded-xl shadow-sm" data-testid="license-orders">
+    <section class="bg-white border border-line rounded-xl shadow-sm" data-testid="license-orders">
         <div class="flex flex-wrap items-start justify-between gap-3 p-5 pb-3">
             <div>
-                <h2 class="text-[15px] font-semibold text-[#1F2533]">{{ $t('superadmin.orders.licenseOrders.title') }}</h2>
-                <p class="text-[12px] text-[#5C6478] mt-0.5">{{ $t('superadmin.orders.licenseOrders.subtitle') }}</p>
+                <h2 class="text-[15px] font-semibold text-ink">{{ $t('superadmin.orders.licenseOrders.title') }}</h2>
+                <p class="text-[12px] text-ink-body mt-0.5">{{ $t('superadmin.orders.licenseOrders.subtitle') }}</p>
             </div>
             <div class="flex items-center gap-2">
                 <button v-if="state.attention > 0" type="button" @click="setStatus('attention')"
@@ -13,7 +13,7 @@
                 </button>
                 <select :value="state.status" @change="setStatus(($event.target as HTMLSelectElement).value)"
                     :aria-label="$t('superadmin.orders.licenseOrders.columns.status')"
-                    class="text-xs border border-[#EAECF0] rounded-lg px-2 py-1.5 text-[#5C6478] bg-white outline-none focus:border-[#42AED9]">
+                    class="text-xs border border-line rounded-lg px-2 py-1.5 text-ink-body bg-white outline-none focus:border-accent">
                     <option value="">{{ $t('superadmin.orders.licenseOrders.allStatuses') }}</option>
                     <option value="attention">{{ $t('superadmin.orders.licenseOrders.attention', { count: state.attention }) }}</option>
                     <option v-for="status in LICENSE_ORDER_STATUSES" :key="status" :value="status">
@@ -26,7 +26,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="text-[11px] uppercase tracking-wide text-[#8891A4] border-y border-[#EAECF0]">
+                    <tr class="text-[11px] uppercase tracking-wide text-ink-muted border-y border-line">
                         <th class="px-4 py-2 font-semibold">{{ $t('superadmin.orders.licenseOrders.columns.date') }}</th>
                         <th class="px-4 py-2 font-semibold">{{ $t('superadmin.orders.licenseOrders.columns.company') }}</th>
                         <th class="px-4 py-2 font-semibold">{{ $t('superadmin.orders.licenseOrders.columns.orderedBy') }}</th>
@@ -40,16 +40,16 @@
                 <tbody>
                     <tr v-if="state.loading">
                         <td colspan="8" class="py-8 text-center">
-                            <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
+                            <Icon name="ph:spinner" class="w-6 h-6 text-accent animate-spin" />
                         </td>
                     </tr>
                     <tr v-else-if="state.rows.length === 0">
-                        <td colspan="8" class="py-8 text-center text-sm text-[#8891A4]">{{ $t('superadmin.orders.licenseOrders.empty') }}</td>
+                        <td colspan="8" class="py-8 text-center text-sm text-ink-muted">{{ $t('superadmin.orders.licenseOrders.empty') }}</td>
                     </tr>
                     <tr v-for="order in state.rows" v-else :key="order.uuid"
-                        class="border-b border-[#F1F2F5] text-[13px] text-[#1F2533]"
-                        :class="order.needs_attention ? 'bg-[#FFF8F7]' : ''">
-                        <td class="px-4 py-2 whitespace-nowrap text-[#5C6478]">{{ formatDate(order.created_at) }}</td>
+                        class="border-b border-line text-[13px] text-ink"
+                        :class="order.needs_attention ? 'bg-danger-soft' : ''">
+                        <td class="px-4 py-2 whitespace-nowrap text-ink-body">{{ formatDate(order.created_at) }}</td>
                         <td class="px-4 py-2">
                             <NuxtLink v-if="order.company" :to="`/superadmin/companies/${order.company.uuid}/license-overview`" class="hover:underline">
                                 {{ order.company.name }}
@@ -61,15 +61,15 @@
                                 {{ $t(`superadmin.orders.licenseOrders.source.${order.source === 'customer' ? 'customer' : 'superadmin'}`) }}
                             </span>
                         </td>
-                        <td class="px-4 py-2 text-[#5C6478]">{{ licenseOrderItems(order.lines) }}</td>
+                        <td class="px-4 py-2 text-ink-body">{{ licenseOrderItems(order.lines) }}</td>
                         <td class="px-4 py-2 text-right tabular-nums whitespace-nowrap">{{ formatAmount(order.total_amount, 'DKK') }}</td>
                         <td class="px-4 py-2 font-mono text-[12px]">
-                            <NuxtLink v-if="order.invoice" :to="`/superadmin/invoices/${order.invoice.uuid}/invoice-details`" class="hover:underline text-[#0B6FA4]">
+                            <NuxtLink v-if="order.invoice" :to="`/superadmin/invoices/${order.invoice.uuid}/invoice-details`" class="hover:underline text-secondary">
                                 #{{ order.invoice.invoice_number }}
                             </NuxtLink>
-                            <span v-else class="text-[#8891A4]">—</span>
+                            <span v-else class="text-ink-muted">—</span>
                         </td>
-                        <td class="px-4 py-2 text-[#5C6478]">
+                        <td class="px-4 py-2 text-ink-body">
                             {{ $te(`superadmin.orders.licenseOrders.method.${order.billing_method}`)
                                 ? $t(`superadmin.orders.licenseOrders.method.${order.billing_method}`)
                                 : order.billing_method }}
@@ -81,19 +81,19 @@
                                     : $t(licenseOrderStatusKey(order.economic_status)) }}
                             </span>
                             <Icon v-if="order.needs_attention && order.economic_status !== 'error'" name="ph:clock-countdown"
-                                class="w-4 h-4 text-[#CC3B2D] ml-1 align-middle" aria-hidden="true" />
+                                class="w-4 h-4 text-danger ml-1 align-middle" aria-hidden="true" />
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div v-if="state.lastPage > 1" class="flex items-center justify-end gap-3 p-3 text-xs text-[#5C6478]">
-            <button type="button" class="px-2 py-1 rounded border border-[#EAECF0] disabled:opacity-40" :disabled="state.page <= 1" @click="go(state.page - 1)">
+        <div v-if="state.lastPage > 1" class="flex items-center justify-end gap-3 p-3 text-xs text-ink-body">
+            <button type="button" class="px-2 py-1 rounded border border-line disabled:opacity-40" :disabled="state.page <= 1" @click="go(state.page - 1)">
                 {{ $t('superadmin.orders.licenseOrders.previous') }}
             </button>
             <span>{{ $t('superadmin.orders.licenseOrders.page', { page: state.page, pages: state.lastPage }) }}</span>
-            <button type="button" class="px-2 py-1 rounded border border-[#EAECF0] disabled:opacity-40" :disabled="state.page >= state.lastPage" @click="go(state.page + 1)">
+            <button type="button" class="px-2 py-1 rounded border border-line disabled:opacity-40" :disabled="state.page >= state.lastPage" @click="go(state.page + 1)">
                 {{ $t('superadmin.orders.licenseOrders.next') }}
             </button>
         </div>

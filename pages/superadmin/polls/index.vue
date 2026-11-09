@@ -8,19 +8,15 @@
             <template #header>{{ $t('superadmin.polls.polls') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                            {{ $t('superadmin.polls.polls') }}
-                        </h1>
-                    </div>
-                    <button @click="navigateTo('/superadmin/polls/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
-                        style="background:#205E77">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.polls.newPoll') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.polls.polls')">
+                    <template #actions>
+                        <button @click="navigateTo('/superadmin/polls/new')"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.polls.newPoll') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search') + '...'"
@@ -36,19 +32,17 @@
                     @sort="handleSort">
                     <template #body>
                         <tr v-for="(poll, index) in state.polls?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                            <td class="co-td text-[13px] font-medium text-[#1F2533]">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                            <td class="co-td text-[13px] font-medium text-ink">
                                 {{ poll?.title }}
                             </td>
                             <td class="co-td">
-                                <span v-if="poll?.is_active" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                <ModulesSuperadminStatusPill v-if="poll?.is_active" variant="success">
                                     {{ $t('superadmin.polls.table.active') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-gray">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#8891A4]"></span>
+                                </ModulesSuperadminStatusPill>
+                                <ModulesSuperadminStatusPill v-else variant="neutral">
                                     {{ $t('superadmin.polls.table.inactive') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                             </td>
                             <td class="co-td" @click.stop>
                                 <div

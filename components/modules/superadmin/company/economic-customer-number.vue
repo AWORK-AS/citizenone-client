@@ -1,9 +1,9 @@
 <template>
-    <section class="border border-[#EAECF0] rounded-xl p-4">
+    <section class="border border-line rounded-xl p-4">
         <div class="flex items-center gap-1">
             <SuperadminFormLabel :label="$t('superadmin.companies.form.economicCustomerNumber')" />
             <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
-                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                     :aria-label="$t('superadmin.companies.form.economicCustomerNumberHelp')" />
             </Tooltip>
         </div>
@@ -24,7 +24,7 @@
                 </FormButton>
             </Tooltip>
         </form>
-        <p class="text-[11px] text-[#8891A4] mt-1">
+        <p class="text-[11px] text-ink-muted mt-1">
             {{ $t('superadmin.companies.form.economicCustomerNumberHelp') }}
         </p>
         <SuperadminFormError :error="state.error" />
@@ -47,6 +47,8 @@ const props = defineProps({
     number: { type: [Number, String], default: null },
 })
 const emit = defineEmits(['saved'])
+// The company header shows the number too.
+const { refresh: refreshCompanySummary } = useCompanySummary(props.companyUuid)
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -71,6 +73,7 @@ async function save() {
         const response = await companyService.updateEconomicCustomerNumber(props.companyUuid, number)
         const saved = unwrapData(response)?.economic_customer_number
         emit('saved', saved === undefined ? number : saved)
+        refreshCompanySummary()
         successAlert(`${t('alert.success')}!`, t('superadmin.companies.form.economicCustomerNumberSaved'))
     } catch (error: any) {
         // 422: the number is already used by another company (the server says so).

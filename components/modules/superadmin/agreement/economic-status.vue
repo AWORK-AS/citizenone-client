@@ -1,11 +1,11 @@
 <template>
     <div class="inline-flex flex-wrap items-center gap-2">
         <Tooltip v-if="chip" :text="chipHelp" position="top" wrap>
-            <span class="co-badge" :class="chipClass">
+            <ModulesSuperadminStatusPill :variant="chipVariant" :dot="false">
                 <Icon :name="chip.icon" class="w-3 h-3" :class="{ 'animate-spin': chip.state === 'in_flight' }"
                     aria-hidden="true" />
                 {{ $t(`superadmin.agreements.economic.state.${chip.state}`, { number: chip.number ?? '' }) }}
-            </span>
+            </ModulesSuperadminStatusPill>
         </Tooltip>
         <Tooltip v-if="canCreate || state.isPolling" :text="state.isPolling
             ? $t('superadmin.agreements.economic.creatingHelp')
@@ -78,10 +78,9 @@ const current = computed(() => {
 })
 
 const chip = computed(() => economicStatus(current.value))
-const chipClass = computed(() => ({
-    gray: 'co-badge-gray', green: 'co-badge-green', red: 'co-badge-red',
-    navy: 'co-badge-navy', amber: 'bg-[#FEF3C7] text-[#B45309]',
-} as Record<string, string>)[chip.value?.color ?? 'gray'])
+const chipVariant = computed(() => ({
+    gray: 'neutral', green: 'success', red: 'danger', navy: 'info', amber: 'warning',
+} as const)[chip.value?.color ?? 'gray'] ?? 'neutral')
 const chipHelp = computed(() => t(`superadmin.agreements.economic.state.${chip.value!.state}Help`, {
     error: chip.value?.error ?? '',
 }))

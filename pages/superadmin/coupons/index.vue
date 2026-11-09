@@ -8,19 +8,15 @@
             <template #header>{{ $t('superadmin.coupons.coupons') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                            {{ $t('superadmin.coupons.coupons') }}
-                        </h1>
-                    </div>
-                    <button @click="navigateTo('/superadmin/coupons/new')"
-                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
-                        style="background:#205E77">
-                        <Icon name="ph:plus" class="w-4 h-4" />
-                        {{ $t('superadmin.coupons.newCoupon') }}
-                    </button>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.coupons.coupons')">
+                    <template #actions>
+                        <button @click="navigateTo('/superadmin/coupons/new')"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary">
+                            <Icon name="ph:plus" class="w-4 h-4" />
+                            {{ $t('superadmin.coupons.newCoupon') }}
+                        </button>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search') + '...'"
@@ -36,8 +32,8 @@
                     @sort="handleSort">
                     <template #body>
                         <tr v-for="(coupon, index) in state.coupons?.data" :key="index"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                            <td class="co-td font-mono text-[13px] font-semibold text-[#205E77]">
+                            class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors group">
+                            <td class="co-td font-mono text-[13px] font-semibold text-tertiary">
                                 {{ coupon?.code }}
                             </td>
                             <td class="co-td">
@@ -47,15 +43,15 @@
                                 <span v-else class="co-badge co-badge-navy">
                                     {{ $t('superadmin.coupons.table.type.addOn') }}
                                 </span>
-                                <p v-if="coupon?.description" class="text-[11px] text-[#8891A4] mt-0.5">
+                                <p v-if="coupon?.description" class="text-[11px] text-ink-muted mt-0.5">
                                     {{ coupon.description }}
                                 </p>
                             </td>
-                            <td class="co-td text-[13px] font-semibold text-[#1F2533]">
+                            <td class="co-td text-[13px] font-semibold text-ink">
                                 <span v-if="coupon?.unit === 'amount'">{{ formatAmount(coupon?.amount, 'DKK') }}</span>
                                 <span v-else-if="coupon?.unit === 'percentage'">{{ coupon?.amount }}%</span>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 <span v-if="coupon?.unit === 'amount'">
                                     {{ $t('superadmin.coupons.table.unit.amount') }}
                                 </span>
@@ -63,21 +59,19 @@
                                     {{ $t('superadmin.coupons.table.unit.percentage') }}
                                 </span>
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ coupon?.quantity ?? '—' }}
                             </td>
-                            <td class="co-td text-[13px] text-[#5C6478]">
+                            <td class="co-td text-[13px] text-ink-body">
                                 {{ coupon?.expiration ? formatDateToReadable(coupon.expiration) : '—' }}
                             </td>
                             <td class="co-td">
-                                <span v-if="coupon?.is_active" class="co-badge co-badge-green">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                <ModulesSuperadminStatusPill v-if="coupon?.is_active" variant="success">
                                     {{ $t('superadmin.coupons.table.active') }}
-                                </span>
-                                <span v-else class="co-badge co-badge-gray">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#8891A4]"></span>
+                                </ModulesSuperadminStatusPill>
+                                <ModulesSuperadminStatusPill v-else variant="neutral">
                                     {{ $t('superadmin.coupons.table.inactive') }}
-                                </span>
+                                </ModulesSuperadminStatusPill>
                             </td>
                             <td class="co-td" @click.stop>
                                 <div

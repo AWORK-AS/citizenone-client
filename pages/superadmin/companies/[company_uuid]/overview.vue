@@ -12,117 +12,28 @@
             </template>
 
             <div>
-                <!-- Back link -->
-                <NuxtLink class="flex items-center gap-x-2 mb-4 max-w-fit hover:cursor-pointer text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    to="/superadmin/companies">
-                    <Icon name="ph:arrow-left" size="18" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
-
-                <ModulesSuperadminCompanyTab />
+                <ModulesSuperadminCompanyHeader>
+                    <template #actions>
+                        <button
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors"
+                            @click="impersonateCompany">
+                            <Icon name="ph:user-switch" class="w-4 h-4" />
+                            Log ind som kunde
+                        </button>
+                        <button v-if="state.company?.billing_method === 'card' && can('manage_financials')"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
+                            @click="sendCardUpdateLink">
+                            <Icon name="ph:envelope" class="w-4 h-4" />
+                            Send kortlink
+                        </button>
+                    </template>
+                </ModulesSuperadminCompanyHeader>
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <div v-if="!state.isPageLoading && state.company" class="mt-6 space-y-6">
-
-                        <!-- Company header card -->
-                        <div class="bg-white rounded-xl border border-gray-200 p-6">
-                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-xl font-bold text-primary">
-                                            {{ (state.company?.name || '?').charAt(0).toUpperCase() }}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <h2 class="text-xl font-bold text-gray-900">{{ state.company?.name }}</h2>
-                                        <div class="flex flex-wrap items-center gap-2 mt-1.5">
-                                            <!-- Account status -->
-                                            <span v-if="state.company?.is_active"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                                Aktiv
-                                            </span>
-                                            <span v-else
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-                                                Inaktiv
-                                            </span>
-
-                                            <!-- e-conomic customer number -->
-                                            <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-                                                    <Icon name="ph:hash" class="w-3 h-3" aria-hidden="true" />
-                                                    {{ state.company?.economic_customer_number
-                                                        ? $t('superadmin.companies.economicCustomerNumber', { number: state.company.economic_customer_number })
-                                                        : $t('superadmin.companies.economicCustomerNumberNone') }}
-                                                </span>
-                                            </Tooltip>
-
-                                            <!-- Billing type -->
-                                            <span v-if="state.company?.subscription?.payment_method === 'card'"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                                                <Icon name="ph:credit-card" class="w-3.5 h-3.5" />
-                                                Betalingskort
-                                            </span>
-                                            <span v-else-if="state.company?.subscription?.payment_method === 'invoice'"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
-                                                <Icon name="ph:file-text" class="w-3.5 h-3.5" />
-                                                Manuel faktura
-                                            </span>
-                                            <Tooltip v-else-if="state.company?.subscription?.payment_method === 'bank_transfer'"
-                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
-                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                                                    <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
-                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
-                                                </span>
-                                            </Tooltip>
-
-                                            <!-- Card payment status -->
-                                            <span v-if="state.company?.subscription?.payment_method === 'card' && state.company?.subscription?.card_active === true"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                                                Kort aktivt
-                                            </span>
-                                            <span v-else-if="state.company?.subscription?.payment_method === 'card' && state.company?.subscription?.card_active === false"
-                                                class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                                Kort stoppet
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Action buttons -->
-                                <div class="flex flex-wrap gap-2">
-                                    <button
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition-colors"
-                                        @click="impersonateCompany">
-                                        <Icon name="ph:user-switch" class="w-4 h-4" />
-                                        Log ind som kunde
-                                    </button>
-                                    <button v-if="state.company?.subscription?.payment_method === 'card'"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
-                                        @click="sendCardUpdateLink">
-                                        <Icon name="ph:envelope" class="w-4 h-4" />
-                                        Send kortlink
-                                    </button>
-                                    <button v-if="state.company?.subscription?.payment_method === 'card'"
-                                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
-                                        @click="updateCard">
-                                        <Icon name="ph:credit-card" class="w-4 h-4" />
-                                        Opdater kort
-                                    </button>
-                                    <FormButton buttonStyle="action"
-                                        @click="navigateTo(`/superadmin/companies/${companyUuid}/edit`)">
-                                        <Icon name="ph:pencil-simple" class="size-4" />
-                                        Rediger
-                                    </FormButton>
-                                </div>
-                            </div>
-                        </div>
+                    <div v-if="!state.isPageLoading && state.company" class="space-y-6">
 
                         <!-- Industry defaults. Only changes what the company can see, and the
                              previous state is kept so it can be undone. -->
@@ -489,7 +400,4 @@ async function sendCardUpdateLink() {
     } catch (_) { }
 }
 
-async function updateCard() {
-    navigateTo(`/superadmin/companies/${companyUuid}/update-card`)
-}
 </script>

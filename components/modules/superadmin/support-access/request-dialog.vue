@@ -13,10 +13,10 @@
                         leave="ease-in duration-150" leave-from="opacity-100" leave-to="opacity-0">
                         <DialogPanel
                             class="w-full max-w-lg bg-white rounded-xl shadow-xl ring-1 ring-black/5 p-6">
-                            <h2 class="text-[17px] font-semibold text-[#1F2533]">
+                            <h2 class="text-[17px] font-semibold text-ink">
                                 {{ $t('superadmin.supportAccess.dialog.heading') }}
                             </h2>
-                            <p class="text-sm text-[#5C6478] mt-1">
+                            <p class="text-sm text-ink-body mt-1">
                                 {{ $t('superadmin.supportAccess.dialog.intro', { name: accountName }) }}
                             </p>
 
@@ -31,7 +31,7 @@
                                         :placeholder="$t('superadmin.supportAccess.dialog.reasonPlaceholder')"></textarea>
                                     <!-- Kunden læser den ordret. Det er derfor der står hvad
                                          den bruges til, frem for bare "påkrævet". -->
-                                    <p class="text-[11px] text-[#8891A4] mt-1">
+                                    <p class="text-[11px] text-ink-muted mt-1">
                                         {{ $t('superadmin.supportAccess.dialog.reasonHint') }}
                                     </p>
                                 </div>
@@ -53,24 +53,23 @@
                                             {{ $t('superadmin.supportAccess.duration.h' + hours) }}
                                         </option>
                                     </select>
-                                    <p class="text-[11px] text-[#8891A4] mt-1">
+                                    <p class="text-[11px] text-ink-muted mt-1">
                                         {{ $t('superadmin.supportAccess.dialog.durationHint') }}
                                     </p>
                                 </div>
                             </div>
 
-                            <p class="text-[11px] text-[#8891A4] mt-4">
+                            <p class="text-[11px] text-ink-muted mt-4">
                                 {{ $t('superadmin.supportAccess.dialog.terms') }}
                             </p>
 
                             <div class="flex justify-end gap-2 mt-5">
                                 <button type="button" @click="close"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-[#5C6478] border border-[#EAECF0] bg-white transition-colors disabled:opacity-40">
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-ink-body border border-line bg-white transition-colors disabled:opacity-40">
                                     {{ $t('cancel') }}
                                 </button>
                                 <button type="button" @click="send" :disabled="!canSend"
-                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40"
-                                    style="background:#205E77">
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors disabled:opacity-40 bg-tertiary">
                                     {{ $t('superadmin.supportAccess.dialog.send') }}
                                 </button>
                             </div>

@@ -8,10 +8,10 @@
         <div>
             <SuperadminFormLabel :label="$t('superadmin.salesCampaign.labelImage')" />
             <input type="file" ref="imageInputRef" @change="onImageChange" class="hidden" accept="image/*" />
-            <div class="w-full h-36 rounded-xl border-2 border-dashed border-[#D5D9E2] overflow-hidden flex items-center justify-center bg-[#F9FAFB] hover:border-[#42AED9] transition-colors cursor-pointer"
+            <div class="w-full h-36 rounded-xl border-2 border-dashed border-line-strong overflow-hidden flex items-center justify-center bg-surface-subtle hover:border-accent transition-colors cursor-pointer"
                 @click="imageInputRef?.click()">
                 <img v-if="state.imagePreview" :src="state.imagePreview" class="w-full h-full object-cover" />
-                <div v-else class="flex flex-col items-center gap-1.5 text-[#B0B8C4]">
+                <div v-else class="flex flex-col items-center gap-1.5 text-ink-subtle">
                     <Icon name="ph:image" class="w-7 h-7" />
                     <span class="text-[12px]">{{ $t('superadmin.salesCampaign.labelImage') }}</span>
                 </div>
@@ -41,7 +41,7 @@
             <div class="grid grid-cols-3 gap-2">
                 <button v-for="ct in campaignTypes" :key="ct.value" type="button"
                     class="py-2.5 px-2 rounded-xl border-2 text-[12px] font-semibold transition-colors flex items-center justify-center gap-1.5"
-                    :style="state.form.type === ct.value ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;color:#5C6478'"
+                    :class="state.form.type === ct.value ? 'border-accent bg-accent-soft text-tertiary' : 'border-line text-ink-body'"
                     @click="state.form.type = ct.value">
                     <Icon :name="ct.icon" class="w-3.5 h-3.5" />
                     {{ ct.label }}
@@ -64,7 +64,7 @@
                 <div class="relative">
                     <SuperadminFormTextField v-model="state.form.discount_value" type="number" placeholder="0"
                         class="pr-8" />
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-[12px]">
                         {{
                             state.form.discount_type === 'percent' ? '%' :
                                 state.form.discount_type === 'fixed' ? 'kr' : 'mdr'
@@ -98,18 +98,18 @@
         </div>
 
         <!-- Active toggle -->
-        <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
+        <div class="flex items-center justify-between py-3 px-4 border border-line rounded-xl">
             <div>
-                <p class="text-[13px] font-medium text-[#1F2533]">
+                <p class="text-[13px] font-medium text-ink">
                     {{ $t('superadmin.salesCampaign.labelActive') }}
                 </p>
-                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                <p class="text-[11px] text-ink-muted mt-0.5">
                     {{ $t('superadmin.salesCampaign.activeHint') }}
                 </p>
             </div>
             <button type="button" @click="state.form.is_active = !state.form.is_active"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                :style="state.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                :class="state.form.is_active ? 'bg-accent' : 'bg-line-strong'">
                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                     :class="state.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
             </button>
@@ -118,12 +118,11 @@
         <!-- Action buttons (page context only) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/sales-campaign')"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>
@@ -238,20 +237,20 @@ defineExpose({ submit, reset })
     width: 100%;
     padding: 9px 13px;
     font-size: 14px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     background: white;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 10px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .co-textarea:focus {
-    border-color: #42AED9;
+    border-color: theme('colors.accent.DEFAULT');
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
 }
 
 .co-textarea::placeholder {
-    color: #B0B8C4;
+    color: theme('colors.ink.subtle');
 }
 </style>

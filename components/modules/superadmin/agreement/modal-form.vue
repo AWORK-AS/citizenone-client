@@ -18,8 +18,8 @@
                                     <button type="button"
                                         class="px-3 py-1.5 rounded-lg border text-[12px] font-medium transition-colors"
                                         :class="state.template === tpl.key
-                                            ? 'border-[#205E77] bg-[#E4F1F6] text-[#205E77]'
-                                            : 'border-[#EAECF0] bg-white text-[#5C6478] hover:border-[#205E77]'"
+                                            ? 'border-tertiary bg-tertiary-soft text-tertiary'
+                                            : 'border-line bg-white text-ink-body hover:border-tertiary'"
                                         @click="applyTemplate(tpl)">
                                         {{ $t(`superadmin.agreements.templates.${tpl.key}`) }}
                                     </button>
@@ -44,21 +44,21 @@
                                         :label="form.term_mode === 'months' ? $t('superadmin.agreements.form.termMonths') : $t('superadmin.agreements.form.endsOn')"
                                         required />
                                     <Tooltip :text="$t('superadmin.agreements.help.termMode')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.termMode')" />
                                     </Tooltip>
-                                    <div class="ml-auto mb-[5px] inline-flex rounded-md border border-[#EAECF0] overflow-hidden text-[11px]"
+                                    <div class="ml-auto mb-[5px] inline-flex rounded-md border border-line overflow-hidden text-[11px]"
                                         role="group" :aria-label="$t('superadmin.agreements.help.termMode')">
                                         <Tooltip :text="$t('superadmin.agreements.help.termMonths')" position="top" wrap>
                                             <button type="button" class="px-2 py-0.5"
-                                                :class="form.term_mode === 'months' ? 'bg-[#205E77] text-white' : 'bg-white text-[#5C6478]'"
+                                                :class="form.term_mode === 'months' ? 'bg-tertiary text-white' : 'bg-white text-ink-body'"
                                                 @click="form.term_mode = 'months'">
                                                 {{ $t('superadmin.agreements.form.modeMonths') }}
                                             </button>
                                         </Tooltip>
                                         <Tooltip :text="$t('superadmin.agreements.help.endsOn')" position="top" wrap>
                                             <button type="button" class="px-2 py-0.5"
-                                                :class="form.term_mode === 'end_date' ? 'bg-[#205E77] text-white' : 'bg-white text-[#5C6478]'"
+                                                :class="form.term_mode === 'end_date' ? 'bg-tertiary text-white' : 'bg-white text-ink-body'"
                                                 @click="form.term_mode = 'end_date'">
                                                 {{ $t('superadmin.agreements.form.modeEndDate') }}
                                             </button>
@@ -73,7 +73,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.noticeMonths')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.noticeMonths')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.noticeMonths')" />
                                     </Tooltip>
                                 </div>
@@ -81,8 +81,8 @@
                             </div>
                             <div class="flex items-end pb-2">
                                 <Tooltip :text="$t('superadmin.agreements.help.autoRenews')" position="top" wrap>
-                                    <label class="inline-flex items-center gap-2 text-sm text-[#1F2533] cursor-pointer">
-                                        <input type="checkbox" v-model="form.auto_renews" class="rounded border-[#D5D9E2]" />
+                                    <label class="inline-flex items-center gap-2 text-sm text-ink cursor-pointer">
+                                        <input type="checkbox" v-model="form.auto_renews" class="rounded border-line-strong" />
                                         {{ $t('superadmin.agreements.form.autoRenews') }}
                                     </label>
                                 </Tooltip>
@@ -91,7 +91,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.contractValue')" required />
                                     <Tooltip :text="$t('superadmin.agreements.help.contractValue')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.contractValue')" />
                                     </Tooltip>
                                 </div>
@@ -101,7 +101,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalValue')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.renewalValue')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.renewalValue')" />
                                     </Tooltip>
                                 </div>
@@ -113,7 +113,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalTerm')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.renewalTerm')" />
                                     </Tooltip>
                                 </div>
@@ -135,7 +135,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalBilling')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.renewalBilling')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.renewalBilling')" />
                                     </Tooltip>
                                 </div>
@@ -151,7 +151,7 @@
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.feePerInvoice')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.feePerInvoice')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                             :aria-label="$t('superadmin.agreements.help.feePerInvoice')" />
                                     </Tooltip>
                                 </div>
@@ -172,17 +172,17 @@
                         </section>
 
                         <!-- Settled outside CitizenOne (backfilling existing customers) -->
-                        <section class="border border-[#EAECF0] rounded-xl p-4 bg-[#F9FAFB] space-y-3">
+                        <section class="border border-line rounded-xl p-4 bg-surface-subtle space-y-3">
                             <div class="flex items-center gap-1.5">
-                                <p class="text-[13px] font-semibold text-[#1F2533]">
+                                <p class="text-[13px] font-semibold text-ink">
                                     {{ $t('superadmin.agreements.form.settledTitle') }}
                                 </p>
                                 <Tooltip :text="$t('superadmin.agreements.help.settledExternally')" position="top" wrap>
-                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                         :aria-label="$t('superadmin.agreements.help.settledExternally')" />
                                 </Tooltip>
                             </div>
-                            <p class="text-[12px] text-[#5C6478]">{{ $t('superadmin.agreements.help.settledExternally') }}</p>
+                            <p class="text-[12px] text-ink-body">{{ $t('superadmin.agreements.help.settledExternally') }}</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.settledBefore')" />
@@ -203,7 +203,7 @@
                                     <div class="flex items-center gap-1">
                                         <SuperadminFormLabel :label="$t('superadmin.agreements.form.billingPlan')" required />
                                         <Tooltip :text="$t('superadmin.agreements.help.billingPlan')" position="top" wrap>
-                                            <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle mb-[5px]"
                                                 :aria-label="$t('superadmin.agreements.help.billingPlan')" />
                                         </Tooltip>
                                     </div>
@@ -221,12 +221,12 @@
 
                             <!-- Installments: preset helper + editable list -->
                             <div v-if="form.billing_plan === 'installments'"
-                                class="border border-[#EAECF0] rounded-xl p-4 space-y-4 bg-[#F9FAFB]">
+                                class="border border-line rounded-xl p-4 space-y-4 bg-surface-subtle">
                                 <div>
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ $t('superadmin.agreements.form.presetTitle') }}
                                     </p>
-                                    <p class="text-[12px] text-[#5C6478]">{{ $t('superadmin.agreements.form.presetHint') }}</p>
+                                    <p class="text-[12px] text-ink-body">{{ $t('superadmin.agreements.form.presetHint') }}</p>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
                                     <div>
@@ -258,7 +258,7 @@
                                 <!-- Editable explicit list -->
                                 <div>
                                     <div class="flex items-center justify-between mb-2">
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ $t('superadmin.agreements.form.installmentList') }}
                                         </p>
                                         <div class="flex items-center gap-2">
@@ -278,11 +278,11 @@
                                             </Tooltip>
                                         </div>
                                     </div>
-                                    <p v-if="!form.installments.length" class="text-[12px] text-[#8891A4] py-2">
+                                    <p v-if="!form.installments.length" class="text-[12px] text-ink-muted py-2">
                                         {{ $t('superadmin.agreements.form.noInstallments') }}
                                     </p>
                                     <div v-if="form.installments.length"
-                                        class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-center mb-1 text-[11px] uppercase text-[#5C6478]">
+                                        class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-center mb-1 text-[11px] uppercase text-ink-body">
                                         <span></span>
                                         <span>{{ $t('superadmin.agreements.table.dueOn') }}</span>
                                         <span>{{ $t('superadmin.agreements.table.amount') }}</span>
@@ -290,7 +290,7 @@
                                         <Tooltip :text="$t('superadmin.agreements.form.coverageHelp')" position="top" wrap>
                                             <span class="inline-flex items-center gap-1">
                                                 {{ $t('superadmin.agreements.form.coverage') }}
-                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                                     :aria-label="$t('superadmin.agreements.form.coverageHelp')" />
                                             </span>
                                         </Tooltip>
@@ -298,7 +298,7 @@
                                     </div>
                                     <div v-for="(row, index) in form.installments" :key="index" class="mb-2">
                                     <div class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-center">
-                                        <span class="text-[12px] text-[#8891A4] text-center">{{ index + 1 }}</span>
+                                        <span class="text-[12px] text-ink-muted text-center">{{ index + 1 }}</span>
                                         <input class="co-cell-input" type="date" v-model="row.due_on"
                                             :disabled="row.locked" @input="onDueOnInput(row)"
                                             :aria-label="$t('superadmin.agreements.table.dueOn')" />
@@ -310,7 +310,7 @@
                                             class="!block w-full min-w-0">
                                             <!-- Computed from antal x stykpris: shown formatted, not editable. -->
                                             <input v-if="addOnAmountIsComputed(row)"
-                                                class="co-cell-input w-full min-w-0 bg-[#F5F6F8] cursor-not-allowed tabular-nums text-right"
+                                                class="co-cell-input w-full min-w-0 bg-surface-canvas cursor-not-allowed tabular-nums text-right"
                                                 type="text" readonly :disabled="row.locked"
                                                 :value="formatPlainAmount(row.amount)"
                                                 :aria-label="$t('superadmin.agreements.table.amount')" />
@@ -331,7 +331,7 @@
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_from"
                                                      @input="row.covers_from_manual = true; markEdited()"
                                                     :aria-label="$t('superadmin.agreements.form.coversFrom')" />
-                                                <span class="text-[#8891A4]">&ndash;</span>
+                                                <span class="text-ink-muted">&ndash;</span>
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_to"
                                                      @input="markEdited"
                                                     :aria-label="$t('superadmin.agreements.form.coversTo')" />
@@ -346,12 +346,12 @@
                                             </Tooltip>
                                             <Tooltip v-else-if="row.locked" :text="$t('superadmin.agreements.form.lockedRow')"
                                                 position="left" wrap>
-                                                <Icon name="ph:lock-simple" class="w-4 h-4 text-[#8891A4]"
+                                                <Icon name="ph:lock-simple" class="w-4 h-4 text-ink-muted"
                                                     :aria-label="$t('superadmin.agreements.form.lockedRow')" />
                                             </Tooltip>
                                             <Tooltip v-else :text="$t('superadmin.agreements.form.removeInstallment')"
                                                 position="left">
-                                                <button type="button" class="text-[#8891A4] hover:text-[#CC3B2D] p-1"
+                                                <button type="button" class="text-ink-muted hover:text-danger p-1"
                                                     :aria-label="$t('superadmin.agreements.form.removeInstallment')"
                                                     @click="removeRow(index)">
                                                     <Icon name="ph:trash" class="w-4 h-4" />
@@ -373,7 +373,7 @@
                                                     @input="markEdited"
                                                     :aria-label="$t('superadmin.agreements.form.productNumber')" />
                                             </Tooltip>
-                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                            <span class="text-[10px] uppercase text-ink-body">
                                                 {{ $t('superadmin.agreements.form.productNumber') }}
                                             </span>
                                         </div>
@@ -385,7 +385,7 @@
                                                     @input="onAddOnInput(row)"
                                                     :aria-label="$t('superadmin.agreements.form.quantity')" />
                                             </Tooltip>
-                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                            <span class="text-[10px] uppercase text-ink-body">
                                                 {{ $t('superadmin.agreements.form.quantity') }}
                                             </span>
                                         </div>
@@ -397,7 +397,7 @@
                                                     @input="onAddOnInput(row)"
                                                     :aria-label="$t('superadmin.agreements.form.unitPrice')" />
                                             </Tooltip>
-                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                            <span class="text-[10px] uppercase text-ink-body">
                                                 {{ $t('superadmin.agreements.form.unitPrice') }}
                                             </span>
                                         </div>
@@ -415,7 +415,7 @@
                                     <!-- Sum check -->
                                     <Tooltip :text="$t('superadmin.agreements.form.sumCheckHelp')" position="top" wrap>
                                         <div class="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[12px] font-medium"
-                                            :class="sumOk ? 'bg-[#EDF7EE] text-[#1B6B1E]' : 'bg-[#FFF0F0] text-[#CC3B2D]'"
+                                            :class="sumOk ? 'bg-success-soft text-success-ink' : 'bg-danger-soft text-danger'"
                                             role="status">
                                             <Icon :name="sumOk ? 'ph:check-circle' : 'ph:warning'" class="w-4 h-4"
                                                 aria-hidden="true" />
@@ -436,22 +436,22 @@
                         </section>
 
                         <!-- Live preview from the server -->
-                        <section class="border border-[#EAECF0] rounded-xl overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-2.5 bg-[#F9FAFB] border-b border-[#EAECF0]">
+                        <section class="border border-line rounded-xl overflow-hidden">
+                            <div class="flex items-center justify-between px-4 py-2.5 bg-surface-subtle border-b border-line">
                                 <div class="flex items-center gap-1.5">
-                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    <p class="text-[13px] font-semibold text-ink">
                                         {{ $t('superadmin.agreements.form.previewTitle') }}
                                     </p>
                                     <Tooltip :text="$t('superadmin.agreements.help.preview')" position="top" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                                             :aria-label="$t('superadmin.agreements.help.preview')" />
                                     </Tooltip>
                                 </div>
                                 <Icon v-if="preview.isLoading" name="ph:spinner"
-                                    class="w-4 h-4 text-[#42AED9] animate-spin" aria-hidden="true" />
+                                    class="w-4 h-4 text-accent animate-spin" aria-hidden="true" />
                             </div>
                             <div v-if="preview.meta && preview.rows.length"
-                                class="flex flex-wrap gap-2 px-4 py-2.5 border-b border-[#F5F6F8]">
+                                class="flex flex-wrap gap-2 px-4 py-2.5 border-b border-surface-canvas">
                                 <Tooltip :text="$t('superadmin.agreements.preview.endsOnHelp')" position="top" wrap>
                                     <span class="co-badge co-badge-gray">
                                         {{ $t('superadmin.agreements.preview.endsOn', { date: formatDateToReadable(preview.meta.ends_on ?? '') }) }}
@@ -470,13 +470,13 @@
                                     </span>
                                 </Tooltip>
                             </div>
-                            <p v-if="preview.error" class="px-4 py-3 text-[12px] text-[#CC3B2D]">{{ preview.error }}</p>
-                            <p v-else-if="!preview.rows.length" class="px-4 py-4 text-[12px] text-[#8891A4]">
+                            <p v-if="preview.error" class="px-4 py-3 text-[12px] text-danger">{{ preview.error }}</p>
+                            <p v-else-if="!preview.rows.length" class="px-4 py-4 text-[12px] text-ink-muted">
                                 {{ $t('superadmin.agreements.form.previewEmpty') }}
                             </p>
                             <table v-else class="w-full text-[13px]">
                                 <thead>
-                                    <tr class="text-left text-[11px] uppercase text-[#5C6478]">
+                                    <tr class="text-left text-[11px] uppercase text-ink-body">
                                         <th class="px-4 py-2">#</th>
                                         <th class="px-4 py-2">{{ $t('superadmin.agreements.table.dueOn') }}</th>
                                         <th class="px-4 py-2">{{ $t('superadmin.agreements.table.label') }}</th>
@@ -484,10 +484,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(row, i) in preview.rows" :key="i" class="border-t border-[#F5F6F8]">
-                                        <td class="px-4 py-2 text-[#8891A4]">{{ i + 1 }}</td>
+                                    <tr v-for="(row, i) in preview.rows" :key="i" class="border-t border-surface-canvas">
+                                        <td class="px-4 py-2 text-ink-muted">{{ i + 1 }}</td>
                                         <td class="px-4 py-2">{{ formatDateToReadable(row.due_on) }}</td>
-                                        <td class="px-4 py-2 text-[#5C6478]">{{ row.label }}</td>
+                                        <td class="px-4 py-2 text-ink-body">{{ row.label }}</td>
                                         <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
                                     </tr>
                                 </tbody>

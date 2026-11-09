@@ -8,25 +8,22 @@
             <template #header>{{ $t('superadmin.nps.title') }}</template>
 
             <div class="p-1 space-y-5">
-                <div>
-                    <h1 class="text-[22px] font-bold text-[#1F2533]">{{ $t('superadmin.nps.title') }}</h1>
-                    <p class="text-sm text-[#5C6478] mt-0.5">{{ $t('superadmin.nps.subtitle') }}</p>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.nps.title')" :subtitle="$t('superadmin.nps.subtitle')" />
 
                 <LoadingSpinner :isActive="loading">
                     <!-- Tallene -->
                     <div class="grid grid-cols-2 gap-3 lg:grid-cols-5">
-                        <div v-for="tile in tiles" :key="tile.key" class="bg-white border border-[#EAECF0] rounded-xl p-4">
-                            <p class="text-[12px] font-medium text-[#8891A4]">{{ $t(`superadmin.nps.${tile.key}`) }}</p>
-                            <p class="text-[24px] font-bold text-[#1F2533] mt-1 tabular-nums">{{ tile.value }}</p>
+                        <div v-for="tile in tiles" :key="tile.key" class="bg-white border border-line rounded-xl p-4">
+                            <p class="text-[12px] font-medium text-ink-muted">{{ $t(`superadmin.nps.${tile.key}`) }}</p>
+                            <p class="text-[24px] font-bold text-ink mt-1 tabular-nums">{{ tile.value }}</p>
                         </div>
                     </div>
 
                     <!-- Svarene -->
-                    <div class="mt-5 bg-white border border-[#EAECF0] rounded-xl overflow-hidden">
-                        <p v-if="!responses.length" class="p-8 text-center text-sm text-[#8891A4]">{{ $t('superadmin.nps.empty') }}</p>
+                    <div class="mt-5 bg-white border border-line rounded-xl overflow-hidden">
+                        <p v-if="!responses.length" class="p-8 text-center text-sm text-ink-muted">{{ $t('superadmin.nps.empty') }}</p>
                         <table v-else class="w-full text-sm">
-                            <thead class="bg-[#F9FAFB] text-left text-[12px] text-[#5C6478]">
+                            <thead class="bg-surface-subtle text-left text-[12px] text-ink-body">
                                 <tr>
                                     <th class="px-4 py-3 font-medium">{{ $t('superadmin.nps.score') }}</th>
                                     <th class="px-4 py-3 font-medium">{{ $t('superadmin.nps.company') }}</th>
@@ -35,22 +32,22 @@
                                     <th class="px-4 py-3 font-medium">{{ $t('superadmin.nps.date') }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-[#EAECF0]">
+                            <tbody class="divide-y divide-line">
                                 <tr v-for="row in responses" :key="row.uuid" class="align-top">
                                     <td class="px-4 py-3">
-                                        <span class="inline-flex items-center gap-2 font-semibold text-[#1F2533] tabular-nums">
+                                        <span class="inline-flex items-center gap-2 font-semibold text-ink tabular-nums">
                                             <span class="size-2.5 rounded-full" :class="BAND_DOT[npsBand(row.score)]" aria-hidden="true" />
                                             {{ row.score }}
-                                            <span class="font-normal text-[#8891A4]">{{ $t(`superadmin.nps.band.${npsBand(row.score)}`) }}</span>
+                                            <span class="font-normal text-ink-muted">{{ $t(`superadmin.nps.band.${npsBand(row.score)}`) }}</span>
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <NuxtLink v-if="row.company" :to="`/superadmin/companies/${row.company.uuid}/overview`" class="font-medium text-primary hover:underline">{{ row.company.name }}</NuxtLink>
-                                        <p class="text-[12px] text-[#8891A4]">{{ row.user?.name }}</p>
+                                        <p class="text-[12px] text-ink-muted">{{ row.user?.name }}</p>
                                     </td>
-                                    <td class="px-4 py-3 text-[#1F2533] whitespace-pre-line max-w-md">{{ row.comment || '-' }}</td>
+                                    <td class="px-4 py-3 text-ink whitespace-pre-line max-w-md">{{ row.comment || '-' }}</td>
                                     <td class="px-4 py-3">{{ row.review_clicked ? $t('superadmin.nps.yes') : '-' }}</td>
-                                    <td class="px-4 py-3 text-[#5C6478] whitespace-nowrap">{{ formatDate(row.answered_at) }}</td>
+                                    <td class="px-4 py-3 text-ink-body whitespace-nowrap">{{ formatDate(row.answered_at) }}</td>
                                 </tr>
                             </tbody>
                         </table>

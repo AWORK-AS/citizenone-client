@@ -15,32 +15,29 @@
                      API'et afviser i forvejen, men en side fuld af nuller ligner
                      en forretning uden kunder frem for en lukket dør. -->
                 <div v-if="!canViewReport"
-                    class="bg-white border border-[#EAECF0] rounded-xl p-10 text-center">
-                    <Icon name="ph:lock-simple" class="w-8 h-8 text-[#D5D9E2] mx-auto" />
-                    <p class="text-[14px] font-semibold text-[#1F2533] mt-3">
+                    class="bg-white border border-line rounded-xl p-10 text-center">
+                    <Icon name="ph:lock-simple" class="w-8 h-8 text-line-strong mx-auto" />
+                    <p class="text-[14px] font-semibold text-ink mt-3">
                         {{ $t('superadmin.report.noAccess.title') }}
                     </p>
-                    <p class="text-[12px] text-[#8891A4] mt-1">
+                    <p class="text-[12px] text-ink-muted mt-1">
                         {{ $t('superadmin.report.noAccess.hint') }}
                     </p>
                 </div>
 
                 <template v-else>
                 <!-- Header + period controls -->
-                <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                    <div>
-                        <h1 class="text-[22px] font-bold text-[#1F2533]">{{ $t('superadmin.report.title') }}</h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">{{ $t('superadmin.report.subtitle') }}</p>
-                    </div>
-
+                <ModulesSuperadminPageHeader :title="$t('superadmin.report.title')"
+                    :subtitle="$t('superadmin.report.subtitle')" class="!mb-0">
+                    <template #actions>
                     <div class="flex flex-wrap items-end gap-3">
                         <!-- Quick ranges -->
-                        <div class="flex items-center gap-1 bg-white border border-[#EAECF0] rounded-lg p-1">
+                        <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
                             <button v-for="preset in presets" :key="preset.key"
                                 class="px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-colors"
                                 :class="state.activePreset === preset.key
-                                    ? 'bg-[#205E77] text-white'
-                                    : 'text-[#5C6478] hover:bg-[#F5F6F8]'"
+                                    ? 'bg-tertiary text-white'
+                                    : 'text-ink-body hover:bg-surface-canvas'"
                                 @click="applyPreset(preset.key)">
                                 {{ $t(`superadmin.report.presets.${preset.key}`) }}
                             </button>
@@ -49,34 +46,35 @@
                         <!-- Date range -->
                         <div class="flex items-end gap-2">
                             <label class="flex flex-col gap-1">
-                                <span class="text-[11px] font-semibold text-[#8891A4] uppercase tracking-wide">
+                                <span class="text-[11px] font-semibold text-ink-muted uppercase tracking-wide">
                                     {{ $t('superadmin.report.from') }}
                                 </span>
                                 <input type="date" v-model="state.from" @change="onRangeChanged"
-                                    class="border border-[#EAECF0] rounded-lg px-2.5 py-1.5 text-[13px] text-[#1F2533]" />
+                                    class="border border-line rounded-lg px-2.5 py-1.5 text-[13px] text-ink" />
                             </label>
                             <label class="flex flex-col gap-1">
-                                <span class="text-[11px] font-semibold text-[#8891A4] uppercase tracking-wide">
+                                <span class="text-[11px] font-semibold text-ink-muted uppercase tracking-wide">
                                     {{ $t('superadmin.report.to') }}
                                 </span>
                                 <input type="date" v-model="state.to" @change="onRangeChanged"
-                                    class="border border-[#EAECF0] rounded-lg px-2.5 py-1.5 text-[13px] text-[#1F2533]" />
+                                    class="border border-line rounded-lg px-2.5 py-1.5 text-[13px] text-ink" />
                             </label>
                         </div>
 
                         <!-- Grouping -->
-                        <div class="flex items-center gap-1 bg-white border border-[#EAECF0] rounded-lg p-1">
+                        <div class="flex items-center gap-1 bg-white border border-line rounded-lg p-1">
                             <button v-for="option in granularities" :key="option"
                                 class="px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-colors"
                                 :class="state.granularity === option
-                                    ? 'bg-[#205E77] text-white'
-                                    : 'text-[#5C6478] hover:bg-[#F5F6F8]'"
+                                    ? 'bg-tertiary text-white'
+                                    : 'text-ink-body hover:bg-surface-canvas'"
                                 @click="setGranularity(option)">
                                 {{ $t(`superadmin.report.granularity.${option}`) }}
                             </button>
                         </div>
                     </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
@@ -85,22 +83,22 @@
                 <div class="grid grid-cols-2 gap-4"
                     :class="hasFinancials ? 'lg:grid-cols-5' : 'lg:grid-cols-4'">
                     <div v-for="card in totalCards" :key="card.key"
-                        class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-4 relative overflow-hidden">
+                        class="bg-white border border-line rounded-xl shadow-sm p-4 relative overflow-hidden">
                         <span class="absolute inset-x-0 top-0 h-[3px]" :style="`background:${card.accent}`"></span>
-                        <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.07em]">{{ card.label }}</p>
+                        <p class="text-[10px] font-bold text-ink-muted uppercase tracking-[0.07em]">{{ card.label }}</p>
                         <p class="text-[28px] font-extrabold leading-none mt-1.5" :class="card.tone">{{ card.value }}</p>
                     </div>
                 </div>
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
                 <template v-else>
                     <!-- Customers -->
-                    <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5">
-                        <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.report.charts.customers') }}</h2>
-                        <p class="text-[11px] text-[#8891A4] mt-0.5 mb-3">{{ $t('superadmin.report.charts.customersHint') }}</p>
+                    <div class="bg-white border border-line rounded-xl shadow-sm p-5">
+                        <h2 class="text-[13px] font-semibold text-ink">{{ $t('superadmin.report.charts.customers') }}</h2>
+                        <p class="text-[11px] text-ink-muted mt-0.5 mb-3">{{ $t('superadmin.report.charts.customersHint') }}</p>
                         <ClientOnly>
                             <VChart :option="customersOption" style="height: 320px; width: 100%;" autoresize />
                         </ClientOnly>
@@ -108,18 +106,18 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                         <!-- Revenue -->
-                        <div v-if="hasFinancials" class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.report.charts.revenue') }}</h2>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5 mb-3">{{ $t('superadmin.report.charts.revenueHint') }}</p>
+                        <div v-if="hasFinancials" class="bg-white border border-line rounded-xl shadow-sm p-5">
+                            <h2 class="text-[13px] font-semibold text-ink">{{ $t('superadmin.report.charts.revenue') }}</h2>
+                            <p class="text-[11px] text-ink-muted mt-0.5 mb-3">{{ $t('superadmin.report.charts.revenueHint') }}</p>
                             <ClientOnly>
                                 <VChart :option="revenueOption" style="height: 280px; width: 100%;" autoresize />
                             </ClientOnly>
                         </div>
 
                         <!-- MRR -->
-                        <div v-if="hasFinancials" class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.report.charts.mrr') }}</h2>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5 mb-3">
+                        <div v-if="hasFinancials" class="bg-white border border-line rounded-xl shadow-sm p-5">
+                            <h2 class="text-[13px] font-semibold text-ink">{{ $t('superadmin.report.charts.mrr') }}</h2>
+                            <p class="text-[11px] text-ink-muted mt-0.5 mb-3">
                                 {{ state.mrrRecordedSince
                                     ? $t('superadmin.report.charts.mrrSince', { date: formatDay(state.mrrRecordedSince) })
                                     : $t('superadmin.report.charts.mrrNotRecorded') }}
@@ -127,30 +125,30 @@
                             <ClientOnly>
                                 <VChart v-if="hasMrrData" :option="mrrOption" style="height: 280px; width: 100%;" autoresize />
                             </ClientOnly>
-                            <div v-if="!hasMrrData" class="flex flex-col items-center gap-2 py-12 text-[#8891A4]">
+                            <div v-if="!hasMrrData" class="flex flex-col items-center gap-2 py-12 text-ink-muted">
                                 <Icon name="ph:chart-line" class="w-10 h-10 opacity-30" />
                                 <p class="text-sm text-center max-w-sm">{{ $t('superadmin.report.charts.mrrEmpty') }}</p>
                             </div>
                         </div>
 
                         <!-- Revenue forecast: forward, not backward -->
-                        <div v-if="hasFinancials" class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5 lg:col-span-2">
+                        <div v-if="hasFinancials" class="bg-white border border-line rounded-xl shadow-sm p-5 lg:col-span-2">
                             <div class="flex items-start justify-between gap-4 flex-wrap">
                                 <div>
-                                    <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                                    <h2 class="text-[13px] font-semibold text-ink">
                                         {{ $t('superadmin.report.forecast.title') }}
                                     </h2>
-                                    <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                    <p class="text-[11px] text-ink-muted mt-0.5">
                                         {{ $t('superadmin.report.forecast.hint') }}
                                     </p>
                                 </div>
-                                <div class="inline-flex rounded-lg border border-[#D5D9E2] overflow-hidden bg-white">
+                                <div class="inline-flex rounded-lg border border-line-strong overflow-hidden bg-white">
                                     <button v-for="years in [1, 3, 5]" :key="years" @click="selectForecastYears(years)"
                                         :class="[
                                             'px-3 py-1.5 text-[12px] font-medium transition-colors',
                                             state.forecastYears === years
-                                                ? 'bg-[#205E77] text-white'
-                                                : 'text-[#5C6478] hover:bg-[#F5F6F8]',
+                                                ? 'bg-tertiary text-white'
+                                                : 'text-ink-body hover:bg-surface-canvas',
                                         ]">
                                         {{ $t('superadmin.report.forecast.years', { count: years }) }}
                                     </button>
@@ -158,27 +156,27 @@
                             </div>
 
                             <div v-if="state.isForecastLoading" class="flex justify-center py-16">
-                                <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
+                                <Icon name="ph:spinner" class="w-6 h-6 text-accent animate-spin" />
                             </div>
 
                             <template v-else-if="state.forecast">
                                 <!-- The three numbers somebody came for, before the chart. -->
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 mb-1">
-                                    <div class="rounded-lg bg-[#F9FAFB] border border-[#EAECF0] p-3">
-                                        <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.report.forecast.totalLabel', { count: state.forecastYears }) }}</p>
-                                        <p class="text-[18px] font-semibold text-[#1F2533]">
+                                    <div class="rounded-lg bg-surface-subtle border border-line p-3">
+                                        <p class="text-[11px] text-ink-muted">{{ $t('superadmin.report.forecast.totalLabel', { count: state.forecastYears }) }}</p>
+                                        <p class="text-[18px] font-semibold text-ink">
                                             {{ formatAmount(state.forecast.total, 'DKK') }}
                                         </p>
                                     </div>
-                                    <div class="rounded-lg bg-[#F9FAFB] border border-[#EAECF0] p-3">
-                                        <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.report.forecast.nextTwelve') }}</p>
-                                        <p class="text-[18px] font-semibold text-[#1F2533]">
+                                    <div class="rounded-lg bg-surface-subtle border border-line p-3">
+                                        <p class="text-[11px] text-ink-muted">{{ $t('superadmin.report.forecast.nextTwelve') }}</p>
+                                        <p class="text-[18px] font-semibold text-ink">
                                             {{ formatAmount(forecastNextTwelveMonths, 'DKK') }}
                                         </p>
                                     </div>
-                                    <div class="rounded-lg bg-[#F9FAFB] border border-[#EAECF0] p-3">
-                                        <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.report.forecast.renewalShare') }}</p>
-                                        <p class="text-[18px] font-semibold text-[#1F2533]">
+                                    <div class="rounded-lg bg-surface-subtle border border-line p-3">
+                                        <p class="text-[11px] text-ink-muted">{{ $t('superadmin.report.forecast.renewalShare') }}</p>
+                                        <p class="text-[18px] font-semibold text-ink">
                                             {{ formatAmount(forecastRenewalTotal, 'DKK') }}
                                         </p>
                                     </div>
@@ -190,28 +188,28 @@
                                      kontrast til at bære forskellen. -->
                                 <div class="flex flex-wrap items-center gap-x-5 gap-y-1 mb-3 text-[12px]">
                                     <span class="flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#1C6E9C"></span>
-                                        <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.contracted') }}</span>
-                                        <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.contracted_total, 'DKK') }}</strong>
-                                        <span class="text-[#8891A4]">({{ contractedShare }}%)</span>
+                                        <span class="w-2.5 h-2.5 rounded-sm bg-secondary"></span>
+                                        <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.contracted') }}</span>
+                                        <strong class="text-ink">{{ formatAmount(state.forecast.contracted_total, 'DKK') }}</strong>
+                                        <span class="text-ink-muted">({{ contractedShare }}%)</span>
                                     </span>
                                     <Tooltip :text="$t('superadmin.report.forecast.help.installments')" position="top" wrap>
                                         <span class="flex items-center gap-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#368F8B"></span>
-                                            <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.installments') }}</span>
-                                            <strong class="text-[#1F2533]">{{ formatAmount(bucketTotals.installments, 'DKK') }}</strong>
+                                            <span class="w-2.5 h-2.5 rounded-sm bg-accent-sea"></span>
+                                            <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.installments') }}</span>
+                                            <strong class="text-ink">{{ formatAmount(bucketTotals.installments, 'DKK') }}</strong>
                                         </span>
                                     </Tooltip>
                                     <span class="flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#E0A83D"></span>
-                                        <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.assumed') }}</span>
-                                        <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.assumed_total, 'DKK') }}</strong>
+                                        <span class="w-2.5 h-2.5 rounded-sm bg-warning"></span>
+                                        <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.assumed') }}</span>
+                                        <strong class="text-ink">{{ formatAmount(state.forecast.assumed_total, 'DKK') }}</strong>
                                     </span>
                                     <Tooltip :text="$t('superadmin.report.forecast.help.assumedRenewal')" position="top" wrap>
                                         <span class="flex items-center gap-1.5">
-                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#F0CE8B"></span>
-                                            <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.assumedRenewal') }}</span>
-                                            <strong class="text-[#1F2533]">{{ formatAmount(bucketTotals.assumed_renewal, 'DKK') }}</strong>
+                                            <span class="w-2.5 h-2.5 rounded-sm bg-warning-line"></span>
+                                            <span class="text-ink-body">{{ $t('superadmin.report.forecast.series.assumedRenewal') }}</span>
+                                            <strong class="text-ink">{{ formatAmount(bucketTotals.assumed_renewal, 'DKK') }}</strong>
                                         </span>
                                     </Tooltip>
                                 </div>
@@ -221,7 +219,7 @@
                                         @click="openRenewals" />
                                 </ClientOnly>
 
-                                <p v-if="!renewals.month" class="text-[11px] text-[#8891A4] mt-2 flex items-center gap-1.5">
+                                <p v-if="!renewals.month" class="text-[11px] text-ink-muted mt-2 flex items-center gap-1.5">
                                     <Icon name="ph:cursor-click" class="w-3.5 h-3.5 flex-shrink-0" />
                                     {{ $t('superadmin.report.forecast.clickHint') }}
                                 </p>
@@ -229,8 +227,8 @@
                                 <!-- Den akkumulerede kurve, i sit eget plot. Den når
                                      millioner hvor en måned er titusinder, og delte den
                                      akse med søjlerne var søjlerne ulæselige. -->
-                                <div class="mt-4 pt-4 border-t border-[#EAECF0]">
-                                    <p class="text-[11px] text-[#8891A4] mb-1">
+                                <div class="mt-4 pt-4 border-t border-line">
+                                    <p class="text-[11px] text-ink-muted mb-1">
                                         {{ $t('superadmin.report.forecast.series.cumulative') }}
                                     </p>
                                     <ClientOnly>
@@ -243,68 +241,68 @@
                                      salgsarbejdet har brug for hvem, så der kan arbejdes
                                      med fornyelsen inden den er der. -->
                                 <div v-if="renewals.month"
-                                    class="mt-4 border border-[#EAECF0] rounded-xl overflow-hidden">
-                                    <div class="flex items-center justify-between px-4 py-3 bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                    class="mt-4 border border-line rounded-xl overflow-hidden">
+                                    <div class="flex items-center justify-between px-4 py-3 bg-surface-subtle border-b border-line">
                                         <div>
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            <p class="text-[13px] font-semibold text-ink">
                                                 {{ $t('superadmin.report.forecast.renewalsIn', { month: renewalsMonthLabel }) }}
                                             </p>
-                                            <p class="text-[11px] text-[#8891A4]">
+                                            <p class="text-[11px] text-ink-muted">
                                                 {{ $t('superadmin.report.forecast.renewalsCount', { count: renewals.renewals.length + renewals.installments.length }) }}
                                                 · {{ formatAmount(renewals.renewals_total + renewals.installments_total, 'DKK') }}
                                             </p>
                                         </div>
                                         <button type="button" @click="renewals.month = ''"
-                                            class="text-[#8891A4] hover:text-[#1F2533]">
+                                            class="text-ink-muted hover:text-ink">
                                             <Icon name="ph:x" class="w-4 h-4" />
                                         </button>
                                     </div>
 
                                     <div v-if="renewals.isLoading" class="flex justify-center py-8">
-                                        <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
+                                        <Icon name="ph:spinner" class="w-5 h-5 text-accent animate-spin" />
                                     </div>
                                     <p v-else-if="!renewals.renewals.length && !renewals.installments.length"
-                                        class="px-4 py-8 text-center text-[13px] text-[#8891A4]">
+                                        class="px-4 py-8 text-center text-[13px] text-ink-muted">
                                         {{ $t('superadmin.report.forecast.noRenewals') }}
                                     </p>
                                     <div v-else>
                                         <NuxtLink v-for="(row, i) in renewals.renewals" :key="i"
                                             :to="`/superadmin/companies/${row.company_uuid}/license-overview`"
-                                            class="flex items-center justify-between px-4 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                                            class="flex items-center justify-between px-4 py-3 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle transition-colors">
                                             <div class="min-w-0">
-                                                <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                                                <p class="text-[13px] font-medium text-ink truncate">
                                                     {{ row.company_name }}
                                                 </p>
-                                                <p class="text-[11px] text-[#8891A4]">
+                                                <p class="text-[11px] text-ink-muted">
                                                     {{ formatDateToReadable(row.renews_at) }}
                                                 </p>
                                             </div>
-                                            <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
+                                            <span class="text-[13px] font-semibold text-ink shrink-0 ml-3">
                                                 {{ formatAmount(row.amount, 'DKK') }}
                                             </span>
                                         </NuxtLink>
                                         <!-- Agreement installments and assumed agreement renewals in the month -->
                                         <div v-if="renewals.installments.length"
-                                            class="px-4 py-2 bg-[#F9FAFB] border-y border-[#EAECF0] text-[11px] font-semibold uppercase text-[#5C6478]">
+                                            class="px-4 py-2 bg-surface-subtle border-y border-line text-[11px] font-semibold uppercase text-ink-body">
                                             {{ $t('superadmin.report.forecast.installmentsIn') }}
                                             · {{ formatAmount(renewals.installments_total, 'DKK') }}
                                         </div>
                                         <NuxtLink v-for="(row, i) in renewals.installments" :key="`i${i}`"
                                             :to="`/superadmin/companies/${row.company_uuid}/agreements`"
-                                            class="flex items-center justify-between px-4 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                                            class="flex items-center justify-between px-4 py-3 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle transition-colors">
                                             <div class="min-w-0">
-                                                <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                                                <p class="text-[13px] font-medium text-ink truncate">
                                                     {{ row.company_name }}
-                                                    <span class="text-[#8891A4] font-normal">{{ row.agreement_name }}</span>
+                                                    <span class="text-ink-muted font-normal">{{ row.agreement_name }}</span>
                                                 </p>
-                                                <p class="text-[11px] text-[#8891A4] flex items-center gap-1.5">
+                                                <p class="text-[11px] text-ink-muted flex items-center gap-1.5">
                                                     {{ formatDateToReadable(row.due_on) }}
                                                     <Tooltip :text="$t(row.kind === 'installment'
                                                         ? 'superadmin.report.forecast.help.installments'
                                                         : 'superadmin.report.forecast.help.assumedRenewal')"
                                                         position="top" wrap>
                                                         <span class="co-badge"
-                                                            :class="row.kind === 'installment' ? 'co-badge-navy' : 'bg-[#FEF3C7] text-[#B45309]'">
+                                                            :class="row.kind === 'installment' ? 'co-badge-navy' : 'bg-warning-soft text-warning-ink'">
                                                             {{ $t(row.kind === 'installment'
                                                                 ? 'superadmin.report.forecast.series.installments'
                                                                 : 'superadmin.report.forecast.series.assumedRenewal') }}
@@ -312,7 +310,7 @@
                                                     </Tooltip>
                                                 </p>
                                             </div>
-                                            <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
+                                            <span class="text-[13px] font-semibold text-ink shrink-0 ml-3">
                                                 {{ formatAmount(row.amount, 'DKK') }}
                                             </span>
                                         </NuxtLink>
@@ -321,13 +319,13 @@
 
                                 <div class="flex flex-wrap gap-2 mt-3">
                                     <span v-for="year in state.forecast.by_year" :key="year.year"
-                                        class="text-[12px] text-[#5C6478] bg-[#F5F6F8] rounded-lg px-2.5 py-1">
-                                        {{ year.year }}: <strong class="text-[#1F2533]">{{ formatAmount(year.total, 'DKK') }}</strong>
+                                        class="text-[12px] text-ink-body bg-surface-canvas rounded-lg px-2.5 py-1">
+                                        {{ year.year }}: <strong class="text-ink">{{ formatAmount(year.total, 'DKK') }}</strong>
                                     </span>
                                 </div>
 
                                 <!-- The assumption, on the screen and not only in the code. -->
-                                <p class="text-[11px] text-[#8891A4] mt-3 flex items-start gap-1.5">
+                                <p class="text-[11px] text-ink-muted mt-3 flex items-start gap-1.5">
                                     <Icon name="ph:info" class="w-3.5 h-3.5 mt-[1px] flex-shrink-0" />
                                     {{ $t('superadmin.report.forecast.assumption') }}
                                 </p>
@@ -335,10 +333,10 @@
                         </div>
 
                         <!-- New users -->
-                        <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5"
+                        <div class="bg-white border border-line rounded-xl shadow-sm p-5"
                             :class="hasFinancials ? 'lg:col-span-2' : ''">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.report.charts.users') }}</h2>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5 mb-3">{{ $t('superadmin.report.charts.usersHint') }}</p>
+                            <h2 class="text-[13px] font-semibold text-ink">{{ $t('superadmin.report.charts.users') }}</h2>
+                            <p class="text-[11px] text-ink-muted mt-0.5 mb-3">{{ $t('superadmin.report.charts.usersHint') }}</p>
                             <ClientOnly>
                                 <VChart :option="usersOption" style="height: 260px; width: 100%;" autoresize />
                             </ClientOnly>
@@ -353,6 +351,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
@@ -402,20 +401,20 @@ const hasFinancials = computed(() => state.totals?.revenue !== null && state.tot
 const totalCards = computed(() => {
     const totals = state.totals ?? {}
     const cards = [
-        { key: 'new', accent: '#2E9E33', label: t('superadmin.report.totals.newCompanies'), value: totals.new_companies ?? 0, tone: 'text-[#2E9E33]' },
+        { key: 'new', accent: SA_COLORS.success, label: t('superadmin.report.totals.newCompanies'), value: totals.new_companies ?? 0, tone: 'text-success' },
         {
-            key: 'churned', accent: '#CC3B2D', label: t('superadmin.report.totals.churnedCompanies'),
+            key: 'churned', accent: SA_COLORS.danger, label: t('superadmin.report.totals.churnedCompanies'),
             value: totals.churned_companies ?? 0,
-            tone: (totals.churned_companies ?? 0) > 0 ? 'text-[#CC3B2D]' : 'text-[#1F2533]',
+            tone: (totals.churned_companies ?? 0) > 0 ? 'text-danger' : 'text-ink',
         },
-        { key: 'net', accent: '#205E77', label: t('superadmin.report.totals.netCompanies'), value: formatSigned(totals.net_companies ?? 0), tone: 'text-[#1F2533]' },
-        { key: 'users', accent: '#368F8B', label: t('superadmin.report.totals.newUsers'), value: totals.new_users ?? 0, tone: 'text-[#1F2533]' },
+        { key: 'net', accent: SA_COLORS.primary, label: t('superadmin.report.totals.netCompanies'), value: formatSigned(totals.net_companies ?? 0), tone: 'text-ink' },
+        { key: 'users', accent: SA_COLORS.sea, label: t('superadmin.report.totals.newUsers'), value: totals.new_users ?? 0, tone: 'text-ink' },
     ]
 
     if (hasFinancials.value) {
         cards.push({
-            key: 'revenue', accent: '#42AED9', label: t('superadmin.report.totals.revenue'),
-            value: formatAmount(totals.revenue, 'DKK'), tone: 'text-[#1F2533]',
+            key: 'revenue', accent: SA_COLORS.accent, label: t('superadmin.report.totals.revenue'),
+            value: formatAmount(totals.revenue, 'DKK'), tone: 'text-ink',
         })
     }
 
@@ -502,29 +501,29 @@ const forecastOption = computed(() => ({
     xAxis: {
         type: 'category',
         data: forecastMonths.value.map((month: any) => moment(month.month + '-01').format('MMM YY')),
-        axisLabel: { rotate: forecastMonths.value.length > 14 ? 45 : 0, color: '#5C6478' },
+        axisLabel: { rotate: forecastMonths.value.length > 14 ? 45 : 0, color: SA_COLORS.inkBody },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     series: [
         {
             name: t('superadmin.report.forecast.series.contracted'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#1C6E9C', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.secondary, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.contracted),
         },
         {
             name: t('superadmin.report.forecast.series.installments'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#368F8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.sea, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.installments ?? 0),
         },
         {
             name: t('superadmin.report.forecast.series.assumed'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#E0A83D', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.warning, borderColor: SA_COLORS.white, borderWidth: 2 },
             // Skravering oveni farven: den del der hviler på en antagelse skal
             // også kunne ses i sort/hvid, på en projektor og af en farveblind.
             // Farven alene bærer ikke den skelnen.
@@ -537,7 +536,7 @@ const forecastOption = computed(() => ({
             name: t('superadmin.report.forecast.series.assumedRenewal'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#F0CE8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            itemStyle: { color: SA_COLORS.warningLine, borderColor: SA_COLORS.white, borderWidth: 2 },
             data: forecastMonths.value.map((month: any) => month.assumed_renewal ?? 0),
             decal: { symbol: 'rect', dashArrayX: [1, 0], dashArrayY: [8, 4], rotation: -Math.PI / 4, color: 'rgba(31,37,51,0.25)' },
         },
@@ -575,14 +574,14 @@ const forecastCumulativeOption = computed(() => ({
         axisLabel: { show: false },
         axisTick: { show: false },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     series: [
         {
             name: t('superadmin.report.forecast.series.cumulative'),
             type: 'line',
             smooth: true,
             showSymbol: false,
-            itemStyle: { color: '#205E77' },
+            itemStyle: { color: SA_COLORS.primary },
             lineStyle: { width: 2 },
             areaStyle: { color: 'rgba(32,94,119,0.08)' },
             data: forecastMonths.value.map((month: any) => month.cumulative),
@@ -609,9 +608,9 @@ const baseOption = (extra: any) => ({
     xAxis: {
         type: 'category',
         data: labels.value,
-        axisLabel: { rotate: labels.value.length > 8 ? 35 : 0, color: '#5C6478' },
+        axisLabel: { rotate: labels.value.length > 8 ? 35 : 0, color: SA_COLORS.inkBody },
     },
-    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    yAxis: { type: 'value', axisLabel: { color: SA_COLORS.inkBody } },
     ...extra,
 })
 
@@ -621,20 +620,20 @@ const customersOption = computed(() => baseOption({
         {
             name: t('superadmin.report.series.newCompanies'),
             type: 'bar',
-            itemStyle: { color: '#2E9E33' },
+            itemStyle: { color: SA_COLORS.success },
             data: state.buckets.map((b: any) => b.new_companies),
         },
         {
             name: t('superadmin.report.series.churnedCompanies'),
             type: 'bar',
-            itemStyle: { color: '#CC3B2D' },
+            itemStyle: { color: SA_COLORS.danger },
             data: state.buckets.map((b: any) => b.churned_companies),
         },
         {
             name: t('superadmin.report.series.netCompanies'),
             type: 'line',
             smooth: true,
-            itemStyle: { color: '#205E77' },
+            itemStyle: { color: SA_COLORS.primary },
             lineStyle: { width: 2 },
             data: state.buckets.map((b: any) => b.net_companies),
         },
@@ -649,7 +648,7 @@ const revenueOption = computed(() => baseOption({
     series: [{
         name: t('superadmin.report.series.revenue'),
         type: 'bar',
-        itemStyle: { color: '#42AED9' },
+        itemStyle: { color: SA_COLORS.accent },
         data: state.buckets.map((b: any) => b.revenue ?? 0),
     }],
 }))
@@ -666,7 +665,7 @@ const mrrOption = computed(() => baseOption({
         // Buckets before recording started stay null, so the line starts where
         // the data does instead of climbing out of a fake zero.
         connectNulls: false,
-        itemStyle: { color: '#2E9E33' },
+        itemStyle: { color: SA_COLORS.success },
         areaStyle: { opacity: 0.08 },
         data: state.buckets.map((b: any) => b.mrr),
     }],
@@ -676,7 +675,7 @@ const usersOption = computed(() => baseOption({
     series: [{
         name: t('superadmin.report.series.newUsers'),
         type: 'bar',
-        itemStyle: { color: '#368F8B' },
+        itemStyle: { color: SA_COLORS.sea },
         data: state.buckets.map((b: any) => b.new_users),
     }],
 }))

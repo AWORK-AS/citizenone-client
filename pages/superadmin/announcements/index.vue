@@ -7,15 +7,14 @@
             <template #header>{{ $t('superadmin.announcements.title') }}</template>
 
             <div class="p-1">
-                <div class="mb-5 flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('superadmin.announcements.title') }}</h1>
-                        <p class="max-w-2xl text-sm text-[#6B7280]">{{ $t('superadmin.announcements.intro') }}</p>
-                    </div>
-                    <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
-                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.announcements.new') }}
-                    </FormButton>
-                </div>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.announcements.title')"
+                    :subtitle="$t('superadmin.announcements.intro')">
+                    <template #actions>
+                        <FormButton v-if="canManage" buttonStyle="primary" @click="openForm()">
+                            <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('superadmin.announcements.new') }}
+                        </FormButton>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <div class="mb-4 flex flex-wrap gap-2">
                     <button v-for="filter in filters" :key="filter" type="button" @click="state.filter = filter"
@@ -30,7 +29,7 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div v-if="!state.isLoading && !visibleItems.length"
-                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
+                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-ink-body">
                         <Icon name="ph:megaphone" class="h-8 w-8 text-gray-300" />
                         {{ $t('superadmin.announcements.empty') }}
                     </div>
@@ -41,7 +40,7 @@
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                     <span class="co-badge co-badge-navy">{{ $t(`superadmin.announcements.kind.${item.kind}`) }}</span>
                                     <span class="font-semibold text-gray-900">{{ item.title }}</span>
-                                    <span class="co-badge" :class="statusClass(item)">{{ $t(`superadmin.announcements.filter.${statusOf(item)}`) }}</span>
+                                    <ModulesSuperadminStatusPill :variant="statusVariant(item)" :label="$t(`superadmin.announcements.filter.${statusOf(item)}`)" />
                                     <span v-if="item.application" class="co-badge co-badge-blue">{{ item.application.name }}</span>
                                 </div>
                                 <p class="mt-1 line-clamp-2 text-sm text-gray-600">{{ item.body }}</p>
@@ -139,8 +138,8 @@ function statusOf(item: any): Filter {
     return 'live'
 }
 
-function statusClass(item: any): string {
-    return { live: 'co-badge-green', scheduled: 'co-badge-blue', draft: 'co-badge-gray', ended: 'co-badge-gray' }[statusOf(item)]
+function statusVariant(item: any) {
+    return ({ live: 'success', scheduled: 'info', draft: 'neutral', ended: 'neutral' } as Record<string, 'success' | 'info' | 'neutral'>)[statusOf(item)] ?? 'neutral'
 }
 
 function itemsFor(filter: Filter) {

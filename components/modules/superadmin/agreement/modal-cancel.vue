@@ -13,17 +13,17 @@
                     </div>
 
                     <Tooltip :text="$t('superadmin.agreements.cancel.accelerateHelp')" position="top" wrap>
-                        <label class="inline-flex items-center gap-2 text-sm text-[#1F2533] cursor-pointer">
-                            <input type="checkbox" class="rounded border-[#D5D9E2]" v-model="state.accelerate" />
+                        <label class="inline-flex items-center gap-2 text-sm text-ink cursor-pointer">
+                            <input type="checkbox" class="rounded border-line-strong" v-model="state.accelerate" />
                             {{ $t('superadmin.agreements.cancel.accelerate') }}
                         </label>
                     </Tooltip>
 
                     <!-- What will happen, from the server -->
-                    <div class="rounded-lg border border-[#EAECF0] bg-[#F9FAFB] px-3 py-2.5 text-[13px] text-[#1F2533] min-h-[44px]">
-                        <Icon v-if="state.isPreviewing" name="ph:spinner" class="w-4 h-4 text-[#42AED9] animate-spin"
+                    <div class="rounded-lg border border-line bg-surface-subtle px-3 py-2.5 text-[13px] text-ink min-h-[44px]">
+                        <Icon v-if="state.isPreviewing" name="ph:spinner" class="w-4 h-4 text-accent animate-spin"
                             aria-hidden="true" />
-                        <p v-else-if="state.previewError" class="text-[#CC3B2D]">{{ state.previewError }}</p>
+                        <p v-else-if="state.previewError" class="text-danger">{{ state.previewError }}</p>
                         <p v-else-if="state.accelerate && preview">
                             {{ $t('superadmin.agreements.cancel.previewAccelerated', {
                                 amount: formatAmount(preview.amount, 'DKK'), count: preview.count }) }}
@@ -34,7 +34,7 @@
                         </p>
                     </div>
 
-                    <div class="flex items-start gap-2 rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-3 py-2 text-[12px] text-[#B91C1C]"
+                    <div class="flex items-start gap-2 rounded-lg border border-danger-line bg-danger-soft px-3 py-2 text-[12px] text-danger-ink"
                         role="alert">
                         <Icon name="ph:warning" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
                         <p>{{ $t('superadmin.agreements.cancel.warning') }}</p>

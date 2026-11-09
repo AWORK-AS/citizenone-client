@@ -15311,6 +15311,43 @@
             "errorCampaignNameRequired": "Kampagnenavn er påkrævet",
             "labelImage": "Billede"
         },
+        "search": {
+            "trigger": "Søg overalt",
+            "dialogLabel": "Søg overalt i superadmin",
+            "placeholder": "Søg efter virksomhed, CVR, medarbejder, faktura eller side…",
+            "intro": "Find en virksomhed, en medarbejder, en faktura, et e-conomic-nummer eller en side.",
+            "minChars": "Skriv mindst 2 tegn for at søge i virksomheder, medarbejdere og fakturaer.",
+            "loading": "Søger…",
+            "empty": "Ingen resultater for “{query}”",
+            "error": "Søgningen fejlede. Prøv igen.",
+            "clearRecent": "Ryd",
+            "hintNavigate": "Naviger",
+            "hintSelect": "Åbn",
+            "hintClose": "Luk",
+            "results": "{count} resultater",
+            "groups": {
+                "recent": "Seneste",
+                "pages": "Sider",
+                "companies": "Virksomheder",
+                "accounts": "Kundernes medarbejdere",
+                "team": "Vores hold",
+                "invoices": "Fakturaer",
+                "agreements": "Aftaler"
+            },
+            "badge": {
+                "closed": "Lukket",
+                "billingCard": "Kort",
+                "billingInvoice": "Faktura",
+                "archived": "Arkiveret",
+                "inactive": "Inaktiv",
+                "paid": "Betalt",
+                "unpaid": "Ikke betalt",
+                "failed": "Afvist",
+                "economicDraft": "Kladde",
+                "agreement_ended": "Udløbet",
+                "agreement_cancelled": "Opsagt"
+            }
+        },
         "sidebar": {
             "referrals": "Anbefalinger",
             "nps": "Anbefalinger (NPS)",
@@ -15336,6 +15373,7 @@
             "superAdmin": "Super Admin",
             "breadcrumb": "Superadmin",
             "finance": "Økonomi",
+            "financeOverview": "Nøgletal",
             "licenses": "Licenser",
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
@@ -15350,7 +15388,8 @@
             "supportAccess": "Adgang hos kunder",
             "news": "Nyheder",
             "campaigns": "Kampagner",
-            "announcements": "Beskeder"
+            "announcements": "Beskeder",
+            "today": "I dag"
         },
         "teamRoles": {
             "pageTitle": "Roller",
@@ -16669,6 +16708,230 @@
             "upcomingDates": "Udløber {ends} - opsigelsesfrist {notice}",
             "noAutoRenew": "Fornyes ikke",
             "noAutoRenewHelp": "Aftalen fornyes ikke automatisk og udløber ved bindingens slutning."
+        },
+        "today": {
+            "title": "I dag",
+            "refresh": "Opdater",
+            "seeAll": "Se alle",
+            "more": "{count} mere",
+            "daysOverdue": "{days} dag over forfald | {days} dage over forfald",
+            "invoiceCount": "{count} fakturaer",
+            "greeting": {
+                "morning": "Godmorgen",
+                "day": "Goddag",
+                "evening": "Godaften",
+                "morningName": "Godmorgen, {name}",
+                "dayName": "Goddag, {name}",
+                "eveningName": "Godaften, {name}"
+            },
+            "kpi": {
+                "open_items": "åbne opgaver",
+                "outstanding_amount": "udestående",
+                "orders_awaiting_economic": "ordrer mangler e-conomic",
+                "new_inquiries": "nye henvendelser"
+            },
+            "allClear": {
+                "title": "Alt er i orden",
+                "text": "Der er ikke noget der venter på dig lige nu.",
+                "noSections": "Der er ingen opgaver at vise for din rolle."
+            },
+            "date": {
+                "closes": "Lukker {date}",
+                "ordered": "Bestilt {date}",
+                "ends": "Udløber {date}",
+                "received": "Modtaget {date}",
+                "due": "Forfaldt {date}"
+            },
+            "reason": {
+                "payment_failed": "Betaling fejlet",
+                "reminder_1": "Rykker 1",
+                "reminder_2": "Rykker 2",
+                "reminder_3": "Rykker 3",
+                "overdue": "Over forfald",
+                "ready_to_close": "Klar til lukning",
+                "economic_error": "Fejl i e-conomic",
+                "economic_pending": "Ikke sendt",
+                "economic_draft": "Kladde, ikke bogført",
+                "economic_finance": "Afventer bogholderi",
+                "economic_no_invoice": "Ingen faktura",
+                "no_auto_renew": "Fornyes ikke automatisk",
+                "renewal_plan_missing": "Fornyelse skal aftales",
+                "source_contact": "Kontaktformular",
+                "source_book_demo": "Demo-booking",
+                "source_quick_ask": "Hurtigt spørgsmål",
+                "source_price_quote": "Pristilbud",
+                "source_trial": "Prøveperiode",
+                "source_other": "Anden kilde",
+                "unknown": "Kræver handling"
+            },
+            "section": {
+                "payment_problems": {
+                    "title": "Betalingsproblemer",
+                    "hint": "Kortkunder i rykkerforløb",
+                    "action": "Håndter",
+                    "empty": "Ingen betalingsproblemer"
+                },
+                "license_orders": {
+                    "title": "Licensordrer til e-conomic",
+                    "hint": "Ordrer der ikke er sendt eller bogført",
+                    "action": "Se ordre",
+                    "empty": "Alle ordrer er i e-conomic"
+                },
+                "agreements": {
+                    "title": "Aftaler der udløber",
+                    "hint": "Inden for 60 dage, kræver en beslutning",
+                    "action": "Se aftale",
+                    "empty": "Ingen aftaler kræver beslutning"
+                },
+                "sales_inquiries": {
+                    "title": "Nye henvendelser",
+                    "hint": "Ikke taget endnu",
+                    "action": "Tag den",
+                    "empty": "Ingen nye henvendelser"
+                },
+                "overdue_invoices": {
+                    "title": "Fakturakunder over forfald",
+                    "hint": "Ubetalte fakturaer efter forfaldsdato",
+                    "action": "Se fakturaer",
+                    "empty": "Ingen fakturaer over forfald"
+                }
+            }
+        },
+        "companyHeader": {
+            "back": "Alle virksomheder",
+            "backToAccounts": "Tilbage til konti",
+            "backToInvoices": "Tilbage til fakturaer",
+            "unknownCompany": "Virksomhed",
+            "tabsLabel": "Virksomhedens sider",
+            "billing": "Betaling",
+            "economicNumber": "e-conomic nr.",
+            "mrr": "MRR",
+            "mrrHelp": "Månedlig tilbagevendende omsætning ved målingen {date}",
+            "agreement": "Aftale",
+            "noAgreement": "Ingen aftale",
+            "agreementEnds": "udløber {date}",
+            "agreementRenews": "fornyes {date}",
+            "contractEnds": "Ophører",
+            "status": {
+                "active": "Aktiv",
+                "closed": "Lukket",
+                "reminder": "Rykker {stage}",
+                "collection": "Inkasso",
+                "written_off": "Afskrevet",
+                "trial": "Prøve"
+            },
+            "billingMethod": {
+                "card": "Kort",
+                "invoice": "Faktura",
+                "leverandorservice": "Leverandørservice",
+                "economic": "Faktura fra e-conomic"
+            },
+            "tabs": {
+                "overview": "Oversigt",
+                "accounts": "Konti",
+                "licenses": "Licenser",
+                "apps": "Apps",
+                "agreements": "Aftaler",
+                "invoices": "Fakturaer",
+                "history": "Historik",
+                "edit": "Redigér",
+                "migration": "Migrering"
+            }
+        },
+        "companyHistory": {
+            "title": "Historik",
+            "all": "Alle",
+            "filterLabel": "Vis hændelser af typen",
+            "empty": "Ingen hændelser endnu.",
+            "showMore": "Vis flere",
+            "open": "Åbn",
+            "staff": "CitizenOne",
+            "loadFailed": "Historikken kunne ikke hentes.",
+            "number": "nr. {number}",
+            "types": {
+                "company": "Virksomhed",
+                "account": "Konti",
+                "license": "Licenser",
+                "invoice": "Fakturaer",
+                "payment": "Betalinger",
+                "agreement": "Aftaler",
+                "billing": "Betalingsform",
+                "access": "Adgang"
+            },
+            "economic": {
+                "no_invoice": "ingen faktura",
+                "finance": "faktureres fra e-conomic",
+                "pending": "afventer e-conomic",
+                "draft": "kladde i e-conomic",
+                "booked": "bogført",
+                "paid": "betalt",
+                "error": "fejl i e-conomic"
+            },
+            "kinds": {
+                "company_created": "Virksomheden oprettet",
+                "company_activated": "Virksomheden aktiveret",
+                "company_deactivated": "Virksomheden deaktiveret",
+                "company_renamed": "Omdøbt fra {from} til {to}",
+                "contract_cancelled": "Opsigelse registreret",
+                "contract_cancellation_withdrawn": "Opsigelse trukket tilbage",
+                "accounts_created": "Nye konti: {count}",
+                "license_order": "Licensordre: {quantity} stk. · {economic}",
+                "license_granted": "{quantity} licenser tildelt",
+                "license_removed": "Licens fjernet: {name}",
+                "plan_added": "Plan tilføjet: {name}",
+                "plan_changed": "Plan skiftet fra {from} til {to}",
+                "term_changed": "Bindingsperiode ændret",
+                "storage_granted": "Lager tildelt: {name}",
+                "storage_removed": "Lager fjernet: {name}",
+                "app_license_granted": "App-licenser tildelt: {quantity} × {name}",
+                "app_licenses_removed": "App-licenser fjernet: {quantity} × {name}",
+                "app_activated": "App slået til: {name}",
+                "app_deactivated": "App slået fra: {name}",
+                "app_trial_started": "Prøveperiode startet: {name}",
+                "app_trial_cancelled": "Prøveperiode opsagt",
+                "app_trial_resumed": "Prøveperiode genoptaget",
+                "invoice_created": "Faktura oprettet",
+                "invoice_resolved": "Faktura erstattet eller krediteret",
+                "economic_draft_requested": "Kladde bestilt i e-conomic",
+                "economic_draft_created": "Kladde oprettet i e-conomic",
+                "economic_booked": "Bogført og sendt fra e-conomic",
+                "invoice_paid": "Faktura betalt",
+                "invoice_reminder_sent": "Rykker {stage} sendt",
+                "payment_failed": "Betaling fejlede",
+                "payment_retried": "Betaling forsøgt igen",
+                "payment_resolved": "Betalingsproblem løst",
+                "card_link_sent": "Link til nyt kort sendt",
+                "renewal_link_requested": "Kunden bad om et betalingslink",
+                "company_suspended": "Lukket for manglende betaling",
+                "company_reopened": "Genåbnet",
+                "closure_postponed": "Lukning udsat til {until}",
+                "sent_to_collection": "Sendt til inkasso",
+                "written_off": "Gæld afskrevet",
+                "security_card_consent": "Kort som sikkerhed godkendt",
+                "security_card_notice": "Varsel før træk på sikkerhedskort",
+                "security_card_charge_started": "Træk på sikkerhedskort startet",
+                "security_card_charged": "Trukket på sikkerhedskort",
+                "security_card_declined": "Træk på sikkerhedskort afvist",
+                "security_card_revoked": "Sikkerhedskort trukket tilbage",
+                "billing_method_changed": "Betaling skiftet fra {from} til {to}",
+                "economic_number_set": "e-conomic kundenummer sat",
+                "agreement_created": "Aftale oprettet: {name}",
+                "agreement_updated": "Aftale ændret",
+                "agreement_renewed": "Aftale fornyet",
+                "agreement_cancelled": "Aftale opsagt: {name}",
+                "agreement_deleted": "Aftale slettet",
+                "agreement_accelerated": "Restbeløb på aftale opkrævet",
+                "agreement_linked": "Fakturaer eller licenser koblet til aftale",
+                "agreement_card_security": "Sikkerhedskort på aftale ændret",
+                "installments_settled": "Rate afregnet uden for CitizenOne",
+                "impersonation": "Logget ind som {name}",
+                "impersonation_break_glass": "Nødadgang som {name}",
+                "support_access_requested": "Supportadgang anmodet",
+                "support_access_approved": "Supportadgang godkendt",
+                "support_access_denied": "Supportadgang afvist",
+                "support_access_revoked": "Supportadgang trukket tilbage",
+                "support_access_decided": "Supportadgang besvaret"
+            }
         }
     },
     "support": {

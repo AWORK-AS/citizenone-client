@@ -13,55 +13,48 @@
 
             <div class="p-1 space-y-5">
                 <!-- Header + period -->
-                <div class="flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                            {{ $t('superadmin.orders.header') }}
-                        </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.orders.report.subtitle') }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <label class="text-[12px] text-[#5C6478]">{{ $t('superadmin.orders.report.from') }}</label>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.orders.header')"
+                    :subtitle="$t('superadmin.orders.report.subtitle')">
+                    <template #actions>
+                        <label class="text-[12px] text-ink-body">{{ $t('superadmin.orders.report.from') }}</label>
                         <input type="date" v-model="state.period.from" @change="onPeriodChange"
-                            class="text-xs border border-[#EAECF0] rounded-lg px-2 py-1.5 text-[#5C6478] bg-white outline-none focus:border-[#42AED9]" />
-                        <label class="text-[12px] text-[#5C6478]">{{ $t('superadmin.orders.report.to') }}</label>
+                            class="text-xs border border-line rounded-lg px-2 py-1.5 text-ink-body bg-white outline-none focus:border-accent" />
+                        <label class="text-[12px] text-ink-body">{{ $t('superadmin.orders.report.to') }}</label>
                         <input type="date" v-model="state.period.to" @change="onPeriodChange"
-                            class="text-xs border border-[#EAECF0] rounded-lg px-2 py-1.5 text-[#5C6478] bg-white outline-none focus:border-[#42AED9]" />
-                    </div>
-                </div>
+                            class="text-xs border border-line rounded-lg px-2 py-1.5 text-ink-body bg-white outline-none focus:border-accent" />
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <!-- Key figures -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="co-stat-card" style="--accent:#2E9E33">
+                    <div class="co-stat-card [--accent:theme(colors.success.DEFAULT)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.revenue') }}</p>
-                        <p class="co-stat-value text-[#2E9E33]">{{ dkk(summary.revenue) }}</p>
+                        <p class="co-stat-value text-success">{{ dkk(summary.revenue) }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.revenueSub', { new: dkk(summary.new_revenue), recurring: dkk(summary.recurring_revenue) }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card" style="--accent:#0B6FA4">
+                    <div class="co-stat-card [--accent:theme(colors.secondary.DEFAULT)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.ordersCount') }}</p>
                         <p class="co-stat-value">{{ summary.orders }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.ordersSub', { new: summary.new_orders, recurring: summary.recurring_orders }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card" style="--accent:#2DBAB2">
+                    <div class="co-stat-card [--accent:theme(colors.secondary.400)]">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.average') }}</p>
                         <p class="co-stat-value">{{ dkk(summary.average_order) }}</p>
                         <p class="co-stat-sub">
                             {{ $t('superadmin.orders.report.averageSub', { count: summary.buying_companies }) }}
                         </p>
                     </div>
-                    <div class="co-stat-card cursor-pointer hover:shadow-md transition-shadow" style="--accent:#CC3B2D"
+                    <div class="co-stat-card cursor-pointer hover:shadow-md transition-shadow [--accent:theme(colors.danger.DEFAULT)]"
                         @click="filterByStatus('failed')">
                         <p class="co-stat-label">{{ $t('superadmin.orders.report.attention') }}</p>
-                        <p class="co-stat-value" :class="summary.failed_orders > 0 ? 'text-[#CC3B2D]' : ''">
+                        <p class="co-stat-value" :class="summary.failed_orders > 0 ? 'text-danger' : ''">
                             {{ summary.failed_orders + summary.pending_orders }}
                         </p>
                         <p class="co-stat-sub">
@@ -72,47 +65,47 @@
 
                 <!-- Monthly + top products -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                    <div class="lg:col-span-2 bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5">
-                        <h2 class="text-[13px] font-semibold text-[#1F2533] mb-3">
+                    <div class="lg:col-span-2 bg-white border border-line rounded-xl shadow-sm p-5">
+                        <h2 class="text-[13px] font-semibold text-ink mb-3">
                             {{ $t('superadmin.orders.report.monthly') }}
                         </h2>
                         <div v-if="state.loading.isFetchingOverview" class="flex justify-center py-10">
-                            <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
+                            <Icon name="ph:spinner" class="w-6 h-6 text-accent animate-spin" />
                         </div>
                         <ModulesSuperadminOrdersMonthlyChart v-else :months="state.overview?.monthly ?? []" :format="dkk" />
                     </div>
 
-                    <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-                        <div class="px-5 py-4 border-b border-[#EAECF0]">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                    <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
+                        <div class="px-5 py-4 border-b border-line">
+                            <h2 class="text-[13px] font-semibold text-ink">
                                 {{ $t('superadmin.orders.report.topProducts') }}
                             </h2>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5">
+                            <p class="text-[11px] text-ink-muted mt-0.5">
                                 {{ $t('superadmin.orders.report.topProductsHint') }}
                             </p>
                         </div>
-                        <div v-if="!products.length" class="px-5 py-8 text-center text-[13px] text-[#8891A4]">
+                        <div v-if="!products.length" class="px-5 py-8 text-center text-[13px] text-ink-muted">
                             {{ $t('superadmin.orders.report.noProducts') }}
                         </div>
                         <button v-for="product in products" :key="`${product.kind}-${product.id}`" type="button"
-                            class="w-full text-left px-5 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors"
-                            :class="isSelectedProduct(product) ? 'bg-[#F0FAF9]' : ''"
+                            class="w-full text-left px-5 py-3 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle transition-colors"
+                            :class="isSelectedProduct(product) ? 'bg-secondary-25' : ''"
                             @click="filterByProduct(product)">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="min-w-0">
-                                    <p class="text-[13px] font-medium text-[#1F2533] truncate">{{ product.name ?? '—' }}</p>
-                                    <p class="text-[11px] text-[#8891A4]">
+                                    <p class="text-[13px] font-medium text-ink truncate">{{ product.name ?? '—' }}</p>
+                                    <p class="text-[11px] text-ink-muted">
                                         {{ kindLabel(product.kind) }} ·
                                         {{ $t('superadmin.orders.report.sold', { quantity: product.quantity, orders: product.orders }) }}
                                     </p>
                                 </div>
-                                <span class="text-[13px] font-semibold text-[#1F2533] tabular-nums shrink-0">
+                                <span class="text-[13px] font-semibold text-ink tabular-nums shrink-0">
                                     {{ dkk(product.revenue) }}
                                 </span>
                             </div>
                             <!-- Share of the period's revenue as a thin bar -->
-                            <div class="h-1 bg-[#F0F1F4] rounded-full mt-1.5 overflow-hidden">
-                                <div class="h-full rounded-full bg-[#2DBAB2]" :style="{ width: `${productShare(product)}%` }"></div>
+                            <div class="h-1 bg-surface-canvas rounded-full mt-1.5 overflow-hidden">
+                                <div class="h-full rounded-full bg-secondary-400" :style="{ width: `${productShare(product)}%` }"></div>
                             </div>
                         </button>
                     </div>
@@ -121,27 +114,27 @@
                 <!-- Orders -->
                 <div class="space-y-3">
                     <div class="flex flex-wrap items-center gap-2">
-                        <h2 class="text-[13px] font-semibold text-[#1F2533] mr-2">{{ $t('superadmin.orders.report.list') }}</h2>
+                        <h2 class="text-[13px] font-semibold text-ink mr-2">{{ $t('superadmin.orders.report.list') }}</h2>
                         <div class="flex-1 min-w-[220px]">
                             <SuperadminTableSearch v-model="state.filters.search"
                                 :placeholder="$t('superadmin.orders.report.search')" @input="debouncedSearch" />
                         </div>
                         <select v-model="state.filters.type" @change="refetchOrders"
-                            class="text-[13px] border border-[#EAECF0] rounded-lg px-2 py-2 bg-white text-[#1F2533]">
+                            class="text-[13px] border border-line rounded-lg px-2 py-2 bg-white text-ink">
                             <option value="">{{ $t('superadmin.orders.report.allTypes') }}</option>
                             <option value="new">{{ $t('superadmin.orders.report.typeNew') }}</option>
                             <option value="recurring">{{ $t('superadmin.orders.report.typeRecurring') }}</option>
                             <option value="sms-credit">{{ $t('superadmin.orders.report.typeSms') }}</option>
                         </select>
                         <select v-model="state.filters.status" @change="refetchOrders"
-                            class="text-[13px] border border-[#EAECF0] rounded-lg px-2 py-2 bg-white text-[#1F2533]">
+                            class="text-[13px] border border-line rounded-lg px-2 py-2 bg-white text-ink">
                             <option value="">{{ $t('superadmin.orders.report.allStatuses') }}</option>
                             <option value="paid">{{ $t('superadmin.orders.report.statusPaid') }}</option>
                             <option value="pending">{{ $t('superadmin.orders.report.statusPending') }}</option>
                             <option value="failed">{{ $t('superadmin.orders.report.statusFailed') }}</option>
                         </select>
                         <button v-if="state.filters.product" type="button"
-                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[12px] font-medium bg-[#F0FAF9] text-[#1B6D8A] border border-[#2DBAB2]/40"
+                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-[12px] font-medium bg-secondary-25 text-secondary border border-secondary-400/40"
                             :title="$t('superadmin.orders.report.clearFilter')" @click="clearProduct">
                             {{ $t('superadmin.orders.report.filterProduct', { name: state.filters.product.name }) }}
                             <Icon name="ph:x" class="w-3 h-3" />
@@ -153,21 +146,21 @@
                         emptyIcon="ph:receipt" rowKey="uuid">
                         <template #body>
                             <tr v-for="order in state.orders?.data" :key="order.uuid"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] text-[#5C6478] whitespace-nowrap">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
+                                <td class="co-td text-[13px] text-ink-body whitespace-nowrap">
                                     {{ formatDateToReadable(order.created_at) }}
                                 </td>
                                 <td class="co-td text-[13px]">
                                     <NuxtLink v-if="order.company" :to="`/superadmin/companies/${order.company.uuid}/license-overview`"
-                                        class="font-medium text-[#1F2533] hover:underline">
+                                        class="font-medium text-ink hover:underline">
                                         {{ order.company.name }}
                                     </NuxtLink>
-                                    <span v-else class="text-[#8891A4]">—</span>
+                                    <span v-else class="text-ink-muted">—</span>
                                 </td>
                                 <td class="co-td">
                                     <div class="flex flex-wrap gap-1">
                                         <span v-for="(product, i) in order.products" :key="i"
-                                            class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-[#F5F6F8] text-[#1F2533]">
+                                            class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium bg-surface-canvas text-ink">
                                             {{ product.quantity }} × {{ product.name ?? kindLabel(product.kind) }}
                                         </span>
                                     </div>
@@ -188,12 +181,12 @@
                                     </span>
                                 </td>
                                 <td class="co-td text-right whitespace-nowrap">
-                                    <p class="text-[13px] font-semibold text-[#1F2533] tabular-nums">{{ dkk(order.net_amount) }}</p>
-                                    <p class="text-[11px] text-[#8891A4] tabular-nums">
+                                    <p class="text-[13px] font-semibold text-ink tabular-nums">{{ dkk(order.net_amount) }}</p>
+                                    <p class="text-[11px] text-ink-muted tabular-nums">
                                         {{ $t('superadmin.orders.report.inclVat', { amount: dkk(order.total_amount) }) }}
                                     </p>
                                 </td>
-                                <td class="co-td text-[12px] text-[#8891A4] font-mono">
+                                <td class="co-td text-[12px] text-ink-muted font-mono">
                                     <NuxtLink :to="`/superadmin/invoices/${order.uuid}/invoice-details`" class="hover:underline">
                                         #{{ order.invoice_number }}
                                     </NuxtLink>
@@ -373,7 +366,7 @@ function statusIcon(status: string) {
 }
 
 function statusClass(status: string) {
-    return { paid: 'text-[#2E9E33]', failed: 'text-[#CC3B2D]' }[status] ?? 'text-[#D4900A]'
+    return { paid: 'text-success', failed: 'text-danger' }[status] ?? 'text-warning'
 }
 
 function previous() {
@@ -390,7 +383,7 @@ function next() {
 <style scoped>
 .co-stat-card {
     background: white;
-    border: 1px solid #EAECF0;
+    border: 1px solid theme('colors.line.DEFAULT');
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -406,13 +399,13 @@ function next() {
     right: 0;
     height: 3px;
     border-radius: 12px 12px 0 0;
-    background: var(--accent, #42AED9);
+    background: var(--accent, theme('colors.accent.DEFAULT'));
 }
 
 .co-stat-label {
     font-size: 10px;
     font-weight: 700;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     text-transform: uppercase;
     letter-spacing: 0.07em;
 }
@@ -420,14 +413,14 @@ function next() {
 .co-stat-value {
     font-size: 24px;
     font-weight: 800;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     line-height: 1.1;
     margin-top: 6px;
 }
 
 .co-stat-sub {
     font-size: 11px;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
     margin-top: 4px;
 }
 </style>

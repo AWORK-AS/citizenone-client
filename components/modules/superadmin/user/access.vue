@@ -1,18 +1,18 @@
 <template>
-    <div class="border border-[#EAECF0] rounded-xl px-4 py-4 space-y-4">
+    <div class="border border-line rounded-xl px-4 py-4 space-y-4">
         <div>
             <label class="co-label">{{ $t('superadmin.teamRoles.person.role') }}</label>
             <select v-model="teamRole" class="co-input">
                 <option v-for="role in roles" :key="role.id" :value="role.name">{{ role.label }}</option>
             </select>
-            <p class="text-[11px] text-[#8891A4] mt-1">{{ $t('superadmin.teamRoles.person.roleHint') }}</p>
+            <p class="text-[11px] text-ink-muted mt-1">{{ $t('superadmin.teamRoles.person.roleHint') }}</p>
         </div>
 
         <div v-if="selectable.length">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                 <label v-for="permission in selectable" :key="permission.name"
-                    class="flex items-start gap-2 text-sm text-[#1F2533] cursor-pointer">
-                    <input type="checkbox" class="mt-0.5 size-4 rounded border-[#CBD2DD] text-[#205E77]"
+                    class="flex items-start gap-2 text-sm text-ink cursor-pointer">
+                    <input type="checkbox" class="mt-0.5 size-4 rounded border-line-strong text-tertiary"
                         :checked="isEffective(permission.name)" @change="toggle(permission.name)" />
                     <span>
                         {{ permission.label }}
@@ -20,11 +20,11 @@
                              ingenting at fortælle, og et mærke ved hver linje ville skjule de
                              to der betyder noget. -->
                         <span v-if="deviation(permission.name) === 'added'"
-                            class="ml-1 text-[10px] font-semibold text-[#2E9E33]">
+                            class="ml-1 text-[10px] font-semibold text-success">
                             + {{ $t('superadmin.teamRoles.person.extra') }}
                         </span>
                         <span v-else-if="deviation(permission.name) === 'removed'"
-                            class="ml-1 text-[10px] font-semibold text-[#CC3B2D]">
+                            class="ml-1 text-[10px] font-semibold text-danger">
                             &minus; {{ $t('superadmin.teamRoles.person.revoked') }}
                         </span>
                     </span>

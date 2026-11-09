@@ -8,34 +8,30 @@
             <template #header>{{ $t('superadmin.industries.pageTitle') }}</template>
 
             <div class="p-1">
-                <div class="flex items-center justify-between mb-5">
-                    <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                        {{ $t('superadmin.industries.pageTitle') }}
-                    </h1>
-                    <div class="text-sm text-[#5C6478]">
-                        {{ $t('superadmin.industries.configuredCount', { configured: configuredCount, total: industries.length }) }}
-                    </div>
-                </div>
-
-                <p class="text-sm text-[#5C6478] mb-4 max-w-3xl">
-                    {{ $t('superadmin.industries.description') }}
-                </p>
+                <ModulesSuperadminPageHeader :title="$t('superadmin.industries.pageTitle')"
+                    :subtitle="$t('superadmin.industries.description')">
+                    <template #actions>
+                        <div class="text-sm text-ink-body">
+                            {{ $t('superadmin.industries.configuredCount', { configured: configuredCount, total: industries.length }) }}
+                        </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error?.message?.length > 0" />
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="!industries.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                <div v-else class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
+                    <div v-if="!industries.length" class="flex flex-col items-center gap-3 py-16 text-ink-muted">
                         <Icon name="ph:buildings" class="w-12 h-12 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.industries.noIndustries') }}</p>
                     </div>
                     <table v-else class="w-full">
                         <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                            <tr class="border-b border-line bg-surface-subtle">
                                 <th class="co-th">{{ $t('superadmin.industries.colIndustry') }}</th>
                                 <th class="co-th">{{ $t('superadmin.industries.colWord') }}</th>
                                 <th class="co-th">{{ $t('superadmin.industries.colModules') }}</th>
@@ -46,21 +42,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="industry in industries" :key="industry.uuid"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] font-semibold text-[#1F2533]">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
+                                <td class="co-td text-[13px] font-semibold text-ink">
                                     {{ industry.dk_name || industry.en_name }}
                                     <span v-if="industry.system_name"
-                                        class="ml-2 text-[11px] font-normal text-[#8891A4]">{{ industry.system_name }}</span>
+                                        class="ml-2 text-[11px] font-normal text-ink-muted">{{ industry.system_name }}</span>
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ industry.effective_terms?.dk?.term_citizens || '-' }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ industry.all_pages
                                         ? $t('superadmin.industries.allModules')
                                         : $t('superadmin.industries.someModules', { count: industry.page_ids.length, total: pages.length }) }}
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
+                                <td class="co-td text-[13px] text-ink-body">
                                     {{ appNames(industry) || $t('superadmin.industries.noApps') }}
                                 </td>
                                 <td class="co-td">
@@ -87,17 +83,17 @@
 
             <Modal size="lg" :show="state.modal.isFormOpen" @close="state.modal.isFormOpen = false">
                 <template #modal-body>
-                    <h3 class="text-base font-semibold text-[#1F2533] mb-1">
+                    <h3 class="text-base font-semibold text-ink mb-1">
                         {{ state.selected?.dk_name || state.selected?.en_name }}
                     </h3>
-                    <p class="text-[13px] text-[#5C6478] mb-4">
+                    <p class="text-[13px] text-ink-body mb-4">
                         {{ $t('superadmin.industries.modalHelp') }}
                     </p>
 
                     <Alert type="danger" :text="state.formError?.message"
                         v-if="state.formError?.message && state.formError?.message?.length > 0" />
 
-                    <div class="flex gap-1 mb-4 border-b border-[#EAECF0]">
+                    <div class="flex gap-1 mb-4 border-b border-line">
                         <button v-for="locale in LOCALES" :key="locale" class="co-tab"
                             :class="{ 'co-tab-active': state.locale === locale }" @click="state.locale = locale">
                             {{ $t('superadmin.industries.locale.' + locale) }}
@@ -113,51 +109,51 @@
                         </div>
                     </div>
 
-                    <p class="text-[12px] text-[#8891A4] mt-2">
+                    <p class="text-[12px] text-ink-muted mt-2">
                         {{ $t('superadmin.industries.termsHint') }}
                     </p>
 
                     <div class="mt-6">
                         <div class="flex items-center justify-between mb-2">
-                            <h4 class="text-[13px] font-semibold text-[#1F2533]">
+                            <h4 class="text-[13px] font-semibold text-ink">
                                 {{ $t('superadmin.industries.modules') }}
                             </h4>
-                            <button class="text-[12px] text-[#205E77] hover:underline" @click="state.form.page_ids = []">
+                            <button class="text-[12px] text-tertiary hover:underline" @click="state.form.page_ids = []">
                                 {{ $t('superadmin.industries.selectAll') }}
                             </button>
                         </div>
-                        <p class="text-[12px] text-[#8891A4] mb-3">
+                        <p class="text-[12px] text-ink-muted mb-3">
                             {{ state.form.page_ids.length
                                 ? $t('superadmin.industries.modulesNarrowed', { count: state.form.page_ids.length, total: pages.length })
                                 : $t('superadmin.industries.modulesAll') }}
                         </p>
                         <div class="grid grid-cols-3 gap-2 max-h-56 overflow-y-auto pr-1">
                             <label v-for="page in pages" :key="page.id"
-                                class="flex items-center gap-2 text-[13px] text-[#5C6478] cursor-pointer">
+                                class="flex items-center gap-2 text-[13px] text-ink-body cursor-pointer">
                                 <input type="checkbox" :value="page.id" v-model="state.form.page_ids"
-                                    class="rounded border-[#D5D9E2]" />
+                                    class="rounded border-line-strong" />
                                 {{ page.name }}
                             </label>
                         </div>
                     </div>
 
                     <div class="mt-6">
-                        <h4 class="text-[13px] font-semibold text-[#1F2533] mb-1">
+                        <h4 class="text-[13px] font-semibold text-ink mb-1">
                             {{ $t('superadmin.industries.apps') }}
                         </h4>
-                        <p class="text-[12px] text-[#8891A4] mb-1">
+                        <p class="text-[12px] text-ink-muted mb-1">
                             {{ $t('superadmin.industries.appsHelp') }}
                         </p>
-                        <p class="text-[12px] text-[#8891A4] mb-3">
+                        <p class="text-[12px] text-ink-muted mb-3">
                             {{ state.form.application_ids.length
                                 ? $t('superadmin.industries.appsCount', { count: state.form.application_ids.length }, state.form.application_ids.length)
                                 : $t('superadmin.industries.appsNone') }}
                         </p>
                         <div class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1">
                             <label v-for="app in applications" :key="app.id"
-                                class="flex items-center gap-2 text-[13px] text-[#5C6478] cursor-pointer">
+                                class="flex items-center gap-2 text-[13px] text-ink-body cursor-pointer">
                                 <input type="checkbox" :value="app.id" v-model="state.form.application_ids"
-                                    class="rounded border-[#D5D9E2]" />
+                                    class="rounded border-line-strong" />
                                 {{ app.name }}
                                 <span v-if="state.form.application_ids.includes(app.id)"
                                     :class="app.is_free ? 'co-pill-default' : 'co-pill-set'">
@@ -345,7 +341,7 @@ async function save() {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #8891A4
+    color: theme('colors.ink.muted')
 }
 
 .co-td {
@@ -356,29 +352,29 @@ async function save() {
 .co-input {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 8px;
     font-size: 13px;
-    color: #1F2533
+    color: theme('colors.ink.DEFAULT')
 }
 
 .co-input:focus {
     outline: none;
-    border-color: #42AED9
+    border-color: theme('colors.accent.DEFAULT')
 }
 
 .co-tab {
     padding: 8px 14px;
     font-size: 13px;
-    color: #5C6478;
+    color: theme('colors.ink.body');
     border-bottom: 2px solid transparent;
     cursor: pointer
 }
 
 .co-tab-active {
-    color: #205E77;
+    color: theme('colors.tertiary.DEFAULT');
     font-weight: 600;
-    border-bottom-color: #205E77
+    border-bottom-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-pill-set {
@@ -387,8 +383,8 @@ async function save() {
     border-radius: 999px;
     font-size: 11px;
     font-weight: 500;
-    background: #E8F4F8;
-    color: #205E77
+    background: theme('colors.tertiary.soft');
+    color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-pill-default {
@@ -397,8 +393,8 @@ async function save() {
     border-radius: 999px;
     font-size: 11px;
     font-weight: 500;
-    background: #F5F6F8;
-    color: #8891A4
+    background: theme('colors.surface.canvas');
+    color: theme('colors.ink.muted')
 }
 
 .co-action-btn {
@@ -410,15 +406,15 @@ async function save() {
     font-size: 12px;
     font-weight: 500;
     background: white;
-    color: #205E77;
-    border: 1px solid #D5D9E2;
+    color: theme('colors.tertiary.DEFAULT');
+    border: 1px solid theme('colors.line.strong');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-action-btn:hover {
-    background: #F5F6F8;
-    border-color: #205E77
+    background: theme('colors.surface.canvas');
+    border-color: theme('colors.tertiary.DEFAULT')
 }
 
 .co-btn-primary {
@@ -429,15 +425,15 @@ async function save() {
     border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
-    background: #205E77;
+    background: theme('colors.tertiary.DEFAULT');
     color: white;
-    border: 1px solid #205E77;
+    border: 1px solid theme('colors.tertiary.DEFAULT');
     transition: all 0.15s;
     cursor: pointer
 }
 
 .co-btn-primary:hover {
-    background: #18485C
+    background: theme('colors.tertiary.700')
 }
 
 .co-btn-primary:disabled {

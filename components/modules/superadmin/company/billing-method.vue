@@ -17,7 +17,7 @@
             <p v-if="!canManage" class="text-[13px] text-gray-500">{{ $t('paymentDunning.company.readOnly') }}</p>
 
             <p v-if="state.saved.under_agreement || props.underAgreement"
-                class="flex items-start gap-2 rounded-lg bg-[#E4F1F6] px-3 py-2 text-[13px] text-[#205E77]">
+                class="flex items-start gap-2 rounded-lg bg-tertiary-soft px-3 py-2 text-[13px] text-tertiary">
                 <Icon name="ph:handshake" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
                 {{ $t('paymentDunning.company.agreementNote') }}
             </p>
@@ -29,8 +29,8 @@
                         position="top" wrap class="!block">
                         <label class="flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors"
                             :class="state.form.billing_method === option
-                                ? 'border-[#0F4C75] bg-[#EEF4FB]' : 'border-gray-200 hover:bg-gray-50'">
-                            <input type="radio" name="billing_method" class="text-[#0F4C75]" :value="option"
+                                ? 'border-primary bg-info-soft' : 'border-gray-200 hover:bg-gray-50'">
+                            <input type="radio" name="billing_method" class="text-primary" :value="option"
                                 v-model="state.form.billing_method" />
                             <Icon :name="option === 'card' ? 'ph:credit-card' : 'ph:file-text'" class="w-4 h-4 text-gray-500" aria-hidden="true" />
                             <span class="text-sm font-medium text-gray-800">{{ $t(`paymentDunning.company.${option}`) }}</span>
@@ -122,6 +122,8 @@ const props = defineProps({
     underAgreement: { type: Boolean, default: false },
 })
 const emit = defineEmits(['saved'])
+// The company header shows how the company pays.
+const { refresh: refreshCompanySummary } = useCompanySummary(props.companyUuid)
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
@@ -173,6 +175,7 @@ async function save() {
         apply(await billingService.saveBillingMethod(props.companyUuid, billingMethodPayload(state.form)))
         successAlert(`${t('alert.success')}!`, t('paymentDunning.company.saved'))
         emit('saved', state.saved)
+        refreshCompanySummary()
     } catch (error: any) {
         state.error = error?.message || t('paymentDunning.company.saveFailed')
     }

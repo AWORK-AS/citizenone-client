@@ -1,64 +1,64 @@
 <template>
     <div class="space-y-5">
         <div v-if="state.isLoading" class="flex justify-center py-16">
-            <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+            <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
         </div>
 
         <template v-else>
             <!-- What the store is worth, before any per-app detail. -->
             <dl class="grid grid-cols-2 gap-3 md:grid-cols-5">
-                <div class="rounded-xl border border-[#EAECF0] bg-white px-4 py-3" v-for="tile in tiles" :key="tile.label">
-                    <dt class="text-[10px] font-semibold uppercase tracking-wider text-[#8891A4]">{{ tile.label }}</dt>
-                    <dd class="mt-1.5 text-[22px] font-semibold tabular-nums text-[#1F2533]" :class="tile.tone">
+                <div class="rounded-xl border border-line bg-white px-4 py-3" v-for="tile in tiles" :key="tile.label">
+                    <dt class="text-[10px] font-semibold uppercase tracking-wider text-ink-muted">{{ tile.label }}</dt>
+                    <dd class="mt-1.5 text-[22px] font-semibold tabular-nums text-ink" :class="tile.tone">
                         {{ tile.value }}
                     </dd>
-                    <span class="text-[11px] text-[#8891A4]">{{ tile.hint }}</span>
+                    <span class="text-[11px] text-ink-muted">{{ tile.hint }}</span>
                 </div>
             </dl>
 
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <!-- Best sellers by monthly revenue. One measure, one hue. -->
-                <section class="rounded-xl border border-[#EAECF0] bg-white p-5">
+                <section class="rounded-xl border border-line bg-white p-5">
                     <header class="mb-4 flex items-baseline justify-between gap-3">
-                        <h2 class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.apps.sales.bestSelling') }}</h2>
-                        <span class="text-[11px] text-[#8891A4]">{{ $t('superadmin.apps.sales.perMonthExVat') }}</span>
+                        <h2 class="text-[14px] font-semibold text-ink">{{ $t('superadmin.apps.sales.bestSelling') }}</h2>
+                        <span class="text-[11px] text-ink-muted">{{ $t('superadmin.apps.sales.perMonthExVat') }}</span>
                     </header>
                     <div class="space-y-2.5">
                         <div v-for="row in topSellers" :key="row.uuid" class="grid grid-cols-[7.5rem_1fr_5rem] items-center gap-3">
-                            <span class="truncate text-[12px] text-[#5C6478]">{{ row.name }}</span>
-                            <span class="h-3.5 overflow-hidden rounded bg-[#F1F4F8]">
-                                <span class="block h-full rounded-r bg-[#1B6D8A]" :style="`width:${barWidth(row)}%`" />
+                            <span class="truncate text-[12px] text-ink-body">{{ row.name }}</span>
+                            <span class="h-3.5 overflow-hidden rounded bg-surface-canvas">
+                                <span class="block h-full rounded-r bg-secondary" :style="`width:${barWidth(row)}%`" />
                             </span>
-                            <span class="text-right text-[12px] font-semibold tabular-nums text-[#1F2533]">
+                            <span class="text-right text-[12px] font-semibold tabular-nums text-ink">
                                 {{ formatAmount(row.monthly_revenue) }}
                             </span>
                         </div>
-                        <p v-if="!topSellers.length" class="py-6 text-center text-[12px] text-[#8891A4]">
+                        <p v-if="!topSellers.length" class="py-6 text-center text-[12px] text-ink-muted">
                             {{ $t('superadmin.apps.sales.nothingSoldYet') }}
                         </p>
                     </div>
                 </section>
 
                 <!-- New minus cancelled. Up is green, down is amber; the sign is on the label too. -->
-                <section class="rounded-xl border border-[#EAECF0] bg-white p-5">
+                <section class="rounded-xl border border-line bg-white p-5">
                     <header class="mb-4 flex items-baseline justify-between gap-3">
-                        <h2 class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.apps.sales.netChange') }}</h2>
-                        <span class="text-[11px] text-[#8891A4]">{{ $t('superadmin.apps.sales.newMinusCancelled') }}</span>
+                        <h2 class="text-[14px] font-semibold text-ink">{{ $t('superadmin.apps.sales.netChange') }}</h2>
+                        <span class="text-[11px] text-ink-muted">{{ $t('superadmin.apps.sales.newMinusCancelled') }}</span>
                     </header>
                     <div class="flex h-36 items-stretch gap-2">
                         <div v-for="month in state.netChange" :key="month.month" class="flex flex-1 flex-col items-center">
                             <div class="flex flex-1 w-full items-end justify-center">
                                 <span v-if="month.net > 0" class="flex flex-col items-center">
-                                    <span class="mb-1 text-[11px] font-semibold tabular-nums text-[#0F8A5F]">+{{ month.net }}</span>
-                                    <span class="w-6 rounded-t bg-[#0F8A5F]" :style="`height:${columnHeight(month.net)}px`" />
+                                    <span class="mb-1 text-[11px] font-semibold tabular-nums text-success">+{{ month.net }}</span>
+                                    <span class="w-6 rounded-t bg-success" :style="`height:${columnHeight(month.net)}px`" />
                                 </span>
                             </div>
-                            <div class="flex w-full flex-1 flex-col items-center border-t border-[#EAECF0]">
+                            <div class="flex w-full flex-1 flex-col items-center border-t border-line">
                                 <span v-if="month.net < 0" class="flex flex-col items-center">
-                                    <span class="w-6 rounded-b bg-[#C2410C]" :style="`height:${columnHeight(month.net)}px`" />
-                                    <span class="mt-1 text-[11px] font-semibold tabular-nums text-[#C2410C]">{{ month.net }}</span>
+                                    <span class="w-6 rounded-b bg-warning-ink" :style="`height:${columnHeight(month.net)}px`" />
+                                    <span class="mt-1 text-[11px] font-semibold tabular-nums text-warning-ink">{{ month.net }}</span>
                                 </span>
-                                <span class="mt-1 text-[10px] text-[#8891A4]">{{ monthLabel(month.month) }}</span>
+                                <span class="mt-1 text-[10px] text-ink-muted">{{ monthLabel(month.month) }}</span>
                             </div>
                         </div>
                     </div>
@@ -66,10 +66,10 @@
             </div>
 
             <!-- App by app -->
-            <section class="overflow-x-auto rounded-xl border border-[#EAECF0] bg-white">
+            <section class="overflow-x-auto rounded-xl border border-line bg-white">
                 <table class="w-full min-w-[46rem]">
                     <thead>
-                        <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                        <tr class="border-b border-line bg-surface-subtle">
                             <th class="co-th">{{ $t('superadmin.apps.sales.colApp') }}</th>
                             <th class="co-th text-right">{{ $t('superadmin.apps.sales.colActive') }}</th>
                             <th class="co-th text-right">{{ $t('superadmin.apps.sales.colNew') }}</th>
@@ -80,23 +80,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row in sold" :key="row.uuid" class="border-b border-[#F5F6F8]">
+                        <tr v-for="row in sold" :key="row.uuid" class="border-b border-surface-canvas">
                             <td class="co-td">
-                                <span class="text-[13px] font-semibold text-[#1F2533]">{{ row.name }}</span>
-                                <span class="block text-[11px] text-[#8891A4]">{{ row.category || $t('superadmin.apps.sales.noCategory') }}</span>
+                                <span class="text-[13px] font-semibold text-ink">{{ row.name }}</span>
+                                <span class="block text-[11px] text-ink-muted">{{ row.category || $t('superadmin.apps.sales.noCategory') }}</span>
                             </td>
-                            <td class="co-td text-right text-[13px] font-semibold tabular-nums text-[#1F2533]">{{ row.active_subscriptions }}</td>
-                            <td class="co-td text-right text-[13px] tabular-nums text-[#0F8A5F]">+{{ row.new_last_30_days }}</td>
+                            <td class="co-td text-right text-[13px] font-semibold tabular-nums text-ink">{{ row.active_subscriptions }}</td>
+                            <td class="co-td text-right text-[13px] tabular-nums text-success">+{{ row.new_last_30_days }}</td>
                             <td class="co-td text-right text-[13px] tabular-nums"
-                                :class="row.cancelled_last_30_days > 0 ? 'text-[#C2410C]' : 'text-[#8891A4]'">
+                                :class="row.cancelled_last_30_days > 0 ? 'text-warning-ink' : 'text-ink-muted'">
                                 {{ row.cancelled_last_30_days > 0 ? '-' + row.cancelled_last_30_days : 0 }}
                             </td>
-                            <td class="co-td text-right text-[13px] font-semibold tabular-nums text-[#1F2533]">{{ formatAmount(row.monthly_revenue) }}</td>
-                            <td class="co-td text-right text-[13px] tabular-nums text-[#5C6478]">{{ row.share_of_customers }} %</td>
+                            <td class="co-td text-right text-[13px] font-semibold tabular-nums text-ink">{{ formatAmount(row.monthly_revenue) }}</td>
+                            <td class="co-td text-right text-[13px] tabular-nums text-ink-body">{{ row.share_of_customers }} %</td>
                             <td class="co-td">
                                 <svg width="62" height="20" viewBox="0 0 62 20" role="img"
                                     :aria-label="$t('superadmin.apps.sales.trendLabel', { name: row.name })">
-                                    <polyline :points="sparkline(row.trend)" fill="none" stroke="#1B6D8A" stroke-width="2"
+                                    <polyline :points="sparkline(row.trend)" fill="none" class="stroke-secondary" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </td>
@@ -106,20 +106,20 @@
             </section>
 
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <section class="rounded-xl border border-[#EAECF0] bg-white p-5" v-if="unsold.length">
-                    <h2 class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.apps.sales.neverSold') }}</h2>
-                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.apps.sales.neverSoldHint') }}</p>
+                <section class="rounded-xl border border-line bg-white p-5" v-if="unsold.length">
+                    <h2 class="text-[14px] font-semibold text-ink">{{ $t('superadmin.apps.sales.neverSold') }}</h2>
+                    <p class="mt-1 text-[12px] text-ink-muted">{{ $t('superadmin.apps.sales.neverSoldHint') }}</p>
                     <div class="mt-3 flex flex-wrap gap-2">
                         <span v-for="row in unsold" :key="row.uuid"
-                            class="rounded-lg border border-[#EAECF0] bg-[#F9FAFB] px-2.5 py-1 text-[12px] text-[#5C6478]">
+                            class="rounded-lg border border-line bg-surface-subtle px-2.5 py-1 text-[12px] text-ink-body">
                             {{ row.name }}
                         </span>
                     </div>
                 </section>
 
-                <section class="rounded-xl border border-dashed border-[#EAECF0] bg-[#F9FAFB] p-5" v-if="!state.viewsAreMeasured">
-                    <h2 class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.apps.sales.conversion') }}</h2>
-                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.apps.sales.conversionPending') }}</p>
+                <section class="rounded-xl border border-dashed border-line bg-surface-subtle p-5" v-if="!state.viewsAreMeasured">
+                    <h2 class="text-[14px] font-semibold text-ink">{{ $t('superadmin.apps.sales.conversion') }}</h2>
+                    <p class="mt-1 text-[12px] text-ink-muted">{{ $t('superadmin.apps.sales.conversionPending') }}</p>
                 </section>
             </div>
         </template>
@@ -166,13 +166,13 @@ const tiles = computed(() => [
         label: t('superadmin.apps.sales.newLast30'),
         value: `+${state.totals.new_last_30_days ?? 0}`,
         hint: '',
-        tone: 'text-[#0F8A5F]',
+        tone: 'text-success',
     },
     {
         label: t('superadmin.apps.sales.cancelledLast30'),
         value: `-${state.totals.cancelled_last_30_days ?? 0}`,
         hint: '',
-        tone: 'text-[#C2410C]',
+        tone: 'text-warning-ink',
     },
     {
         label: t('superadmin.apps.sales.oneTime12Months'),

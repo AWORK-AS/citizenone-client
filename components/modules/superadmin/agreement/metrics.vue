@@ -2,38 +2,38 @@
     <div v-if="hasData" class="space-y-4">
         <div class="grid grid-cols-2 gap-4" :class="showHeadline ? 'lg:grid-cols-5' : 'lg:grid-cols-4'">
             <!-- Contract MRR / ARR: the headline -->
-            <div v-if="showHeadline" class="co-metric-card" style="--accent:#2E9E33">
+            <div v-if="showHeadline" class="co-metric-card [--accent:theme(colors.success.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.contractMrr') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.contractMrr')" position="bottom" wrap>
-                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body"
                             :aria-label="$t('superadmin.metrics.help.contractMrr')" />
                     </Tooltip>
                 </div>
-                <p class="co-metric-value text-[#2E9E33]">{{ formatAmount(num(data.contract_mrr), 'DKK') }}</p>
+                <p class="co-metric-value text-success">{{ formatAmount(num(data.contract_mrr), 'DKK') }}</p>
                 <p class="co-metric-sub">
                     {{ $t('superadmin.metrics.contractArr', { amount: formatAmount(num(data.contract_arr), 'DKK') }) }}
                 </p>
             </div>
 
             <!-- Cash MRR. The 12-month total is the "Kontraheret, næste 12 mdr." card on Ledelse. -->
-            <div class="co-metric-card" style="--accent:#42AED9">
+            <div class="co-metric-card [--accent:theme(colors.accent.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.cashMrr') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.cashMrr')" position="bottom" wrap>
-                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body"
                             :aria-label="$t('superadmin.metrics.help.cashMrr')" />
                     </Tooltip>
                 </div>
-                <p class="co-metric-value text-[#205E77]">{{ formatAmount(num(data.cash_mrr), 'DKK') }}</p>
+                <p class="co-metric-value text-tertiary">{{ formatAmount(num(data.cash_mrr), 'DKK') }}</p>
             </div>
 
             <!-- Backlog -->
-            <div class="co-metric-card" style="--accent:#205E77">
+            <div class="co-metric-card [--accent:theme(colors.tertiary.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.backlog') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.backlog')" position="bottom" wrap>
-                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body"
                             :aria-label="$t('superadmin.metrics.help.backlog')" />
                     </Tooltip>
                 </div>
@@ -42,31 +42,31 @@
             </div>
 
             <!-- Outstanding -->
-            <div class="co-metric-card" style="--accent:#CC3B2D">
+            <div class="co-metric-card [--accent:theme(colors.danger.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.outstanding') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.outstanding')" position="bottom" wrap>
-                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body"
                             :aria-label="$t('superadmin.metrics.help.outstanding')" />
                     </Tooltip>
                 </div>
-                <p class="co-metric-value" :class="num(data.agreement_outstanding) > 0 ? 'text-[#CC3B2D]' : ''">
+                <p class="co-metric-value" :class="num(data.agreement_outstanding) > 0 ? 'text-danger' : ''">
                     {{ formatAmount(num(data.agreement_outstanding), 'DKK') }}
                 </p>
                 <p class="co-metric-sub">{{ $t('superadmin.metrics.outstandingSub') }}</p>
             </div>
 
             <!-- Bindings ending -->
-            <div class="co-metric-card" style="--accent:#E0A83D">
+            <div class="co-metric-card [--accent:theme(colors.warning.DEFAULT)]">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.bindingsEnding') }}</p>
                     <Tooltip :text="$t('superadmin.metrics.help.bindingsEnding')" position="bottom" wrap>
-                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle hover:text-ink-body"
                             :aria-label="$t('superadmin.metrics.help.bindingsEnding')" />
                     </Tooltip>
                     <Tooltip v-if="withoutPlan > 0" :text="$t('superadmin.metrics.help.renewalsWithoutPlan', { count: withoutPlan })"
                         position="bottom" wrap>
-                        <span class="co-badge bg-[#FEF3C7] text-[#B45309]" data-testid="renewals-without-plan">
+                        <span class="co-badge bg-warning-soft text-warning-ink" data-testid="renewals-without-plan">
                             <Icon name="ph:warning" class="w-3 h-3" aria-hidden="true" />
                             {{ withoutPlan }}
                         </span>
@@ -76,9 +76,9 @@
                     <Tooltip v-for="bucket in bindingBuckets" :key="bucket.key"
                         :text="$t('superadmin.metrics.bindingsWithin', { count: bucket.count, months: bucket.months })"
                         position="bottom" wrap>
-                        <div class="rounded-lg bg-[#F9FAFB] border border-[#EAECF0] px-2.5 py-1.5 text-center min-w-[52px]">
-                            <p class="text-[17px] font-bold leading-none text-[#1F2533]">{{ bucket.count }}</p>
-                            <p class="text-[10px] text-[#8891A4] mt-1">{{ $t('superadmin.metrics.monthsShort', { months: bucket.months }) }}</p>
+                        <div class="rounded-lg bg-surface-subtle border border-line px-2.5 py-1.5 text-center min-w-[52px]">
+                            <p class="text-[17px] font-bold leading-none text-ink">{{ bucket.count }}</p>
+                            <p class="text-[10px] text-ink-muted mt-1">{{ $t('superadmin.metrics.monthsShort', { months: bucket.months }) }}</p>
                         </div>
                     </Tooltip>
                 </div>
@@ -87,23 +87,23 @@
 
         <!-- The bindings that end soonest, each linking to the company's Aftaler tab -->
         <div v-if="showUpcoming && upcoming.length"
-            class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-            <div class="px-5 py-3 border-b border-[#EAECF0] flex items-center gap-1.5">
-                <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.metrics.upcomingTitle') }}</h2>
+            class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-3 border-b border-line flex items-center gap-1.5">
+                <h2 class="text-[13px] font-semibold text-ink">{{ $t('superadmin.metrics.upcomingTitle') }}</h2>
                 <Tooltip :text="$t('superadmin.metrics.help.upcoming')" position="top" wrap>
-                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                    <Icon name="ph:info" class="w-3.5 h-3.5 text-ink-subtle"
                         :aria-label="$t('superadmin.metrics.help.upcoming')" />
                 </Tooltip>
             </div>
             <NuxtLink v-for="row in upcoming" :key="row.agreement_uuid"
                 :to="`/superadmin/companies/${row.company_uuid}/agreements`"
-                class="flex items-center justify-between gap-3 px-5 py-2.5 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                class="flex items-center justify-between gap-3 px-5 py-2.5 border-b border-surface-canvas last:border-0 hover:bg-surface-subtle transition-colors">
                 <div class="min-w-0">
-                    <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                    <p class="text-[13px] font-medium text-ink truncate">
                         {{ row.company_name }}
-                        <span class="text-[#8891A4] font-normal">{{ row.agreement_name }}</span>
+                        <span class="text-ink-muted font-normal">{{ row.agreement_name }}</span>
                     </p>
-                    <p class="text-[11px] text-[#8891A4]">
+                    <p class="text-[11px] text-ink-muted">
                         {{ $t('superadmin.metrics.upcomingDates', {
                             ends: formatDateToReadable(row.ends_on), notice: formatDateToReadable(row.notice_deadline) }) }}
                     </p>
@@ -116,13 +116,13 @@
                             {{ row.auto_renews ? $t('superadmin.agreements.autoRenews') : $t('superadmin.metrics.noAutoRenew') }}
                         </span>
                     </Tooltip>
-                    <span class="text-[13px] font-semibold text-[#1F2533]">{{ formatAmount(num(row.contract_mrr), 'DKK') }}</span>
+                    <span class="text-[13px] font-semibold text-ink">{{ formatAmount(num(row.contract_mrr), 'DKK') }}</span>
                 </div>
             </NuxtLink>
         </div>
 
         <Tooltip :text="$t('superadmin.agreements.internal.help')" position="top" wrap>
-            <p class="text-[11px] text-[#8891A4] flex items-center gap-1.5">
+            <p class="text-[11px] text-ink-muted flex items-center gap-1.5">
                 <Icon name="ph:eye-slash" class="w-3.5 h-3.5" aria-hidden="true" />
                 {{ $t('superadmin.metrics.internalNote') }}
             </p>
@@ -176,7 +176,7 @@ const bindingBuckets = computed(() => {
 <style scoped>
 .co-metric-card {
     background: white;
-    border: 1px solid #EAECF0;
+    border: 1px solid theme('colors.line.DEFAULT');
     border-radius: 12px;
     padding: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -189,7 +189,7 @@ const bindingBuckets = computed(() => {
     position: absolute;
     inset: 0 0 auto 0;
     height: 3px;
-    background: var(--accent, #42AED9);
+    background: var(--accent, theme('colors.accent.DEFAULT'));
 }
 
 .co-metric-label {
@@ -197,7 +197,7 @@ const bindingBuckets = computed(() => {
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #8891A4;
+    color: theme('colors.ink.muted');
 }
 
 .co-metric-value {
@@ -205,12 +205,12 @@ const bindingBuckets = computed(() => {
     font-weight: 800;
     line-height: 1.1;
     margin-top: 6px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
 }
 
 .co-metric-sub {
     font-size: 12px;
-    color: #5C6478;
+    color: theme('colors.ink.body');
     margin-top: 4px;
 }
 </style>

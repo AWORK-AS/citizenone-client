@@ -1,9 +1,9 @@
 <template>
     <Tooltip v-if="notice.tone !== 'none'" :text="tooltip" position="top" wrap>
-        <span class="co-badge" :class="toneClass">
+        <ModulesSuperadminStatusPill :variant="variant" :dot="false">
             <Icon :name="notice.tone === 'ok' ? 'ph:calendar-check' : 'ph:bell-ringing'" class="w-3 h-3" aria-hidden="true" />
             {{ label }}
-        </span>
+        </ModulesSuperadminStatusPill>
     </Tooltip>
 </template>
 
@@ -36,9 +36,5 @@ const tooltip = computed(() => {
     return t(`superadmin.agreements.notice.${key}`, { date: props.deadline ? formatDateToReadable(props.deadline) : '' })
 })
 
-const toneClass = computed(() => ({
-    'co-badge-red': notice.value.tone === 'passed',
-    'bg-[#FEF3C7] text-[#B45309]': notice.value.tone === 'soon',
-    'co-badge-gray': notice.value.tone === 'ok',
-}))
+const variant = computed(() => notice.value.tone === 'passed' ? 'danger' : notice.value.tone === 'soon' ? 'warning' : 'neutral')
 </script>

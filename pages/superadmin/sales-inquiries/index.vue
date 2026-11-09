@@ -8,22 +8,15 @@
             <template #header>{{ $t('superadmin.salesInquiries.pageTitle') }}</template>
 
             <div class="p-1">
-                <div class="flex items-start justify-between mb-4 gap-4 flex-wrap">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                            {{ $t('superadmin.salesInquiries.pageTitle') }}
-                        </h1>
-                        <p class="text-sm text-[#5C6478] mt-1 max-w-2xl">
-                            {{ $t('superadmin.salesInquiries.description') }}
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-2">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.salesInquiries.pageTitle')"
+                    :subtitle="$t('superadmin.salesInquiries.description')">
+                    <template #actions>
                         <!-- List or board. The board is the same inquiries in the
                              same statuses; what it adds is moving one by hand. -->
-                        <div class="inline-flex rounded-lg border border-[#D5D9E2] overflow-hidden bg-white">
+                        <div class="inline-flex rounded-lg border border-line-strong overflow-hidden bg-white">
                             <button v-for="view in ['list', 'board']" :key="view" @click="selectView(view)" :class="[
                                 'inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium transition-colors',
-                                state.view === view ? 'bg-[#205E77] text-white' : 'text-[#5C6478] hover:bg-[#F5F6F8]',
+                                state.view === view ? 'bg-tertiary text-white' : 'text-ink-body hover:bg-surface-canvas',
                             ]">
                                 <Icon :name="view === 'list' ? 'ph:list' : 'ph:columns'" class="w-4 h-4" />
                                 {{ $t('superadmin.salesInquiries.views.' + view) }}
@@ -35,7 +28,7 @@
                              class on the input loses to the global stylesheet. -->
                         <div class="relative w-80 shrink-0">
                             <Icon name="ph:magnifying-glass"
-                                class="w-4 h-4 absolute left-[13px] top-1/2 -translate-y-1/2 text-[#8891A4] pointer-events-none" />
+                                class="w-4 h-4 absolute left-[13px] top-1/2 -translate-y-1/2 text-ink-muted pointer-events-none" />
                             <input v-model="state.filters.search" type="search" class="co-input"
                                 style="padding-left: 38px"
                                 :placeholder="$t('superadmin.salesInquiries.searchPlaceholder')"
@@ -49,8 +42,8 @@
                             <Icon name="ph:arrows-clockwise" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.refresh') }}
                         </button>
-                    </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error?.message?.length > 0" />
@@ -63,21 +56,21 @@
                         <button v-for="tab in statusTabs" :key="tab.key" @click="selectStatus(tab.key)" :class="[
                             'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
                             state.filters.status === tab.key
-                                ? 'bg-[#205E77] text-white border-[#205E77]'
-                                : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
+                                ? 'bg-tertiary text-white border-tertiary'
+                                : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                         ]">
                             {{ tabLabel(tab) }}
                             <span v-if="counts[tab.key] !== undefined" class="ml-1 opacity-70">{{ counts[tab.key] }}</span>
                         </button>
 
-                        <span class="w-px h-6 bg-[#EAECF0] mx-2"></span>
+                        <span class="w-px h-6 bg-line mx-2"></span>
                     </template>
 
                     <button @click="toggleAssigned('unassigned')" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
                         state.filters.assigned === 'unassigned'
-                            ? 'bg-[#42AED9] text-white border-[#42AED9]'
-                            : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
+                            ? 'bg-accent text-white border-accent'
+                            : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
                         {{ $t('superadmin.salesInquiries.unassigned') }}
                         <span v-if="counts.unassigned !== undefined" class="ml-1 opacity-70">{{ counts.unassigned }}</span>
@@ -85,8 +78,8 @@
                     <button @click="toggleAssigned('me')" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
                         state.filters.assigned === 'me'
-                            ? 'bg-[#42AED9] text-white border-[#42AED9]'
-                            : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
+                            ? 'bg-accent text-white border-accent'
+                            : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
                         {{ $t('superadmin.salesInquiries.mine') }}
                     </button>
@@ -96,13 +89,13 @@
                     <!-- Kilden står på sin egen række. Den krydser status og ejerskab frem for at
                          erstatte dem: "prisforespørgsler uden ejer" er det, salget faktisk leder
                          efter, og det kan kun lade sig gøre, når de tre rækker er uafhængige. -->
-                    <span class="text-[13px] text-[#8B93A7] mr-1">{{ $t('superadmin.salesInquiries.sourceLabel') }}</span>
+                    <span class="text-[13px] text-ink-muted mr-1">{{ $t('superadmin.salesInquiries.sourceLabel') }}</span>
 
                     <button v-for="tab in sourceTabs" :key="tab.key" @click="toggleSource(tab.key)" :class="[
                         'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
                         state.filters.source === tab.key
-                            ? 'bg-[#EEF6FA] text-[#205E77] border-[#42AED9]'
-                            : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
+                            ? 'bg-accent-soft text-tertiary border-accent'
+                            : 'bg-white text-ink-body border-line-strong hover:bg-surface-canvas',
                     ]">
                         {{ tabLabel(tab) }}
                         <span v-if="sourceCounts[tab.key] !== undefined" class="ml-1 opacity-70">{{ sourceCounts[tab.key] }}</span>
@@ -110,7 +103,7 @@
                 </div>
 
                 <div v-if="state.isLoading" class="flex justify-center py-16">
-                    <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
+                    <Icon name="ph:spinner" class="w-7 h-7 text-accent animate-spin" />
                 </div>
 
                 <!-- BOARD -->
@@ -119,8 +112,8 @@
                         <div v-for="status in orderedStatuses" :key="status"
                             class="w-[280px] shrink-0 rounded-xl border transition-colors"
                             :class="state.dragOverStatus === status
-                                ? 'border-[#42AED9] bg-[#F0F9FD]'
-                                : 'border-[#EAECF0] bg-[#F9FAFB]'"
+                                ? 'border-accent bg-accent-soft'
+                                : 'border-line bg-surface-subtle'"
                             @dragover.prevent="state.dragOverStatus = status" @dragleave="onDragLeave(status)"
                             @drop.prevent="dropOn(status)">
                             <!-- The colour is the column's, so a board scanned
@@ -134,45 +127,45 @@
                                         :style="`background-color: ${colorFor(status)};`"></span>
                                     {{ labelFor(status) }}
                                 </span>
-                                <span class="text-[12px] text-[#8891A4]">{{ (grouped[status] || []).length }}</span>
+                                <span class="text-[12px] text-ink-muted">{{ (grouped[status] || []).length }}</span>
                             </div>
 
                             <div class="p-2 space-y-2 min-h-[120px]">
-                                <p v-if="!(grouped[status] || []).length" class="text-[12px] text-[#B4BAC7] px-1 py-3">
+                                <p v-if="!(grouped[status] || []).length" class="text-[12px] text-ink-subtle px-1 py-3">
                                     {{ $t('superadmin.salesInquiries.dropHere') }}
                                 </p>
 
                                 <article v-for="inquiry in grouped[status]" :key="inquiry.uuid" draggable="true"
                                     @dragstart="state.draggedUuid = inquiry.uuid" @dragend="state.draggedUuid = null"
                                     @click="openInquiry(inquiry)"
-                                    class="bg-white border border-[#EAECF0] rounded-lg p-3 shadow-sm cursor-pointer hover:border-[#42AED9] transition-colors"
+                                    class="bg-white border border-line rounded-lg p-3 shadow-sm cursor-pointer hover:border-accent transition-colors"
                                     :class="state.draggedUuid === inquiry.uuid && 'opacity-50'">
-                                    <p class="text-[13px] font-semibold text-[#1F2533] leading-snug">
+                                    <p class="text-[13px] font-semibold text-ink leading-snug">
                                         {{ inquiry.company_name || inquiry.name || inquiry.email }}
                                     </p>
-                                    <p v-if="inquiry.name || inquiry.email" class="text-[12px] text-[#8891A4] mt-0.5">
+                                    <p v-if="inquiry.name || inquiry.email" class="text-[12px] text-ink-muted mt-0.5">
                                         {{ [inquiry.name, inquiry.email].filter(Boolean).join(' · ') }}
                                     </p>
 
-                                    <p class="text-[12px] text-[#5C6478] mt-2">
+                                    <p class="text-[12px] text-ink-body mt-2">
                                         {{ $t('superadmin.salesInquiries.sources.' + inquiry.source) }}
                                     </p>
 
                                     <!-- When they filled in the form, to the minute, and
                                          which page they were on when they did. -->
-                                    <p class="text-[12px] text-[#8891A4] mt-1 flex items-center gap-1">
+                                    <p class="text-[12px] text-ink-muted mt-1 flex items-center gap-1">
                                         <Icon name="ph:clock" class="w-3.5 h-3.5 shrink-0" />
                                         {{ formatDateTime(inquiry.created_at) }}
                                     </p>
                                     <p v-if="inquiry.landing_page"
-                                        class="text-[12px] mt-1 flex items-center gap-1 text-[#205E77]">
+                                        class="text-[12px] mt-1 flex items-center gap-1 text-tertiary">
                                         <Icon name="ph:link-simple" class="w-3.5 h-3.5 shrink-0" />
                                         <a :href="inquiry.landing_page" target="_blank" rel="noopener"
                                             :title="inquiry.landing_page" class="underline truncate"
                                             @click.stop>{{ shortPath(inquiry.landing_page) }}</a>
                                     </p>
 
-                                    <p class="text-[12px] text-[#8891A4] mt-2 pt-2 border-t border-[#F5F6F8]">
+                                    <p class="text-[12px] text-ink-muted mt-2 pt-2 border-t border-surface-canvas">
                                         {{ inquiry.assigned_user?.name || $t('superadmin.salesInquiries.nobody') }}
                                     </p>
                                 </article>
@@ -182,15 +175,15 @@
                 </div>
 
                 <!-- LIST -->
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="!inquiries.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                <div v-else class="bg-white border border-line rounded-xl overflow-hidden shadow-sm">
+                    <div v-if="!inquiries.length" class="flex flex-col items-center gap-3 py-16 text-ink-muted">
                         <Icon name="ph:tray" class="w-12 h-12 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.salesInquiries.empty') }}</p>
                     </div>
                     <div v-else class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
-                                <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                                <tr class="border-b border-line bg-surface-subtle">
                                     <th class="co-th">{{ $t('superadmin.salesInquiries.colWho') }}</th>
                                     <th class="co-th">{{ $t('superadmin.salesInquiries.colType') }}</th>
                                     <th class="co-th">{{ $t('superadmin.salesInquiries.colPage') }}</th>
@@ -202,26 +195,26 @@
                             </thead>
                             <tbody>
                                 <tr v-for="inquiry in inquiries" :key="inquiry.uuid"
-                                    class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                                    class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors cursor-pointer"
                                     @click="openInquiry(inquiry)">
                                     <td class="co-td">
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        <p class="text-[13px] font-semibold text-ink">
                                             {{ inquiry.company_name || inquiry.name || inquiry.email }}
                                         </p>
-                                        <p class="text-[12px] text-[#8891A4]">
+                                        <p class="text-[12px] text-ink-muted">
                                             {{ [inquiry.name, inquiry.email, inquiry.phone].filter(Boolean).join(' · ') }}
                                         </p>
                                     </td>
-                                    <td class="co-td text-[13px] text-[#5C6478]">
+                                    <td class="co-td text-[13px] text-ink-body">
                                         {{ $t('superadmin.salesInquiries.sources.' + inquiry.source) }}
                                     </td>
                                     <td class="co-td text-[13px]">
                                         <a v-if="inquiry.landing_page" :href="inquiry.landing_page" target="_blank"
                                             rel="noopener" :title="inquiry.landing_page"
-                                            class="text-[#205E77] underline" @click.stop>
+                                            class="text-tertiary underline" @click.stop>
                                             {{ shortPath(inquiry.landing_page) }}
                                         </a>
-                                        <span v-else class="text-[#B4BAC7]">-</span>
+                                        <span v-else class="text-ink-subtle">-</span>
                                     </td>
                                     <td class="co-td">
                                         <span class="px-2 py-0.5 rounded-full text-[12px] font-medium"
@@ -229,12 +222,12 @@
                                             {{ labelFor(inquiry.status) }}
                                         </span>
                                     </td>
-                                    <td class="co-td text-[13px] text-[#5C6478]">
+                                    <td class="co-td text-[13px] text-ink-body">
                                         {{ inquiry.assigned_user?.name || $t('superadmin.salesInquiries.nobody') }}
                                     </td>
                                     <!-- The time matters as much as the day: it is what
                                          says whether somebody wrote in during our hours. -->
-                                    <td class="co-td text-[13px] text-[#5C6478] whitespace-nowrap">
+                                    <td class="co-td text-[13px] text-ink-body whitespace-nowrap">
                                         {{ formatDateTime(inquiry.created_at) }}
                                     </td>
                                     <td class="co-td">
@@ -256,7 +249,7 @@
                         <Icon name="ph:caret-left" class="w-3.5 h-3.5" />
                         {{ $t('superadmin.salesInquiries.previous') }}
                     </button>
-                    <span class="text-[13px] text-[#5C6478]">{{ state.page }} / {{ lastPage }}</span>
+                    <span class="text-[13px] text-ink-body">{{ state.page }} / {{ lastPage }}</span>
                     <button class="co-action-btn" :disabled="state.page >= lastPage" @click="changePage(state.page + 1)">
                         {{ $t('superadmin.salesInquiries.next') }}
                         <Icon name="ph:caret-right" class="w-3.5 h-3.5" />
@@ -268,7 +261,7 @@
             <Modal size="md" :show="state.modal.isColumnsOpen" @close="state.modal.isColumnsOpen = false"
                 :title="$t('superadmin.salesInquiries.columns.title')">
                 <template #modal-body>
-                    <p class="text-[13px] text-[#5C6478] mb-4">
+                    <p class="text-[13px] text-ink-body mb-4">
                         {{ $t('superadmin.salesInquiries.columns.description') }}
                     </p>
 
@@ -277,7 +270,7 @@
 
                     <ul class="space-y-2">
                         <li v-for="(column, index) in state.columnsForm" :key="column.status"
-                            class="flex items-center gap-2 bg-[#F9FAFB] border border-[#EAECF0] rounded-lg p-2">
+                            class="flex items-center gap-2 bg-surface-subtle border border-line rounded-lg p-2">
                             <div class="flex flex-col">
                                 <button class="co-order-btn" :disabled="index === 0" @click="moveColumn(index, -1)">
                                     <Icon name="ph:caret-up" class="w-3 h-3" />
@@ -288,7 +281,7 @@
                                 </button>
                             </div>
 
-                            <input type="color" v-model="column.color" class="w-9 h-9 rounded-lg border border-[#D5D9E2] bg-white p-0.5 cursor-pointer shrink-0"
+                            <input type="color" v-model="column.color" class="w-9 h-9 rounded-lg border border-line-strong bg-white p-0.5 cursor-pointer shrink-0"
                                 :title="$t('superadmin.salesInquiries.columns.colour')" />
 
                             <div class="flex-1 min-w-0">
@@ -332,20 +325,20 @@
 
                     <div v-if="selected" class="space-y-5">
                         <!-- What we know -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#F9FAFB] rounded-xl p-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-surface-subtle rounded-xl p-4">
                             <div v-if="selected.name">
                                 <p class="co-detail-label">{{ $t('superadmin.salesInquiries.detail.name') }}</p>
                                 <p class="co-detail-value">{{ selected.name }}</p>
                             </div>
                             <div v-if="selected.email">
                                 <p class="co-detail-label">{{ $t('superadmin.salesInquiries.detail.email') }}</p>
-                                <a class="co-detail-value text-[#205E77] underline" :href="'mailto:' + selected.email">
+                                <a class="co-detail-value text-tertiary underline" :href="'mailto:' + selected.email">
                                     {{ selected.email }}
                                 </a>
                             </div>
                             <div v-if="selected.phone">
                                 <p class="co-detail-label">{{ $t('superadmin.salesInquiries.detail.phone') }}</p>
-                                <a class="co-detail-value text-[#205E77] underline" :href="'tel:' + selected.phone">
+                                <a class="co-detail-value text-tertiary underline" :href="'tel:' + selected.phone">
                                     {{ selected.phone }}
                                 </a>
                             </div>
@@ -365,7 +358,7 @@
                             </div>
                             <div v-if="selected.landing_page" class="sm:col-span-2">
                                 <p class="co-detail-label">{{ $t('superadmin.salesInquiries.detail.page') }}</p>
-                                <a class="co-detail-value text-[#205E77] underline break-all"
+                                <a class="co-detail-value text-tertiary underline break-all"
                                     :href="selected.landing_page" target="_blank" rel="noopener">
                                     {{ selected.landing_page }}
                                 </a>
@@ -382,7 +375,7 @@
 
                         <div v-if="selected.message">
                             <p class="co-detail-label mb-1">{{ $t('superadmin.salesInquiries.detail.message') }}</p>
-                            <p class="text-[14px] text-[#1F2533] whitespace-pre-wrap border-l-[3px] border-[#42AED9] pl-3">
+                            <p class="text-[14px] text-ink whitespace-pre-wrap border-l-[3px] border-accent pl-3">
                                 {{ selected.message }}
                             </p>
                         </div>
@@ -431,15 +424,15 @@
                                     {{ $t('superadmin.salesInquiries.detail.addNote') }}
                                 </FormButton>
                             </div>
-                            <div v-if="!selected.notes?.length" class="text-[13px] text-[#8891A4]">
+                            <div v-if="!selected.notes?.length" class="text-[13px] text-ink-muted">
                                 {{ $t('superadmin.salesInquiries.detail.noNotes') }}
                             </div>
                             <ul v-else class="space-y-2">
                                 <li v-for="note in selected.notes" :key="note.uuid"
                                     class="rounded-lg px-3 py-2 text-[13px]"
-                                    :class="note.is_system ? 'bg-[#F5F6F8] text-[#5C6478]' : 'bg-white border border-[#EAECF0] text-[#1F2533]'">
+                                    :class="note.is_system ? 'bg-surface-canvas text-ink-body' : 'bg-white border border-line text-ink'">
                                     <p class="whitespace-pre-wrap">{{ note.body }}</p>
-                                    <p class="text-[12px] text-[#8891A4] mt-1">
+                                    <p class="text-[12px] text-ink-muted mt-1">
                                         {{ [note.author, formatDateTime(note.created_at)].filter(Boolean).join(' · ') }}
                                     </p>
                                 </li>
@@ -457,6 +450,7 @@
 </template>
 
 <script setup lang="ts">
+import { SA_COLORS } from '@/utils/superadminPalette'
 import moment from 'moment'
 import { salesInquiryService } from '@/components/api/superadmin/SalesInquiryService'
 import { userService } from '@/components/api/superadmin/UserService'
@@ -599,12 +593,12 @@ function selectView(view: string) {
 // What a stage looks like before the settings have loaded, and if they ever
 // fail to: a board with no colours is worse than a board with these.
 const FALLBACK_COLORS: Record<string, string> = {
-    new: '#42AED9',
-    contacted: '#205E77',
-    qualified: '#7C5CBF',
-    demo_booked: '#2E9E33',
-    won: '#2E9E33',
-    lost: '#8891A4',
+    new: SA_COLORS.accent,
+    contacted: SA_COLORS.primary,
+    qualified: SA_COLORS.plum,
+    demo_booked: SA_COLORS.success,
+    won: SA_COLORS.success,
+    lost: SA_COLORS.inkMuted,
 }
 
 /**
@@ -635,7 +629,7 @@ function labelFor(status: string) {
 }
 
 function colorFor(status: string) {
-    return settingFor(status)?.color || FALLBACK_COLORS[status] || '#8891A4'
+    return settingFor(status)?.color || FALLBACK_COLORS[status] || SA_COLORS.inkMuted
 }
 
 function tabLabel(tab: { key: string; label: string }) {
@@ -921,34 +915,34 @@ async function saveNote() {
 /* `co-action-btn` is not in assets/css/superadmin.css - every superadmin page
    that uses one carries its own, and this follows that. */
 .co-action-btn {
-    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium text-[#205E77] bg-white border border-[#D5D9E2] transition-colors;
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium text-tertiary bg-white border border-line-strong transition-colors;
 }
 
 .co-action-btn:hover:not(:disabled) {
-    @apply bg-[#F5F6F8];
+    @apply bg-surface-canvas;
 }
 
 .co-action-btn:disabled {
-    @apply text-[#B4BAC7] cursor-not-allowed;
+    @apply text-ink-subtle cursor-not-allowed;
 }
 
 .co-order-btn {
-    @apply flex items-center justify-center w-5 h-4 text-[#8891A4] rounded transition-colors;
+    @apply flex items-center justify-center w-5 h-4 text-ink-muted rounded transition-colors;
 }
 
 .co-order-btn:hover:not(:disabled) {
-    @apply text-[#205E77] bg-[#EAECF0];
+    @apply text-tertiary bg-line;
 }
 
 .co-order-btn:disabled {
-    @apply text-[#DCE0E8] cursor-not-allowed;
+    @apply text-line-strong cursor-not-allowed;
 }
 
 .co-detail-label {
-    @apply block text-xs font-medium text-[#8891A4];
+    @apply block text-xs font-medium text-ink-muted;
 }
 
 .co-detail-value {
-    @apply text-[14px] text-[#1F2533];
+    @apply text-[14px] text-ink;
 }
 </style>

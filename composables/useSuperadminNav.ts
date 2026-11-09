@@ -42,8 +42,9 @@ export type SuperadminNavGroups = {
 
 export const superadminNav: SuperadminNavGroups = {
     oversigt: [
+        { name: 'Today', label: 'superadmin.sidebar.today', href: '/superadmin/today', icon: 'ph:sun', permission: null, routes: ['superadmin-today'] },
         { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', permission: 'view_dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics', 'superadmin-funnel'] },
-        { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', permission: 'view_companies', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
+        { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', permission: 'view_companies', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview', 'superadmin-companies-company_uuid-agreements', 'superadmin-companies-company_uuid-invoices-invoice_uuid-invoice-details', 'superadmin-companies-company_uuid-history', 'superadmin-companies-company_uuid-migration'] },
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', permission: 'view_team', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
         { name: 'TeamRoles', label: 'superadmin.sidebar.teamRoles', href: '/superadmin/team-roles', icon: 'ph:shield-check', permission: 'view_team', routes: ['superadmin-team-roles'] },
         { name: 'SalesInquiries', label: 'superadmin.sidebar.salesInquiries', href: '/superadmin/sales-inquiries', icon: 'ph:tray', permission: 'view_sales_inquiries', routes: ['superadmin-sales-inquiries'] },
@@ -51,17 +52,18 @@ export const superadminNav: SuperadminNavGroups = {
         { name: 'SupportAccess', label: 'superadmin.sidebar.supportAccess', href: '/superadmin/support-access', icon: 'ph:lock-key', permission: 'impersonate_users', routes: ['superadmin-support-access'] },
     ],
     okonomi: [
+        { name: 'Finance', label: 'superadmin.sidebar.financeOverview', href: '/superadmin/finance', icon: 'ph:chart-line-up', permission: 'view_financials', routes: ['superadmin-finance'] },
         { name: 'Invoices', label: 'superadmin.sidebar.invoices', href: '/superadmin/invoices', icon: 'ph:invoice', permission: 'view_financials', routes: ['superadmin-invoices', 'superadmin-invoices-invoice_uuid'] },
         { name: 'BillingProblems', label: 'paymentDunning.nav.billingProblems', href: '/superadmin/billing-problems', icon: 'ph:warning-circle', permission: 'view_financials', badge: 'billingProblems', routes: ['superadmin-billing-problems'] },
         { name: 'Orders', label: 'superadmin.sidebar.orders', href: '/superadmin/orders', icon: 'ph:database', permission: 'view_financials', routes: ['superadmin-orders'] },
         { name: 'PaymentFees', label: 'superadmin.sidebar.paymentFees', href: '/superadmin/payment-fees', icon: 'ph:percent', permission: 'view_financials', routes: ['superadmin-payment-fees'] },
         { name: 'Referrals', label: 'superadmin.sidebar.referrals', href: '/superadmin/referrals', icon: 'ph:gift', permission: 'view_financials', routes: ['superadmin-referrals'] },
+        { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', permission: 'view_dashboard', routes: ['superadmin-dashboard-company-storage'] },
+        { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', permission: 'view_apps', routes: ['superadmin-storage-packages'] },
     ],
     platform: [
         { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', permission: 'view_apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },
         { name: 'App categories', label: 'superadmin.sidebar.appCategories', href: '/superadmin/app-categories', icon: 'ic:baseline-category', permission: 'view_apps', routes: ['superadmin-app-categories'] },
-        { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', permission: 'view_dashboard', routes: ['superadmin-dashboard-company-storage'] },
-        { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', permission: 'view_apps', routes: ['superadmin-storage-packages'] },
         { name: 'Industries', label: 'superadmin.sidebar.industries', href: '/superadmin/industries', icon: 'ph:buildings', permission: 'view_content', routes: ['superadmin-industries'] },
         { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', permission: 'view_content', routes: ['superadmin-email-templates'] },
     ],

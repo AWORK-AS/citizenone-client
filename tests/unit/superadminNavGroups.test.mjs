@@ -31,7 +31,7 @@ test('News and Campaigns hold the six pages that sat under PLATFORM', () => {
     for (const moved of ['/superadmin/release-notes', '/superadmin/roadmap', '/superadmin/polls', '/superadmin/sales-campaign', '/superadmin/coupons', '/superadmin/platform-shares']) {
         assert.ok(!platform.includes(moved), `${moved} is still under PLATFORM`)
     }
-    assert.equal(superadminNav.platform.length, 6)
+    assert.equal(superadminNav.platform.length, 4)
 })
 
 test('a moved page keeps the permission it had', () => {

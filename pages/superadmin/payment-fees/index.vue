@@ -12,54 +12,50 @@
             </template>
 
             <div class="p-1">
-                <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-                    <div>
-                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
-                            {{ $t('superadmin.paymentFees.header') }}
-                        </h1>
-                        <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.paymentFees.subtitle') }}
-                        </p>
-                        <p class="text-xs text-[#8891A4] mt-1" v-if="state.apps.length">
+                <ModulesSuperadminPageHeader :title="$t('superadmin.paymentFees.header')">
+                    <template #subtitle>
+                        {{ $t('superadmin.paymentFees.subtitle') }}
+                        <span class="block text-xs text-ink-muted mt-1" v-if="state.apps.length">
                             <span v-for="(app, index) in state.apps" :key="app.uuid">
                                 <span v-if="index"> &middot; </span>
                                 {{ app.name }} {{ formatRate(app.payment_fee_percent) }} %
                             </span>
-                        </p>
-                    </div>
-
+                        </span>
+                    </template>
+                    <template #actions>
                     <div class="flex items-end gap-2">
                         <button type="button" class="co-badge co-badge-navy" @click="stepMonth(-1)">
                             <Icon name="ph:caret-left" class="size-4" />
                         </button>
                         <div class="min-w-[150px] text-center">
-                            <p class="text-[11px] font-semibold uppercase tracking-wide text-[#8891A4]">
+                            <p class="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                                 {{ $t('superadmin.paymentFees.period') }}
                             </p>
-                            <p class="text-sm font-semibold text-[#1F2533]">{{ readablePeriod }}</p>
+                            <p class="text-sm font-semibold text-ink">{{ readablePeriod }}</p>
                         </div>
                         <button type="button" class="co-badge co-badge-navy" @click="stepMonth(1)"
                             :disabled="isCurrentMonth">
                             <Icon name="ph:caret-right" class="size-4" />
                         </button>
                     </div>
-                </div>
+                    </template>
+                </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
                     <div v-for="card in cards" :key="card.key"
-                        class="bg-white border border-[#EAECF0] rounded-xl shadow-sm px-4 py-4">
-                        <p class="text-[11px] font-semibold uppercase tracking-wide text-[#8891A4]">{{ card.label }}</p>
-                        <p class="mt-1 text-2xl font-semibold text-[#1F2533] tabular-nums">{{ card.value }}</p>
-                        <p class="mt-1 text-xs text-[#8891A4]">{{ card.hint }}</p>
+                        class="bg-white border border-line rounded-xl shadow-sm px-4 py-4">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">{{ card.label }}</p>
+                        <p class="mt-1 text-2xl font-semibold text-ink tabular-nums">{{ card.value }}</p>
+                        <p class="mt-1 text-xs text-ink-muted">{{ card.hint }}</p>
                     </div>
                 </div>
 
-                <div class="bg-white border border-[#F0C4C4] rounded-xl shadow-sm px-4 py-4 mb-5"
+                <div class="bg-white border border-danger-line rounded-xl shadow-sm px-4 py-4 mb-5"
                     v-if="hasGaps">
-                    <p class="text-sm font-semibold text-[#B42318]">{{ $t('superadmin.paymentFees.gaps.title') }}</p>
-                    <ul class="mt-1 text-sm text-[#5C6478] list-disc pl-5">
+                    <p class="text-sm font-semibold text-danger-ink">{{ $t('superadmin.paymentFees.gaps.title') }}</p>
+                    <ul class="mt-1 text-sm text-ink-body list-disc pl-5">
                         <li v-if="state.reconciliation.payments_without_fee?.count">
                             {{ $t('superadmin.paymentFees.gaps.paymentsWithoutFee', {
                                 count: state.reconciliation.payments_without_fee.count,
@@ -81,24 +77,24 @@
                     </ul>
                 </div>
 
-                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden mb-5"
+                <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden mb-5"
                     v-if="state.uncharged.length">
                     <table class="w-full">
                         <thead>
-                            <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                            <tr class="bg-surface-subtle border-b border-line">
                                 <th class="co-th" colspan="4">{{ $t('superadmin.paymentFees.uncharged.title') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="row in state.uncharged" :key="`${row.company}-${row.period}`"
-                                class="border-b border-[#F5F6F8]">
-                                <td class="co-td text-[13px] text-[#1F2533]">{{ row.company }}</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ row.period }}</td>
+                                class="border-b border-surface-canvas">
+                                <td class="co-td text-[13px] text-ink">{{ row.company }}</td>
+                                <td class="co-td text-[13px] text-ink-body">{{ row.period }}</td>
                                 <td class="co-td text-[13px]"
-                                    :class="row.months_waiting >= 2 ? 'text-[#B42318] font-medium' : 'text-[#5C6478]'">
+                                    :class="row.months_waiting >= 2 ? 'text-danger-ink font-medium' : 'text-ink-body'">
                                     {{ $t('superadmin.paymentFees.uncharged.waiting', { months: row.months_waiting }) }}
                                 </td>
-                                <td class="co-td text-right text-[13px] font-semibold text-[#1F2533] tabular-nums">
+                                <td class="co-td text-right text-[13px] font-semibold text-ink tabular-nums">
                                     {{ formatAmount(row.fee_amount) }}
                                 </td>
                             </tr>
@@ -106,11 +102,11 @@
                     </table>
                 </div>
 
-                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden mb-5"
+                <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden mb-5"
                     v-if="state.byApplication.length > 1">
                     <table class="w-full">
                         <thead>
-                            <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                            <tr class="bg-surface-subtle border-b border-line">
                                 <th class="co-th">{{ $t('superadmin.paymentFees.app') }}</th>
                                 <th class="co-th text-right">{{ $t('superadmin.paymentFees.payments') }}</th>
                                 <th class="co-th text-right">{{ $t('superadmin.paymentFees.volume') }}</th>
@@ -119,17 +115,17 @@
                         </thead>
                         <tbody>
                             <tr v-for="row in state.byApplication" :key="row.generic_name || 'unknown'"
-                                class="border-b border-[#F5F6F8]">
-                                <td class="co-td text-[13px] text-[#1F2533]">
+                                class="border-b border-surface-canvas">
+                                <td class="co-td text-[13px] text-ink">
                                     {{ row.name || $t('superadmin.paymentFees.unknownApp') }}
                                 </td>
-                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
                                     {{ row.payment_count }}
                                 </td>
-                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
                                     {{ formatAmount(row.gross_amount) }}
                                 </td>
-                                <td class="co-td text-right text-[13px] font-semibold text-[#1F2533] tabular-nums">
+                                <td class="co-td text-right text-[13px] font-semibold text-ink tabular-nums">
                                     {{ formatAmount(row.fee_amount) }}
                                 </td>
                             </tr>
@@ -137,10 +133,10 @@
                     </table>
                 </div>
 
-                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
+                <div class="bg-white border border-line rounded-xl shadow-sm overflow-hidden">
                     <table class="w-full">
                         <thead>
-                            <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                            <tr class="bg-surface-subtle border-b border-line">
                                 <th class="co-th">{{ $t('superadmin.paymentFees.company') }}</th>
                                 <th class="co-th text-right">{{ $t('superadmin.paymentFees.payments') }}</th>
                                 <th class="co-th text-right">{{ $t('superadmin.paymentFees.volume') }}</th>
@@ -150,26 +146,24 @@
                         </thead>
                         <tbody>
                             <tr v-for="row in state.statements" :key="row.uuid"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] text-[#1F2533]">{{ row.company.name }}</td>
-                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                class="border-b border-surface-canvas hover:bg-surface-subtle transition-colors">
+                                <td class="co-td text-[13px] text-ink">{{ row.company.name }}</td>
+                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
                                     {{ row.payment_count }}
                                 </td>
-                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                <td class="co-td text-right text-[13px] text-ink-body tabular-nums">
                                     {{ formatAmount(row.gross_amount) }}
                                 </td>
-                                <td class="co-td text-right text-[13px] font-semibold text-[#1F2533] tabular-nums">
+                                <td class="co-td text-right text-[13px] font-semibold text-ink tabular-nums">
                                     {{ formatAmount(row.fee_amount) }}
                                 </td>
                                 <td class="co-td">
-                                    <span class="co-badge" :class="row.status === 'charged'
-                                        ? 'co-badge-green' : 'co-badge-navy'">
-                                        {{ $t(`superadmin.paymentFees.statuses.${row.status}`) }}
-                                    </span>
+                                    <ModulesSuperadminStatusPill :variant="row.status === 'charged' ? 'success' : 'warning'"
+                                        :label="$t(`superadmin.paymentFees.statuses.${row.status}`)" />
                                 </td>
                             </tr>
                             <tr v-if="!state.statements.length && !state.isLoading">
-                                <td class="co-td text-[13px] text-[#8891A4]" colspan="5">
+                                <td class="co-td text-[13px] text-ink-muted" colspan="5">
                                     {{ $t('superadmin.paymentFees.empty') }}
                                 </td>
                             </tr>

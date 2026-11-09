@@ -8,10 +8,10 @@
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.logo')" />
             <input type="file" ref="logoInputRef" @change="onLogoChange" class="hidden" accept="image/*" />
-            <div class="w-20 h-20 rounded-xl border-2 border-dashed border-[#D5D9E2] overflow-hidden flex items-center justify-center bg-[#F9FAFB] hover:border-[#42AED9] transition-colors cursor-pointer"
+            <div class="w-20 h-20 rounded-xl border-2 border-dashed border-line-strong overflow-hidden flex items-center justify-center bg-surface-subtle hover:border-accent transition-colors cursor-pointer"
                 @click="logoInputRef?.click()">
                 <img v-if="state.logoPreview" :src="state.logoPreview" class="w-full h-full object-cover" />
-                <Icon v-else name="ph:image" class="w-6 h-6 text-[#B0B8C4]" />
+                <Icon v-else name="ph:image" class="w-6 h-6 text-ink-subtle" />
             </div>
             <SuperadminFormError :error="props.error?.errors?.logo?.[0]" />
         </div>
@@ -20,10 +20,10 @@
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.image')" />
             <input type="file" ref="imageInputRef" @change="onImageChange" class="hidden" accept="image/*" />
-            <div class="w-32 h-32 rounded-xl border-2 border-dashed border-[#D5D9E2] overflow-hidden flex items-center justify-center bg-[#F9FAFB] hover:border-[#42AED9] transition-colors cursor-pointer"
+            <div class="w-32 h-32 rounded-xl border-2 border-dashed border-line-strong overflow-hidden flex items-center justify-center bg-surface-subtle hover:border-accent transition-colors cursor-pointer"
                 @click="imageInputRef?.click()">
                 <img v-if="state.imagePreview" :src="state.imagePreview" class="w-full h-full object-cover" />
-                <Icon v-else name="ph:image" class="w-6 h-6 text-[#B0B8C4]" />
+                <Icon v-else name="ph:image" class="w-6 h-6 text-ink-subtle" />
             </div>
             <SuperadminFormError :error="props.error?.errors?.image?.[0]" />
         </div>
@@ -32,10 +32,10 @@
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.backgroundImage')" />
             <input type="file" ref="bgInputRef" @change="onBgChange" class="hidden" accept="image/*" />
-            <div class="w-full h-28 rounded-xl border-2 border-dashed border-[#D5D9E2] overflow-hidden flex items-center justify-center bg-[#F9FAFB] hover:border-[#42AED9] transition-colors cursor-pointer"
+            <div class="w-full h-28 rounded-xl border-2 border-dashed border-line-strong overflow-hidden flex items-center justify-center bg-surface-subtle hover:border-accent transition-colors cursor-pointer"
                 @click="bgInputRef?.click()">
                 <img v-if="state.bgPreview" :src="state.bgPreview" class="w-full h-full object-cover" />
-                <div v-else class="flex flex-col items-center gap-1 text-[#B0B8C4]">
+                <div v-else class="flex flex-col items-center gap-1 text-ink-subtle">
                     <Icon name="ph:image" class="w-6 h-6" />
                     <span class="text-[11px]">{{ $t('superadmin.apps.form.backgroundImage') }}</span>
                 </div>
@@ -110,12 +110,12 @@
             <div class="flex items-center gap-2 cursor-pointer select-none"
                 @click="state.form.is_public = !state.form.is_public">
                 <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                    :style="state.form.is_public ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                    :class="state.form.is_public ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                     <Icon v-if="state.form.is_public" name="ph:check" class="w-2.5 h-2.5 text-white" />
                 </div>
-                <span class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.apps.form.isPublic') }}</span>
+                <span class="text-[13px] font-medium text-ink">{{ $t('superadmin.apps.form.isPublic') }}</span>
             </div>
-            <p class="mt-1 text-[11px] text-[#8891A4]">{{ $t('superadmin.apps.form.isPublicHint') }}</p>
+            <p class="mt-1 text-[11px] text-ink-muted">{{ $t('superadmin.apps.form.isPublicHint') }}</p>
         </div>
 
         <!-- Screenshots: only once the app exists, since they hang off its uuid. -->
@@ -123,10 +123,10 @@
             <SuperadminFormLabel :label="$t('superadmin.apps.form.screenshots')" />
             <div class="space-y-2">
                 <div v-for="shot in state.screenshots" :key="shot.uuid"
-                    class="flex items-center gap-3 rounded-lg border border-[#EAECF0] p-2">
+                    class="flex items-center gap-3 rounded-lg border border-line p-2">
                     <img :src="shot.url" alt="" class="h-10 w-16 flex-none rounded object-cover" />
-                    <span class="flex-1 truncate text-[12px] text-[#5C6478]">{{ shot.caption || shot.url }}</span>
-                    <button type="button" class="text-[#CC3B2D]" @click="removeScreenshot(shot)"
+                    <span class="flex-1 truncate text-[12px] text-ink-body">{{ shot.caption || shot.url }}</span>
+                    <button type="button" class="text-danger" @click="removeScreenshot(shot)"
                         :aria-label="$t('delete')">
                         <Icon name="ph:trash" class="h-4 w-4" />
                     </button>
@@ -137,8 +137,8 @@
                 <div class="grid grid-cols-[1fr_auto] gap-2">
                     <SuperadminFormTextField v-model="state.newScreenshot.url" type="url" placeholder="https://..." />
                     <button type="button"
-                        class="rounded-lg border border-[#D5D9E2] px-3 text-[12px] font-medium text-[#205E77] disabled:opacity-50"
-                        :disabled="!state.newScreenshot.url || state.isUploadingScreenshot" @click="addScreenshot">
+                        class="rounded-lg border border-line-strong px-3 text-[12px] font-medium text-tertiary disabled:opacity-50"
+                       :disabled="!state.newScreenshot.url || state.isUploadingScreenshot" @click="addScreenshot">
                         {{ $t('superadmin.apps.form.addScreenshot') }}
                     </button>
                 </div>
@@ -148,8 +148,8 @@
                     <input ref="screenshotFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"
                         class="hidden" @change="uploadScreenshot" />
                     <button type="button"
-                        class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#D5D9E2] px-3 py-2 text-[12px] font-medium text-[#5C6478] hover:border-[#42AED9] hover:text-[#205E77] disabled:opacity-50"
-                        :disabled="state.isUploadingScreenshot" @click="screenshotFile?.click()">
+                        class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-line-strong px-3 py-2 text-[12px] font-medium text-ink-body hover:border-accent hover:text-tertiary disabled:opacity-50"
+                       :disabled="state.isUploadingScreenshot" @click="screenshotFile?.click()">
                         <Icon :name="state.isUploadingScreenshot ? 'ph:spinner' : 'ph:upload-simple'"
                             :class="['w-4 h-4', state.isUploadingScreenshot && 'animate-spin']" />
                         {{ $t('superadmin.apps.form.uploadScreenshot') }}
@@ -163,10 +163,10 @@
         <div class="flex items-center gap-2 cursor-pointer select-none"
             @click="state.form.is_one_time_fee = !state.form.is_one_time_fee">
             <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                :style="state.form.is_one_time_fee ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                :class="state.form.is_one_time_fee ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                 <Icon v-if="state.form.is_one_time_fee" name="ph:check" class="w-2.5 h-2.5 text-white" />
             </div>
-            <span class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.apps.form.isOneTimeFee') }}</span>
+            <span class="text-[13px] font-medium text-ink">{{ $t('superadmin.apps.form.isOneTimeFee') }}</span>
         </div>
 
         <!-- Price (one-time) -->
@@ -174,7 +174,7 @@
             <SuperadminFormLabel :label="$t('superadmin.apps.form.price')" />
             <div class="relative">
                 <SuperadminFormTextField v-model.number="state.form.price" type="number" placeholder="0" class="pr-8" />
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">kr</span>
             </div>
             <SuperadminFormError :error="props.error?.errors?.price?.[0]" />
         </div>
@@ -186,7 +186,7 @@
                 <div class="relative">
                     <SuperadminFormTextField v-model.number="state.form.monthly_price" type="number" placeholder="0"
                         class="pr-8" />
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">kr</span>
                 </div>
                 <SuperadminFormError :error="props.error?.errors?.monthly_price?.[0]" />
             </div>
@@ -195,7 +195,7 @@
                 <div class="relative">
                     <SuperadminFormTextField v-model.number="state.form.yearly_price" type="number" placeholder="0"
                         class="pr-8" />
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">kr</span>
                 </div>
                 <SuperadminFormError :error="props.error?.errors?.yearly_price?.[0]" />
             </div>
@@ -207,7 +207,7 @@
             <div class="relative">
                 <SuperadminFormTextField v-model.number="state.form.setup_fee" type="number" placeholder="0"
                     class="pr-8" />
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">kr</span>
             </div>
             <SuperadminFormError :error="props.error?.errors?.setup_fee?.[0]" />
         </div>
@@ -218,9 +218,9 @@
             <div class="relative">
                 <SuperadminFormTextField v-model="state.form.payment_fee_percent" type="number" placeholder="0"
                     class="pr-8" />
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">%</span>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">%</span>
             </div>
-            <p class="mt-1 text-xs text-[#8891A4]">{{ $t('superadmin.apps.form.paymentFeeHelp') }}</p>
+            <p class="mt-1 text-xs text-ink-muted">{{ $t('superadmin.apps.form.paymentFeeHelp') }}</p>
             <SuperadminFormError :error="props.error?.errors?.payment_fee_percent?.[0]" />
         </div>
 
@@ -230,7 +230,7 @@
             <div class="relative">
                 <SuperadminFormTextField v-model.number="state.form.discount_percent" type="number" placeholder="0"
                     class="pr-8" />
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">%</span>
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted text-sm">%</span>
             </div>
             <SuperadminFormError :error="props.error?.errors?.discount_percent?.[0]" />
         </div>
@@ -285,22 +285,22 @@
             <div v-for="flag in boolFlags" :key="flag.key" class="flex items-center gap-2 cursor-pointer select-none"
                 @click="(state.form as any)[flag.key] = !(state.form as any)[flag.key]">
                 <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
-                    :style="(state.form as any)[flag.key] ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                    :class="(state.form as any)[flag.key] ? 'border-accent bg-accent' : 'border-line-strong bg-white'">
                     <Icon v-if="(state.form as any)[flag.key]" name="ph:check" class="w-2.5 h-2.5 text-white" />
                 </div>
-                <span class="text-[13px] font-medium text-[#1F2533]">{{ $t(flag.label) }}</span>
+                <span class="text-[13px] font-medium text-ink">{{ $t(flag.label) }}</span>
             </div>
         </div>
 
         <!-- Visible in App Store -->
-        <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
+        <div class="flex items-center justify-between py-3 px-4 border border-line rounded-xl">
             <div>
-                <p class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.apps.visibleInAppStore') }}</p>
-                <p class="text-[11px] text-[#8891A4] mt-0.5">{{ $t('superadmin.apps.visibleInAppStoreHint') }}</p>
+                <p class="text-[13px] font-medium text-ink">{{ $t('superadmin.apps.visibleInAppStore') }}</p>
+                <p class="text-[11px] text-ink-muted mt-0.5">{{ $t('superadmin.apps.visibleInAppStoreHint') }}</p>
             </div>
             <button type="button" @click="state.form.is_active = !state.form.is_active"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                :style="state.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                :class="state.form.is_active ? 'bg-accent' : 'bg-line-strong'">
                 <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
                     :class="state.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
             </button>
@@ -309,12 +309,11 @@
         <!-- Action buttons (page context) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/apps')"
-                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-ink-body bg-white border border-line hover:bg-surface-canvas transition-colors">
                 {{ $t('cancel') }}
             </button>
             <button type="submit"
-                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
-                style="background:#205E77">
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm bg-tertiary">
                 {{ props.formType === 'create' ? $t('save') : $t('update') }}
             </button>
         </div>
@@ -627,20 +626,20 @@ defineExpose({ submit, reset })
     width: 100%;
     padding: 9px 13px;
     font-size: 14px;
-    color: #1F2533;
+    color: theme('colors.ink.DEFAULT');
     background: white;
-    border: 1px solid #D5D9E2;
+    border: 1px solid theme('colors.line.strong');
     border-radius: 10px;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s
 }
 
 .co-input:focus {
-    border-color: #42AED9;
+    border-color: theme('colors.accent.DEFAULT');
     box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
 }
 
 .co-input::placeholder {
-    color: #B0B8C4
+    color: theme('colors.ink.subtle')
 }
 </style>

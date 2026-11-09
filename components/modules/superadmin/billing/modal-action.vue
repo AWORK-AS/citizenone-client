@@ -6,10 +6,10 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <p class="text-sm text-[#1F2533] font-medium">
+                    <p class="text-sm text-ink font-medium">
                         {{ $t('paymentDunning.problems.dialog.about', { company: props.row?.company_name ?? '', amount: formatAmount(props.row?.amount_outstanding ?? 0, 'DKK') }) }}
                     </p>
-                    <p class="text-[13px] text-[#5C6478]">
+                    <p class="text-[13px] text-ink-body">
                         {{ props.action ? $t(`paymentDunning.problems.help.${props.action}`) : '' }}
                     </p>
 
@@ -18,19 +18,19 @@
                         <Tooltip :text="$t('paymentDunning.problems.dialog.daysHelp')" position="top" wrap class="!block w-full">
                             <input type="number" min="1" max="90" step="1" v-model.number="state.days" class="co-input" :required="props.action === 'postpone'" />
                         </Tooltip>
-                        <p v-if="state.invalid === 'days'" class="text-[12px] text-[#CC3B2D] mt-1" role="alert">
+                        <p v-if="state.invalid === 'days'" class="text-[12px] text-danger mt-1" role="alert">
                             {{ $t('paymentDunning.problems.dialog.daysInvalid') }}
                         </p>
                     </div>
 
                     <p v-if="props.action === 'retry_unknown_charge'"
-                        class="rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-3 py-2 text-[13px] font-medium text-[#B91C1C]" role="alert">
+                        class="rounded-lg border border-danger-line bg-danger-soft px-3 py-2 text-[13px] font-medium text-danger-ink" role="alert">
                         {{ $t('paymentDunning.problems.dialog.retryUnknownConfirm') }}
                     </p>
-                    <p v-if="props.action === 'revoke_security_card'" class="text-[13px] text-[#B91C1C]">
+                    <p v-if="props.action === 'revoke_security_card'" class="text-[13px] text-danger-ink">
                         {{ $t('paymentDunning.problems.dialog.revokeConfirm') }}
                     </p>
-                    <p v-if="props.action === 'close'" class="text-[13px] text-[#B91C1C]">
+                    <p v-if="props.action === 'close'" class="text-[13px] text-danger-ink">
                         {{ $t('paymentDunning.problems.dialog.closeConfirm') }}
                     </p>
 
@@ -40,10 +40,10 @@
                             <textarea v-model="state.note" rows="3" maxlength="500" class="co-input"
                                 :placeholder="$t('paymentDunning.problems.dialog.notePlaceholder')" />
                         </Tooltip>
-                        <p v-if="collectionAction" class="text-[12px] text-[#5C6478] mt-1">
+                        <p v-if="collectionAction" class="text-[12px] text-ink-body mt-1">
                             {{ $t('paymentDunning.problems.dialog.collectionNoteHelp') }}
                         </p>
-                        <p v-if="state.invalid === 'note'" class="text-[12px] text-[#CC3B2D] mt-1" role="alert">
+                        <p v-if="state.invalid === 'note'" class="text-[12px] text-danger mt-1" role="alert">
                             {{ $t('paymentDunning.problems.dialog.noteRequired') }}
                         </p>
                     </div>
