@@ -1,10 +1,11 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-// Tasks Cody AI proposed. Cody AI never creates one on its own: only the
-// user's "Opret opgave" does, and it sends the server's token, never the task.
-const BASE = '/user/cody/task-proposals'
+// Records Cody AI proposed (a task, a journal draft). Cody AI never writes one
+// on its own: only the user's button does, and it sends the server's token,
+// never the record.
+const BASE = '/user/cody/proposals'
 
-class CodyTaskProposalService extends BaseAPIService {
+class CodyProposalService extends BaseAPIService {
     async confirm(token: string): Promise<any> {
         return await this.request(`${BASE}/${encodeURIComponent(token)}`, 'POST')
     }
@@ -14,4 +15,4 @@ class CodyTaskProposalService extends BaseAPIService {
     }
 }
 
-export const codyTaskProposalService = new CodyTaskProposalService()
+export const codyProposalService = new CodyProposalService()
