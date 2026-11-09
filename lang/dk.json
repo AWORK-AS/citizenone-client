@@ -17070,7 +17070,7 @@
             "title": "Ordre",
             "new": "Ny ordre",
             "back": "Tilbage til licenser",
-            "entryHint": "Kunden betaler på faktura: saml flere produkter i én ordre, så de bliver én fakturakladde med ét fakturagebyr.",
+            "entryHint": "Kunden betaler på faktura: saml flere produkter i én ordre, så de bliver én ordre i e-conomic med ét fakturagebyr.",
             "grantHint": "Skal kunden have flere produkter? Opret en ordre i stedet, så det bliver én faktura med ét fakturagebyr.",
             "createdBy": "Oprettet af {name} {date}",
             "completedBy": "gennemført af {name} {date}",
@@ -17093,7 +17093,7 @@
                 "total": "I alt inkl. moms",
                 "status": "Status"
             },
-            "billingDraft": "Én fakturakladde sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+            "billingDraft": "Én ordre sendes til e-conomic (kundenr. {customer}), hvor økonomi fakturerer, bogfører og sender den.",
             "billingFree": "Alt er inkluderet i planen. Der faktureres intet.",
             "noQuote": "Ingen pris endnu.",
             "complete": "Gennemfør ordre",
@@ -17103,11 +17103,11 @@
             "cancelConfirm": "Kladden annulleres. Kunden får intet, og der faktureres intet.",
             "confirm": {
                 "title": "Gennemfør ordre?",
-                "body": "Kunden får {seats} licenser nu. Én fakturakladde på {amount} inkl. moms sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+                "body": "Kunden får {seats} licenser nu. Én ordre på {amount} inkl. moms sendes til e-conomic (kundenr. {customer}), hvor økonomi fakturerer, bogfører og sender den.",
                 "bodyFree": "Kunden får {seats} licenser nu. Alt er inkluderet i planen, så der sendes ingen faktura."
             },
             "completed": "Ordren er gennemført. Licenserne er aktive.",
-            "retried": "Kladden sendes til e-conomic igen.",
+            "retried": "Ordren sendes til e-conomic igen.",
             "cancelled": "Kladden er annulleret.",
             "saveFailed": "Ordren kunne ikke gemmes.",
             "loadFailed": "Ordren kunne ikke hentes.",
@@ -17122,7 +17122,8 @@
                 "notYet": "Ikke sendt endnu",
                 "pending": "Sendes til e-conomic…",
                 "none": "Ingen faktura",
-                "draft": "Kladde nr. {number}",
+                "order": "Overført til e-conomic som ordre nr. {number}",
+                "draft": "Overført til e-conomic som fakturakladde nr. {number}",
                 "booked": "Bogført som faktura {number}",
                 "failed": "Fejl: {reason}"
             },
@@ -17132,7 +17133,7 @@
                 "superadmin_order_no_customer_number": "Kunden mangler et e-conomic kundenummer."
             },
             "listTitle": "Ordrer fra superadmin",
-            "listSubtitle": "Ordrer med flere linjer, der bliver én fakturakladde i e-conomic.",
+            "listSubtitle": "Ordrer med flere linjer, der bliver én ordre i e-conomic.",
             "empty": "Ingen ordrer endnu.",
             "allStatuses": "Alle statusser",
             "failedCount": "{count} fejlet i e-conomic"

@@ -119,15 +119,23 @@ export function availableProducts(products: OrderProduct[], lines: { type: strin
     return (products ?? []).filter(product => !taken.has(productKey(product)))
 }
 
-/** What the e-conomic column says: the draft number, the error, or that it is waiting. */
-export function orderEconomicLabel(order: { status?: string; invoice?: { economic_draft_number?: number | null; economic_invoice_number?: number | null; economic_error?: string | null } | null }): { key: string; params: Record<string, string | number> } {
+/**
+ * What the e-conomic column says: the e-conomic order number (an order is
+ * sent as an order, finance invoices it there), an invoice draft finance made
+ * from it, the booked invoice, the error, or that it is waiting.
+ */
+export function orderEconomicLabel(order: { status?: string; invoice?: { economic_order_number?: number | null; economic_draft_number?: number | null; economic_invoice_number?: number | null; economic_error?: string | null } | null }): { key: string; params: Record<string, string | number> } {
     const invoice = order?.invoice
 
     switch (order?.status) {
         case 'transferred':
-            return invoice?.economic_invoice_number
-                ? { key: `${KEY}.economic.booked`, params: { number: invoice.economic_invoice_number } }
-                : { key: `${KEY}.economic.draft`, params: { number: invoice?.economic_draft_number ?? '—' } }
+            if (invoice?.economic_invoice_number) {
+                return { key: `${KEY}.economic.booked`, params: { number: invoice.economic_invoice_number } }
+            }
+
+            return invoice?.economic_draft_number && !invoice?.economic_order_number
+                ? { key: `${KEY}.economic.draft`, params: { number: invoice.economic_draft_number } }
+                : { key: `${KEY}.economic.order`, params: { number: invoice?.economic_order_number ?? '—' } }
         case 'failed':
             return { key: `${KEY}.economic.failed`, params: { reason: invoice?.economic_error ?? '—' } }
         case 'completed':

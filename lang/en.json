@@ -17070,7 +17070,7 @@
             "title": "Order",
             "new": "New order",
             "back": "Back to licences",
-            "entryHint": "The customer pays by invoice: put several products in one order, so they become one draft invoice with one invoice fee.",
+            "entryHint": "The customer pays by invoice: put several products in one order, so they become one order in e-conomic with one invoice fee.",
             "grantHint": "Does the customer need several products? Create an order instead, so it becomes one invoice with one invoice fee.",
             "createdBy": "Created by {name} {date}",
             "completedBy": "completed by {name} {date}",
@@ -17093,7 +17093,7 @@
                 "total": "Total incl. VAT",
                 "status": "Status"
             },
-            "billingDraft": "One draft invoice is sent to e-conomic (customer no. {customer}), where finance books and sends it.",
+            "billingDraft": "One order is sent to e-conomic (customer no. {customer}), where finance invoices, books and sends it.",
             "billingFree": "Everything is included in the plan. Nothing is invoiced.",
             "noQuote": "No price yet.",
             "complete": "Complete order",
@@ -17103,11 +17103,11 @@
             "cancelConfirm": "The draft is cancelled. The customer gets nothing and nothing is invoiced.",
             "confirm": {
                 "title": "Complete order?",
-                "body": "The customer gets {seats} licences now. One draft invoice of {amount} incl. VAT is sent to e-conomic (customer no. {customer}), where finance books and sends it.",
+                "body": "The customer gets {seats} licences now. One order of {amount} incl. VAT is sent to e-conomic (customer no. {customer}), where finance invoices, books and sends it.",
                 "bodyFree": "The customer gets {seats} licences now. Everything is included in the plan, so no invoice is sent."
             },
             "completed": "The order is completed. The licences are active.",
-            "retried": "The draft is sent to e-conomic again.",
+            "retried": "The order is sent to e-conomic again.",
             "cancelled": "The draft is cancelled.",
             "saveFailed": "The order could not be saved.",
             "loadFailed": "The order could not be loaded.",
@@ -17122,7 +17122,8 @@
                 "notYet": "Not sent yet",
                 "pending": "Sending to e-conomic…",
                 "none": "No invoice",
-                "draft": "Draft no. {number}",
+                "order": "Transferred to e-conomic as order no. {number}",
+                "draft": "Transferred to e-conomic as draft invoice no. {number}",
                 "booked": "Booked as invoice {number}",
                 "failed": "Error: {reason}"
             },
@@ -17132,7 +17133,7 @@
                 "superadmin_order_no_customer_number": "The customer has no e-conomic customer number."
             },
             "listTitle": "Orders from superadmin",
-            "listSubtitle": "Orders with several lines that become one draft invoice in e-conomic.",
+            "listSubtitle": "Orders with several lines that become one order in e-conomic.",
             "empty": "No orders yet.",
             "allStatuses": "All statuses",
             "failedCount": "{count} failed in e-conomic"

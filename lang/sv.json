@@ -16985,7 +16985,7 @@
             "title": "Order",
             "new": "Ny order",
             "back": "Tillbaka till licenser",
-            "entryHint": "Kunden betalar mot faktura: samla flera produkter i en order, så blir de ett fakturautkast med en fakturaavgift.",
+            "entryHint": "Kunden betalar mot faktura: samla flera produkter i en order, så blir de en order i e-conomic med en fakturaavgift.",
             "grantHint": "Behöver kunden flera produkter? Skapa en order i stället, så blir det en faktura med en fakturaavgift.",
             "createdBy": "Skapad av {name} {date}",
             "completedBy": "genomförd av {name} {date}",
@@ -17008,7 +17008,7 @@
                 "total": "Totalt inkl. moms",
                 "status": "Status"
             },
-            "billingDraft": "Ett fakturautkast skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+            "billingDraft": "En order skickas till e-conomic (kundnr {customer}), där ekonomi fakturerar, bokför och skickar den.",
             "billingFree": "Allt ingår i planen. Inget faktureras.",
             "noQuote": "Inget pris ännu.",
             "complete": "Genomför order",
@@ -17018,11 +17018,11 @@
             "cancelConfirm": "Utkastet annulleras. Kunden får inget och inget faktureras.",
             "confirm": {
                 "title": "Genomföra order?",
-                "body": "Kunden får {seats} licenser nu. Ett fakturautkast på {amount} inkl. moms skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+                "body": "Kunden får {seats} licenser nu. En order på {amount} inkl. moms skickas till e-conomic (kundnr {customer}), där ekonomi fakturerar, bokför och skickar den.",
                 "bodyFree": "Kunden får {seats} licenser nu. Allt ingår i planen, så ingen faktura skickas."
             },
             "completed": "Ordern är genomförd. Licenserna är aktiva.",
-            "retried": "Utkastet skickas till e-conomic igen.",
+            "retried": "Ordern skickas till e-conomic igen.",
             "cancelled": "Utkastet är annullerat.",
             "saveFailed": "Ordern kunde inte sparas.",
             "loadFailed": "Ordern kunde inte hämtas.",
@@ -17037,7 +17037,8 @@
                 "notYet": "Inte skickad ännu",
                 "pending": "Skickas till e-conomic…",
                 "none": "Ingen faktura",
-                "draft": "Utkast nr {number}",
+                "order": "Överförd till e-conomic som order nr {number}",
+                "draft": "Överförd till e-conomic som fakturautkast nr {number}",
                 "booked": "Bokförd som faktura {number}",
                 "failed": "Fel: {reason}"
             },
@@ -17047,7 +17048,7 @@
                 "superadmin_order_no_customer_number": "Kunden saknar kundnummer i e-conomic."
             },
             "listTitle": "Ordrar från superadmin",
-            "listSubtitle": "Ordrar med flera rader som blir ett fakturautkast i e-conomic.",
+            "listSubtitle": "Ordrar med flera rader som blir en order i e-conomic.",
             "empty": "Inga ordrar ännu.",
             "allStatuses": "Alla statusar",
             "failedCount": "{count} misslyckades i e-conomic"

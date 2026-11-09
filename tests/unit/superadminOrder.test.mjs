@@ -70,6 +70,9 @@ test('a product already on the order is not offered again', () => {
 })
 
 test('e-conomic label follows the status', () => {
+    assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_order_number: 8001, economic_draft_number: null } }),
+        { key: 'superadmin.companyOrders.economic.order', params: { number: 8001 } })
+    // Found by reconciling: finance already made an invoice draft from it.
     assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_draft_number: 9001 } }),
         { key: 'superadmin.companyOrders.economic.draft', params: { number: 9001 } })
     assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_draft_number: 9001, economic_invoice_number: 7101 } }),
@@ -150,9 +153,9 @@ test('available products survive null input and keep products of other types', (
 
 test('e-conomic label for every state and partial payloads', () => {
     const label = order => orderEconomicLabel(order)
-    assert.deepEqual(label({ status: 'transferred', invoice: null }), { key: 'superadmin.companyOrders.economic.draft', params: { number: '—' } })
+    assert.deepEqual(label({ status: 'transferred', invoice: null }), { key: 'superadmin.companyOrders.economic.order', params: { number: '—' } })
     assert.deepEqual(label({ status: 'transferred', invoice: { economic_draft_number: null, economic_invoice_number: null } }),
-        { key: 'superadmin.companyOrders.economic.draft', params: { number: '—' } })
+        { key: 'superadmin.companyOrders.economic.order', params: { number: '—' } })
     assert.deepEqual(label({ status: 'failed', invoice: null }), { key: 'superadmin.companyOrders.economic.failed', params: { reason: '—' } })
     assert.deepEqual(label({ status: 'failed', invoice: { economic_error: null } }), { key: 'superadmin.companyOrders.economic.failed', params: { reason: '—' } })
     assert.equal(label({ status: 'completed' }).key, 'superadmin.companyOrders.economic.none')
