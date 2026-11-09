@@ -77,8 +77,12 @@
                                 <h3 class="text-md font-semibold mb-2">{{ $t('questionnaireInbox.answers') }}</h3>
                                 <div v-if="(detail.answers ?? []).length > 0" class="divide-y divide-gray-100">
                                     <div v-for="(entry, index) in detail.answers" :key="index" class="py-3">
+                                        <!-- A heading the questionnaire groups its questions under, such as "Hair loss". -->
+                                        <h4 v-if="entry.heading" class="pt-2 text-base font-semibold text-primary">{{ entry.question }}</h4>
+                                        <template v-else>
                                         <p class="text-sm font-medium text-gray-900">{{ entry.question }}</p>
                                         <p class="mt-1 text-sm text-gray-700 whitespace-pre-line">{{ entry.answer || '–' }}</p>
+                                        </template>
                                     </div>
                                 </div>
                                 <p v-else class="text-sm text-gray-500">{{ $t('questionnaireInbox.noAnswers') }}</p>

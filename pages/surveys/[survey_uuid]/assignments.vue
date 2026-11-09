@@ -143,10 +143,13 @@
                                 </span>
                             </span>
                         </div>
-                        <div v-for="(entry, index) in answerEntries" :key="index" class="bg-gray-50 rounded-md p-4 space-y-1">
-                            <p class="text-sm text-gray-500">{{ index + 1 }}. {{ entry.question }}</p>
-                            <p class="font-medium">{{ entry.answer }}</p>
-                        </div>
+                        <template v-for="(entry, index) in answerEntries" :key="index">
+                            <h3 v-if="entry.heading" class="pt-2 text-base font-semibold text-gray-900">{{ entry.question }}</h3>
+                            <div v-else class="bg-gray-50 rounded-md p-4 space-y-1">
+                                <p class="text-sm text-gray-500">{{ entry.number }}. {{ entry.question }}</p>
+                                <p class="font-medium">{{ entry.answer }}</p>
+                            </div>
+                        </template>
                     </div>
                 </template>
             </Modal>
@@ -233,11 +236,17 @@ const answerEntries = computed(() => {
     // edits to the survey do not change it.
     const questions = a.questions ?? state.survey?.questions ?? []
     const entries: any[] = []
+    // Headings group the questions under a topic; they take no number.
+    let number = 0
     // Follow-ups the respondent never saw are left out.
     visibleSurveyQuestions(questions, a.answers ?? {}).forEach((q: any) => {
         const def = q.question ?? q
+        if (def?.type === 'heading') {
+            entries.push({ heading: true, question: def?.value })
+            return
+        }
         const answer = a.answers?.[q.uuid]
-        entries.push({ question: def?.value, answer: resolveAnswer(def, answer) })
+        entries.push({ number: ++number, question: def?.value, answer: resolveAnswer(def, answer) })
     })
     return entries
 })

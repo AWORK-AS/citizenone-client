@@ -25,7 +25,7 @@
                         </p>
                         <div class="mt-5">
                             <ModulesSharedSurveyFill ref="surveyFill" :questions="state.survey?.questions ?? []"
-                                :answers="state.answers" />
+                                :answers="state.answers" withLayout />
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
