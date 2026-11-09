@@ -81,9 +81,10 @@ export function productKey(product: Pick<OrderProduct, 'type' | 'product_uuid'>)
 /** The body for POST .../lines from a picker value and a quantity, or null when incomplete. */
 export function orderLinePayload(key: string, quantity: unknown): { type: OrderLineType; product_uuid?: string; quantity: number } | null {
     const [type, uuid] = String(key ?? '').split(':')
-    const count = Math.floor(Number(quantity))
+    // A whole number, as the API takes it: 2.5 is refused, never sent as 2.
+    const count = typeof quantity === 'number' || (typeof quantity === 'string' && quantity.trim() !== '') ? Number(quantity) : NaN
 
-    if (!['user', 'department', 'application'].includes(type) || !uuid || !Number.isFinite(count) || count < 1 || count > 1000) {
+    if (!['user', 'department', 'application'].includes(type) || !uuid || !Number.isInteger(count) || count < 1 || count > 1000) {
         return null
     }
 
@@ -131,6 +132,8 @@ export function orderEconomicLabel(order: { status?: string; invoice?: { economi
             return { key: `${KEY}.economic.failed`, params: { reason: invoice?.economic_error ?? '—' } }
         case 'completed':
             return invoice ? { key: `${KEY}.economic.pending`, params: {} } : { key: `${KEY}.economic.none`, params: {} }
+        case 'cancelled':
+            return { key: `${KEY}.economic.none`, params: {} }
         default:
             return { key: `${KEY}.economic.notYet`, params: {} }
     }

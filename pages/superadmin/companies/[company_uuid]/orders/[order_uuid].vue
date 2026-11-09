@@ -331,8 +331,8 @@ async function addLine() {
 }
 
 function onQuantityChange(line: any, event: Event) {
-    const quantity = Math.floor(Number((event.target as HTMLInputElement).value))
-    if (!Number.isFinite(quantity) || quantity < 1 || quantity === line.quantity) return
+    const quantity = Number((event.target as HTMLInputElement).value)
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 1000 || quantity === line.quantity) return
     save(() => companyOrderService.updateLine(orderUuid, line.uuid, quantity))
 }
 
