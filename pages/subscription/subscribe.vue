@@ -28,13 +28,17 @@
                                 <RadioGroupOption as="template" v-for="option in frequencies" :key="option.value"
                                     :value="option" v-slot="{ checked }">
                                     <div
-                                        :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                        :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-3 py-1 flex items-center justify-center gap-x-2']">
                                         <span v-if="option.label === 'Monthly'">
                                             {{ $t('subscription.deal.monthly') }}
                                         </span>
-                                        <span v-else-if="option.label === 'Annually'">
-                                            {{ $t('subscription.deal.annually') }}
-                                        </span>
+                                        <template v-else-if="option.label === 'Annually'">
+                                            <span>{{ $t('subscription.deal.annually') }}</span>
+                                            <!-- As on the homepage: the yearly plan costs ten months. -->
+                                            <span class="rounded-full bg-secondary px-2 py-0.5 text-xxs font-semibold text-tertiary whitespace-nowrap">
+                                                {{ $t('subscription.plan.saveTwoMonths') }}
+                                            </span>
+                                        </template>
                                         <span v-else>
                                             {{ option.label }}
                                         </span>
@@ -42,16 +46,6 @@
                                 </RadioGroupOption>
                             </RadioGroup>
                         </fieldset>
-                    </div>
-                    <div class="absolute right-11 -top-10 sm:right-16 sm:-top-10 md:right-24 md:-top-11">
-                        <div class="relative">
-                            <img src="/img/icons/discount-badge.svg" alt="Discount" width="73px">
-                            <div class="absolute inset-0 z-10 flex items-center justify-center">
-                                <p class="text-xxs font-semibold !text-white text-center leading-tight">
-                                    {{ $t('subscription.discount.discount') }}
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div v-if="state.deals?.data?.length === 1 && !state.isDealsHidden">
@@ -64,119 +58,7 @@
                                 </h3>
                             </div>
 
-                            <p class="mt-4 flex items-baseline gap-x-2">
-                                <span class="text-3xl font-bold tracking-tight text-gray-900">
-                                    {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
-                                        formatAmount(deal.yearly_price) }}
-                                </span>
-                                <span class="text-base text-gray-500 lowercase">
-                                    /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
-                                        $t('subscription.deal.year')
-                                    }}
-                                    {{ $t('excludeVat') }}
-                                </span>
-                            </p>
-
-                            <p class="mt-0.5 text-sm text-primary font-semibold">
-                                {{ $t('subscription.discount.save') }}
-                                <span v-if="deal.name === 'Basis'">20</span>
-                                <span v-if="deal.name === 'Pro'">10</span>%
-                                <span class="lowercase">{{ $t('subscription.discount.whenChoosingYearly') }}</span>
-                            </p>
-
-                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
-                                <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
-                                </span>
-                                <span v-else>
-                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
-                                </span>
-                            </p>
-
-                            <ul role="list"
-                                :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.admin }}
-                                        {{ deal?.admin > 1 ? $t('subscription.deal.admins') :
-                                            $t('subscription.deal.admin') }}
-                                    </span>
-                                    <Tooltip :text="$t('subscription.deal.youCanHaveMultipleAdmins')"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.users }}
-                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
-                                            $t('subscription.deal.user') }}
-                                        {{ $t('subscription.deal.included') }}.
-                                    </span>
-                                    <Tooltip
-                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_users) + ' /md'"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span class="lowercase">
-                                        {{ deal?.users }}
-                                        {{ deal?.departments > 1 ? (customPagesStore.getCustomPagesName?.department ??
-                                            $t('subscription.deal.departments')) :
-                                            (customPagesStore.getCustomPagesName?.department ??
-                                                $t('subscription.deal.department')) }}
-                                        {{ $t('subscription.deal.included') }}.
-                                    </span>
-                                    <Tooltip
-                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_departments) + ' /md'"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ $t('subscription.deal.unlimitedNumberOfCitizens') }}
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>{{ deal?.storage_size }}</span>
-                                    <span class="lowecase">
-                                        {{ $t('subscription.deal.storageSpace') }}
-                                    </span>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span v-if="deal.name === 'Pro'">
-                                        {{ $t('subscription.deal.telephoneSupport') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.chatSupport') }}
-                                    </span>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
-                                    v-if="deal.name === 'Pro'">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
-                                </li>
-                            </ul>
+                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="false" />
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full" v-if="index === 0"
                                     @click="subscribe(deal)">
@@ -199,120 +81,7 @@
                                 :class="[index === 1 ? 'text-white' : 'text-tertiary', 'text-base font-semibold leading-7']">
                                 {{ deal.name }}
                             </h3>
-                            <div class="mt-4 flex items-baseline gap-x-2">
-                                <span
-                                    :class="[index === 1 ? 'text-white' : 'text-gray-900', 'text-2xl font-bold tracking-tight']">
-                                    <span>
-                                        {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
-                                            formatAmount(deal.yearly_price) }}
-                                    </span>
-                                </span>
-                                <span :class="[index === 1 ? 'text-gray-100' : 'text-gray-500', 'text-base lowercase']">
-                                    /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
-                                        $t('subscription.deal.year')
-                                    }}
-                                    {{ $t('excludeVat') }}
-                                </span>
-                            </div>
-
-                            <p :class="[index === 1 ? 'text-white' : 'text-primary', 'mt-0.5 text-sm font-semibold']">
-                                {{ $t('subscription.discount.save') }}
-                                <span v-if="deal.name === 'Basis'">20</span>
-                                <span v-if="deal.name === 'Pro'">10</span>%
-                                <span class="lowercase">{{ $t('subscription.discount.whenChoosingYearly') }}</span>
-                            </p>
-
-                            <p :class="[index === 1 ? 'text-white' : 'text-gray-600', 'mt-6 text-base leading-7']">
-                                <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
-                                </span>
-                                <span v-else>
-                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
-                                </span>
-                            </p>
-
-                            <ul role="list"
-                                :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.admin }}
-                                        {{ deal?.admin > 1 ? $t('subscription.deal.admins') :
-                                            $t('subscription.deal.admin') }}
-                                    </span>
-                                    <Tooltip :text="$t('subscription.deal.youCanHaveMultipleAdmins')"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.users }}
-                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
-                                            $t('subscription.deal.user') }}
-                                        {{ $t('subscription.deal.included') }}.
-                                    </span>
-                                    <Tooltip
-                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_users) + ' /md'"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2 lowercase']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span class="lowercase">
-                                        {{ deal?.users }}
-                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
-                                            $t('subscription.deal.department') }}
-                                        {{ $t('subscription.deal.included') }}.
-                                    </span>
-                                    <Tooltip
-                                        :text="$t('subscription.deal.additionalPurchaseFor') + ' ' + formatKrAmount(deal?.extra_departments) + ' /md'"
-                                        class="cursor-help flex items-center">
-                                        <Icon name="ph:info" class="h-4 w-4" aria-hidden="true" />
-                                    </Tooltip>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ $t('subscription.deal.unlimitedNumberOfCitizens') }}
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span>{{ deal?.storage_size }}</span>
-                                    <span class="lowecase">
-                                        {{ $t('subscription.deal.storageSpace') }}
-                                    </span>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    <span v-if="deal.name === 'Pro'">
-                                        {{ $t('subscription.deal.telephoneSupport') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.chatSupport') }}
-                                    </span>
-                                </li>
-                                <li :class="[index === 1 ? 'text-white' : 'text-primary', 'flex gap-x-2']"
-                                    v-if="deal.name === 'Pro'">
-                                    <Icon name="ph:check"
-                                        :class="[index === 1 ? 'text-white' : 'text-primary', 'h-6 w-5 flex-none']"
-                                        aria-hidden="true" />
-                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
-                                </li>
-                            </ul>
+                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="index === 1" />
                             <div class="mt-8">
                                 <FormButton type="button" class="w-full" buttonStyle="primary" @click="subscribe(deal)"
                                     v-if="index === 0">
@@ -336,78 +105,7 @@
                                     {{ deal.name }}
                                 </h3>
                             </div>
-                            <p class="mt-4 flex items-baseline gap-x-2">
-                                <span class="text-3xl font-bold tracking-tight text-gray-900">
-                                    {{ frequency.value === 'monthly' ? formatAmount(deal.monthly_price) :
-                                        formatAmount(deal.yearly_price) }}
-                                </span>
-                                <span class="text-base text-gray-500 lowercase">
-                                    /{{ frequency.value === 'monthly' ? $t('subscription.deal.month') :
-                                        $t('subscription.deal.year')
-                                    }}
-                                    {{ $t('excludeVat') }}
-                                </span>
-                            </p>
-
-                            <p class="mt-0.5 text-sm text-primary font-semibold">
-                                {{ $t('subscription.discount.save') }}
-                                <span v-if="deal.name === 'Basis'">20</span>
-                                <span v-if="deal.name === 'Pro'">10</span>%
-                                <span class="lowercase">{{ $t('subscription.discount.whenChoosingYearly') }}</span>
-                            </p>
-
-                            <p class="text-gray-600 mt-6 text-base leading-7">
-                                <span v-if="deal.name === 'Basis'">
-                                    {{ $t('subscription.deal.goodForASmallTeam') }} 🤝
-                                </span>
-                                <span v-else>
-                                    {{ $t('subscription.deal.perfectForLargerCompanies') }} 🚀
-                                </span>
-                            </p>
-
-                            <ul role="list"
-                                :class="[index === 1 ? 'text-gray-300' : 'text-gray-600', 'mt-8 space-y-3 text-sm leading-6 sm:mt-10']">
-                                <li class="text-primary flex gap-x-2 lowercase">
-                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.users }}
-                                        {{ deal?.users > 1 ? $t('subscription.deal.users') :
-                                            $t('subscription.deal.user') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_users) }})
-                                    </span>
-                                </li>
-                                <li class="text-primary flex gap-x-2 lowercase">
-                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    <span>
-                                        {{ deal?.users }}
-                                        {{ deal?.departments > 1 ? $t('subscription.deal.departments') :
-                                            $t('subscription.deal.department') }}
-                                        ({{ $t('subscription.deal.additionalPurchaseFor') }} {{
-                                            formatKrAmount(deal?.extra_departments) }})
-                                    </span>
-                                </li>
-                                <li class="text-primary flex gap-x-2 lowercase">
-                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    <span>{{ deal?.storage_size }}</span>
-                                    <span class="lowecase">
-                                        {{ $t('subscription.deal.storageSpace') }}
-                                    </span>
-                                </li>
-                                <li class="text-primary flex gap-x-2 lowercase">
-                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    <span v-if="deal.name === 'Pro'">
-                                        {{ $t('subscription.deal.telephoneSupport') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('subscription.deal.chatSupport') }}
-                                    </span>
-                                </li>
-                                <li class="text-primary flex gap-x-2 lowercase" v-if="deal.name === 'Pro'">
-                                    <Icon name="ph:check" class="text-primary h-6 w-5 flex-none" aria-hidden="true" />
-                                    {{ $t('subscription.deal.automaticSynchronizationWithFMK') }}
-                                </li>
-                            </ul>
+                            <ModulesUserSubscriptionPlanDetails :deal="deal" :frequency="frequency.value" :dark="false" />
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full" @click="subscribe(deal)">
                                     {{ $t('subscription.deal.selectPackage') }}
@@ -440,17 +138,13 @@
 import { dealService } from '@/components/api/user/DealService'
 import { userSubscriptionService } from '@/components/api/user/UserSubscriptionService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
 import { useCouponStore } from '@/store/coupon'
-import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
-const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const language = useI18n()
 const router = useRouter()
@@ -555,19 +249,4 @@ async function subscribe(deal: any) {
     state.isPageLoading = false
 }
 
-function formatKrAmount(amount: any) {
-    // Convert the number to a string with two decimal places
-    let numberStr = parseFloat(amount).toFixed(2)
-
-    // Split the string into integer and decimal parts
-    let parts = numberStr.split('.')
-    let integerPart = parts[0]
-    let decimalPart = parts[1]
-
-    // Add the thousands separators
-    let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-    // Combine the integer part with the decimal part
-    return 'kr. ' + formattedIntegerPart + ',' + (decimalPart === '00' ? '-' : decimalPart)
-}
 </script>

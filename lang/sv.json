@@ -13776,7 +13776,22 @@
         "subscription": "Prenumeration",
         "updateSubscription": "Uppdatera prenumeration",
         "upgrade": "Opgradér",
-        "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
+        "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund.",
+        "plan": {
+            "saveTwoMonths": "Spara 2 månader",
+            "perMonth": "kr. per månad",
+            "billedYearly": "Faktureras årligen: {amount} kr. exkl. moms",
+            "billedMonthly": "Faktureras månadsvis, exkl. moms",
+            "taglineBasis": "För terapeuten eller behandlaren med egen praktik, eller den mindre verksamheten.",
+            "taglinePro": "För verksamheter och kliniker med flera avdelningar och fler medarbetare.",
+            "usersIncludedUpTo": "{count} användare ingår (alla roller), upp till {max} totalt | {count} användare ingår (alla roller), upp till {max} totalt",
+            "usersIncluded": "{count} användare ingår (alla roller) | {count} användare ingår (alla roller)",
+            "departmentsIncluded": "{count} avdelning ingår | {count} avdelningar ingår",
+            "unlimitedCitizens": "Obegränsat antal medborgare och klienter",
+            "storage": "{size} lagringsutrymme",
+            "support": "Telefonsupport vardagar kl. 10-14, chatt och skriftlig support",
+            "extraPerMonth": "Extra: {amount} kr. per månad"
+        }
     },
     "superadmin": {
         "announcements": {
