@@ -130,6 +130,10 @@ async function downloadInterventionHours() {
             if (props?.filters?.hour_type_uuids?.length > 0) {
                 params['hour_type_uuids[]'] = [...props.filters.hour_type_uuids]
             }
+            if (props?.filters?.created_from && props?.filters?.created_to) {
+                params.created_from = props.filters.created_from
+                params.created_to = props.filters.created_to
+            }
             const response = await interventionHoursService.downloadInterventionHoursEmployeeReport(employeeUuid, params)
             if (response) {
                 saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY'))

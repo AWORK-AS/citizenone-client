@@ -1,7 +1,7 @@
 // The social-welfare contract catalogues and the bulk-send answer, as the API
 // sends them. Kept narrow on purpose: new service methods return these, not any.
 
-export type HourBillingBasis = 'delivered' | 'granted'
+export type HourBillingBasis = 'delivered' | 'granted' | 'included'
 
 export interface ContractHourType {
     uuid: string

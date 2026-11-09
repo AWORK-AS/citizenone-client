@@ -58,7 +58,7 @@ import { welcomeTourMode } from '@/composables/welcomeTour'
 import { seatsActionOnPage } from '@/composables/codySeats'
 import { trialDays } from '@/composables/managerSuggestion'
 import { formatPrice } from '@/composables/customerSpecialPrice'
-import { bannerSurface, bannerVariant, demandCount, priceLine, type BannerVariant, type NudgeEvent } from '@/composables/codyNudge'
+import { bannerBodyKey, bannerSurface, bannerVariant, demandCount, priceLine, type BannerVariant, type NudgeEvent } from '@/composables/codyNudge'
 
 // Where licence admins hand out Cody seats (the AI licence toggle per employee).
 const SEATS_PATH = '/employees'
@@ -117,13 +117,10 @@ const title = computed(() => {
     }
 })
 
+// Per page where there is something specific to say (the chat page), else the generic line.
 const body = computed(() => {
-    switch (variant.value) {
-        case 'adminTrial': return t('cody.adoption.headlineBody')
-        case 'adminEnable': return t('cody.adoption.headlineBody')
-        case 'request': return t('cody.adoption.requestBody')
-        default: return ''
-    }
+    const key = bannerBodyKey(variant.value, route.path)
+    return key ? t(key) : ''
 })
 
 // The demand line belongs to the buy banners; the seats banner says it in its title.

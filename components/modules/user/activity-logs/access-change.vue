@@ -55,6 +55,7 @@ const FIELD_KEYS: Record<string, string> = {
     counts_as_consultant: 'activityLogs.access.fields.countsAsConsultant',
     only_assigned_citizens: 'activityLogs.access.fields.onlyAssignedCitizens',
     only_own_intervention_events: 'activityLogs.access.fields.onlyOwnInterventionEvents',
+    only_own_care_hours: 'activityLogs.access.fields.onlyOwnCareHours',
     contact_address_titles: 'activityLogs.access.fields.contactAddressTitles',
     contact_phone_titles: 'activityLogs.access.fields.contactPhoneTitles',
     contact_email_titles: 'activityLogs.access.fields.contactEmailTitles',

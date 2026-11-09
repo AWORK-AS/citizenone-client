@@ -10,7 +10,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-    DISMISS_DAYS, bannerSurface, bannerVariant, demandCount, isBannerDismissed, nudgeCellText, nudgeReportRows,
+    DISMISS_DAYS, bannerBodyKey, bannerSurface, bannerVariant, demandCount, isBannerDismissed, nudgeCellText, nudgeReportRows,
     parseDismissRecord, priceLine,
 } from '../../composables/codyNudge.ts'
 
@@ -174,5 +174,28 @@ describe('copy', () => {
         assert.equal(get(langs.dk, 'cody.adoption.price.month'), 'Derefter {amount}/md.')
         // The seats banner never sells.
         assert.doesNotMatch(get(langs.dk, 'cody.adoption.seats.title') + get(langs.dk, 'cody.adoption.seats.assign'), /køb|pris|kr\./i)
+    })
+})
+
+describe('bannerBodyKey', () => {
+    test('the chat page says what Cody AI does there', () => {
+        for (const v of ['adminTrial', 'adminEnable', 'request']) {
+            assert.equal(bannerBodyKey(v, '/messages'), 'cody.adoption.pageBody.messages')
+            assert.equal(bannerBodyKey(v, '/messages/abc-123'), 'cody.adoption.pageBody.messages')
+        }
+    })
+    test('elsewhere the generic line, and no body for the countdown or seats', () => {
+        assert.equal(bannerBodyKey('adminTrial', '/'), 'cody.adoption.headlineBody')
+        assert.equal(bannerBodyKey('adminEnable', '/messages-archive'), 'cody.adoption.headlineBody')
+        assert.equal(bannerBodyKey('request', '/tasks'), 'cody.adoption.requestBody')
+        assert.equal(bannerBodyKey('trial', '/messages'), null)
+        assert.equal(bannerBodyKey('seats', '/messages'), null)
+        assert.equal(bannerBodyKey(null, '/messages'), null)
+    })
+    test('every key exists in every language', () => {
+        for (const l of ['dk', 'en', 'sv', 'no']) {
+            const data = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, `../../lang/${l}.json`), 'utf8'))
+            assert.ok(data.cody.adoption.pageBody.messages, l)
+        }
     })
 })

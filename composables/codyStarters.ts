@@ -5,12 +5,14 @@
 // mid-sentence ("Skriv et journalnotat for ", "Find de vedhæftede filer om ")
 // needs a name from the user, so it is put in the field with the cursor at the
 // end instead. An unfinished prompt is recognised by its trailing space, which
-// is how the quickPrompts strings in lang/*.json already mark it.
+// is how the quickPrompts strings in lang/*.json already mark it. A prompt that
+// ends in "@" ("Skriv en besked til @") waits for a colleague: the "@" opens the
+// mention picker as soon as it is in the field.
 
 export type StarterMode = 'send' | 'fill'
 
 export function starterMode(prompt: string): StarterMode {
-    return /\s$/.test(prompt) ? 'fill' : 'send'
+    return /(\s|@)$/.test(prompt) ? 'fill' : 'send'
 }
 
 // Which starters the empty thread offers, by the page the user has open. A
@@ -45,6 +47,7 @@ const STARTER: Record<string, Starter> = {
     myTasks: { key: 'myTasks', icon: 'ph:kanban', module: 'Tasks', tasks: true },
     newTask: { key: 'newTask', icon: 'ph:plus-circle', module: 'Tasks', tasks: true },
     unread: { key: 'unread', icon: 'ph:chat-circle-dots', module: 'Messages' },
+    message: { key: 'message', icon: 'ph:chat-circle-text', module: 'Messages' },
 }
 
 /**
@@ -52,7 +55,7 @@ const STARTER: Record<string, Starter> = {
  * a company without the page's own modules still gets a full row.
  */
 const PAGE_STARTERS: Record<string, string[]> = {
-    default: ['overview', 'journal', 'files', 'shifts'],
+    default: ['overview', 'journal', 'message', 'shifts', 'files'],
     citizen: ['citizenWeek', 'citizenGoals', 'citizenNote', 'files', 'overview'],
     schedule: ['nextShift', 'shifts', 'overview', 'journal', 'files'],
     tasks: ['myTasks', 'newTask', 'overview', 'shifts', 'journal'],

@@ -124,8 +124,9 @@
                         them. Every field was built by the server from a reference - the
                         model supplies neither the values nor the link. -->
                         <div v-if="message.cards?.length" class="mt-2.5 grid gap-2">
-                            <template v-for="card in message.cards" :key="card.ref">
+                            <template v-for="(card, cardIndex) in message.cards" :key="`${card.ref}-${cardIndex}`">
                                 <ModulesUserAssistantMiloCard v-if="card.type === 'milo'" :card="card" />
+                                <ModulesUserAssistantChatDraftCard v-else-if="card.type === 'chat_message'" :card="card" />
                                 <ModulesUserAssistantAnswerCard v-else :card="card" />
                             </template>
                         </div>
@@ -238,8 +239,9 @@
                 <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <!-- Chosen by the page that is open, and only what the company's
                     modules and apps let Cody AI answer (codyStarters.ts). -->
-                    <button v-for="action in starters" :key="action.key" type="button"
+                    <button v-for="(action, actionIndex) in starters" :key="action.key" type="button"
                         @click="onStarter($t(`assistants.quickPrompts.${action.key}`))"
+                        :class="actionIndex === starters.length - 1 && starters.length % 2 === 1 && 'sm:col-span-2'"
                         class="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left transition-colors hover:border-cody/50 hover:bg-cody-pale">
                         <Icon :name="action.icon" class="size-4 shrink-0 text-cody-deep" aria-hidden="true" />
                         <span class="min-w-0 text-[13px] font-medium leading-snug text-gray-700">
@@ -277,8 +279,9 @@
                     <!-- A card lands the moment the tool that touched it finishes,
                     so the row is on screen while the model is still writing about it. -->
                     <div v-if="state.cards.length" class="mt-2 grid gap-2">
-                        <template v-for="card in state.cards" :key="card.ref">
+                        <template v-for="(card, cardIndex) in state.cards" :key="`${card.ref}-${cardIndex}`">
                             <ModulesUserAssistantMiloCard v-if="card.type === 'milo'" :card="card" />
+                            <ModulesUserAssistantChatDraftCard v-else-if="card.type === 'chat_message'" :card="card" />
                             <ModulesUserAssistantAnswerCard v-else :card="card" />
                         </template>
                     </div>

@@ -218,11 +218,19 @@
         "changeLanguage": "Change language",
         "somethingWentWrong": "Something went wrong. Please try again."
     },
+    "releaseNotePopup": {
+        "dismiss": "Got it",
+        "dismissTooltip": "Close – it will not show again"
+    },
     "comingFunctions": {
         "title": "Coming functions",
         "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
         "sendWish": "Send a wish",
         "empty": "There are no coming functions to show right now.",
+        "polls": {
+            "title": "Vote on what we build next",
+            "intro": "Give a thumbs up to the wishes you need too. We use the votes when we plan."
+        },
         "sections": {
             "in_progress": "In progress",
             "planned": "Planned",
@@ -327,7 +335,8 @@
         "periodHint": "The period is set to this month. Use the shortcuts, or pick the dates yourself.",
         "presetThisMonth": "This month",
         "presetLastMonth": "Last month",
-        "presetThisYear": "This year"
+        "presetThisYear": "This year",
+        "revenueHint": "Revenue follows the contracts: fixed price per billing period, hourly price times registered hours, and one-off amounts in the period the contract starts. Without a contract, the citizen's hourly rate is used."
     },
     "citizenRelations": {
         "addFirst": "Add first relation",
@@ -923,6 +932,7 @@
                 "countsAsConsultant": "Counts as consultant",
                 "onlyAssignedCitizens": "Sees only assigned citizens",
                 "onlyOwnInterventionEvents": "Sees only own bookings on interventions",
+                "onlyOwnCareHours": "Own care hours only",
                 "contactAddressTitles": "Sees contact addresses for titles",
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
@@ -1243,7 +1253,9 @@
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",
             "sendMessage": "Send message",
-            "sendUsAMessage": "Send us a message and we will get back as soon as possible"
+            "sendUsAMessage": "Send us a message and we will get back as soon as possible",
+            "assistedSetup": "Assisted setup",
+            "assistedSetupHint": "We call you and set up the app together with you in an online meeting. One-time payment."
         },
         "goToPartner": "Go to partner",
         "iHaveReadAndAcceptThe": "I have read and accept the",
@@ -1342,7 +1354,8 @@
         "couldNotStartPayment": "The payment could not be started. Try again.",
         "requiresPlan": "Requires {plan}",
         "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
-        "upgradeToPlan": "Upgrade to {plan}"
+        "upgradeToPlan": "Upgrade to {plan}",
+        "assistedSetupOptional": "Assisted setup (optional)"
     },
     "archived": {
         "alert": {
@@ -1465,6 +1478,9 @@
             "seats": {
                 "title": "1 employee asked for access to Cody AI | {count} employees asked for access to Cody AI",
                 "assign": "Give them access | Give them access"
+            },
+            "pageBody": {
+                "messages": "Cody AI can draft messages for you."
             }
         }
     },
@@ -1520,6 +1536,7 @@
         "companyDataBuilding": "Cody AI is still getting your data ready and could not use it for this answer. Try again shortly.",
         "askAnything": "Ask about journals, medicine, plans, shifts or documents",
         "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
+        "cprNotice": "Good to know: Cody AI only uses the date of birth. The last 4 digits of the CPR number are removed before the message is sent.",
         "searchScopeHint": "Cody AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
         "reviewNotice": "Content from Cody AI may contain errors. Always review it before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",
@@ -1598,6 +1615,7 @@
             "myTasks": "My open tasks",
             "newTask": "Create a task",
             "unread": "Do I have unread messages?",
+            "message": "Write a message to a colleague",
             "fillHint": "add a name"
         },
         "quickPrompts": {
@@ -1611,7 +1629,8 @@
             "nextShift": "When is my next shift?",
             "myTasks": "Which open tasks do I have?",
             "newTask": "Create a task for me: ",
-            "unread": "Do I have unread messages?"
+            "unread": "Do I have unread messages?",
+            "message": "Write a message to {'@'}"
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody AI can be wrong - read the answer through.",
@@ -1676,6 +1695,18 @@
                 "department": "Department"
             }
         },
+        "taskProposal": {
+            "label": "Cody AI suggests a task",
+            "badge": "Suggested by Cody AI",
+            "board": "Board",
+            "create": "Create task",
+            "creating": "Creating…",
+            "cancel": "Cancel",
+            "created": "The task has been created",
+            "declined": "Suggestion cancelled. No task was created.",
+            "expired": "This suggestion has expired. Ask Cody AI for the task again.",
+            "failed": "The task was not created. Try again."
+        },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
         "ownDailyLimit": "You have used your own daily Cody AI allowance. Your administrator can raise it.",
@@ -1703,6 +1734,17 @@
             "sales": "Milo can answer questions about prices, modules, upgrades and demos.",
             "open": "Open Milo",
             "nothingShared": "Cody AI passes nothing on. Ask Milo your question."
+        },
+        "chatDraft": {
+            "to": "Draft message to",
+            "toGroup": "Draft message in the group",
+            "open": "Open in chat",
+            "copy": "Copy",
+            "copied": "Copied",
+            "copyFailed": "Could not copy the message",
+            "notSent": "Not sent. You read it and send it yourself in the chat.",
+            "colleague": "Colleague",
+            "groupChat": "Group chat"
         }
     },
     "back": "Back",
@@ -3400,6 +3442,9 @@
                 "departments": "Departments",
                 "employees": "Employees",
                 "filterDate": "Filter date",
+                "filterVisitDate": "Filter by {visitDate}",
+                "visitDate": "Visit date",
+                "filterCreatedDate": "Filter by creation date",
                 "transport": "Transport",
                 "type": "Type",
                 "work": "Work"
@@ -10592,6 +10637,7 @@
         "subscription": "Subscription",
         "switchLanguage": "Switch language",
         "helpAndNews": "Help and news",
+        "comingFunctionsAndPolls": "Coming features and polls",
         "impersonating": "Logged in as client",
         "stopImpersonation": "Log out as client",
         "surveys": "Surveys"
@@ -12000,6 +12046,8 @@
             "onlyAssignedCitizensHelp": "Employees with this role see only the citizens (interventions) they are attached to under Contacts, including plans, goals, journals and documents. Department and level do not widen it. Admins always see everything.",
             "onlyOwnInterventionEvents": "Sees only own bookings on interventions",
             "onlyOwnInterventionEventsHelp": "Employees with this role see only the bookings on an intervention where they are the responsible person or a participant. Bookings of other consultants are hidden. Administrators are not limited.",
+            "onlyOwnCareHours": "Own care hours only",
+            "onlyOwnCareHoursHelp": "Employees with this role see, edit and download only the care hours they registered themselves, also on citizens where colleagues registered hours. Administrators are not limited.",
             "contactAddressTitles": "Limit which contacts' addresses can be seen",
             "contactPhoneTitles": "Limit which contacts' phone numbers can be seen",
             "contactEmailTitles": "Limit which contacts' email addresses can be seen",
@@ -12527,6 +12575,8 @@
                 "termCase": "Case",
                 "termAgreement": "Agreement",
                 "termMotherTongue": "Mother tongue",
+                "termVisitDate": "Visit date",
+                "termCourses": "Courses (consultant profile)",
                 "termJobcenter": "Job center",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
@@ -12777,7 +12827,8 @@
             "visitTypes": "Visit types",
             "contractHourTypes": "Hour types",
             "paymentTerms": "Payment terms",
-            "contractFields": "Contract fields"
+            "contractFields": "Contract fields",
+            "infoScreen": "Info screen"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -12814,14 +12865,49 @@
             "createdAt": "Created",
             "tokenEnds": "Token ends in",
             "howTitle": "How to connect Power BI",
-            "how1": "Open Power BI Desktop → Get data → Web.",
-            "how2": "Paste a feed URL above (the token is already included).",
-            "how3": "Choose JSON as the format and load. Refresh on a schedule as needed.",
+            "how1": "Download the ready-made report above and open it in Power BI Desktop.",
+            "how2": "Paste your token when Power BI asks. If Power BI asks for access, choose Anonymous.",
+            "how3": "Want to build your own? Choose Get data → Web and paste a feed URL above.",
             "revokeWarning": "Revoking invalidates all feed URLs immediately. Power BI reports can no longer refresh until a new token is generated.",
             "confirmRevoke": "Revoke the Power BI token?",
             "adminOnly": "Only administrators can manage the Power BI token.",
             "notPurchased": "The Power BI app is not active yet. Activate it under Apps to get access to the live data feeds.",
-            "goToApps": "Go to Apps"
+            "goToApps": "Go to Apps",
+            "feedDepartments": "Departments per citizen",
+            "feedCoordinators": "Coordinators",
+            "templateTitle": "Ready-made report",
+            "templateText": "Download our Power BI template with overview, inquiries, citizens and economy. Open it in Power BI Desktop and paste your token.",
+            "templateDownload": "Download report (.pbit)",
+            "check": "Test connection",
+            "checkResult": "✓ {cases} cases, {inquiries} inquiries, {departments} department links and {coordinators} coordinators ready for Power BI",
+            "lastFetched": "Power BI last fetched data {time}",
+            "neverFetched": "Power BI has not fetched data yet.",
+            "withoutNames": "Without citizen names",
+            "withoutNamesHint": "Feeds send citizen IDs instead of names. Good for management reports and GDPR. Coordinator names are still included.",
+            "excelTitle": "Use in Excel",
+            "excelText": "The feeds also work in Excel: Data → From Web → paste a feed URL. When Excel asks for access, choose Anonymous.",
+            "feedStays": "Stays and contract periods",
+            "feedEconomyMonthly": "Coordinator economy per month",
+            "feedEmployees": "Employees",
+            "feedShifts": "Shifts",
+            "feedInvoices": "Invoices",
+            "previewTitle": "This is what your report looks like",
+            "previewSubtitle": "Your own figures, the same as in the Power BI report.",
+            "previewExample": "Example figures",
+            "previewExampleText": "Activate Power BI to see your own figures here and in Power BI.",
+            "previewActivate": "Activate Power BI",
+            "kpiActive": "Active citizens",
+            "kpiInquiries": "Inquiries, 12 mo.",
+            "kpiInquiriesShort": "Inquiries",
+            "kpiConversion": "Became citizen",
+            "kpiRevenue": "Revenue, 12 mo.",
+            "chartInquiries": "Inquiries per month",
+            "chartDepartments": "Active citizens per department",
+            "noDepartments": "No active citizens in a department yet.",
+            "stepApp": "App active",
+            "stepToken": "Token created",
+            "stepFetched": "Data fetched in Power BI",
+            "copyQuery": "Power Query"
         },
         "zapier": {
             "title": "Zapier",
@@ -13131,6 +13217,10 @@
             "customLinks": {
                 "title": "What are custom links?",
                 "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
+            },
+            "infoScreen": {
+                "title": "What does Info screen do?",
+                "body": "Show today's program, menu, news and pictures on a screen in the common room. The screen never shows citizen data."
             }
         },
         "movedNotice": {
@@ -13142,6 +13232,166 @@
                 "search": "The search box at the top of the list finds any setting by name.",
                 "billing": "Subscription, licences, storage and invoices now share one page with tabs."
             }
+        },
+        "infoScreen": {
+            "title": "Info screen",
+            "subtitle": "Show today's program, menu, news and pictures on screens in common rooms. The screen never shows citizen data.",
+            "notPurchased": "Info screen is not active. Buy the app in the app store to set up screens.",
+            "goToApps": "Go to the app store",
+            "seats": "Screens",
+            "seatsUsed": "{paired} of {total} screens in use",
+            "seatsHint": "Each paired screen uses one licence. You can create as many screens as you like.",
+            "newScreen": "New screen",
+            "empty": "There are no screens yet. Create the first screen.",
+            "noDepartment": "Whole site",
+            "paired": "Paired",
+            "notPaired": "Not paired",
+            "lastSeen": "Last seen {time}",
+            "pair": "Pair screen",
+            "repair": "Pair again",
+            "unpair": "Unpair",
+            "edit": "Edit",
+            "editTitle": "Edit screen",
+            "name": "Name",
+            "namePlaceholder": "E.g. Common room",
+            "department": "Department",
+            "widgets": "What the screen shows",
+            "showClock": "Clock and date",
+            "showActivities": "Today's program",
+            "showMenu": "Today's menu",
+            "showNews": "News",
+            "showNewsHint": "Only news for citizens, for the whole site or for the department.",
+            "showSlides": "Pictures",
+            "showStaff": "Staff on duty",
+            "showStaffHint": "Shows only the first names of staff on duty in the department right now.",
+            "message": "Fixed message",
+            "messagePlaceholder": "E.g. Shared dinner on Friday at 17:00",
+            "activities": "Program",
+            "activitiesHint": "The screen shows today's items. The program repeats every week.",
+            "activityPlaceholder": "E.g. Walk",
+            "addActivity": "Add item",
+            "remove": "Remove",
+            "menu": "Menu",
+            "menuPlaceholder": "E.g. Meatballs with potatoes",
+            "slides": "Pictures",
+            "slidesHint": "JPG, PNG or WebP, max 10 MB. Pictures and news take turns.",
+            "slideSeconds": "Seconds per picture",
+            "saveFirst": "Save the screen first, then add pictures.",
+            "addSlide": "Add pictures",
+            "uploading": "Uploading…",
+            "cancel": "Cancel",
+            "save": "Save",
+            "saved": "The screen is saved",
+            "pairTitle": "Pair screen",
+            "pairStep1": "Open this address in the browser on the screen:",
+            "pairStep2": "Enter the code on the screen:",
+            "pairExpires": "The code works until {time}.",
+            "confirmDelete": "Delete the screen? It stops showing content at once.",
+            "confirmUnpair": "Unpair the screen? It stops showing content at once.",
+            "weekdays": {
+                "1": "Monday",
+                "2": "Tuesday",
+                "3": "Wednesday",
+                "4": "Thursday",
+                "5": "Friday",
+                "6": "Saturday",
+                "7": "Sunday"
+            },
+            "showTimeline": "Timeline for the day",
+            "showTimelineHint": "Today's program on a timeline with a marker for the time now.",
+            "showWeather": "Weather",
+            "showWeatherHint": "Temperature now and a curve for the next hours. Weather data from MET Norway.",
+            "showPoll": "Poll",
+            "showPollHint": "Residents vote with their phone via a QR code on the screen. No login, no names.",
+            "weatherPlace": "Place for the weather",
+            "weatherPlaceHint": "Pick an address so the screen shows the weather right there.",
+            "poll": "Poll",
+            "pollHint": "Write a question and 2-6 answers. If you change the question or answers, the count starts over.",
+            "pollQuestionPlaceholder": "E.g. What shall we eat on Friday?",
+            "pollOptionPlaceholder": "Answer {number}",
+            "pollAddOption": "Add answer",
+            "pollLink": "Link to the poll:",
+            "pollReset": "Start the count over",
+            "pollResetDone": "The count has started over",
+            "offline": "Offline",
+            "preview": "Preview",
+            "messageUntil": "Show until",
+            "messageUntilHint": "Empty = until you remove it",
+            "nightMode": "Night mode",
+            "nightModeHint": "Only a dim clock at night. Saves power and keeps the hallway dark.",
+            "nightFrom": "Night from",
+            "nightTo": "to",
+            "pictogram": "Pictogram",
+            "pictograms": {
+                "meal": "Meal",
+                "coffee": "Coffee",
+                "walk": "Walk",
+                "bus": "Bus/trip",
+                "workshop": "Workshop",
+                "music": "Music",
+                "sport": "Sport",
+                "bath": "Bath",
+                "doctor": "Doctor",
+                "medicine": "Medicine",
+                "hairdresser": "Hairdresser",
+                "shopping": "Shopping",
+                "cleaning": "Cleaning",
+                "cinema": "Film",
+                "games": "Games",
+                "party": "Party",
+                "church": "Church",
+                "garden": "Garden",
+                "visit": "Visit",
+                "sleep": "Rest"
+            },
+            "largeText": "Large text",
+            "largeTextHint": "Bigger text and fewer items at a time, for residents who see poorly.",
+            "alertTitle": "Urgent message",
+            "alertHint": "Shown full screen on all your info screens within a minute, also at night, until you remove it.",
+            "alertActive": "Showing now",
+            "alertPlaceholder": "E.g. Fire drill at 2 pm – meet at the main entrance",
+            "alertShow": "Show on all screens",
+            "alertUpdate": "Update",
+            "alertRemove": "Remove",
+            "alertSaved": "The urgent message now shows on all screens",
+            "duplicate": "Copy",
+            "duplicated": "The screen is copied. Pair it with its own TV.",
+            "copyName": "{name} (copy)",
+            "slideUntil": "Show until",
+            "showWeek": "Week plan",
+            "showWeekHint": "The whole week's program takes a turn in the big panel.",
+            "copyDay": "Copy",
+            "copyDayTo": "to",
+            "copyWeekdays": "All weekdays",
+            "copyAllDays": "All days",
+            "copy": "Copy",
+            "messageFrom": "Show from",
+            "staffPhotos": "Staff photos",
+            "staffPhotosHint": "Shows the profile photo by the first name. Without a photo, initials are shown.",
+            "reminder": "Reminder before an activity",
+            "reminderOff": "Off",
+            "reminderMinutes": "{count} min before",
+            "reminderHint": "The activity fills the screen for a moment each minute until it starts.",
+            "slideFrom": "Show from",
+            "birthdays": "Birthdays",
+            "birthdaysHint": "The screen says happy birthday on the day. First names only, and only for those who want to be celebrated.",
+            "birthdayName": "First name",
+            "birthdayDay": "Day",
+            "birthdayMonth": "Month",
+            "addBirthday": "Add birthday",
+            "showMood": "Well-being",
+            "showMoodHint": "\"How are you today?\" with a QR code. Anonymous, one answer per phone per day.",
+            "mood": "Well-being",
+            "moodHint": "Answers per week for the last 8 weeks. Weeks with few answers are hidden, so no one can be recognised.",
+            "moodLink": "Link behind the QR code:",
+            "mood_sad": "Bad",
+            "mood_meh": "Okay",
+            "mood_happy": "Good",
+            "moodWeek": "Week {week}",
+            "moodTooFew": "Fewer than {min} answers",
+            "moodNone": "No answers",
+            "moodAnswers": "{count} answers",
+            "buyMore": "Buy more screens"
         }
     },
     "supportAccess": {
@@ -14086,7 +14336,51 @@
                     "yearly": "Yearly",
                     "billingFixed": "Billing: {frequency}",
                     "granted": "Licenses added",
-                    "failed": "Could not add licenses"
+                    "failed": "Could not add licenses",
+                    "term": {
+                        "label": "Contract length",
+                        "agreement": "Follows the agreement “{name}” until {date} (pro rata)",
+                        "year": "1 year",
+                        "years": "{years} years",
+                        "monthly": "Ongoing, month by month",
+                        "createAgreement": "Create agreement…"
+                    },
+                    "billingBox": {
+                        "title": "How the customer is billed",
+                        "included": "{count} included in the plan",
+                        "fee": "Invoice fee",
+                        "vat": "VAT (25%)",
+                        "total": "Total incl. VAT",
+                        "period": "Period: {from} – {to}",
+                        "periodProrated": "Period: {from} – {to} (pro rata to the agreement end)",
+                        "failed": "The price could not be calculated."
+                    },
+                    "billing": {
+                        "economic_auto": "The invoice is booked and emailed from e-conomic to the customer right away (customer no. {customer}).",
+                        "economic_finance": "Finance invoices from e-conomic. CitizenOne creates the invoice and notifies finance.",
+                        "agreement_add_on": "The customer has an agreement: the invoice waits for finance to choose an agreement add-on or a separate invoice. Finance is notified.",
+                        "card_manual_invoice": "Card customer: the purchase is not charged to the card automatically. The invoice is left unpaid in the customer’s invoice list, where the admin can pay by card. The customer gets no email; finance is notified and follows up.",
+                        "none_customer_number": "The customer cannot be billed: no e-conomic customer number.",
+                        "none_economic_off": "The customer cannot be billed: e-conomic is turned off.",
+                        "no_charge": "Granted without charge.",
+                        "included": "The licences are included in the plan. Nothing is billed.",
+                        "unknown": "Billing could not be determined."
+                    },
+                    "noChargeReason": "Without charge – reason",
+                    "noChargeReasonHint": "Required (at least 5 characters). The licences are granted free and the reason is saved in the activity log.",
+                    "save": {
+                        "plain": "Add",
+                        "invoice": "Add and invoice {amount}",
+                        "noCharge": "Add without charge"
+                    },
+                    "toast": {
+                        "economic_auto": "Invoice {number} for {amount} is booked and emailed from e-conomic to the customer (customer no. {customer}).",
+                        "economic_finance": "Invoice {number} for {amount} was created. Finance invoices from e-conomic and has been notified.",
+                        "manual_invoice": "Invoice {number} for {amount} waits for finance to choose an agreement add-on or a separate invoice. Finance has been notified.",
+                        "card": "Invoice {number} for {amount} is unpaid in the customer’s invoice list (not charged to the card). Finance has been notified.",
+                        "noCharge": "The licences were granted without charge. The reason is saved in the activity log.",
+                        "included": "The licences were added. They are included in the plan, so nothing is billed."
+                    }
                 },
                 "addSubscription": {
                     "addSubscription": "Add subscription",
@@ -14766,7 +15060,49 @@
             "successOrderCreated": "Order created!",
             "successOrderCreatedBody": "Order for {name} has been created.",
             "successUpdated": "Updated!",
-            "successOrderCompleted": "The order has been completed."
+            "successOrderCompleted": "The order has been completed.",
+            "licenseOrders": {
+                "title": "Licence orders",
+                "subtitle": "Every licence and storage order, and whether it reached e-conomic.",
+                "attention": "{count} order(s) not booked after 1 day or failed",
+                "allStatuses": "All statuses",
+                "empty": "No orders.",
+                "columns": {
+                    "date": "Date",
+                    "company": "Company",
+                    "orderedBy": "Ordered by",
+                    "items": "Items",
+                    "total": "Total incl. VAT",
+                    "invoice": "Invoice",
+                    "billing": "Billing",
+                    "status": "e-conomic"
+                },
+                "source": {
+                    "customer": "customer",
+                    "superadmin": "superadmin"
+                },
+                "method": {
+                    "economic_auto": "e-conomic (automatic)",
+                    "economic_finance": "Finance invoices",
+                    "manual_invoice": "Awaiting choice (agreement)",
+                    "card": "Card (manual)",
+                    "none": "Without charge",
+                    "included": "Included"
+                },
+                "status": {
+                    "pending": "Pending",
+                    "draft": "Draft created",
+                    "booked": "Booked and sent",
+                    "paid": "Paid",
+                    "finance": "Finance invoices",
+                    "error": "Error",
+                    "no_invoice": "No invoice"
+                },
+                "errorReason": "Error: {reason}",
+                "previous": "Previous",
+                "next": "Next",
+                "page": "Page {page} of {pages}"
+            }
         },
         "polls": {
             "confirmation": {
@@ -17728,6 +18064,9 @@
         "showAsNewsHint": "Only what is new or improved is shown. Fixes are never shown as news.",
         "sendToMilo": "Send to Milo (support knowledge)",
         "sendToMiloHint": "Fixes go to Milo so support can answer questions about them, but are never shown as news.",
+        "popupRoute": "Show as popup on page",
+        "popupRouteHint": "E.g. /schedules. Shown once to each user on that page until they close it. Published notes only. Empty = no popup.",
+        "popupOn": "Popup on {route}",
         "toMilo": "To Milo"
     },
     "customSidebarLinks": {
@@ -19037,11 +19376,13 @@
             "basisTitle": "What is it billed on?",
             "basis": {
                 "delivered": "Delivered hours",
-                "granted": "Granted hours"
+                "granted": "Granted hours",
+                "included": "Included - not invoiced"
             },
             "basisHelp": {
                 "delivered": "Billed on the hours registered as delivered in the period.",
-                "granted": "Billed on the granted hours (granted hours times the hourly price), however many were delivered. Applies when the price is per hour."
+                "granted": "Billed on the granted hours (granted hours times the hourly price), however many were delivered. Applies when the price is per hour.",
+                "included": "The hours are included in the agreement and are not invoiced. They are shown but never put on an invoice."
             },
             "name": "Name",
             "billingBasis": "Billed on",
@@ -19335,8 +19676,10 @@
             "person": "Person",
             "employment": "Employment",
             "work": "Work",
-            "bank": "Pay and bank"
+            "bank": "Pay and bank",
+            "custom": "Other HR fields"
         },
+        "customHrOnly": "Only HR can see these fields. The employee only sees those marked visible to the employee.",
         "fields": {
             "privateEmail": "Private email",
             "privatePhone": "Private phone",
@@ -19388,7 +19731,7 @@
         "notReady": "The consultant cannot be put forward yet",
         "sections": {
             "profile": "Profile",
-            "skills": "Competences, courses and subjects",
+            "skills": "Competences, {courses} and subjects",
             "documents": "Documents"
         },
         "skillsHint": "These are the lists the consultant is found on when a case is matched.",
@@ -21809,7 +22152,9 @@
                 "ready_to_close": "Ready to close",
                 "past_due": "Behind",
                 "overdue": "Overdue",
-                "suspended": "Closed"
+                "suspended": "Closed",
+                "collection": "Collection",
+                "written_off": "Written off"
             },
             "method": {
                 "card": "Card",
@@ -21827,7 +22172,9 @@
                 "reopen": "Reopen",
                 "postpone": "Postpone",
                 "revoke_security_card": "Remove security card",
-                "retry_unknown_charge": "Retry with the same key"
+                "retry_unknown_charge": "Retry with the same key",
+                "collection": "Send to collection",
+                "write_off": "Write off"
             },
             "help": {
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
@@ -21838,7 +22185,9 @@
                 "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
                 "postpone": "Pauses dunning and closing for the number of days you choose.",
                 "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi.",
-                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal."
+                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal.",
+                "collection": "Hands the outstanding amount over to debt collection. The company moves to the Collection tab.",
+                "write_off": "Writes off the outstanding amount as lost. The company moves to the Written off tab."
             },
             "dialog": {
                 "title": {
@@ -21849,7 +22198,9 @@
                     "reopen": "Reopen the company",
                     "postpone": "Postpone dunning",
                     "revoke_security_card": "Remove the security card",
-                    "retry_unknown_charge": "Retry with the same key"
+                    "retry_unknown_charge": "Retry with the same key",
+                    "collection": "Send the company to collection",
+                    "write_off": "Write off the outstanding amount"
                 },
                 "about": "{company}: {amount} outstanding",
                 "noteLabel": "Reason",
@@ -21865,7 +22216,9 @@
                 "optional": "optional",
                 "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
                 "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card.",
-                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have."
+                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have.",
+                "collectionNoteLabel": "Note",
+                "collectionNoteHelp": "The note is saved in the activity log."
             },
             "done": {
                 "retry": "The retry has been started",
@@ -21875,7 +22228,9 @@
                 "reopen": "The company is reopened",
                 "postpone": "Dunning has been postponed",
                 "revoke_security_card": "The security card was removed",
-                "retry_unknown_charge": "The charge was sent again with the same key"
+                "retry_unknown_charge": "The charge was sent again with the same key",
+                "collection": "The company has been sent to collection",
+                "write_off": "The amount has been written off"
             },
             "failed": "The action failed",
             "openCompany": "Open the company",
@@ -21892,7 +22247,23 @@
             "invoiceStatusHelp": "Status of the security card charge for this invoice.",
             "securityCardLine": "Card •••• {last_four} (expires {expiry})",
             "needsNexiCheck": "Check in the Nexi portal",
-            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything."
+            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything.",
+            "reminder": {
+                "1": "Reminder 1",
+                "2": "Reminder 2",
+                "3": "Reminder 3"
+            },
+            "tab": {
+                "active": "Active",
+                "closed": "Closed",
+                "collection": "Collection",
+                "written_off": "Written off"
+            },
+            "emptyTab": "No companies in this tab",
+            "since": {
+                "collection": "Sent to collection {date}",
+                "written_off": "Written off {date}"
+            }
         },
         "company": {
             "title": "Payment method",
@@ -22052,5 +22423,63 @@
     "desktopApp": {
         "notAvailable": "This is not available in the desktop app.",
         "paymentNotAvailable": "The payment card cannot be updated in the desktop app. Contact support if you need help."
+    },
+    "infoScreenDisplay": {
+        "title": "Info screen",
+        "pairTitle": "Connect the screen",
+        "pairHint": "Enter the code from Settings → Info screen in CitizenOne.",
+        "code": "Code",
+        "connect": "Connect",
+        "wrongCode": "The code is wrong or expired. Make a new code and try again.",
+        "tooManyTries": "Too many tries. Wait a minute and try again.",
+        "noSeat": "There is no free licence for this screen. Buy more screens in the app store, or unpair another screen.",
+        "appInactive": "Info screen is not active. Contact your administrator.",
+        "today": "Today",
+        "noActivities": "No activities planned today",
+        "menu": "Today's menu",
+        "onDuty": "On duty",
+        "until": "until {time}",
+        "news": "News",
+        "weatherToday": "Weather",
+        "weatherChart": "Temperature for the next hours",
+        "now": "Now",
+        "weatherCredit": "Weather data: MET Norway",
+        "poll": "Poll",
+        "pollVotes": "Votes: {count}",
+        "pollScan": "Scan and vote",
+        "inMinutes": "In {count} min",
+        "inHours": "In {count} h",
+        "inHoursMinutes": "In {hours} h {minutes} min",
+        "offline": "No connection",
+        "preview": "Preview",
+        "previewFailed": "The preview could not be loaded. Log in as an administrator and try again.",
+        "week": "This week's program",
+        "mood": "Well-being",
+        "moodQuestion": "How are you today?",
+        "moodAnonymous": "Your answer is anonymous.",
+        "moodScan": "Scan and answer",
+        "birthday": "Happy birthday"
+    },
+    "infoScreenVote": {
+        "title": "Poll",
+        "closed": "The poll is closed.",
+        "thanks": "Thank you for voting!",
+        "alreadyVoted": "You have already voted.",
+        "votes": "Votes in total: {count}",
+        "anonymous": "Your vote is anonymous.",
+        "failed": "Your vote was not sent. Try again.",
+        "changed": "The question has just changed. Please vote again."
+    },
+    "infoScreenMood": {
+        "title": "Well-being",
+        "question": "How are you today?",
+        "sad": "Bad",
+        "meh": "Okay",
+        "happy": "Good",
+        "thanks": "Thank you for your answer",
+        "tomorrow": "You can answer again tomorrow.",
+        "closed": "The question is not open right now.",
+        "failed": "The answer was not sent. Try again.",
+        "anonymous": "Anonymous. We do not ask who you are."
     }
 }

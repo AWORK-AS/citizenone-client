@@ -4,6 +4,7 @@ import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedbac
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
 import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
 import { codyMemoryService } from '@/components/api/user/CodyMemoryService'
+import { TASK_PROPOSAL_CARD } from '@/composables/codyTaskProposal'
 import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -67,6 +68,10 @@ export interface AnswerCard {
     link?: string | null
     /** Only on a `milo` card: which kind of CitizenOne question it was. */
     intent?: 'citizenone_support' | 'citizenone_sales'
+    /** Only on a `chat_message` card: who it is for, the text Cody AI wrote, and where it goes. */
+    recipient?: 'colleague' | 'group'
+    draft?: string
+    target?: { type: 'chat' | 'employee', uuid: string }
 }
 
 export interface CodyMessage {
@@ -127,7 +132,12 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
  * mirroring the backend's CardResolver: a type nobody has written a component
  * for is dropped, so the server can add one before the client learns it.
  */
-const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo']
+const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo', 'chat_message']
+
+/** A task Cody AI proposed is drawn too: answer-card hands it to its own component. */
+function isDrawnCard(type: unknown): boolean {
+    return KNOWN_CARDS.includes(type as string) || type === TASK_PROPOSAL_CARD
+}
 
 export function createCodyChat() {
     const { t } = useI18n()
@@ -676,7 +686,7 @@ export function createCodyChat() {
                     // A type this client does not know is dropped rather than
                     // improvised: it is what lets a new card ship on the server
                     // before the component that draws it exists.
-                    if (KNOWN_CARDS.includes(data?.type) && data?.title) {
+                    if (isDrawnCard(data?.type) && data?.title) {
                         state.cards.push(data as AnswerCard)
                     }
                     return
@@ -754,7 +764,7 @@ export function createCodyChat() {
             // stream and carries them in the body instead. Whichever answered,
             // the answer ends up with the same cards.
             cards: response?.cards?.length
-                ? (response.cards as AnswerCard[]).filter((card) => KNOWN_CARDS.includes(card.type))
+                ? (response.cards as AnswerCard[]).filter((card) => isDrawnCard(card.type))
                 : [...state.cards],
             memoryNote,
         })

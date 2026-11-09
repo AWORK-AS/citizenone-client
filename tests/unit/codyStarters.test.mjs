@@ -12,17 +12,22 @@ describe('starterMode', () => {
         assert.equal(starterMode('Skriv et journalnotat for '), 'fill')
         assert.equal(starterMode('Find the attached files about '), 'fill')
     })
+    it('fills a prompt that ends in @, so the colleague picker opens', () => {
+        assert.equal(starterMode('Skriv en besked til @'), 'fill')
+        assert.equal(starterMode('mail me at a@b.dk'), 'send')
+    })
     it('classifies the real starters the same way in every language', () => {
         const modes = {}
         for (const l of ['dk', 'en', 'sv', 'no']) {
             const q = JSON.parse(readFileSync(new URL(`../../lang/${l}.json`, import.meta.url))).assistants.quickPrompts
-            modes[l] = Object.fromEntries(Object.entries(q).map(([k, v]) => [k, starterMode(v)]))
+            // vue-i18n renders a {'@'} literal as "@" (a bare "@" is linked-message syntax and fails to compile).
+            modes[l] = Object.fromEntries(Object.entries(q).map(([k, v]) => [k, starterMode(v.replace(/\{'([^']*)'\}/g, '$1'))]))
         }
         for (const l of ['en', 'sv', 'no']) assert.deepEqual(modes[l], modes.dk)
         assert.deepEqual(modes.dk, {
             overview: 'send', journal: 'fill', files: 'fill', shifts: 'send',
             citizenWeek: 'send', citizenGoals: 'send', citizenNote: 'fill',
-            nextShift: 'send', myTasks: 'send', newTask: 'fill', unread: 'send',
+            nextShift: 'send', myTasks: 'send', newTask: 'fill', unread: 'send', message: 'fill',
         })
     })
 })
@@ -48,7 +53,7 @@ describe('startersFor', async () => {
         assert.equal(keys('schedule')[0], 'nextShift')
         assert.deepEqual(keys('tasks').slice(0, 2), ['myTasks', 'newTask'])
         assert.equal(keys('messages')[0], 'unread')
-        assert.deepEqual(keys(null), ['overview', 'journal', 'files', 'shifts'])
+        assert.deepEqual(keys(null), ['overview', 'journal', 'message', 'shifts'])
     })
     it('never offers more than four, or one twice', () => {
         for (const group of [null, 'citizen', 'schedule', 'tasks', 'messages', 'unknown']) {

@@ -956,3 +956,15 @@ queues one support email - delete both if you don't want them.
 ```bash
 CO_TOKEN='<token>' npm run test:wish-images
 ```
+
+### `release-note-popup-and-polls` — no extra setup beyond `CO_TOKEN`
+
+The "what's new" popup on `/schedules` (shown from a release note with a popup
+page, closed with "Got it", not back on reload, nothing on other pages) and the
+polls on Coming functions (reached from the "?" menu with the unvoted count,
+vote and take back, badge follows). The popup and poll endpoints are stubbed
+with `page.route()`, so it writes nothing and needs no approver account.
+
+```bash
+CO_TOKEN='<token>' npm run test:release-note-popup-and-polls
+```

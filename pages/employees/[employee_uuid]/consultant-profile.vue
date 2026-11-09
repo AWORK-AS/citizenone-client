@@ -175,7 +175,7 @@
                 <!-- Skills -->
                 <div class="rounded-lg border border-gray-200 bg-white p-4">
                     <p class="mb-1 text-sm font-semibold text-gray-900">
-                        {{ $t('consultantProfile.sections.skills') }}
+                        {{ $t('consultantProfile.sections.skills', { courses: skillTypeTitle('course').toLowerCase() }) }}
                     </p>
                     <p class="mb-4 text-xs text-gray-400">
                         {{ $t('consultantProfile.skillsHint') }}
@@ -183,7 +183,7 @@
 
                     <div v-for="type in TYPES" :key="type" class="mb-4 last:mb-0">
                         <FormLabel :for="`skills-${type}`"
-                            :label="$t('consultantSkills.types.' + type + '.title')" />
+                            :label="skillTypeTitle(type)" />
                         <FormSelectMultiple :id="`skills-${type}`" :modelValue="selectedByType(type)"
                             :options="skillOptions(type)"
                             @update:modelValue="(value: any) => setSkillsForType(type, value)" />
@@ -259,6 +259,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
@@ -275,6 +276,7 @@ const stepAssessmentMax = computed(() => {
 })
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { skillTypeTitle } = useTerminology()
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const TYPES = ['competence', 'course', 'topic']

@@ -29,7 +29,7 @@
                 <div class="space-y-3.5">
                     <div v-for="type in SKILL_TYPES" :key="type">
                         <FormLabel :for="`crit-${type}`"
-                            :label="$t('consultantSkills.types.' + type + '.title')" />
+                            :label="skillTypeTitle(type)" />
                         <FormSelectMultiple :id="`crit-${type}`" :modelValue="selectedSkills(type)"
                             :options="skillOptions(type)"
                             @update:modelValue="(value: any) => setSkills(type, value)" />
@@ -351,6 +351,7 @@ import { saveAs } from 'file-saver'
 import { formatWeekHours } from '@/composables/citizenWeeklyHours'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 import { useUserStore } from '@/store/user'
 import { notifiedChannels } from '@/utils/consultantNotifiedVia'
 import type { Error } from '@/types'
@@ -369,6 +370,7 @@ const props = defineProps({
 })
 const emit = defineEmits<{ pick: [consultant: any] }>()
 const { t, locale } = useI18n()
+const { skillTypeTitle } = useTerminology()
 const { toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
