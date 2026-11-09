@@ -9,7 +9,9 @@
                         data-testid="medicine-from-renewal">
                         <p class="font-semibold flex items-center gap-2">
                             <Icon name="ph:prescription" class="size-4 text-secondary" aria-hidden="true" />
-                            {{ $t('prescriptionRenewals.prescribe.banner', { medicine: props.renewal.medicine?.name ?? '-' }) }}
+                            {{ props.renewal.is_new_prescription
+                                ? $t('prescriptionRenewals.prescribe.bannerNew')
+                                : $t('prescriptionRenewals.prescribe.banner', { medicine: renewalMedicineLabel(props.renewal, '-') }) }}
                         </p>
                         <p class="mt-1 text-xs text-gray-500">{{ $t('prescriptionRenewals.prescribe.bannerHelp') }}</p>
                     </div>
@@ -25,6 +27,7 @@
 
 <script setup lang="ts">
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
+import { renewalMedicineLabel } from '@/composables/prescriptionRenewals'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'

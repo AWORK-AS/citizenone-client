@@ -389,6 +389,19 @@
                                         {{ $t('settings.company.form.patientChatInboxHint') }}.
                                     </p>
                                 </div>
+                                <!-- "Request a new prescription" in the portal sends this questionnaire; none hides the button. -->
+                                <div v-if="audience.key === 'patient' && isSectionVisible('patient', 'prescriptions') && userStore.getUser?.is_surveys_active !== false"
+                                    class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-1" data-testid="new-prescription-survey">
+                                    <FormLabel for="new_prescription_survey_uuid"
+                                        :label="$t('settings.company.form.newPrescriptionSurvey')" />
+                                    <div class="max-w-md">
+                                        <FormSelect id="new_prescription_survey_uuid" :options="newPrescriptionSurveyOptions"
+                                            :searchable="true" :canClear="true" :canDeselect="true"
+                                            :placeholder="$t('settings.company.form.newPrescriptionSurveyNone')"
+                                            v-model="state.formCompany.new_prescription_survey_uuid" />
+                                    </div>
+                                    <p class="text-xs text-gray-500">{{ $t('settings.company.form.newPrescriptionSurveyHint') }}</p>
+                                </div>
                                 <!-- A clinic with no phone to call keeps its contact details out of the portal (AW-2026-6183). -->
                                 <div v-if="audience.key === 'patient'"
                                     class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-1">
@@ -1118,6 +1131,7 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { roleService } from '@/components/api/user/RoleService'
+import { surveyService } from '@/components/api/user/SurveyService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
 import { useUserStore } from '@/store/user'
@@ -1390,6 +1404,7 @@ const state = reactive({
         care_hour_payroll_lock_enabled: false,
         portal_email_login_enabled: false,
         portal_visibility: {} as any,
+        new_prescription_survey_uuid: null as string | null,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
         intervention_checkin_enabled: false,
@@ -1475,6 +1490,25 @@ onMounted(() => {
     fetchRegions()
     fetchPublicHolidays()
 })
+
+// The questionnaires a clinic can link to "Request a new prescription" in the patient portal.
+const newPrescriptionSurveyOptions = ref<{ value: string, label: string }[]>([])
+
+// Loaded once the signed-in user (and so the company's apps) is known.
+let newPrescriptionSurveysLoaded = false
+watch(() => userStore.getUser, () => fetchNewPrescriptionSurveyOptions(), { immediate: true })
+
+async function fetchNewPrescriptionSurveyOptions() {
+    if (import.meta.server || newPrescriptionSurveysLoaded) return
+    if (!(userStore.getUser as any)?.company?.patient_access_activated || userStore.getUser?.is_surveys_active === false) return
+    newPrescriptionSurveysLoaded = true
+    try {
+        const response = await surveyService.getAllSurveys()
+        newPrescriptionSurveyOptions.value = (response?.data ?? []).map((survey: any) => ({ value: survey.uuid, label: survey.title }))
+    } catch {
+        newPrescriptionSurveyOptions.value = []
+    }
+}
 
 async function fetchPublicHolidays() {
     try {
@@ -1565,6 +1599,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             care_hour_payroll_lock_enabled: newValue?.company?.care_hour_payroll_lock_enabled === true,
             portal_email_login_enabled: newValue?.company?.portal_email_login_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
+            new_prescription_survey_uuid: newValue?.company?.new_prescription_survey_uuid ?? null,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
@@ -1859,6 +1894,7 @@ async function submitForm() {
                 care_hour_payroll_lock_enabled: state.formCompany.care_hour_payroll_lock_enabled,
                 portal_email_login_enabled: state.formCompany.portal_email_login_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
+                new_prescription_survey_uuid: state.formCompany.new_prescription_survey_uuid || null,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,

@@ -10,6 +10,7 @@ import {
     RENEWAL_STATUSES,
     canDecide,
     canPrescribe,
+    renewalMedicineLabel,
     patientRenewalAction,
     prescribeLink,
     renewalBadgeClass,
@@ -63,5 +64,20 @@ describe('the patient\'s prescriptions', () => {
     test('otherwise the patient waits for the clinic', () => {
         assert.equal(patientRenewalAction({ open_request: { status: 'pending' } }), 'waiting')
         assert.equal(patientRenewalAction({ open_request: { status: 'approved' } }), 'waiting')
+    })
+})
+
+describe('renewalMedicineLabel', () => {
+    test('names the medicine of a renewal', () => {
+        assert.equal(renewalMedicineLabel({ medicine: { name: 'Finasterid' } }, 'New prescription'), 'Finasterid')
+    })
+
+    test('a request for a new prescription has no medicine yet', () => {
+        assert.equal(renewalMedicineLabel({ is_new_prescription: true, medicine: null }, 'New prescription'), 'New prescription')
+    })
+
+    test('a dash when the medicine is gone', () => {
+        assert.equal(renewalMedicineLabel({ medicine: null }, 'New prescription'), '-')
+        assert.equal(renewalMedicineLabel(null, 'New prescription'), '-')
     })
 })

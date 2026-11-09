@@ -51,3 +51,15 @@ export function patientRenewalAction(prescription: { open_request?: { status?: s
     if (open.status === 'awaiting_answers' && open.survey_assignment_uuid) return 'answer'
     return 'waiting'
 }
+
+/**
+ * What the request is for: the medicine, or `newLabel` ("New prescription") when the patient asked for a new
+ * prescription from the portal and staff choose the medicine when they make it.
+ */
+export function renewalMedicineLabel(
+    renewal: { is_new_prescription?: boolean, medicine?: { name?: string } | null } | null | undefined,
+    newLabel: string,
+): string {
+    if (renewal?.is_new_prescription) return newLabel
+    return renewal?.medicine?.name || '-'
+}

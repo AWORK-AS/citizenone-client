@@ -36,7 +36,7 @@
                                 <td>
                                     <p class="font-medium text-slate-900">{{ citizenName(renewal) }}</p>
                                 </td>
-                                <td class="text-sm text-slate-700">{{ renewal.medicine?.name ?? '-' }}</td>
+                                <td class="text-sm text-slate-700">{{ renewalMedicineLabel(renewal, $t('prescriptionRenewals.newPrescription')) }}</td>
                                 <td>
                                     <span :class="['badge', renewalBadgeClass(renewal.status)]">
                                         {{ $t(`prescriptionRenewals.statuses.${renewal.status}`) }}
@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { prescriptionRenewalService } from '@/components/api/user/PrescriptionRenewalService'
-import { RENEWAL_STATUSES, renewalBadgeClass } from '@/composables/prescriptionRenewals'
+import { RENEWAL_STATUSES, renewalBadgeClass, renewalMedicineLabel } from '@/composables/prescriptionRenewals'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'

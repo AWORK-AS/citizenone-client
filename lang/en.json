@@ -12729,7 +12729,10 @@
                 "contactWeeklyHours": "Hours a week per employee and @:terms.citizen{''}",
                 "contactWeeklyHoursHint": "When assigning, set how many hours a week the employee is to spend with a @:terms.citizen{''}. The employee sees the hours and what is used on My day",
                 "expenseCitizenRequired": "@.capitalize:terms.citizen{''} required on expenses",
-                "expenseCitizenRequiredHint": "When on, an expense can only be saved with a @:terms.citizen{''}, on the web and in the app"
+                "expenseCitizenRequiredHint": "When on, an expense can only be saved with a @:terms.citizen{''}, on the web and in the app",
+                "newPrescriptionSurvey": "Questionnaire for a new prescription",
+                "newPrescriptionSurveyNone": "None (the button is hidden)",
+                "newPrescriptionSurveyHint": "Patients see \"Request a new prescription\" under Prescriptions. Pressing it sends them this questionnaire, and their answers come to you as a request."
             }
         },
         "licenseOverview": {
@@ -22001,13 +22004,15 @@
         "prescribe": {
             "banner": "Renewal of {medicine}",
             "bannerHelp": "Saving the prescription closes the patient's renewal request.",
-            "done": "The prescription has been created and the renewal request is closed."
+            "done": "The prescription has been created and the renewal request is closed.",
+            "bannerNew": "New prescription requested by the patient"
         },
         "settings": {
             "renewalSurvey": "Questionnaire for prescription renewal",
             "noRenewalSurvey": "No questionnaire",
             "renewalSurveyHelp": "Sent to the patient when they ask to renew a prescription for this medicine, e.g. a hair-loss questionnaire."
-        }
+        },
+        "newPrescription": "New prescription"
     },
     "patientPrescriptions": {
         "title": "Prescriptions",
@@ -22032,7 +22037,14 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "prescribed": "Renewed"
-        }
+        },
+        "newPrescription": "New prescription",
+        "newIntro": "Need a prescription you don't have yet? Ask the clinic for a new one.",
+        "requestNew": "Request a new prescription",
+        "confirmNew": "Ask the clinic for a new prescription?",
+        "questionnaireNextNew": "Next you answer a short questionnaire, so the clinic can assess your request.",
+        "notePlaceholderNew": "E.g. what you need the prescription for",
+        "prescribedNew": "Prescribed"
     },
     "apiErrors": {
         "notSavedTitle": "Not saved",

@@ -12724,7 +12724,10 @@
                 "contactWeeklyHours": "Timer per uke per medarbeider og @:terms.citizen{''}",
                 "contactWeeklyHoursHint": "Angi ved tildeling hvor mange timer per uke medarbeideren skal bruke med en @:terms.citizen{''}. Medarbeideren ser timene og forbruket på Min dag",
                 "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/innsats påkrevd på utgifter",
-                "expenseCitizenRequiredHint": "Når den er slått på, kan en utgift bare lagres med en @:terms.citizen{''}, både på web og i appen"
+                "expenseCitizenRequiredHint": "Når den er slått på, kan en utgift bare lagres med en @:terms.citizen{''}, både på web og i appen",
+                "newPrescriptionSurvey": "Spørreskjema for ny resept",
+                "newPrescriptionSurveyNone": "Ingen (knappen vises ikke)",
+                "newPrescriptionSurveyHint": "Pasienter ser \"Be om ny resept\" under Resepter. Når de trykker på den, får de dette spørreskjemaet, og svarene kommer til dere som en forespørsel."
             }
         },
         "licenseOverview": {
@@ -21916,13 +21919,15 @@
         "prescribe": {
             "banner": "Fornyelse av {medicine}",
             "bannerHelp": "Når resepten lagres, lukkes pasientens forespørsel om fornyelse.",
-            "done": "Resepten er opprettet, og forespørselen om fornyelse er lukket."
+            "done": "Resepten er opprettet, og forespørselen om fornyelse er lukket.",
+            "bannerNew": "Ny resept som pasienten har bedt om"
         },
         "settings": {
             "renewalSurvey": "Spørreskjema ved reseptfornyelse",
             "noRenewalSurvey": "Ingen spørreskjema",
             "renewalSurveyHelp": "Sendes til pasienten når de ber om å få fornyet en resept på denne medisinen, f.eks. et spørreskjema om hårtap."
-        }
+        },
+        "newPrescription": "Ny resept"
     },
     "patientPrescriptions": {
         "title": "Resepter",
@@ -21947,7 +21952,14 @@
             "approved": "Godkjent",
             "rejected": "Avvist",
             "prescribed": "Fornyet"
-        }
+        },
+        "newPrescription": "Ny resept",
+        "newIntro": "Trenger du en resept du ikke har fra før? Be klinikken om en ny.",
+        "requestNew": "Be om ny resept",
+        "confirmNew": "Vil du be klinikken om en ny resept?",
+        "questionnaireNextNew": "Deretter svarer du på et kort spørreskjema, slik at klinikken kan vurdere forespørselen din.",
+        "notePlaceholderNew": "F.eks. hva du trenger resepten til",
+        "prescribedNew": "Skrevet ut"
     },
     "apiErrors": {
         "notSavedTitle": "Ikke lagret",
