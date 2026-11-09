@@ -35,6 +35,10 @@
                                 :aria-label="$t('superadmin.salesInquiries.searchPlaceholder')"
                                 @keyup.enter="list.flushSearch" @search="list.flushSearch" />
                         </div>
+                        <NuxtLink class="co-action-btn" to="/superadmin/sales-inquiries/stats">
+                            <Icon name="ph:chart-bar" class="w-3.5 h-3.5" />
+                            {{ $t('superadmin.salesStats.button') }}
+                        </NuxtLink>
                         <button class="co-action-btn" @click="openColumnSettings">
                             <Icon name="ph:palette" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.columns.button') }}

@@ -23,6 +23,11 @@ class SalesMeetingService extends BaseAPIService {
         return await this.request(`/superadmin/sales-inquiries/${inquiryUuid}/follow-up`, 'POST', params)
     }
 
+    /** Demo figures for the last 30, 90 or 365 days. */
+    async stats(days: number): Promise<any> {
+        return await this.request('/superadmin/sales-meetings/stats', 'GET', { days })
+    }
+
     async companyMeetings(companyUuid: string): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/meetings`, 'GET')
     }

@@ -17228,6 +17228,32 @@
             "company": "Kund (valfri)",
             "companyPlaceholder": "Sök företag…",
             "removeCompany": "Ta bort"
+        },
+        "salesStats": {
+            "button": "Demosiffror",
+            "title": "Demosiffror",
+            "subtitle": "Hur många demos som hålls, vem som uteblir och hur långt förfrågningarna når.",
+            "period": "Period",
+            "days": "{n} dagar",
+            "year": "1 år",
+            "demos": "Demos",
+            "held": "Hållna",
+            "missed": "Uteblev",
+            "notHeld": "Inte hållna",
+            "pending": "Väntar",
+            "noShowRate": "Uteblivanden",
+            "funnel": "Från förfrågan till kund",
+            "funnelHint": "Förfrågningar som kom in under perioden och hur långt de har nått.",
+            "inquiries": "Förfrågningar",
+            "demoPlanned": "Demo planerad",
+            "demoHeld": "Demo hållen",
+            "won": "Vunna",
+            "lost": "Förlorade",
+            "perSeller": "Per säljare",
+            "seller": "Säljare",
+            "wonAfterDemo": "Vunna efter demo",
+            "none": "Inga demos under perioden.",
+            "back": "Förfrågningar"
         }
     },
     "support": {

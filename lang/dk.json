@@ -17313,6 +17313,32 @@
             "company": "Kunde (valgfri)",
             "companyPlaceholder": "Søg firma…",
             "removeCompany": "Fjern"
+        },
+        "salesStats": {
+            "button": "Demo-tal",
+            "title": "Demo-tal",
+            "subtitle": "Hvor mange demoer der bliver holdt, hvem der udebliver, og hvor langt henvendelserne når.",
+            "period": "Periode",
+            "days": "{n} dage",
+            "year": "1 år",
+            "demos": "Demoer",
+            "held": "Holdt",
+            "missed": "Udeblev",
+            "notHeld": "Ikke holdt",
+            "pending": "Afventer",
+            "noShowRate": "Udeblivelser",
+            "funnel": "Fra henvendelse til kunde",
+            "funnelHint": "Henvendelser modtaget i perioden, og hvor langt de er nået.",
+            "inquiries": "Henvendelser",
+            "demoPlanned": "Demo planlagt",
+            "demoHeld": "Demo holdt",
+            "won": "Vundet",
+            "lost": "Tabt",
+            "perSeller": "Pr. sælger",
+            "seller": "Sælger",
+            "wonAfterDemo": "Vundet efter demo",
+            "none": "Ingen demoer i perioden.",
+            "back": "Henvendelser"
         }
     },
     "support": {
