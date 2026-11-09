@@ -13810,7 +13810,25 @@
         "subscription": "Subscription",
         "updateSubscription": "Update subscription",
         "upgrade": "Upgrade",
-        "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
+        "couldNotStartCheckout": "The checkout could not be started. Try again shortly.",
+        "plan": {
+            "saveTwoMonths": "Save 2 months",
+            "perMonth": "EUR per month",
+            "billedYearly": "Billed annually: EUR {amount} excl. VAT",
+            "billedMonthly": "Billed monthly, excl. VAT",
+            "taglineBasis": "For the therapist or practitioner with their own practice, or the smaller service.",
+            "taglinePro": "For services and clinics with several departments and more staff.",
+            "usersIncludedUpTo": "{count} user included (all roles), up to {max} in total | {count} users included (all roles), up to {max} in total",
+            "usersIncluded": "{count} user included (all roles) | {count} users included (all roles)",
+            "departmentsIncluded": "{count} department included | {count} departments included",
+            "unlimitedCitizens": "Unlimited number of citizens and clients",
+            "storage": "{size} storage",
+            "support": "Phone support on weekdays 10-14, chat and written support",
+            "extraPerMonth": "Extra: EUR {amount} per month",
+            "monthly": "Monthly",
+            "annually": "Annually",
+            "frequency": "Payment frequency"
+        }
     },
     "superadmin": {
         "twoFactor": {

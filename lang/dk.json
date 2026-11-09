@@ -13810,7 +13810,25 @@
         "subscription": "Abonnement",
         "updateSubscription": "Opdater abonnement",
         "upgrade": "Opgradér",
-        "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
+        "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt.",
+        "plan": {
+            "saveTwoMonths": "Spar 2 måneder",
+            "perMonth": "kr. pr. måned",
+            "billedYearly": "Faktureres årligt: {amount} kr. ekskl. moms",
+            "billedMonthly": "Faktureres månedligt, ekskl. moms",
+            "taglineBasis": "Til terapeuten eller behandleren med egen praksis, eller det mindre tilbud.",
+            "taglinePro": "Til tilbud og klinikker med flere afdelinger og flere medarbejdere.",
+            "usersIncludedUpTo": "{count} bruger inkluderet (alle roller), op til {max} i alt | {count} brugere inkluderet (alle roller), op til {max} i alt",
+            "usersIncluded": "{count} bruger inkluderet (alle roller) | {count} brugere inkluderet (alle roller)",
+            "departmentsIncluded": "{count} afdeling inkluderet | {count} afdelinger inkluderet",
+            "unlimitedCitizens": "Ubegrænset antal borgere og klienter",
+            "storage": "{size} lagerplads",
+            "support": "Support på telefon hverdage kl. 10-14, chat og skriftlig support",
+            "extraPerMonth": "Ekstra: {amount} kr. pr. måned",
+            "monthly": "Månedlig",
+            "annually": "Årlig",
+            "frequency": "Betalingsfrekvens"
+        }
     },
     "superadmin": {
         "twoFactor": {
