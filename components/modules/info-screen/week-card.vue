@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-full flex-col p-[4vh]">
+    <div ref="root" class="flex h-full flex-col p-[4vh]">
         <p class="flex items-center gap-[1.2vh] text-[2vh] font-semibold uppercase tracking-widest text-[#2dbab2]">
             <Icon name="ph:calendar-dots" /> {{ $t('infoScreenDisplay.week') }}
         </p>
@@ -15,7 +15,7 @@
                         <span class="block font-semibold tabular-nums text-white/60">{{ activity.time ?? '' }}</span>
                         <span class="flex items-start gap-[0.5vh] font-light">
                             <Icon v-if="activityIcon(activity.icon)" :name="activityIcon(activity.icon)!" class="mt-[0.2vh] shrink-0" />
-                            <span class="line-clamp-2 min-w-0 hyphens-auto [overflow-wrap:anywhere]" :lang="lang">{{ activity.title }}</span>
+                            <span data-fit class="line-clamp-2 min-w-0 flex-1 hyphens-auto" :lang="lang">{{ activity.title }}</span>
                         </span>
                     </li>
                     <li v-if="day.activities.length > MAX_PER_DAY" class="text-[1.6vh] text-white/40">
@@ -41,6 +41,66 @@ const MAX_PER_DAY = 5
 
 // For hyphenation of long words in the narrow columns.
 const lang = computed(() => props.locale.split('-')[0])
+
+/**
+ * Long words in the narrow columns are hyphenated where the browser has a
+ * dictionary for the language (Danish, Swedish and Norwegian in Chrome). Where it
+ * has none (English in some browsers), a word too wide for its column would be cut
+ * without a hyphen, so that title's text is made just small enough to fit instead.
+ */
+const root = ref<HTMLElement | null>(null)
+const MIN_SCALE = 0.6
+
+/** Width of a word in the title's own font, measured inside the title so the font is inherited. */
+function wordWidth(el: HTMLElement, word: string): number {
+    const probe = document.createElement('span')
+    probe.textContent = word
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap'
+    el.appendChild(probe)
+    const width = probe.offsetWidth
+    probe.remove()
+    return width
+}
+
+/** Whether the browser hyphenates this word to fit `width` (it has a dictionary for the language). */
+function hyphenates(el: HTMLElement, word: string, width: number): boolean {
+    const probe = document.createElement('div')
+    probe.textContent = word
+    probe.style.cssText = `position:absolute;visibility:hidden;width:${width}px;hyphens:auto;overflow-wrap:normal;white-space:normal`
+    el.appendChild(probe)
+    const fits = probe.scrollWidth <= width + 1
+    probe.remove()
+    return fits
+}
+
+function fitTitles() {
+    root.value?.querySelectorAll<HTMLElement>('[data-fit]').forEach((el) => {
+        el.style.fontSize = ''
+        const width = el.clientWidth
+        if (!width) return
+        const words = (el.textContent ?? '').split(/\s+/).filter(Boolean)
+        const longest = words.reduce((best, word) => Math.max(best, wordWidth(el, word)), 0)
+        const widest = words.find((word) => wordWidth(el, word) === longest) ?? ''
+        if (longest <= width || hyphenates(el, widest, width)) return
+        const size = parseFloat(getComputedStyle(el).fontSize)
+        el.style.fontSize = `${Math.max(MIN_SCALE, (width - 1) / longest) * size}px`
+    })
+}
+
+// Again once the web font has loaded: the fallback font is narrower, so a word that
+// fits at first can be too wide afterwards.
+let refitTimer: ReturnType<typeof setTimeout> | null = null
+onMounted(() => {
+    nextTick(fitTitles)
+    document.fonts?.ready.then(fitTitles)
+    document.fonts?.addEventListener('loadingdone', fitTitles)
+    refitTimer = setTimeout(fitTitles, 1500)
+})
+onBeforeUnmount(() => {
+    document.fonts?.removeEventListener('loadingdone', fitTitles)
+    if (refitTimer) clearTimeout(refitTimer)
+})
+watch(() => [props.week, props.locale], () => nextTick(fitTitles), { deep: true })
 
 // ISO weekday to a short local name: 2024-01-01 was a Monday.
 function dayName(weekday: number): string {
