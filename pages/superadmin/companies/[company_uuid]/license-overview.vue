@@ -1099,7 +1099,6 @@ const canManageCompanies = computed(() => can('manage_companies'))
 // Invoice customers build one order (several lines, one invoice, one fee) instead
 // of a grant per product; card customers keep the one-off dialog.
 const orderFlow = computed(() => offersOrderFlow(billing.value?.billing_method))
-const canViewFinancials = computed(() => can('view_financials'))
 const canCreateOrder = computed(() => orderFlow.value && can('manage_financials'))
 
 async function createOrder() {
