@@ -74,7 +74,7 @@
                             <!-- Done / not done, as in the month view's menu. A sibling of the chip
                                  (a button can't hold a button); shows on hover and keyboard focus.
                                  Never on shifts. Each item applies to this one occurrence. -->
-                            <Menu v-if="props.statusActions && !ev.raw?.is_shift" as="div"
+                            <Menu v-if="props.statusActions && !ev.raw?.is_shift && ev.raw?.can_manage !== false" as="div"
                                 class="status-menu absolute right-0.5 top-0.5 opacity-0 transition-opacity group-hover/ev:opacity-100 group-focus-within/ev:opacity-100"
                                 @click.stop @dblclick.stop>
                                 <MenuButton :aria-label="$t('events.statusMenuLabel', { title: ev.title ?? '' })"

@@ -238,6 +238,8 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule.start = selectedCalendarEvent.date_time_start
     state.selectedSchedule.end = selectedCalendarEvent.date_time_end
     state.selectedSchedule.is_private = selectedCalendarEvent.is_private ? true : false
+    // False for a colleague's event while the company keeps those read-only (AW-2026-9924).
+    state.selectedSchedule.can_manage = selectedCalendarEvent.can_manage
     state.modal.isViewEventOpen = true
 }
 

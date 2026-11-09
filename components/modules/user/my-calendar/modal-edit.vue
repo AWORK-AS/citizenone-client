@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('events.editEvent')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xs" :title="canManage ? $t('events.editEvent') : $t('events.readOnly.title')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex items-center justify-end gap-x-2">
@@ -14,21 +14,21 @@
                                 {{ $t('calendar.duplicate.label') }}
                             </FormButton>
                         </Tooltip>
-                        <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
+                        <FormButton v-if="canManage" type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
                             {{ $t('events.delete') }}
                         </FormButton>
                     </div>
                     <!-- Done / not done, as in the calendar's event menu: here too because a
                          narrow event in the day/week grid has no room for that menu. -->
-                    <ModulesUserMyCalendarCancelPanel :event="props.selectedSchedule" @cancelled="onCancelled" />
+                    <ModulesUserMyCalendarCancelPanel v-if="canManage" :event="props.selectedSchedule" @cancelled="onCancelled" />
                     <div v-if="canMarkStatus(props.selectedSchedule)"
                         class="mt-2 flex flex-wrap items-center justify-end gap-2">
-                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
+                        <FormButton v-if="canManage && props.selectedSchedule?.completion_status !== 'completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
                             <Icon name="ph:check-circle" class="h-4 w-4 text-green-700" aria-hidden="true" />
                             {{ $t('events.markAsCompleted') }}
                         </FormButton>
-                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
+                        <FormButton v-if="canManage && props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'not_completed')">
                             <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
                             {{ $t('events.markAsNotCompleted') }}
@@ -41,7 +41,10 @@
                             {{ $t('events.registerTime') }}
                         </FormButton>
                     </div>
-                    <div class="mt-4">
+                    <div v-if="!canManage" class="mt-4">
+                        <ModulesUserMyCalendarReadOnlyDetails :event="props.selectedSchedule" />
+                    </div>
+                    <div v-else class="mt-4">
                         <ModulesUserMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
@@ -61,6 +64,7 @@
 
 <script setup lang="ts">
 import { canMarkStatus } from '@/composables/calendarCancel'
+import { canManageEvent } from '@/composables/calendarOwnership'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { isCareHourTypesOn } from '@/composables/careHourTypes'
@@ -100,6 +104,9 @@ const canRegisterTime = computed(() => !!props.selectedSchedule?.uuid
     && !props.selectedSchedule?.is_shift
     && !!props.selectedSchedule?.citizen?.uuid
     && isCareHourTypesOn(userStore.getUser?.company))
+
+// False for a colleague's event while the company keeps those read-only (AW-2026-9924).
+const canManage = computed(() => canManageEvent(props.selectedSchedule))
 
 function closeModal() {
     state.modal.isRegisterTimeOpen = false

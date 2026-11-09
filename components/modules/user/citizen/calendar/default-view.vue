@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { canManageEvent } from '@/composables/calendarOwnership'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import TimeGrid from '@/components/modules/user/calendar/time-grid.vue'
@@ -234,6 +235,8 @@ function filterBasedOnSelectedDate() {
 }
 
 function deleteEventConfirmation(myCalendarEvent: any) {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     state.selectedSchedule = myCalendarEvent
     state.modal.isDeleteScheduleOpen = true
 }
@@ -244,6 +247,8 @@ function deleteMyCalendarEvent() {
 }
 
 function markEventAsStatus(myCalendarEvent: any, status: 'completed' | 'not_completed') {
+    // A colleague's event while the company keeps those read-only.
+    if (!canManageEvent(myCalendarEvent)) return
     emit('markEventAsStatus', myCalendarEvent, status)
 }
 

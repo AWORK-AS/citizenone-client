@@ -992,6 +992,16 @@
                             </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.calendar_events_owner_only"
+                                        @toggleSwitch="state.formCompany.calendar_events_owner_only = !state.formCompany.calendar_events_owner_only" :label="$t('settings.company.form.calendarEventsOwnerOnly')" />
+                                    <p>
+                                        {{ $t('settings.company.form.calendarEventsOwnerOnly') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.calendarEventsOwnerOnlyHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.match_includes_do_not_contact"
                                         @toggleSwitch="state.formCompany.match_includes_do_not_contact = !state.formCompany.match_includes_do_not_contact" :label="$t('settings.company.form.matchIncludesDoNotContact')" />
                                     <p>
@@ -1387,6 +1397,7 @@ const state = reactive({
         hide_citizen_rates_from_staff_enabled: false,
         auto_ai_for_new_employees: false,
         calendar_subscriptions_enabled: true,
+        calendar_events_owner_only: false,
         match_includes_do_not_contact: false,
         patient_forms_tab_hidden: false,
         ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, false])) as Record<(typeof APP_HIDDEN_SWITCHES)[number]['key'], boolean>,
@@ -1582,6 +1593,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
             auto_ai_for_new_employees: newValue?.company?.auto_ai_for_new_employees === true,
             calendar_subscriptions_enabled: newValue?.company?.calendar_subscriptions_enabled !== false,
+            calendar_events_owner_only: newValue?.company?.calendar_events_owner_only === true,
             match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
             ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, newValue?.company?.[item.key] === true])),
@@ -1877,6 +1889,7 @@ async function submitForm() {
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
                 auto_ai_for_new_employees: state.formCompany.auto_ai_for_new_employees,
                 calendar_subscriptions_enabled: state.formCompany.calendar_subscriptions_enabled,
+                calendar_events_owner_only: state.formCompany.calendar_events_owner_only,
                 match_includes_do_not_contact: state.formCompany.match_includes_do_not_contact,
                 patient_forms_tab_hidden: state.formCompany.patient_forms_tab_hidden,
                 ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, state.formCompany[item.key]])),

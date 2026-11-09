@@ -8652,6 +8652,13 @@
             "noData": "Ingen data for den valgte periode",
             "startDate": "Fra",
             "endDate": "Til"
+        },
+        "readOnly": {
+            "title": "Begivenhedsdetaljer",
+            "notice": "Denne begivenhed tilhører {owner}. Du kan se den, men kun vedkommende eller en koordinator kan ændre eller slette den.",
+            "noticeNoOwner": "Du kan se denne begivenhed, men kun dem, der er på den, eller en koordinator kan ændre eller slette den.",
+            "when": "Hvornår",
+            "view": "Se"
         }
     },
     "excludeVat": "ekskl. moms",
@@ -12549,6 +12556,8 @@
                 "autoAiForNewEmployeesHint": "En ny medarbejder får en ledig AI-licens, når den oprettes. Er der ingen ledig, oprettes medarbejderen uden",
                 "calendarSubscriptions": "Brugerne kan abonnere på deres kalender",
                 "calendarSubscriptionsHint": "Slået fra kan kalenderen ikke længere tilføjes i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
+                "calendarEventsOwnerOnly": "Kun dem, der er på en begivenhed, kan ændre eller slette den",
+                "calendarEventsOwnerOnlyHint": "Kolleger kan stadig se hinandens begivenheder, men kun den, der har oprettet den, ejeren og de inviterede kan redigere, slette, aflyse eller markere den. Ledere, administratorer og roller med rettigheden \"Administrer kollegers kalenderbegivenheder\" kan altid",
                 "matchIncludesDoNotContact": "Vis også konsulenter, der ikke må kontaktes, i konsulentmatch",
                 "matchIncludesDoNotContactHint": "Kun konsulenter med en fratrædelsesdato udelades. De vises med deres status og kan ikke spørges",
                 "hidePatientFormsTab": "Skjul fanen \"Formularer til patienten\"",

@@ -8652,6 +8652,13 @@
             "noData": "Inga data för den valda perioden",
             "startDate": "Från",
             "endDate": "Till"
+        },
+        "readOnly": {
+            "title": "Händelsedetaljer",
+            "notice": "Den här händelsen tillhör {owner}. Du kan se den, men bara personen själv eller en koordinator kan ändra eller ta bort den.",
+            "noticeNoOwner": "Du kan se den här händelsen, men bara de som är med i den eller en koordinator kan ändra eller ta bort den.",
+            "when": "När",
+            "view": "Visa"
         }
     },
     "excludeVat": "ekskl. moms",
@@ -12544,6 +12551,8 @@
                 "autoAiForNewEmployeesHint": "En ny medarbetare får en ledig AI-licens när den skapas. Finns ingen ledig skapas medarbetaren utan",
                 "calendarSubscriptions": "Användarna kan prenumerera på sin kalender",
                 "calendarSubscriptionsHint": "Avstängt kan kalendern inte längre läggas till i Outlook, Google eller iPhone, och befintliga prenumerationer slutar",
+                "calendarEventsOwnerOnly": "Bara de som är med i en händelse kan ändra eller ta bort den",
+                "calendarEventsOwnerOnlyHint": "Kollegor ser fortfarande varandras händelser, men bara den som skapade den, ägaren och de inbjudna kan redigera, ta bort, ställa in eller markera den. Chefer, administratörer och roller med rättigheten \"Hantera kollegors kalenderhändelser\" kan alltid",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
                 "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
                 "hidePatientFormsTab": "Dölj fliken \"Formulär till patienten\"",

@@ -66,6 +66,7 @@ describe('permissionGroup', () => {
         assert.equal(permissionGroup('update_citizen_medicine'), 'health')
         assert.equal(permissionGroup('create_citizen_plan'), 'plan')
         assert.equal(permissionGroup('delete_calendar'), 'calendar')
+        assert.equal(permissionGroup('manage_colleague_calendar_events'), 'calendar')
         assert.equal(permissionGroup('read_schedule'), 'calendar')
         assert.equal(permissionGroup('view_citizen_economy'), 'economy')
         assert.equal(permissionGroup('create_citizen_contact'), 'contact')

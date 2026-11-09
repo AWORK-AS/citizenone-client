@@ -4,22 +4,22 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" @click="openDeleteConfirmation">
+                        <FormButton v-if="canManage" type="button" buttonStyle="danger" @click="openDeleteConfirmation">
                             {{ $t('citizens.calendar.delete') }}
                         </FormButton>
                     </div>
                     <!-- Done / not done, as in the calendar's event menu: here too because a
                          narrow event in the day/week grid has no room for that menu. -->
-                    <ModulesUserMyCalendarCancelPanel v-if="props.statusActions" :event="props.selectedSchedule"
+                    <ModulesUserMyCalendarCancelPanel v-if="props.statusActions && canManage" :event="props.selectedSchedule"
                         @cancelled="onCancelled" />
                     <div v-if="props.statusActions && canMarkStatus(props.selectedSchedule)"
                         class="mt-2 flex flex-wrap items-center justify-end gap-2">
-                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
+                        <FormButton v-if="canManage && props.selectedSchedule?.completion_status !== 'completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
                             <Icon name="ph:check-circle" class="h-4 w-4 text-green-700" aria-hidden="true" />
                             {{ $t('events.markAsCompleted') }}
                         </FormButton>
-                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
+                        <FormButton v-if="canManage && props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'not_completed')">
                             <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
                             {{ $t('events.markAsNotCompleted') }}
@@ -109,6 +109,7 @@
 
 <script setup lang="ts">
 import { canMarkStatus } from '@/composables/calendarCancel'
+import { canManageEvent } from '@/composables/calendarOwnership'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { isCareHourTypesOn } from '@/composables/careHourTypes'
 import { useUserStore } from '@/store/user'
@@ -152,6 +153,9 @@ const state = reactive({
 // Only where the company switched hour types on (Settings -> Company), and on
 // a page that offers done / not done (not the child calendar).
 const userStore = useUserStore() as any
+// False for a colleague's event while the company keeps those read-only (AW-2026-9924).
+const canManage = computed(() => canManageEvent(props.selectedSchedule))
+
 const canRegisterTime = computed(() => props.statusActions
     && !!props.selectedSchedule?.uuid
     && !!props.selectedSchedule?.citizen_uuid
