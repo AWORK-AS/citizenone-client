@@ -22538,6 +22538,22 @@
             "hide": "Dölj",
             "resultTitle": "Omröstning: {question}",
             "savedToNotes": "Resultatet är sparat i mötets anteckningar."
+        },
+        "personalRoom": {
+            "title": "Mitt mötesrum",
+            "intro": "En fast länk till dina möten. Lägg den i din mejlsignatur eller skicka den i en chatt. Gäster väntar tills du släpper in dem.",
+            "create": "Skapa mötesrum",
+            "copy": "Kopiera länk",
+            "copied": "Kopierad",
+            "newLink": "Ny länk",
+            "newLinkHint": "Den gamla länken slutar fungera direkt.",
+            "newLinkConfirm": "Skapa en ny länk? Den gamla länken slutar fungera direkt.",
+            "enter": "Gå in",
+            "doorTitle": "Mötesrum hos {host}",
+            "yourName": "Ditt namn",
+            "yourEmail": "Din e-post (valfri)",
+            "goIn": "Gå till mötet",
+            "doorHint": "Du väntar i väntrummet tills du blir insläppt. Inget att installera."
         }
     },
     "teamSize": {

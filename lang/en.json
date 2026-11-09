@@ -22623,6 +22623,22 @@
             "hide": "Hide",
             "resultTitle": "Poll: {question}",
             "savedToNotes": "The result is saved in the meeting notes."
+        },
+        "personalRoom": {
+            "title": "My meeting room",
+            "intro": "A fixed link for your meetings. Put it in your email signature or send it in a chat. Guests wait until you let them in.",
+            "create": "Create meeting room",
+            "copy": "Copy link",
+            "copied": "Copied",
+            "newLink": "New link",
+            "newLinkHint": "The old link stops working at once.",
+            "newLinkConfirm": "Make a new link? The old link stops working at once.",
+            "enter": "Go in",
+            "doorTitle": "{host}'s meeting room",
+            "yourName": "Your name",
+            "yourEmail": "Your email (optional)",
+            "goIn": "Go to the meeting",
+            "doorHint": "You wait in the waiting room until you are let in. Nothing to install."
         }
     },
     "teamSize": {
