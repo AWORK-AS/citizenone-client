@@ -1,13 +1,18 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 import {
+    dunningRowTab,
+    dunningTabCounts,
     normalizeBillingMethod,
     normalizeCompanyBilling,
     normalizeDunningStatus,
+    reminderStage,
     type BillingMethodForm,
     type CompanyBilling,
     type DunningAction,
     type DunningInvoice,
     type DunningRow,
+    type DunningTab,
+    type DunningTabCounts,
 } from '@/composables/billingMethod'
 
 /**
@@ -34,11 +39,13 @@ class BillingService extends BaseAPIService {
         return normalizeCompanyBilling(response)
     }
 
-    async getProblems(params: object = {}): Promise<{ rows: DunningRow[]; meta: any }> {
+    /** One tab of the worklist, plus every tab's count for the tab bar. */
+    async getProblems(params: { tab?: DunningTab; status?: string } = {}): Promise<{ rows: DunningRow[]; counts: DunningTabCounts; meta: any }> {
         const response = await this.request(`/superadmin/payment-problems`, 'GET', params)
         const list: any[] = response?.data ?? []
+        const meta = response?.meta ?? {}
 
-        return { rows: list.map(toDunningRow), meta: response?.meta ?? response ?? {} }
+        return { rows: list.map(toDunningRow), counts: dunningTabCounts(meta), meta }
     }
 
     /** Count for the sidebar badge. */
@@ -53,12 +60,13 @@ class BillingService extends BaseAPIService {
      * the others answer the row itself (`{ data: row }`) or a plain message.
      */
     async act(companyUuid: string, action: DunningAction, body: { note?: string; days?: number | null } = {}): Promise<DunningActResult> {
+        // Collection and write-off answer `{ data: row }`, like close/reopen/postpone.
         // The explicit repost of an unanswered charge is the same endpoint with a flag.
         const isRepost = action === 'retry_unknown_charge'
         const path = isRepost ? 'charge-security-card' : action.replace(/_/g, '-')
         const response = await this.request(`/superadmin/payment-problems/${companyUuid}/${path}`, 'POST', isRepost ? { ...body, retry_unknown: true } : body)
         const data = response?.data ?? null
-        const rawRow = data?.row ?? (data?.company ? data : null)
+        const rawRow = data?.row ?? (data?.company || data?.company_uuid ? data : null)
 
         return {
             status: typeof data?.status === 'string' && data?.row ? data.status : null,
@@ -92,6 +100,11 @@ function toDunningRow(raw: any): DunningRow {
         invoices: Array.isArray(raw.invoices) ? raw.invoices.map(toDunningInvoice) : [],
         postponed_until: raw.postponed_until ?? null,
         postpone_note: raw.postpone_note ?? null,
+        tab: dunningRowTab(raw),
+        reminder_stage: reminderStage(raw.reminder_stage),
+        collection_at: raw.collection_at ?? null,
+        written_off_at: raw.written_off_at ?? null,
+        collection_note: raw.collection_note ?? null,
         actions: raw.actions ?? {},
     }
 }
@@ -103,6 +116,8 @@ function toDunningInvoice(raw: any): DunningInvoice {
         total_amount: Number(raw.total_amount ?? 0),
         due_on: raw.due_on ?? null,
         card_security_status: raw.card_security_status ?? null,
+        created_at: raw.created_at ?? null,
+        status: raw.status ?? null,
     }
 }
 

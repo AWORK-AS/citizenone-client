@@ -24,7 +24,8 @@
                 </div>
             </div>
             <Icon name="ph:arrow-up-right"
-                class="mt-0.5 size-3.5 shrink-0 text-gray-300 transition-colors group-hover:text-cody" aria-hidden="true" />
+                class="mt-0.5 size-3.5 shrink-0 text-gray-300 transition group-hover:-translate-y-px group-hover:translate-x-px group-hover:text-cody motion-reduce:transition-none motion-reduce:transform-none"
+                aria-hidden="true" />
         </div>
     </NuxtLink>
 </template>

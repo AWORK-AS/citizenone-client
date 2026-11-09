@@ -13,6 +13,11 @@ class OrderService extends BaseAPIService {
         return await this.request(`/superadmin/order-report/orders`, 'GET', params)
     }
 
+    // "Licensordrer": licence/storage orders and their e-conomic status.
+    async getLicenseOrders(params: object): Promise<any> {
+        return await this.request(`/superadmin/license-orders`, 'GET', params)
+    }
+
     async getOrder(orderUuid: string): Promise<any> {
         return await this.request(`/superadmin/orders/${orderUuid}`, 'GET')
     }

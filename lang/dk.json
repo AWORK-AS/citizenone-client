@@ -218,11 +218,19 @@
         "changeLanguage": "Skift sprog",
         "somethingWentWrong": "Noget gik galt. Prøv igen."
     },
+    "releaseNotePopup": {
+        "dismiss": "Forstået",
+        "dismissTooltip": "Luk beskeden – den vises ikke igen"
+    },
     "comingFunctions": {
         "title": "Kommende funktioner",
         "intro": "Her kan du se, hvad vi arbejder på, og hvad der kommer i CitizenOne. Mangler du noget? Send os et ønske.",
         "sendWish": "Send et ønske",
         "empty": "Der er ingen kommende funktioner at vise lige nu.",
+        "polls": {
+            "title": "Stem på hvad vi skal udvikle",
+            "intro": "Giv en tommel op til de ønsker, du også har brug for. Vi bruger stemmerne, når vi planlægger."
+        },
         "sections": {
             "in_progress": "I gang",
             "planned": "Planlagt",
@@ -327,7 +335,8 @@
         "periodHint": "Perioden er sat til denne måned. Brug genvejene, eller vælg selv datoerne.",
         "presetThisMonth": "Denne måned",
         "presetLastMonth": "Sidste måned",
-        "presetThisYear": "I år"
+        "presetThisYear": "I år",
+        "revenueHint": "Omsætningen følger kontrakterne: fast pris pr. faktureringsperiode, timepris gange registrerede timer og engangsbeløb i den periode, kontrakten starter. Uden kontrakt bruges borgerens timepris."
     },
     "citizenRelations": {
         "addFirst": "Tilføj første relation",
@@ -923,6 +932,7 @@
                 "countsAsConsultant": "Tæller som konsulent",
                 "onlyAssignedCitizens": "Ser kun tilknyttede indsatser",
                 "onlyOwnInterventionEvents": "Ser kun egne bookinger på indsatser",
+                "onlyOwnCareHours": "Kun egne indsatstimer",
                 "contactAddressTitles": "Ser kontaktadresser for titler",
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
@@ -1243,7 +1253,9 @@
             "pleaseWriteHere": "Venligst skriv her",
             "quantity": "Mængde",
             "sendMessage": "Send besked",
-            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt"
+            "sendUsAMessage": "Send os en besked, så vender vi tilbage hurtigst muligt",
+            "assistedSetup": "Opsætning med hjælp",
+            "assistedSetupHint": "Vi ringer jer op og sætter appen op sammen med jer på et online møde. Engangsbetaling."
         },
         "goToPartner": "Gå til partner",
         "iHaveReadAndAcceptThe": "Jeg har læst og accepterer",
@@ -1342,7 +1354,8 @@
         "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
         "requiresPlan": "Kræver {plan}",
         "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
-        "upgradeToPlan": "Opgrader til {plan}"
+        "upgradeToPlan": "Opgrader til {plan}",
+        "assistedSetupOptional": "Opsætning med hjælp (valgfri)"
     },
     "archived": {
         "alert": {
@@ -1465,6 +1478,9 @@
             "seats": {
                 "title": "1 medarbejder har bedt om adgang til Cody AI | {count} medarbejdere har bedt om adgang til Cody AI",
                 "assign": "Tildel adgang | Tildel dem adgang"
+            },
+            "pageBody": {
+                "messages": "Cody AI kan skrive udkast til beskeder for dig."
             }
         }
     },
@@ -1520,6 +1536,7 @@
         "companyDataBuilding": "Cody AI er ved at gøre jeres data klar og kunne ikke bruge dem i dette svar. Prøv igen om lidt.",
         "askAnything": "Spørg om journaler, medicin, planer, vagter eller dokumenter",
         "mentionSomeone": "Nævn en @:terms.citizen{''} eller medarbejder",
+        "cprNotice": "Godt at vide: Cody AI bruger kun fødselsdatoen. De sidste 4 cifre i CPR-nummeret fjernes, før beskeden sendes.",
         "searchScopeHint": "Cody AI kan søge i alle @:terms.citizen{''}-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
         "reviewNotice": "Indhold fra Cody AI kan indeholde fejl. Gennemgå det altid, før du stoler på det",
         "dataGovernanceNotice": "Læs hvordan CitizenOne beskytter dine data i vores",
@@ -1591,13 +1608,15 @@
             "journal": "Skriv journalnotat",
             "files": "Find vedhæftede filer",
             "shifts": "Hvad har jeg af vagter?",
+            "message": "Skriv en besked til en kollega",
             "fillHint": "skriv navn"
         },
         "quickPrompts": {
             "overview": "Giv mig et overblik over min dag",
             "journal": "Skriv et journalnotat for ",
             "files": "Find de vedhæftede filer om ",
-            "shifts": "Hvilke vagter har jeg de næste syv dage?"
+            "shifts": "Hvilke vagter har jeg de næste syv dage?",
+            "message": "Skriv en besked til {'@'}"
         },
         "dataAndAccess": "Om data og adgang",
         "reviewShort": "Cody AI kan tage fejl - læs svaret igennem.",
@@ -1726,6 +1745,17 @@
             "sales": "Milo kan svare på priser, moduler, opgraderinger og demoer.",
             "open": "Åbn Milo",
             "nothingShared": "Cody AI sender ikke noget videre. Skriv dit spørgsmål til Milo."
+        },
+        "chatDraft": {
+            "to": "Udkast til besked til",
+            "toGroup": "Udkast til besked i gruppen",
+            "open": "Åbn i chat",
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "copyFailed": "Kunne ikke kopiere beskeden",
+            "notSent": "Ikke sendt. Du læser og sender den selv i chatten.",
+            "colleague": "Kollega",
+            "groupChat": "Gruppechat"
         }
     },
     "back": "Tilbage",
@@ -3423,6 +3453,9 @@
                 "departments": "Afdelinger",
                 "employees": "Medarbejdere",
                 "filterDate": "Filtrer dato",
+                "filterVisitDate": "Filtrer på {visitDate}",
+                "visitDate": "Besøgsdato",
+                "filterCreatedDate": "Filtrer på oprettelsesdato",
                 "transport": "Transportere",
                 "type": "Type",
                 "work": "Arbejdstid"
@@ -10615,6 +10648,7 @@
         "subscription": "Abonnement",
         "switchLanguage": "Skift sprog",
         "helpAndNews": "Hjælp og nyt",
+        "comingFunctionsAndPolls": "Kommende funktioner og afstemninger",
         "impersonating": "Logget ind som klient",
         "stopImpersonation": "Log ud som klient",
         "surveys": "Spørgeskemaer"
@@ -12023,6 +12057,8 @@
             "onlyAssignedCitizensHelp": "Medarbejdere med denne rolle ser kun de borgere (indsatser), de er tilknyttet under Kontakter, også planer, mål, journaler og dokumenter. Afdeling og niveau udvider det ikke. Administratorer ser altid alt.",
             "onlyOwnInterventionEvents": "Ser kun egne bookinger på indsatser",
             "onlyOwnInterventionEventsHelp": "Medarbejdere med denne rolle ser kun bookinger på en indsats, hvor de er ansvarlige eller deltager. Andre konsulenters bookinger skjules. Administratorer påvirkes ikke.",
+            "onlyOwnCareHours": "Kun egne indsatstimer",
+            "onlyOwnCareHoursHelp": "Medarbejdere med denne rolle ser, retter og downloader kun de indsatstimer, de selv har registreret – også på borgere, hvor kolleger har registreret timer. Administratorer påvirkes ikke.",
             "contactAddressTitles": "Begræns hvilke kontakters adresser der kan ses",
             "contactPhoneTitles": "Begræns hvilke kontakters telefonnumre der kan ses",
             "contactEmailTitles": "Begræns hvilke kontakters e-mailadresser der kan ses",
@@ -12550,6 +12586,8 @@
                 "termCase": "Sag",
                 "termAgreement": "Aftale",
                 "termMotherTongue": "Modersmål",
+                "termVisitDate": "Besøgsdato",
+                "termCourses": "Kurser (konsulentprofil)",
                 "termJobcenter": "Jobcenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
@@ -12800,7 +12838,8 @@
             "visitTypes": "Besøgstyper",
             "contractHourTypes": "Timetyper",
             "paymentTerms": "Betalingsbetingelser",
-            "contractFields": "Kontraktfelter"
+            "contractFields": "Kontraktfelter",
+            "infoScreen": "Infoskærm"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -12837,14 +12876,49 @@
             "createdAt": "Oprettet",
             "tokenEnds": "Token slutter på",
             "howTitle": "Sådan forbinder du Power BI",
-            "how1": "Åbn Power BI Desktop → Hent data → Web.",
-            "how2": "Indsæt en feed-URL ovenfor (tokenet er allerede inkluderet).",
-            "how3": "Vælg JSON som format og indlæs. Opdatér på skema efter behov.",
+            "how1": "Hent den færdige rapport ovenfor, og åbn den i Power BI Desktop.",
+            "how2": "Indsæt dit token, når Power BI spørger. Beder Power BI om adgang, så vælg Anonym.",
+            "how3": "Vil du bygge selv? Vælg Hent data → Web, og indsæt en feed-URL ovenfor.",
             "revokeWarning": "Tilbagekald gør alle feed-URL’er ugyldige med det samme. Power BI-rapporter kan ikke længere opdatere før et nyt token genereres.",
             "confirmRevoke": "Tilbagekald Power BI-token?",
             "adminOnly": "Kun administratorer kan administrere Power BI-token.",
             "notPurchased": "Power BI-app’en er ikke aktiveret endnu. Aktivér den under Apps for at få adgang til live-datafeeds.",
-            "goToApps": "Gå til Apps"
+            "goToApps": "Gå til Apps",
+            "feedDepartments": "Afdelinger pr. borger",
+            "feedCoordinators": "Koordinatorer",
+            "templateTitle": "Færdig rapport",
+            "templateText": "Hent vores Power BI-skabelon med overblik, henvendelser, borgere og økonomi. Åbn den i Power BI Desktop, og indsæt dit token.",
+            "templateDownload": "Hent rapport (.pbit)",
+            "check": "Test forbindelse",
+            "checkResult": "✓ {cases} sager, {inquiries} henvendelser, {departments} afdelingskoblinger og {coordinators} koordinatorer klar til Power BI",
+            "lastFetched": "Power BI hentede data sidst {time}",
+            "neverFetched": "Power BI har ikke hentet data endnu.",
+            "withoutNames": "Uden borgernavne",
+            "withoutNamesHint": "Feeds sender borger-ID'er i stedet for navne. Godt til ledelsesrapporter og GDPR. Koordinatornavne er stadig med.",
+            "excelTitle": "Brug i Excel",
+            "excelText": "Feeds virker også i Excel: Data → Fra web → indsæt en feed-URL. Excel spørger efter adgang: vælg Anonym.",
+            "feedStays": "Ophold og kontraktperioder",
+            "feedEconomyMonthly": "Koordinatorøkonomi pr. måned",
+            "feedEmployees": "Medarbejdere",
+            "feedShifts": "Vagter",
+            "feedInvoices": "Fakturaer",
+            "previewTitle": "Sådan ser jeres rapport ud",
+            "previewSubtitle": "Jeres egne tal, de samme som i Power BI-rapporten.",
+            "previewExample": "Eksempeltal",
+            "previewExampleText": "Aktivér Power BI for at se jeres egne tal her og i Power BI.",
+            "previewActivate": "Aktivér Power BI",
+            "kpiActive": "Aktive borgere",
+            "kpiInquiries": "Henvendelser, 12 mdr.",
+            "kpiInquiriesShort": "Henvendelser",
+            "kpiConversion": "Blev borger",
+            "kpiRevenue": "Omsætning, 12 mdr.",
+            "chartInquiries": "Henvendelser pr. måned",
+            "chartDepartments": "Aktive borgere pr. afdeling",
+            "noDepartments": "Ingen aktive borgere i en afdeling endnu.",
+            "stepApp": "App aktiv",
+            "stepToken": "Token lavet",
+            "stepFetched": "Data hentet i Power BI",
+            "copyQuery": "Power Query"
         },
         "zapier": {
             "title": "Zapier",
@@ -13154,6 +13228,10 @@
             "customLinks": {
                 "title": "Hvad er egne links?",
                 "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
+            },
+            "infoScreen": {
+                "title": "Hvad kan Infoskærm?",
+                "body": "Vis dagens program, menu, nyheder og billeder på en skærm i fællesrummet. Skærmen viser aldrig borgeroplysninger."
             }
         },
         "movedNotice": {
@@ -13165,6 +13243,166 @@
                 "search": "Søgefeltet øverst i listen finder enhver indstilling på navn.",
                 "billing": "Abonnement, licenser, lagerplads og fakturaer deler nu én side med faner."
             }
+        },
+        "infoScreen": {
+            "title": "Infoskærm",
+            "subtitle": "Vis dagens program, menu, nyheder og billeder på skærme i fællesrummet. Skærmen viser aldrig borgeroplysninger.",
+            "notPurchased": "Infoskærm er ikke aktiv. Køb appen i appbutikken for at sætte skærme op.",
+            "goToApps": "Gå til appbutikken",
+            "seats": "Skærme",
+            "seatsUsed": "{paired} af {total} skærme er i brug",
+            "seatsHint": "Hver parret skærm bruger én licens. Du kan oprette så mange skærme, du vil.",
+            "newScreen": "Ny skærm",
+            "empty": "Der er ingen skærme endnu. Opret den første skærm.",
+            "noDepartment": "Hele stedet",
+            "paired": "Parret",
+            "notPaired": "Ikke parret",
+            "lastSeen": "Sidst set {time}",
+            "pair": "Par skærm",
+            "repair": "Par igen",
+            "unpair": "Fjern parring",
+            "edit": "Redigér",
+            "editTitle": "Redigér skærm",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Fællesrum",
+            "department": "Afdeling",
+            "widgets": "Det viser skærmen",
+            "showClock": "Ur og dato",
+            "showActivities": "Dagens program",
+            "showMenu": "Dagens menu",
+            "showNews": "Nyheder",
+            "showNewsHint": "Kun nyheder til borgere, for hele stedet eller for afdelingen.",
+            "showSlides": "Billeder",
+            "showStaff": "Hvem er på vagt",
+            "showStaffHint": "Viser kun fornavne på medarbejdere på vagt i afdelingen lige nu.",
+            "message": "Fast besked",
+            "messagePlaceholder": "F.eks. Husk fællesspisning fredag kl. 17",
+            "activities": "Program",
+            "activitiesHint": "Skærmen viser dagens punkter. Programmet gentages hver uge.",
+            "activityPlaceholder": "F.eks. Gåtur",
+            "addActivity": "Tilføj punkt",
+            "remove": "Fjern",
+            "menu": "Menu",
+            "menuPlaceholder": "F.eks. Frikadeller med kartofler",
+            "slides": "Billeder",
+            "slidesHint": "JPG, PNG eller WebP, højst 10 MB. Billeder og nyheder vises på skift.",
+            "slideSeconds": "Sekunder pr. billede",
+            "saveFirst": "Gem skærmen først, så kan du tilføje billeder.",
+            "addSlide": "Tilføj billeder",
+            "uploading": "Uploader…",
+            "cancel": "Annullér",
+            "save": "Gem",
+            "saved": "Skærmen er gemt",
+            "pairTitle": "Par skærm",
+            "pairStep1": "Åbn denne adresse i browseren på skærmen:",
+            "pairStep2": "Tast koden på skærmen:",
+            "pairExpires": "Koden virker til kl. {time}.",
+            "confirmDelete": "Vil du slette skærmen? Den holder op med at vise noget med det samme.",
+            "confirmUnpair": "Vil du fjerne parringen? Skærmen holder op med at vise noget med det samme.",
+            "weekdays": {
+                "1": "Mandag",
+                "2": "Tirsdag",
+                "3": "Onsdag",
+                "4": "Torsdag",
+                "5": "Fredag",
+                "6": "Lørdag",
+                "7": "Søndag"
+            },
+            "showTimeline": "Tidslinje for dagen",
+            "showTimelineHint": "Dagens program på en tidslinje med en markør for, hvad klokken er.",
+            "showWeather": "Vejr",
+            "showWeatherHint": "Temperatur nu og en kurve for de næste timer. Vejrdata fra MET Norway.",
+            "showPoll": "Afstemning",
+            "showPollHint": "Beboerne stemmer med mobilen via en QR-kode på skærmen. Ingen login, og ingen navne.",
+            "weatherPlace": "Sted for vejret",
+            "weatherPlaceHint": "Vælg en adresse, så skærmen viser vejret netop der.",
+            "poll": "Afstemning",
+            "pollHint": "Skriv et spørgsmål og 2-6 svar. Ændrer du spørgsmålet eller svarene, starter optællingen forfra.",
+            "pollQuestionPlaceholder": "F.eks. Hvad skal vi spise fredag?",
+            "pollOptionPlaceholder": "Svar {number}",
+            "pollAddOption": "Tilføj svar",
+            "pollLink": "Link til afstemningen:",
+            "pollReset": "Start optællingen forfra",
+            "pollResetDone": "Optællingen er startet forfra",
+            "offline": "Offline",
+            "preview": "Forhåndsvis",
+            "messageUntil": "Vis til og med",
+            "messageUntilHint": "Tom = indtil I fjerner den",
+            "nightMode": "Nattilstand",
+            "nightModeHint": "Kun et dæmpet ur om natten. Sparer strøm og giver ikke lys på gangen.",
+            "nightFrom": "Nat fra",
+            "nightTo": "til",
+            "pictogram": "Piktogram",
+            "pictograms": {
+                "meal": "Mad",
+                "coffee": "Kaffe",
+                "walk": "Gåtur",
+                "bus": "Bus/tur",
+                "workshop": "Værksted",
+                "music": "Musik",
+                "sport": "Sport",
+                "bath": "Bad",
+                "doctor": "Læge",
+                "medicine": "Medicin",
+                "hairdresser": "Frisør",
+                "shopping": "Indkøb",
+                "cleaning": "Rengøring",
+                "cinema": "Film",
+                "games": "Spil",
+                "party": "Fest",
+                "church": "Kirke",
+                "garden": "Have",
+                "visit": "Besøg",
+                "sleep": "Hvil"
+            },
+            "largeText": "Stor tekst",
+            "largeTextHint": "Større skrift og færre punkter ad gangen, til beboere der ser dårligt.",
+            "alertTitle": "Nødbesked",
+            "alertHint": "Vises i fuld skærm på alle jeres infoskærme inden for et minut, også om natten, indtil I fjerner den.",
+            "alertActive": "Vises nu",
+            "alertPlaceholder": "F.eks. Brandøvelse kl. 14 – mød ved hovedindgangen",
+            "alertShow": "Vis på alle skærme",
+            "alertUpdate": "Opdatér",
+            "alertRemove": "Fjern",
+            "alertSaved": "Nødbeskeden vises nu på alle skærme",
+            "duplicate": "Kopiér",
+            "duplicated": "Skærmen er kopieret. Den skal parres med sit eget tv.",
+            "copyName": "{name} (kopi)",
+            "slideUntil": "Vis til og med",
+            "showWeek": "Ugeplan",
+            "showWeekHint": "Hele ugens program vises på skift i det store felt.",
+            "copyDay": "Kopiér",
+            "copyDayTo": "til",
+            "copyWeekdays": "Alle hverdage",
+            "copyAllDays": "Alle dage",
+            "copy": "Kopiér",
+            "messageFrom": "Vis fra",
+            "staffPhotos": "Billeder af personalet",
+            "staffPhotosHint": "Viser profilbilledet ved fornavnet. Uden billede vises forbogstaver.",
+            "reminder": "Påmindelse før aktivitet",
+            "reminderOff": "Fra",
+            "reminderMinutes": "{count} min før",
+            "reminderHint": "Aktiviteten fylder hele skærmen et øjeblik hvert minut, indtil den starter.",
+            "slideFrom": "Vis fra",
+            "birthdays": "Fødselsdage",
+            "birthdaysHint": "Skærmen ønsker tillykke på dagen. Skriv kun fornavn, og kun for dem, der gerne vil fejres.",
+            "birthdayName": "Fornavn",
+            "birthdayDay": "Dag",
+            "birthdayMonth": "Måned",
+            "addBirthday": "Tilføj fødselsdag",
+            "showMood": "Trivsel",
+            "showMoodHint": "\"Hvordan har du det i dag?\" med QR-kode. Anonymt, ét svar pr. mobil pr. dag.",
+            "mood": "Trivsel",
+            "moodHint": "Svar pr. uge de sidste 8 uger. Uger med få svar skjules, så ingen kan genkendes.",
+            "moodLink": "Link bag QR-koden:",
+            "mood_sad": "Dårligt",
+            "mood_meh": "Okay",
+            "mood_happy": "Godt",
+            "moodWeek": "Uge {week}",
+            "moodTooFew": "Under {min} svar",
+            "moodNone": "Ingen svar",
+            "moodAnswers": "{count} svar",
+            "buyMore": "Køb flere skærme"
         }
     },
     "supportAccess": {
@@ -14109,7 +14347,51 @@
                     "yearly": "Årlig",
                     "billingFixed": "Fakturering: {frequency}",
                     "granted": "Licenser tilføjet",
-                    "failed": "Kunne ikke tilføje licenser"
+                    "failed": "Kunne ikke tilføje licenser",
+                    "term": {
+                        "label": "Kontraktlængde",
+                        "agreement": "Følger aftalen «{name}» til {date} (forholdsmæssigt)",
+                        "year": "1 år",
+                        "years": "{years} år",
+                        "monthly": "Løbende, måned for måned",
+                        "createAgreement": "Opret aftale…"
+                    },
+                    "billingBox": {
+                        "title": "Sådan faktureres kunden",
+                        "included": "{count} inkluderet i planen",
+                        "fee": "Fakturagebyr",
+                        "vat": "Moms (25 %)",
+                        "total": "I alt inkl. moms",
+                        "period": "Periode: {from} – {to}",
+                        "periodProrated": "Periode: {from} – {to} (forholdsmæssigt til aftalens udløb)",
+                        "failed": "Prisen kunne ikke beregnes."
+                    },
+                    "billing": {
+                        "economic_auto": "Fakturaen bogføres og sendes på mail fra e-conomic til kunden med det samme (kundenr. {customer}).",
+                        "economic_finance": "Økonomi fakturerer fra e-conomic. CitizenOne opretter fakturaen og sender besked til økonomi.",
+                        "agreement_add_on": "Kunden har en aftale: fakturaen venter på, at økonomi vælger tilkøb på aftalen eller løs faktura. Økonomi får besked.",
+                        "card_manual_invoice": "Kortkunde: tilkøbet trækkes ikke automatisk på kortet. Fakturaen lægges ubetalt i kundens fakturaoversigt, hvor administratoren kan betale med kort. Kunden får ingen mail; økonomi får besked og følger op.",
+                        "none_customer_number": "Kunden kan ikke faktureres: mangler e-conomic kundenummer.",
+                        "none_economic_off": "Kunden kan ikke faktureres: e-conomic er slået fra.",
+                        "no_charge": "Tildeles uden betaling.",
+                        "included": "Licenserne er inkluderet i planen. Der faktureres intet.",
+                        "unknown": "Faktureringen kunne ikke afgøres."
+                    },
+                    "noChargeReason": "Uden betaling – begrundelse",
+                    "noChargeReasonHint": "Påkrævet (mindst 5 tegn). Licenserne tildeles gratis, og begrundelsen gemmes i aktivitetsloggen.",
+                    "save": {
+                        "plain": "Tilføj",
+                        "invoice": "Tilføj og fakturer {amount}",
+                        "noCharge": "Tilføj uden betaling"
+                    },
+                    "toast": {
+                        "economic_auto": "Faktura {number} på {amount} er bogført og sendes på mail fra e-conomic til kunden (kundenr. {customer}).",
+                        "economic_finance": "Faktura {number} på {amount} er oprettet. Økonomi fakturerer fra e-conomic og har fået besked.",
+                        "manual_invoice": "Faktura {number} på {amount} venter på, at økonomi vælger tilkøb på aftalen eller løs faktura. Økonomi har fået besked.",
+                        "card": "Faktura {number} på {amount} ligger ubetalt i kundens fakturaoversigt (trækkes ikke på kortet). Økonomi har fået besked.",
+                        "noCharge": "Licenserne er tildelt uden betaling. Begrundelsen er gemt i aktivitetsloggen.",
+                        "included": "Licenserne er tilføjet. De er inkluderet i planen, så der faktureres intet."
+                    }
                 },
                 "addSubscription": {
                     "addSubscription": "Tilføj abonnement",
@@ -14789,7 +15071,49 @@
             "successOrderCreated": "Ordre oprettet!",
             "successOrderCreatedBody": "Ordre til {name} er oprettet.",
             "successUpdated": "Opdateret!",
-            "successOrderCompleted": "Ordren er gennemført."
+            "successOrderCompleted": "Ordren er gennemført.",
+            "licenseOrders": {
+                "title": "Licensordrer",
+                "subtitle": "Alle licens- og lagerordrer, og om de er sendt til e-conomic.",
+                "attention": "{count} ordre(r) er ikke bogført efter 1 dag eller fejlede",
+                "allStatuses": "Alle statusser",
+                "empty": "Ingen ordrer.",
+                "columns": {
+                    "date": "Dato",
+                    "company": "Virksomhed",
+                    "orderedBy": "Bestilt af",
+                    "items": "Varer",
+                    "total": "I alt inkl. moms",
+                    "invoice": "Faktura",
+                    "billing": "Fakturering",
+                    "status": "e-conomic"
+                },
+                "source": {
+                    "customer": "kunde",
+                    "superadmin": "superadmin"
+                },
+                "method": {
+                    "economic_auto": "e-conomic (automatisk)",
+                    "economic_finance": "Økonomi fakturerer",
+                    "manual_invoice": "Afventer valg (aftale)",
+                    "card": "Kort (manuel)",
+                    "none": "Uden betaling",
+                    "included": "Inkluderet"
+                },
+                "status": {
+                    "pending": "Afventer",
+                    "draft": "Kladde oprettet",
+                    "booked": "Bogført og sendt",
+                    "paid": "Betalt",
+                    "finance": "Økonomi fakturerer",
+                    "error": "Fejl",
+                    "no_invoice": "Ingen faktura"
+                },
+                "errorReason": "Fejl: {reason}",
+                "previous": "Forrige",
+                "next": "Næste",
+                "page": "Side {page} af {pages}"
+            }
         },
         "polls": {
             "confirmation": {
@@ -17751,6 +18075,9 @@
         "showAsNewsHint": "Kun det nye og det forbedrede vises. Rettelser vises aldrig som nyheder.",
         "sendToMilo": "Send til Milo (supportviden)",
         "sendToMiloHint": "Rettelser går til Milo, så support kan svare på dem, men vises aldrig som nyheder.",
+        "popupRoute": "Vis som popup på side",
+        "popupRouteHint": "Fx /schedules. Vises én gang for hver bruger på den side, indtil de lukker den. Kun udgivne noter. Tom = ingen popup.",
+        "popupOn": "Popup på {route}",
         "toMilo": "Til Milo"
     },
     "customSidebarLinks": {
@@ -19060,11 +19387,13 @@
             "basisTitle": "Hvad faktureres der efter?",
             "basis": {
                 "delivered": "Leverede timer",
-                "granted": "Bevilgede timer"
+                "granted": "Bevilgede timer",
+                "included": "Indeholdt - faktureres ikke"
             },
             "basisHelp": {
                 "delivered": "Faktureres efter de timer, der er registreret som leveret i perioden.",
-                "granted": "Faktureres efter de bevilgede timer (bevilgede timer gange timeprisen), uanset hvor mange der er leveret. Gælder, når prisen er pr. time."
+                "granted": "Faktureres efter de bevilgede timer (bevilgede timer gange timeprisen), uanset hvor mange der er leveret. Gælder, når prisen er pr. time.",
+                "included": "Timerne er indeholdt i aftalen og faktureres ikke. De vises, men kommer aldrig på en faktura."
             },
             "name": "Navn",
             "billingBasis": "Faktureres efter",
@@ -19358,8 +19687,10 @@
             "person": "Person",
             "employment": "Ansættelse",
             "work": "Arbejde",
-            "bank": "Løn og bank"
+            "bank": "Løn og bank",
+            "custom": "Øvrige HR-felter"
         },
+        "customHrOnly": "Kun HR kan se disse felter. Medarbejderen ser kun dem, der er markeret som synlige for medarbejderen.",
         "fields": {
             "privateEmail": "E-mailadresse privat",
             "privatePhone": "Telefon privat",
@@ -19411,7 +19742,7 @@
         "notReady": "Konsulenten kan ikke sættes på en sag endnu",
         "sections": {
             "profile": "Profil",
-            "skills": "Kompetencer, kurser og emneord",
+            "skills": "Kompetencer, {courses} og emneord",
             "documents": "Dokumenter"
         },
         "skillsHint": "Det er de her lister konsulenten findes på, når en sag skal matches.",
@@ -21832,7 +22163,9 @@
                 "ready_to_close": "Klar til lukning",
                 "past_due": "Bagud",
                 "overdue": "Forfalden",
-                "suspended": "Lukket"
+                "suspended": "Lukket",
+                "collection": "Inkasso",
+                "written_off": "Afskrevet"
             },
             "method": {
                 "card": "Kort",
@@ -21850,7 +22183,9 @@
                 "reopen": "Genåbn",
                 "postpone": "Udsæt",
                 "revoke_security_card": "Fjern sikkerhedskort",
-                "retry_unknown_charge": "Genforsøg med samme nøgle"
+                "retry_unknown_charge": "Genforsøg med samme nøgle",
+                "collection": "Send til inkasso",
+                "write_off": "Afskriv"
             },
             "help": {
                 "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
@@ -21861,7 +22196,9 @@
                 "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
                 "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger.",
                 "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi.",
-                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen."
+                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen.",
+                "collection": "Overdrager det udestående beløb til inkasso. Virksomheden flyttes til fanen Inkasso.",
+                "write_off": "Afskriver det udestående beløb som tabt. Virksomheden flyttes til fanen Afskrevet."
             },
             "dialog": {
                 "title": {
@@ -21872,7 +22209,9 @@
                     "reopen": "Genåbn virksomheden",
                     "postpone": "Udsæt rykkerforløbet",
                     "revoke_security_card": "Fjern sikkerhedskortet",
-                    "retry_unknown_charge": "Genforsøg med samme nøgle"
+                    "retry_unknown_charge": "Genforsøg med samme nøgle",
+                    "collection": "Send virksomheden til inkasso",
+                    "write_off": "Afskriv det udestående beløb"
                 },
                 "about": "{company}: {amount} udestående",
                 "noteLabel": "Begrundelse",
@@ -21888,7 +22227,9 @@
                 "optional": "valgfri",
                 "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes.",
                 "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort.",
-                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det."
+                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det.",
+                "collectionNoteLabel": "Note",
+                "collectionNoteHelp": "Noten gemmes i aktivitetsloggen."
             },
             "done": {
                 "retry": "Forsøget er sat i gang",
@@ -21898,7 +22239,9 @@
                 "reopen": "Virksomheden er åbnet igen",
                 "postpone": "Rykkerforløbet er udsat",
                 "revoke_security_card": "Sikkerhedskortet er fjernet",
-                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle"
+                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle",
+                "collection": "Virksomheden er sendt til inkasso",
+                "write_off": "Beløbet er afskrevet"
             },
             "failed": "Handlingen mislykkedes",
             "openCompany": "Åbn virksomheden",
@@ -21915,7 +22258,23 @@
             "invoiceStatusHelp": "Status for træk på sikkerhedskortet for denne faktura.",
             "securityCardLine": "Kort •••• {last_four} (udløber {expiry})",
             "needsNexiCheck": "Tjek i Nexi-portalen",
-            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages."
+            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages.",
+            "reminder": {
+                "1": "Rykker 1",
+                "2": "Rykker 2",
+                "3": "Rykker 3"
+            },
+            "tab": {
+                "active": "Aktive",
+                "closed": "Lukket",
+                "collection": "Inkasso",
+                "written_off": "Afskrevet"
+            },
+            "emptyTab": "Ingen virksomheder i denne fane",
+            "since": {
+                "collection": "Sendt til inkasso {date}",
+                "written_off": "Afskrevet {date}"
+            }
         },
         "company": {
             "title": "Betalingsmåde",
@@ -22075,5 +22434,63 @@
     "desktopApp": {
         "notAvailable": "Det er ikke tilgængeligt i desktop-appen.",
         "paymentNotAvailable": "Betalingskortet kan ikke opdateres i desktop-appen. Kontakt support, hvis I har brug for hjælp."
+    },
+    "infoScreenDisplay": {
+        "title": "Infoskærm",
+        "pairTitle": "Forbind skærmen",
+        "pairHint": "Tast koden fra Indstillinger → Infoskærm i CitizenOne.",
+        "code": "Kode",
+        "connect": "Forbind",
+        "wrongCode": "Koden er forkert eller udløbet. Lav en ny kode, og prøv igen.",
+        "tooManyTries": "For mange forsøg. Vent et minut, og prøv igen.",
+        "noSeat": "Der er ingen ledig licens til denne skærm. Køb flere skærme i appbutikken, eller fjern parringen fra en anden skærm.",
+        "appInactive": "Infoskærm er ikke aktiv. Kontakt jeres administrator.",
+        "today": "I dag",
+        "noActivities": "Ingen planlagte aktiviteter i dag",
+        "menu": "Dagens menu",
+        "onDuty": "På vagt",
+        "until": "til {time}",
+        "news": "Nyhed",
+        "weatherToday": "Vejret",
+        "weatherChart": "Temperatur de næste timer",
+        "now": "Nu",
+        "weatherCredit": "Vejrdata: MET Norway",
+        "poll": "Afstemning",
+        "pollVotes": "Stemmer: {count}",
+        "pollScan": "Scan og stem",
+        "inMinutes": "Om {count} min",
+        "inHours": "Om {count} t",
+        "inHoursMinutes": "Om {hours} t {minutes} min",
+        "offline": "Ingen forbindelse",
+        "preview": "Forhåndsvisning",
+        "previewFailed": "Forhåndsvisningen kunne ikke hentes. Log ind som administrator og prøv igen.",
+        "week": "Ugens program",
+        "mood": "Trivsel",
+        "moodQuestion": "Hvordan har du det i dag?",
+        "moodAnonymous": "Dit svar er anonymt.",
+        "moodScan": "Scan og svar",
+        "birthday": "Tillykke med fødselsdagen"
+    },
+    "infoScreenVote": {
+        "title": "Afstemning",
+        "closed": "Afstemningen er lukket.",
+        "thanks": "Tak for din stemme!",
+        "alreadyVoted": "Du har allerede stemt.",
+        "votes": "Stemmer i alt: {count}",
+        "anonymous": "Din stemme er anonym.",
+        "failed": "Stemmen blev ikke sendt. Prøv igen.",
+        "changed": "Spørgsmålet er lige blevet ændret. Stem igen."
+    },
+    "infoScreenMood": {
+        "title": "Trivsel",
+        "question": "Hvordan har du det i dag?",
+        "sad": "Dårligt",
+        "meh": "Okay",
+        "happy": "Godt",
+        "thanks": "Tak for dit svar",
+        "tomorrow": "Du kan svare igen i morgen.",
+        "closed": "Spørgsmålet er ikke åbent lige nu.",
+        "failed": "Svaret blev ikke sendt. Prøv igen.",
+        "anonymous": "Anonymt. Vi spørger ikke, hvem du er."
     }
 }

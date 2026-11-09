@@ -106,7 +106,9 @@
                                     <input type="number" min="0" step="0.01" class="co-cell-input w-full" v-model="state.form.price" />
                                     <FormError :error="state.error?.errors?.price?.[0]" />
                                 </div>
-                                <div class="space-y-1">
+                                <!-- An hourly price bills the hours delivered, so the frequency
+                                     is not asked for. The stored value is kept as it was. -->
+                                <div class="space-y-1" v-if="state.form.price_type !== 'hourly'">
                                     <FormLabel :label="$t('socialWelfare.contract.billingFrequency')" />
                                     <select class="co-cell-input w-full" v-model="state.form.billing_frequency"
                                         :aria-label="$t('socialWelfare.contract.billingFrequency')">

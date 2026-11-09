@@ -3,7 +3,7 @@
         <Alert type="danger"
             :text="state?.error?.message === 'You have already voted.' ? `${$t('poll.youHaveAlreadyVoted')}.` : state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <h3 class="text-primary text-base font-medium py-2">
+        <h3 v-if="showTitle" class="text-primary text-base font-medium py-2">
             {{ $t('overview.poll.poll') }}
         </h3>
 
@@ -69,7 +69,11 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import type { Error } from '@/types'
 
+// Coming functions gives the polls its own heading, so it hides this one.
+withDefaults(defineProps<{ showTitle?: boolean }>(), { showTitle: true })
+
 const { formatDateToReadable } = useDatetimeFormatter()
+const pollBadge = usePollBadge()
 
 const state = reactive({
     isPageLoading: false,
@@ -108,6 +112,7 @@ async function addVote(pollIndex: number, itemIndex: number, pollItem: any) {
             state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) + 1
         }
         fetchPolls()
+        pollBadge.refresh()
     } catch (error: any) {
         state.error = error
     }
@@ -124,6 +129,7 @@ async function deleteVote(pollIndex: number, itemIndex: number, pollItem: any) {
             state.polls.data[pollIndex].items[itemIndex].user_voted = false
             state.polls.data[pollIndex].items[itemIndex].vote_count = parseInt(state.polls.data[pollIndex].items[itemIndex].vote_count) - 1
         }
+        pollBadge.refresh()
     } catch (error: any) {
         state.error = error
     }

@@ -202,6 +202,15 @@ export default defineNuxtConfig({
     '/embed/duty-schedules/**': {
       headers: { 'Content-Security-Policy-Report-Only': embedContentSecurityPolicy },
     },
+    // Files offered for download (the Power BI .pbit template). Nitro does not
+    // know .pbit and served it as text/plain, which with nosniff can open as
+    // text instead of saving. Merged with the '/**' security headers above.
+    '/downloads/**': {
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment',
+      },
+    },
     '/fst-register': {
       redirect: { to: '/register', statusCode: 301 },
     },

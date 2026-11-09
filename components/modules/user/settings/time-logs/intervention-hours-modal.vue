@@ -199,6 +199,9 @@ const state = reactive({
         hour_type_uuids: [] as string[],
         start_date: '',
         end_date: '',
+        // Oprettelsesdato: the day the row was created, next to the visit date.
+        created_from: '',
+        created_to: '',
     },
     modal: {
         isAddInterventionHoursOpen: false,
@@ -278,6 +281,10 @@ async function fetchInterventionHours() {
             params.start_date = state.filter.start_date
             params.end_date = state.filter.end_date
         }
+        if (state.filter.created_from && state.filter.created_to) {
+            params.created_from = state.filter.created_from
+            params.created_to = state.filter.created_to
+        }
 
         const response = await interventionHoursService.getAllInterventionHours(params)
         if (response) {
@@ -353,6 +360,8 @@ function setFilter(filter: any) {
     state.filter.hour_type_uuids = filter.hour_type_uuids ?? []
     state.filter.start_date = filter.date_range?.[0]
     state.filter.end_date = filter.date_range?.[1]
+    state.filter.created_from = filter.created_range?.[0] ?? ''
+    state.filter.created_to = filter.created_range?.[1] ?? ''
 
     fetchInterventionHours()
 }

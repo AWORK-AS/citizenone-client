@@ -113,6 +113,7 @@
                                         :aria-label="$t('socialWelfare.hourTypes.billingBasis')">
                                         <option value="delivered">{{ $t('socialWelfare.hourTypes.basis.delivered') }}</option>
                                         <option value="granted">{{ $t('socialWelfare.hourTypes.basis.granted') }}</option>
+                                        <option value="included">{{ $t('socialWelfare.hourTypes.basis.included') }}</option>
                                     </select>
                                     <p class="text-[12px] text-slate-500">
                                         {{ $t(`socialWelfare.hourTypes.basisHelp.${state.form.billing_basis}`) }}
@@ -178,7 +179,7 @@ const breadcrumbLinks = [
 const blank = () => ({
     name: '',
     economic_product_number: '',
-    billing_basis: 'delivered' as 'delivered' | 'granted',
+    billing_basis: 'delivered' as 'delivered' | 'granted' | 'included',
     sort_order: '' as any,
     is_active: true,
 })

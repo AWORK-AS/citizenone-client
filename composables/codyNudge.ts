@@ -94,6 +94,19 @@ export function bannerSurface(variant: BannerVariant | null): NudgeSurface | nul
 }
 
 /**
+ * The body line under an offer, as an i18n key. The generic line talks about
+ * the day and journal notes; on the chat page the thing worth saying is what
+ * Cody AI does there. Only the offer banners and the staff request carry a body.
+ */
+export function bannerBodyKey(variant: BannerVariant | null, path: string): string | null {
+    if (variant !== 'adminTrial' && variant !== 'adminEnable' && variant !== 'request') return null
+
+    if (/^\/messages(\/|$)/.test(path ?? '')) return 'cody.adoption.pageBody.messages'
+
+    return variant === 'request' ? 'cody.adoption.requestBody' : 'cody.adoption.headlineBody'
+}
+
+/**
  * The "Then 128.50 kr./mo." line: key and params for $t, or null when there is nothing to
  * show. Never for someone who cannot buy, never for a company that has Cody.
  */

@@ -5,10 +5,12 @@
 // mid-sentence ("Skriv et journalnotat for ", "Find de vedhæftede filer om ")
 // needs a name from the user, so it is put in the field with the cursor at the
 // end instead. An unfinished prompt is recognised by its trailing space, which
-// is how the quickPrompts strings in lang/*.json already mark it.
+// is how the quickPrompts strings in lang/*.json already mark it. A prompt that
+// ends in "@" ("Skriv en besked til @") waits for a colleague: the "@" opens the
+// mention picker as soon as it is in the field.
 
 export type StarterMode = 'send' | 'fill'
 
 export function starterMode(prompt: string): StarterMode {
-    return /\s$/.test(prompt) ? 'fill' : 'send'
+    return /(\s|@)$/.test(prompt) ? 'fill' : 'send'
 }

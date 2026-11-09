@@ -33,6 +33,16 @@
                         </Badge>
                     </button>
                     </MenuItem>
+                    <MenuItem v-slot="{ active }">
+                    <button type="button" @click="navigateTo('/coming-functions#polls')"
+                        :class="[active ? 'bg-surface-100' : '', ITEM_CLASS]">
+                        <Icon name="ph:thumbs-up" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                        <span class="flex-1 text-left">{{ $t('navbar.comingFunctionsAndPolls') }}</span>
+                        <Badge v-if="pollBadge.count.value > 0" type="notification">
+                            {{ pollBadge.count.value > 9 ? '9+' : pollBadge.count.value }}
+                        </Badge>
+                    </button>
+                    </MenuItem>
                     <div class="my-1 border-t border-surface-200" />
                     <MenuItem v-slot="{ active }">
                     <button type="button" @click="emit('openSupport')"
@@ -71,10 +81,15 @@ const state = reactive({
     },
 })
 
-const newsCount = computed(() => props.unreadNewsCount ?? 0)
-const totalUnread = computed(() => newsCount.value + state.unseenCount)
+const pollBadge = usePollBadge()
 
-onMounted(() => fetchUnseenCount())
+const newsCount = computed(() => props.unreadNewsCount ?? 0)
+const totalUnread = computed(() => newsCount.value + state.unseenCount + pollBadge.count.value)
+
+onMounted(() => {
+    fetchUnseenCount()
+    pollBadge.refresh()
+})
 
 async function fetchUnseenCount() {
     try {

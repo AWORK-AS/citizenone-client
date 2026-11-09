@@ -362,6 +362,8 @@ import { useChatCprWarning } from '@/composables/chatCprWarning'
 import { useIsDesktopApp, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useUserStore } from '@/store/user'
 import { useCitizenFirstPage } from '@/composables/citizenFirstPage'
+import { useChatDraftStore } from '@/store/chat-draft'
+import { mergeIntoField } from '@/composables/codyChatDraft'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -471,6 +473,7 @@ function loadChat() {
     fetchChat()
     fetchChatHistory().then(autoFillChatHistory)
     readChat()
+    takeCodyDraft()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 
     // Ask once, on opening a chat rather than at app launch, so the OS
@@ -481,6 +484,23 @@ function loadChat() {
         Notification.requestPermission()
     }
 }
+
+// A message Cody AI drafted for this conversation lands in the field, never
+// sent: the user reads it and presses send. Handed over in memory by the card
+// (store/chat-draft), not in the URL. Watched as well, for "Åbn i chat" pressed
+// while this conversation is already open.
+const chatDraftStore = useChatDraftStore()
+
+function takeCodyDraft() {
+    if (!chatUuid) return
+    const text = chatDraftStore.takeFor({ type: 'chat', uuid: chatUuid })
+    if (text === null) return
+
+    state.message = mergeIntoField(state.message, text)
+    nextTick(() => messageTextarea.value?.focus())
+}
+
+watch(() => chatDraftStore.pending, takeCodyDraft)
 
 onMounted(loadChat)
 

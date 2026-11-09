@@ -155,6 +155,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import { messageService } from '@/components/api/user/MessageService'
 import { useAlert } from '@/composables/alert'
+import { useChatDraftStore } from '@/store/chat-draft'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -188,9 +189,21 @@ const state = reactive({
     searchQuery: '',
 })
 
+// A message Cody AI drafted for a colleague with no conversation yet opens the
+// new-conversation form, which picks the draft up (see modal-new-chat). Watched
+// too, for "Åbn i chat" pressed while this page is already open.
+const chatDraftStore = useChatDraftStore()
+
+function openForCodyDraft() {
+    if (chatDraftStore.pending?.target?.type === 'employee') state.modal.isNewChatOpen = true
+}
+
 onMounted(() => {
     if (userUuid) state.modal.isNewChatOpen = true
+    openForCodyDraft()
 })
+
+watch(() => chatDraftStore.pending, openForCodyDraft)
 
 function toggleChatMenu(uuid: string) {
     state.openChatMenuUuid = state.openChatMenuUuid === uuid ? null : uuid

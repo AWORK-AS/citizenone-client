@@ -35,6 +35,11 @@ class LicenseService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses/grant`, 'POST', params)
     }
 
+    // What the "Tilføj licenser" choice costs and how the customer is billed.
+    async quoteGrantLicenses(companyUuid: string, params: object): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/license-grant/quote`, 'GET', params)
+    }
+
     // All Deals (Basis/Pro) with base pricing, unfiltered by any company context -
     // powers the "add subscription" plan picker for companies with none yet.
     async getDeals(): Promise<any> {
