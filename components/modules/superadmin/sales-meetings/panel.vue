@@ -86,6 +86,9 @@
                 <div class="flex items-center gap-2">
                     <ModulesSuperadminStatusPill :variant="statusVariant(meeting.status)"
                         :label="$t(`superadmin.salesMeetings.status.${meeting.status}`)" />
+                    <!-- After a demo: did the prospect come (meetings:sales-follow-up) -->
+                    <ModulesSuperadminStatusPill v-if="meeting.outcome" :variant="outcomeVariant(meeting.outcome)"
+                        :label="$t(`superadmin.salesMeetings.outcome.${meeting.outcome}`)" />
                     <a v-if="meeting.host_url && ['scheduled', 'live'].includes(meeting.status)" :href="meeting.host_url" target="_blank"
                         rel="noopener" class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
                         {{ $t('superadmin.salesMeetings.open') }}
@@ -224,6 +227,12 @@ async function save() {
         state.error = error
     }
     state.isSaving = false
+}
+
+function outcomeVariant(outcome: string) {
+    if (outcome === 'held') return 'success'
+    if (outcome === 'missed') return 'warning'
+    return 'neutral'
 }
 
 function statusVariant(status: string) {

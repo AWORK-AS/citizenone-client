@@ -16288,6 +16288,11 @@
                 "live": "Pågår",
                 "finished": "Hållet",
                 "cancelled": "Inställt"
+            },
+            "outcome": {
+                "held": "Prospect deltog",
+                "missed": "Uteblev",
+                "not_held": "Inte hållet"
             }
         },
         "salesInquiries": {

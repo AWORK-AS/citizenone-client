@@ -16373,6 +16373,11 @@
                 "live": "I gang",
                 "finished": "Holdt",
                 "cancelled": "Aflyst"
+            },
+            "outcome": {
+                "held": "Prospect deltog",
+                "missed": "Udeblev",
+                "not_held": "Ikke holdt"
             }
         },
         "salesInquiries": {
