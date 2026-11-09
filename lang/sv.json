@@ -1681,6 +1681,18 @@
                 "department": "Avdelning"
             }
         },
+        "taskProposal": {
+            "label": "Cody AI föreslår en uppgift",
+            "badge": "Förslag från Cody AI",
+            "board": "Tavla",
+            "create": "Skapa uppgift",
+            "creating": "Skapar…",
+            "cancel": "Avbryt",
+            "created": "Uppgiften har skapats",
+            "declined": "Förslaget är avbrutet. Ingen uppgift skapades.",
+            "expired": "Förslaget har gått ut. Be Cody AI om uppgiften igen.",
+            "failed": "Uppgiften skapades inte. Försök igen."
+        },
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
         "budgetSpent": "Er extra kapacitet är slut, och dagens inkluderade svar är också använda. Fyll på för att fortsätta i dag.",
         "ownDailyLimit": "Du har använt din egen dagsgräns för Cody AI. Din administratör kan höja den.",
