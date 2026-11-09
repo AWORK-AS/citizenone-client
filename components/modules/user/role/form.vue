@@ -56,6 +56,35 @@
                     {{ $t('roles.form.seesHrData') }}
                 </div>
                 <p class="text-xs text-slate-500">{{ $t('roles.form.seesHrDataHelp') }}</p>
+                <!-- Whose HR data: every colleague's, or only that of holders of chosen roles
+                     (roles.hr_data_for). -->
+                <div v-if="state.formRole.sees_hr_data" class="ml-7 space-y-2 pt-1">
+                    <label class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" value="all" v-model="state.formRole.hr_data_scope"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ $t('roles.form.hrDataForAll') }}
+                    </label>
+                    <label class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" value="roles" v-model="state.formRole.hr_data_scope"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ $t('roles.form.hrDataForRoles') }}
+                    </label>
+                    <div v-if="state.formRole.hr_data_scope === 'roles'"
+                        class="rounded-xl border border-slate-200 p-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5">
+                            <label v-for="role in reminderRoleOptions" :key="role.value"
+                                class="flex items-center gap-2.5 text-sm text-slate-700 cursor-pointer rounded-md px-1.5 py-1 hover:bg-slate-50">
+                                <input type="checkbox"
+                                    class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                    :value="role.value" v-model="state.formRole.hr_data_role_ids" />
+                                {{ role.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <FormError v-if="state.hrDataRolesMissing"
+                        :error="$t('roles.form.certificateRemindersRolesPlaceholder')" />
+                    <FormError :error="hrDataForError" />
+                </div>
             </div>
 
             <!-- Certificate and CV reminders: whose this role's people receive, for every
@@ -325,6 +354,10 @@ const state = reactive({
         level: '20',
         hide_internal_journals: false,
         sees_hr_data: false,
+        // hr_data_for as the form shows it; submitForm() turns it back into null
+        // (every colleague) or role ids.
+        hr_data_scope: 'all' as 'all' | 'roles',
+        hr_data_role_ids: [] as number[],
         // certificate_reminder_for as the form shows it; submitForm() turns it back
         // into null (not a recipient), [] (every employee) or role ids.
         receives_certificate_reminders: false,
@@ -342,6 +375,7 @@ const state = reactive({
     contactTitles: [] as any[],
     reminderRoles: [] as any[],
     reminderRolesMissing: false,
+    hrDataRolesMissing: false,
     permissions: [] as any[],
     pages: [] as any[],
     employeeGroups: [] as any[],
@@ -387,6 +421,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             level: String(newValue.level ?? 20),
             hide_internal_journals: !!newValue.hide_internal_journals,
             sees_hr_data: !!newValue.sees_hr_data,
+            ...hrDataScopeFields(newValue.hr_data_for),
             ...certificateReminderFields(newValue.certificate_reminder_for),
             counts_as_consultant: !!newValue.counts_as_consultant,
             only_assigned_citizens: !!newValue.only_assigned_citizens,
@@ -524,6 +559,26 @@ function certificateReminderFields(value: any) {
     }
 }
 
+function hrDataScopeFields(value: any) {
+    const ids = Array.isArray(value) ? value.map((id: any) => Number(id)) : []
+    return {
+        hr_data_scope: (ids.length ? 'roles' : 'all') as 'all' | 'roles',
+        hr_data_role_ids: ids,
+    }
+}
+
+function hrDataFor(): number[] | null {
+    if (!state.formRole.sees_hr_data || state.formRole.hr_data_scope !== 'roles') return null
+    return [...state.formRole.hr_data_role_ids]
+}
+
+// A refused role (another company's) comes back as hr_data_for.N.
+const hrDataForError = computed(() => {
+    const errors = props?.error?.errors ?? {}
+    const key = Object.keys(errors).find((k) => k === 'hr_data_for' || k.startsWith('hr_data_for.'))
+    return key ? errors[key]?.[0] : undefined
+})
+
 function certificateReminderFor(): number[] | null {
     if (!state.formRole.receives_certificate_reminders) return null
     return state.formRole.certificate_reminder_scope === 'roles' ? [...state.formRole.certificate_reminder_role_ids] : []
@@ -593,9 +648,13 @@ function submitForm() {
     state.reminderRolesMissing = state.formRole.receives_certificate_reminders
         && state.formRole.certificate_reminder_scope === 'roles'
         && state.formRole.certificate_reminder_role_ids.length === 0
-    if (!v$.value.$error && !state.reminderRolesMissing) {
-        const { receives_certificate_reminders, certificate_reminder_scope, certificate_reminder_role_ids, ...role } = state.formRole
-        emit('submitForm', { ...role, certificate_reminder_for: certificateReminderFor() })
+    // Likewise "HR data of employees with these roles".
+    state.hrDataRolesMissing = state.formRole.sees_hr_data
+        && state.formRole.hr_data_scope === 'roles'
+        && state.formRole.hr_data_role_ids.length === 0
+    if (!v$.value.$error && !state.reminderRolesMissing && !state.hrDataRolesMissing) {
+        const { receives_certificate_reminders, certificate_reminder_scope, certificate_reminder_role_ids, hr_data_scope, hr_data_role_ids, ...role } = state.formRole
+        emit('submitForm', { ...role, certificate_reminder_for: certificateReminderFor(), hr_data_for: hrDataFor() })
     }
 }
 </script>

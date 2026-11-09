@@ -999,7 +999,8 @@
                 "contactAddressTitles": "Ser kontaktadresser for titler",
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
-                "certificateReminderFor": "Får påmindelser om certifikater for"
+                "certificateReminderFor": "Får påmindelser om certifikater for",
+                "hrDataFor": "HR-oplysninger for"
             },
             "values": {
                 "yes": "Ja",
@@ -12124,6 +12125,8 @@
             "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
             "seesHrData": "Kan se HR-oplysninger og medarbejderdokumenter",
             "seesHrDataHelp": "Medarbejdere med denne rolle ser kollegers HR-oplysninger, medarbejderdokumenter (kontrakter, straffeattester, attester m.m.), lønfelter, adresser og nødkontakter og kan håndtere dem. Uden den ser de kun deres egne. Administratorer ser dem altid.",
+            "hrDataForAll": "For alle medarbejdere",
+            "hrDataForRoles": "For medarbejdere med rollerne",
             "certificateReminders": "Modtager påmindelser om attester",
             "certificateRemindersHelp": "Personer med denne rolle får påmindelser om attester, der udløber, og forældede CV'er, på e-mail og i CitizenOne. Så snart en rolle har dette, går påmindelserne til disse roller og medarbejderen i stedet for til administratorerne.",
             "certificateRemindersForAll": "For alle medarbejdere",
