@@ -15215,7 +15215,8 @@
                     "manual_invoice": "Väntar på val (avtal)",
                     "card": "Kort (manuell)",
                     "none": "Utan betalning",
-                    "included": "Ingår"
+                    "included": "Ingår",
+                    "economic_draft": "Utkast till ekonomi"
                 },
                 "status": {
                     "pending": "Väntar",
@@ -16978,6 +16979,77 @@
             "retry": "Försök igen",
             "all": "Alla",
             "dismiss": "Stäng"
+        },
+        "companyOrders": {
+            "title": "Order",
+            "new": "Ny order",
+            "back": "Tillbaka till licenser",
+            "entryHint": "Kunden betalar mot faktura: samla flera produkter i en order, så blir de ett fakturautkast med en fakturaavgift.",
+            "grantHint": "Behöver kunden flera produkter? Skapa en order i stället, så blir det en faktura med en fakturaavgift.",
+            "createdBy": "Skapad av {name} {date}",
+            "completedBy": "genomförd av {name} {date}",
+            "invoice": "Faktura #{number}",
+            "lines": "Orderrader",
+            "noLines": "Inga rader ännu. Lägg till en produkt nedan.",
+            "product": "Produkt",
+            "pickProduct": "Välj produkt",
+            "listPrice": "{price} per år",
+            "addLine": "Lägg till rad",
+            "remove": "Ta bort rad",
+            "col": {
+                "product": "Produkt",
+                "quantity": "Antal",
+                "unitPrice": "Styckpris",
+                "amount": "Belopp",
+                "date": "Datum",
+                "company": "Företag",
+                "products": "Produkter",
+                "total": "Totalt inkl. moms",
+                "status": "Status"
+            },
+            "billingDraft": "Ett fakturautkast skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+            "billingFree": "Allt ingår i planen. Inget faktureras.",
+            "noQuote": "Inget pris ännu.",
+            "complete": "Genomför order",
+            "retry": "Försök igen",
+            "cancel": "Annullera utkast",
+            "open": "Öppna",
+            "cancelConfirm": "Utkastet annulleras. Kunden får inget och inget faktureras.",
+            "confirm": {
+                "title": "Genomföra order?",
+                "body": "Kunden får {seats} licenser nu. Ett fakturautkast på {amount} inkl. moms skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+                "bodyFree": "Kunden får {seats} licenser nu. Allt ingår i planen, så ingen faktura skickas."
+            },
+            "completed": "Ordern är genomförd. Licenserna är aktiva.",
+            "retried": "Utkastet skickas till e-conomic igen.",
+            "cancelled": "Utkastet är annullerat.",
+            "saveFailed": "Ordern kunde inte sparas.",
+            "loadFailed": "Ordern kunde inte hämtas.",
+            "status": {
+                "draft": "Utkast",
+                "completed": "Genomförd",
+                "transferred": "Överförd till e-conomic",
+                "failed": "Fel i e-conomic",
+                "cancelled": "Annullerad"
+            },
+            "economic": {
+                "notYet": "Inte skickad ännu",
+                "pending": "Skickas till e-conomic…",
+                "none": "Ingen faktura",
+                "draft": "Utkast nr {number}",
+                "booked": "Bokförd som faktura {number}",
+                "failed": "Fel: {reason}"
+            },
+            "refusal": {
+                "superadmin_order_not_invoice_company": "Ordrar gäller bara kunder som betalar mot faktura.",
+                "superadmin_order_economic_off": "e-conomic är avstängt.",
+                "superadmin_order_no_customer_number": "Kunden saknar kundnummer i e-conomic."
+            },
+            "listTitle": "Ordrar från superadmin",
+            "listSubtitle": "Ordrar med flera rader som blir ett fakturautkast i e-conomic.",
+            "empty": "Inga ordrar ännu.",
+            "allStatuses": "Alla statusar",
+            "failedCount": "{count} misslyckades i e-conomic"
         }
     },
     "support": {
