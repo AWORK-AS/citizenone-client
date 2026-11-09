@@ -15498,7 +15498,8 @@
             "news": "Nyheder",
             "campaigns": "Kampagner",
             "announcements": "Beskeder",
-            "today": "I dag"
+            "today": "I dag",
+            "meetings": "Møder"
         },
         "teamRoles": {
             "pageTitle": "Roller",
@@ -17135,6 +17136,27 @@
             "empty": "Ingen ordrer endnu.",
             "allStatuses": "Alle statusser",
             "failedCount": "{count} fejlet i e-conomic"
+        },
+        "teamMeetings": {
+            "pageTitle": "Møder",
+            "description": "Hold jeres egne online-møder i CitizenOne: internt, med partnere eller hvem som helst. Demoer og kundemøder står her også.",
+            "startNow": "Start møde nu",
+            "titlePlaceholder": "Fx Ugemøde, Partnermøde",
+            "guestName": "Navn",
+            "guestEmail": "E-mail",
+            "addGuest": "+ Tilføj deltager",
+            "removeGuest": "Fjern deltager",
+            "startNowHint": "Mødet starter nu. Deltagerne får en mail med linket, og mødet åbner i en ny fane, hvor du er vært.",
+            "startAndInvite": "Start og send link",
+            "inquiry": "Henvendelse",
+            "customer": "Kunde",
+            "scope": {
+                "upcoming": "Kommende",
+                "past": "Tidligere"
+            },
+            "company": "Kunde (valgfri)",
+            "companyPlaceholder": "Søg firma…",
+            "removeCompany": "Fjern"
         }
     },
     "support": {

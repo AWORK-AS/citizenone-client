@@ -1,6 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-/** Online meetings our team holds with prospects (sales inquiries) and customers (accounts). */
+/** Online meetings our team holds with prospects (sales inquiries), customers (accounts) and anyone else. */
 class SalesMeetingService extends BaseAPIService {
     async hosts(): Promise<any> {
         return await this.request('/superadmin/sales-meetings/hosts', 'GET')
@@ -16,6 +16,16 @@ class SalesMeetingService extends BaseAPIService {
 
     async companyMeetings(companyUuid: string): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/meetings`, 'GET')
+    }
+
+    /** Every meeting in our own account: 'upcoming' (soonest first) or 'past'. */
+    async teamMeetings(scope: 'upcoming' | 'past' = 'upcoming'): Promise<any> {
+        return await this.request('/superadmin/sales-meetings', 'GET', { scope })
+    }
+
+    /** A meeting with anyone, planned (starts_at) or started now (start_now: true). */
+    async scheduleForTeam(params: object): Promise<any> {
+        return await this.request('/superadmin/sales-meetings', 'POST', params)
     }
 
     async scheduleForCompany(companyUuid: string, params: object): Promise<any> {
