@@ -21887,7 +21887,9 @@
                 "ready_to_close": "Ready to close",
                 "past_due": "Behind",
                 "overdue": "Overdue",
-                "suspended": "Closed"
+                "suspended": "Closed",
+                "collection": "Collection",
+                "written_off": "Written off"
             },
             "method": {
                 "card": "Card",
@@ -21905,7 +21907,9 @@
                 "reopen": "Reopen",
                 "postpone": "Postpone",
                 "revoke_security_card": "Remove security card",
-                "retry_unknown_charge": "Retry with the same key"
+                "retry_unknown_charge": "Retry with the same key",
+                "collection": "Send to collection",
+                "write_off": "Write off"
             },
             "help": {
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
@@ -21916,7 +21920,9 @@
                 "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
                 "postpone": "Pauses dunning and closing for the number of days you choose.",
                 "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi.",
-                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal."
+                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal.",
+                "collection": "Hands the outstanding amount over to debt collection. The company moves to the Collection tab.",
+                "write_off": "Writes off the outstanding amount as lost. The company moves to the Written off tab."
             },
             "dialog": {
                 "title": {
@@ -21927,7 +21933,9 @@
                     "reopen": "Reopen the company",
                     "postpone": "Postpone dunning",
                     "revoke_security_card": "Remove the security card",
-                    "retry_unknown_charge": "Retry with the same key"
+                    "retry_unknown_charge": "Retry with the same key",
+                    "collection": "Send the company to collection",
+                    "write_off": "Write off the outstanding amount"
                 },
                 "about": "{company}: {amount} outstanding",
                 "noteLabel": "Reason",
@@ -21943,7 +21951,9 @@
                 "optional": "optional",
                 "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
                 "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card.",
-                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have."
+                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have.",
+                "collectionNoteLabel": "Note",
+                "collectionNoteHelp": "The note is saved in the activity log."
             },
             "done": {
                 "retry": "The retry has been started",
@@ -21953,7 +21963,9 @@
                 "reopen": "The company is reopened",
                 "postpone": "Dunning has been postponed",
                 "revoke_security_card": "The security card was removed",
-                "retry_unknown_charge": "The charge was sent again with the same key"
+                "retry_unknown_charge": "The charge was sent again with the same key",
+                "collection": "The company has been sent to collection",
+                "write_off": "The amount has been written off"
             },
             "failed": "The action failed",
             "openCompany": "Open the company",
@@ -21970,7 +21982,23 @@
             "invoiceStatusHelp": "Status of the security card charge for this invoice.",
             "securityCardLine": "Card •••• {last_four} (expires {expiry})",
             "needsNexiCheck": "Check in the Nexi portal",
-            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything."
+            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything.",
+            "reminder": {
+                "1": "Reminder 1",
+                "2": "Reminder 2",
+                "3": "Reminder 3"
+            },
+            "tab": {
+                "active": "Active",
+                "closed": "Closed",
+                "collection": "Collection",
+                "written_off": "Written off"
+            },
+            "emptyTab": "No companies in this tab",
+            "since": {
+                "collection": "Sent to collection {date}",
+                "written_off": "Written off {date}"
+            }
         },
         "company": {
             "title": "Payment method",
