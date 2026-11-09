@@ -247,6 +247,18 @@
                                         <dt class="text-gray-500">{{ $t('apps.yearly') }}</dt>
                                         <dd class="font-semibold text-muted-800">{{ formatAmount(app.yearly_price) }}</dd>
                                     </div>
+                                    <template v-if="saving">
+                                        <div class="flex justify-between border-b border-gray-100 py-2">
+                                            <dt class="text-gray-500">{{ $t('apps.yearlyPerMonth') }}</dt>
+                                            <dd class="font-semibold text-muted-800">{{ formatAmount(saving.perMonth) }}</dd>
+                                        </div>
+                                        <div class="flex justify-between border-b border-gray-100 py-2">
+                                            <dt class="text-gray-500">{{ $t('apps.yearlySaving') }}</dt>
+                                            <dd class="font-semibold text-muted-800">
+                                                {{ $t('apps.yearlySavingValue', { percent: savingPercent, amount: formatAmount(saving.amount) }) }}
+                                            </dd>
+                                        </div>
+                                    </template>
                                     <div class="flex justify-between border-b border-gray-100 py-2" v-if="app.is_one_time_fee">
                                         <dt class="text-gray-500">{{ $t('apps.oneTime') }}</dt>
                                         <dd class="font-semibold text-muted-800">{{ formatAmount(app.price) }}</dd>
@@ -294,6 +306,7 @@ import { trialDays as trialDaysOf, suggesterSummary } from '@/composables/manage
 import { managerSuggestionService } from '@/components/api/user/ManagerSuggestionService'
 import type { Error } from '@/types'
 import { appPageStart } from '@/composables/announcements'
+import { yearlySaving } from '@/composables/appYearlySaving'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
@@ -313,6 +326,12 @@ const state = reactive({
 
 const app = computed(() => state.app)
 const price = computed(() => appPrice(state.app ?? {}))
+// Per month and the saving of yearly billing, from the app's own prices, so they
+// change with the prices in superadmin.
+const saving = computed(() => yearlySaving(state.app))
+const savingPercent = computed(() => saving.value
+    ? new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK', { maximumFractionDigits: 1 }).format(saving.value.percent)
+    : '')
 const badge = computed(() => appBadgeFor(state.app ?? {}))
 const appIcon = computed(() => appIconFor(state.app ?? {}).icon)
 const useIconTile = computed(() => appIconFor(state.app ?? {}).useTile)
