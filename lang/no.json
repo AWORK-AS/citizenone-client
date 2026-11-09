@@ -22495,6 +22495,22 @@
             "hide": "Skjul",
             "resultTitle": "Avstemning: {question}",
             "savedToNotes": "Resultatet er lagret i møtets notater."
+        },
+        "personalRoom": {
+            "title": "Mitt møterom",
+            "intro": "En fast lenke til møtene dine. Legg den i e-postsignaturen eller send den i en chat. Gjester venter til du slipper dem inn.",
+            "create": "Opprett møterom",
+            "copy": "Kopier lenke",
+            "copied": "Kopiert",
+            "newLink": "Ny lenke",
+            "newLinkHint": "Den gamle lenken slutter å virke med en gang.",
+            "newLinkConfirm": "Lage en ny lenke? Den gamle lenken slutter å virke med en gang.",
+            "enter": "Gå inn",
+            "doorTitle": "Møterom hos {host}",
+            "yourName": "Ditt navn",
+            "yourEmail": "Din e-post (valgfri)",
+            "goIn": "Gå til møtet",
+            "doorHint": "Du venter på venterommet til du blir sluppet inn. Du trenger ikke installere noe."
         }
     },
     "teamSize": {

@@ -94,6 +94,20 @@ class MeetingService extends BaseAPIService {
         return await this.request(`/user/meetings/from-calendar/${calendarUuid}`, 'POST')
     }
 
+    /** "Mit mødelokale": the host's standing room with a fixed link, or null. */
+    async personalRoom(): Promise<any> {
+        return await this.request('/user/meetings/personal-room', 'GET')
+    }
+
+    async openPersonalRoom(): Promise<any> {
+        return await this.request('/user/meetings/personal-room', 'POST')
+    }
+
+    /** A new link; the old one stops working at once. */
+    async newPersonalRoomLink(): Promise<any> {
+        return await this.request('/user/meetings/personal-room/new-link', 'POST')
+    }
+
     async startNow(payload: { user_uuid?: string, citizen_uuid?: string } = {}): Promise<any> {
         return await this.request('/user/meetings/start-now', 'POST', payload)
     }

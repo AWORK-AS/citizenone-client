@@ -22580,6 +22580,22 @@
             "hide": "Skjul",
             "resultTitle": "Afstemning: {question}",
             "savedToNotes": "Resultatet er gemt i mødets noter."
+        },
+        "personalRoom": {
+            "title": "Mit mødelokale",
+            "intro": "Et fast link til dine møder. Sæt det i din mailsignatur eller send det i en chat. Gæster venter, til du lukker dem ind.",
+            "create": "Opret mødelokale",
+            "copy": "Kopiér link",
+            "copied": "Kopieret",
+            "newLink": "Nyt link",
+            "newLinkHint": "Det gamle link holder op med at virke med det samme.",
+            "newLinkConfirm": "Lav et nyt link? Det gamle link holder op med at virke med det samme.",
+            "enter": "Gå ind",
+            "doorTitle": "Mødelokale hos {host}",
+            "yourName": "Dit navn",
+            "yourEmail": "Din e-mail (valgfri)",
+            "goIn": "Gå til mødet",
+            "doorHint": "Du venter i venteværelset, til du bliver lukket ind. Du skal ikke installere noget."
         }
     },
     "teamSize": {

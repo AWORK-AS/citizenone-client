@@ -48,6 +48,8 @@
 
             <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
+            <PersonalRoomCard v-if="canHost && state.scope !== 'recordings'" />
+
             <RecordingsTab v-if="state.scope === 'recordings'" />
 
             <LoadingSpinner v-else :isActive="state.isLoading">
@@ -94,6 +96,7 @@ import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
 import MeetingSettingsModal from '@/components/modules/user/meetings/settings-modal.vue'
 import RecordingsTab from '@/components/modules/user/meetings/recordings-tab.vue'
+import PersonalRoomCard from '@/components/modules/user/meetings/personal-room-card.vue'
 import { usePermissions } from '@/composables/usePermissions'
 import { canHostMeetings, needsMeetingsSeat } from '@/composables/meetingSeat'
 import { useUserStore } from '@/store/user'
