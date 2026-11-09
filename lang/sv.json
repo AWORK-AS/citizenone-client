@@ -16996,7 +16996,10 @@
             "scope": {
                 "upcoming": "Kommande",
                 "past": "Tidigare"
-            }
+            },
+            "company": "Kund (valfri)",
+            "companyPlaceholder": "Sök företag…",
+            "removeCompany": "Ta bort"
         }
     },
     "support": {

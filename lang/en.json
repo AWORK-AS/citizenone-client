@@ -17081,7 +17081,10 @@
             "scope": {
                 "upcoming": "Upcoming",
                 "past": "Past"
-            }
+            },
+            "company": "Customer (optional)",
+            "companyPlaceholder": "Search company…",
+            "removeCompany": "Remove"
         }
     },
     "support": {

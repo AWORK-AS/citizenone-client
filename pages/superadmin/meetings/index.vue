@@ -11,18 +11,19 @@
                 <ModulesSuperadminPageHeader :title="$t('superadmin.teamMeetings.pageTitle')"
                     :subtitle="$t('superadmin.teamMeetings.description')">
                     <template #actions>
-                        <button v-if="state.configured" class="co-action-btn" :disabled="state.isFormOpen" @click="openForm(true)">
-                            <Icon name="ph:video-camera" class="w-3.5 h-3.5" />
-                            {{ $t('superadmin.teamMeetings.startNow') }}
-                        </button>
-                        <button v-if="state.configured" class="co-action-btn" :disabled="state.isFormOpen" @click="openForm(false)">
-                            <Icon name="ph:calendar-plus" class="w-3.5 h-3.5" />
-                            {{ $t('superadmin.salesMeetings.plan') }}
-                        </button>
-                        <button class="co-action-btn" @click="load">
-                            <Icon name="ph:arrows-clockwise" class="w-3.5 h-3.5" />
-                            {{ $t('superadmin.salesInquiries.refresh') }}
-                        </button>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary hover:opacity-90 disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(true)">
+                                <Icon name="ph:video-camera" class="w-4 h-4" />
+                                {{ $t('superadmin.teamMeetings.startNow') }}
+                            </button>
+                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(false)">
+                                <Icon name="ph:calendar-plus" class="w-4 h-4" />
+                                {{ $t('superadmin.salesMeetings.plan') }}
+                            </button>
+                            <button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :aria-label="$t('superadmin.salesInquiries.refresh')" @click="load">
+                                <Icon name="ph:arrows-clockwise" class="w-4 h-4" />
+                            </button>
+                        </div>
                     </template>
                 </ModulesSuperadminPageHeader>
 
@@ -60,17 +61,44 @@
                                 <option v-for="m in [15, 30, 45, 60, 90, 120]" :key="m" :value="m">{{ m }} min</option>
                             </select>
                         </div>
+                        <!-- Optional: with a customer. The meeting then also shows on their account. -->
+                        <div v-if="can('view_companies')" class="sm:col-span-4 relative">
+                            <label class="co-detail-label" for="tm-company">{{ $t('superadmin.teamMeetings.company') }}</label>
+                            <div v-if="form.company" class="mt-1 flex items-center gap-2 text-[13px]">
+                                <span class="font-medium text-ink">{{ form.company.name }}</span>
+                                <button type="button" class="text-tertiary underline" @click="clearCompany">{{ $t('superadmin.teamMeetings.removeCompany') }}</button>
+                            </div>
+                            <template v-else>
+                                <input id="tm-company" v-model="state.companySearch" type="search" class="co-input mt-1" autocomplete="off"
+                                    :placeholder="$t('superadmin.teamMeetings.companyPlaceholder')" @input="searchCompanies" />
+                                <ul v-if="state.companyResults.length"
+                                    class="absolute z-10 mt-1 w-full max-h-56 overflow-y-auto rounded-lg border border-line bg-white shadow-sm">
+                                    <li v-for="company in state.companyResults" :key="company.uuid">
+                                        <button type="button" class="w-full text-left px-3 py-2 text-[13px] hover:bg-surface-canvas"
+                                            @click="pickCompany(company)">{{ company.name }}</button>
+                                    </li>
+                                </ul>
+                            </template>
+                        </div>
                     </div>
 
                     <!-- Who gets the invitation -->
                     <div>
                         <p class="co-detail-label mb-1">{{ $t('superadmin.salesMeetings.guests') }}</p>
+                        <!-- The customer's users, when the meeting is with a customer -->
+                        <div v-if="state.accounts.length" class="mb-2 max-h-40 overflow-y-auto space-y-1">
+                            <label v-for="account in state.accounts" :key="account.uuid" class="flex items-center gap-2 text-[13px]">
+                                <input v-model="form.user_uuids" type="checkbox" :value="account.uuid" class="rounded border-gray-300" />
+                                {{ [account.firstname, account.lastname].filter(Boolean).join(' ') }}
+                                <span class="text-ink-muted">{{ account.email }}</span>
+                            </label>
+                        </div>
                         <div v-for="(guest, index) in form.guests" :key="index" class="mb-2 grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2">
                             <input v-model="guest.name" type="text" class="co-input" :placeholder="$t('superadmin.teamMeetings.guestName')"
                                 :aria-label="$t('superadmin.teamMeetings.guestName')" />
                             <input v-model="guest.email" type="email" class="co-input" :placeholder="$t('superadmin.teamMeetings.guestEmail')"
                                 :aria-label="$t('superadmin.teamMeetings.guestEmail')" />
-                            <button type="button" class="co-action-btn" :disabled="form.guests.length === 1"
+                            <button type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="form.guests.length === 1"
                                 :aria-label="$t('superadmin.teamMeetings.removeGuest')" @click="form.guests.splice(index, 1)">
                                 <Icon name="ph:x" class="w-3.5 h-3.5" />
                             </button>
@@ -155,9 +183,15 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { salesMeetingService } from '@/components/api/superadmin/SalesMeetingService'
+import { companyService } from '@/components/api/superadmin/CompanyService'
+import { accountService } from '@/components/api/superadmin/AccountService'
+import { responseRows } from '@/composables/dataTable'
+import { apiSearchParam } from '@/composables/listQuery'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+const { can } = usePermissions()
 
 const state = reactive({
     isLoading: false,
@@ -168,6 +202,9 @@ const state = reactive({
     hosts: [] as any[],
     suggestedHost: '' as string,
     meetings: [] as any[],
+    companySearch: '',
+    companyResults: [] as any[],
+    accounts: [] as any[],
     error: {} as any,
     saved: '',
 })
@@ -179,11 +216,13 @@ const form = reactive({
     minutes: 30,
     host_uuid: '',
     guests: [{ name: '', email: '' }] as { name: string, email: string }[],
+    company: null as null | { uuid: string, name: string },
+    user_uuids: [] as string[],
 })
 
 const filledGuests = computed(() => form.guests.filter((g) => g.email.trim()))
 const canSave = computed(() => !!form.title.trim() && !!form.host_uuid
-    && (form.start_now || !!form.starts_at) && filledGuests.value.length > 0)
+    && (form.start_now || !!form.starts_at) && (filledGuests.value.length > 0 || form.user_uuids.length > 0))
 
 async function load() {
     state.isLoading = true
@@ -216,7 +255,48 @@ function openForm(startNow: boolean) {
     form.minutes = startNow ? 60 : 30
     form.host_uuid = state.suggestedHost || (state.hosts.length === 1 ? state.hosts[0].uuid : '')
     form.guests = [{ name: '', email: '' }]
+    clearCompany()
     state.isFormOpen = true
+}
+
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+function searchCompanies() {
+    clearTimeout(searchTimer)
+    const term = state.companySearch.trim()
+    if (term.length < 2) {
+        state.companyResults = []
+        return
+    }
+    searchTimer = setTimeout(async () => {
+        try {
+            const response = await companyService.getCompanies({ page: 1, search: apiSearchParam(term) })
+            // Only the answer for what is typed now.
+            if (state.companySearch.trim() === term) state.companyResults = responseRows(response).slice(0, 8)
+        } catch (error: any) {
+            state.error = error
+        }
+    }, 250)
+}
+
+async function pickCompany(company: any) {
+    form.company = { uuid: company.uuid, name: company.name }
+    state.companyResults = []
+    state.companySearch = ''
+    if (!form.title.trim()) form.title = `CitizenOne · ${company.name}`
+    try {
+        const response = await accountService.getAccounts({ company_uuid: company.uuid, page: 1, sortField: 'firstname', sortOrder: 'ascend' })
+        state.accounts = (response?.data ?? []).filter((a: any) => a.email && a.is_active !== false && !a.is_archived)
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+function clearCompany() {
+    form.company = null
+    form.user_uuids = []
+    state.accounts = []
+    state.companySearch = ''
+    state.companyResults = []
 }
 
 async function save() {
@@ -228,8 +308,12 @@ async function save() {
         title: form.title.trim(),
         minutes: form.minutes,
         host_uuid: form.host_uuid,
-        guests: filledGuests.value.map((g) => ({ name: g.name.trim() || null, email: g.email.trim() })),
+        guests: [
+            ...form.user_uuids.map((uuid) => ({ user_uuid: uuid })),
+            ...filledGuests.value.map((g) => ({ name: g.name.trim() || null, email: g.email.trim() })),
+        ],
     }
+    if (form.company) params.company_uuid = form.company.uuid
     if (form.start_now) params.start_now = true
     else params.starts_at = moment(form.starts_at).toISOString()
 

@@ -16996,7 +16996,10 @@
             "scope": {
                 "upcoming": "Kommende",
                 "past": "Tidligere"
-            }
+            },
+            "company": "Kunde (valgfri)",
+            "companyPlaceholder": "Søk firma…",
+            "removeCompany": "Fjern"
         }
     },
     "support": {

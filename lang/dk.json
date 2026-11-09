@@ -17081,7 +17081,10 @@
             "scope": {
                 "upcoming": "Kommende",
                 "past": "Tidligere"
-            }
+            },
+            "company": "Kunde (valgfri)",
+            "companyPlaceholder": "Søg firma…",
+            "removeCompany": "Fjern"
         }
     },
     "support": {
