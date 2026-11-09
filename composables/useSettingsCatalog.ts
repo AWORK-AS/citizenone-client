@@ -3,6 +3,7 @@ import { useUserStore } from '@/store/user'
 import { canOpenPage } from '@/composables/pageAccess'
 import { usePermissions } from '@/composables/usePermissions'
 import { isEpikriseOn } from '@/composables/useEpikrise'
+import { isTreatmentPhotosOn } from '@/composables/useTreatmentPhotos'
 
 export interface SettingsCatalogItem {
     /** Category the item sits in on the settings catalog page. */
@@ -43,6 +44,9 @@ export function useSettingsCatalog() {
         const hasExtendedDutySchedule = !!user?.is_extended_duty_schedule_active
         // Epikrise templates: only where the company uses epikrise and the user manages templates.
         const managesEpikriseTemplates = isEpikriseOn(user?.company) && (isAtLeast('Admin') || can('manage_report_templates'))
+
+        // Treatment photo milestones: only where the company uses treatment photos and the user is an Admin.
+        const managesTreatmentPhotoMilestones = isTreatmentPhotosOn(user?.company) && isAtLeast('Admin')
 
         const when = (condition: boolean, item: SettingsCatalogItem) => condition ? [item] : []
         const item = (group: string, name: string, href: string, routeNames: string[], isTranslateName = true): SettingsCatalogItem =>
@@ -111,6 +115,7 @@ export function useSettingsCatalog() {
             item('health', 'settings.tabs.treatmentTemplates', '/settings/treatment-templates', ['settings-treatment-templates']),
             item('health', 'settings.tabs.units', '/settings/units', ['settings-units']),
             ...when(managesEpikriseTemplates, item('health', 'settings.tabs.epikriseTemplates', '/settings/epikrise-templates', ['settings-epikrise-templates', 'settings-epikrise-templates-new', 'settings-epikrise-templates-uuid-edit'])),
+            ...when(managesTreatmentPhotoMilestones, item('health', 'treatmentPhotosSettings.milestones.title', '/settings/treatment-photo-milestones', ['settings-treatment-photo-milestones'])),
         ]
     })
 

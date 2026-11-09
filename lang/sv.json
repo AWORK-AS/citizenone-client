@@ -1,4 +1,67 @@
 {
+    "treatmentPhotos": {
+        "title": "Behandlingsbilder",
+        "noMilestone": "Ingen milstolpe",
+        "noPreview": "Ingen förhandsvisning i den här webbläsaren",
+        "notAvailable": "Behandlingsbilder är inte aktiverade för den här kliniken.",
+        "treatmentStart": "Behandlingsstart",
+        "treatmentStartPlaceholder": "Välj datum",
+        "treatmentStartHelp": "Används för att räkna ut hur många dagar efter behandlingsstart varje bild togs, för {theCitizen}.",
+        "dateTaken": "Bilddatum",
+        "milestone": "Milstolpe",
+        "select": "Välj bild",
+        "selectedCount": "{count} av 2 valda",
+        "empty": "Inga behandlingsbilder ännu.",
+        "uploadedByPatient": "Uppladdad av {theCitizen}",
+        "uploadedByYou": "Uppladdad av dig",
+        "confirmDelete": "Är du säker på att du vill radera den här bilden",
+        "upload": {
+            "button": "Ladda upp bild",
+            "title": "Ladda upp bilder",
+            "chooseFiles": "Välj bilder",
+            "fileHelp": "JPG, PNG, HEIC eller WebP, upp till 10 MB per bild och högst 10 bilder åt gången.",
+            "removeFile": "Ta bort",
+            "auto": "Automatiskt",
+            "autoHint": "Bilden placeras automatiskt vid närmaste milstolpe.",
+            "autoNoStart": "Ange behandlingsstart för att placera bilden automatiskt vid en milstolpe.",
+            "autoHintPatient": "Om du inte väljer placeras bilden vid närmaste milstolpe när behandlingsstart är känd.",
+            "suggested": "Föreslagen: {name}",
+            "submit": "Ladda upp",
+            "invalidType": "{name} är inte en bildtyp som stöds.",
+            "tooLarge": "{name} är större än 10 MB.",
+            "tooMany": "Du kan ladda upp högst 10 bilder åt gången."
+        },
+        "edit": {
+            "title": "Redigera bild"
+        },
+        "compare": {
+            "title": "Jämför bilder",
+            "button": "Jämför",
+            "start": "Jämför bilder",
+            "selectHint": "Välj två bilder att jämföra.",
+            "sideBySide": "Sida vid sida",
+            "photoA": "Bild 1",
+            "photoB": "Bild 2",
+            "zoomIn": "Zooma in",
+            "zoomOut": "Zooma ut",
+            "reset": "Återställ",
+            "hint": "Scrolla för att zooma och dra för att flytta. Båda bilderna följer med.",
+            "daysSince": "{days} dagar sedan behandlingsstart"
+        },
+        "alert": {
+            "uploaded": "Bilderna har laddats upp",
+            "updated": "Bilden har uppdaterats",
+            "deleted": "Bilden har raderats",
+            "startSaved": "Behandlingsstart har sparats"
+        },
+        "patient": {
+            "notAvailable": "Behandlingsbilder är inte tillgängliga hos din klinik.",
+            "backToOverview": "Tillbaka till översikten",
+            "intro": "Här kan du se och ladda upp bilder från din behandling och jämföra dem över tid.",
+            "empty": "Du har inga bilder ännu.",
+            "deleteHint": "Du kan själv radera en bild du laddat upp i upp till 24 timmar efter uppladdningen."
+        }
+    },
     "announcements": {
         "eyebrow": {
             "feature": "Ny app från CitizenOne",
@@ -4452,6 +4515,7 @@
             }
         },
         "tabs": {
+            "treatmentPhotos": "Behandlingsbilder",
             "attendance": "Närvaro",
             "calendar": "Kalender",
             "children": "Barn",
@@ -20016,6 +20080,7 @@
     },
     "patient": {
         "nav": {
+            "photos": "Bilder",
             "appointments": "Bokningar",
             "calendar": "Kalender",
             "journal": "Journal",
@@ -22033,5 +22098,57 @@
     "desktopApp": {
         "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
         "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
+    },
+    "standardDocuments": {
+        "badge": "Standarddokument",
+        "title": "Standarddokument",
+        "introStaff": "Dokument som kliniken visar för alla {citizens}. De är skrivskyddade här och hanteras under Företagsdokument.",
+        "introPatient": "Dokument från kliniken som gäller alla. Du kan läsa och ladda ner dem.",
+        "view": "Visa",
+        "download": "Ladda ner",
+        "updated": "Uppdaterad",
+        "drive": {
+            "show": "Visa för alla {citizens}",
+            "hide": "Sluta visa för alla {citizens}",
+            "confirmShowTitle": "Visa för alla {citizens}?",
+            "confirmShow": "\"{name}\" blir synligt som skrivskyddat för alla {citizens} i portalen och appen. Antal {citizens} som kommer att kunna se det: {count}. En mapp visar alla filer i den, även filer som läggs till senare.",
+            "confirmShowNoCount": "\"{name}\" blir synligt som skrivskyddat för alla {citizens} i portalen och appen. En mapp visar alla filer i den, även filer som läggs till senare.",
+            "confirmHideTitle": "Sluta visa för alla {citizens}?",
+            "confirmHide": "\"{name}\" visas inte längre för alla {citizens}. Ingenting raderas.",
+            "shown": "Visas nu för alla {citizens}",
+            "hidden": "Visas inte längre för alla {citizens}"
+        }
+    },
+    "treatmentPhotosSettings": {
+        "enableLabel": "Behandlingsbilder",
+        "enableHint": "Lägger till fliken Behandlingsbilder på varje {citizen}. Bilderna grupperas efter milstolpar (till exempel före behandling, månad 3, månad 6) och två bilder kan jämföras sida vid sida.",
+        "milestonesLink": "Milstolpar",
+        "documents": {
+            "uploadedByPatient": "Uppladdad av {citizen}",
+            "moveToTreatmentPhotos": "Flytta till Behandlingsbilder",
+            "movedToTreatmentPhotos": "Bilden har flyttats till Behandlingsbilder"
+        },
+        "milestones": {
+            "title": "Milstolpar för behandlingsbilder",
+            "description": "Milstolpar grupperar behandlingsbilder efter tiden sedan behandlingen startade (till exempel dag 0 eller månad 3). En ny bild placeras automatiskt under närmaste milstolpe när {citizen} har ett startdatum för behandlingen.",
+            "featureOff": "Behandlingsbilder är avstängda. Slå på dem under Företag i Inställningar för att använda milstolpar.",
+            "empty": "Det finns inga milstolpar ännu.",
+            "add": "Lägg till milstolpe",
+            "edit": "Redigera milstolpe",
+            "delete": "Ta bort milstolpe",
+            "deleteConfirm": "Vill du ta bort milstolpen \"{name}\"? Bilderna behåller sitt datum men förlorar den här milstolpen.",
+            "name": "Namn",
+            "namePlaceholder": "Till exempel månad 3",
+            "offsetDays": "Dagar efter behandlingsstart",
+            "offsetPlaceholder": "0",
+            "offsetHint": "0 är dagen behandlingen startar. Används för att placera nya bilder under närmaste milstolpe.",
+            "offsetValue": "Dag {days}",
+            "moveUp": "Flytta upp",
+            "moveDown": "Flytta ner",
+            "saved": "Milstolpen har sparats",
+            "deleted": "Milstolpen har tagits bort",
+            "saveFailed": "Milstolpen kunde inte sparas",
+            "deleteFailed": "Milstolpen kunde inte tas bort"
+        }
     }
 }

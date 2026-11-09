@@ -12,12 +12,15 @@
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
+                <!-- Documents the clinic shows to everyone; read-only, hidden when there are none. -->
+                <ModulesUserDocumentStandardDocumentsSection scope="patient" />
+
                 <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 space-y-3">
                     <p class="text-xs font-bold text-primary uppercase tracking-widest">
                         {{ $t('patient.documents.upload') }}
                     </p>
                     <p class="text-sm text-gray-500">{{ $t('patient.documents.uploadHelp') }}</p>
-                    <input type="file" ref="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden"
+                    <input type="file" ref="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.heic,.heif" class="hidden"
                         @change="onFileSelected" />
                     <div class="max-w-xs p-4 border border-dashed border-gray-400 cursor-pointer hover:border-2"
                         @click="triggerFileInput">
