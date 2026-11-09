@@ -12724,7 +12724,10 @@
                 "contactWeeklyHours": "Timmar per vecka per medarbetare och @:terms.citizen{''}",
                 "contactWeeklyHoursHint": "Ange vid tilldelning hur många timmar per vecka medarbetaren ska lägga på en @:terms.citizen{''}. Medarbetaren ser timmarna och förbrukningen på Min dag",
                 "expenseCitizenRequired": "@.capitalize:terms.citizen{''}/insats krävs på utgifter",
-                "expenseCitizenRequiredHint": "När den är påslagen kan en utgift bara sparas med en @:terms.citizen{''}, både på webben och i appen"
+                "expenseCitizenRequiredHint": "När den är påslagen kan en utgift bara sparas med en @:terms.citizen{''}, både på webben och i appen",
+                "newPrescriptionSurvey": "Enkät för nytt recept",
+                "newPrescriptionSurveyNone": "Ingen (knappen visas inte)",
+                "newPrescriptionSurveyHint": "Patienter ser \"Begär nytt recept\" under Recept. När de trycker på den får de den här enkäten, och svaren kommer till er som en förfrågan."
             }
         },
         "licenseOverview": {
@@ -21918,13 +21921,15 @@
         "prescribe": {
             "banner": "Förnyelse av {medicine}",
             "bannerHelp": "När receptet sparas stängs patientens förfrågan om förnyelse.",
-            "done": "Receptet har skapats och förfrågan om förnyelse är stängd."
+            "done": "Receptet har skapats och förfrågan om förnyelse är stängd.",
+            "bannerNew": "Nytt recept som patienten har begärt"
         },
         "settings": {
             "renewalSurvey": "Frågeformulär vid receptförnyelse",
             "noRenewalSurvey": "Inget frågeformulär",
             "renewalSurveyHelp": "Skickas till patienten när de ber om att få ett recept på detta läkemedel förnyat, t.ex. ett frågeformulär om håravfall."
-        }
+        },
+        "newPrescription": "Nytt recept"
     },
     "patientPrescriptions": {
         "title": "Recept",
@@ -21949,7 +21954,14 @@
             "approved": "Godkänd",
             "rejected": "Avslagen",
             "prescribed": "Förnyat"
-        }
+        },
+        "newPrescription": "Nytt recept",
+        "newIntro": "Behöver du ett recept som du inte redan har? Be kliniken om ett nytt.",
+        "requestNew": "Begär nytt recept",
+        "confirmNew": "Vill du be kliniken om ett nytt recept?",
+        "questionnaireNextNew": "Därefter svarar du på en kort enkät, så att kliniken kan bedöma din förfrågan.",
+        "notePlaceholderNew": "T.ex. vad du behöver receptet till",
+        "prescribedNew": "Utskrivet"
     },
     "apiErrors": {
         "notSavedTitle": "Inte sparat",

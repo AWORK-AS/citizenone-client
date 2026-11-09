@@ -34,7 +34,7 @@
                             <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                                 <div>
                                     <dt class="text-gray-500">{{ $t('prescriptionRenewals.columns.medicine') }}</dt>
-                                    <dd class="font-medium text-gray-900">{{ renewal.medicine?.name ?? '-' }}</dd>
+                                    <dd class="font-medium text-gray-900">{{ renewalMedicineLabel(renewal, $t('prescriptionRenewals.newPrescription')) }}</dd>
                                 </div>
                                 <div v-if="renewal.current_prescription">
                                     <dt class="text-gray-500">{{ $t('prescriptionRenewals.detail.currentPrescription') }}</dt>
@@ -133,7 +133,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { prescriptionRenewalService } from '@/components/api/user/PrescriptionRenewalService'
-import { canDecide, canPrescribe, prescribeLink, renewalBadgeClass } from '@/composables/prescriptionRenewals'
+import { canDecide, canPrescribe, prescribeLink, renewalBadgeClass, renewalMedicineLabel } from '@/composables/prescriptionRenewals'
 import { visibleSurveyQuestions } from '@/composables/surveyFollowUps'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
