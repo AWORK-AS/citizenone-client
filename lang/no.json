@@ -15215,7 +15215,8 @@
                     "manual_invoice": "Venter på valg (avtale)",
                     "card": "Kort (manuell)",
                     "none": "Uten betaling",
-                    "included": "Inkludert"
+                    "included": "Inkludert",
+                    "economic_draft": "Utkast til økonomi"
                 },
                 "status": {
                     "pending": "Venter",
@@ -16978,6 +16979,77 @@
             "retry": "Prøv igjen",
             "all": "Alle",
             "dismiss": "Lukk"
+        },
+        "companyOrders": {
+            "title": "Ordre",
+            "new": "Ny ordre",
+            "back": "Tilbake til lisenser",
+            "entryHint": "Kunden betaler med faktura: samle flere produkter i én ordre, så de blir ett fakturautkast med ett fakturagebyr.",
+            "grantHint": "Skal kunden ha flere produkter? Opprett en ordre i stedet, så blir det én faktura med ett fakturagebyr.",
+            "createdBy": "Opprettet av {name} {date}",
+            "completedBy": "gjennomført av {name} {date}",
+            "invoice": "Faktura #{number}",
+            "lines": "Ordrelinjer",
+            "noLines": "Ingen linjer ennå. Legg til et produkt nedenfor.",
+            "product": "Produkt",
+            "pickProduct": "Velg produkt",
+            "listPrice": "{price} per år",
+            "addLine": "Legg til linje",
+            "remove": "Fjern linje",
+            "col": {
+                "product": "Produkt",
+                "quantity": "Antall",
+                "unitPrice": "Stykkpris",
+                "amount": "Beløp",
+                "date": "Dato",
+                "company": "Virksomhet",
+                "products": "Produkter",
+                "total": "Totalt inkl. mva.",
+                "status": "Status"
+            },
+            "billingDraft": "Ett fakturautkast sendes til e-conomic (kundenr. {customer}), der økonomi bokfører og sender det.",
+            "billingFree": "Alt er inkludert i planen. Ingenting faktureres.",
+            "noQuote": "Ingen pris ennå.",
+            "complete": "Gjennomfør ordre",
+            "retry": "Prøv igjen",
+            "cancel": "Kanseller utkast",
+            "open": "Åpne",
+            "cancelConfirm": "Utkastet kanselleres. Kunden får ingenting, og ingenting faktureres.",
+            "confirm": {
+                "title": "Gjennomføre ordre?",
+                "body": "Kunden får {seats} lisenser nå. Ett fakturautkast på {amount} inkl. mva. sendes til e-conomic (kundenr. {customer}), der økonomi bokfører og sender det.",
+                "bodyFree": "Kunden får {seats} lisenser nå. Alt er inkludert i planen, så ingen faktura sendes."
+            },
+            "completed": "Ordren er gjennomført. Lisensene er aktive.",
+            "retried": "Utkastet sendes til e-conomic på nytt.",
+            "cancelled": "Utkastet er kansellert.",
+            "saveFailed": "Ordren kunne ikke lagres.",
+            "loadFailed": "Ordren kunne ikke hentes.",
+            "status": {
+                "draft": "Utkast",
+                "completed": "Gjennomført",
+                "transferred": "Overført til e-conomic",
+                "failed": "Feil i e-conomic",
+                "cancelled": "Kansellert"
+            },
+            "economic": {
+                "notYet": "Ikke sendt ennå",
+                "pending": "Sendes til e-conomic…",
+                "none": "Ingen faktura",
+                "draft": "Utkast nr. {number}",
+                "booked": "Bokført som faktura {number}",
+                "failed": "Feil: {reason}"
+            },
+            "refusal": {
+                "superadmin_order_not_invoice_company": "Ordrer er kun for kunder som betaler med faktura.",
+                "superadmin_order_economic_off": "e-conomic er slått av.",
+                "superadmin_order_no_customer_number": "Kunden mangler et e-conomic kundenummer."
+            },
+            "listTitle": "Ordrer fra superadmin",
+            "listSubtitle": "Ordrer med flere linjer som blir ett fakturautkast i e-conomic.",
+            "empty": "Ingen ordrer ennå.",
+            "allStatuses": "Alle statuser",
+            "failedCount": "{count} feilet i e-conomic"
         }
     },
     "support": {
