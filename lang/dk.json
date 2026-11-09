@@ -303,7 +303,10 @@
             "in_progress": "I gang",
             "planned": "Planlagt",
             "released": "Udgivet"
-        }
+        },
+        "wantThisToo": "Det vil vi også gerne have",
+        "interested": "I ønsker denne",
+        "interestCount": "{count} virksomhed ønsker denne | {count} virksomheder ønsker denne"
     },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
@@ -14100,6 +14103,68 @@
                 "industriesHint": "Lad feltet være tomt for at vise punktet for alle brancher.",
                 "published": "Vis for brugerne",
                 "publishedHint": "Kladder er kun synlige her i superadmin."
+            },
+            "requestCount": "{count} ønsker",
+            "internal": {
+                "title": "Internt (kun CitizenOne)",
+                "hint": "Vises aldrig for brugerne. De ser kun, hvor mange virksomheder der ønsker punktet.",
+                "category": "Kategori",
+                "priority": "Prioritet",
+                "stage": "Udviklingstrin",
+                "owner": "Ansvarlig",
+                "ticket": "Ticket",
+                "eta": "Intern ETA",
+                "important": "Vigtig",
+                "originalText": "Oprindeligt ønske",
+                "notes": "Interne noter",
+                "source": "Importeret fra {source} ({ref})",
+                "requests": "Kunder der ønsker det ({count})",
+                "addRequestPlaceholder": "Kundenavn - kobles på kunden, hvis den findes",
+                "removeRequest": "Fjern"
+            },
+            "categories": {
+                "feature": "Ny funktion",
+                "improvement": "Forbedring",
+                "integration": "Integration",
+                "bug": "Fejl"
+            },
+            "priorities": {
+                "top": "Top",
+                "high": "Høj",
+                "medium": "Mellem",
+                "low": "Lav"
+            },
+            "stages": {
+                "idea": "Idé",
+                "ready": "Klar til udvikling",
+                "in_development": "Under udvikling",
+                "qa": "QA",
+                "staging": "Staging",
+                "live": "Live"
+            },
+            "filters": {
+                "search": "Søg i titel, kunde, noter ...",
+                "allCategories": "Alle kategorier",
+                "allPriorities": "Alle prioriteter",
+                "allStages": "Alle trin",
+                "publishedAndDrafts": "Publicerede og kladder",
+                "importantOnly": "Kun vigtige"
+            },
+            "sort": {
+                "manual": "Brugernes rækkefølge",
+                "priority": "Prioritet",
+                "requests": "Flest ønsker"
+            },
+            "import": {
+                "button": "Importér",
+                "title": "Importér roadmap-punkter",
+                "intro": "Vælg en JSON-fil med punkter. Alle punkter oprettes som kladder, og punkter der allerede er importeret springes over - intet eksisterende bliver ændret.",
+                "wouldCreate": "{count} nye punkter oprettes som kladder",
+                "created": "{count} punkter oprettet som kladder",
+                "skipped": "{count} er allerede importeret - springes over",
+                "matched": "{count} kunder koblet på en virksomhed",
+                "unmatched": "Ikke koblet (gemt med navn)",
+                "confirm": "Importér {count} punkter"
             }
         },
         "accounts": {
