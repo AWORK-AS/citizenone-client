@@ -999,7 +999,8 @@
                 "contactAddressTitles": "Sees contact addresses for titles",
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
-                "certificateReminderFor": "Receives certificate reminders for"
+                "certificateReminderFor": "Receives certificate reminders for",
+                "hrDataFor": "HR details for"
             },
             "values": {
                 "yes": "Yes",
@@ -12125,6 +12126,8 @@
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "seesHrData": "Can see HR details and employee documents",
             "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
+            "hrDataForAll": "For all employees",
+            "hrDataForRoles": "For employees with these roles",
             "certificateReminders": "Receives certificate reminders",
             "certificateRemindersHelp": "People with this role get the reminders about expiring certificates and outdated CVs, by e-mail and in CitizenOne. Once any role has this, reminders go to these roles and the employee instead of to the administrators.",
             "certificateRemindersForAll": "For all employees",
