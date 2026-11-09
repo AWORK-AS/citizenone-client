@@ -303,7 +303,10 @@
             "in_progress": "In progress",
             "planned": "Planned",
             "released": "Released"
-        }
+        },
+        "wantThisToo": "We want this too",
+        "interested": "You want this",
+        "interestCount": "{count} company wants this | {count} companies want this"
     },
     "compensatoryPayoutsReport": {
         "export": "Export",
@@ -999,7 +1002,8 @@
                 "contactAddressTitles": "Sees contact addresses for titles",
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
-                "certificateReminderFor": "Receives certificate reminders for"
+                "certificateReminderFor": "Receives certificate reminders for",
+                "hrDataFor": "HR details for"
             },
             "values": {
                 "yes": "Yes",
@@ -1405,6 +1409,9 @@
         "priceHeading": "Price",
         "monthly": "Monthly",
         "yearly": "Yearly",
+        "yearlyPerMonth": "Per month, billed yearly",
+        "yearlySaving": "Saved with yearly billing",
+        "yearlySavingValue": "{percent}% ({amount})",
         "oneTime": "One-off",
         "version": "Version",
         "updated": "Updated",
@@ -9702,7 +9709,8 @@
             "quantity": "Quantity",
             "tax": "Tax"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system"
+        "thisInvoiceHasAlreadyBeenPaid": "This invoice has already been paid via your selected payment method in the CitizenOne™ system",
+        "discount": "{percent} % discount"
     },
     "invoices": {
         "alert": {
@@ -11822,6 +11830,7 @@
             "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Yes, send me the CitizenOne newsletter. I can unsubscribe with the link in every mail.",
             "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
@@ -12124,6 +12133,8 @@
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "seesHrData": "Can see HR details and employee documents",
             "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
+            "hrDataForAll": "For all employees",
+            "hrDataForRoles": "For employees with these roles",
             "certificateReminders": "Receives certificate reminders",
             "certificateRemindersHelp": "People with this role get the reminders about expiring certificates and outdated CVs, by e-mail and in CitizenOne. Once any role has this, reminders go to these roles and the employee instead of to the administrators.",
             "certificateRemindersForAll": "For all employees",
@@ -14100,6 +14111,68 @@
                 "industriesHint": "Leave empty to show the item to all industries.",
                 "published": "Show to users",
                 "publishedHint": "Drafts are only visible here in superadmin."
+            },
+            "requestCount": "{count} wishes",
+            "internal": {
+                "title": "Internal (only CitizenOne)",
+                "hint": "Never shown to users. Users only see how many companies want the item.",
+                "category": "Category",
+                "priority": "Priority",
+                "stage": "Development stage",
+                "owner": "Owner",
+                "ticket": "Ticket",
+                "eta": "Internal ETA",
+                "important": "Important",
+                "originalText": "Original request",
+                "notes": "Internal notes",
+                "source": "Imported from {source} ({ref})",
+                "requests": "Customers who want it ({count})",
+                "addRequestPlaceholder": "Customer name - matched to the customer if it exists",
+                "removeRequest": "Remove"
+            },
+            "categories": {
+                "feature": "New function",
+                "improvement": "Improvement",
+                "integration": "Integration",
+                "bug": "Error"
+            },
+            "priorities": {
+                "top": "Top",
+                "high": "High",
+                "medium": "Medium",
+                "low": "Low"
+            },
+            "stages": {
+                "idea": "Idea",
+                "ready": "Ready for development",
+                "in_development": "In development",
+                "qa": "QA",
+                "staging": "Staging",
+                "live": "Live"
+            },
+            "filters": {
+                "search": "Search title, customer, notes ...",
+                "allCategories": "All categories",
+                "allPriorities": "All priorities",
+                "allStages": "All stages",
+                "publishedAndDrafts": "Published and drafts",
+                "importantOnly": "Important only"
+            },
+            "sort": {
+                "manual": "Users' order",
+                "priority": "Priority",
+                "requests": "Most wishes"
+            },
+            "import": {
+                "button": "Import",
+                "title": "Import roadmap items",
+                "intro": "Choose a JSON file with items. All items are created as drafts, and items already imported are skipped - nothing existing is changed.",
+                "wouldCreate": "{count} new items will be created as drafts",
+                "created": "{count} items created as drafts",
+                "skipped": "{count} already imported - skipped",
+                "matched": "{count} customers matched to a company",
+                "unmatched": "Not matched (saved by name)",
+                "confirm": "Import {count} items"
             }
         },
         "accounts": {
@@ -15498,7 +15571,8 @@
             "news": "News",
             "campaigns": "Campaigns",
             "announcements": "Messages",
-            "today": "Today"
+            "today": "Today",
+            "meetings": "Meetings"
         },
         "teamRoles": {
             "pageTitle": "Roles",
@@ -17080,7 +17154,10 @@
                 "support_access_approved": "Support access approved",
                 "support_access_denied": "Support access denied",
                 "support_access_revoked": "Support access revoked",
-                "support_access_decided": "Support access answered"
+                "support_access_decided": "Support access answered",
+                "order_discount_set": "Discount given on order: {to} % on {name}",
+                "order_discount_changed": "Discount changed on order: {from} % → {to} % on {name}",
+                "order_discount_removed": "Discount removed on order: {name}"
             }
         },
         "dataTable": {
@@ -17112,7 +17189,7 @@
             "title": "Order",
             "new": "New order",
             "back": "Back to licences",
-            "entryHint": "The customer pays by invoice: put several products in one order, so they become one draft invoice with one invoice fee.",
+            "entryHint": "The customer pays by invoice: put several products in one order, so they become one order in e-conomic with one invoice fee.",
             "grantHint": "Does the customer need several products? Create an order instead, so it becomes one invoice with one invoice fee.",
             "createdBy": "Created by {name} {date}",
             "completedBy": "completed by {name} {date}",
@@ -17135,7 +17212,7 @@
                 "total": "Total incl. VAT",
                 "status": "Status"
             },
-            "billingDraft": "One draft invoice is sent to e-conomic (customer no. {customer}), where finance books and sends it.",
+            "billingDraft": "One order is sent to e-conomic (customer no. {customer}), where finance invoices, books and sends it.",
             "billingFree": "Everything is included in the plan. Nothing is invoiced.",
             "noQuote": "No price yet.",
             "complete": "Complete order",
@@ -17145,11 +17222,11 @@
             "cancelConfirm": "The draft is cancelled. The customer gets nothing and nothing is invoiced.",
             "confirm": {
                 "title": "Complete order?",
-                "body": "The customer gets {seats} licences now. One draft invoice of {amount} incl. VAT is sent to e-conomic (customer no. {customer}), where finance books and sends it.",
+                "body": "The customer gets {seats} licences now. One order of {amount} incl. VAT is sent to e-conomic (customer no. {customer}), where finance invoices, books and sends it.",
                 "bodyFree": "The customer gets {seats} licences now. Everything is included in the plan, so no invoice is sent."
             },
             "completed": "The order is completed. The licences are active.",
-            "retried": "The draft is sent to e-conomic again.",
+            "retried": "The order is sent to e-conomic again.",
             "cancelled": "The draft is cancelled.",
             "saveFailed": "The order could not be saved.",
             "loadFailed": "The order could not be loaded.",
@@ -17164,7 +17241,8 @@
                 "notYet": "Not sent yet",
                 "pending": "Sending to e-conomic…",
                 "none": "No invoice",
-                "draft": "Draft no. {number}",
+                "order": "Transferred to e-conomic as order no. {number}",
+                "draft": "Transferred to e-conomic as draft invoice no. {number}",
                 "booked": "Booked as invoice {number}",
                 "failed": "Error: {reason}"
             },
@@ -17174,10 +17252,58 @@
                 "superadmin_order_no_customer_number": "The customer has no e-conomic customer number."
             },
             "listTitle": "Orders from superadmin",
-            "listSubtitle": "Orders with several lines that become one draft invoice in e-conomic.",
+            "listSubtitle": "Orders with several lines that become one order in e-conomic.",
             "empty": "No orders yet.",
             "allStatuses": "All statuses",
-            "failedCount": "{count} failed in e-conomic"
+            "failedCount": "{count} failed in e-conomic",
+            "discount": {
+                "give": "Give discount",
+                "edit": "Edit discount",
+                "percent": "Discount (%)",
+                "reason": "Reason",
+                "reasonPlaceholder": "Why does the customer get a discount? E.g. agreed at the demo",
+                "onRenewal": "Keep the discount on renewal (otherwise it renews at list price)",
+                "hint": "At most {max} %. The list price does not change. The service fee is never discounted.",
+                "preview": "New unit price {price}",
+                "save": "Save discount",
+                "remove": "Remove discount",
+                "close": "Close",
+                "reasonLine": "Discount {percent} %: {reason}",
+                "keptOnRenewal": "kept on renewal",
+                "totalsLine": "Discount {percent} % of {price}",
+                "total": "Total discount",
+                "confirm": "Total discount {total} excl. VAT: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "The discount must be between 0 and 100 %.",
+                    "percentDecimals": "Use at most two decimals.",
+                    "percentAboveMax": "The discount may be at most {max} %.",
+                    "reasonRequired": "Write a reason for the discount.",
+                    "reasonTooShort": "The reason must be at least 5 characters.",
+                    "reasonTooLong": "The reason may be at most 500 characters."
+                }
+            }
+        },
+        "teamMeetings": {
+            "pageTitle": "Meetings",
+            "description": "Hold your own online meetings in CitizenOne: internal, with partners or anyone. Demos and customer meetings are listed here too.",
+            "startNow": "Start meeting now",
+            "titlePlaceholder": "E.g. Weekly meeting, Partner meeting",
+            "guestName": "Name",
+            "guestEmail": "Email",
+            "addGuest": "+ Add participant",
+            "removeGuest": "Remove participant",
+            "startNowHint": "The meeting starts now. Participants get an email with the link, and the meeting opens in a new tab with you as host.",
+            "startAndInvite": "Start and send link",
+            "inquiry": "Inquiry",
+            "customer": "Customer",
+            "scope": {
+                "upcoming": "Upcoming",
+                "past": "Past"
+            },
+            "company": "Customer (optional)",
+            "companyPlaceholder": "Search company…",
+            "removeCompany": "Remove"
         },
         "salesStats": {
             "button": "Demo figures",
@@ -22499,7 +22625,20 @@
             "fileNotSent": "The file could not be sent. Try again.",
             "joinedElsewhere": "You joined the meeting from another window or device, so this connection was closed.",
             "microphoneFailed": "The microphone could not be started. You are in the meeting without sound.",
-            "cameraFailed": "The camera could not be started. You are in the meeting without video."
+            "cameraFailed": "The camera could not be started. You are in the meeting without video.",
+            "react": "Reaction",
+            "fullscreen": "Full screen",
+            "exitFullscreen": "Exit full screen",
+            "focus": "Show large",
+            "unfocus": "Back in the row",
+            "reactions": {
+                "thumbsUp": "Thumbs up",
+                "heart": "Heart",
+                "laugh": "Laugh",
+                "clap": "Clap",
+                "celebrate": "Celebrate",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} from {company} has invited you to an online meeting.",
@@ -22626,6 +22765,22 @@
             "hide": "Hide",
             "resultTitle": "Poll: {question}",
             "savedToNotes": "The result is saved in the meeting notes."
+        },
+        "personalRoom": {
+            "title": "My meeting room",
+            "intro": "A fixed link for your meetings. Put it in your email signature or send it in a chat. Guests wait until you let them in.",
+            "create": "Create meeting room",
+            "copy": "Copy link",
+            "copied": "Copied",
+            "newLink": "New link",
+            "newLinkHint": "The old link stops working at once.",
+            "newLinkConfirm": "Make a new link? The old link stops working at once.",
+            "enter": "Go in",
+            "doorTitle": "{host}'s meeting room",
+            "yourName": "Your name",
+            "yourEmail": "Your email (optional)",
+            "goIn": "Go to the meeting",
+            "doorHint": "You wait in the waiting room until you are let in. Nothing to install."
         }
     },
     "teamSize": {

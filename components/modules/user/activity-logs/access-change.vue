@@ -60,6 +60,7 @@ const FIELD_KEYS: Record<string, string> = {
     contact_phone_titles: 'activityLogs.access.fields.contactPhoneTitles',
     contact_email_titles: 'activityLogs.access.fields.contactEmailTitles',
     certificate_reminder_for: 'activityLogs.access.fields.certificateReminderFor',
+    hr_data_for: 'activityLogs.access.fields.hrDataFor',
 }
 
 function fieldLabel(field: string): string {
@@ -85,7 +86,7 @@ function valueLabel(field: string, value: any): string {
         if (Number(value) === 20) return t('roles.table.regular')
         if (Number(value) === 50) return t('roles.table.manager')
     }
-    if (field === 'certificate_reminder_for' && value === '*') {
+    if ((field === 'certificate_reminder_for' || field === 'hr_data_for') && value === '*') {
         return t('activityLogs.access.values.everyone')
     }
     return String(value)

@@ -303,7 +303,10 @@
             "in_progress": "Pågår",
             "planned": "Planerad",
             "released": "Lanserad"
-        }
+        },
+        "wantThisToo": "Det vill vi också ha",
+        "interested": "Ni önskar denna",
+        "interestCount": "{count} företag önskar denna | {count} företag önskar denna"
     },
     "compensatoryPayoutsReport": {
         "export": "Exportera",
@@ -999,7 +1002,8 @@
                 "contactAddressTitles": "Ser kontaktadresser för titlar",
                 "contactPhoneTitles": "Ser kontakters telefonnummer för titlar",
                 "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
-                "certificateReminderFor": "Får påminnelser om certifikat för"
+                "certificateReminderFor": "Får påminnelser om certifikat för",
+                "hrDataFor": "HR-uppgifter för"
             },
             "values": {
                 "yes": "Ja",
@@ -1405,6 +1409,9 @@
         "priceHeading": "Pris",
         "monthly": "Månadsvis",
         "yearly": "Årsvis",
+        "yearlyPerMonth": "Per månad vid årsbetalning",
+        "yearlySaving": "Sparat vid årsbetalning",
+        "yearlySavingValue": "{percent} % ({amount})",
         "oneTime": "Engångsbelopp",
         "version": "Version",
         "updated": "Uppdaterad",
@@ -9702,7 +9709,8 @@
             "quantity": "Mängd",
             "tax": "Moms"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "Denna faktura är allerede betald via din valda betalingsmetode i CitizenOne™ systemet"
+        "thisInvoiceHasAlreadyBeenPaid": "Denna faktura är allerede betald via din valda betalingsmetode i CitizenOne™ systemet",
+        "discount": "{percent} % rabatt"
     },
     "invoices": {
         "alert": {
@@ -11817,6 +11825,7 @@
             "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Ja tack, skicka mig CitizenOnes nyhetsbrev. Jag kan avregistrera mig med länken i varje mejl.",
             "passwordHint": "Minst 8 tecken",
             "agreetoTAC": "Du ska acceptere vilkår och betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
@@ -12119,6 +12128,8 @@
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
             "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
+            "hrDataForAll": "För alla medarbetare",
+            "hrDataForRoles": "För medarbetare med rollerna",
             "certificateReminders": "Tar emot påminnelser om intyg",
             "certificateRemindersHelp": "Personer med den här rollen får påminnelser om intyg som går ut och inaktuella CV:n, via e-post och i CitizenOne. Så snart en roll har detta går påminnelserna till dessa roller och medarbetaren i stället för till administratörerna.",
             "certificateRemindersForAll": "För alla medarbetare",
@@ -14092,6 +14103,68 @@
                 "industriesHint": "Lämna tomt för att visa punkten för alla branscher.",
                 "published": "Visa för användarna",
                 "publishedHint": "Utkast syns bara här i superadmin."
+            },
+            "requestCount": "{count} wishes",
+            "internal": {
+                "title": "Internal (only CitizenOne)",
+                "hint": "Never shown to users. Users only see how many companies want the item.",
+                "category": "Category",
+                "priority": "Priority",
+                "stage": "Development stage",
+                "owner": "Owner",
+                "ticket": "Ticket",
+                "eta": "Internal ETA",
+                "important": "Important",
+                "originalText": "Original request",
+                "notes": "Internal notes",
+                "source": "Imported from {source} ({ref})",
+                "requests": "Customers who want it ({count})",
+                "addRequestPlaceholder": "Customer name - matched to the customer if it exists",
+                "removeRequest": "Remove"
+            },
+            "categories": {
+                "feature": "New function",
+                "improvement": "Improvement",
+                "integration": "Integration",
+                "bug": "Error"
+            },
+            "priorities": {
+                "top": "Top",
+                "high": "High",
+                "medium": "Medium",
+                "low": "Low"
+            },
+            "stages": {
+                "idea": "Idea",
+                "ready": "Ready for development",
+                "in_development": "In development",
+                "qa": "QA",
+                "staging": "Staging",
+                "live": "Live"
+            },
+            "filters": {
+                "search": "Search title, customer, notes ...",
+                "allCategories": "All categories",
+                "allPriorities": "All priorities",
+                "allStages": "All stages",
+                "publishedAndDrafts": "Published and drafts",
+                "importantOnly": "Important only"
+            },
+            "sort": {
+                "manual": "Users' order",
+                "priority": "Priority",
+                "requests": "Most wishes"
+            },
+            "import": {
+                "button": "Import",
+                "title": "Import roadmap items",
+                "intro": "Choose a JSON file with items. All items are created as drafts, and items already imported are skipped - nothing existing is changed.",
+                "wouldCreate": "{count} new items will be created as drafts",
+                "created": "{count} items created as drafts",
+                "skipped": "{count} already imported - skipped",
+                "matched": "{count} customers matched to a company",
+                "unmatched": "Not matched (saved by name)",
+                "confirm": "Import {count} items"
             }
         },
         "accounts": {
@@ -15488,7 +15561,8 @@
             "news": "Nyheter",
             "campaigns": "Kampanjer",
             "announcements": "Meddelanden",
-            "today": "Idag"
+            "today": "Idag",
+            "meetings": "Möten"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -16995,7 +17069,10 @@
                 "support_access_approved": "Supportåtkomst godkänd",
                 "support_access_denied": "Supportåtkomst nekad",
                 "support_access_revoked": "Supportåtkomst återkallad",
-                "support_access_decided": "Supportåtkomst besvarad"
+                "support_access_decided": "Supportåtkomst besvarad",
+                "order_discount_set": "Rabatt given på order: {to} % på {name}",
+                "order_discount_changed": "Rabatt ändrad på order: {from} % → {to} % på {name}",
+                "order_discount_removed": "Rabatt borttagen på order: {name}"
             }
         },
         "dataTable": {
@@ -17027,7 +17104,7 @@
             "title": "Order",
             "new": "Ny order",
             "back": "Tillbaka till licenser",
-            "entryHint": "Kunden betalar mot faktura: samla flera produkter i en order, så blir de ett fakturautkast med en fakturaavgift.",
+            "entryHint": "Kunden betalar mot faktura: samla flera produkter i en order, så blir de en order i e-conomic med en fakturaavgift.",
             "grantHint": "Behöver kunden flera produkter? Skapa en order i stället, så blir det en faktura med en fakturaavgift.",
             "createdBy": "Skapad av {name} {date}",
             "completedBy": "genomförd av {name} {date}",
@@ -17050,7 +17127,7 @@
                 "total": "Totalt inkl. moms",
                 "status": "Status"
             },
-            "billingDraft": "Ett fakturautkast skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+            "billingDraft": "En order skickas till e-conomic (kundnr {customer}), där ekonomi fakturerar, bokför och skickar den.",
             "billingFree": "Allt ingår i planen. Inget faktureras.",
             "noQuote": "Inget pris ännu.",
             "complete": "Genomför order",
@@ -17060,11 +17137,11 @@
             "cancelConfirm": "Utkastet annulleras. Kunden får inget och inget faktureras.",
             "confirm": {
                 "title": "Genomföra order?",
-                "body": "Kunden får {seats} licenser nu. Ett fakturautkast på {amount} inkl. moms skickas till e-conomic (kundnr {customer}), där ekonomi bokför och skickar det.",
+                "body": "Kunden får {seats} licenser nu. En order på {amount} inkl. moms skickas till e-conomic (kundnr {customer}), där ekonomi fakturerar, bokför och skickar den.",
                 "bodyFree": "Kunden får {seats} licenser nu. Allt ingår i planen, så ingen faktura skickas."
             },
             "completed": "Ordern är genomförd. Licenserna är aktiva.",
-            "retried": "Utkastet skickas till e-conomic igen.",
+            "retried": "Ordern skickas till e-conomic igen.",
             "cancelled": "Utkastet är annullerat.",
             "saveFailed": "Ordern kunde inte sparas.",
             "loadFailed": "Ordern kunde inte hämtas.",
@@ -17079,7 +17156,8 @@
                 "notYet": "Inte skickad ännu",
                 "pending": "Skickas till e-conomic…",
                 "none": "Ingen faktura",
-                "draft": "Utkast nr {number}",
+                "order": "Överförd till e-conomic som order nr {number}",
+                "draft": "Överförd till e-conomic som fakturautkast nr {number}",
                 "booked": "Bokförd som faktura {number}",
                 "failed": "Fel: {reason}"
             },
@@ -17089,10 +17167,58 @@
                 "superadmin_order_no_customer_number": "Kunden saknar kundnummer i e-conomic."
             },
             "listTitle": "Ordrar från superadmin",
-            "listSubtitle": "Ordrar med flera rader som blir ett fakturautkast i e-conomic.",
+            "listSubtitle": "Ordrar med flera rader som blir en order i e-conomic.",
             "empty": "Inga ordrar ännu.",
             "allStatuses": "Alla statusar",
-            "failedCount": "{count} misslyckades i e-conomic"
+            "failedCount": "{count} misslyckades i e-conomic",
+            "discount": {
+                "give": "Ge rabatt",
+                "edit": "Ändra rabatt",
+                "percent": "Rabatt (%)",
+                "reason": "Motivering",
+                "reasonPlaceholder": "Varför får kunden rabatt? T.ex. avtalat vid demo",
+                "onRenewal": "Behåll rabatten vid förnyelse (annars förnyas till listpris)",
+                "hint": "Högst {max} %. Listpriset ändras inte. Serviceavgiften får aldrig rabatt.",
+                "preview": "Nytt styckpris {price}",
+                "save": "Spara rabatt",
+                "remove": "Ta bort rabatt",
+                "close": "Stäng",
+                "reasonLine": "Rabatt {percent} %: {reason}",
+                "keptOnRenewal": "behålls vid förnyelse",
+                "totalsLine": "Rabatt {percent} % av {price}",
+                "total": "Rabatt totalt",
+                "confirm": "Rabatt totalt {total} exkl. moms: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "Rabatten måste vara mellan 0 och 100 %.",
+                    "percentDecimals": "Använd högst två decimaler.",
+                    "percentAboveMax": "Rabatten får vara högst {max} %.",
+                    "reasonRequired": "Skriv en motivering för rabatten.",
+                    "reasonTooShort": "Motiveringen måste vara minst 5 tecken.",
+                    "reasonTooLong": "Motiveringen får vara högst 500 tecken."
+                }
+            }
+        },
+        "teamMeetings": {
+            "pageTitle": "Möten",
+            "description": "Håll era egna onlinemöten i CitizenOne: internt, med partner eller vem som helst. Demos och kundmöten listas här också.",
+            "startNow": "Starta möte nu",
+            "titlePlaceholder": "T.ex. Veckomöte, Partnermöte",
+            "guestName": "Namn",
+            "guestEmail": "E-post",
+            "addGuest": "+ Lägg till deltagare",
+            "removeGuest": "Ta bort deltagare",
+            "startNowHint": "Mötet startar nu. Deltagarna får ett mejl med länken, och mötet öppnas i en ny flik där du är värd.",
+            "startAndInvite": "Starta och skicka länk",
+            "inquiry": "Förfrågan",
+            "customer": "Kund",
+            "scope": {
+                "upcoming": "Kommande",
+                "past": "Tidigare"
+            },
+            "company": "Kund (valfri)",
+            "companyPlaceholder": "Sök företag…",
+            "removeCompany": "Ta bort"
         },
         "salesStats": {
             "button": "Demosiffror",
@@ -22414,7 +22540,20 @@
             "fileNotSent": "Filen kunde inte skickas. Försök igen.",
             "joinedElsewhere": "Du har gått in i mötet från ett annat fönster eller en annan enhet, så den här anslutningen har stängts.",
             "microphoneFailed": "Mikrofonen kunde inte startas. Du är med i mötet utan ljud.",
-            "cameraFailed": "Kameran kunde inte startas. Du är med i mötet utan video."
+            "cameraFailed": "Kameran kunde inte startas. Du är med i mötet utan video.",
+            "react": "Reaktion",
+            "fullscreen": "Helskärm",
+            "exitFullscreen": "Avsluta helskärm",
+            "focus": "Visa stort",
+            "unfocus": "Tillbaka i raden",
+            "reactions": {
+                "thumbsUp": "Tummen upp",
+                "heart": "Hjärta",
+                "laugh": "Skratt",
+                "clap": "Applåd",
+                "celebrate": "Fira",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} från {company} har bjudit in dig till ett onlinemöte.",
@@ -22541,6 +22680,22 @@
             "hide": "Dölj",
             "resultTitle": "Omröstning: {question}",
             "savedToNotes": "Resultatet är sparat i mötets anteckningar."
+        },
+        "personalRoom": {
+            "title": "Mitt mötesrum",
+            "intro": "En fast länk till dina möten. Lägg den i din mejlsignatur eller skicka den i en chatt. Gäster väntar tills du släpper in dem.",
+            "create": "Skapa mötesrum",
+            "copy": "Kopiera länk",
+            "copied": "Kopierad",
+            "newLink": "Ny länk",
+            "newLinkHint": "Den gamla länken slutar fungera direkt.",
+            "newLinkConfirm": "Skapa en ny länk? Den gamla länken slutar fungera direkt.",
+            "enter": "Gå in",
+            "doorTitle": "Mötesrum hos {host}",
+            "yourName": "Ditt namn",
+            "yourEmail": "Din e-post (valfri)",
+            "goIn": "Gå till mötet",
+            "doorHint": "Du väntar i väntrummet tills du blir insläppt. Inget att installera."
         }
     },
     "teamSize": {

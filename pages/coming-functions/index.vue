@@ -65,6 +65,18 @@
                                 </div>
                                 <div v-if="item.description" class="content mt-2 max-w-none text-sm text-gray-600"
                                     v-safe-html="item.description"></div>
+                                <div v-if="item.status !== 'released'" class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+                                    <button type="button" :disabled="state.busy === item.uuid" @click="toggleInterest(item)"
+                                        class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors disabled:opacity-60"
+                                        :class="item.interested ? 'border-tertiary bg-tertiary/10 text-tertiary' : 'border-gray-200 text-gray-600 hover:border-tertiary hover:text-tertiary'"
+                                        :aria-pressed="!!item.interested">
+                                        <Icon :name="item.interested ? 'ph:hand-heart-fill' : 'ph:hand-heart'" class="h-4 w-4" />
+                                        {{ item.interested ? $t('comingFunctions.interested') : $t('comingFunctions.wantThisToo') }}
+                                    </button>
+                                    <span v-if="item.interest_count" class="text-xs text-gray-400">
+                                        {{ $t('comingFunctions.interestCount', item.interest_count) }}
+                                    </span>
+                                </div>
                             </li>
                         </ul>
                     </section>
@@ -97,6 +109,7 @@ const state = reactive({
     error: '',
     items: [] as any[],
     isContactUsOpen: false,
+    busy: '' as string,
 })
 
 // The API already returns the items in this order; the sections only group them.
@@ -120,6 +133,22 @@ async function fetchItems() {
         state.error = error?.message ?? 'Error'
     }
     state.isLoading = false
+}
+
+// The company's "we want this too". Shown right away; put back if the call fails.
+async function toggleInterest(item: any) {
+    const wanted = !item.interested
+    state.busy = item.uuid
+    item.interested = wanted
+    item.interest_count = Math.max(0, (item.interest_count ?? 0) + (wanted ? 1 : -1))
+    try {
+        await roadmapItemService.setInterest(item.uuid, wanted)
+    } catch (error: any) {
+        item.interested = !wanted
+        item.interest_count = Math.max(0, item.interest_count + (wanted ? -1 : 1))
+        state.error = error?.message ?? 'Error'
+    }
+    state.busy = ''
 }
 
 function formatDate(value: string): string {

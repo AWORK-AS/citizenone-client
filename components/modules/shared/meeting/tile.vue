@@ -1,5 +1,5 @@
 <template>
-    <div class="relative bg-gray-900 rounded-lg overflow-hidden aspect-video">
+    <div class="group relative bg-gray-900 rounded-lg overflow-hidden aspect-video">
         <video ref="videoEl" autoplay playsinline :muted="isLocal" v-show="hasVideo"
             class="w-full h-full" :class="[isScreen ? 'object-contain' : 'object-cover', isLocal && !isScreen && '-scale-x-100']" />
         <div v-if="!hasVideo" class="absolute inset-0 flex items-center justify-center">
@@ -16,6 +16,19 @@
         <div v-if="handRaised" class="absolute right-2 top-2 bg-amber-400 text-black rounded-full h-8 w-8 flex items-center justify-center shadow">
             <Icon name="ph:hand-palm-fill" class="h-5 w-5" />
         </div>
+        <!-- A reaction from this person, for a few seconds. -->
+        <Transition enter-from-class="opacity-0 scale-50" leave-to-class="opacity-0 -translate-y-4"
+            enter-active-class="transition duration-200" leave-active-class="transition duration-500">
+            <div v-if="reaction" :key="reaction" class="absolute left-2 top-2 text-4xl drop-shadow-lg pointer-events-none select-none" aria-hidden="true">
+                {{ reaction }}
+            </div>
+        </Transition>
+        <button v-if="focusable" type="button"
+            class="absolute right-2 bottom-2 h-8 w-8 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition"
+            :title="focused ? $t('meetings.room.unfocus') : $t('meetings.room.focus')" :aria-pressed="!!focused"
+            @click="$emit('toggle-focus')">
+            <Icon :name="focused ? 'ph:arrows-in' : 'ph:arrows-out'" class="h-4 w-4" />
+        </button>
     </div>
 </template>
 
@@ -35,7 +48,13 @@ const props = defineProps<{
     microphoneMuted?: boolean
     speaking?: boolean
     handRaised?: boolean
+    reaction?: string
+    // Offers a button to show this tile large, or back in the row when it is.
+    focusable?: boolean
+    focused?: boolean
 }>()
+
+defineEmits<{ (e: 'toggle-focus'): void }>()
 
 const videoEl = ref<HTMLVideoElement>()
 const hasVideo = computed(() => !!props.track && !props.track.isMuted)

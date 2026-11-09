@@ -280,6 +280,13 @@
                                 <span>{{ $t('register.form.agreetoTAC') }}</span>
                             </span>
                         </div>
+                        <!-- Unticked by default: a tick here is the consent. The backend puts the
+                             address on the Salesflow newsletter list once it is confirmed. -->
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.formRegister.newsletter = !state.formRegister.newsletter">
+                            <FormCheckbox :value="state.formRegister.newsletter" />
+                            <span class="text-sm">{{ $t('register.form.newsletter') }}</span>
+                        </div>
                     </div>
                     <!-- Step 1 has no button: picking an answer is the step. -->
                     <div class="mt-5" v-if="state.progress.currentStep > 1">
@@ -428,7 +435,8 @@ const state = reactive({
         email: '',
         password: '',
         oauthProvider: '' as string,
-        agreeToTerms: false
+        agreeToTerms: false,
+        newsletter: false
     } as any,
     isPageLoading: false,
     langOpen: false,
@@ -777,6 +785,7 @@ async function register() {
             phone: state.formRegister.phone,
             email: state.formRegister.email,
             ...(state.formRegister.password ? { password: state.formRegister.password } : {}),
+            newsletter: state.formRegister.newsletter === true,
             ...signupSource.value,
         }
         const response = await authService.register(params)

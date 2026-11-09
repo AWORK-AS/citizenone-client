@@ -303,7 +303,10 @@
             "in_progress": "I gang",
             "planned": "Planlagt",
             "released": "Udgivet"
-        }
+        },
+        "wantThisToo": "Det vil vi også gerne have",
+        "interested": "I ønsker denne",
+        "interestCount": "{count} virksomhed ønsker denne | {count} virksomheder ønsker denne"
     },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
@@ -999,7 +1002,8 @@
                 "contactAddressTitles": "Ser kontaktadresser for titler",
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
-                "certificateReminderFor": "Får påmindelser om certifikater for"
+                "certificateReminderFor": "Får påmindelser om certifikater for",
+                "hrDataFor": "HR-oplysninger for"
             },
             "values": {
                 "yes": "Ja",
@@ -1405,6 +1409,9 @@
         "priceHeading": "Pris",
         "monthly": "Månedligt",
         "yearly": "Årligt",
+        "yearlyPerMonth": "Pr. måned ved årsbetaling",
+        "yearlySaving": "Sparet ved årsbetaling",
+        "yearlySavingValue": "{percent} % ({amount})",
         "oneTime": "Engangsbeløb",
         "version": "Version",
         "updated": "Opdateret",
@@ -9702,7 +9709,8 @@
             "quantity": "Mængde",
             "tax": "Moms"
         },
-        "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet"
+        "thisInvoiceHasAlreadyBeenPaid": "Denne faktura er allerede betalt via din valgte betalingsmetode i CitizenOne™ systemet",
+        "discount": "{percent} % rabat"
     },
     "invoices": {
         "alert": {
@@ -11822,6 +11830,7 @@
             "noMail": "Ingen mail efter et par minutter? Kig i spam, eller skriv til support{'@'}citizenone.dk."
         },
         "form": {
+            "newsletter": "Ja tak, send mig CitizenOnes nyhedsbrev. Jeg kan afmelde igen med linket i hver mail.",
             "passwordHint": "Mindst 8 tegn",
             "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
@@ -12124,6 +12133,8 @@
             "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
             "seesHrData": "Kan se HR-oplysninger og medarbejderdokumenter",
             "seesHrDataHelp": "Medarbejdere med denne rolle ser kollegers HR-oplysninger, medarbejderdokumenter (kontrakter, straffeattester, attester m.m.), lønfelter, adresser og nødkontakter og kan håndtere dem. Uden den ser de kun deres egne. Administratorer ser dem altid.",
+            "hrDataForAll": "For alle medarbejdere",
+            "hrDataForRoles": "For medarbejdere med rollerne",
             "certificateReminders": "Modtager påmindelser om attester",
             "certificateRemindersHelp": "Personer med denne rolle får påmindelser om attester, der udløber, og forældede CV'er, på e-mail og i CitizenOne. Så snart en rolle har dette, går påmindelserne til disse roller og medarbejderen i stedet for til administratorerne.",
             "certificateRemindersForAll": "For alle medarbejdere",
@@ -14100,6 +14111,68 @@
                 "industriesHint": "Lad feltet være tomt for at vise punktet for alle brancher.",
                 "published": "Vis for brugerne",
                 "publishedHint": "Kladder er kun synlige her i superadmin."
+            },
+            "requestCount": "{count} ønsker",
+            "internal": {
+                "title": "Internt (kun CitizenOne)",
+                "hint": "Vises aldrig for brugerne. De ser kun, hvor mange virksomheder der ønsker punktet.",
+                "category": "Kategori",
+                "priority": "Prioritet",
+                "stage": "Udviklingstrin",
+                "owner": "Ansvarlig",
+                "ticket": "Ticket",
+                "eta": "Intern ETA",
+                "important": "Vigtig",
+                "originalText": "Oprindeligt ønske",
+                "notes": "Interne noter",
+                "source": "Importeret fra {source} ({ref})",
+                "requests": "Kunder der ønsker det ({count})",
+                "addRequestPlaceholder": "Kundenavn - kobles på kunden, hvis den findes",
+                "removeRequest": "Fjern"
+            },
+            "categories": {
+                "feature": "Ny funktion",
+                "improvement": "Forbedring",
+                "integration": "Integration",
+                "bug": "Fejl"
+            },
+            "priorities": {
+                "top": "Top",
+                "high": "Høj",
+                "medium": "Mellem",
+                "low": "Lav"
+            },
+            "stages": {
+                "idea": "Idé",
+                "ready": "Klar til udvikling",
+                "in_development": "Under udvikling",
+                "qa": "QA",
+                "staging": "Staging",
+                "live": "Live"
+            },
+            "filters": {
+                "search": "Søg i titel, kunde, noter ...",
+                "allCategories": "Alle kategorier",
+                "allPriorities": "Alle prioriteter",
+                "allStages": "Alle trin",
+                "publishedAndDrafts": "Publicerede og kladder",
+                "importantOnly": "Kun vigtige"
+            },
+            "sort": {
+                "manual": "Brugernes rækkefølge",
+                "priority": "Prioritet",
+                "requests": "Flest ønsker"
+            },
+            "import": {
+                "button": "Importér",
+                "title": "Importér roadmap-punkter",
+                "intro": "Vælg en JSON-fil med punkter. Alle punkter oprettes som kladder, og punkter der allerede er importeret springes over - intet eksisterende bliver ændret.",
+                "wouldCreate": "{count} nye punkter oprettes som kladder",
+                "created": "{count} punkter oprettet som kladder",
+                "skipped": "{count} er allerede importeret - springes over",
+                "matched": "{count} kunder koblet på en virksomhed",
+                "unmatched": "Ikke koblet (gemt med navn)",
+                "confirm": "Importér {count} punkter"
             }
         },
         "accounts": {
@@ -15498,7 +15571,8 @@
             "news": "Nyheder",
             "campaigns": "Kampagner",
             "announcements": "Beskeder",
-            "today": "I dag"
+            "today": "I dag",
+            "meetings": "Møder"
         },
         "teamRoles": {
             "pageTitle": "Roller",
@@ -17080,7 +17154,10 @@
                 "support_access_approved": "Supportadgang godkendt",
                 "support_access_denied": "Supportadgang afvist",
                 "support_access_revoked": "Supportadgang trukket tilbage",
-                "support_access_decided": "Supportadgang besvaret"
+                "support_access_decided": "Supportadgang besvaret",
+                "order_discount_set": "Rabat givet på ordre: {to} % på {name}",
+                "order_discount_changed": "Rabat ændret på ordre: {from} % → {to} % på {name}",
+                "order_discount_removed": "Rabat fjernet på ordre: {name}"
             }
         },
         "dataTable": {
@@ -17112,7 +17189,7 @@
             "title": "Ordre",
             "new": "Ny ordre",
             "back": "Tilbage til licenser",
-            "entryHint": "Kunden betaler på faktura: saml flere produkter i én ordre, så de bliver én fakturakladde med ét fakturagebyr.",
+            "entryHint": "Kunden betaler på faktura: saml flere produkter i én ordre, så de bliver én ordre i e-conomic med ét fakturagebyr.",
             "grantHint": "Skal kunden have flere produkter? Opret en ordre i stedet, så det bliver én faktura med ét fakturagebyr.",
             "createdBy": "Oprettet af {name} {date}",
             "completedBy": "gennemført af {name} {date}",
@@ -17135,7 +17212,7 @@
                 "total": "I alt inkl. moms",
                 "status": "Status"
             },
-            "billingDraft": "Én fakturakladde sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+            "billingDraft": "Én ordre sendes til e-conomic (kundenr. {customer}), hvor økonomi fakturerer, bogfører og sender den.",
             "billingFree": "Alt er inkluderet i planen. Der faktureres intet.",
             "noQuote": "Ingen pris endnu.",
             "complete": "Gennemfør ordre",
@@ -17145,11 +17222,11 @@
             "cancelConfirm": "Kladden annulleres. Kunden får intet, og der faktureres intet.",
             "confirm": {
                 "title": "Gennemfør ordre?",
-                "body": "Kunden får {seats} licenser nu. Én fakturakladde på {amount} inkl. moms sendes til e-conomic (kundenr. {customer}), hvor økonomi bogfører og sender den.",
+                "body": "Kunden får {seats} licenser nu. Én ordre på {amount} inkl. moms sendes til e-conomic (kundenr. {customer}), hvor økonomi fakturerer, bogfører og sender den.",
                 "bodyFree": "Kunden får {seats} licenser nu. Alt er inkluderet i planen, så der sendes ingen faktura."
             },
             "completed": "Ordren er gennemført. Licenserne er aktive.",
-            "retried": "Kladden sendes til e-conomic igen.",
+            "retried": "Ordren sendes til e-conomic igen.",
             "cancelled": "Kladden er annulleret.",
             "saveFailed": "Ordren kunne ikke gemmes.",
             "loadFailed": "Ordren kunne ikke hentes.",
@@ -17164,7 +17241,8 @@
                 "notYet": "Ikke sendt endnu",
                 "pending": "Sendes til e-conomic…",
                 "none": "Ingen faktura",
-                "draft": "Kladde nr. {number}",
+                "order": "Overført til e-conomic som ordre nr. {number}",
+                "draft": "Overført til e-conomic som fakturakladde nr. {number}",
                 "booked": "Bogført som faktura {number}",
                 "failed": "Fejl: {reason}"
             },
@@ -17174,10 +17252,58 @@
                 "superadmin_order_no_customer_number": "Kunden mangler et e-conomic kundenummer."
             },
             "listTitle": "Ordrer fra superadmin",
-            "listSubtitle": "Ordrer med flere linjer, der bliver én fakturakladde i e-conomic.",
+            "listSubtitle": "Ordrer med flere linjer, der bliver én ordre i e-conomic.",
             "empty": "Ingen ordrer endnu.",
             "allStatuses": "Alle statusser",
-            "failedCount": "{count} fejlet i e-conomic"
+            "failedCount": "{count} fejlet i e-conomic",
+            "discount": {
+                "give": "Giv rabat",
+                "edit": "Ret rabat",
+                "percent": "Rabat (%)",
+                "reason": "Begrundelse",
+                "reasonPlaceholder": "Hvorfor får kunden rabat? Fx aftalt ved demo",
+                "onRenewal": "Behold rabatten ved fornyelse (ellers fornyes til listepris)",
+                "hint": "Højst {max} %. Listeprisen ændres ikke. Servicegebyret får aldrig rabat.",
+                "preview": "Ny stykpris {price}",
+                "save": "Gem rabat",
+                "remove": "Fjern rabat",
+                "close": "Luk",
+                "reasonLine": "Rabat {percent} %: {reason}",
+                "keptOnRenewal": "beholdes ved fornyelse",
+                "totalsLine": "Rabat {percent} % af {price}",
+                "total": "Rabat i alt",
+                "confirm": "Rabat i alt {total} ekskl. moms: {list}.",
+                "confirmLine": "{name} {percent} % ({reason})",
+                "errors": {
+                    "percentInvalid": "Rabatten skal være mellem 0 og 100 %.",
+                    "percentDecimals": "Brug højst to decimaler.",
+                    "percentAboveMax": "Rabatten må højst være {max} %.",
+                    "reasonRequired": "Skriv en begrundelse for rabatten.",
+                    "reasonTooShort": "Begrundelsen skal være mindst 5 tegn.",
+                    "reasonTooLong": "Begrundelsen må højst være 500 tegn."
+                }
+            }
+        },
+        "teamMeetings": {
+            "pageTitle": "Møder",
+            "description": "Hold jeres egne online-møder i CitizenOne: internt, med partnere eller hvem som helst. Demoer og kundemøder står her også.",
+            "startNow": "Start møde nu",
+            "titlePlaceholder": "Fx Ugemøde, Partnermøde",
+            "guestName": "Navn",
+            "guestEmail": "E-mail",
+            "addGuest": "+ Tilføj deltager",
+            "removeGuest": "Fjern deltager",
+            "startNowHint": "Mødet starter nu. Deltagerne får en mail med linket, og mødet åbner i en ny fane, hvor du er vært.",
+            "startAndInvite": "Start og send link",
+            "inquiry": "Henvendelse",
+            "customer": "Kunde",
+            "scope": {
+                "upcoming": "Kommende",
+                "past": "Tidligere"
+            },
+            "company": "Kunde (valgfri)",
+            "companyPlaceholder": "Søg firma…",
+            "removeCompany": "Fjern"
         },
         "salesStats": {
             "button": "Demo-tal",
@@ -22499,7 +22625,20 @@
             "fileNotSent": "Filen kunne ikke sendes. Prøv igen.",
             "joinedElsewhere": "Du er gået ind i mødet fra et andet vindue eller en anden enhed, så denne forbindelse er lukket.",
             "microphoneFailed": "Mikrofonen kunne ikke startes. Du er med i mødet uden lyd.",
-            "cameraFailed": "Kameraet kunne ikke startes. Du er med i mødet uden video."
+            "cameraFailed": "Kameraet kunne ikke startes. Du er med i mødet uden video.",
+            "react": "Reaktion",
+            "fullscreen": "Fuld skærm",
+            "exitFullscreen": "Afslut fuld skærm",
+            "focus": "Vis stort",
+            "unfocus": "Tilbage i rækken",
+            "reactions": {
+                "thumbsUp": "Tommel op",
+                "heart": "Hjerte",
+                "laugh": "Grin",
+                "clap": "Klap",
+                "celebrate": "Fejr",
+                "wow": "Wow"
+            }
         },
         "guest": {
             "invitedBy": "{host} fra {company} har inviteret dig til et online møde.",
@@ -22626,6 +22765,22 @@
             "hide": "Skjul",
             "resultTitle": "Afstemning: {question}",
             "savedToNotes": "Resultatet er gemt i mødets noter."
+        },
+        "personalRoom": {
+            "title": "Mit mødelokale",
+            "intro": "Et fast link til dine møder. Sæt det i din mailsignatur eller send det i en chat. Gæster venter, til du lukker dem ind.",
+            "create": "Opret mødelokale",
+            "copy": "Kopiér link",
+            "copied": "Kopieret",
+            "newLink": "Nyt link",
+            "newLinkHint": "Det gamle link holder op med at virke med det samme.",
+            "newLinkConfirm": "Lav et nyt link? Det gamle link holder op med at virke med det samme.",
+            "enter": "Gå ind",
+            "doorTitle": "Mødelokale hos {host}",
+            "yourName": "Dit navn",
+            "yourEmail": "Din e-mail (valgfri)",
+            "goIn": "Gå til mødet",
+            "doorHint": "Du venter i venteværelset, til du bliver lukket ind. Du skal ikke installere noget."
         }
     },
     "teamSize": {

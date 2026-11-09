@@ -71,6 +71,12 @@
                                         </td>
                                         <td width="20%">
                                             <div>
+                                                <template v-if="data?.discount_percent > 0 && data?.list_price != null">
+                                                    <span class="block text-xs text-gray-500 line-through">{{ formatAmount(data.list_price) }}</span>
+                                                    <span class="block text-xs text-gray-500">
+                                                        {{ $t('invoiceDetails.discount', { percent: String(Math.round(data.discount_percent * 100) / 100).replace('.', ',') }) }}
+                                                    </span>
+                                                </template>
                                                 {{ formatAmount(data?.price ?? 0) }}
                                             </div>
                                         </td>

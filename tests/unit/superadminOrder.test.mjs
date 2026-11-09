@@ -6,8 +6,15 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
+    ORDER_STATUSES,
     availableProducts,
+    discountError,
+    discountLabel,
+    discountPayload,
+    discountedUnitPrice,
+    lineDiscountAmount,
     offersOrderFlow,
+    quoteDiscounts,
     orderCanComplete,
     orderConfirmKey,
     orderEconomicLabel,
@@ -69,6 +76,9 @@ test('a product already on the order is not offered again', () => {
 })
 
 test('e-conomic label follows the status', () => {
+    assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_order_number: 8001, economic_draft_number: null } }),
+        { key: 'superadmin.companyOrders.economic.order', params: { number: 8001 } })
+    // Found by reconciling: finance already made an invoice draft from it.
     assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_draft_number: 9001 } }),
         { key: 'superadmin.companyOrders.economic.draft', params: { number: 9001 } })
     assert.deepEqual(orderEconomicLabel({ status: 'transferred', invoice: { economic_draft_number: 9001, economic_invoice_number: 7101 } }),
@@ -78,4 +88,149 @@ test('e-conomic label follows the status', () => {
     assert.equal(orderEconomicLabel({ status: 'completed', invoice: {} }).key, 'superadmin.companyOrders.economic.pending')
     assert.equal(orderEconomicLabel({ status: 'completed', invoice: null }).key, 'superadmin.companyOrders.economic.none')
     assert.equal(orderEconomicLabel({ status: 'draft', invoice: null }).key, 'superadmin.companyOrders.economic.notYet')
+})
+
+test('every status has its own key and pill variant', () => {
+    const variants = { draft: 'info', completed: 'warning', transferred: 'success', failed: 'danger', cancelled: 'neutral' }
+    for (const status of ORDER_STATUSES) {
+        assert.equal(orderStatusKey(status), `superadmin.companyOrders.status.${status}`)
+        assert.equal(orderStatusVariant(status), variants[status])
+    }
+    assert.equal(orderStatusVariant(undefined), 'neutral')
+    assert.equal(orderStatusVariant('TRANSFERRED'), 'neutral')
+    assert.equal(orderStatusKey(undefined), 'superadmin.companyOrders.status.draft')
+})
+
+test('line payload rejects quantities the API would refuse', () => {
+    const key = productKey(users)
+    for (const quantity of [0, -1, 1001, 1e6, NaN, Infinity, '', 'ten', null, undefined, 1.5, '2.5', true, []]) {
+        assert.equal(orderLinePayload(key, quantity), null, `quantity ${String(quantity)}`)
+    }
+    assert.deepEqual(orderLinePayload(key, 1), { type: 'user', quantity: 1 })
+    assert.deepEqual(orderLinePayload(key, 1000), { type: 'user', quantity: 1000 })
+    assert.deepEqual(orderLinePayload(key, ' 7 '), { type: 'user', quantity: 7 })
+})
+
+test('line payload rejects a malformed picker value', () => {
+    for (const key of [null, undefined, ':', 'user:', ':u-1', 'application:', 'Application:c-1', 'storage:s-1']) {
+        assert.equal(orderLinePayload(key, 1), null, `key ${String(key)}`)
+    }
+    assert.deepEqual(orderLinePayload(productKey({ type: 'department', product_uuid: 'd-1' }), 2), { type: 'department', quantity: 2 })
+})
+
+test('complete is offered for nothing but a priced draft', () => {
+    const order = { status: 'draft', lines: [{}], quote: { total_amount: 0 }, quote_error: null }
+    // An order of only included seats has a zero quote and can still be completed.
+    assert.equal(orderCanComplete(order), true)
+    assert.equal(orderCanComplete(undefined), false)
+    assert.equal(orderCanComplete({}), false)
+    assert.equal(orderCanComplete({ status: 'draft' }), false)
+    assert.equal(orderCanComplete({ ...order, lines: undefined }), false)
+    assert.equal(orderCanComplete({ ...order, quote: undefined }), false)
+    assert.equal(orderCanComplete({ ...order, quote_error: { code: 'superadmin_order_economic_off' } }), false)
+    for (const status of ['completed', 'transferred', 'failed', 'cancelled', undefined]) {
+        assert.equal(orderCanComplete({ ...order, status }), false, String(status))
+    }
+})
+
+test('confirmation inputs from an empty, partial or string payload', () => {
+    assert.equal(orderSeatCount(undefined), 0)
+    assert.equal(orderSeatCount({}), 0)
+    assert.equal(orderSeatCount({ lines: [] }), 0)
+    // Free seats are granted too, so they count.
+    assert.equal(orderSeatCount({ lines: [{ quantity: 5, free: 3, paid: 2 }, { quantity: '2' }, { quantity: null }, {}] }), 7)
+    assert.equal(orderConfirmKey(undefined), 'superadmin.companyOrders.confirm.bodyFree')
+    assert.equal(orderConfirmKey({}), 'superadmin.companyOrders.confirm.bodyFree')
+    assert.equal(orderConfirmKey({ total_amount: '0.00' }), 'superadmin.companyOrders.confirm.bodyFree')
+    assert.equal(orderConfirmKey({ total_amount: '2998.66' }), 'superadmin.companyOrders.confirm.body')
+    assert.equal(orderConfirmKey({ total_amount: 0.01 }), 'superadmin.companyOrders.confirm.body')
+})
+
+test('available products survive null input and keep products of other types', () => {
+    assert.deepEqual(availableProducts(null, null), [])
+    assert.deepEqual(availableProducts([users, cody], null).map(p => p.name), ['Extra User', 'Cody AI'])
+    assert.deepEqual(availableProducts([users, cody], []).length, 2)
+    // Same uuid, other type: still offered.
+    assert.deepEqual(availableProducts([users], [{ type: 'application', product_uuid: 'u-1' }]).map(p => p.name), ['Extra User'])
+    // A line whose product was deleted (no uuid) hides nothing.
+    assert.deepEqual(availableProducts([users, cody], [{ type: 'user', product_uuid: null }]).length, 2)
+    assert.deepEqual(availableProducts([users, cody], [{ type: 'user', product_uuid: 'u-1' }, { type: 'application', product_uuid: 'c-1' }]), [])
+})
+
+test('e-conomic label for every state and partial payloads', () => {
+    const label = order => orderEconomicLabel(order)
+    assert.deepEqual(label({ status: 'transferred', invoice: null }), { key: 'superadmin.companyOrders.economic.order', params: { number: '—' } })
+    assert.deepEqual(label({ status: 'transferred', invoice: { economic_draft_number: null, economic_invoice_number: null } }),
+        { key: 'superadmin.companyOrders.economic.order', params: { number: '—' } })
+    assert.deepEqual(label({ status: 'failed', invoice: null }), { key: 'superadmin.companyOrders.economic.failed', params: { reason: '—' } })
+    assert.deepEqual(label({ status: 'failed', invoice: { economic_error: null } }), { key: 'superadmin.companyOrders.economic.failed', params: { reason: '—' } })
+    assert.equal(label({ status: 'completed' }).key, 'superadmin.companyOrders.economic.none')
+    assert.equal(label({ status: 'draft' }).key, 'superadmin.companyOrders.economic.notYet')
+    // A cancelled order is never sent: it has no invoice, not one "not sent yet".
+    assert.equal(label({ status: 'cancelled', invoice: null }).key, 'superadmin.companyOrders.economic.none')
+    assert.equal(label({}).key, 'superadmin.companyOrders.economic.notYet')
+    assert.equal(label(null).key, 'superadmin.companyOrders.economic.notYet')
+    assert.equal(label(undefined).key, 'superadmin.companyOrders.economic.notYet')
+})
+
+test('net unit price is rounded half up in cents, as the API does', () => {
+    assert.equal(discountedUnitPrice(2539.27, 12.5), 2221.86)
+    assert.equal(discountedUnitPrice(0.01, 50), 0.01)
+    assert.equal(discountedUnitPrice(0.05, 50), 0.03)
+    assert.equal(discountedUnitPrice(99.99, 33.33), 66.66)
+    assert.equal(discountedUnitPrice(2.3, 50), 1.15)
+    assert.equal(discountedUnitPrice(690, 0), 690)
+    assert.equal(discountedUnitPrice(690, 100), 0)
+    assert.equal(discountedUnitPrice('690', '20'), 552)
+    assert.equal(discountedUnitPrice(690, null), 690)
+    assert.equal(discountedUnitPrice(undefined, 10), 0)
+    // 10 seats: 22.218,60 on our invoice (e-conomic's own line discount would say 22.218,61).
+    assert.equal(Math.round(discountedUnitPrice(2539.27, 12.5) * 10 * 100) / 100, 22218.6)
+    assert.equal(lineDiscountAmount(2539.27, 12.5, 10), 3174.1)
+    assert.equal(lineDiscountAmount(2539.27, 12.5, 0), 0)
+    assert.equal(lineDiscountAmount(2539.27, 0, 10), 0)
+})
+
+test('discount validation follows the API', () => {
+    assert.equal(discountError(10, 'Aftalt ved demo'), null)
+    assert.equal(discountError('12,5', 'Aftalt ved demo'), null)
+    assert.equal(discountError(0, ''), null)
+    assert.equal(discountError(10, ''), 'reasonRequired')
+    assert.equal(discountError(10, '   '), 'reasonRequired')
+    assert.equal(discountError(10, null), 'reasonRequired')
+    assert.equal(discountError(10, 'kort'), 'reasonTooShort')
+    assert.equal(discountError(10, 'x'.repeat(501)), 'reasonTooLong')
+    assert.equal(discountError(10, 'x'.repeat(500)), null)
+    assert.equal(discountError(10.125, 'Aftalt ved demo'), 'percentDecimals')
+    assert.equal(discountError(-1, 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError(101, 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError('', 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError('ti', 'Aftalt ved demo'), 'percentInvalid')
+    assert.equal(discountError(50, 'Aftalt ved demo'), null)
+    assert.equal(discountError(50.01, 'Aftalt ved demo'), 'percentAboveMax')
+    assert.equal(discountError(25, 'Aftalt ved demo', 20), 'percentAboveMax')
+    assert.equal(discountError(25, 'Aftalt ved demo', null), null)
+})
+
+test('discount payload: 0 clears the reason and the renewal flag', () => {
+    assert.deepEqual(discountPayload('12,5', ' Aftalt ved demo ', true), { discount_percent: 12.5, discount_reason: 'Aftalt ved demo', discount_on_renewal: true })
+    assert.deepEqual(discountPayload(10, 'Aftalt ved demo', 'yes'), { discount_percent: 10, discount_reason: 'Aftalt ved demo', discount_on_renewal: false })
+    assert.deepEqual(discountPayload(0, 'old reason', true), { discount_percent: 0, discount_reason: null, discount_on_renewal: false })
+    assert.equal(discountPayload(10, ''), null)
+    assert.equal(discountPayload(60, 'Aftalt ved demo', false, 50), null)
+})
+
+test('discount labels and the discounted lines of a quote', () => {
+    assert.equal(discountLabel(12.5), '12,5')
+    assert.equal(discountLabel(10), '10')
+    assert.equal(discountLabel('33.33'), '33,33')
+    const quote = { lines: [
+        { uuid: 'a', discount_percent: 0, paid: 10 },
+        { uuid: 'b', discount_percent: 12.5, paid: 10 },
+        { uuid: 'c', discount_percent: 20, paid: 0 },
+        { uuid: 'd' },
+    ] }
+    assert.deepEqual(quoteDiscounts(quote).map(line => line.uuid), ['b'])
+    assert.deepEqual(quoteDiscounts(null), [])
+    assert.deepEqual(quoteDiscounts({}), [])
 })
