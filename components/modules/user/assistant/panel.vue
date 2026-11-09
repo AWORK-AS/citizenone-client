@@ -9,7 +9,7 @@
             enter-from-class="translate-y-full sm:translate-y-8 sm:opacity-0" enter-to-class="translate-y-0 sm:opacity-100"
             leave-active-class="transform transition ease-in duration-200"
             leave-from-class="translate-y-0 sm:opacity-100" leave-to-class="translate-y-full sm:translate-y-8 sm:opacity-0">
-            <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.identity.name')"
+            <aside v-if="assistantStore.isOpen" ref="panelEl" :aria-label="$t('assistants.identity.name')"
                 :class="['fixed bottom-0 right-0 z-[56] flex w-full flex-col overflow-hidden bg-white shadow-2xl',
                     'rounded-t-2xl border border-surface-200 sm:bottom-4 sm:right-4 sm:w-[26rem] sm:rounded-2xl',
                     assistantStore.isCollapsed ? 'h-auto' : 'h-[85vh] sm:h-[min(40rem,calc(100vh-7rem))]']">
@@ -96,6 +96,8 @@
 <script setup lang="ts">
 import { useAssistantStore } from '@/store/assistant'
 import { createCodyChat, CODY_CHAT } from '@/composables/useCodyChat'
+import { isCodyShortcut } from '@/composables/codyPreview'
+import { shortcutAction, escapeClosesPanel } from '@/composables/codyShortcut'
 
 /**
  * Cody's panel: the frame, and the wiring between the product and the chat.
@@ -141,20 +143,40 @@ const markState = computed(() => {
 
 // Esc closes the panel. It is deliberately not a dialog - the page behind stays
 // live - so headlessui's keyboard handling does not come with it.
+const panelEl = ref<HTMLElement | null>(null)
+
 function onKeydown(event: KeyboardEvent) {
-    // Cmd/Ctrl+J opens and closes it from anywhere. ⌘K is the global search,
-    // and an assistant you have to reach for with the mouse is one you stop
-    // reaching for. J for the panel that lives in the corner.
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'j') {
+    // Cmd/Ctrl+J. ⌘K is the global search, and an assistant you have to reach
+    // for with the mouse is one you stop reaching for. J for the panel that
+    // lives in the corner.
+    if (isCodyShortcut(event)) {
         event.preventDefault()
-        assistantStore.toggle()
+        const action = shortcutAction({
+            isOpen: assistantStore.isOpen,
+            isCollapsed: assistantStore.isCollapsed,
+            focusInPanel: !!panelEl.value?.contains(document.activeElement),
+        })
+        // Opening focuses the field through the isOpen watcher; unrolling a
+        // collapsed panel does not pass through it, so it asks here too.
+        if (action === 'open') {
+            assistantStore.open()
+            requestComposerFocus()
+        } else if (action === 'focus') requestComposerFocus()
+        else assistantStore.close()
 
         return
     }
 
-    if (event.key !== 'Escape' || !assistantStore.isOpen) return
-    // Let the mention picker and the redaction preview take Escape first.
-    if (state.mention.isOpen || state.preview.isOpen) return
+    if (event.key !== 'Escape') return
+    const target = event.target instanceof Element ? event.target : null
+    const dialog = target?.closest('[role="dialog"], [aria-modal="true"]')
+    if (!escapeClosesPanel({
+        isOpen: assistantStore.isOpen,
+        defaultPrevented: event.defaultPrevented,
+        inOtherDialog: !!dialog && !panelEl.value?.contains(dialog),
+        // Let the mention picker and the redaction preview take Escape first.
+        panelBusy: state.mention.isOpen || state.preview.isOpen,
+    })) return
     assistantStore.close()
 }
 
