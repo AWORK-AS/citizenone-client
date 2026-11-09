@@ -349,6 +349,9 @@
 
         <ModulesSuperadminLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
+        <!-- Opened by BaseAPIService on 403 two_factor_setup_required (scope staff). -->
+        <ModulesSuperadminTwoFactorSetupModal v-if="staffTwoFactorSetupRequired"
+            :isModalOpen="staffTwoFactorSetupRequired" @enabled="onTwoFactorEnabled" @logout="logout" />
     </LoadingSpinner>
 </template>
 
@@ -361,6 +364,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import { isNavItemActive, type SuperadminNavItem } from '@/composables/useSuperadminNav'
 import type { Error } from '@/types'
+import { staffTwoFactorSetupRequired } from '@/composables/staffTwoFactorGate'
 
 const userStore = useUserStore() as any
 const language = useI18n()
@@ -448,11 +452,18 @@ function toggleViewAs(key: string) {
     globalViewAs.value = viewAsRole.value
 }
 
+// The block lifts on the next request; a reload fetches what the 403s left empty.
+function onTwoFactorEnabled() {
+    staffTwoFactorSetupRequired.value = false
+    window.location.reload()
+}
+
 async function logout() {
     state.isPageLoading = true
     try {
         const response = await authService.logout()
         if (response) {
+            staffTwoFactorSetupRequired.value = false
             clearSessionToken()
             userStore.resetUser()
             navigateTo('/superadmin')

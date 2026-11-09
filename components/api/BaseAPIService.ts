@@ -8,6 +8,8 @@ import { createNoticeThrottle, shouldNoticeFailedWrite } from '@/composables/fai
 import { shouldRouteToSuspended } from '@/composables/billingMethod'
 import { readPreviewRole } from '@/composables/usePreviewRole'
 import { useUserStore } from '@/store/user'
+import { isStaffSetupRequired } from '@/composables/staffTwoFactor'
+import { staffTwoFactorSetupRequired } from '@/composables/staffTwoFactorGate'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -755,6 +757,11 @@ class BaseAPIService {
 
     private static noticeTwoFactorSetupRequired(body: any) {
         if (body?.code !== 'two_factor_setup_required' || typeof window === 'undefined') return
+        // Our own team (superadmin panel): the superadmin layout opens the staff setup.
+        if (isStaffSetupRequired(body)) {
+            staffTwoFactorSetupRequired.value = true
+            return
+        }
         const userStore = useUserStore() as any
         const user = userStore.getUser
         if (!user?.id || (user.company?.is_2fa_enabled && !user.is_google_2fa_enabled)) return

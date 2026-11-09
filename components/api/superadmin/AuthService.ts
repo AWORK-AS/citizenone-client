@@ -5,6 +5,11 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/superadmin/login`, 'POST', params)
     }
 
+    // Second step when the login answered with a challenge (staff with 2FA on).
+    async verifyTwoFactor(params: { challenge: string; code: string }): Promise<any> {
+        return await this.request(`/auth/superadmin/2fa/verify`, 'POST', params)
+    }
+
     async logout(): Promise<any> {
         return await this.request(`/auth/logout`, 'POST')
     }
