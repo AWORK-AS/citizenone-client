@@ -18474,6 +18474,7 @@
             "completed": "Udfyldt",
             "score": "Score",
             "edit": "Redigér",
+            "duplicate": "Dupliser",
             "delete": "Slet"
         },
         "status": {
@@ -18497,6 +18498,7 @@
             "created": "Spørgeskema oprettet",
             "updated": "Spørgeskema opdateret",
             "deleted": "Spørgeskema slettet",
+            "duplicated": "Spørreskjema duplisert",
             "sent": "Spørgeskema sendt til borgeren",
             "assignmentDeleted": "Besvarelse slettet",
             "responseSaved": "Besvarelse gemt"
