@@ -158,11 +158,10 @@
                                 <div class="flex items-center gap-2">
                                     <ModulesSuperadminStatusPill :variant="statusVariant(meeting.status)"
                                         :label="$t(`superadmin.salesMeetings.status.${meeting.status}`)" />
-                                    <a v-if="meeting.host_url && ['scheduled', 'live'].includes(meeting.status)" :href="meeting.host_url"
-                                        target="_blank" rel="noopener" class="text-tertiary underline"
-                                        :title="$t('superadmin.salesMeetings.openHint')">
+                                    <NuxtLink v-if="meeting.staff_path && ['scheduled', 'live'].includes(meeting.status)" :to="meeting.staff_path"
+                                        class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
                                         {{ $t('superadmin.salesMeetings.open') }}
-                                    </a>
+                                    </NuxtLink>
                                 </div>
                             </li>
                         </ul>
@@ -322,7 +321,7 @@ async function save() {
         state.isFormOpen = false
         const guests = (response?.data?.guests ?? []).map((g: any) => g.email).join(', ')
         state.saved = t('superadmin.salesMeetings.sent', { guests })
-        if (tab && response?.data?.host_url) tab.location.href = response.data.host_url
+        if (tab && response?.data?.staff_path) tab.location.href = `${window.location.origin}${response.data.staff_path}?join=1`
         else tab?.close()
         state.scope = 'upcoming'
         await load()

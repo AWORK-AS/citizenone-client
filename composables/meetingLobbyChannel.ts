@@ -10,7 +10,7 @@ import Pusher from 'pusher-js'
  * /user/meetings/broadcasting/auth. Without Reverb configured (no app key)
  * nothing connects and the page keeps polling, just less often.
  */
-export function useMeetingLobbyChannel(meetingUuid: string, onChange: (event: { participant_uuid: string, name: string, waiting: boolean }) => void) {
+export function useMeetingLobbyChannel(meetingUuid: string, onChange: (event: { participant_uuid: string, name: string, waiting: boolean }) => void, apiBase = '/user/meetings') {
     const config = useRuntimeConfig()
     const connected = ref(false)
     let client: Pusher | null = null
@@ -29,7 +29,7 @@ export function useMeetingLobbyChannel(meetingUuid: string, onChange: (event: { 
             forceTLS: scheme === 'https',
             enabledTransports: ['ws', 'wss'],
             channelAuthorization: {
-                endpoint: `${config.public.apiBaseURL}/user/meetings/broadcasting/auth`,
+                endpoint: `${config.public.apiBaseURL}${apiBase}/broadcasting/auth`,
                 transport: 'ajax',
                 headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
             },

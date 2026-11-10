@@ -16363,7 +16363,7 @@
             "send": "Planera och skicka inbjudan",
             "none": "Inga onlinemöten ännu.",
             "open": "Öppna",
-            "openHint": "Öppnar mötet i CitizenOne. Du måste vara inloggad som värden.",
+            "openHint": "Öppnar mötet här i panelen, med dig som värd.",
             "sent": "Mötet är planerat och inbjudan har skickats till {guests}.",
             "status": {
                 "scheduled": "Planerat",
