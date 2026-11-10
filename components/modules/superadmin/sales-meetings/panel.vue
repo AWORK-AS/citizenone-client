@@ -133,10 +133,10 @@
                     <!-- After a demo: did the prospect come (meetings:sales-follow-up) -->
                     <ModulesSuperadminStatusPill v-if="meeting.outcome" :variant="outcomeVariant(meeting.outcome)"
                         :label="$t(`superadmin.salesMeetings.outcome.${meeting.outcome}`)" />
-                    <a v-if="meeting.host_url && ['scheduled', 'live'].includes(meeting.status)" :href="meeting.host_url" target="_blank"
-                        rel="noopener" class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
+                    <NuxtLink v-if="meeting.staff_path && ['scheduled', 'live'].includes(meeting.status)" :to="meeting.staff_path"
+                        target="_blank" class="text-tertiary underline" :title="$t('superadmin.salesMeetings.openHint')">
                         {{ $t('superadmin.salesMeetings.open') }}
-                    </a>
+                    </NuxtLink>
                 </div>
             </li>
         </ul>
@@ -260,7 +260,7 @@ async function startNow() {
         if (state.suggestedHost) params.host_uuid = state.suggestedHost
         else if (state.hosts.length === 1) params.host_uuid = state.hosts[0].uuid
         const response = await salesMeetingService.scheduleForInquiry(props.inquiryUuid as string, params)
-        if (tab && response?.data?.host_url) tab.location.href = response.data.host_url
+        if (tab && response?.data?.staff_path) tab.location.href = `${window.location.origin}${response.data.staff_path}?join=1`
         else tab?.close()
         const guests = (response?.data?.guests ?? []).map((g: any) => g.email).join(', ')
         state.saved = t('superadmin.salesMeetings.sent', { guests })

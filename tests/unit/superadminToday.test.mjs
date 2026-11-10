@@ -135,7 +135,8 @@ test('SECTION_ORDER matches the API order', () => {
 
 test('a meeting row opens the host page, a missed demo its inquiry', () => {
     const row = (meta, id = 'abc') => ({ id, company: null, title: null, amount: null, date: null, date_kind: 'starts', reason: '', meta })
-    assert.equal(rowHref('meetings_today', row({ path: '/meetings/u-1' })), '/meetings/u-1')
+    assert.equal(rowHref('meetings_today', row({ path: '/superadmin/meetings/u-1' })), '/superadmin/meetings/u-1')
+    assert.equal(rowHref('meetings_today', row({ path: '/meetings/u-1' })), '/superadmin/meetings')
     // Never an outside address from the payload.
     assert.equal(rowHref('meetings_today', row({ path: 'https://evil.test/meetings/x' })), '/superadmin/meetings')
     assert.equal(rowHref('missed_demos', row({}, 'inq-1')), '/superadmin/sales-inquiries?inquiry=inq-1')

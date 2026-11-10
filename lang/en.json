@@ -16448,7 +16448,7 @@
             "send": "Plan and send invitation",
             "none": "No online meetings yet.",
             "open": "Open",
-            "openHint": "Opens the meeting in CitizenOne. You must be signed in as the host.",
+            "openHint": "Opens the meeting here in the panel, with you as host.",
             "sent": "The meeting is planned and the invitation was sent to {guests}.",
             "status": {
                 "scheduled": "Planned",

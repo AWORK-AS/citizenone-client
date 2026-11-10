@@ -111,7 +111,9 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { meetingService } from '@/components/api/user/MeetingService'
+import { useMeetingApi } from '@/composables/meetingApi'
+
+const meetingService = useMeetingApi()
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
 import { downloadMeetingMinutes } from '@/composables/meetingMinutes'
 import { useUserStore } from '@/store/user'
@@ -265,7 +267,7 @@ async function downloadPdf(summary?: string) {
     state.downloading = true
     state.error = {}
     try {
-        await downloadMeetingMinutes(props.meeting.uuid, summary ? { summary } : {})
+        await downloadMeetingMinutes(props.meeting.uuid, summary ? { summary } : {}, meetingService)
     } catch (error: any) {
         state.error = error
     }
