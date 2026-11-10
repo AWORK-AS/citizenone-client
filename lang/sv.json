@@ -2890,6 +2890,7 @@
             "newDoctor": "Ny läkare"
         },
         "documents": {
+            "formDeletedReadOnly": "Formuläret har raderats, så rapporten kan läsas men inte längre redigeras",
             "access": {
                 "access": "Åtkomst",
                 "alert": {
@@ -9176,7 +9177,7 @@
         },
         "confirmation": {
             "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär",
-            "deleteFormHasReports": "Det har skrivits {count} rapporter utifrån den."
+            "deleteFormHasReports": "Det har skrivits {count} rapporter utifrån den. De sparas, men kan inte längre redigeras."
         },
         "createResponse": "Skapa svar",
         "documentTitle": "Dokumenttitel",

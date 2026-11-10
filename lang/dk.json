@@ -2890,6 +2890,7 @@
             "newDoctor": "Ny læge"
         },
         "documents": {
+            "formDeletedReadOnly": "Formularen er slettet, så rapporten kan læses, men ikke længere redigeres",
             "access": {
                 "access": "Adgang",
                 "alert": {
@@ -9176,7 +9177,7 @@
         },
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular",
-            "deleteFormHasReports": "Der er skrevet {count} rapporter ud fra den."
+            "deleteFormHasReports": "Der er skrevet {count} rapporter ud fra den. De bliver gemt, men kan ikke længere redigeres."
         },
         "createResponse": "Opret svar",
         "documentTitle": "Dokumenttitel",
