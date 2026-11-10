@@ -77,7 +77,9 @@
 </template>
 
 <script setup lang="ts">
-import { meetingService } from '@/components/api/user/MeetingService'
+import { useMeetingApi } from '@/composables/meetingApi'
+
+const meetingService = useMeetingApi()
 import { taskService } from '@/components/api/user/TaskService'
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
 

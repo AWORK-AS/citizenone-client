@@ -165,8 +165,8 @@ export function rowHref(key: TodaySectionKey, row: TodayRow): string {
         case 'missed_demos':
             return row.id ? `/superadmin/sales-inquiries?inquiry=${encodeURIComponent(row.id)}` : SECTION_HREFS[key]
         case 'meetings_today':
-            // The host's meeting page; only a relative path is followed.
-            return typeof row.meta?.path === 'string' && row.meta.path.startsWith('/meetings/') ? row.meta.path : SECTION_HREFS.meetings_today
+            // Held from the panel; only a path inside it is followed.
+            return typeof row.meta?.path === 'string' && row.meta.path.startsWith('/superadmin/meetings/') ? row.meta.path : SECTION_HREFS.meetings_today
         default:
             return SECTION_HREFS[key]
     }

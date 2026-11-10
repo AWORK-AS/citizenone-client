@@ -16448,7 +16448,7 @@
             "send": "Planlæg og send invitation",
             "none": "Ingen online-møder endnu.",
             "open": "Åbn",
-            "openHint": "Åbner mødet i CitizenOne. Kræver at du er logget ind som værten.",
+            "openHint": "Åbner mødet her i panelet, med dig som vært.",
             "sent": "Mødet er planlagt, og invitationen er sendt til {guests}.",
             "status": {
                 "scheduled": "Planlagt",
