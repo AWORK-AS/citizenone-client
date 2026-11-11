@@ -17313,7 +17313,15 @@
             },
             "company": "Customer (optional)",
             "companyPlaceholder": "Search company…",
-            "removeCompany": "Remove"
+            "removeCompany": "Remove",
+            "account": {
+                "title": "Choose CitizenOne's own account",
+                "intro": "The meetings live in our own customer account. Search for it and choose it. Only needed once.",
+                "askAdmin": "A colleague with access to companies must choose our own account before meetings can be used.",
+                "current": "Meetings live in the account {name}.",
+                "change": "Change",
+                "confirm": "Use {name} as CitizenOne's own account for meetings?"
+            }
         },
         "salesStats": {
             "button": "Demo figures",

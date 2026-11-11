@@ -17313,7 +17313,15 @@
             },
             "company": "Kunde (valgfri)",
             "companyPlaceholder": "Søg firma…",
-            "removeCompany": "Fjern"
+            "removeCompany": "Fjern",
+            "account": {
+                "title": "Vælg CitizenOnes egen konto",
+                "intro": "Møderne ligger i vores egen kundekonto. Søg den frem og vælg den. Det skal kun gøres én gang.",
+                "askAdmin": "En kollega med adgang til virksomheder skal vælge vores egen konto, før møderne kan bruges.",
+                "current": "Møderne ligger i kontoen {name}.",
+                "change": "Skift",
+                "confirm": "Brug {name} som CitizenOnes egen konto til møder?"
+            }
         },
         "salesStats": {
             "button": "Demo-tal",

@@ -28,8 +28,31 @@
                 </ModulesSuperadminPageHeader>
 
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
-                <p v-if="!state.isLoading && !state.configured" class="text-[13px] text-ink-muted">
-                    {{ $t('superadmin.salesMeetings.notConfigured') }}
+                <!-- Which account is ours: chosen here (or MEETINGS_SALES_COMPANY_ID as fallback). -->
+                <div v-if="!state.isLoading && (!state.configured || state.account.picking)"
+                    class="rounded-xl border border-line bg-white p-4 space-y-2 relative">
+                    <p class="text-sm font-semibold text-ink">{{ $t('superadmin.teamMeetings.account.title') }}</p>
+                    <p class="text-[13px] text-ink-muted">
+                        {{ can('manage_companies') ? $t('superadmin.teamMeetings.account.intro') : $t('superadmin.teamMeetings.account.askAdmin') }}
+                    </p>
+                    <template v-if="can('manage_companies')">
+                        <input v-model="state.account.search" type="search" class="co-input" autocomplete="off"
+                            :placeholder="$t('superadmin.teamMeetings.companyPlaceholder')"
+                            :aria-label="$t('superadmin.teamMeetings.account.title')" @input="searchAccounts" />
+                        <ul v-if="state.account.results.length" class="rounded-lg border border-line divide-y divide-line max-h-56 overflow-y-auto">
+                            <li v-for="company in state.account.results" :key="company.uuid">
+                                <button type="button" class="w-full text-left px-3 py-2 text-[13px] hover:bg-surface-canvas disabled:opacity-50"
+                                    :disabled="state.account.saving" @click="chooseAccount(company)">{{ company.name }}</button>
+                            </li>
+                        </ul>
+                        <button v-if="state.configured" type="button" class="text-[13px] text-tertiary underline"
+                            @click="state.account.picking = false">{{ $t('cancel') }}</button>
+                    </template>
+                </div>
+                <p v-else-if="!state.isLoading && state.account.current" class="text-[13px] text-ink-muted">
+                    {{ $t('superadmin.teamMeetings.account.current', { name: state.account.current.name }) }}
+                    <button v-if="can('manage_companies')" type="button" class="ml-1 text-tertiary underline"
+                        @click="state.account.picking = true">{{ $t('superadmin.teamMeetings.account.change') }}</button>
                 </p>
                 <p v-if="state.saved" class="text-[13px] text-green-700">{{ state.saved }}</p>
 
@@ -204,6 +227,8 @@ const state = reactive({
     companySearch: '',
     companyResults: [] as any[],
     accounts: [] as any[],
+    // Our own account: the current one, and the picker to choose or change it.
+    account: { current: null as null | { uuid: string, name: string }, picking: false, search: '', results: [] as any[], saving: false },
     error: {} as any,
     saved: '',
 })
@@ -231,14 +256,54 @@ async function load() {
             salesMeetingService.hosts(),
             salesMeetingService.teamMeetings(state.scope),
         ])
-        state.configured = !!hosts?.data?.configured
-        state.hosts = hosts?.data?.hosts ?? []
+        applyHosts(hosts)
         state.suggestedHost = hosts?.data?.suggested_uuid ?? ''
         state.meetings = meetings?.data ?? []
     } catch (error: any) {
         state.error = error
     }
     state.isLoading = false
+}
+
+function applyHosts(hosts: any) {
+    state.configured = !!hosts?.data?.configured
+    state.account.current = hosts?.data?.account ?? null
+    state.hosts = hosts?.data?.hosts ?? []
+    state.suggestedHost = hosts?.data?.suggested_uuid ?? state.suggestedHost
+}
+
+let accountTimer: ReturnType<typeof setTimeout> | undefined
+function searchAccounts() {
+    clearTimeout(accountTimer)
+    const term = state.account.search.trim()
+    if (term.length < 2) {
+        state.account.results = []
+        return
+    }
+    accountTimer = setTimeout(async () => {
+        try {
+            const response = await companyService.getCompanies({ page: 1, search: apiSearchParam(term) })
+            if (state.account.search.trim() === term) state.account.results = responseRows(response).slice(0, 8)
+        } catch (error: any) {
+            state.error = error
+        }
+    }, 250)
+}
+
+async function chooseAccount(company: any) {
+    if (!window.confirm(t('superadmin.teamMeetings.account.confirm', { name: company.name }))) return
+    state.account.saving = true
+    state.error = {}
+    try {
+        applyHosts(await salesMeetingService.chooseAccount(company.uuid))
+        state.account.picking = false
+        state.account.search = ''
+        state.account.results = []
+        await load()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.account.saving = false
 }
 
 function selectScope(scope: string) {
