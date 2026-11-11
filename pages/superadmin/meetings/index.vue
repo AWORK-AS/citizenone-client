@@ -12,11 +12,11 @@
                     :subtitle="$t('superadmin.teamMeetings.description')">
                     <template #actions>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary hover:opacity-90 disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(true)">
+                            <button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary hover:opacity-90 disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(true)">
                                 <Icon name="ph:video-camera" class="w-4 h-4" />
                                 {{ $t('superadmin.teamMeetings.startNow') }}
                             </button>
-                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(false)">
+                            <button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(false)">
                                 <Icon name="ph:calendar-plus" class="w-4 h-4" />
                                 {{ $t('superadmin.salesMeetings.plan') }}
                             </button>
@@ -297,6 +297,7 @@ async function chooseAccount(company: any) {
     try {
         applyHosts(await salesMeetingService.chooseAccount(company.uuid))
         state.account.picking = false
+        state.error = {}
         state.account.search = ''
         state.account.results = []
         await load()
@@ -312,6 +313,12 @@ function selectScope(scope: string) {
 }
 
 function openForm(startNow: boolean) {
+    // Always on the page; without our own account chosen, the picker comes first.
+    if (!state.configured) {
+        state.account.picking = true
+        state.error = { message: t('superadmin.teamMeetings.account.chooseFirst') }
+        return
+    }
     state.saved = ''
     form.start_now = startNow
     form.title = ''

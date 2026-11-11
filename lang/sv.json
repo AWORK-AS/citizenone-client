@@ -17239,7 +17239,8 @@
                 "askAdmin": "En kollega med åtkomst till företag måste välja vårt eget konto innan mötena kan användas.",
                 "current": "Mötena ligger i kontot {name}.",
                 "change": "Byt",
-                "confirm": "Använda {name} som CitizenOnes eget konto för möten?"
+                "confirm": "Använda {name} som CitizenOnes eget konto för möten?",
+                "chooseFirst": "Välj först CitizenOnes eget konto nedan. Sedan kan du starta och planera möten."
             }
         },
         "salesStats": {
