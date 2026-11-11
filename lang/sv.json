@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Avvisa insatstimme",
+                "help": "Timmen ligger kvar i historiken men räknas inte i uttag och fakturering förrän konsulten har rättat den.",
+                "reason": "Orsak",
+                "submit": "Avvisa",
+                "action": "Avvisa",
+                "badge": "Avvisad",
+                "done": "Timmen är avvisad"
+            },
             "contributionMargin": "Däkningsgrad",
             "download": {
                 "download": "Ladda ner",

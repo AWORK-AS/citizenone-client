@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Reject intervention hour",
+                "help": "The hour stays in the history but is left out of exports and billing until the consultant corrects it.",
+                "reason": "Reason",
+                "submit": "Reject",
+                "action": "Reject",
+                "badge": "Rejected",
+                "done": "The hour is rejected"
+            },
             "contributionMargin": "Contribution margin",
             "download": {
                 "download": "Download",
