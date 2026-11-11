@@ -3,7 +3,9 @@
          (citizenUuid); in the questionnaire inbox there is none, so a single patient picker
          comes first. What can be sent, and what is already waiting, comes from the server
          (send-options) for the chosen patient. -->
-    <Modal size="md" :title="props.title || $t('questionnaireInbox.sendQuestionnaire')" :show="props.isModalOpen"
+    <!-- allowOverflow: until something is picked the dialog is short, and the list of forms and
+         surveys was cut off at its bottom edge after two options. -->
+    <Modal size="md" allowOverflow :title="props.title || $t('questionnaireInbox.sendQuestionnaire')" :show="props.isModalOpen"
         @close="closeModal">
         <template #modal-body>
             <div class="space-y-5">
