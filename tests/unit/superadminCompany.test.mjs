@@ -11,6 +11,7 @@ import {
     billingLabel,
     companyStatusPill,
     companyTabs,
+    upcomingMeetingsBadge,
     eventIcon,
     eventParams,
     eventTone,
@@ -47,12 +48,12 @@ test('billing label: card, invoice, Leverandørservice, billed from e-conomic', 
 
 test('tabs: in order, filtered by permission, with the company in every link', () => {
     const all = companyTabs('abc', () => true)
-    assert.deepEqual(all.map((t) => t.key), ['overview', 'accounts', 'licenses', 'apps', 'agreements', 'invoices', 'history', 'edit', 'migration'])
+    assert.deepEqual(all.map((t) => t.key), ['overview', 'accounts', 'licenses', 'apps', 'agreements', 'invoices', 'history', 'meetings', 'edit', 'migration'])
     assert.equal(all.find((t) => t.key === 'licenses').href, '/superadmin/companies/abc/license-overview')
     assert.equal(all.find((t) => t.key === 'history').labelKey, 'superadmin.companyHeader.tabs.history')
 
     const supporter = companyTabs('abc', (p) => ['view_companies', 'view_accounts', 'manage_imports'].includes(p))
-    assert.deepEqual(supporter.map((t) => t.key), ['overview', 'accounts', 'licenses', 'apps', 'history', 'migration'])
+    assert.deepEqual(supporter.map((t) => t.key), ['overview', 'accounts', 'licenses', 'apps', 'history', 'meetings', 'migration'])
 })
 
 test('active tab: sub-pages count as their tab', () => {
@@ -114,4 +115,17 @@ test('event tone and icon', () => {
 test('event params: nulls dropped, booleans as numbers', () => {
     assert.deepEqual(eventParams({ params: { number: 1001, name: null, agreement: true, empty: '' } }), { number: 1001, agreement: 1 })
     assert.deepEqual(eventParams({ params: undefined }), {})
+})
+
+test('the Meetings tab counts meetings still to come and pulses for today', () => {
+    const now = new Date('2026-11-11T10:00:00')
+    const meetings = [
+        { status: 'scheduled', starts_at: '2026-11-11T14:00:00', ends_at: '2026-11-11T14:30:00' },
+        { status: 'scheduled', starts_at: '2026-11-20T09:00:00', ends_at: '2026-11-20T09:30:00' },
+        { status: 'finished', starts_at: '2026-11-10T09:00:00', ends_at: '2026-11-10T09:30:00' },
+        { status: 'cancelled', starts_at: '2026-11-12T09:00:00', ends_at: '2026-11-12T09:30:00' },
+    ]
+    assert.deepEqual(upcomingMeetingsBadge(meetings, now), { count: 2, soon: true })
+    assert.deepEqual(upcomingMeetingsBadge(meetings.slice(1), now), { count: 1, soon: false })
+    assert.deepEqual(upcomingMeetingsBadge([], now), { count: 0, soon: false })
 })

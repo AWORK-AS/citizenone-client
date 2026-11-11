@@ -16440,7 +16440,7 @@
         "salesMeetings": {
             "title": "Online-møder",
             "plan": "Planlæg online-møde",
-            "notConfigured": "Salgsmøder er ikke sat op endnu. Sæt MEETINGS_SALES_COMPANY_ID til CitizenOnes egen konto.",
+            "notConfigured": "Vælg først CitizenOnes egen konto under Møder i menuen.",
             "startsAt": "Tidspunkt",
             "minutes": "Varighed",
             "host": "Vært",
@@ -16482,7 +16482,8 @@
                     "notes": "Opsummeringen er mødets noter. Læs dem igennem, før du sender.",
                     "none": "Der er hverken resumé eller noter fra mødet. Skriv selv kort, hvad I talte om."
                 }
-            }
+            },
+            "customerIntro": "Møder vi holder med kunden. Vi er vært, og kundens folk får et link på mail. Det er ikke kundens egen Online Meetings-app."
         },
         "salesInquiries": {
             "pageTitle": "Henvendelser",
@@ -17073,8 +17074,10 @@
                 "invoices": "Fakturaer",
                 "history": "Historik",
                 "edit": "Redigér",
-                "migration": "Migrering"
-            }
+                "migration": "Migrering",
+                "meetings": "Møder"
+            },
+            "meetingsBadge": "{count} kommende møde | {count} kommende møder"
         },
         "companyHistory": {
             "title": "Historik",

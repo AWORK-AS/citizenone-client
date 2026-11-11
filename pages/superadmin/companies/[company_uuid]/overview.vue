@@ -207,9 +207,6 @@
                         <ModulesSuperadminCompanyBillingMethod :companyUuid="(companyUuid as string)"
                             :underAgreement="!!subscriptionAgreement" />
 
-                        <!-- Demos and follow-ups with this customer as online meetings. -->
-                        <ModulesSuperadminSalesMeetingsPanel :companyUuid="(companyUuid as string)"
-                            :canPlan="can('manage_companies')" :defaultTitle="`CitizenOne · ${state.company?.name ?? ''}`" />
 
                     </div>
                 </LoadingSpinner>

@@ -70,6 +70,13 @@
                     :aria-current="tab.key === active ? 'page' : undefined">
                     <Icon :name="tab.icon" class="w-4 h-4 shrink-0" aria-hidden="true" />
                     {{ $t(tab.labelKey) }}
+                    <!-- Meetings still to come with this customer; pulses when one is today or on now. -->
+                    <span v-if="tab.key === 'meetings' && meetingBadge.count"
+                        class="relative inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-tertiary text-white text-[11px] font-semibold tabular-nums"
+                        :title="$t('superadmin.companyHeader.meetingsBadge', { count: meetingBadge.count }, meetingBadge.count)">
+                        <span v-if="meetingBadge.soon" class="absolute inset-0 rounded-full bg-tertiary animate-ping opacity-60" aria-hidden="true" />
+                        <span class="relative">{{ meetingBadge.count }}</span>
+                    </span>
                 </NuxtLink>
             </nav>
         </div>
@@ -79,7 +86,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { activeCompanyTab, billingLabel, companyStatusPill, companyTabs, TONE_PILL_VARIANT } from '@/composables/superadminCompany'
+import { activeCompanyTab, billingLabel, companyStatusPill, companyTabs, TONE_PILL_VARIANT, upcomingMeetingsBadge } from '@/composables/superadminCompany'
+import { salesMeetingService } from '@/components/api/superadmin/SalesMeetingService'
 import { useCompanySummary } from '@/composables/useCompanySummary'
 import { usePermissions } from '@/composables/usePermissions'
 
@@ -111,6 +119,19 @@ function formatDate(value: string | null | undefined) {
     return date.toLocaleDateString(locale.value === 'en' ? 'en-GB' : 'da-DK', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-onMounted(() => ensure())
-watch(uuid, () => ensure())
+const meetingBadge = ref({ count: 0, soon: false })
+
+async function loadMeetingBadge() {
+    if (!uuid.value || !can('view_companies')) return
+    try {
+        const response = await salesMeetingService.companyMeetings(uuid.value)
+        meetingBadge.value = upcomingMeetingsBadge(response?.data ?? [])
+    } catch {
+        // Only a badge: without it the tab still works.
+        meetingBadge.value = { count: 0, soon: false }
+    }
+}
+
+onMounted(() => { ensure(); loadMeetingBadge() })
+watch(uuid, () => { ensure(); loadMeetingBadge() })
 </script>

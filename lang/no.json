@@ -16355,7 +16355,7 @@
         "salesMeetings": {
             "title": "Nettmøter",
             "plan": "Planlegg nettmøte",
-            "notConfigured": "Salgsmøter er ikke satt opp ennå. Sett MEETINGS_SALES_COMPANY_ID til CitizenOnes egen konto.",
+            "notConfigured": "Velg først CitizenOnes egen konto under Møter i menyen.",
             "startsAt": "Tidspunkt",
             "minutes": "Varighet",
             "host": "Vert",
@@ -16397,7 +16397,8 @@
                     "notes": "Oppsummeringen er møtenotatene. Les gjennom før du sender.",
                     "none": "Det finnes verken sammendrag eller notater fra møtet. Skriv kort selv hva dere snakket om."
                 }
-            }
+            },
+            "customerIntro": "Møter vi holder med kunden. Vi er vert, og kundens folk får en lenke på e-post. Det er ikke kundens egen Online Meetings-app."
         },
         "salesInquiries": {
             "pageTitle": "Henvendelser",
@@ -16988,8 +16989,10 @@
                 "invoices": "Fakturaer",
                 "history": "Historikk",
                 "edit": "Rediger",
-                "migration": "Migrering"
-            }
+                "migration": "Migrering",
+                "meetings": "Møter"
+            },
+            "meetingsBadge": "{count} kommende møte | {count} kommende møter"
         },
         "companyHistory": {
             "title": "Historikk",
