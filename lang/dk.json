@@ -8563,6 +8563,7 @@
         "employees": "Medarbejdere",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "addCitizen": "Tilføj indsats",
             "shift": {
                 "alsoCreate": "Opret også en vagt",
                 "employee": "Medarbejder",

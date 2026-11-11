@@ -259,6 +259,13 @@
                 </div>
             </div>
             <ModulesUserMyCalendarReminderSelect v-model="state.formSchedule.reminder_minutes" />
+            <!-- A booking made without an indsats can get it afterwards (an existing one is not changed here). -->
+            <div class="space-y-1" v-if="props.formType === 'update' && !props.selectedSchedule?.citizen_id">
+                <FormLabel for="citizen_uuid" :label="$t('events.form.addCitizen')" />
+                <FormSelect id="citizen_uuid" name="citizen_uuid" :options="state.options.citizens"
+                    v-model="state.formSchedule.citizen_uuid" />
+                <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
+            </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
@@ -550,6 +557,7 @@ onMounted(() => {
         meeting_url: props.selectedSchedule.meeting_url ?? '',
         is_video_consultation: props.selectedSchedule.is_video_consultation ?? false,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
+        citizen_uuid: null as string | null,
         users_uuid: props.selectedSchedule.users_uuid,
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
