@@ -61,6 +61,10 @@
                                 </template>
                             </span>
                         </div>
+                        <p v-if="row.period" class="mt-1 text-xxs tabular-nums"
+                            :class="row.period.remaining_hours < 0 ? 'text-red-600' : 'text-gray-500'">
+                            {{ periodText(row.period) }}
+                        </p>
                     </NuxtLink>
                 </li>
             </ul>
@@ -73,7 +77,7 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import { formatWeekHours, weekProgress, weekStatus, type CitizenWeekRow } from '@/composables/citizenWeeklyHours'
+import { formatWeekHours, weekProgress, weekStatus, type CitizenPeriodHours, type CitizenWeekRow } from '@/composables/citizenWeeklyHours'
 import type { Error } from '@/types'
 
 const { t, locale } = useI18n()
@@ -110,6 +114,16 @@ function statusText(row: CitizenWeekRow) {
         default:
             return t('myDay.citizenHours.remaining', { hours })
     }
+}
+
+function periodText(period: CitizenPeriodHours) {
+    const values = {
+        end: moment(period.end_date).format('DD.MM.YYYY'),
+        hours: formatWeekHours(Math.abs(period.remaining_hours), locale.value),
+        given: formatWeekHours(period.given_hours, locale.value),
+    }
+
+    return period.remaining_hours < 0 ? t('myDay.citizenHours.periodOver', values) : t('myDay.citizenHours.periodLeft', values)
 }
 
 async function fetchWeek() {

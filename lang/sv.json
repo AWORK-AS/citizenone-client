@@ -18797,6 +18797,8 @@
             "remaining": "{hours} h kvar",
             "title": "Mina timmar per @:terms.citizen{''}",
             "usedOfGiven": "{used} av {given} h",
+            "periodLeft": "Beviljat till {end}: {hours} h kvar av {given}",
+            "periodOver": "Beviljat till {end}: {hours} h över av {given}",
             "planned": "{hours} h planerade",
             "week": "Vecka {week}"
         }

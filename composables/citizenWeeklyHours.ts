@@ -14,6 +14,16 @@ export type CitizenWeekRow = {
     unplanned_hours?: number
     used_hours: number
     remaining_hours: number
+    /** The own hours over the grant period running that week; null without one that ends. */
+    period?: CitizenPeriodHours | null
+}
+
+export type CitizenPeriodHours = {
+    start_date: string
+    end_date: string
+    given_hours: number
+    used_hours: number
+    remaining_hours: number
 }
 
 /**
