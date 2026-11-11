@@ -173,6 +173,45 @@
     border: 1px solid #d1d5db;
 }
 
+/* Language switch: small, top-right, out of the way of the booking steps. */
+.co-widget__languages {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.co-widget__language {
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    min-width: 2.25rem;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--co-secondary);
+    cursor: pointer;
+    opacity: 0.75;
+}
+
+.co-widget__language:hover {
+    opacity: 1;
+}
+
+.co-widget__language--active {
+    background: var(--co-primary);
+    border-color: var(--co-primary);
+    color: #fff;
+    opacity: 1;
+}
+
+.co-widget__language:focus-visible {
+    outline: 2px solid var(--co-primary);
+    outline-offset: 2px;
+}
+
 .co-widget__confirmation {
     text-align: center;
     padding: 1.5rem 0.5rem;

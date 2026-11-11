@@ -27,7 +27,8 @@ function mount() {
     }
 
     const apiBaseUrl = currentScript?.getAttribute('data-api-base') || 'https://app.citizenone.dk/api'
-    const locale = currentScript?.getAttribute('data-locale') || 'en'
+    // Optional. Without data-locale the widget uses the visitor's browser language.
+    const locale = currentScript?.getAttribute('data-locale') || undefined
 
     const host = document.createElement('div')
     host.id = `citizenone-booking-widget-${embedToken}`
