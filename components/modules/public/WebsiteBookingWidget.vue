@@ -1,5 +1,14 @@
 <template>
-    <div class="co-widget" :style="themeVars">
+    <div class="co-widget" :style="themeVars" :lang="htmlLang">
+        <div class="co-widget__languages" role="group" aria-label="Language">
+            <button type="button" v-for="option in WIDGET_LOCALE_OPTIONS" :key="option.value"
+                class="co-widget__language" :class="{ 'co-widget__language--active': activeLocale === option.value }"
+                :lang="option.value === 'dk' ? 'da' : option.value" :title="option.name" :aria-label="option.name"
+                :aria-pressed="activeLocale === option.value" @click="chooseLocale(option.value)">
+                {{ option.short }}
+            </button>
+        </div>
+
         <div v-if="state.step === 'loading'" class="co-widget__spinner">
             {{ t('loading') }}
         </div>
@@ -131,6 +140,14 @@
 import { localDateString } from '@/composables/localDate'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { PublicWebsiteBookingClient } from '@/components/api/public/PublicWebsiteBookingClient'
+import {
+    WIDGET_LOCALE_OPTIONS,
+    browserLanguages,
+    readStoredWidgetLocale,
+    resolveWidgetLocale,
+    storeWidgetLocale,
+    type WidgetLocale,
+} from '@/composables/widgetLocale'
 
 const props = defineProps<{
     apiBaseUrl: string
@@ -138,7 +155,8 @@ const props = defineProps<{
     locale?: string
 }>()
 
-const client = new PublicWebsiteBookingClient(props.apiBaseUrl, props.embedToken)
+// htmlLang is the BCP 47 tag ('da', not our internal 'dk'), which is what Accept-Language expects.
+const client = new PublicWebsiteBookingClient(props.apiBaseUrl, props.embedToken, () => htmlLang.value)
 
 const LABELS: Record<string, Record<string, string>> = {
     en: {
@@ -239,13 +257,32 @@ const LABELS: Record<string, Record<string, string>> = {
     },
 }
 
-// 'da' is an alias for 'dk' so embeds published before the dk/no/sv locales
-// were added (which passed data-locale="da") keep showing Danish instead of
-// silently falling back to English.
+// See composables/widgetLocale.ts for the priority order. 'da' stays accepted
+// as an alias for 'dk' so embeds that passed data-locale="da" keep Danish.
+// The first value only uses the clinic's setting so server-rendered markup
+// matches the first client render; browser language and the visitor's own
+// pick are applied on mount.
+const activeLocale = ref<WidgetLocale>(resolveWidgetLocale({ explicit: props.locale }))
+
+const htmlLang = computed(() => (activeLocale.value === 'dk' ? 'da' : activeLocale.value))
+
 function t(key: string): string {
-    const requested = props.locale === 'da' ? 'dk' : props.locale
-    const locale = requested && LABELS[requested] ? requested : 'en'
-    return LABELS[locale][key] ?? key
+    return LABELS[activeLocale.value]?.[key] ?? LABELS.en[key] ?? key
+}
+
+function chooseLocale(locale: WidgetLocale) {
+    if (activeLocale.value === locale) return
+    activeLocale.value = locale
+    storeWidgetLocale(locale)
+
+    // A message from the server was written in the old language. On the
+    // first step, load again so it comes back in the new one; later steps
+    // keep the visitor's progress and just drop the stale message.
+    if (state.step === 'services') {
+        loadInitial()
+    } else {
+        state.error = ''
+    }
 }
 
 const today = localDateString()
@@ -305,6 +342,17 @@ const themeVars = computed(() => ({
 }))
 
 onMounted(async () => {
+    activeLocale.value = resolveWidgetLocale({
+        stored: readStoredWidgetLocale(),
+        explicit: props.locale,
+        browserLanguages: browserLanguages(),
+    })
+
+    await loadInitial()
+})
+
+async function loadInitial() {
+    state.error = ''
     try {
         const [configResponse, departmentsResponse] = await Promise.all([
             client.getConfig(),
@@ -318,7 +366,7 @@ onMounted(async () => {
         state.error = error?.message || t('noServices')
         state.step = 'services'
     }
-})
+}
 
 async function loadServices() {
     try {

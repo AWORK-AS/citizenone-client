@@ -20,7 +20,8 @@ definePageMeta({
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const embedToken = computed(() => route.params.embedToken as string)
-const locale = computed(() => (route.query.locale as string) || 'en')
+// No ?locale= means "detect": the widget falls back to the visitor's browser language.
+const locale = computed(() => (route.query.locale as string) || undefined)
 </script>
 
 <style scoped>

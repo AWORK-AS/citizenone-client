@@ -13,9 +13,14 @@ export class PublicWebsiteBookingClient {
 
     private embedToken: string
 
-    constructor(apiBaseURL: string, embedToken: string) {
+    // The widget's current language, sent as Accept-Language so the backend's
+    // messages (errors, validation) match the page - see SetGuestRequestLocale.
+    private language: () => string | undefined
+
+    constructor(apiBaseURL: string, embedToken: string, language: () => string | undefined = () => undefined) {
         this.apiBaseURL = apiBaseURL.replace(/\/$/, '')
         this.embedToken = embedToken
+        this.language = language
     }
 
     async getConfig(): Promise<any> {
@@ -42,12 +47,16 @@ export class PublicWebsiteBookingClient {
     }
 
     private async request(path: string, method: string = 'GET', body?: object): Promise<any> {
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+        const language = this.language()
+        if (language) headers['Accept-Language'] = language
+
         const response = await fetch(`${this.apiBaseURL}${path}`, {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
+            headers,
             body: body ? JSON.stringify(body) : undefined,
         })
 
