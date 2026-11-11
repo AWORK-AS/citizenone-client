@@ -17240,7 +17240,8 @@
                 "current": "Mötena ligger i kontot {name}.",
                 "change": "Byt",
                 "confirm": "Använda {name} som CitizenOnes eget konto för möten?",
-                "chooseFirst": "Välj först CitizenOnes eget konto nedan. Sedan kan du starta och planera möten."
+                "chooseFirst": "Välj först CitizenOnes eget konto nedan. Sedan kan du starta och planera möten.",
+                "settings": "Inställningar för möten"
             }
         },
         "salesStats": {

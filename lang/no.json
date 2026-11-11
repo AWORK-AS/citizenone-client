@@ -17240,7 +17240,8 @@
                 "current": "Møtene ligger i kontoen {name}.",
                 "change": "Bytt",
                 "confirm": "Bruke {name} som CitizenOnes egen konto for møter?",
-                "chooseFirst": "Velg først CitizenOnes egen konto nedenfor. Da kan du starte og planlegge møter."
+                "chooseFirst": "Velg først CitizenOnes egen konto nedenfor. Da kan du starte og planlegge møter.",
+                "settings": "Innstillinger for møter"
             }
         },
         "salesStats": {
