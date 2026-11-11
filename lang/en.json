@@ -20104,6 +20104,8 @@
             "sortOrder": "Order",
             "isActive": "Active",
             "isActiveHelp": "An inactive hour type cannot be chosen on new periods, but is kept on existing ones.",
+            "manualRegistration": "Can be registered by hand",
+            "manualRegistrationHelp": "Off: staff cannot register hours of this type; it follows the grant, e.g. administration time. Admins can still register.",
             "system": "System",
             "systemHelp": "A system type comes with the setup. It can be edited but not deleted.",
             "systemNotDeletable": "A system type cannot be deleted",

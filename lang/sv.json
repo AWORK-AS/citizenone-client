@@ -20019,6 +20019,8 @@
             "sortOrder": "Ordning",
             "isActive": "Aktiv",
             "isActiveHelp": "En inaktiv timtyp kan inte väljas på nya perioder, men behålls på befintliga.",
+            "manualRegistration": "Kan registreras manuellt",
+            "manualRegistrationHelp": "Avslaget kan medarbetare inte registrera timmar av denna typ. Den följer beviljandet, t.ex. administrationstid. Administratörer kan fortfarande registrera.",
             "system": "System",
             "systemHelp": "En systemtyp följer med från start. Den kan ändras men inte tas bort.",
             "systemNotDeletable": "En systemtyp kan inte tas bort",

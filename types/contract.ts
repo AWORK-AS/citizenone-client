@@ -11,6 +11,8 @@ export interface ContractHourType {
     billing_basis: HourBillingBasis
     sort_order: number | null
     is_active: boolean
+    /** Off: staff cannot register hours of the type; it follows the grant. */
+    manual_registration?: boolean
 }
 
 export interface PaymentTerm {

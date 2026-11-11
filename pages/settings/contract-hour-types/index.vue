@@ -48,6 +48,7 @@
                                         <th class="co-th">{{ $t('socialWelfare.hourTypes.productNumber') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.hourTypes.sortOrder') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.hourTypes.isActive') }}</th>
+                                        <th class="co-th">{{ $t('socialWelfare.hourTypes.manualRegistration') }}</th>
                                         <th class="co-th"></th>
                                     </tr>
                                 </thead>
@@ -68,6 +69,7 @@
                                         <td class="co-td text-slate-500">{{ type.economic_product_number || '-' }}</td>
                                         <td class="co-td text-slate-500 tabular-nums">{{ type.sort_order ?? '-' }}</td>
                                         <td class="co-td text-slate-500">{{ type.is_active ? $t('yes') : $t('no') }}</td>
+                                        <td class="co-td text-slate-500">{{ type.manual_registration !== false ? $t('yes') : $t('no') }}</td>
                                         <td class="co-td">
                                             <div class="flex items-center justify-end gap-2">
                                                 <Tooltip :text="$t('edit')" position="left">
@@ -140,6 +142,13 @@
                                         {{ $t('socialWelfare.hourTypes.isActive') }}
                                     </label>
                                 </Tooltip>
+                                <Tooltip :text="$t('socialWelfare.hourTypes.manualRegistrationHelp')" wrap position="top">
+                                    <label class="flex items-center gap-2 text-sm text-slate-700">
+                                        <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                            v-model="state.form.manual_registration" />
+                                        {{ $t('socialWelfare.hourTypes.manualRegistration') }}
+                                    </label>
+                                </Tooltip>
                             </div>
                             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <FormButton type="button" buttonStyle="cancel" @click="state.isModalOpen = false">{{ $t('cancel') }}</FormButton>
@@ -182,6 +191,7 @@ const blank = () => ({
     billing_basis: 'delivered' as 'delivered' | 'granted' | 'included',
     sort_order: '' as any,
     is_active: true,
+    manual_registration: true,
 })
 
 const state = reactive({
@@ -227,6 +237,7 @@ function openModal(type: ContractHourType | null) {
         billing_basis: type.billing_basis,
         sort_order: type.sort_order ?? '',
         is_active: type.is_active !== false,
+        manual_registration: type.manual_registration !== false,
     } : blank()
     state.isModalOpen = true
 }
@@ -248,6 +259,7 @@ async function save() {
             billing_basis: state.form.billing_basis,
             sort_order: state.form.sort_order === '' ? null : Number(state.form.sort_order),
             is_active: state.form.is_active,
+            manual_registration: state.form.manual_registration,
         }
 
         if (state.selected?.uuid) {
