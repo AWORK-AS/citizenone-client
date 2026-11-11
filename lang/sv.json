@@ -6257,7 +6257,9 @@
             "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
             "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen.",
             "compensatoryHours": "Kompensationstimmar använda",
-            "citizensHint": "Visar bara @:terms.citizens{''} som medarbetaren har åtkomst till. Saknas någon, koppla medarbetaren till samma avdelning, en medarbetargrupp eller som kontaktperson."
+            "citizensHint": "Visar bara @:terms.citizens{''} som medarbetaren har åtkomst till. Saknas någon, koppla medarbetaren till samma avdelning, en medarbetargrupp eller som kontaktperson.",
+            "registersCareHours": "Registrera som insatstimmar",
+            "registersCareHoursHint": "Avmarkera om timmarna på det här passet inte ska registreras som insatstimmar. Redan registrerade timmar ändras inte."
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -12563,6 +12565,8 @@
                 "autoAiForNewEmployeesHint": "En ny medarbetare får en ledig AI-licens när den skapas. Finns ingen ledig skapas medarbetaren utan",
                 "calendarSubscriptions": "Användarna kan prenumerera på sin kalender",
                 "calendarSubscriptionsHint": "Avstängt kan kalendern inte längre läggas till i Outlook, Google eller iPhone, och befintliga prenumerationer slutar",
+                "scheduleRegistersCareHours": "Medborgare på ett pass ger insatstimmar",
+                "scheduleRegistersCareHoursHint": "Avstängt registreras inga insatstimmar när en @:terms.citizen{''} sätts på ett pass. Redan registrerade timmar ändras inte",
                 "calendarEventsOwnerOnly": "Bara de som är med i en händelse kan ändra eller ta bort den",
                 "calendarEventsOwnerOnlyHint": "Kollegor ser fortfarande varandras händelser, men bara den som skapade den, ägaren och de inbjudna kan redigera, ta bort, ställa in eller markera den. Chefer, administratörer och roller med rättigheten \"Hantera kollegors kalenderhändelser\" kan alltid",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",

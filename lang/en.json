@@ -6312,7 +6312,9 @@
             "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
             "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
             "compensatoryHours": "Compensatory hours used",
-            "citizensHint": "Only shows @:terms.citizens{''} this employee has access to. If one is missing, add the employee to the same department, an employee group, or as a contact person."
+            "citizensHint": "Only shows @:terms.citizens{''} this employee has access to. If one is missing, add the employee to the same department, an employee group, or as a contact person.",
+            "registersCareHours": "Register as intervention hours",
+            "registersCareHoursHint": "Untick if the hours on this shift should not be registered as intervention hours. Hours already registered are not changed."
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -12568,6 +12570,8 @@
                 "autoAiForNewEmployeesHint": "A new employee gets a free AI seat when created. With none free, the employee is created without one",
                 "calendarSubscriptions": "Users can subscribe to their calendar",
                 "calendarSubscriptionsHint": "When off, the calendar can no longer be added to Outlook, Google or iPhone, and existing subscriptions stop",
+                "scheduleRegistersCareHours": "Citizens on a shift give intervention hours",
+                "scheduleRegistersCareHoursHint": "When off, no intervention hours are registered when a @:terms.citizen{''} is put on a shift. Hours already registered are not changed",
                 "calendarEventsOwnerOnly": "Only the people on an event can change or delete it",
                 "calendarEventsOwnerOnlyHint": "Colleagues still see each other's events, but only the person who created it, its owner and the invitees can edit, delete, cancel or mark it. Managers, Admins and roles with the right \"Manage colleagues' calendar events\" always can",
                 "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",

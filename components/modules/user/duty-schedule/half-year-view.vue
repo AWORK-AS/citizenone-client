@@ -1467,6 +1467,7 @@ async function saveShift(shiftDetails: any) {
         date_time_end: shiftDetails?.date_time_end,
         user_uuid: shiftDetails?.user_uuid,
         citizen_uuid: shiftDetails?.citizens,
+        registers_care_hours: shiftDetails?.registers_care_hours,
         schedule_tag_uuid: shiftDetails?.schedule_tag_uuid,
         department_uuid: shiftDetails?.department_uuid,
         use_compensatory_time: shiftDetails?.use_compensatory_time,
@@ -1544,6 +1545,7 @@ async function editSchedule(employee: any, employeeIndex: number, shift: any) {
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         use_compensatory_time: shift?.use_compensatory_time,
+        registers_care_hours: shift?.registers_care_hours,
         shift_span_position: shift?.shift_span_position,
     }, (uuid: string) => dutyScheduleService.getDutySchedule(uuid))
     state.modal.isEditShiftOpen = true
@@ -1563,6 +1565,7 @@ async function updateSelectedSchedule(shiftDetails: any) {
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
         user_uuid: newEmployeeUuid,
         citizen_uuid: shiftDetails.citizens,
+        registers_care_hours: shiftDetails.registers_care_hours,
         schedule_tag_uuid: shiftDetails.schedule_tag_uuid,
         department_uuid: shiftDetails.department_uuid,
         note: shiftDetails.note,

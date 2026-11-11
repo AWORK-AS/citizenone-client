@@ -146,6 +146,7 @@ const state = reactive({
         schedule_tag_uuid: [],
         department_uuid: [],
         use_compensatory_time: false,
+        registers_care_hours: true,
         note: '',
         do_not_count_sick_leave: false,
     },

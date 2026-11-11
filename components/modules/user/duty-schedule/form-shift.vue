@@ -343,6 +343,16 @@
                     <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
                 </div>
+                <!-- Whether the citizens on this shift get care hours (Indsatstimer) from it. Only
+                     offered while the company switch is on; off there means no shift registers. -->
+                <div class="space-y-1" v-if="showRegistersCareHours">
+                    <div class="w-fit flex items-center cursor-pointer" data-testid="registers-care-hours-toggle"
+                        @click="state.formShift.registers_care_hours = !state.formShift.registers_care_hours">
+                        <FormCheckbox id="registers_care_hours" :value="state.formShift.registers_care_hours" />
+                        {{ $t('dutySchedules.form.registersCareHours') }}
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('dutySchedules.form.registersCareHoursHint') }}</p>
+                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
@@ -496,6 +506,7 @@ const state = reactive({
         schedule_tag_uuid: [],
         department_uuid: [],
         use_compensatory_time: false,
+        registers_care_hours: true,
         note: '',
         do_not_count_sick_leave: false,
         is_override_vacation_hours: false,
@@ -634,6 +645,8 @@ watch(() => props.selectedShift, (selectedShift: any) => {
     state.formShift.note = selectedShift.note
     state.formShift.do_not_count_sick_leave = selectedShift.do_not_count_sick_leave
     state.formShift.use_compensatory_time = selectedShift.use_compensatory_time
+    // A shift without the field (older data) registers hours, as it always did.
+    state.formShift.registers_care_hours = selectedShift.registers_care_hours !== false
     state.formShift.is_override_vacation_hours = selectedShift.is_override_vacation_hours ?? false
 }, { immediate: true, deep: true })
 
@@ -1097,6 +1110,12 @@ function isSameMinute(a: string, b: string) {
 
 // Only a changed date/time is something the employee really needs an email about;
 // a corrected shift type, tag or note usually isn't.
+// Care hours from a shift: the checkbox is only there while the company has the
+// switch on (default on) and a citizen is on the shift.
+const showRegistersCareHours = computed(() =>
+    userStore.getUser?.company?.schedule_registers_care_hours_enabled !== false
+    && (state.formShift.citizens?.length ?? 0) > 0)
+
 const hasTimesChanged = computed(() => {
     if (props.formType !== 'update' || !props.selectedShift) return false
     const { date_time_start, date_time_end } = submittedDateTimes()

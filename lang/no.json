@@ -6257,7 +6257,9 @@
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
             "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
             "compensatoryHours": "Avspaseringstimer brukt",
-            "citizensHint": "Viser bare @:terms.citizens{''} som den ansatte har tilgang til. Mangler en, knytt den ansatte til samme avdeling, en ansattgruppe eller som kontaktperson."
+            "citizensHint": "Viser bare @:terms.citizens{''} som den ansatte har tilgang til. Mangler en, knytt den ansatte til samme avdeling, en ansattgruppe eller som kontaktperson.",
+            "registersCareHours": "Registrer som tiltakstimer",
+            "registersCareHoursHint": "Fjern haken hvis timene på denne vakten ikke skal registreres som tiltakstimer. Allerede registrerte timer endres ikke."
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
@@ -12563,6 +12565,8 @@
                 "autoAiForNewEmployeesHint": "En ny medarbeider får en ledig AI-lisens når den opprettes. Er det ingen ledig, opprettes medarbeideren uten",
                 "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
                 "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
+                "scheduleRegistersCareHours": "Innbyggere på en vakt gir tiltakstimer",
+                "scheduleRegistersCareHoursHint": "Slått av registreres det ikke tiltakstimer når en @:terms.citizen{''} settes på en vakt. Allerede registrerte timer endres ikke",
                 "calendarEventsOwnerOnly": "Bare de som er med på et arrangement, kan endre eller slette det",
                 "calendarEventsOwnerOnlyHint": "Kolleger ser fortsatt hverandres arrangementer, men bare den som opprettet det, eieren og de inviterte kan redigere, slette, avlyse eller markere det. Ledere, administratorer og roller med rettigheten \"Administrer kollegers kalenderarrangementer\" kan alltid",
                 "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",
