@@ -18,13 +18,14 @@
                 </div>
 
                 <template v-else>
-                    <div class="flex items-center gap-x-3">
+                    <div class="flex items-center gap-x-3" v-if="!indsatsRequired">
                         <FormSwitch :value="state.linkToCitizen" @toggleSwitch="state.linkToCitizen = !state.linkToCitizen" />
                         <p class="text-sm">{{ $t('mileageLog.form.linkToCitizen') }}</p>
                     </div>
-                    <div class="space-y-1" v-if="state.linkToCitizen">
+                    <div class="space-y-1" v-if="state.linkToCitizen || indsatsRequired">
                         <FormLabel for="start-trip-citizen" :label="$t('mileageLog.form.selectCitizen')" />
                         <FormSelect id="start-trip-citizen" :options="state.citizenOptions" v-model="state.citizenUuid" />
+                        <FormError :error="v$?.citizenUuid?.$errors[0]?.$message.toString()" />
                     </div>
 
                     <ModulesUserMileageLogVehicleRegistrationField id="start-trip-vehicle-registration"
@@ -51,6 +52,8 @@ import { useMileageTracking } from '@/composables/mileageTracking'
 import { useAlert } from '@/composables/alert'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from '@vuelidate/core'
+import { useUserStore } from '@/store/user'
+import { helpers, requiredIf } from '@vuelidate/validators'
 import { fetchLastVehicleRegistration, normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 
 const props = defineProps({
@@ -75,7 +78,15 @@ const state = reactive({
     vehicleRegistration: '' as string,
 })
 
-const rules = computed(() => ({ vehicleRegistration: vehicleRegistrationRules(t) }))
+// Company switch: every trip is on an indsats.
+const indsatsRequired = computed(() => (useUserStore() as any).getUser?.company?.registration_mileage_per_indsats_enabled === true)
+
+const rules = computed(() => ({
+    vehicleRegistration: vehicleRegistrationRules(t, true),
+    citizenUuid: {
+        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => indsatsRequired.value)),
+    },
+}))
 const v$ = useVuelidate(rules, state)
 
 const isAcquiring = computed(() =>
@@ -119,7 +130,7 @@ async function onStart() {
     if (!(await v$.value.$validate())) return
     try {
         await tracking.start({
-            citizenUuid: state.linkToCitizen ? state.citizenUuid : null,
+            citizenUuid: state.linkToCitizen || indsatsRequired.value ? state.citizenUuid : null,
             vehicleRegistration: normalizeVehicleRegistration(state.vehicleRegistration),
         })
         successAlert(`${t('alert.success')}!`, t('mileageLog.tracking.alert.tripStarted'))

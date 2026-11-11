@@ -10656,7 +10656,9 @@
             "flagged": "Flaggad",
             "needsReview": "Behöver granskas",
             "route": "Rutt",
-            "vehicleRegistrationShort": "Reg.nr"
+            "vehicleRegistrationShort": "Reg.nr",
+            "createdAt": "Skapad",
+            "vehicleRegistrationMissing": "Reg.nr saknas"
         },
         "tracking": {
             "acquiringPosition": "Hämtar din plats …",
@@ -12600,6 +12602,8 @@
                 "hideAppStatisticsHint": "Tar bort \"Statistik\" från appens meny",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
+                "mileagePerIndsats": "Körning endast på insatser där det är påslaget",
+                "mileagePerIndsatsHint": "Körning måste kopplas till en insats och kan bara registreras när körning är påslaget för insatsen. Körning registreras som kilometer och ger inga timmar",
                 "mileageRequiresTransport": "Körning bara där transport är beviljad",
                 "mileageRequiresTransportHint": "En insats tillåter bara körning när avtalsperioden den dagen har transporttimmar (eller, utan avtalsperiod, när det accepterade erbjudandet har transport), om ingen har valt annat på insatsen eller för medarbetaren. Utlägg påverkas inte",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",

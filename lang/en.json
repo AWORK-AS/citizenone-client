@@ -10656,7 +10656,9 @@
             "flagged": "Flagged",
             "needsReview": "Needs review",
             "route": "Route",
-            "vehicleRegistrationShort": "Reg. no."
+            "vehicleRegistrationShort": "Reg. no.",
+            "createdAt": "Created",
+            "vehicleRegistrationMissing": "Reg. no. missing"
         },
         "tracking": {
             "acquiringPosition": "Getting your position …",
@@ -12605,6 +12607,8 @@
                 "hideAppStatisticsHint": "Removes \"Statistics\" from the app's menu",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
+                "mileagePerIndsats": "Mileage only on interventions where it is switched on",
+                "mileagePerIndsatsHint": "Mileage must be linked to an intervention and can only be registered when mileage is switched on for it. Mileage is registered as kilometres and gives no hours",
                 "mileageRequiresTransport": "Mileage only where transport is granted",
                 "mileageRequiresTransportHint": "A case allows mileage only when its contract period that day has transport hours (or, without a contract period, the accepted offer has transport), unless someone chose otherwise on the case or for the employee. Expenses are not affected",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
