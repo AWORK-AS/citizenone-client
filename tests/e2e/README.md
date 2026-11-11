@@ -968,3 +968,16 @@ with `page.route()`, so it writes nothing and needs no approver account.
 ```bash
 CO_TOKEN='<token>' npm run test:release-note-popup-and-polls
 ```
+
+### `roadmap-wishes-and-brief` — superadmin `CO_TOKEN`
+
+Superadmin → Roadmap: every item shows its fixed number (`#218`) and is found by
+searching it; "Copy for Claude" puts a brief starting `# Roadmap #<n>: <title>` on
+the clipboard; the Wishes tab lists new wishes, puts one on the roadmap (title
+defaults to the wish's first line) and declines another. The wish endpoints are
+stubbed, the roadmap list is real. Locally, a staff token needs
+`STAFF_REQUIRE_2FA=false` in the backend `.env`.
+
+```bash
+CO_TOKEN='<superadmin token>' npm run test:roadmap-wishes-and-brief
+```

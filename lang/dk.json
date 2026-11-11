@@ -14177,6 +14177,27 @@
                 "priority": "Prioritet",
                 "requests": "Flest ønsker"
             },
+            "copyBrief": "Kopiér til Claude",
+            "copyBriefHint": "Kopierer en færdig opgavebeskrivelse med nummer, tekst, kunder og noter",
+            "copied": "Kopieret – sæt ind hos Claude",
+            "copyFailed": "Kunne ikke kopiere til udklipsholderen.",
+            "wishes": {
+                "tab": "Ønsker",
+                "intro": "Ønsker sendt fra appen via \"Send et ønske\".",
+                "empty": "Ingen ønsker her.",
+                "status": {
+                    "new": "Nye",
+                    "on_roadmap": "På roadmap",
+                    "declined": "Afvist"
+                },
+                "toRoadmap": "Sæt på roadmap",
+                "decline": "Afvis",
+                "reopen": "Sæt tilbage til ny",
+                "newItem": "Nyt punkt",
+                "existingItem": "Eksisterende punkt",
+                "itemTitle": "Titel på roadmap-punktet",
+                "newItemHint": "Oprettes som kladde under Planlagt. Ønsket gemmes som oprindelig tekst, og kunden noteres som ønsker."
+            },
             "import": {
                 "button": "Importér",
                 "title": "Importér roadmap-punkter",
@@ -17758,7 +17779,10 @@
         },
         "previousRequests": {
             "title": "Dine tidligere anmodninger",
-            "empty": "Ingen tidligere anmodninger"
+            "empty": "Ingen tidligere anmodninger",
+            "onRoadmap": "På roadmap",
+            "onRoadmapAs": "På roadmap: {title}",
+            "read": "Læst"
         }
     },
     "no": "Nej",

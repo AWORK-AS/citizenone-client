@@ -27,8 +27,19 @@
                         {{ $t(`comingFunctions.status.${status}`) }}
                         <span class="rounded-full bg-white/70 px-1.5 text-[11px]">{{ itemsFor(status).length }}</span>
                     </button>
+                    <!-- Wishes sent from the app ("Send a wish"), to put on the roadmap or decline. -->
+                    <button type="button" @click="openWishes"
+                        class="flex items-center gap-x-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors"
+                        :class="state.activeStatus === 'wishes' ? 'bg-tertiary/10 text-tertiary' : 'text-gray-500 hover:bg-gray-100'">
+                        <Icon name="ph:shooting-star" class="h-3.5 w-3.5" /> {{ $t('superadmin.roadmap.wishes.tab') }}
+                        <span v-if="state.wishCounts.new" class="rounded-full bg-red-500 px-1.5 text-[11px] text-white">{{ state.wishCounts.new }}</span>
+                    </button>
                 </div>
 
+                <ModulesSuperadminRoadmapWishes v-if="state.activeStatus === 'wishes'" :items="state.items" :canManage="canManage"
+                    @counts="state.wishCounts = $event" @changed="fetchItems" @copy="copyBrief" />
+
+                <template v-if="state.activeStatus !== 'wishes'">
                 <div class="mb-4 flex flex-wrap items-center gap-2">
                     <input v-model="state.filters.search" type="search" :placeholder="$t('superadmin.roadmap.filters.search')"
                         class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-primary focus:outline-none sm:w-64" />
@@ -81,6 +92,7 @@
                                 <Icon v-if="canDrag" name="ph:dots-six-vertical" class="mt-0.5 h-5 w-5 flex-none cursor-grab text-gray-300" />
                                 <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                        <span v-if="item.number" class="font-mono text-xs text-gray-400">#{{ item.number }}</span>
                                         <span class="font-semibold text-gray-900">{{ item.title }}</span>
                                         <ModulesSuperadminStatusPill :variant="item.is_published ? 'success' : 'neutral'"
                                             :label="item.is_published ? $t('superadmin.roadmap.published') : $t('superadmin.roadmap.draft')" />
@@ -119,7 +131,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <div v-if="canManage" class="flex flex-none items-center gap-x-2">
+                            <div class="flex flex-none items-center gap-x-2">
+                                <Tooltip :text="$t('superadmin.roadmap.copyBriefHint')">
+                                    <FormButton buttonStyle="secondary" buttonSize="sm" @click="copyBrief(roadmapItemBrief(item))">
+                                        <Icon name="ph:copy" class="h-4 w-4" /> {{ $t('superadmin.roadmap.copyBrief') }}
+                                    </FormButton>
+                                </Tooltip>
+                                <template v-if="canManage">
                                 <FormButton buttonStyle="cancel" buttonSize="sm" @click="togglePublished(item)">
                                     {{ item.is_published ? $t('superadmin.roadmap.unpublish') : $t('superadmin.roadmap.publish') }}
                                 </FormButton>
@@ -129,10 +147,12 @@
                                 <FormButton buttonStyle="danger" buttonSize="sm" @click="confirmDelete(item)">
                                     <Icon name="ph:trash" class="h-4 w-4" />
                                 </FormButton>
+                                </template>
                             </div>
                         </li>
                     </ul>
                 </LoadingSpinner>
+                </template>
             </div>
 
             <Modal size="md" :title="state.selectedItem ? $t('superadmin.roadmap.editItem') : $t('superadmin.roadmap.newItem')"
@@ -187,6 +207,7 @@ import { industryService } from '@/components/api/superadmin/IndustryService'
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
+import { roadmapItemBrief } from '@/utils/roadmapBrief'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -229,6 +250,7 @@ const state = reactive({
     importDone: false,
     dragIndex: null as number | null,
     dragFrom: null as number | null,
+    wishCounts: {} as Record<string, number>,
 })
 
 const visibleItems = computed(() => {
@@ -265,7 +287,7 @@ function matchesFilters(item: any): boolean {
     if (filters.published && !!item.is_published !== (filters.published === '1')) return false
     if (filters.search) {
         const needle = filters.search.toLowerCase()
-        const haystack = [item.title, internal.original_text, internal.notes, internal.owner, internal.ticket, internal.source_ref, customerNames(item)]
+        const haystack = [item.number ? `#${item.number}` : '', item.title, internal.original_text, internal.notes, internal.owner, internal.ticket, internal.source_ref, customerNames(item)]
             .filter(Boolean).join(' ').toLowerCase()
         if (!haystack.includes(needle)) return false
     }
@@ -330,7 +352,31 @@ async function runImport(dryRun: boolean) {
 onMounted(() => {
     fetchItems()
     fetchIndustries()
+    fetchWishCounts()
 })
+
+function openWishes() {
+    state.activeStatus = 'wishes'
+}
+
+// Only the number of new wishes, for the dot on the tab; the list loads in its tab.
+async function fetchWishCounts() {
+    try {
+        const response = await roadmapItemService.getWishes('new')
+        state.wishCounts = response?.counts ?? {}
+    } catch {
+        state.wishCounts = {}
+    }
+}
+
+async function copyBrief(text: string) {
+    try {
+        await navigator.clipboard.writeText(text)
+        successAlert(t('superadmin.roadmap.copied'), '')
+    } catch {
+        state.error = t('superadmin.roadmap.copyFailed')
+    }
+}
 
 async function fetchItems() {
     state.isLoading = true

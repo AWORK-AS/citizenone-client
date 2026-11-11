@@ -73,7 +73,17 @@
                                 <ul v-else class="space-y-2 max-h-56 overflow-y-auto">
                                     <li v-for="(wish, index) in state.wishes" :key="index"
                                         class="rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 text-sm text-gray-700">
-                                        {{ wish.message }}
+                                        <!-- What became of it: on the roadmap (named once the item is public) or read. -->
+                                        <span v-if="wish.status === 'on_roadmap'"
+                                            class="mb-1 inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-xs font-medium text-[#205E77]">
+                                            <Icon name="ph:map-trifold" class="h-3.5 w-3.5" />
+                                            {{ wish.roadmap_item ? $t('wish.previousRequests.onRoadmapAs', { title: wish.roadmap_item.title }) : $t('wish.previousRequests.onRoadmap') }}
+                                        </span>
+                                        <span v-else-if="wish.status === 'declined'"
+                                            class="mb-1 inline-flex rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">
+                                            {{ $t('wish.previousRequests.read') }}
+                                        </span>
+                                        <p class="whitespace-pre-line">{{ wish.message }}</p>
                                         <div v-if="wish.images?.length" class="mt-2 flex flex-wrap gap-2">
                                             <a v-for="image in wish.images" :key="image.uuid" :href="image.url"
                                                 target="_blank" rel="noopener">

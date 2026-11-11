@@ -14169,6 +14169,27 @@
                 "priority": "Priority",
                 "requests": "Most wishes"
             },
+            "copyBrief": "Kopier til Claude",
+            "copyBriefHint": "Kopierer en ferdig oppgavebeskrivelse med nummer, tekst, kunder og notater",
+            "copied": "Kopiert – lim inn hos Claude",
+            "copyFailed": "Kunne ikke kopiere til utklippstavlen.",
+            "wishes": {
+                "tab": "Ønsker",
+                "intro": "Ønsker sendt fra appen via \"Send et ønske\".",
+                "empty": "Ingen ønsker her.",
+                "status": {
+                    "new": "Nye",
+                    "on_roadmap": "På veikartet",
+                    "declined": "Avvist"
+                },
+                "toRoadmap": "Sett på veikartet",
+                "decline": "Avvis",
+                "reopen": "Sett tilbake til ny",
+                "newItem": "Nytt punkt",
+                "existingItem": "Eksisterende punkt",
+                "itemTitle": "Tittel på veikartpunktet",
+                "newItemHint": "Opprettes som utkast under Planlagt. Ønsket lagres som opprinnelig tekst, og kunden noteres som ønsker."
+            },
             "import": {
                 "button": "Import",
                 "title": "Import roadmap items",
@@ -17673,7 +17694,10 @@
         },
         "previousRequests": {
             "title": "Dine tidligere forespørsler",
-            "empty": "Ingen tidligere forespørsler"
+            "empty": "Ingen tidligere forespørsler",
+            "onRoadmap": "På veikartet",
+            "onRoadmapAs": "På veikartet: {title}",
+            "read": "Lest"
         }
     },
     "no": "Nei",

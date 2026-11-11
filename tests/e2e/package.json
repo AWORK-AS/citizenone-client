@@ -39,7 +39,8 @@
     "test:document-viewer": "node document-viewer.mjs",
     "test:meetings-join": "node meetings-join.mjs",
     "test:wish-images": "node wish-images.mjs",
-    "test:release-note-popup-and-polls": "node release-note-popup-and-polls.mjs"
+    "test:release-note-popup-and-polls": "node release-note-popup-and-polls.mjs",
+    "test:roadmap-wishes-and-brief": "node roadmap-wishes-and-brief.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

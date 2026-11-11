@@ -33,6 +33,18 @@ class RoadmapItemService extends BaseAPIService {
         return await this.request(`/superadmin/roadmap-items/${uuid}/requests/${requestUuid}`, 'DELETE')
     }
 
+    async getWishes(status = ''): Promise<any> {
+        return await this.request(`/superadmin/wishes${status ? `?status=${status}` : ''}`, 'GET')
+    }
+
+    async wishToRoadmap(uuid: string, params: { roadmap_item_uuid?: string, title?: string, description?: string }): Promise<any> {
+        return await this.request(`/superadmin/wishes/${uuid}/roadmap`, 'POST', params)
+    }
+
+    async updateWishStatus(uuid: string, status: 'new' | 'declined'): Promise<any> {
+        return await this.request(`/superadmin/wishes/${uuid}/status`, 'PUT', { status })
+    }
+
     async reorderRoadmapItems(items: { uuid: string, sort_order: number }[]): Promise<any> {
         return await this.request(`/superadmin/roadmap-items/reorder`, 'POST', { items })
     }
