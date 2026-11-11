@@ -18874,6 +18874,8 @@
             "remaining": "{hours} t tilbage",
             "title": "Mine timer pr. @:terms.citizen{''}",
             "usedOfGiven": "{used} af {given} t",
+            "periodLeft": "Bevilling til {end}: {hours} t tilbage af {given}",
+            "periodOver": "Bevilling til {end}: {hours} t over af {given}",
             "planned": "{hours} t planlagt",
             "week": "Uge {week}"
         }

@@ -18874,6 +18874,8 @@
             "remaining": "{hours} h left",
             "title": "My hours per @:terms.citizen{''}",
             "usedOfGiven": "{used} of {given} h",
+            "periodLeft": "Grant until {end}: {hours} h left of {given}",
+            "periodOver": "Grant until {end}: {hours} h over of {given}",
             "planned": "{hours} h planned",
             "week": "Week {week}"
         }
