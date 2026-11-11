@@ -21,6 +21,10 @@ class SurveyService extends BaseAPIService {
         return await this.request(`/user/surveys/${surveyUuid}`, 'PUT', params)
     }
 
+    async duplicateSurvey(surveyUuid: any, params: object = {}): Promise<any> {
+        return await this.request(`/user/surveys/${surveyUuid}/duplicate`, 'POST', params)
+    }
+
     async deleteSurvey(surveyUuid: any): Promise<any> {
         return await this.request(`/user/surveys/${surveyUuid}`, 'DELETE')
     }

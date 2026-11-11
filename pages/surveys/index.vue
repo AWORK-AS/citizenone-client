@@ -24,13 +24,13 @@
                         :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.surveys?.data?.length === 0))">
                             <tr v-for="(survey, index) in state.surveys?.data" :key="index">
-                                <td width="45%">
+                                <td width="35%">
                                     <p>{{ survey?.title }}</p>
                                 </td>
-                                <td width="35%">
+                                <td width="25%">
                                     <p class="text-gray-500 truncate max-w-md" v-html="survey?.description"></p>
                                 </td>
-                                <td width="20%">
+                                <td width="40%">
                                     <div class="flex items-end justify-end gap-2">
                                         <FormButton type="button" buttonStyle="action" data-tour="survey-results"
                                             @click="navigateTo(`/surveys/${survey.uuid}/assignments`)">
@@ -41,6 +41,11 @@
                                             @click="navigateTo(`/surveys/${survey.uuid}/edit`)">
                                             <Icon name="ph:pencil-simple" class="size-4" />
                                             {{ $t('surveys.table.edit') }}
+                                        </FormButton>
+                                        <FormButton type="button" buttonStyle="action" :disabled="state.isDuplicating"
+                                            @click="duplicateSurvey(survey)">
+                                            <Icon name="ph:copy" class="size-4" />
+                                            {{ $t('surveys.table.duplicate') }}
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="action" @click="deleteConfirmation(survey)">
                                             <Icon name="ph:trash" class="size-4" />
@@ -89,6 +94,7 @@ const state = reactive({
     error: {} as Error,
     surveys: [] as any,
     isTableLoading: false,
+    isDuplicating: false,
     modal: { isDeleteOpen: false },
     selectedSurvey: {} as any,
     sortData: { sortField: 'id', sortOrder: 'descend' },
@@ -117,6 +123,24 @@ function previous() { currentTablePage--; fetchSurveys() }
 function next() { currentTablePage++; fetchSurveys() }
 function sort(s: any) { currentTablePage = 1; state.sortData = { sortField: s.column, sortOrder: s.sort }; fetchSurveys() }
 function handleSearch(v: any) { currentTablePage = 1; state.dataFilter.search = v?.[0] == '' ? [] : v; fetchSurveys() }
+
+// The copy has every question but no answers; it opens straight away so the new questions can be added.
+async function duplicateSurvey(survey: any) {
+    if (state.isDuplicating) return
+    state.error = {}
+    state.isDuplicating = true
+    try {
+        const response = await surveyService.duplicateSurvey(survey?.uuid)
+        const uuid = response?.data?.uuid
+        if (uuid) {
+            successAlert(`${t('alert.success')}!`, `${t('surveys.alert.duplicated')}.`)
+            await navigateTo(`/surveys/${uuid}/edit`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isDuplicating = false
+}
 
 function deleteConfirmation(survey: any) {
     state.selectedSurvey = survey

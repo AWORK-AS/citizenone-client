@@ -18560,6 +18560,7 @@
             "completed": "Completed",
             "score": "Score",
             "edit": "Edit",
+            "duplicate": "Duplicate",
             "delete": "Delete"
         },
         "status": {
@@ -18583,6 +18584,7 @@
             "created": "Survey created",
             "updated": "Survey updated",
             "deleted": "Survey deleted",
+            "duplicated": "Survey duplicated",
             "sent": "Survey sent to @:terms.citizen{''}",
             "assignmentDeleted": "Response deleted",
             "responseSaved": "Response saved"

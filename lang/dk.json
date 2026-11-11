@@ -18560,6 +18560,7 @@
             "completed": "Udfyldt",
             "score": "Score",
             "edit": "Redigér",
+            "duplicate": "Duplikér",
             "delete": "Slet"
         },
         "status": {
@@ -18583,6 +18584,7 @@
             "created": "Spørgeskema oprettet",
             "updated": "Spørgeskema opdateret",
             "deleted": "Spørgeskema slettet",
+            "duplicated": "Spørgeskema duplikeret",
             "sent": "Spørgeskema sendt til @:terms.citizenDefinite{''}",
             "assignmentDeleted": "Besvarelse slettet",
             "responseSaved": "Besvarelse gemt"
