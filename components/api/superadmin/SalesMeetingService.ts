@@ -6,6 +6,11 @@ class SalesMeetingService extends BaseAPIService {
         return await this.request('/superadmin/sales-meetings/hosts', 'GET')
     }
 
+    /** Makes a customer account CitizenOne's own, for the team's meetings. Answers like hosts(). */
+    async chooseAccount(companyUuid: string): Promise<any> {
+        return await this.request('/superadmin/sales-meetings/account', 'PUT', { company_uuid: companyUuid })
+    }
+
     async inquiryMeetings(inquiryUuid: string): Promise<any> {
         return await this.request(`/superadmin/sales-inquiries/${inquiryUuid}/meetings`, 'GET')
     }

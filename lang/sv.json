@@ -17228,7 +17228,15 @@
             },
             "company": "Kund (valfri)",
             "companyPlaceholder": "Sök företag…",
-            "removeCompany": "Ta bort"
+            "removeCompany": "Ta bort",
+            "account": {
+                "title": "Välj CitizenOnes eget konto",
+                "intro": "Mötena ligger i vårt eget kundkonto. Sök fram det och välj det. Behövs bara en gång.",
+                "askAdmin": "En kollega med åtkomst till företag måste välja vårt eget konto innan mötena kan användas.",
+                "current": "Mötena ligger i kontot {name}.",
+                "change": "Byt",
+                "confirm": "Använda {name} som CitizenOnes eget konto för möten?"
+            }
         },
         "salesStats": {
             "button": "Demosiffror",
