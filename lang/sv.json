@@ -19528,6 +19528,8 @@
             "convert": "Omvandla till faktura",
             "convertAll": "Omvandla alla",
             "exportCsv": "Exportera CSV",
+            "exportExcel": "Exportera till Excel",
+            "exportSheet": "Faktureringsuttag",
             "selectPeriod": "Välj en period och tryck Generera.",
             "noData": "Inga registrerade timmar under perioden.",
             "citizen": "Medborgare",

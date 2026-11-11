@@ -86,6 +86,7 @@ const state = reactive({
         downloadType: [
             { value: 'pdf', label: 'PDF' },
             { value: 'csv', label: 'CSV' },
+            { value: 'xlsx', label: 'Excel' },
         ],
     },
 })
@@ -144,6 +145,8 @@ async function downloadMileageLog() {
                 if (state.downloadForm.download_type === 'csv') {
                     const file = new Blob([response], { type: 'text/csv;charset=utf-8;' })
                     saveAs(file, `${filename}.csv`)
+                } else if (state.downloadForm.download_type === 'xlsx') {
+                    saveAs(response, `${filename}.xlsx`)
                 } else {
                     saveAs(response, filename)
                 }

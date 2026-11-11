@@ -19528,6 +19528,8 @@
             "convert": "Gjør om til faktura",
             "convertAll": "Gjør om alle",
             "exportCsv": "Eksporter CSV",
+            "exportExcel": "Eksporter til Excel",
+            "exportSheet": "Faktureringsuttrekk",
             "selectPeriod": "Velg en periode og trykk Generer.",
             "noData": "Ingen registrerte timer i perioden.",
             "citizen": "Borger",
