@@ -3505,6 +3505,9 @@
             "download": {
                 "download": "Last ned",
                 "downloadInterventionHours": "Last ned innsatstimer",
+                "fileFormat": "Filformat",
+                "formatExcel": "Excel",
+                "formatPdf": "PDF",
                 "filter": {
                     "filterDate": "Filtrer dato"
                 },

@@ -63,6 +63,10 @@
                                             <Badge type="neutral" class="text-xxs" v-if="inteventionHours?.is_paid_out">
                                                 {{ $t('citizens.interventionHours.table.paidOut') }}
                                             </Badge>
+                                            <!-- In a download ticked "Behandlet" (AW-2026-10154). -->
+                                            <Badge type="active" class="text-xxs" v-if="inteventionHours?.is_processed === true">
+                                                {{ $t('timeLogs.exportHistory.processed') }}
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="10%">

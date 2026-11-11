@@ -185,6 +185,8 @@ async function downloadAgain(item: any) {
             const filename = `${name.replace(/ /g, '-')}-${formatDate(item.start_date)}-${formatDate(item.end_date)}`
             if (item.format === 'csv') {
                 saveAs(new Blob([response], { type: 'text/csv;charset=utf-8;' }), `${filename}.csv`)
+            } else if (item.format === 'xlsx') {
+                saveAs(response, `${filename}.xlsx`)
             } else {
                 saveAs(response, `${filename}.pdf`)
             }

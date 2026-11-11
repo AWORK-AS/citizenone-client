@@ -3505,6 +3505,9 @@
             "download": {
                 "download": "Download",
                 "downloadInterventionHours": "Download intervention hours",
+                "fileFormat": "File format",
+                "formatExcel": "Excel",
+                "formatPdf": "PDF",
                 "filter": {
                     "filterDate": "Filter date"
                 },
