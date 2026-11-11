@@ -2890,6 +2890,7 @@
             "newDoctor": "Ny lege"
         },
         "documents": {
+            "formDeletedReadOnly": "Skjemaet er slettet, så rapporten kan leses, men ikke lenger redigeres",
             "access": {
                 "access": "Tilgang",
                 "alert": {
@@ -9176,7 +9177,7 @@
         },
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema",
-            "deleteFormHasReports": "Det er skrevet {count} rapporter ut fra den."
+            "deleteFormHasReports": "Det er skrevet {count} rapporter ut fra den. De blir beholdt, men kan ikke lenger redigeres."
         },
         "createResponse": "Opprett svar",
         "documentTitle": "Dokumenttitel",

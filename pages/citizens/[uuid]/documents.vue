@@ -257,7 +257,7 @@ function downloadCitizenFile(document: any): Promise<Blob | null> {
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
@@ -681,6 +681,12 @@ async function viewDirectory(document: any, is_draft: boolean = false) {
 }
 
 function editDocument(document: any) {
+    // A draft report is finished in its form; once that form is deleted the
+    // report can still be read, but no longer edited.
+    if (is_draft.value && document?.attachment?.form?.is_deleted) {
+        warningAlert(`${t('alert.warning')}!`, `${t('citizens.documents.formDeletedReadOnly')}.`)
+        return
+    }
     state.selectedDocument = document
     if (is_draft.value) {
         state.modal.isEditDocumentDraftOpen = true

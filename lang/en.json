@@ -2890,6 +2890,7 @@
             "newDoctor": "New doctor"
         },
         "documents": {
+            "formDeletedReadOnly": "This form has been deleted, so the report can be read but no longer edited",
             "access": {
                 "access": "Access",
                 "alert": {
@@ -9176,7 +9177,7 @@
         },
         "confirmation": {
             "deleteFormConfirmation": "Are you sure you want to delete this form",
-            "deleteFormHasReports": "{count} reports have been written from it."
+            "deleteFormHasReports": "{count} reports have been written from it. They will be kept, but can no longer be edited."
         },
         "createResponse": "Create response",
         "documentTitle": "Document Title",

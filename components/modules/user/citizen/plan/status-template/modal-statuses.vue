@@ -49,7 +49,9 @@
                                         <td width="15%">
                                             <div class="flex items-end gap-2">
                                                 <FormButton buttonStyle="action" buttonSize="sm"
-                                                    @click="editDraft(status)" v-if="status.is_draft">
+                                                    @click="editDraft(status)" v-if="status.is_draft"
+                                                    :disabled="status?.form?.is_deleted"
+                                                    :title="status?.form?.is_deleted ? $t('citizens.documents.formDeletedReadOnly') : undefined">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.edit') }}
                                                 </FormButton>
@@ -268,6 +270,10 @@ async function deleteStatus() {
 }
 
 function editDraft(status: any) {
+    // Read-only once its form is deleted - the backend refuses the save anyway.
+    if (status?.form?.is_deleted) {
+        return
+    }
     state.selectedStatus = status
     state.modal.isEditStatusOpen = true
 }
