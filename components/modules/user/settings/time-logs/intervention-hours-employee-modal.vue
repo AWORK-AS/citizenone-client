@@ -52,6 +52,10 @@
                                             <Badge type="neutral" class="text-xxs" v-if="inteventionHours?.is_paid_out">
                                                 {{ $t('citizens.interventionHours.table.paidOut') }}
                                             </Badge>
+                                            <!-- In a download ticked "Behandlet" (AW-2026-10154). -->
+                                            <Badge type="active" class="text-xxs" v-if="inteventionHours?.is_processed === true">
+                                                {{ $t('timeLogs.exportHistory.processed') }}
+                                            </Badge>
                                             <!-- Rejected by a manager: out of exports and billing until corrected. -->
                                             <Badge type="danger" class="text-xxs" v-if="inteventionHours?.is_rejected"
                                                 :title="inteventionHours?.rejection_reason || undefined">

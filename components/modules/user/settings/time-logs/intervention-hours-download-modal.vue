@@ -13,10 +13,21 @@
                                     :placeholder="$t('citizens.interventionHours.download.filter.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
+                            <!-- PDF to read, Excel to work with the rows (AW-2026-10154). -->
                             <div class="space-y-1">
-                                <FormLabel for="download_type" :label="$t('mileageLog.download.downloadType')" />
-                                <FormSelect id="download_type" name="download_type" :options="downloadTypes"
-                                    v-model="state.downloadForm.download_type" />
+                                <FormLabel :label="$t('citizens.interventionHours.download.fileFormat')" />
+                                <div class="flex items-center gap-2" role="group"
+                                    :aria-label="$t('citizens.interventionHours.download.fileFormat')">
+                                    <button v-for="format in downloadFormats" :key="format.value" type="button"
+                                        class="px-3 py-1 rounded-lg text-xs font-semibold border transition-colors"
+                                        :class="state.downloadType === format.value
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                                        :aria-pressed="state.downloadType === format.value"
+                                        @click="state.downloadType = format.value">
+                                        {{ format.label }}
+                                    </button>
+                                </div>
                             </div>
                             <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
                                 <input type="checkbox" v-model="state.onlyUnprocessed"
@@ -72,8 +83,6 @@ const state = reactive({
     downloadForm: {
         start_date: '',
         end_date: '',
-        // Excel carries the hours per hour type on its own sheet.
-        download_type: 'pdf',
     },
     error: {} as Error,
     filter: {
@@ -82,6 +91,8 @@ const state = reactive({
     isPageLoading: false,
     // Leave out rows in a download already ticked "Behandlet".
     onlyUnprocessed: false,
+    // 'pdf' or 'xlsx' (Excel).
+    downloadType: 'pdf' as 'pdf' | 'xlsx',
     options: {
         tags: [],
     },
@@ -98,6 +109,11 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+const downloadFormats = computed(() => [
+    { value: 'pdf' as const, label: t('citizens.interventionHours.download.formatPdf') },
+    { value: 'xlsx' as const, label: t('citizens.interventionHours.download.formatExcel') },
+])
 
 function closeModal() {
     emit('close')
@@ -117,7 +133,6 @@ async function downloadInterventionHours() {
             let params = {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
-                download_type: state.downloadForm.download_type,
             } as any
 
             if (props?.filters?.department_uuids?.length > 0) {
@@ -143,10 +158,12 @@ async function downloadInterventionHours() {
             if (state.onlyUnprocessed) {
                 params.only_unprocessed = 1
             }
+            params.download_type = state.downloadType
 
             const response = await interventionHoursService.downloadInterventionHoursReport(params)
             if (response) {
-                saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY') + (state.downloadForm.download_type === 'xlsx' ? '.xlsx' : '.pdf'))
+                const extension = state.downloadType === 'xlsx' ? 'xlsx' : 'pdf'
+                saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY') + '.' + extension)
             }
         } catch (error: any) {
             state.error = error
@@ -155,10 +172,6 @@ async function downloadInterventionHours() {
     state.isPageLoading = false
 }
 
-const downloadTypes = [
-    { value: 'pdf', label: 'PDF' },
-    { value: 'xlsx', label: 'Excel' },
-]
 </script>
 
 <style>
