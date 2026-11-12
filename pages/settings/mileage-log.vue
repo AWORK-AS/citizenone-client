@@ -121,6 +121,14 @@
                                     <p class="text-xs text-gray-400" v-if="log?.vehicle_registration">
                                         {{ $t('mileageLog.table.vehicleRegistrationShort') }} {{ log.vehicle_registration }}
                                     </p>
+                                    <Badge type="danger" class="mt-1 w-fit text-xxs" v-else>
+                                        {{ $t('mileageLog.table.vehicleRegistrationMissing') }}
+                                    </Badge>
+                                </td>
+                                <td width="10%">
+                                    <span class="truncate" v-if="log?.created_at">
+                                        {{ formatDateTimeToReadable(log?.created_at) }}
+                                    </span>
                                 </td>
                                 <td width="30%">
                                     <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>
@@ -258,6 +266,7 @@ const breadcrumbLinks = [
 const columnHeaders = computed(() => [
     ...(canFilterByEmployee ? [{ name: 'mileageLog.table.employee', isTranslateName: true }] : []),
     { name: 'mileageLog.table.date', isTranslateName: true, sorter: true, key: 'date_time_start' },
+    { name: 'mileageLog.table.createdAt', isTranslateName: true, sorter: true, key: 'created_at' },
     { name: 'mileageLog.table.route', isTranslateName: true, },
     { name: 'mileageLog.table.distance', isTranslateName: true, },
     { name: 'mileageLog.table.citizen', isTranslateName: true, },

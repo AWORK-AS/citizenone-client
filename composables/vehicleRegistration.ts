@@ -1,9 +1,9 @@
-import { helpers, maxLength } from '@vuelidate/validators'
+import { helpers, maxLength, required } from '@vuelidate/validators'
 import { mileageLogService } from '@/components/api/user/MileageLogService'
 
 /**
  * Car registration number on a trip ("Registreringsnummer på bil"), required
- * by the tax authority on every mileage record but optional in the app.
+ * by the tax authority on every mileage record and by the server on a new trip.
  *
  * The server is the source of truth for normalization (trim, uppercase,
  * collapse inner whitespace, empty -> null); the client only uppercases as the
@@ -24,9 +24,12 @@ export function normalizeVehicleRegistration(value: string | null | undefined): 
     return normalized === '' ? null : normalized
 }
 
-/** Vuelidate rules for the field; it is optional, so empty always passes. */
-export function vehicleRegistrationRules(t: (key: string) => string) {
+/** Vuelidate rules for the field; empty passes only when not required. */
+export function vehicleRegistrationRules(t: (key: string) => string, isRequired = false) {
     return {
+        ...(isRequired ? {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        } : {}),
         maxLength: helpers.withMessage(
             () => t('mileageLog.form.vehicleRegistrationInvalid'),
             maxLength(VEHICLE_REGISTRATION_MAX_LENGTH)

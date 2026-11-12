@@ -25,6 +25,11 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/${interventionHoursUuid}`, 'DELETE')
     }
 
+    /** Reject instead of delete: kept for the audit trail, out of exports and billing. */
+    async rejectInterventionHours(interventionHoursUuid: any, params: { reason: string }): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${interventionHoursUuid}/reject`, 'POST', params)
+    }
+
     async downloadInterventionHours(params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/download/reports`, 'GET', params)
     }

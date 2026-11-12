@@ -76,9 +76,9 @@
                         <Icon name="ph:funnel" class="w-4 h-4" />
                         {{ $t('socialWelfare.billing.generate') }}
                     </FormButton>
-                    <FormButton v-if="state.groups.length > 0" buttonStyle="action" @click="exportToCsv">
+                    <FormButton v-if="state.groups.length > 0" buttonStyle="action" @click="exportToExcel">
                         <Icon name="ph:download-simple" class="w-4 h-4" />
-                        {{ $t('socialWelfare.billing.exportCsv') }}
+                        {{ $t('socialWelfare.billing.exportExcel') }}
                     </FormButton>
                 </div>
             </div>
@@ -1008,8 +1008,11 @@ function convertRow(group: any, row: any) {
     return convert([group], new Map([[group, [row]]]))
 }
 
-function exportToCsv() {
-    const escape = (val: any) => `"${String(val ?? '').replace(/"/g, '""')}"`
+// The billing extraction as an Excel workbook: hours and amounts as numbers,
+// so finance can sum and filter them without converting text first.
+async function exportToExcel() {
+    const XLSX = await import('xlsx')
+    const num = (value: any) => (value === null || value === undefined || value === '' ? null : Number(value))
 
     const header = [
         t('socialWelfare.billing.municipality'),
@@ -1024,43 +1027,47 @@ function exportToCsv() {
         t('socialWelfare.billing.contractPrice'),
         t('socialWelfare.billing.amount'),
         t('socialWelfare.billing.invoiced'),
-    ].map(escape).join(',')
+    ]
 
-    const lines = state.groups.flatMap((group: any) => [
+    const rows = state.groups.flatMap((group: any) => [
         ...group.rows.map((row: any) => [
-            escape(group.municipality_name ?? ''),
-            escape(row.citizen_name),
-            escape(row.stay_journal_number ?? ''),
-            escape(`${row.period_from} - ${row.period_to}`),
-            escape(row.section ?? ''),
-            escape(formatHours(row.used_hours)),
-            escape(formatHours(row.agreed_hours)),
-            escape(formatAmount(row.hourly_rate)),
-            escape(grantedAmount(row) === null ? '' : formatAmount(grantedAmount(row) ?? 0)),
-            escape(row.contract_price === null ? '' : formatAmount(row.contract_price)),
-            escape(formatAmount(rowAmount(row))),
-            escape(row.is_fully_invoiced ? t('socialWelfare.billing.invoiced') : t('socialWelfare.billing.notInvoiced')),
-        ].join(',')),
+            group.municipality_name ?? '',
+            row.citizen_name ?? '',
+            row.stay_journal_number ?? '',
+            `${row.period_from} - ${row.period_to}`,
+            row.section ?? '',
+            num(row.used_hours),
+            num(row.agreed_hours),
+            num(row.hourly_rate),
+            grantedAmount(row),
+            num(row.contract_price),
+            rowAmount(row),
+            row.is_fully_invoiced ? t('socialWelfare.billing.invoiced') : t('socialWelfare.billing.notInvoiced'),
+        ]),
         ...extraLinesOf(group).map((extra: any) => [
-            escape(group.municipality_name ?? ''),
-            escape(t('socialWelfare.billing.extras')),
-            escape(extra.description),
-            '""', '""',
-            escape(formatHours(Number(extra.quantity))),
-            '""',
-            escape(formatAmount(extra.price)),
-            '""',
-            '""',
-            escape(formatAmount(extraAmount(extra))),
-            escape(t('socialWelfare.billing.notInvoiced')),
-        ].join(',')),
+            group.municipality_name ?? '',
+            t('socialWelfare.billing.extras'),
+            extra.description ?? '',
+            '',
+            '',
+            num(extra.quantity),
+            null,
+            num(extra.price),
+            null,
+            null,
+            extraAmount(extra),
+            t('socialWelfare.billing.notInvoiced'),
+        ]),
     ])
 
-    const csv = [header, ...lines].join('\n')
-    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+    const sheet = XLSX.utils.aoa_to_sheet([header, ...rows])
+    sheet['!cols'] = header.map((title: string, index: number) => ({ wch: Math.max(title.length, index < 5 ? 22 : 12) }))
+    const book = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(book, sheet, t('socialWelfare.billing.exportSheet').slice(0, 31))
+    const data = XLSX.write(book, { bookType: 'xlsx', type: 'array' })
     const period = state.filter.from_date && state.filter.to_date
         ? `${state.filter.from_date}_${state.filter.to_date}`
         : 'export'
-    saveAs(blob, `faktureringsudtraek-${period}.csv`)
+    saveAs(new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `faktureringsudtraek-${period}.xlsx`)
 }
 </script>

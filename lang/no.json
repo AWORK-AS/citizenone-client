@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Avvis innsatstime",
+                "help": "Timen blir i historikken, men teller ikke med i uttrekk og fakturering før konsulenten har rettet den.",
+                "reason": "Årsak",
+                "submit": "Avvis",
+                "action": "Avvis",
+                "badge": "Avvist",
+                "done": "Timen er avvist"
+            },
             "contributionMargin": "Dækningsgrad",
             "download": {
                 "download": "Last ned",
@@ -10659,7 +10668,9 @@
             "flagged": "Merket",
             "needsReview": "Må gjennomgås",
             "route": "Rute",
-            "vehicleRegistrationShort": "Reg.nr."
+            "vehicleRegistrationShort": "Reg.nr.",
+            "createdAt": "Opprettet",
+            "vehicleRegistrationMissing": "Reg.nr. mangler"
         },
         "tracking": {
             "acquiringPosition": "Finner din posisjon …",
@@ -12603,6 +12614,8 @@
                 "hideAppStatisticsHint": "Fjerner \"Statistikk\" fra appens meny",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
+                "mileagePerIndsats": "Kjøring kun på innsatser der det er slått på",
+                "mileagePerIndsatsHint": "Kjøring må knyttes til en innsats og kan bare registreres når kjøring er slått på for innsatsen. Kjøring registreres som kilometer og gir ikke timer",
                 "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
                 "mileageRequiresTransportHint": "En innsats tillater bare kjøring når kontraktsperioden den dagen har transporttimer (eller, uten kontraktsperiode, når det aksepterte tilbudet har transport), med mindre noen har valgt annet på innsatsen eller for den ansatte. Utlegg påvirkes ikke",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
@@ -19531,6 +19544,8 @@
             "convert": "Gjør om til faktura",
             "convertAll": "Gjør om alle",
             "exportCsv": "Eksporter CSV",
+            "exportExcel": "Eksporter til Excel",
+            "exportSheet": "Faktureringsuttrekk",
             "selectPeriod": "Velg en periode og trykk Generer.",
             "noData": "Ingen registrerte timer i perioden.",
             "citizen": "Borger",
@@ -19784,6 +19799,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Kan utelates til startdatoen er kjent. Kontrakten faktureres først når den har en startdato.",
+            "noStartDate": "Ingen startdato",
             "title": "Kontrakt",
             "billedTo": "Faktureres til",
             "noDepartmentYet": "Ingen avdeling valgt ennå",
@@ -20022,6 +20039,8 @@
             "sortOrder": "Rekkefølge",
             "isActive": "Aktiv",
             "isActiveHelp": "En inaktiv timetype kan ikke velges på nye perioder, men beholdes på eksisterende.",
+            "manualRegistration": "Kan registreres manuelt",
+            "manualRegistrationHelp": "Slått av kan ansatte ikke registrere timer av denne typen. Den følger bevilgningen, f.eks. administrasjonstid. Administratorer kan fortsatt registrere.",
             "system": "System",
             "systemHelp": "En systemtype følger med fra start. Den kan rettes, men ikke slettes.",
             "systemNotDeletable": "En systemtype kan ikke slettes",

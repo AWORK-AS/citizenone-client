@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Avvisa insatstimme",
+                "help": "Timmen ligger kvar i historiken men räknas inte i uttag och fakturering förrän konsulten har rättat den.",
+                "reason": "Orsak",
+                "submit": "Avvisa",
+                "action": "Avvisa",
+                "badge": "Avvisad",
+                "done": "Timmen är avvisad"
+            },
             "contributionMargin": "Däkningsgrad",
             "download": {
                 "download": "Ladda ner",
@@ -10659,7 +10668,9 @@
             "flagged": "Flaggad",
             "needsReview": "Behöver granskas",
             "route": "Rutt",
-            "vehicleRegistrationShort": "Reg.nr"
+            "vehicleRegistrationShort": "Reg.nr",
+            "createdAt": "Skapad",
+            "vehicleRegistrationMissing": "Reg.nr saknas"
         },
         "tracking": {
             "acquiringPosition": "Hämtar din plats …",
@@ -12603,6 +12614,8 @@
                 "hideAppStatisticsHint": "Tar bort \"Statistik\" från appens meny",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
+                "mileagePerIndsats": "Körning endast på insatser där det är påslaget",
+                "mileagePerIndsatsHint": "Körning måste kopplas till en insats och kan bara registreras när körning är påslaget för insatsen. Körning registreras som kilometer och ger inga timmar",
                 "mileageRequiresTransport": "Körning bara där transport är beviljad",
                 "mileageRequiresTransportHint": "En insats tillåter bara körning när avtalsperioden den dagen har transporttimmar (eller, utan avtalsperiod, när det accepterade erbjudandet har transport), om ingen har valt annat på insatsen eller för medarbetaren. Utlägg påverkas inte",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
@@ -19531,6 +19544,8 @@
             "convert": "Omvandla till faktura",
             "convertAll": "Omvandla alla",
             "exportCsv": "Exportera CSV",
+            "exportExcel": "Exportera till Excel",
+            "exportSheet": "Faktureringsuttag",
             "selectPeriod": "Välj en period och tryck Generera.",
             "noData": "Inga registrerade timmar under perioden.",
             "citizen": "Medborgare",
@@ -19784,6 +19799,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Kan lämnas tomt tills startdatumet är känt. Kontraktet faktureras först när det har ett startdatum.",
+            "noStartDate": "Inget startdatum",
             "title": "Avtal",
             "billedTo": "Faktureras till",
             "noDepartmentYet": "Ingen avdelning vald ännu",
@@ -20022,6 +20039,8 @@
             "sortOrder": "Ordning",
             "isActive": "Aktiv",
             "isActiveHelp": "En inaktiv timtyp kan inte väljas på nya perioder, men behålls på befintliga.",
+            "manualRegistration": "Kan registreras manuellt",
+            "manualRegistrationHelp": "Avslaget kan medarbetare inte registrera timmar av denna typ. Den följer beviljandet, t.ex. administrationstid. Administratörer kan fortfarande registrera.",
             "system": "System",
             "systemHelp": "En systemtyp följer med från start. Den kan ändras men inte tas bort.",
             "systemNotDeletable": "En systemtyp kan inte tas bort",

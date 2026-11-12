@@ -171,6 +171,7 @@ async function downloadInterventionHours() {
     }
     state.isPageLoading = false
 }
+
 </script>
 
 <style>

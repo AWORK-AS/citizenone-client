@@ -56,6 +56,14 @@
                                             <Badge type="active" class="text-xxs" v-if="inteventionHours?.is_processed === true">
                                                 {{ $t('timeLogs.exportHistory.processed') }}
                                             </Badge>
+                                            <!-- Rejected by a manager: out of exports and billing until corrected. -->
+                                            <Badge type="danger" class="text-xxs" v-if="inteventionHours?.is_rejected"
+                                                :title="inteventionHours?.rejection_reason || undefined">
+                                                {{ $t('citizens.interventionHours.reject.badge') }}
+                                            </Badge>
+                                            <p class="text-xxs text-red-600 whitespace-normal" v-if="inteventionHours?.is_rejected && inteventionHours?.rejection_reason">
+                                                {{ inteventionHours.rejection_reason }}
+                                            </p>
                                         </div>
                                     </td>
                                     <td width="10%">
@@ -84,6 +92,12 @@
                                                 {{ $t('citizens.interventionHours.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
+                                                @click="openReject(inteventionHours)"
+                                                v-if="canReject && !inteventionHours?.is_rejected && !inteventionHours?.is_historical && !inteventionHours?.is_paid_out && inteventionHours?.date_time_end">
+                                                <Icon name="ph:prohibit" class="size-4" />
+                                                {{ $t('citizens.interventionHours.reject.action') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="deleteInterventionHoursConfirmation(inteventionHours)"
                                                 v-if="inteventionHours?.is_deletable">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -110,6 +124,8 @@
                 <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
                     :dateRange="state.timeAccountFilter.formDateRange"
                     @close="state.modal.isTimeAccountDateRangeOpen = false" @filterDate="filterByDate" />
+                <ModulesUserCitizenInterventionHoursModalReject :isModalOpen="state.isRejectOpen" :careHour="state.rejecting"
+                    @close="state.isRejectOpen = false" @rejected="refreshInterventionHours()" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteInterventionHoursOpen"
                     :message="$t('citizens.interventionHours.table.confirmation.deleteInterventionHoursConfirmation') + '?'"
                     @close="state.modal.isDeleteInterventionHoursOpen = false" @confirm="deleteInterventionHours" />
@@ -125,6 +141,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -154,6 +171,8 @@ const emit = defineEmits(['close', 'refreshCitizenDetails'])
 let currentTablePage = 1
 
 const state = reactive({
+    isRejectOpen: false,
+    rejecting: null as any,
     columnHeaders: [
         { name: 'citizens.interventionHours.table.citizen', isTranslateName: true, sorter: true },
         { name: 'citizens.interventionHours.table.datetimeStart', isTranslateName: true, sorter: true, key: 'date_time_start' },
@@ -344,5 +363,13 @@ function setFilter(filter: any) {
     state.filter.created_to = filter.created_range?.[1] ?? ''
 
     fetchInterventionHours()
+}
+
+// Reject instead of delete (Manager and up, as the server checks).
+const canReject = computed(() => usePermissions().isAtLeast('Manager'))
+
+function openReject(careHour: any) {
+    state.rejecting = careHour
+    state.isRejectOpen = true
 }
 </script>

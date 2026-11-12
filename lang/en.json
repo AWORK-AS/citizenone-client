@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Reject intervention hour",
+                "help": "The hour stays in the history but is left out of exports and billing until the consultant corrects it.",
+                "reason": "Reason",
+                "submit": "Reject",
+                "action": "Reject",
+                "badge": "Rejected",
+                "done": "The hour is rejected"
+            },
             "contributionMargin": "Contribution margin",
             "download": {
                 "download": "Download",
@@ -10659,7 +10668,9 @@
             "flagged": "Flagged",
             "needsReview": "Needs review",
             "route": "Route",
-            "vehicleRegistrationShort": "Reg. no."
+            "vehicleRegistrationShort": "Reg. no.",
+            "createdAt": "Created",
+            "vehicleRegistrationMissing": "Reg. no. missing"
         },
         "tracking": {
             "acquiringPosition": "Getting your position …",
@@ -12608,6 +12619,8 @@
                 "hideAppStatisticsHint": "Removes \"Statistics\" from the app's menu",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
+                "mileagePerIndsats": "Mileage only on interventions where it is switched on",
+                "mileagePerIndsatsHint": "Mileage must be linked to an intervention and can only be registered when mileage is switched on for it. Mileage is registered as kilometres and gives no hours",
                 "mileageRequiresTransport": "Mileage only where transport is granted",
                 "mileageRequiresTransportHint": "A case allows mileage only when its contract period that day has transport hours (or, without a contract period, the accepted offer has transport), unless someone chose otherwise on the case or for the employee. Expenses are not affected",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
@@ -19616,6 +19629,8 @@
             "convert": "Convert to invoice",
             "convertAll": "Convert all",
             "exportCsv": "Export CSV",
+            "exportExcel": "Export to Excel",
+            "exportSheet": "Billing extraction",
             "selectPeriod": "Pick a period and press Generate.",
             "noData": "No hours registered in the period.",
             "citizen": "@.capitalize:terms.citizen{''}",
@@ -19869,6 +19884,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Can be left empty until the start date is known. The contract is only billed once it has a start date.",
+            "noStartDate": "No start date",
             "title": "Contract",
             "billedTo": "Billed to",
             "noDepartmentYet": "No department chosen yet",
@@ -20107,6 +20124,8 @@
             "sortOrder": "Order",
             "isActive": "Active",
             "isActiveHelp": "An inactive hour type cannot be chosen on new periods, but is kept on existing ones.",
+            "manualRegistration": "Can be registered by hand",
+            "manualRegistrationHelp": "Off: staff cannot register hours of this type; it follows the grant, e.g. administration time. Admins can still register.",
             "system": "System",
             "systemHelp": "A system type comes with the setup. It can be edited but not deleted.",
             "systemNotDeletable": "A system type cannot be deleted",
