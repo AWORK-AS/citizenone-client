@@ -124,6 +124,7 @@ async function saveContact(contactDetails: any) {
                 company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }
+        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true }
         if (contactDetails.title === 'case_manager') {
             params = { ...params, notify_use_of_force: contactDetails.notify_use_of_force === true }
         }

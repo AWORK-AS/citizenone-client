@@ -177,6 +177,13 @@
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
                 </div>
+                <!-- Roadmap #174: the one to call in an emergency, marked in the contact list. -->
+                <div class="flex items-center gap-x-2">
+                    <FormSwitch :value="state.formContact.is_emergency_contact"
+                        @toggleSwitch="state.formContact.is_emergency_contact = !state.formContact.is_emergency_contact"
+                        :label="$t('citizens.contacts.form.emergencyContact')" />
+                    <p class="text-sm text-gray-700">{{ $t('citizens.contacts.form.emergencyContact') }}</p>
+                </div>
                 <div class="space-y-1 rounded-lg border border-gray-200 bg-gray-50 p-4"
                     v-if="state.formContact.title === 'case_manager'" data-testid="notify-use-of-force">
                     <div class="flex items-center gap-x-2">
@@ -405,6 +412,7 @@ const state = reactive({
         chat_users: [] as any,
         is_primary_gp: false,
         notify_use_of_force: false,
+        is_emergency_contact: false,
         subcategories: [] as string[],
         provider_number: '',
         clinic_name: '',
@@ -523,6 +531,7 @@ onMounted(async () => {
         chat_users: contact?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: contact?.is_primary_gp === true,
         notify_use_of_force: contact?.notify_use_of_force === true,
+        is_emergency_contact: contact?.is_emergency_contact === true,
         subcategories: subcategoriesOf(contact),
         provider_number: contact?.provider_number ?? '',
         clinic_name: contact?.clinic_name ?? '',
@@ -583,6 +592,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         chat_users: newValue?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: newValue?.is_primary_gp === true,
         notify_use_of_force: newValue?.notify_use_of_force === true,
+        is_emergency_contact: newValue?.is_emergency_contact === true,
         subcategories: subcategoriesOf(newValue),
         provider_number: newValue?.provider_number ?? '',
         clinic_name: newValue?.clinic_name ?? '',

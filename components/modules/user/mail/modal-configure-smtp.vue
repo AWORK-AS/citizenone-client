@@ -6,11 +6,25 @@
                     <form @submit.prevent="submitForm()" id="formConfigureSMTP">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <!-- Roadmap #260: most people don't know their server names. One click fills them in. -->
+                        <div class="mb-4 space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3">
+                            <p class="text-xs font-medium text-gray-700">{{ $t('mail.settings.providers.title') }}</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button v-for="provider in MAIL_PROVIDERS" :key="provider.name" type="button"
+                                    class="rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+                                    :class="state.provider === provider.name ? 'border-primary bg-primary/10 text-primary' : 'border-gray-300 bg-white text-gray-700 hover:border-primary'"
+                                    @click="useProvider(provider)">
+                                    {{ provider.name }}
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500">{{ $t('mail.settings.providers.hint') }}</p>
+                        </div>
                         <div class="space-y-3">
                             <div class="space-y-1">
                                 <FormLabel for="smtp_host" :label="$t('mail.settings.smtpHost')" />
                                 <FormTextField id="smtp_host" name="smtp_host"
                                     :placeholder="$t('mail.settings.smtpHost')" v-model="state.formEmail.smtp_host" />
+                                <p class="text-xs text-gray-500">{{ $t('mail.settings.help.smtpHost') }}</p>
                                 <FormError :error="v$?.formEmail?.smtp_host?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_host?.[0]" />
                             </div>
@@ -18,6 +32,7 @@
                                 <FormLabel for="smtp_port" :label="$t('mail.settings.smtpPort')" />
                                 <FormTextField id="smtp_port" name="smtp_port"
                                     :placeholder="$t('mail.settings.smtpPort')" v-model="state.formEmail.smtp_port" />
+                                <p class="text-xs text-gray-500">{{ $t('mail.settings.help.smtpPort') }}</p>
                                 <FormError :error="v$?.formEmail?.smtp_port?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_port?.[0]" />
                             </div>
@@ -164,6 +179,24 @@ const emit = defineEmits(['close', 'closeChooseEmail'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
+// Settings published by each provider. Gmail needs an app password (guide below).
+const MAIL_PROVIDERS = [
+    { name: 'Gmail', smtp: ['smtp.gmail.com', '587', 'TLS'], imap: ['imap.gmail.com', '993', 'SSL'] },
+    { name: 'Outlook / Microsoft 365', smtp: ['smtp.office365.com', '587', 'TLS'], imap: ['outlook.office365.com', '993', 'SSL'] },
+    { name: 'One.com', smtp: ['send.one.com', '465', 'SSL'], imap: ['imap.one.com', '993', 'SSL'] },
+    { name: 'Simply.com', smtp: ['smtp.simply.com', '587', 'TLS'], imap: ['imap.simply.com', '993', 'SSL'] },
+]
+
+function useProvider(provider: typeof MAIL_PROVIDERS[number]) {
+    state.provider = provider.name
+    const form = state.formEmail
+    ;[form.smtp_host, form.smtp_port, form.smtp_encryption] = provider.smtp
+    ;[form.imap_host, form.imap_port, form.imap_encryption] = provider.imap
+    // The username is almost always the full email address, for both.
+    if (form.smtp_username && !form.imap_username) form.imap_username = form.smtp_username
+    if (provider.name === 'Gmail') state.isGuideOpen = true
+}
+
 const encryptionOptions = [
     { value: 'SSL', label: 'SSL' },
     { value: 'TLS', label: 'TLS' },
@@ -174,6 +207,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isGuideOpen: false,
+    provider: '',
     formEmail: {
         smtp_host: '',
         smtp_port: '',

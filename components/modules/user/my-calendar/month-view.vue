@@ -137,6 +137,11 @@
                                         : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
                                     {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
                                 </time>
+                                <!-- Roadmap #303: the week number on each Monday. -->
+                                <span v-if="index % 7 === 0" class="mr-auto ml-1.5 text-[10px] font-medium text-gray-400"
+                                    :title="$t('calendar.weekNumber', { week: isoWeek(day.date) })">
+                                    {{ $t('calendar.weekShort', { week: isoWeek(day.date) }) }}
+                                </span>
                                 <Icon name="ph:plus"
                                     class="h-3.5 w-3.5 text-gray-300 opacity-0 transition-opacity group-hover/day:opacity-100" />
                             </div>
@@ -172,9 +177,9 @@
                                             :aria-label="`${myCalendarEvent?.title}, ${myCalendarEvent.time_start}`"
                                             @mouseenter="showPreview($event, myCalendarEvent)" @mouseleave="hidePreview"
                                             @focus="showPreviewEl($event, myCalendarEvent)" @blur="hidePreview"
-                                            @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
-                                            @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
-                                            @click.stop="editMyCalendarEvent(myCalendarEvent)">
+                                            @keydown.enter.prevent="openEvent(myCalendarEvent)"
+                                            @keydown.space.prevent="openEvent(myCalendarEvent)"
+                                            @click.stop="openEvent(myCalendarEvent)">
                                             <span class="h-1.5 w-1.5 flex-none rounded-full"
                                                 :style="!isNow(myCalendarEvent) && eventTagColor(myCalendarEvent) ? { backgroundColor: eventTagColor(myCalendarEvent) } : undefined"
                                                 :class="[
@@ -599,6 +604,10 @@ const props = defineProps({
 const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'viewEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const today = moment()
 
+function isoWeek(date: string): number {
+    return moment(date).isoWeek()
+}
+
 const state = reactive({
     currentMonth: today.month(),
     currentYear: today.year(),
@@ -809,6 +818,12 @@ const year = computed(() => {
     const date = moment([state.currentYear, state.currentMonth])
     return date.format('YYYY')
 })
+
+// Roadmap #484: a click shows the event first; "Edit" in its menu (or in the view) edits it.
+function openEvent(myCalendarEvent: any) {
+    if (myCalendarEvent?.is_shift) return
+    emit('viewEvent', myCalendarEvent)
+}
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     if (myCalendarEvent?.is_shift) return

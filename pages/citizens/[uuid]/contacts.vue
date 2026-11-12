@@ -46,7 +46,15 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
+                    <div class="flex flex-wrap items-start gap-3">
+                        <div class="min-w-0 flex-1"><TableSearch @search="handleSearch" /></div>
+                        <!-- Roadmap #404: show only contacts with one title, e.g. relatives or doctors. -->
+                        <select v-model="state.titleFilter" :aria-label="$t('citizens.contacts.filterByTitle')"
+                            class="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none">
+                            <option value="">{{ $t('citizens.contacts.allTitles') }}</option>
+                            <option v-for="title in state.jobTitles" :key="title.uuid" :value="title.uuid">{{ jobTitleName(title) }}</option>
+                        </select>
+                    </div>
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.contacts"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -62,6 +70,9 @@
                                                             contact?.contact_job_title?.dk_title
                                             }}
                                         </span>
+                                        <Badge type="inactive" class="w-fit mt-1 ml-1" v-if="contact?.is_emergency_contact">
+                                            <p class="text-xxs px-2">{{ $t('citizens.contacts.emergencyBadge') }}</p>
+                                        </Badge>
                                         <Badge type="info" class="w-fit mt-1 ml-1" v-if="contact?.company_contact_id">
                                             <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
                                         </Badge>
@@ -180,6 +191,7 @@
 
 <script setup lang="ts">
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
+import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -226,6 +238,8 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    titleFilter: '',
+    jobTitles: [] as any[],
     error: {} as Error,
     isTableLoading: false,
     modal: {
@@ -246,7 +260,28 @@ const state = reactive({
 
 onMounted(() => {
     fetchContacts()
+    fetchJobTitles()
 })
+
+watch(() => state.titleFilter, () => {
+    currentTablePage = 1
+    fetchContacts()
+})
+
+async function fetchJobTitles() {
+    try {
+        const response = await contactJobTitlesService.getAllContactJobTitles({})
+        state.jobTitles = response?.data ?? []
+    } catch {
+        state.jobTitles = []
+    }
+}
+
+function jobTitleName(title: any): string {
+    const locale = language.locale.value
+    return (locale === 'en' ? title.en_title : locale === 'no' ? title.no_title : locale === 'sv' ? title.sv_title : title.dk_title)
+        || title.dk_title || title.en_title || ''
+}
 
 async function fetchContacts() {
     state.error = {}
@@ -258,6 +293,7 @@ async function fetchContacts() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+            ...(state.titleFilter ? { contact_job_title_uuid: state.titleFilter } : {}),
         }
         const response = await citizenContactService.getContacts(params)
         if (response) {

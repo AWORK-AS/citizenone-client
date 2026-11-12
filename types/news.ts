@@ -11,6 +11,7 @@ export interface NewsForm {
     content: string,
     is_featured: boolean,
     is_active: boolean,
+    notify?: boolean,
     audience: any,
     department: any,
     attachments: any[]

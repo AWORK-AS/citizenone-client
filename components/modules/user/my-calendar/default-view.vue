@@ -103,7 +103,7 @@
 
                 <TimeGrid :days="dayGridDays" :showHeader="false" :noteNudge="!props.readOnly"
                     :statusActions="!props.readOnly" @markStatus="markEventAsStatus"
-                    @createJournal="openCreateJournal" @eventClick="editMyCalendarEvent" />
+                    @createJournal="openCreateJournal" @eventClick="openEvent" />
             </div>
         </div>
         <ModulesUserMyCalendarModalShowAllInvitees :isModalOpen="state.modal.isShowAllInviteesOpen"
@@ -286,6 +286,12 @@ function filterBasedOnSelectedDate() {
 function showAllInvitees(myCalendarEven: any) {
     state.selectedSchedule = myCalendarEven
     state.modal.isShowAllInviteesOpen = true
+}
+
+// Roadmap #484: a click shows the event first; "Edit" in its menu (or in the view) edits it.
+function openEvent(myCalendarEvent: any) {
+    if (myCalendarEvent?.is_shift) return
+    emit('viewEvent', myCalendarEvent)
 }
 
 function editMyCalendarEvent(myCalendarEvent: any) {

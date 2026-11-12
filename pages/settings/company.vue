@@ -289,6 +289,13 @@
                                     v-model="state.formCompany.birthday_notifications" />
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.birthdayNotificationsHint') }}.</p>
                             </div>
+                            <!-- Roadmap #410: was a fixed 30 days after the discharge date. -->
+                            <div class="space-y-1 md:col-span-2">
+                                <FormLabel for="discharge_notification_days" :label="$t('settings.company.form.dischargeNotificationDays')" />
+                                <FormSelect id="discharge_notification_days" :options="dischargeNotificationOptions"
+                                    v-model="state.formCompany.discharge_notification_days" />
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.dischargeNotificationDaysHint') }}</p>
+                            </div>
                         </div>
                         <div v-if="state.formCompany.relative_chat_enabled"
                             class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-3">
@@ -1338,6 +1345,11 @@ const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: 
     total + audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
+const dischargeNotificationOptions = computed(() => [14, 21, 28, 30].map((value) => ({
+    value,
+    label: value === 30 ? t('settings.company.form.dischargeNotificationThirtyDays') : t('settings.company.form.dischargeNotificationWeeks', { weeks: value / 7 }),
+})))
+
 const birthdayNotificationOptions = computed(() => ['all', 'staff', 'citizens', 'off'].map((value) => ({
     value,
     label: t(`settings.company.form.birthdayNotificationOptions.${value}`),
@@ -1405,6 +1417,7 @@ const state = reactive({
         patient_chat_inbox_enabled: false,
         chat_cpr_warning_enabled: false,
         birthday_notifications: 'all',
+        discharge_notification_days: 30,
         epikrise_enabled: false,
         treatment_photos_enabled: false,
         missing_note_reminder_enabled: false,
@@ -1603,6 +1616,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             patient_chat_inbox_enabled: newValue?.company?.patient_chat_inbox_enabled ? true : false,
             chat_cpr_warning_enabled: newValue?.company?.chat_cpr_warning_enabled === true,
             birthday_notifications: newValue?.company?.birthday_notifications ?? 'all',
+            discharge_notification_days: newValue?.company?.discharge_notification_days ?? 30,
             epikrise_enabled: newValue?.company?.epikrise_enabled === true,
             treatment_photos_enabled: newValue?.company?.treatment_photos_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
@@ -1901,6 +1915,7 @@ async function submitForm() {
                 patient_chat_inbox_enabled: state.formCompany.patient_chat_inbox_enabled,
                 chat_cpr_warning_enabled: state.formCompany.chat_cpr_warning_enabled,
                 birthday_notifications: state.formCompany.birthday_notifications,
+                discharge_notification_days: Number(state.formCompany.discharge_notification_days) || 30,
                 epikrise_enabled: state.formCompany.epikrise_enabled,
                 treatment_photos_enabled: state.formCompany.treatment_photos_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
