@@ -20025,6 +20025,8 @@
             "sortOrder": "Rekkefølge",
             "isActive": "Aktiv",
             "isActiveHelp": "En inaktiv timetype kan ikke velges på nye perioder, men beholdes på eksisterende.",
+            "manualRegistration": "Kan registreres manuelt",
+            "manualRegistrationHelp": "Slått av kan ansatte ikke registrere timer av denne typen. Den følger bevilgningen, f.eks. administrasjonstid. Administratorer kan fortsatt registrere.",
             "system": "System",
             "systemHelp": "En systemtype følger med fra start. Den kan rettes, men ikke slettes.",
             "systemNotDeletable": "En systemtype kan ikke slettes",
