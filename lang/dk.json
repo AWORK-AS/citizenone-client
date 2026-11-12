@@ -3501,6 +3501,15 @@
             }
         },
         "interventionHours": {
+            "reject": {
+                "title": "Afvis indsatstime",
+                "help": "Timen bliver i historikken, men tæller ikke med i udtræk og fakturering, før konsulenten har rettet den.",
+                "reason": "Årsag",
+                "submit": "Afvis",
+                "action": "Afvis",
+                "badge": "Afvist",
+                "done": "Timen er afvist"
+            },
             "contributionMargin": "Dækningsgrad",
             "download": {
                 "download": "Download",
