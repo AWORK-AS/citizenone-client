@@ -12585,7 +12585,7 @@
                 "autoAiForNewEmployeesHint": "En ny medarbejder får en ledig AI-licens, når den oprettes. Er der ingen ledig, oprettes medarbejderen uden",
                 "calendarSubscriptions": "Brugerne kan abonnere på deres kalender",
                 "calendarSubscriptionsHint": "Slået fra kan kalenderen ikke længere tilføjes i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
-                "scheduleRegistersCareHours": "Citizener på en vagt giver indsatstimer",
+                "scheduleRegistersCareHours": "Borger på en vagt giver indsatstimer",
                 "scheduleRegistersCareHoursHint": "Slået fra registreres der ikke indsatstimer, når en @:terms.citizen{''} sættes på en vagt. Allerede registrerede timer ændres ikke",
                 "calendarEventsOwnerOnly": "Kun dem, der er på en begivenhed, kan ændre eller slette den",
                 "calendarEventsOwnerOnlyHint": "Kolleger kan stadig se hinandens begivenheder, men kun den, der har oprettet den, ejeren og de inviterede kan redigere, slette, aflyse eller markere den. Ledere, administratorer og roller med rettigheden \"Administrer kollegers kalenderbegivenheder\" kan altid",

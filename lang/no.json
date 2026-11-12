@@ -12580,7 +12580,7 @@
                 "autoAiForNewEmployeesHint": "En ny medarbeider får en ledig AI-lisens når den opprettes. Er det ingen ledig, opprettes medarbeideren uten",
                 "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
                 "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
-                "scheduleRegistersCareHours": "Innbyggere på en vakt gir tiltakstimer",
+                "scheduleRegistersCareHours": "Borger på en vakt gir tiltakstimer",
                 "scheduleRegistersCareHoursHint": "Slått av registreres det ikke tiltakstimer når en @:terms.citizen{''} settes på en vakt. Allerede registrerte timer endres ikke",
                 "calendarEventsOwnerOnly": "Bare de som er med på et arrangement, kan endre eller slette det",
                 "calendarEventsOwnerOnlyHint": "Kolleger ser fortsatt hverandres arrangementer, men bare den som opprettet det, eieren og de inviterte kan redigere, slette, avlyse eller markere det. Ledere, administratorer og roller med rettigheten \"Administrer kollegers kalenderarrangementer\" kan alltid",
