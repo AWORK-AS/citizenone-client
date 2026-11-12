@@ -13602,7 +13602,8 @@
             "disable": "Slå av",
             "confirmDisable": "Slå av API-et? Alle nøkler og webhooks slutter å virke med en gang.",
             "enabledToast": "API-et er slått på",
-            "disabledToast": "API-et er slått av"
+            "disabledToast": "API-et er slått av",
+            "docsLink": "Dokumentasjon for utviklere (på dansk)"
         }
     },
     "supportAccess": {

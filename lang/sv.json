@@ -13602,7 +13602,8 @@
             "disable": "Stäng av",
             "confirmDisable": "Stänga av API:et? Alla nycklar och webhooks slutar fungera direkt.",
             "enabledToast": "API:et är påslaget",
-            "disabledToast": "API:et är avstängt"
+            "disabledToast": "API:et är avstängt",
+            "docsLink": "Dokumentation för utvecklare (på danska)"
         }
     },
     "supportAccess": {

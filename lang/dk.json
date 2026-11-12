@@ -13607,7 +13607,8 @@
             "disable": "Slå fra",
             "confirmDisable": "Slå API'et fra? Alle nøgler og webhooks holder op med at virke med det samme.",
             "enabledToast": "API'et er slået til",
-            "disabledToast": "API'et er slået fra"
+            "disabledToast": "API'et er slået fra",
+            "docsLink": "Se dokumentationen til udviklere"
         }
     },
     "supportAccess": {

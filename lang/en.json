@@ -13607,7 +13607,8 @@
             "disable": "Switch off",
             "confirmDisable": "Switch off the API? Every key and webhook stops working immediately.",
             "enabledToast": "The API is switched on",
-            "disabledToast": "The API is switched off"
+            "disabledToast": "The API is switched off",
+            "docsLink": "Developer documentation (in Danish)"
         }
     },
     "supportAccess": {
