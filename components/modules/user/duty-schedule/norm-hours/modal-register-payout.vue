@@ -101,6 +101,12 @@ const state = reactive({
     },
 })
 
+// The amount field is free text, and Danish users type a decimal comma ("29,05").
+// Number() turns that into NaN, so read a comma as the decimal point.
+function parseAmount(value: unknown): number {
+    return Number(String(value ?? '').trim().replace(',', '.'))
+}
+
 const employeeName = computed(() => {
     return `${props.selectedEmployee?.firstname ?? ''} ${props.selectedEmployee?.lastname ?? ''}`.trim()
 })
@@ -113,7 +119,7 @@ const confirmationMessage = computed(() => {
         employee: employeeName.value,
     })
 
-    const amount = Number(state.formData.amount)
+    const amount = parseAmount(state.formData.amount)
     if (!payoutBeyondBalanceEnabled.value || state.balance === null || amount <= state.balance) {
         return message
     }
@@ -184,7 +190,7 @@ function closeModal() {
 
 function handleSubmit() {
     state.amountError = ''
-    const amount = Number(state.formData.amount)
+    const amount = parseAmount(state.formData.amount)
 
     if (!amount || amount <= 0) {
         state.amountError = t('dutySchedules.normHours.payout.amountRequired')
@@ -204,7 +210,7 @@ async function submitPayout() {
     try {
         const params = {
             user_uuid: props.selectedEmployee?.uuid,
-            amount: Number(state.formData.amount),
+            amount: parseAmount(state.formData.amount),
             date: state.formData.date || undefined,
         }
         const response = await timeAccountService.registerPayout(state.formData.time_account_uuid, params)
