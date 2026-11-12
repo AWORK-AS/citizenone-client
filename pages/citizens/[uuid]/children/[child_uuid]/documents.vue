@@ -98,7 +98,7 @@
                                     <td width="60" data-testid="document-id">
                                         <span class="text-sm text-slate-600 tabular-nums">{{ document?.id }}</span>
                                     </td>
-                                    <td width="32%">
+                                    <td width="32%" class="min-w-[240px]">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
@@ -106,7 +106,7 @@
                                                 class="flex items-center" v-if="document?.is_admin_access">
                                                 <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                             </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
+                                            <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                         </div>
                                         <span v-else class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             @click="viewDirectory(document)">
@@ -115,7 +115,7 @@
                                                 class="flex items-center" v-if="document?.is_admin_access">
                                                 <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                             </Tooltip>
-                                            <span class="truncate">{{ document?.name }}</span>
+                                            <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                         </span>
                                         <p v-if="document?.folder_path !== undefined"
                                             class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
