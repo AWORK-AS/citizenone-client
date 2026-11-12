@@ -137,7 +137,7 @@
                         <!-- Who may see each chosen field. Empty means everyone who can open
                              the citizen; admins always see what is shown. -->
                         <div v-if="isAtLeast('Admin') && state.formCompany.citizen_display_uuid.length && state.options.roles.length"
-                            class="space-y-2 md:col-span-2">
+                            class="space-y-2">
                             <FormLabel :label="$t('settings.company.form.citizensDisplayRoles')" />
                             <p class="text-xs text-gray-500">{{ $t('settings.company.form.citizensDisplayRolesHelp') }}</p>
                             <div class="divide-y divide-surface-100 rounded-lg border border-surface-200">
