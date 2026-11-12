@@ -210,7 +210,7 @@
                                     <td width="60" v-if="isLocalView" data-testid="document-id">
                                         <span class="text-sm text-slate-600 tabular-nums">{{ document?.id }}</span>
                                     </td>
-                                    <td width="32%" class="max-w-0">
+                                    <td width="32%" class="min-w-[240px]">
                                         <div v-if="state.viewMode === 'google-drive'">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-if="document?.type === 'file'" @click="openGoogleDriveFile(document)">
@@ -219,7 +219,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                             </div>
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-else @click="viewGoogleDriveDirectory(document)">
@@ -228,7 +228,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                             </div>
                                         </div>
                                         <div v-else-if="state.isInsideOneDrive">
@@ -240,7 +240,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                             </div>
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-else-if="document?.type === 'folder'"
@@ -250,7 +250,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                             </div>
                                         </div>
                                         <div v-else>
@@ -261,7 +261,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                                 <span v-if="document?.is_patient_standard"
                                                     class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
                                                     data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
@@ -273,7 +273,7 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="truncate">{{ document?.name }}</span>
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
                                                 <span v-if="document?.is_patient_standard"
                                                     class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
                                                     data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
