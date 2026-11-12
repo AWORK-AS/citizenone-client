@@ -17344,7 +17344,9 @@
                 "askAdmin": "En kollega med adgang til virksomheder skal vælge vores egen konto, før møderne kan bruges.",
                 "current": "Møderne ligger i kontoen {name}.",
                 "change": "Skift",
-                "confirm": "Brug {name} som CitizenOnes egen konto til møder?"
+                "confirm": "Brug {name} som CitizenOnes egen konto til møder?",
+                "chooseFirst": "Vælg først CitizenOnes egen konto nedenfor. Så kan du starte og planlægge møder.",
+                "settings": "Indstillinger for møder"
             }
         },
         "salesStats": {

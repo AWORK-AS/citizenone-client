@@ -12,13 +12,21 @@
                     :subtitle="$t('superadmin.teamMeetings.description')">
                     <template #actions>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary hover:opacity-90 disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(true)">
+                            <button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors bg-tertiary hover:opacity-90 disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(true)">
                                 <Icon name="ph:video-camera" class="w-4 h-4" />
                                 {{ $t('superadmin.teamMeetings.startNow') }}
                             </button>
-                            <button v-if="state.configured" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(false)">
+                            <button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :disabled="state.isFormOpen" @click="openForm(false)">
                                 <Icon name="ph:calendar-plus" class="w-4 h-4" />
                                 {{ $t('superadmin.salesMeetings.plan') }}
+                            </button>
+                            <!-- Which account is ours: set once, so tucked away here. -->
+                            <button v-if="state.configured && can('manage_companies')" type="button"
+                                class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors"
+                                :aria-pressed="state.account.picking" :aria-label="$t('superadmin.teamMeetings.account.settings')"
+                                :title="state.account.current ? $t('superadmin.teamMeetings.account.current', { name: state.account.current.name }) : $t('superadmin.teamMeetings.account.settings')"
+                                @click="state.account.picking = !state.account.picking">
+                                <Icon name="ph:gear-six" class="w-4 h-4" />
                             </button>
                             <button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-ink-body border border-line hover:bg-surface-canvas transition-colors disabled:opacity-50" :aria-label="$t('superadmin.salesInquiries.refresh')" @click="load">
                                 <Icon name="ph:arrows-clockwise" class="w-4 h-4" />
@@ -32,6 +40,9 @@
                 <div v-if="!state.isLoading && (!state.configured || state.account.picking)"
                     class="rounded-xl border border-line bg-white p-4 space-y-2 relative">
                     <p class="text-sm font-semibold text-ink">{{ $t('superadmin.teamMeetings.account.title') }}</p>
+                    <p v-if="state.account.current" class="text-[13px] text-ink-body">
+                        {{ $t('superadmin.teamMeetings.account.current', { name: state.account.current.name }) }}
+                    </p>
                     <p class="text-[13px] text-ink-muted">
                         {{ can('manage_companies') ? $t('superadmin.teamMeetings.account.intro') : $t('superadmin.teamMeetings.account.askAdmin') }}
                     </p>
@@ -49,11 +60,6 @@
                             @click="state.account.picking = false">{{ $t('cancel') }}</button>
                     </template>
                 </div>
-                <p v-else-if="!state.isLoading && state.account.current" class="text-[13px] text-ink-muted">
-                    {{ $t('superadmin.teamMeetings.account.current', { name: state.account.current.name }) }}
-                    <button v-if="can('manage_companies')" type="button" class="ml-1 text-tertiary underline"
-                        @click="state.account.picking = true">{{ $t('superadmin.teamMeetings.account.change') }}</button>
-                </p>
                 <p v-if="state.saved" class="text-[13px] text-green-700">{{ state.saved }}</p>
 
                 <!-- New meeting: now or later, with anyone -->
@@ -297,6 +303,7 @@ async function chooseAccount(company: any) {
     try {
         applyHosts(await salesMeetingService.chooseAccount(company.uuid))
         state.account.picking = false
+        state.error = {}
         state.account.search = ''
         state.account.results = []
         await load()
@@ -312,6 +319,12 @@ function selectScope(scope: string) {
 }
 
 function openForm(startNow: boolean) {
+    // Always on the page; without our own account chosen, the picker comes first.
+    if (!state.configured) {
+        state.account.picking = true
+        state.error = { message: t('superadmin.teamMeetings.account.chooseFirst') }
+        return
+    }
     state.saved = ''
     form.start_now = startNow
     form.title = ''

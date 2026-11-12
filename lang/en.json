@@ -17344,7 +17344,9 @@
                 "askAdmin": "A colleague with access to companies must choose our own account before meetings can be used.",
                 "current": "Meetings live in the account {name}.",
                 "change": "Change",
-                "confirm": "Use {name} as CitizenOne's own account for meetings?"
+                "confirm": "Use {name} as CitizenOne's own account for meetings?",
+                "chooseFirst": "First choose CitizenOne's own account below. Then you can start and plan meetings.",
+                "settings": "Meeting settings"
             }
         },
         "salesStats": {
