@@ -19781,6 +19781,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Kan lämnas tomt tills startdatumet är känt. Kontraktet faktureras först när det har ett startdatum.",
+            "noStartDate": "Inget startdatum",
             "title": "Avtal",
             "billedTo": "Faktureras till",
             "noDepartmentYet": "Ingen avdelning vald ännu",

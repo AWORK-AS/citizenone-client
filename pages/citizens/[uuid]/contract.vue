@@ -101,7 +101,7 @@
                             <ul class="list-disc pl-5">
                                 <li v-for="period in state.fallback" :key="period.stay_uuid">
                                     {{ period.stay_journal_number || $t('socialWelfare.billing.stayWithoutNumber') }}:
-                                    {{ period.start_date }} - {{ period.end_date || '...' }},
+                                    {{ period.start_date || $t('socialWelfare.contract.noStartDate') }} - {{ period.end_date || '...' }},
                                     {{ $t('socialWelfare.contract.agreedPrice') }} {{ period.agreed_price === null ? '-' : formatAmount(period.agreed_price) }},
                                     {{ $t('socialWelfare.contract.grantedHours') }} {{ formatHours(period.granted_hours) }} {{ intervalLabel(period.hours_interval) }}
                                 </li>
@@ -135,7 +135,7 @@
                                             class="border-b border-surface-200 last:border-0 align-top">
                                             <td class="co-td">
                                                 <p class="font-medium text-slate-900 whitespace-nowrap">
-                                                    {{ period.start_date }} - {{ period.end_date || '...' }}
+                                                    {{ period.start_date || $t('socialWelfare.contract.noStartDate') }} - {{ period.end_date || '...' }}
                                                 </p>
                                                 <p v-if="period.uuid === state.currentUuid" class="co-badge co-badge-green text-[11px] mt-1 inline-block">
                                                     {{ $t('socialWelfare.contract.current') }}

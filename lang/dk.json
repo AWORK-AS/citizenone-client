@@ -19866,6 +19866,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Kan udelades, til startdatoen kendes. Kontrakten faktureres først, når den har en startdato.",
+            "noStartDate": "Ingen startdato",
             "title": "Kontrakt",
             "billedTo": "Faktureres til",
             "noDepartmentYet": "Ingen afdeling valgt endnu",

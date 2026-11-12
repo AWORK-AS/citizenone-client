@@ -37,7 +37,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="space-y-1">
                                 <FormLabel :label="$t('socialWelfare.contract.startDate')" />
-                                <input type="date" class="co-cell-input w-full" v-model="state.form.start_date" required />
+                                <input type="date" class="co-cell-input w-full" v-model="state.form.start_date" />
+                                <p class="text-xs text-gray-500">{{ $t('socialWelfare.contract.startDateHint') }}</p>
                                 <FormError :error="state.error?.errors?.start_date?.[0]" />
                             </div>
                             <div class="space-y-1">
@@ -599,7 +600,7 @@ function fromPeriod(source: any, asNew: boolean) {
         // The API's template already knows when the next period starts.
         form.start_date = source.previous_period_uuid
             ? (source.start_date || today())
-            : (source.end_date ? nextDay(source.end_date) : today())
+            : (source.end_date ? nextDay(source.end_date) : '')
     } else {
         form.start_date = source.start_date ?? ''
         form.end_date = source.end_date ?? ''
@@ -640,7 +641,6 @@ watch(() => props.isModalOpen, async (open) => {
         ? fromPeriod(props.period, false)
         : fromPeriod(templateSource(), true)
 
-    if (!state.form.start_date) state.form.start_date = today()
 })
 
 // The API's template when there is a real period to copy. A stay's fallback has
@@ -702,7 +702,8 @@ function payload() {
     const textOrNull = (value: any) => (value === '' || value === undefined ? null : value)
 
     return {
-        start_date: state.form.start_date,
+        // Empty while the start is not known: saved as a draft without a start date.
+        start_date: textOrNull(state.form.start_date),
         end_date: textOrNull(state.form.end_date),
         stay_uuid: state.form.stay_uuid,
         customer_department_uuid: state.form.customer_department_uuid,

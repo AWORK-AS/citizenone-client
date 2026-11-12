@@ -19866,6 +19866,8 @@
             }
         },
         "contract": {
+            "startDateHint": "Can be left empty until the start date is known. The contract is only billed once it has a start date.",
+            "noStartDate": "No start date",
             "title": "Contract",
             "billedTo": "Billed to",
             "noDepartmentYet": "No department chosen yet",
