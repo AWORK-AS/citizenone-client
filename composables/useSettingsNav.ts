@@ -114,6 +114,7 @@ export function useSettingsNav() {
                     item('settings.tabs.powerBi', '/settings/power-bi', ['settings-power-bi']),
                     item('settings.tabs.infoScreen', '/settings/info-screen', ['settings-info-screen']),
                     item('settings.tabs.zapier', '/settings/zapier', ['settings-zapier']),
+                    item('settings.tabs.publicApi', '/settings/public-api', ['settings-public-api']),
                     item('settings.tabs.economic', '/settings/economic', ['settings-economic']),
                     item('settings.tabs.dinero', '/settings/dinero', ['settings-dinero']),
                     item('settings.tabs.billy', '/settings/billy', ['settings-billy']),

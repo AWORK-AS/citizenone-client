@@ -12957,7 +12957,8 @@
             "contractHourTypes": "Timetyper",
             "paymentTerms": "Betalingsbetingelser",
             "contractFields": "Kontraktfelt",
-            "infoScreen": "Infoskjerm"
+            "infoScreen": "Infoskjerm",
+            "publicApi": "CitizenOne API"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -13350,6 +13351,10 @@
             "infoScreen": {
                 "title": "Hva gjør Infoskjerm?",
                 "body": "Vis dagens program, meny, nyheter og bilder på en skjerm i fellesrommet. Skjermen viser aldri opplysninger om beboere."
+            },
+            "publicApi": {
+                "title": "Hva er CitizenOne API?",
+                "body": "Lar deres egne systemer lese @:terms.citizens{''} og @:terms.journalNotes{''} og skrive notater inn i CitizenOne. Dere bestemmer nøyaktig hva hver nøkkel får tilgang til."
             }
         },
         "movedNotice": {
@@ -13521,6 +13526,75 @@
             "moodNone": "Ingen svar",
             "moodAnswers": "{count} svar",
             "buyMore": "Kjøp flere skjermer"
+        },
+        "publicApi": {
+            "title": "CitizenOne API",
+            "subtitle": "Koble deres egne systemer til CitizenOne. Les @:terms.citizens{''} og @:terms.journalNotes{''}, skriv notater fra deres eget journalsystem, og få beskjed når noe endrer seg.",
+            "adminOnly": "Bare administratorer kan administrere API-nøkler.",
+            "notPurchased": "Appen CitizenOne API er ikke aktiv ennå. Aktiver den under Apper for å koble til deres egne systemer.",
+            "goToApps": "Gå til Apper",
+            "dataNote": "En nøkkel får bare tilgangen dere krysser av for nedenfor. Fødselsnumre deles bare med en nøkkel som har fått tilgang til det. Interne notater deles aldri. Webhooks inneholder bare id-er, aldri navn eller notattekst. Husk å oppdatere databehandleravtalen før personopplysninger deles med et annet system.",
+            "baseUrl": "API-adresse",
+            "baseUrlHint": "Gi denne adressen og en nøkkel til dem som bygger integrasjonen.",
+            "copy": "Kopier",
+            "copied": "Kopiert!",
+            "keyOnce": "Kopier nøkkelen nå og lagre den et trygt sted. Den vises bare én gang.",
+            "newKey": "Opprett en nøkkel",
+            "ownerNote": "Kall med en nøkkel skjer som den ansatte som opprettet den. Blir den ansatte arkivert, slutter nøkkelen å virke, og en ny må opprettes.",
+            "keyName": "Navn på nøkkel",
+            "keyNamePlaceholder": "For eksempel: Journalsynkronisering",
+            "access": "Tilgang",
+            "allowedIps": "Tillat bare disse IP-adressene (valgfritt)",
+            "allowedIpsPlaceholder": "For eksempel: 203.0.113.10 eller 203.0.113.0/24",
+            "allowedIpsHint": "Én adresse eller ett område per linje. La feltet stå tomt for å tillate alle adresser.",
+            "createKey": "Opprett nøkkel",
+            "keyCreated": "Nøkkel opprettet",
+            "keys": "Nøkler",
+            "noKeys": "Ingen nøkler ennå.",
+            "keyEnds": "Nøkkelen slutter på",
+            "lastUsed": "Sist brukt",
+            "neverUsed": "Aldri brukt",
+            "createdBy": "opprettet av",
+            "ipLimited": "Begrenset til {count} adresse(r)",
+            "revoke": "Trekk tilbake",
+            "confirmRevoke": "Trekke tilbake denne nøkkelen? Integrasjoner som bruker den, slutter å virke med en gang.",
+            "webhooks": "Webhooks",
+            "webhooksHint": "Integrasjonen oppretter selv webhooks via API-et. Her kan dere se og fjerne dem.",
+            "noWebhooks": "Ingen webhooks ennå.",
+            "active": "Aktiv",
+            "switchedOff": "Slått av",
+            "switchedOffHint": "Slått av etter gjentatte mislykkede leveranser. Integrasjonen kan slå den på igjen.",
+            "delete": "Slett",
+            "confirmDeleteWebhook": "Slette denne webhooken? Ingenting mer sendes til adressen.",
+            "deliveries": "Siste leveranser",
+            "noDeliveries": "Ingenting er sendt ennå.",
+            "status": {
+                "delivered": "Levert",
+                "failed": "Feilet",
+                "pending": "Venter"
+            },
+            "scopes": {
+                "citizens_read": {
+                    "title": "Lese @:terms.citizens{''}",
+                    "body": "Navn, fødselsdato, saksnummer og inn- og utskrivingsdatoer."
+                },
+                "citizens_cpr": {
+                    "title": "Lese fødselsnumre",
+                    "body": "Tar med fødselsnummeret på @:terms.citizens{''}. Kryss bare av hvis integrasjonen virkelig trenger det."
+                },
+                "journals_read": {
+                    "title": "Lese @:terms.journalNotes{''}",
+                    "body": "Notater på @:terms.citizensDefinite{''} deres. Aldri interne notater eller uferdige utkast."
+                },
+                "journals_write": {
+                    "title": "Skrive @:terms.journalNotes{''}",
+                    "body": "Opprette notater og endre notater integrasjonen selv har opprettet. Ansatte får ikke beskjed om disse notatene."
+                },
+                "webhooks_manage": {
+                    "title": "Administrere webhooks",
+                    "body": "Lar integrasjonen få beskjed når @:terms.citizens{''} eller notater endrer seg."
+                }
+            }
         }
     },
     "supportAccess": {
