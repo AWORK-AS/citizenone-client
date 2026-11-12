@@ -93,7 +93,7 @@ export function billingLabel(summary: Pick<CompanySummary, 'billing_method' | 'l
     return 'invoice'
 }
 
-export type CompanyTabKey = 'overview' | 'accounts' | 'licenses' | 'apps' | 'agreements' | 'invoices' | 'history' | 'edit' | 'migration'
+export type CompanyTabKey = 'overview' | 'accounts' | 'licenses' | 'apps' | 'agreements' | 'invoices' | 'history' | 'meetings' | 'edit' | 'migration'
 
 export type CompanyTab = { key: CompanyTabKey; labelKey: string; href: string; icon: string }
 
@@ -109,6 +109,8 @@ const TAB_DEFINITIONS: Array<{ key: CompanyTabKey; path: string; icon: string; p
     { key: 'agreements', path: 'agreements', icon: 'ph:handshake', permission: 'view_financials', routes: ['superadmin-companies-company_uuid-agreements'] },
     { key: 'invoices', path: 'invoices', icon: 'ph:invoice', permission: 'view_financials', routes: ['superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-invoices-invoice_uuid-invoice-details'] },
     { key: 'history', path: 'history', icon: 'ph:clock-counter-clockwise', permission: 'view_companies', routes: ['superadmin-companies-company_uuid-history'] },
+    // Our own online meetings with this customer (we host, they get a link), not their Meetings app.
+    { key: 'meetings', path: 'meetings', icon: 'ph:video-camera', permission: 'view_companies', routes: ['superadmin-companies-company_uuid-meetings'] },
     { key: 'edit', path: 'edit', icon: 'ph:pencil-simple', permission: 'manage_companies', routes: ['superadmin-companies-company_uuid-edit'] },
     // Migration is work we do for a customer, behind manage_imports - only
     // the colleagues who run them see the tab.
@@ -124,6 +126,19 @@ export function companyTabs(companyUuid: string, can: (permission: string) => bo
             href: `/superadmin/companies/${companyUuid}/${tab.path}`,
             icon: tab.icon,
         }))
+}
+
+/**
+ * The badge on the Meetings tab: how many meetings with the customer are
+ * still to come, and whether one is on now or later today (then it pulses).
+ */
+export function upcomingMeetingsBadge(meetings: Array<{ status?: string, starts_at?: string | null, ends_at?: string | null }>, now: Date = new Date()): { count: number, soon: boolean } {
+    const open = meetings.filter((m) => (m.status === 'scheduled' || m.status === 'live')
+        && (!m.ends_at || new Date(m.ends_at).getTime() >= now.getTime()))
+    const soon = open.some((m) => m.status === 'live'
+        || (!!m.starts_at && new Date(m.starts_at).toDateString() === now.toDateString()))
+
+    return { count: open.length, soon }
 }
 
 export function activeCompanyTab(routeName: string | null | undefined): CompanyTabKey | null {

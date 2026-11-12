@@ -21,6 +21,7 @@
         <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" class="mt-3" />
         <p v-if="!state.isLoading && !state.configured" class="mt-2 text-[13px] text-gray-500">
             {{ $t('superadmin.salesMeetings.notConfigured') }}
+            <NuxtLink to="/superadmin/meetings" class="ml-1 text-tertiary underline">{{ $t('superadmin.sidebar.meetings') }}</NuxtLink>
         </p>
 
         <!-- Follow-up after a demo: a draft to edit, sent to the prospect -->

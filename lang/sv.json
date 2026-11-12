@@ -16372,7 +16372,7 @@
         "salesMeetings": {
             "title": "Onlinemöten",
             "plan": "Planera onlinemöte",
-            "notConfigured": "Säljmöten är inte konfigurerade ännu. Sätt MEETINGS_SALES_COMPANY_ID till CitizenOnes eget konto.",
+            "notConfigured": "Välj först CitizenOnes eget konto under Möten i menyn.",
             "startsAt": "Tid",
             "minutes": "Längd",
             "host": "Värd",
@@ -16414,7 +16414,8 @@
                     "notes": "Sammanfattningen är mötesanteckningarna. Läs igenom innan du skickar.",
                     "none": "Det finns varken sammanfattning eller anteckningar från mötet. Skriv kort själv vad ni pratade om."
                 }
-            }
+            },
+            "customerIntro": "Möten vi håller med kunden. Vi är värd och kundens personer får en länk via mejl. Det är inte kundens egen Online Meetings-app."
         },
         "salesInquiries": {
             "pageTitle": "Förfrågningar",
@@ -17005,8 +17006,10 @@
                 "invoices": "Fakturor",
                 "history": "Historik",
                 "edit": "Redigera",
-                "migration": "Migrering"
-            }
+                "migration": "Migrering",
+                "meetings": "Möten"
+            },
+            "meetingsBadge": "{count} kommande möte | {count} kommande möten"
         },
         "companyHistory": {
             "title": "Historik",

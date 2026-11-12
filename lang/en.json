@@ -16457,7 +16457,7 @@
         "salesMeetings": {
             "title": "Online meetings",
             "plan": "Plan online meeting",
-            "notConfigured": "Sales meetings are not set up yet. Set MEETINGS_SALES_COMPANY_ID to the CitizenOne account.",
+            "notConfigured": "First choose CitizenOne's own account under Meetings in the menu.",
             "startsAt": "Time",
             "minutes": "Duration",
             "host": "Host",
@@ -16499,7 +16499,8 @@
                     "notes": "The recap is the meeting notes. Read them through before sending.",
                     "none": "There is no summary or notes from the meeting. Add a short recap yourself."
                 }
-            }
+            },
+            "customerIntro": "Meetings we hold with the customer. We host, and the customer's people get a link by email. This is not the customer's own Online Meetings app."
         },
         "salesInquiries": {
             "pageTitle": "Inquiries",
@@ -17090,8 +17091,10 @@
                 "invoices": "Invoices",
                 "history": "History",
                 "edit": "Edit",
-                "migration": "Migration"
-            }
+                "migration": "Migration",
+                "meetings": "Meetings"
+            },
+            "meetingsBadge": "{count} upcoming meeting | {count} upcoming meetings"
         },
         "companyHistory": {
             "title": "History",
