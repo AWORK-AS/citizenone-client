@@ -48,13 +48,13 @@
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
 
-            <div class="flex items-center gap-x-3 pt-2">
+            <div class="flex items-center gap-x-3 pt-2" v-if="!indsatsRequired">
                 <FormSwitch :value="state.formMileageLog.linkToCitizen"
                     @toggleSwitch="state.formMileageLog.linkToCitizen = !state.formMileageLog.linkToCitizen" />
                 <p class="text-sm">{{ $t('mileageLog.form.linkToCitizen') }}</p>
             </div>
 
-            <div class="space-y-1" v-if="state.formMileageLog.linkToCitizen">
+            <div class="space-y-1" v-if="state.formMileageLog.linkToCitizen || indsatsRequired">
                 <FormLabel for="citizen_uuid" :label="$t('mileageLog.form.selectCitizen')" />
                 <FormSelect id="citizen_uuid" :options="props.citizenOptions"
                     v-model="state.formMileageLog.citizen_uuid" />
@@ -83,8 +83,12 @@ import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useRoutePreview } from '@/composables/routePreview'
+import { useUserStore } from '@/store/user'
 import { fetchLastVehicleRegistration, normalizeVehicleRegistration, vehicleRegistrationRules } from '@/composables/vehicleRegistration'
 import type { Error } from '@/types'
+
+// Company switch: every trip is on an indsats.
+const indsatsRequired = computed(() => (useUserStore() as any).getUser?.company?.registration_mileage_per_indsats_enabled === true)
 
 const props = defineProps({
     error: {
@@ -250,10 +254,10 @@ const rules = computed(() => {
             citizen_uuid: {
                 required: helpers.withMessage(
                     () => `${t('validation.thisFieldIsRequired')}.`,
-                    requiredIf(() => state.formMileageLog.linkToCitizen)
+                    requiredIf(() => state.formMileageLog.linkToCitizen || indsatsRequired.value)
                 ),
             },
-            vehicle_registration: vehicleRegistrationRules(t),
+            vehicle_registration: vehicleRegistrationRules(t, true),
         },
     }
 })
@@ -279,7 +283,7 @@ function submitForm() {
             date_time_start: state.formMileageLog.date_time_start,
             note: state.formMileageLog.note,
             vehicle_registration: normalizeVehicleRegistration(state.formMileageLog.vehicle_registration),
-            citizen_uuid: state.formMileageLog.linkToCitizen ? state.formMileageLog.citizen_uuid : null,
+            citizen_uuid: state.formMileageLog.linkToCitizen || indsatsRequired.value ? state.formMileageLog.citizen_uuid : null,
             stops: state.stops,
         })
     }

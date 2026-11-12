@@ -10656,7 +10656,9 @@
             "flagged": "Merket",
             "needsReview": "Må gjennomgås",
             "route": "Rute",
-            "vehicleRegistrationShort": "Reg.nr."
+            "vehicleRegistrationShort": "Reg.nr.",
+            "createdAt": "Opprettet",
+            "vehicleRegistrationMissing": "Reg.nr. mangler"
         },
         "tracking": {
             "acquiringPosition": "Finner din posisjon …",
@@ -12600,6 +12602,8 @@
                 "hideAppStatisticsHint": "Fjerner \"Statistikk\" fra appens meny",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
+                "mileagePerIndsats": "Kjøring kun på innsatser der det er slått på",
+                "mileagePerIndsatsHint": "Kjøring må knyttes til en innsats og kan bare registreres når kjøring er slått på for innsatsen. Kjøring registreres som kilometer og gir ikke timer",
                 "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
                 "mileageRequiresTransportHint": "En innsats tillater bare kjøring når kontraktsperioden den dagen har transporttimer (eller, uten kontraktsperiode, når det aksepterte tilbudet har transport), med mindre noen har valgt annet på innsatsen eller for den ansatte. Utlegg påvirkes ikke",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
