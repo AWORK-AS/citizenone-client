@@ -45,6 +45,11 @@
                         <ModulesUserMyCalendarReadOnlyDetails :event="props.selectedSchedule" />
                     </div>
                     <div v-else class="mt-4">
+                        <!-- Who booked it, also for those who may edit it. -->
+                        <p class="text-sm text-gray-600 mb-3" v-if="props.selectedSchedule?.creator">
+                            {{ $t('events.createdBy') }}:
+                            <span class="font-medium text-gray-900">{{ props.selectedSchedule.creator.firstname }} {{ props.selectedSchedule.creator.lastname ?? '' }}</span>
+                        </p>
                         <ModulesUserMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
@@ -147,6 +152,11 @@ async function updateSchedule(scheduleDetails: any) {
             is_video_consultation: scheduleDetails.is_video_consultation ?? false,
             apply_to: scheduleDetails.apply_to ?? 'this',
         } as any
+
+        // The indsats added to a booking made without one.
+        if (scheduleDetails.citizen_uuid) {
+            params.citizen_uuid = scheduleDetails.citizen_uuid
+        }
 
         if (scheduleDetails.recurring.recurring) {
             params.recurring = scheduleDetails.recurring.recurring

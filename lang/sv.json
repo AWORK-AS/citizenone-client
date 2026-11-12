@@ -8575,6 +8575,7 @@
         "employees": "Anställda",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "addCitizen": "Lägg till insats",
             "shift": {
                 "alsoCreate": "Skapa även ett pass",
                 "employee": "Anställd",

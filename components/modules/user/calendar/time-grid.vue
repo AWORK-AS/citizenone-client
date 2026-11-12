@@ -64,7 +64,7 @@
                                     <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
                                         :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
                                     <!-- Ended without its note: write it from here. -->
-                                    <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge" compact :event="ev.raw"
+                                    <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge && ev.raw?.can_manage !== false" compact :event="ev.raw"
                                         @create="$emit('createJournal', ev.raw)" />
                                 </span>
                                 <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">

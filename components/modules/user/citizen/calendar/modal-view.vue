@@ -33,13 +33,17 @@
                         </FormButton>
                     </div>
                     <div class="mt-4 relative flex space-x-6 pb-6 xl:static">
-                        <img :src="avatarUrl(`${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`)"
+                        <!-- The assigned employee, else who booked it (a booking made on the indsats has no user). -->
+                        <img :src="avatarUrl(`${bookedBy?.firstname ?? ''} ${bookedBy?.lastname ?? ''}`)"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
                             <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
-                                {{ props.selectedSchedule?.user?.firstname }}
-                                {{ props.selectedSchedule?.user?.lastname }}
+                                {{ bookedBy?.firstname }}
+                                {{ bookedBy?.lastname }}
                             </h3>
+                            <p class="text-xs text-gray-500" v-if="props.selectedSchedule?.creator">
+                                {{ $t('events.createdBy') }}: {{ props.selectedSchedule.creator.firstname }} {{ props.selectedSchedule.creator.lastname ?? '' }}
+                            </p>
                             <div class="flex items-center gap-x-2 flex-wrap">
                                 <dt class="flex items-center">
                                     <span class="sr-only">Title</span>
@@ -176,4 +180,6 @@ function deleteMyCalendarEvent() {
     state.modal.isDeleteScheduleOpen = false
     emit('deleteMyCalendarEvent', props.selectedSchedule, state.deleteScope)
 }
+
+const bookedBy = computed(() => props.selectedSchedule?.user ?? props.selectedSchedule?.creator ?? null)
 </script>

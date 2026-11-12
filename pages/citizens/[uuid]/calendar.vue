@@ -353,6 +353,8 @@ async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'comp
 }
 
 function openNoteToComplete(selectedCalendarEvent: any) {
+    // A colleague's booking when bookings are locked to their owners.
+    if (selectedCalendarEvent?.can_manage === false) return
     state.selectedSchedule = selectedCalendarEvent
     state.completeJournalOnSave = true
     state.modal.isCreateEventJournalOpen = true
@@ -367,6 +369,7 @@ function markStatusFromModal(status: 'completed' | 'not_completed') {
 }
 
 function handleCreateJournalFromEvent(selectedCalendarEvent: any) {
+    if (selectedCalendarEvent?.can_manage === false) return
     state.selectedSchedule = selectedCalendarEvent
     state.completeJournalOnSave = false
     state.modal.isCreateEventJournalOpen = true

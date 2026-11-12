@@ -8575,6 +8575,7 @@
         "employees": "Employees",
         "eventOwner": "Event owner",
         "form": {
+            "addCitizen": "Add intervention",
             "shift": {
                 "alsoCreate": "Also create a shift",
                 "employee": "Employee",
