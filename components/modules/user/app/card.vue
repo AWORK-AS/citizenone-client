@@ -90,7 +90,7 @@
                 </FormButton>
             </Tooltip>
             <FormButton type="button" buttonStyle="app-order-now" class="w-full" v-else
-                @click="emit('activate', props.app)">
+                @click="destination?.activateInSettings ? navigateTo(destination.path) : emit('activate', props.app)">
                 {{ props.app?.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}
             </FormButton>
         </div>

@@ -13536,9 +13536,7 @@
             "title": "CitizenOne API",
             "subtitle": "Forbind jeres egne systemer med CitizenOne. Læs @:terms.citizens{''} og @:terms.journalNotes{''}, skriv notater fra jeres eget journalsystem, og få besked når noget ændrer sig.",
             "adminOnly": "Kun administratorer kan administrere API-nøgler.",
-            "notPurchased": "Appen CitizenOne API er ikke aktiv endnu. Aktivér den under Apps for at forbinde jeres egne systemer.",
-            "goToApps": "Gå til Apps",
-            "dataNote": "En nøgle får kun den adgang, I sætter flueben ved herunder. CPR-numre deles kun med en nøgle, der har fået adgang til det. Interne notater deles aldrig. Webhooks indeholder kun id'er, aldrig navne eller notattekst. Husk at opdatere jeres databehandleraftale, før personoplysninger deles med et andet system.",
+            "dataNote": "En nøgle får kun den adgang, I sætter flueben ved herunder. CPR-numre deles kun med en nøgle, der har fået adgang til det. Interne notater deles aldrig. Webhooks indeholder kun id'er, aldrig navne eller notattekst.",
             "baseUrl": "API-adresse",
             "baseUrlHint": "Giv denne adresse og en nøgle til dem, der bygger jeres integration.",
             "copy": "Kopiér",
@@ -13599,7 +13597,17 @@
                     "title": "Administrere webhooks",
                     "body": "Lader integrationen få besked, når @:terms.citizens{''} eller notater ændrer sig."
                 }
-            }
+            },
+            "offTitle": "API'et er slået fra",
+            "offBody": "Når I slår det til, kan administratorer oprette nøgler, der giver jeres egne systemer adgang til @:terms.citizens{''} og @:terms.journalNotes{''}. Intet deles, før der er oprettet en nøgle. I kan altid slå det fra igen, og så stopper alle nøgler med det samme.",
+            "dpaConfirm": "Vi har en databehandleraftale, der dækker deling af personoplysninger med de systemer, vi forbinder.",
+            "enable": "Slå API'et til",
+            "onTitle": "API'et er slået til",
+            "enabledBy": "slået til af {name} den {date}",
+            "disable": "Slå fra",
+            "confirmDisable": "Slå API'et fra? Alle nøgler og webhooks holder op med at virke med det samme.",
+            "enabledToast": "API'et er slået til",
+            "disabledToast": "API'et er slået fra"
         }
     },
     "supportAccess": {

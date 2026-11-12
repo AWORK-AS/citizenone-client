@@ -13531,9 +13531,7 @@
             "title": "CitizenOne API",
             "subtitle": "Koppla era egna system till CitizenOne. Läs @:terms.citizens{''} och @:terms.journalNotes{''}, skriv anteckningar från ert eget journalsystem och få besked när något ändras.",
             "adminOnly": "Endast administratörer kan hantera API-nycklar.",
-            "notPurchased": "Appen CitizenOne API är inte aktiv ännu. Aktivera den under Appar för att koppla era egna system.",
-            "goToApps": "Gå till Appar",
-            "dataNote": "En nyckel får bara den åtkomst ni kryssar i nedan. Personnummer delas bara med en nyckel som har fått åtkomst till det. Interna anteckningar delas aldrig. Webhooks innehåller bara id:n, aldrig namn eller anteckningstext. Kom ihåg att uppdatera ert personuppgiftsbiträdesavtal innan personuppgifter delas med ett annat system.",
+            "dataNote": "En nyckel får bara den åtkomst ni kryssar i nedan. Personnummer delas bara med en nyckel som har fått åtkomst till det. Interna anteckningar delas aldrig. Webhooks innehåller bara id:n, aldrig namn eller anteckningstext.",
             "baseUrl": "API-adress",
             "baseUrlHint": "Ge denna adress och en nyckel till dem som bygger er integration.",
             "copy": "Kopiera",
@@ -13594,7 +13592,17 @@
                     "title": "Hantera webhooks",
                     "body": "Låter integrationen få besked när @:terms.citizens{''} eller anteckningar ändras."
                 }
-            }
+            },
+            "offTitle": "API:et är avstängt",
+            "offBody": "När ni slår på det kan administratörer skapa nycklar som ger era egna system åtkomst till @:terms.citizens{''} och @:terms.journalNotes{''}. Inget delas förrän en nyckel har skapats. Ni kan stänga av det igen när som helst, och då slutar alla nycklar att fungera direkt.",
+            "dpaConfirm": "Vi har ett personuppgiftsbiträdesavtal som täcker delning av personuppgifter med de system vi kopplar till.",
+            "enable": "Slå på API:et",
+            "onTitle": "API:et är påslaget",
+            "enabledBy": "påslaget av {name} den {date}",
+            "disable": "Stäng av",
+            "confirmDisable": "Stänga av API:et? Alla nycklar och webhooks slutar fungera direkt.",
+            "enabledToast": "API:et är påslaget",
+            "disabledToast": "API:et är avstängt"
         }
     },
     "supportAccess": {

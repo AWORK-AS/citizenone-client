@@ -13531,9 +13531,7 @@
             "title": "CitizenOne API",
             "subtitle": "Koble deres egne systemer til CitizenOne. Les @:terms.citizens{''} og @:terms.journalNotes{''}, skriv notater fra deres eget journalsystem, og få beskjed når noe endrer seg.",
             "adminOnly": "Bare administratorer kan administrere API-nøkler.",
-            "notPurchased": "Appen CitizenOne API er ikke aktiv ennå. Aktiver den under Apper for å koble til deres egne systemer.",
-            "goToApps": "Gå til Apper",
-            "dataNote": "En nøkkel får bare tilgangen dere krysser av for nedenfor. Fødselsnumre deles bare med en nøkkel som har fått tilgang til det. Interne notater deles aldri. Webhooks inneholder bare id-er, aldri navn eller notattekst. Husk å oppdatere databehandleravtalen før personopplysninger deles med et annet system.",
+            "dataNote": "En nøkkel får bare tilgangen dere krysser av for nedenfor. Fødselsnumre deles bare med en nøkkel som har fått tilgang til det. Interne notater deles aldri. Webhooks inneholder bare id-er, aldri navn eller notattekst.",
             "baseUrl": "API-adresse",
             "baseUrlHint": "Gi denne adressen og en nøkkel til dem som bygger integrasjonen.",
             "copy": "Kopier",
@@ -13594,7 +13592,17 @@
                     "title": "Administrere webhooks",
                     "body": "Lar integrasjonen få beskjed når @:terms.citizens{''} eller notater endrer seg."
                 }
-            }
+            },
+            "offTitle": "API-et er slått av",
+            "offBody": "Når dere slår det på, kan administratorer opprette nøkler som gir deres egne systemer tilgang til @:terms.citizens{''} og @:terms.journalNotes{''}. Ingenting deles før en nøkkel er opprettet. Dere kan når som helst slå det av igjen, og da stopper alle nøkler med en gang.",
+            "dpaConfirm": "Vi har en databehandleravtale som dekker deling av personopplysninger med systemene vi kobler til.",
+            "enable": "Slå på API-et",
+            "onTitle": "API-et er slått på",
+            "enabledBy": "slått på av {name} {date}",
+            "disable": "Slå av",
+            "confirmDisable": "Slå av API-et? Alle nøkler og webhooks slutter å virke med en gang.",
+            "enabledToast": "API-et er slått på",
+            "disabledToast": "API-et er slått av"
         }
     },
     "supportAccess": {

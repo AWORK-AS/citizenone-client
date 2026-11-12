@@ -21,22 +21,51 @@
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.publicApi.adminOnly')" />
 
-                    <!-- App not purchased: point the admin to the Apps marketplace -->
-                    <div v-if="!state.status.app_active"
-                        class="rounded-xl border border-dashed border-surface-200 bg-surface-50 p-8 text-center">
-                        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary-50 text-primary">
-                            <Icon name="ph:lock-key" class="size-6" />
+                    <!-- Off: an admin switches it on after confirming the data processing agreement -->
+                    <div v-if="isAdmin && !state.status.enabled"
+                        class="rounded-xl border border-surface-200 bg-white p-6 shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#f0faf9] text-[#1b6d8a]">
+                                <Icon name="ph:plugs-connected" class="size-6" />
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-semibold text-slate-900">{{ $t('settings.publicApi.offTitle') }}</h3>
+                                <p class="mt-1 text-sm text-slate-500">{{ $t('settings.publicApi.offBody') }}</p>
+                            </div>
                         </div>
-                        <p class="mt-3 text-sm text-slate-500">{{ $t('settings.publicApi.notPurchased') }}</p>
-                        <div class="mt-4 flex justify-center">
-                            <FormButton buttonStyle="primary" @click="navigateTo('/apps')">
-                                <Icon name="ph:storefront" class="h-4 w-4" />
-                                {{ $t('settings.publicApi.goToApps') }}
+                        <button type="button" class="mt-5 flex w-full items-start gap-1 rounded-lg border px-3 py-3 text-left transition"
+                            :class="state.dpaConfirmed ? 'border-[#2dbab2] bg-[#f0faf9]' : 'border-surface-200 hover:bg-surface-50'"
+                            @click="state.dpaConfirmed = !state.dpaConfirmed">
+                            <FormCheckbox :value="state.dpaConfirmed" class="pointer-events-none mt-0.5" />
+                            <span class="text-sm text-slate-700">{{ $t('settings.publicApi.dpaConfirm') }}</span>
+                        </button>
+                        <FormError :error="state?.error?.errors?.dpa_confirmed?.[0]" />
+                        <div class="mt-4 flex justify-end">
+                            <FormButton buttonStyle="primary" :disabled="!state.dpaConfirmed" @click="setEnabled(true)">
+                                <Icon name="ph:power" class="h-4 w-4" />
+                                {{ $t('settings.publicApi.enable') }}
                             </FormButton>
                         </div>
                     </div>
 
-                    <template v-if="state.status.app_active && isAdmin">
+                    <template v-if="state.status.enabled && isAdmin">
+                        <!-- On: who switched it on, and the way back -->
+                        <div class="flex items-center justify-between gap-3 rounded-xl border border-[#2dbab2]/40 bg-[#f0faf9] px-5 py-4">
+                            <p class="flex items-center gap-2 text-sm text-slate-700">
+                                <span class="size-2.5 shrink-0 rounded-full bg-[#2dbab2]"></span>
+                                <span>
+                                    <span class="font-semibold">{{ $t('settings.publicApi.onTitle') }}</span>
+                                    <template v-if="state.status.enabled_at">
+                                        · {{ $t('settings.publicApi.enabledBy', { name: state.status.enabled_by ?? '', date: formatDate(state.status.enabled_at) }) }}
+                                    </template>
+                                </span>
+                            </p>
+                            <FormButton buttonStyle="danger" @click="state.confirmDisable = true">
+                                <Icon name="ph:power" class="h-4 w-4" />
+                                {{ $t('settings.publicApi.disable') }}
+                            </FormButton>
+                        </div>
+
                         <!-- What is shared, and the agreement it needs -->
                         <Alert type="info" :text="$t('settings.publicApi.dataNote')" />
 
@@ -213,6 +242,10 @@
                 </div>
             </LoadingSpinner>
 
+            <DialogConfirmation :isModalOpen="state.confirmDisable"
+                :message="$t('settings.publicApi.confirmDisable')"
+                @close="state.confirmDisable = false" @confirm="setEnabled(false)" />
+
             <DialogConfirmation :isModalOpen="!!state.confirmRevokeId"
                 :message="$t('settings.publicApi.confirmRevoke')"
                 @close="state.confirmRevokeId = ''" @confirm="revokeKey" />
@@ -251,13 +284,17 @@ const state = reactive({
     rawKey: '' as string,
     confirmRevokeId: '' as string,
     confirmDeleteWebhookId: '' as string,
+    confirmDisable: false,
+    dpaConfirmed: false,
     form: {
         name: '' as string,
         scopes: [...DEFAULT_SCOPES] as string[],
         allowedIps: '' as string,
     },
     status: {
-        app_active: false,
+        enabled: false,
+        enabled_at: null as string | null,
+        enabled_by: null as string | null,
         available_scopes: [] as string[],
         keys: [] as any[],
         webhooks: [] as any[],
@@ -306,6 +343,22 @@ async function fetchStatus() {
     try {
         const response = await publicApiService.getStatus()
         state.status = response?.data ?? state.status
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+async function setEnabled(enabled: boolean) {
+    state.confirmDisable = false
+    state.error = {}
+    state.isLoading = true
+    try {
+        const response = await publicApiService.setEnabled(enabled, state.dpaConfirmed)
+        state.status = response?.data ?? state.status
+        state.dpaConfirmed = false
+        state.rawKey = ''
+        successAlert(`${t('alert.success')}!`, t(enabled ? 'settings.publicApi.enabledToast' : 'settings.publicApi.disabledToast'))
     } catch (error: any) {
         state.error = error
     }
