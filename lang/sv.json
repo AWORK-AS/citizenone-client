@@ -14186,6 +14186,27 @@
                 "priority": "Priority",
                 "requests": "Most wishes"
             },
+            "copyBrief": "Kopiera till Claude",
+            "copyBriefHint": "Kopierar en färdig uppgiftsbeskrivning med nummer, text, kunder och anteckningar",
+            "copied": "Kopierat – klistra in hos Claude",
+            "copyFailed": "Kunde inte kopiera till urklipp.",
+            "wishes": {
+                "tab": "Önskemål",
+                "intro": "Önskemål skickade från appen via \"Skicka ett önskemål\".",
+                "empty": "Inga önskemål här.",
+                "status": {
+                    "new": "Nya",
+                    "on_roadmap": "På färdplanen",
+                    "declined": "Avböjda"
+                },
+                "toRoadmap": "Lägg på färdplanen",
+                "decline": "Avböj",
+                "reopen": "Tillbaka till ny",
+                "newItem": "Ny punkt",
+                "existingItem": "Befintlig punkt",
+                "itemTitle": "Titel på färdplanspunkten",
+                "newItemHint": "Skapas som utkast under Planerad. Önskemålet sparas som ursprunglig text, och kunden noteras som önskande."
+            },
             "import": {
                 "button": "Import",
                 "title": "Import roadmap items",
@@ -17695,7 +17716,10 @@
         },
         "previousRequests": {
             "title": "Dina tidigare förfrågningar",
-            "empty": "Inga tidigare förfrågningar"
+            "empty": "Inga tidigare förfrågningar",
+            "onRoadmap": "På färdplanen",
+            "onRoadmapAs": "På färdplanen: {title}",
+            "read": "Läst"
         }
     },
     "no": "Nej",

@@ -14194,6 +14194,27 @@
                 "priority": "Priority",
                 "requests": "Most wishes"
             },
+            "copyBrief": "Copy for Claude",
+            "copyBriefHint": "Copies a ready task brief with number, text, customers and notes",
+            "copied": "Copied – paste it into Claude",
+            "copyFailed": "Could not copy to the clipboard.",
+            "wishes": {
+                "tab": "Wishes",
+                "intro": "Wishes sent from the app via \"Send a wish\".",
+                "empty": "No wishes here.",
+                "status": {
+                    "new": "New",
+                    "on_roadmap": "On roadmap",
+                    "declined": "Declined"
+                },
+                "toRoadmap": "Put on roadmap",
+                "decline": "Decline",
+                "reopen": "Back to new",
+                "newItem": "New item",
+                "existingItem": "Existing item",
+                "itemTitle": "Roadmap item title",
+                "newItemHint": "Created as a draft under Planned. The wish is kept as original text, and the customer is noted as wanting it."
+            },
             "import": {
                 "button": "Import",
                 "title": "Import roadmap items",
@@ -17780,7 +17801,10 @@
         },
         "previousRequests": {
             "title": "Your previous requests",
-            "empty": "No previous requests"
+            "empty": "No previous requests",
+            "onRoadmap": "On the roadmap",
+            "onRoadmapAs": "On the roadmap: {title}",
+            "read": "Read"
         }
     },
     "no": "No",
