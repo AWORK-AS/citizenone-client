@@ -309,6 +309,9 @@
         "interestCount": "{count} company wants this | {count} companies want this"
     },
     "compensatoryPayoutsReport": {
+        "delete": "Delete",
+        "deleteConfirm": "Delete the payout of {amount} hours to {employee}? The hours go back on the compensatory balance.",
+        "deleteTitle": "Delete payout",
         "export": "Export",
         "filters": {
             "dateEnd": "Date to",

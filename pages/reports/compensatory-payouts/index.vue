@@ -38,7 +38,7 @@
                         :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.payouts?.data?.length === 0))">
                             <tr v-for="(payout, index) in state.payouts?.data" :key="index">
-                                <td width="30%">
+                                <td width="28%">
                                     <span>{{ payout?.user?.name ?? '-' }}</span>
                                 </td>
                                 <td width="25%">
@@ -47,8 +47,14 @@
                                 <td width="20%">
                                     <span>{{ formatDateToReadable(payout?.transaction_date) }}</span>
                                 </td>
-                                <td width="25%">
+                                <td width="17%">
                                     <span>{{ formatNumber(language.locale.value, Math.abs(payout?.amount ?? 0)) }}</span>
+                                </td>
+                                <td width="10%" class="text-right">
+                                    <FormButton type="button" buttonStyle="danger" @click="confirmDelete(payout)">
+                                        <Icon name="ph:trash" class="size-4" />
+                                        {{ $t('compensatoryPayoutsReport.delete') }}
+                                    </FormButton>
                                 </td>
                             </tr>
                         </template>
@@ -89,6 +95,10 @@
                     </form>
                 </template>
             </Modal>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
+                :title="$t('compensatoryPayoutsReport.deleteTitle')"
+                :message="deleteMessage" :confirmLabel="$t('compensatoryPayoutsReport.delete')"
+                @close="state.modal.isDeleteOpen = false" @confirm="deletePayout" />
         </NuxtLayout>
     </div>
 </template>
@@ -98,6 +108,7 @@ import { compensatoryPayoutReportService } from '@/components/api/user/Compensat
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { usePermissions } from '@/composables/usePermissions'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -106,6 +117,7 @@ const language = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
+const { successAlert } = useAlert()
 let currentTablePage = 1
 
 const breadcrumbLinks = [
@@ -126,6 +138,7 @@ const state = reactive({
         { name: 'compensatoryPayoutsReport.table.account', isTranslateName: true, sorter: false, key: 'time_account' },
         { name: 'compensatoryPayoutsReport.table.date', isTranslateName: true, sorter: true, key: 'transaction_date' },
         { name: 'compensatoryPayoutsReport.table.amount', isTranslateName: true, sorter: false, key: 'amount' },
+        { name: '', isTranslateName: false, sorter: false, key: 'actions' },
     ],
     dataFilter: {
         date_start: '',
@@ -139,7 +152,9 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isFilterOpen: false,
+        isDeleteOpen: false,
     },
+    selectedPayout: null as any,
     payouts: [] as any,
     sortData: {
         sortField: 'transaction_date',
@@ -201,6 +216,32 @@ async function exportPayouts() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+// A payout registered by mistake: deleting it puts the hours back on the
+// employee's balance. The backend logs who deleted it and what it was.
+const deleteMessage = computed(() => language.t('compensatoryPayoutsReport.deleteConfirm', {
+    amount: formatNumber(language.locale.value, Math.abs(state.selectedPayout?.amount ?? 0)),
+    employee: state.selectedPayout?.user?.name ?? '-',
+}))
+
+function confirmDelete(payout: any) {
+    state.selectedPayout = payout
+    state.modal.isDeleteOpen = true
+}
+
+async function deletePayout() {
+    if (!state.selectedPayout?.uuid) return
+    state.error = {}
+    try {
+        const response = await compensatoryPayoutReportService.deletePayout(state.selectedPayout.uuid)
+        successAlert(`${language.t('alert.success')}!`, response?.message ?? '')
+        if (state.payouts?.data?.length === 1 && currentTablePage > 1) currentTablePage--
+        await fetchPayouts()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.selectedPayout = null
 }
 
 function applyFilter() {

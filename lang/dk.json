@@ -309,6 +309,9 @@
         "interestCount": "{count} virksomhed ønsker denne | {count} virksomheder ønsker denne"
     },
     "compensatoryPayoutsReport": {
+        "delete": "Slet",
+        "deleteConfirm": "Slet udbetalingen af {amount} timer til {employee}? Timerne kommer tilbage på afspadseringssaldoen.",
+        "deleteTitle": "Slet udbetaling",
         "export": "Eksporter",
         "filters": {
             "dateEnd": "Dato til",

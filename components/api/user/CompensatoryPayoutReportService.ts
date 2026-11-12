@@ -5,6 +5,10 @@ class CompensatoryPayoutReportService extends BaseAPIService {
         return await this.request(`/user/compensatory-payouts`, 'GET', params);
     }
 
+    async deletePayout(payoutUuid: string): Promise<any> {
+        return await this.request(`/user/compensatory-payouts/${payoutUuid}`, 'DELETE');
+    }
+
     async exportPayouts(params: any): Promise<Blob | null> {
         return await this.requestBlob(`/user/compensatory-payouts/export`, 'GET', params);
     }
