@@ -13,6 +13,11 @@
                                     :placeholder="$t('citizens.interventionHours.download.filter.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
+                            <div class="space-y-1">
+                                <FormLabel for="download_type" :label="$t('mileageLog.download.downloadType')" />
+                                <FormSelect id="download_type" name="download_type" :options="downloadTypes"
+                                    v-model="state.downloadForm.download_type" />
+                            </div>
                             <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
                                 <input type="checkbox" v-model="state.onlyUnprocessed"
                                     class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
@@ -67,6 +72,8 @@ const state = reactive({
     downloadForm: {
         start_date: '',
         end_date: '',
+        // Excel carries the hours per hour type on its own sheet.
+        download_type: 'pdf',
     },
     error: {} as Error,
     filter: {
@@ -110,6 +117,7 @@ async function downloadInterventionHours() {
             let params = {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
+                download_type: state.downloadForm.download_type,
             } as any
 
             if (props?.filters?.department_uuids?.length > 0) {
@@ -138,7 +146,7 @@ async function downloadInterventionHours() {
 
             const response = await interventionHoursService.downloadInterventionHoursReport(params)
             if (response) {
-                saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY'))
+                saveAs(response, `${t('citizens.interventionHours.interventionHours').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY') + (state.downloadForm.download_type === 'xlsx' ? '.xlsx' : '.pdf'))
             }
         } catch (error: any) {
             state.error = error
@@ -146,6 +154,11 @@ async function downloadInterventionHours() {
     }
     state.isPageLoading = false
 }
+
+const downloadTypes = [
+    { value: 'pdf', label: 'PDF' },
+    { value: 'xlsx', label: 'Excel' },
+]
 </script>
 
 <style>

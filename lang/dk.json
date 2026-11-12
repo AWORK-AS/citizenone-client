@@ -19626,6 +19626,8 @@
             "convert": "Omdan til faktura",
             "convertAll": "Omdan alle",
             "exportCsv": "Eksportér CSV",
+            "exportExcel": "Eksportér til Excel",
+            "exportSheet": "Faktureringsudtræk",
             "selectPeriod": "Vælg en periode og tryk Generér.",
             "noData": "Ingen registrerede indsatstimer i perioden.",
             "citizen": "@.capitalize:terms.citizen{''}",

@@ -19626,6 +19626,8 @@
             "convert": "Convert to invoice",
             "convertAll": "Convert all",
             "exportCsv": "Export CSV",
+            "exportExcel": "Export to Excel",
+            "exportSheet": "Billing extraction",
             "selectPeriod": "Pick a period and press Generate.",
             "noData": "No hours registered in the period.",
             "citizen": "@.capitalize:terms.citizen{''}",
