@@ -3532,7 +3532,13 @@
                 "filter": {
                     "filterDate": "Filtrer dato"
                 },
-                "followsFilters": "Downloaden følger de valgte filtre."
+                "followsFilters": "Downloaden følger de valgte filtre.",
+                "periodBasis": "Periode gælder",
+                "basisCreated": "Oprettelsesdato",
+                "basisCreatedHint": "Timer, der er oprettet i perioden, uanset hvornår besøget var. Brug det til en lønperiode, fx den 21. til den 20.",
+                "includeTimeLogs": "Medtag tidslogs uden @:terms.citizen{''} (møder, studentermedhjælpere)",
+                "includeTimeLogsHint": "Tid på en @:terms.citizen{''} registreres som indsatstimer og kommer ikke med her. Ikke-godkendte tidslogs kommer med, markeret \"Afventer godkendelse\".",
+                "includeTimeLogsBlocked": "Ikke muligt, når listen er filtreret på @:terms.citizen{''}, timetype eller transport."
             },
             "distribution": {
                 "title": "Fordeling på medarbejdere, uge {week}",
@@ -17829,7 +17835,9 @@
             "employee": "Medarbejder: {name}",
             "filtered": "Med filter",
             "onlyUnprocessed": "Kun ikke-behandlede",
-            "onlyUnprocessedOption": "Kun ikke-behandlede"
+            "onlyUnprocessedOption": "Kun ikke-behandlede",
+            "byCreatedDate": "Efter oprettelsesdato",
+            "withTimeLogs": "Inkl. tidslogs"
         }
     },
     "timeRegistration": {

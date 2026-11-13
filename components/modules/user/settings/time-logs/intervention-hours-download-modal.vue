@@ -8,10 +8,32 @@
                         <div class="space-y-3">
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
+                            <!-- The period means the visit date, or the creation date for a payroll
+                                 period such as the 21st to the 20th (AW-2026-10154). -->
+                            <div class="space-y-1">
+                                <FormLabel :label="$t('citizens.interventionHours.download.periodBasis')" />
+                                <div class="flex items-center gap-2" role="group"
+                                    :aria-label="$t('citizens.interventionHours.download.periodBasis')">
+                                    <button v-for="basis in dateBases" :key="basis.value" type="button"
+                                        class="px-3 py-1 rounded-lg text-xs font-semibold border transition-colors"
+                                        :class="state.dateBasis === basis.value
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
+                                        :aria-pressed="state.dateBasis === basis.value"
+                                        @click="state.dateBasis = basis.value">
+                                        {{ basis.label }}
+                                    </button>
+                                </div>
+                            </div>
                             <div class="space-y-1">
                                 <FormDateRangeField name="date_range" v-model="state.filter.date_range"
-                                    :placeholder="$t('citizens.interventionHours.download.filter.filterDate')" />
+                                    :placeholder="state.dateBasis === 'created'
+                                        ? $t('citizens.interventionHours.filter.filterCreatedDate')
+                                        : $t('citizens.interventionHours.download.filter.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
+                                <p v-if="state.dateBasis === 'created'" class="text-xxs text-gray-500">
+                                    {{ $t('citizens.interventionHours.download.basisCreatedHint') }}
+                                </p>
                             </div>
                             <!-- PDF to read, Excel to work with the rows (AW-2026-10154). -->
                             <div class="space-y-1">
@@ -28,6 +50,21 @@
                                         {{ format.label }}
                                     </button>
                                 </div>
+                            </div>
+                            <!-- Time logs without a citizen (staff meetings, student helpers) in the
+                                 Excel file, for a payroll extract (AW-2026-10154). -->
+                            <div v-if="state.downloadType === 'xlsx'" class="space-y-1">
+                                <label class="flex items-start gap-x-2 text-sm text-gray-700"
+                                    :class="timeLogsBlocked ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'">
+                                    <input type="checkbox" v-model="state.includeTimeLogs" :disabled="timeLogsBlocked"
+                                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                                    {{ $t('citizens.interventionHours.download.includeTimeLogs') }}
+                                </label>
+                                <p class="text-xxs text-gray-500 pl-6">
+                                    {{ timeLogsBlocked
+                                        ? $t('citizens.interventionHours.download.includeTimeLogsBlocked')
+                                        : $t('citizens.interventionHours.download.includeTimeLogsHint') }}
+                                </p>
                             </div>
                             <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
                                 <input type="checkbox" v-model="state.onlyUnprocessed"
@@ -62,6 +99,7 @@ import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useI18n } from "vue-i18n"
+import { useTerminology } from '@/composables/useTerminology'
 
 const props = defineProps({
     isModalOpen: {
@@ -93,9 +131,35 @@ const state = reactive({
     onlyUnprocessed: false,
     // 'pdf' or 'xlsx' (Excel).
     downloadType: 'pdf' as 'pdf' | 'xlsx',
+    // What the period means: the visit date, or the creation date (AW-2026-10154).
+    dateBasis: 'visit' as 'visit' | 'created',
+    // Excel only: add time logs without a citizen (AW-2026-10154).
+    includeTimeLogs: false,
     options: {
         tags: [],
     },
+})
+
+const { term } = useTerminology()
+
+const dateBases = computed(() => [
+    { value: 'visit' as const, label: term('visitDate', t('citizens.interventionHours.filter.visitDate')) },
+    { value: 'created' as const, label: t('citizens.interventionHours.download.basisCreated') },
+])
+
+// Time logs have no citizen, hour type or trip: a list narrowed to those holds none.
+const timeLogsBlocked = computed(() => {
+    const filters: any = props.filters ?? {}
+    const citizens = (filters.citizen_uuids ?? []).filter((uuid: string) => uuid && uuid !== 'all-citizens')
+    return citizens.length > 0 || (filters.hour_type_uuids?.length ?? 0) > 0 || filters.is_transportation === true
+})
+
+// A list filtered on creation dates opens the window on that period.
+watch(() => props.isModalOpen, (isOpen: boolean) => {
+    if (isOpen && props.filters?.created_from && props.filters?.created_to) {
+        state.dateBasis = 'created'
+        state.filter.date_range = [props.filters.created_from, props.filters.created_to] as any
+    }
 })
 
 const rules = computed(() => {
@@ -130,10 +194,17 @@ async function downloadInterventionHours() {
     v$.value.$validate()
     if (!v$.value.$error) {
         try {
-            let params = {
-                start_date: state.downloadForm.start_date,
-                end_date: state.downloadForm.end_date,
-            } as any
+            // By creation date the range is the creation period and there is no
+            // visit range; by visit date the list's creation filter still applies.
+            let params = (state.dateBasis === 'created'
+                ? {
+                    created_from: state.downloadForm.start_date,
+                    created_to: state.downloadForm.end_date,
+                }
+                : {
+                    start_date: state.downloadForm.start_date,
+                    end_date: state.downloadForm.end_date,
+                }) as any
 
             if (props?.filters?.department_uuids?.length > 0) {
                 params.department_uuids = Array(props?.filters?.department_uuids)
@@ -150,13 +221,16 @@ async function downloadInterventionHours() {
             if (props?.filters?.hour_type_uuids?.length > 0) {
                 params['hour_type_uuids[]'] = [...props.filters.hour_type_uuids]
             }
-            if (props?.filters?.created_from && props?.filters?.created_to) {
+            if (state.dateBasis === 'visit' && props?.filters?.created_from && props?.filters?.created_to) {
                 params.created_from = props.filters.created_from
                 params.created_to = props.filters.created_to
             }
 
             if (state.onlyUnprocessed) {
                 params.only_unprocessed = 1
+            }
+            if (state.downloadType === 'xlsx' && state.includeTimeLogs && !timeLogsBlocked.value) {
+                params.include_time_logs = 1
             }
             params.download_type = state.downloadType
 

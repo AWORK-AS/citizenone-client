@@ -29,6 +29,13 @@
                                             <p class="font-medium text-gray-800 whitespace-nowrap">
                                                 {{ formatDate(item.start_date) }} - {{ formatDate(item.end_date) }}
                                             </p>
+                                            <!-- AW-2026-10154: missing on older rows, which were by visit date without time logs. -->
+                                            <p class="text-xxs text-gray-500" v-if="item.date_basis === 'created'">
+                                                {{ $t('timeLogs.exportHistory.byCreatedDate') }}
+                                            </p>
+                                            <p class="text-xxs text-gray-500" v-if="item.include_time_logs">
+                                                {{ $t('timeLogs.exportHistory.withTimeLogs') }}
+                                            </p>
                                             <p class="text-xxs text-gray-500" v-if="item.employee">
                                                 {{ $t('timeLogs.exportHistory.employee', { name: item.employee.name }) }}
                                             </p>
