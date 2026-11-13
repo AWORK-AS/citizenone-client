@@ -66,7 +66,7 @@
                                     </div>
                                     <h3 class="text-lg font-semibold">{{ plan?.name }}</h3>
                                     <div class="text-sm">
-                                        <div v-html="plan?.description" class="content" />
+                                        <div v-safe-html="plan?.description" class="content" />
                                     </div>
                                     <p class="text-sm">
                                         {{ $t('plansandgoals.dateCreated') }}: {{ formatDateToReadable(plan?.created_at) }}

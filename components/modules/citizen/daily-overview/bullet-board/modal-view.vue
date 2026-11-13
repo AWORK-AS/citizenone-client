@@ -29,7 +29,7 @@
                             <span>{{ formatDateToReadable(props.selectedNews?.created_at) }}</span>
                         </div>
                         <p class="text-xs text-gray-400 mt-3"
-                            v-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
+                            v-safe-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
                         <div class="mt-4" v-if="props.selectedNews?.link">
                             <FormButton buttonStyle="primary" @click="navigateToExternalLink(props.selectedNews?.link)"
                                 class="w-full">

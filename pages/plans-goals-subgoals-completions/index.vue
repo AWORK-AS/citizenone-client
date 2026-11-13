@@ -58,7 +58,7 @@
                                         </h3>
                                     </div>
                                     <div class="text-sm">
-                                        <div v-html="pendingPlanGoalSubgoal?.description" class="content" />
+                                        <div v-safe-html="pendingPlanGoalSubgoal?.description" class="content" />
                                     </div>
                                     <div class="mt-1">
                                         <Badge type="primary" class="w-fit" v-if="pendingPlanGoalSubgoal.score">

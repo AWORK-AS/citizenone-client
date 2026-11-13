@@ -150,7 +150,7 @@
                                         </div>
                                         <ModulesUserCitizenPlanGoalClassificationBadges v-if="plan?.is_single_goal" :goal="plan" />
                                         <div class="text-sm">
-                                            <div v-html="plan?.description" class="content" />
+                                            <div v-safe-html="plan?.description" class="content" />
                                         </div>
                                         <div class="mt-1">
                                             <Badge type="primary" class="w-fit" v-if="plan.score">

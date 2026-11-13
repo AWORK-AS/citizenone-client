@@ -37,7 +37,7 @@
                             </span>
                         </div>
                         <p class="text-xs text-gray-400 mt-3"
-                            v-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
+                            v-safe-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
                         <div class="mt-4" v-if="props.selectedNews?.attachments?.length > 0">
                             <p class="text-xs font-semibold text-gray-600 mb-2">
                                 {{ $t('bulletBoard.attachments') }}
