@@ -18738,7 +18738,8 @@
             "score": "Score",
             "edit": "Redigér",
             "duplicate": "Duplikér",
-            "delete": "Slet"
+            "delete": "Slet",
+            "changeDate": "Skift dato"
         },
         "status": {
             "completed": "Udfyldt",
@@ -18764,7 +18765,8 @@
             "duplicated": "Spørgeskema duplikeret",
             "sent": "Spørgeskema sendt til @:terms.citizenDefinite{''}",
             "assignmentDeleted": "Besvarelse slettet",
-            "responseSaved": "Besvarelse gemt"
+            "responseSaved": "Besvarelse gemt",
+            "completedDateChanged": "Udfyldt dato ændret"
         },
         "editWarning": {
             "hasResponses": "Dette spørgeskema har {count} besvarelse(r). Besvarelser, der allerede er udfyldt, beholder spørgsmålene og rækkefølgen, som de blev besvaret med. Dine ændringer gælder for besvarelser, der udfyldes fra nu af.",
@@ -18825,7 +18827,10 @@
         },
         "fill": {
             "enterAnswer": "Skriv dit svar"
-        }
+        },
+        "completedDate": "Udfyldt den",
+        "completedDateHint": "Vælg en tidligere dato, hvis spørgeskemaet blev udfyldt før i dag, fx på papir.",
+        "changeCompletedDate": "Skift udfyldt dato"
     },
     "welcomeTour": {
         "name": "Milo",

@@ -18653,7 +18653,8 @@
             "score": "Poäng",
             "edit": "Redigér",
             "duplicate": "Duplicera",
-            "delete": "Slet"
+            "delete": "Slet",
+            "changeDate": "Ändra datum"
         },
         "status": {
             "completed": "Ifylld",
@@ -18679,7 +18680,8 @@
             "duplicated": "Enkät duplicerad",
             "sent": "Spørgeskema sendt til borgeren",
             "assignmentDeleted": "Besvarelse slettet",
-            "responseSaved": "Besvarelse gemt"
+            "responseSaved": "Besvarelse gemt",
+            "completedDateChanged": "Ifyllt datum ändrat"
         },
         "editWarning": {
             "hasResponses": "Den här enkäten har {count} svar. Svar som redan är ifyllda behåller frågorna och ordningen de besvarades med. Dina ändringar gäller svar som fylls i från och med nu.",
@@ -18740,7 +18742,10 @@
         },
         "fill": {
             "enterAnswer": "Skriv ditt svar"
-        }
+        },
+        "completedDate": "Ifylld den",
+        "completedDateHint": "Välj ett tidigare datum om enkäten fylldes i före idag, t.ex. på papper.",
+        "changeCompletedDate": "Ändra ifyllt datum"
     },
     "welcomeTour": {
         "name": "Milo",
