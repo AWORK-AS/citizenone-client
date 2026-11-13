@@ -1,3 +1,5 @@
+import { escapeHtml, jsStringLiteral } from '../../utils/inlineHtml'
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBaseURL || process.env.API_BASE_URL
@@ -5,7 +7,9 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const code = query.code as string
   const state = query.state as string
-  const error = query.error as string
+  // Rendered into the page below, so never as raw text: it is whatever the
+  // link said, and this route needs no login.
+  const error = typeof query.error === 'string' ? query.error : ''
 
   // This is a full-page browser redirect from Keycloak, so there's no
   // Authorization header and no `_token` cookie to read (the app only ever
@@ -23,18 +27,18 @@ export default defineEventHandler(async (event) => {
 <head><title>Danløn Authorization Failed</title></head>
 <body>
   <h2>Authorization Failed</h2>
-  <p>${error || 'Missing authorization code'}</p>
+  <p>${escapeHtml(error || 'Missing authorization code')}</p>
   <script>
     if (window.opener) {
       window.opener.postMessage({
         type: 'danlon-auth-complete',
         success: false,
-        error: '${error || 'Missing authorization code'}'
+        error: ${jsStringLiteral(error || 'Missing authorization code')}
       }, '*');
       setTimeout(() => window.close(), 2000);
     } else {
       setTimeout(() => {
-        window.location.href = '/apps?error=${encodeURIComponent(error || 'Authorization failed')}';
+        window.location.href = ${jsStringLiteral('/apps?error=' + encodeURIComponent(error || 'Authorization failed'))};
       }, 2000);
     }
   </script>

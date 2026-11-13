@@ -34,7 +34,7 @@
                                                         customPagesStore.getCustomPagesName?.riskAssessment }}
                                                 </p>
                                             </Badge>
-                                            <div v-html="status.status" class="content" />
+                                            <div v-safe-html="status.status" class="content" />
                                             <Badge type="primary" class="w-fit" v-if="status.score">
                                                 <p class="text-xxs" v-if="status.score == 1">
                                                     {{

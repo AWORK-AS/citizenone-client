@@ -58,7 +58,7 @@
                                             {{ plan?.name }}
                                         </h3>
                                         <div class="text-sm text-gray-600 line-clamp-3">
-                                            <div v-html="plan?.description" class="content" />
+                                            <div v-safe-html="plan?.description" class="content" />
                                         </div>
                                     </div>
                                     <FormButton class="rounded-full shrink-0" buttonSize="sm" @click="viewPlan(plan)">

@@ -43,7 +43,7 @@
                                             </h3>
                                         </div>
                                         <div class="text-sm">
-                                            <div v-html="plan?.description" class="content" />
+                                            <div v-safe-html="plan?.description" class="content" />
                                         </div>
                                         <p class="text-sm">
                                             {{ $t('plansandgoals.VUMTemplates.table.plans.completionDate') }}: {{
