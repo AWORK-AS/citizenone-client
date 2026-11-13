@@ -18653,7 +18653,8 @@
             "score": "Score",
             "edit": "Redigér",
             "duplicate": "Dupliser",
-            "delete": "Slet"
+            "delete": "Slet",
+            "changeDate": "Endre dato"
         },
         "status": {
             "completed": "Udfyldt",
@@ -18679,7 +18680,8 @@
             "duplicated": "Spørreskjema duplisert",
             "sent": "Spørgeskema sendt til borgeren",
             "assignmentDeleted": "Besvarelse slettet",
-            "responseSaved": "Besvarelse gemt"
+            "responseSaved": "Besvarelse gemt",
+            "completedDateChanged": "Utfylt dato endret"
         },
         "editWarning": {
             "hasResponses": "Dette spørreskjemaet har {count} besvarelse(r). Besvarelser som allerede er fylt ut, beholder spørsmålene og rekkefølgen de ble besvart med. Endringene dine gjelder for besvarelser som fylles ut fra nå av.",
@@ -18740,7 +18742,10 @@
         },
         "fill": {
             "enterAnswer": "Skriv svaret ditt"
-        }
+        },
+        "completedDate": "Utfylt den",
+        "completedDateHint": "Velg en tidligere dato hvis spørreskjemaet ble fylt ut før i dag, f.eks. på papir.",
+        "changeCompletedDate": "Endre utfylt dato"
     },
     "welcomeTour": {
         "name": "Milo",

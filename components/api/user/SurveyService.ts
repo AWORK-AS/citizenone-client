@@ -37,6 +37,10 @@ class SurveyService extends BaseAPIService {
         return await this.request(`/user/surveys/${surveyUuid}/assignments`, 'POST', params)
     }
 
+    async updateAssignmentCompletedDate(surveyUuid: any, assignmentUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/surveys/${surveyUuid}/assignments/${assignmentUuid}/completed-date`, 'PUT', params)
+    }
+
     async deleteAssignment(surveyUuid: any, assignmentUuid: any): Promise<any> {
         return await this.request(`/user/surveys/${surveyUuid}/assignments/${assignmentUuid}`, 'DELETE')
     }

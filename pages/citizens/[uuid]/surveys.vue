@@ -95,6 +95,10 @@
                                                 @click="openAnswers(a)">
                                                 <Icon name="ph:eye" class="size-4" />{{ $t('surveys.viewAnswers') }}
                                             </FormButton>
+                                            <FormButton v-if="a?.status === 'completed'" type="button" buttonStyle="action"
+                                                @click="openCompletedDate(a)">
+                                                <Icon name="ph:calendar-blank" class="size-4" />{{ $t('surveys.table.changeDate') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action" @click="deleteConfirmation(a)">
                                                 <Icon name="ph:trash" class="size-4" />{{ $t('surveys.table.delete') }}
                                             </FormButton>
@@ -175,6 +179,10 @@
                 </template>
             </Modal>
 
+            <ModulesUserSurveyModalCompletedDate :isModalOpen="state.completedDateModal.isOpen"
+                :assignment="state.completedDateModal.assignment"
+                @close="state.completedDateModal.isOpen = false" @saved="onCompletedDateSaved" />
+
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('surveys.confirmation.deleteAssignment') + '?'"
                 @close="state.modal.isDeleteOpen = false" @confirm="deleteAssignment" />
@@ -233,6 +241,7 @@ const state = reactive({
         subgoalUuid: null as any,
     },
     answersModal: { isOpen: false, assignment: null as any },
+    completedDateModal: { isOpen: false, assignment: null as any },
     modal: { isDeleteOpen: false },
     selectedAssignment: {} as any,
     sortData: { sortField: 'created_at', sortOrder: 'descend' },
@@ -437,6 +446,8 @@ async function confirmSurveyModal() {
 }
 
 function openAnswers(a: any) { state.answersModal.assignment = a; state.answersModal.isOpen = true }
+function openCompletedDate(a: any) { state.completedDateModal.assignment = a; state.completedDateModal.isOpen = true }
+function onCompletedDateSaved() { state.completedDateModal.isOpen = false; fetchAssignments() }
 function deleteConfirmation(a: any) { state.selectedAssignment = a; state.modal.isDeleteOpen = true }
 
 async function deleteAssignment() {

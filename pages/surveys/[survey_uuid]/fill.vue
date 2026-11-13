@@ -23,6 +23,13 @@
                         <p class="text-sm font-medium bg-gray-100 rounded-md px-3 py-2" v-if="state.citizenName">
                             {{ $t('surveys.fillingForCitizen') }}: {{ state.citizenName }}
                         </p>
+                        <div class="space-y-1 max-w-xs">
+                            <FormLabel for="survey_completed_at" :label="$t('surveys.completedDate')" />
+                            <FormDateField id="survey_completed_at" name="survey_completed_at"
+                                :placeholder="$t('surveys.completedDate')" :maxDate="today" v-model="state.completedAt" />
+                            <p class="text-xs text-gray-500">{{ $t('surveys.completedDateHint') }}</p>
+                            <FormError :error="state.error?.errors?.completed_at?.[0]" />
+                        </div>
                         <div class="mt-5">
                             <ModulesSharedSurveyFill ref="surveyFill" :questions="state.survey?.questions ?? []"
                                 :answers="state.answers" withLayout />
@@ -47,6 +54,7 @@ import { surveyService } from '@/components/api/user/SurveyService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
+import moment from 'moment'
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
@@ -65,11 +73,15 @@ const citizenUuid = router?.currentRoute?.value?.query?.citizen_uuid as string
 const fromCitizen = router?.currentRoute?.value?.query?.from === 'citizen'
 const returnRoute = fromCitizen ? `/citizens/${citizenUuid}/surveys` : `/surveys/${surveyUuid}/assignments`
 const surveyFill = ref()
+const today = moment().format('YYYY-MM-DD')
 
 const state = reactive({
     error: {} as Error,
     survey: null as any,
     answers: {} as any,
+    // The day the survey counts as answered. Today, unless it was filled in
+    // earlier, e.g. on paper at a consultation, and is only typed in now.
+    completedAt: today,
     citizenName: '',
     isPageLoading: false,
 })
@@ -106,6 +118,7 @@ async function submitAnswers() {
         const response = await surveyService.saveAssignment(surveyUuid, {
             citizen_uuid: citizenUuid,
             answers: state.answers,
+            completed_at: state.completedAt || null,
         })
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('surveys.alert.responseSaved')}.`)
