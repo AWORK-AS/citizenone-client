@@ -3532,7 +3532,13 @@
                 "filter": {
                     "filterDate": "Filtrera datum"
                 },
-                "followsFilters": "Nedladdningen följer de valda filtren."
+                "followsFilters": "Nedladdningen följer de valda filtren.",
+                "periodBasis": "Perioden gäller",
+                "basisCreated": "Skapandedatum",
+                "basisCreatedHint": "Timmar som skapats under perioden, oavsett när besöket var. Använd det för en löneperiod, t.ex. den 21:a till den 20:e.",
+                "includeTimeLogs": "Ta med tidsloggar utan @:terms.citizen{''} (möten, studentmedhjälpare)",
+                "includeTimeLogsHint": "Tid på en @:terms.citizen{''} registreras som insatstimmar och kommer inte med här. Tidsloggar som inte är godkända kommer med, markerade \"Väntar på godkännande\".",
+                "includeTimeLogsBlocked": "Inte möjligt när listan är filtrerad på @:terms.citizen{''}, timtyp eller transport."
             },
             "distribution": {
                 "title": "Fördelning på medarbetare, vecka {week}",
@@ -17744,7 +17750,9 @@
             "employee": "Medarbetare: {name}",
             "filtered": "Med filter",
             "onlyUnprocessed": "Endast obehandlade",
-            "onlyUnprocessedOption": "Endast obehandlade"
+            "onlyUnprocessedOption": "Endast obehandlade",
+            "byCreatedDate": "Efter skapandedatum",
+            "withTimeLogs": "Inkl. tidsloggar"
         }
     },
     "timeRegistration": {

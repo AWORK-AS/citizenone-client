@@ -3532,7 +3532,13 @@
                 "filter": {
                     "filterDate": "Filter date"
                 },
-                "followsFilters": "The download follows the chosen filters."
+                "followsFilters": "The download follows the chosen filters.",
+                "periodBasis": "Period applies to",
+                "basisCreated": "Creation date",
+                "basisCreatedHint": "Hours created in the period, whatever the visit date. Use it for a payroll period, e.g. the 21st to the 20th.",
+                "includeTimeLogs": "Include time logs without a @:terms.citizen{''} (meetings, student helpers)",
+                "includeTimeLogsHint": "Time on a @:terms.citizen{''} is registered as care hours and is not included here. Time logs not yet approved are included, marked \"Awaiting approval\".",
+                "includeTimeLogsBlocked": "Not available when the list is filtered on @:terms.citizen{''}, hour type or transport."
             },
             "distribution": {
                 "title": "Split on employees, week {week}",
@@ -17829,7 +17835,9 @@
             "employee": "Employee: {name}",
             "filtered": "Filtered",
             "onlyUnprocessed": "Only unprocessed",
-            "onlyUnprocessedOption": "Only unprocessed"
+            "onlyUnprocessedOption": "Only unprocessed",
+            "byCreatedDate": "By creation date",
+            "withTimeLogs": "Incl. time logs"
         }
     },
     "timeRegistration": {
