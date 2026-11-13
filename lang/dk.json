@@ -14348,6 +14348,16 @@
                 "matched": "{count} kunder koblet på en virksomhed",
                 "unmatched": "Ikke koblet (gemt med navn)",
                 "confirm": "Importér {count} punkter"
+            },
+            "working": {
+                "start": "Jeg arbejder på den",
+                "stop": "Stop",
+                "takeOver": "Overtag",
+                "takeOverConfirm": "{name} arbejder på den. Vil du overtage den?",
+                "byYou": "Du arbejder på den",
+                "byOther": "{name} arbejder på den",
+                "since": "siden {date}",
+                "filterFree": "Ingen arbejder på den"
             }
         },
         "accounts": {

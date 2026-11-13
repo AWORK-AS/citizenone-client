@@ -64,6 +64,10 @@
                         <input v-model="state.filters.important" type="checkbox" />
                         <Icon name="ph:star-fill" class="h-4 w-4 text-amber-500" /> {{ $t('superadmin.roadmap.filters.importantOnly') }}
                     </label>
+                    <label class="inline-flex cursor-pointer items-center gap-1.5 text-sm text-gray-700">
+                        <input v-model="state.filters.notTaken" type="checkbox" />
+                        {{ $t('superadmin.roadmap.working.filterFree') }}
+                    </label>
                     <select v-model="state.sort" :class="filterClass" class="sm:ml-auto">
                         <option value="manual">{{ $t('superadmin.roadmap.sort.manual') }}</option>
                         <option value="priority">{{ $t('superadmin.roadmap.sort.priority') }}</option>
@@ -99,6 +103,17 @@
                                         <span v-if="item.expected_period" class="co-badge co-badge-blue">{{ item.expected_period }}</span>
                                         <span v-for="industry in item.industries" :key="industry.uuid" class="co-badge co-badge-navy">
                                             {{ industryName(industry) }}
+                                        </span>
+                                    </div>
+                                    <!-- Who is working on it now, so nobody else picks it up. -->
+                                    <div v-if="item.internal?.working_by" class="mt-1.5">
+                                        <span class="inline-flex items-center gap-x-1 rounded px-1.5 py-0.5 text-xs font-medium"
+                                            :class="isMine(item) ? 'bg-tertiary/10 text-tertiary' : 'bg-amber-100 text-amber-800'">
+                                            <Icon name="ph:hammer" class="h-3.5 w-3.5" />
+                                            {{ isMine(item) ? $t('superadmin.roadmap.working.byYou') : $t('superadmin.roadmap.working.byOther', { name: item.internal.working_by.name }) }}
+                                            <template v-if="item.internal.working_since">
+                                                · {{ $t('superadmin.roadmap.working.since', { date: formatDateTime(item.internal.working_since) }) }}
+                                            </template>
                                         </span>
                                     </div>
                                     <div v-if="item.internal || item.requests?.length" class="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
@@ -138,6 +153,26 @@
                                     </FormButton>
                                 </Tooltip>
                                 <template v-if="canManage">
+                                <FormButton v-if="!item.internal?.working_by" buttonStyle="secondary" buttonSize="sm"
+                                    :disabled="state.workingSaving === item.uuid" @click="setWorking(item, true)">
+                                    <Icon name="ph:hammer" class="h-4 w-4" /> {{ $t('superadmin.roadmap.working.start') }}
+                                </FormButton>
+                                <FormButton v-else-if="isMine(item)" buttonStyle="cancel" buttonSize="sm"
+                                    :disabled="state.workingSaving === item.uuid" @click="setWorking(item, false)">
+                                    {{ $t('superadmin.roadmap.working.stop') }}
+                                </FormButton>
+                                <FormButton v-else buttonStyle="cancel" buttonSize="sm"
+                                    :disabled="state.workingSaving === item.uuid" @click="confirmTakeOver(item)">
+                                    {{ $t('superadmin.roadmap.working.takeOver') }}
+                                </FormButton>
+                                <!-- Moves the item to another column without opening the form. -->
+                                <select :value="item.status" :aria-label="$t('superadmin.roadmap.form.status')"
+                                    :disabled="state.statusSaving === item.uuid" :class="filterClass"
+                                    @change="onStatusChange(item, $event)">
+                                    <option v-for="status in statuses" :key="status" :value="status">
+                                        {{ $t(`comingFunctions.status.${status}`) }}
+                                    </option>
+                                </select>
                                 <FormButton buttonStyle="cancel" buttonSize="sm" @click="togglePublished(item)">
                                     {{ item.is_published ? $t('superadmin.roadmap.unpublish') : $t('superadmin.roadmap.publish') }}
                                 </FormButton>
@@ -197,6 +232,10 @@
 
             <DialogConfirmation :isModalOpen="state.deleteOpen" :message="$t('superadmin.roadmap.deleteConfirm')"
                 @close="state.deleteOpen = false" @confirm="doDelete" />
+
+            <DialogConfirmation :isModalOpen="!!state.takeOverTarget"
+                :message="$t('superadmin.roadmap.working.takeOverConfirm', { name: state.takeOverTarget?.internal?.working_by?.name ?? '' })"
+                @close="state.takeOverTarget = null" @confirm="doTakeOver" />
         </NuxtLayout>
     </div>
 </template>
@@ -208,8 +247,10 @@ import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import { roadmapItemBrief } from '@/utils/roadmapBrief'
+import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { can } = usePermissions()
 const { t, locale } = useI18n()
@@ -240,7 +281,7 @@ const state = reactive({
     formError: {} as any,
     deleteOpen: false,
     deleteTarget: null as any,
-    filters: { search: '', category: '', priority: '', stage: '', published: '', important: false },
+    filters: { search: '', category: '', priority: '', stage: '', published: '', important: false, notTaken: false },
     sort: 'manual',
     importOpen: false,
     importItems: [] as any[],
@@ -251,6 +292,9 @@ const state = reactive({
     dragIndex: null as number | null,
     dragFrom: null as number | null,
     wishCounts: {} as Record<string, number>,
+    statusSaving: null as string | null,
+    workingSaving: null as string | null,
+    takeOverTarget: null as any,
 })
 
 const visibleItems = computed(() => {
@@ -266,7 +310,7 @@ const visibleItems = computed(() => {
 
 const hasFilters = computed(() => {
     const filters = state.filters
-    return !!(filters.search || filters.category || filters.priority || filters.stage || filters.published || filters.important)
+    return !!(filters.search || filters.category || filters.priority || filters.stage || filters.published || filters.important || filters.notTaken)
 })
 
 // Dragging sets the order users see, so only on the whole, unsorted column.
@@ -284,6 +328,7 @@ function matchesFilters(item: any): boolean {
     if (filters.priority && internal.priority !== filters.priority) return false
     if (filters.stage && internal.stage !== filters.stage) return false
     if (filters.important && !internal.is_important) return false
+    if (filters.notTaken && internal.working_by) return false
     if (filters.published && !!item.is_published !== (filters.published === '1')) return false
     if (filters.search) {
         const needle = filters.search.toLowerCase()
@@ -407,6 +452,15 @@ function formatDate(value: string): string {
     return new Date(value).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+// Danish time, 24-hour, whatever the viewer's own time zone is: "13. nov. 2026, 14.05".
+function formatDateTime(value: string): string {
+    return new Date(value).toLocaleString('da-DK', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+        timeZone: 'Europe/Copenhagen',
+    })
+}
+
 function openForm(item: any = null) {
     state.selectedItem = item
     state.formError = {}
@@ -450,6 +504,65 @@ async function togglePublished(item: any) {
     } catch (error: any) {
         state.error = error?.message ?? 'Error'
     }
+}
+
+function isMine(item: any): boolean {
+    const me = userStore.getUser?.uuid
+    return !!me && item.internal?.working_by?.uuid === me
+}
+
+async function setWorking(item: any, working: boolean) {
+    state.error = ''
+    state.workingSaving = item.uuid
+    try {
+        await roadmapItemService.setWorking(item.uuid, working, item.internal?.working_by?.uuid ?? null)
+        await fetchItems()
+    } catch (error: any) {
+        // A 409 says the page was out of date (e.g. "Rafael is already working on this");
+        // reload so the row shows who has it now.
+        await fetchItems()
+        // After the reload, which clears state.error when it starts.
+        state.error = error?.message ?? 'Error'
+    }
+    state.workingSaving = null
+}
+
+function confirmTakeOver(item: any) {
+    state.takeOverTarget = item
+}
+
+async function doTakeOver() {
+    const item = state.takeOverTarget
+    state.takeOverTarget = null
+    if (item) await setWorking(item, true)
+}
+
+function onStatusChange(item: any, event: Event) {
+    changeStatus(item, (event.target as HTMLSelectElement).value)
+}
+
+// Same payload as togglePublished; the backend puts the item at the bottom of its new
+// column and sets or clears the release date.
+async function changeStatus(item: any, status: string) {
+    if (status === item.status) return
+    state.error = ''
+    state.statusSaving = item.uuid
+    try {
+        await roadmapItemService.updateRoadmapItem(item.uuid, {
+            title: item.title,
+            description: item.description,
+            status,
+            expected_period: item.expected_period,
+            industry_uuids: (item.industries ?? []).map((industry: any) => industry.uuid),
+        })
+        successAlert(`${t('alert.success')}!`, '')
+        await fetchItems()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+        // The select already shows the new choice; reload so it shows the saved status again.
+        fetchItems()
+    }
+    state.statusSaving = null
 }
 
 function confirmDelete(item: any) {
