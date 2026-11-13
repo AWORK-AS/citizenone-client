@@ -45,6 +45,12 @@ class RoadmapItemService extends BaseAPIService {
         return await this.request(`/superadmin/wishes/${uuid}/status`, 'PUT', { status })
     }
 
+    // expectedWorkerUuid: who the page showed as working on it (null: nobody). The backend
+    // refuses with 409 when that is no longer true, instead of overwriting a colleague.
+    async setWorking(uuid: string, working: boolean, expectedWorkerUuid: string | null): Promise<any> {
+        return await this.request(`/superadmin/roadmap-items/${uuid}/working`, 'PUT', { working, expected_worker_uuid: expectedWorkerUuid })
+    }
+
     async reorderRoadmapItems(items: { uuid: string, sort_order: number }[]): Promise<any> {
         return await this.request(`/superadmin/roadmap-items/reorder`, 'POST', { items })
     }

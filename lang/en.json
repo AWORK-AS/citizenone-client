@@ -14348,6 +14348,16 @@
                 "matched": "{count} customers matched to a company",
                 "unmatched": "Not matched (saved by name)",
                 "confirm": "Import {count} items"
+            },
+            "working": {
+                "start": "I'm working on this",
+                "stop": "Stop",
+                "takeOver": "Take over",
+                "takeOverConfirm": "{name} is working on this. Do you want to take it over?",
+                "byYou": "You are working on this",
+                "byOther": "{name} is working on this",
+                "since": "since {date}",
+                "filterFree": "Not being worked on"
             }
         },
         "accounts": {

@@ -14340,6 +14340,16 @@
                 "matched": "{count} customers matched to a company",
                 "unmatched": "Not matched (saved by name)",
                 "confirm": "Import {count} items"
+            },
+            "working": {
+                "start": "Jeg jobber med den",
+                "stop": "Stopp",
+                "takeOver": "Overta",
+                "takeOverConfirm": "{name} jobber med den. Vil du overta den?",
+                "byYou": "Du jobber med den",
+                "byOther": "{name} jobber med den",
+                "since": "siden {date}",
+                "filterFree": "Ingen jobber med den"
             }
         },
         "accounts": {
