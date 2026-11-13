@@ -1844,6 +1844,9 @@
     },
     "back": "Tilbage",
     "bellNotification": {
+        "news": {
+            "description": "Nyt opslag fra {author}"
+        },
         "birthday": {
             "title": "Fødselsdag i dag"
         },
@@ -2214,6 +2217,8 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "weekNumber": "Uge {week}",
+        "weekShort": "U{week}",
         "duplicate": {
             "label": "Dupliker",
             "help": "Opretter en ny aftale med samme titel, beskrivelse, deltagere og etiketter. Du vælger selv dato og tid."
@@ -2817,6 +2822,7 @@
                 "lastname": "Efternavn",
                 "socialSecurityNumber": "CPR-nr.",
                 "municipality": "Kommune",
+                "emergencyContact": "Nødkontakt",
                 "notifyUseOfForce": "Giv besked om magtanvendelse",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Tilføj ny underkategori",
@@ -2846,6 +2852,9 @@
                 "street": "Gade",
                 "title": "Titel"
             },
+            "filterByTitle": "Filtrér på titel",
+            "allTitles": "Alle titler",
+            "emergencyBadge": "Nødkontakt",
             "newContact": "Ny kontakt",
             "view": {
                 "noNote": "Ingen bemærkning tilføjet endnu.",
@@ -4739,6 +4748,7 @@
                 "required": "Påkrævet",
                 "optional": "Valgfrit"
             },
+            "searchPlaceholder": "Søg i behandlinger",
             "newTreatment": "Ny behandling",
             "statuses": {
                 "alert": {
@@ -5588,7 +5598,7 @@
     },
     "department": {
         "all": "Alle",
-        "allDepartment": "Alle afdelinger",
+        "allDepartment": "Alle",
         "changedDepartmentTo": "Ændrede afdeling til",
         "department": "Afdeling"
     },
@@ -8255,6 +8265,13 @@
                 "note": "Note"
             }
         },
+        "passwordReset": {
+            "button": "Send link til ny adgangskode",
+            "send": "Send",
+            "confirm": "{email} får en mail med et link, hvor de selv vælger en ny adgangskode. Et tidligere link holder op med at virke. Fortsæt?",
+            "sent": "Linket er sendt til {email}.",
+            "failed": "Linket kunne ikke sendes."
+        },
         "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
         "employmentStatus": {
@@ -10290,6 +10307,14 @@
             },
             "smtp": "SMTP",
             "smtpEncryption": "SMTP kryptering",
+            "providers": {
+                "title": "Vælg din mailudbyder",
+                "hint": "Udfylder servere, porte og kryptering. Brugernavn er næsten altid din fulde mailadresse."
+            },
+            "help": {
+                "smtpHost": "Serveren der sender mail, fx smtp.gmail.com. Står i din mailudbyders hjælp.",
+                "smtpPort": "Typisk 587 (TLS) eller 465 (SSL)."
+            },
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP adgangskode",
             "smtpPort": "SMTP port",
@@ -10786,6 +10811,8 @@
         },
         "editNews": "Rediger nyheder",
         "form": {
+            "notify": "Send notifikation til modtagerne",
+            "notifyHint": "Kolleger, der kan se opslaget, får besked i klokken og på telefonen.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
@@ -12560,6 +12587,10 @@
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
                 "chatCprWarning": "Advar om CPR-numre i chat",
                 "birthdayNotifications": "Fødselsdagsnotifikationer",
+                "dischargeNotificationDays": "Påmindelse efter udskrivning",
+                "dischargeNotificationDaysHint": "Admins får en påmindelse, når en borger har været udskrevet så længe.",
+                "dischargeNotificationWeeks": "{weeks} uger efter",
+                "dischargeNotificationThirtyDays": "30 dage efter (standard)",
                 "birthdayNotificationsHint": "Alle får hver morgen en notifikation, når en borger eller kollega har fødselsdag. Vælg hvem den skal handle om, eller slå den fra for hele virksomheden",
                 "birthdayNotificationOptions": {
                     "all": "Borgere og medarbejdere",
@@ -14550,6 +14581,8 @@
             "successDeleted": "Slettet",
             "successDeletedBody": "{name} er blevet slettet",
             "form": {
+                "nameEn": "Navn på engelsk",
+                "nameEnHint": "Vises for brugere, der ikke har dansk som sprog",
                 "name": "Navn",
                 "icon": "Ikon",
                 "iconHint": "En emoji eller et ikonnavn (f.eks. ic:baseline-category)",

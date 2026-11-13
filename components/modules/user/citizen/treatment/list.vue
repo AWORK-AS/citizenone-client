@@ -3,7 +3,14 @@
         <div class="space-y-3">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="flex justify-end items-center mb-5 gap-x-2">
+            <div class="flex flex-wrap justify-end items-center mb-5 gap-2">
+                <!-- Roadmap #510: find a treatment by name or area. -->
+                <div class="relative mr-auto w-full sm:w-72">
+                    <Icon name="ph:magnifying-glass" class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" aria-hidden="true" />
+                    <input v-model="state.search" type="search" :placeholder="$t('citizens.treatments.searchPlaceholder')"
+                        :aria-label="$t('citizens.treatments.searchPlaceholder')"
+                        class="w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-sm focus:border-primary focus:outline-none" />
+                </div>
                 <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                     <Icon name="ph:download" class="h-4 w-4" />
                     {{ $t('citizens.treatments.treatmentOverview') }}
@@ -216,6 +223,7 @@ const state = reactive({
         isStatusOpen: false
     },
     selectedTreatment: {},
+    search: '',
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -224,6 +232,16 @@ const state = reactive({
 
 onMounted(() => {
     fetchTreatments()
+})
+
+// Wait for a pause in typing, then search from the first page.
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+watch(() => state.search, () => {
+    clearTimeout(searchTimer)
+    searchTimer = setTimeout(() => {
+        currentTablePage = 1
+        fetchTreatments()
+    }, 300)
 })
 
 async function fetchTreatments() {
@@ -235,6 +253,8 @@ async function fetchTreatments() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            // The API takes a JSON list of words and matches name and area.
+            ...(state.search.trim() ? { search: JSON.stringify([state.search.trim()]) } : {}),
         }
         const response = await treatmentService.getTreatments(params)
         if (response) {

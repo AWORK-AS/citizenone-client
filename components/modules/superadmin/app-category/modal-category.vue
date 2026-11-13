@@ -25,6 +25,13 @@
                     <SuperadminFormError :error="state.error?.errors?.name?.[0]" />
                 </div>
 
+                <!-- Roadmap #310: shown to users whose language is not Danish. -->
+                <div>
+                    <SuperadminFormLabel :label="$t('superadmin.appCategories.form.nameEn')" />
+                    <SuperadminFormTextField v-model="state.form.name_en" :placeholder="$t('superadmin.appCategories.form.nameEnHint')" />
+                    <SuperadminFormError :error="state.error?.errors?.name_en?.[0]" />
+                </div>
+
                 <!-- Icon -->
                 <div>
                     <SuperadminFormLabel :label="$t('superadmin.appCategories.form.icon')" />
@@ -93,6 +100,7 @@ const state = reactive({
     isLoading: false,
     form: {
         name: '',
+        name_en: '',
         icon: '',
         sort_order: 0,
         is_active: true,
@@ -105,7 +113,9 @@ watch(() => props.isOpen, (opened) => {
         state.errors = { name: '' }
         const category = props.category as any
         state.form = {
-            name: category?.name ?? '',
+            // `name` is shown in the viewer's language; the form edits the Danish one.
+            name: category?.name_da ?? category?.name ?? '',
+            name_en: category?.name_en ?? '',
             icon: category?.icon ?? '',
             sort_order: category?.sort_order ?? 0,
             is_active: category ? category.is_active !== false : true,
@@ -124,6 +134,7 @@ async function submit() {
     try {
         const params = {
             name: state.form.name,
+            name_en: state.form.name_en?.trim() || null,
             icon: state.form.icon,
             sort_order: Number(state.form.sort_order) || 0,
             is_active: state.form.is_active,

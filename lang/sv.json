@@ -1844,6 +1844,9 @@
     },
     "back": "Tillbaka",
     "bellNotification": {
+        "news": {
+            "description": "Nytt inlägg från {author}"
+        },
         "birthday": {
             "title": "Födelsedag idag"
         },
@@ -2214,6 +2217,8 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "weekNumber": "Vecka {week}",
+        "weekShort": "V{week}",
         "duplicate": {
             "label": "Duplicera",
             "help": "Skapar en ny händelse med samma titel, beskrivning, deltagare och etiketter. Du väljer själv datum och tid."
@@ -2817,6 +2822,7 @@
                 "lastname": "Efternamn",
                 "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
+                "emergencyContact": "Nödkontakt",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Lägg till ny underkategori",
@@ -2846,6 +2852,9 @@
                 "street": "Gata",
                 "title": "Titel"
             },
+            "filterByTitle": "Filtrera på titel",
+            "allTitles": "Alla titlar",
+            "emergencyBadge": "Nödkontakt",
             "newContact": "Ny kontakt",
             "view": {
                 "noNote": "Ingen anteckning tillagd ännu.",
@@ -4739,6 +4748,7 @@
                 "required": "Obligatorisk",
                 "optional": "Valfritt"
             },
+            "searchPlaceholder": "Sök i behandlingar",
             "newTreatment": "Ny behandling",
             "statuses": {
                 "alert": {
@@ -5588,7 +5598,7 @@
     },
     "department": {
         "all": "Alla",
-        "allDepartment": "Alla avdelningar",
+        "allDepartment": "Alla",
         "changedDepartmentTo": "Ändrede avdelning till",
         "department": "Avdelning"
     },
@@ -8255,6 +8265,13 @@
                 "note": "Anteckning"
             }
         },
+        "passwordReset": {
+            "button": "Skicka länk för nytt lösenord",
+            "send": "Skicka",
+            "confirm": "{email} får ett mejl med en länk där de själva väljer ett nytt lösenord. En tidigare länk slutar fungera. Fortsätta?",
+            "sent": "Länken har skickats till {email}.",
+            "failed": "Länken kunde inte skickas."
+        },
         "editEmployee": "Redigera anställd",
         "employees": "Anställda",
         "employmentStatus": {
@@ -10290,6 +10307,14 @@
             },
             "smtp": "SMTP",
             "smtpEncryption": "SMTP kryptering",
+            "providers": {
+                "title": "Välj din e-postleverantör",
+                "hint": "Fyller i servrar, portar och kryptering. Användarnamnet är nästan alltid hela e-postadressen."
+            },
+            "help": {
+                "smtpHost": "Servern som skickar e-post, t.ex. smtp.gmail.com. Står i leverantörens hjälp.",
+                "smtpPort": "Vanligtvis 587 (TLS) eller 465 (SSL)."
+            },
             "smtpHost": "SMTP värt",
             "smtpPassword": "SMTP lösenord",
             "smtpPort": "SMTP port",
@@ -10786,6 +10811,8 @@
         },
         "editNews": "Redigera nyheter",
         "form": {
+            "notify": "Skicka notis till mottagarna",
+            "notifyHint": "Kollegor som kan se inlägget får en notis i klockan och i telefonen.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhet är blivit sparad",
@@ -12555,6 +12582,10 @@
                 "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
                 "birthdayNotifications": "Födelsedagsnotiser",
+                "dischargeNotificationDays": "Påminnelse efter utskrivning",
+                "dischargeNotificationDaysHint": "Administratörer får en påminnelse när en klient har varit utskriven så länge.",
+                "dischargeNotificationWeeks": "{weeks} veckor efter",
+                "dischargeNotificationThirtyDays": "30 dagar efter (standard)",
                 "birthdayNotificationsHint": "Alla får en notis varje morgon när en klient eller kollega fyller år. Välj vem den ska handla om, eller stäng av den för hela företaget",
                 "birthdayNotificationOptions": {
                     "all": "Klienter och anställda",
@@ -14542,6 +14573,8 @@
             "successDeleted": "Borttagen",
             "successDeletedBody": "{name} har tagits bort",
             "form": {
+                "nameEn": "Namn på engelska",
+                "nameEnHint": "Visas för användare som inte har danska som språk",
                 "name": "Namn",
                 "icon": "Ikon",
                 "iconHint": "En emoji eller ett ikonnamn (t.ex. ic:baseline-category)",

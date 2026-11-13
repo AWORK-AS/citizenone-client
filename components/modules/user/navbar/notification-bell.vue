@@ -212,6 +212,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('contractsigned')) return 'contract_signed'
     if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
+    if (type.toLowerCase().includes('newspublished')) return 'news'
     if (type.toLowerCase().includes('inactiveemployees')) return 'inactive_employees'
     // Task #335: reminders and plans, goals and subgoals, which used to reach the phone only.
     if (type.toLowerCase().includes('plangoalsubgoal')) return 'plan_goal'
@@ -223,6 +224,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     duty_shift: { bg: 'bg-primary/10', icon: 'ph:shield-check', color: 'text-primary' },
     schedule_updated: { bg: 'bg-primary/10', icon: 'ph:calendar', color: 'text-primary' },
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
+    news: { bg: 'bg-primary/10', icon: 'ph:megaphone', color: 'text-primary' },
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     form: { bg: 'bg-primary/10', icon: 'ph:note-pencil', color: 'text-primary' },
     prescription_renewal: { bg: 'bg-secondary/10', icon: 'ph:prescription', color: 'text-secondary' },
@@ -311,6 +313,9 @@ function getNotifDescription(notif: any): string {
     }
     if (getCategory(notif.type) === 'whistleblower') {
         return t('whistleblower.bell.description', { reference: data.content?.reference ?? '' })
+    }
+    if (getCategory(notif.type) === 'news') {
+        return data.content?.author ? t('bellNotification.news.description', { author: data.content.author }) : ''
     }
     if (getCategory(notif.type) === 'journal_mention') {
         return data.content?.citizen_name
@@ -456,6 +461,22 @@ async function handleNotifClick(notif: any) {
         }
         state.isOpen = false
         navigateTo(notif.data?.content?.link ?? '/employees?inactive=1')
+        return
+    }
+    // Roadmap #201: a new bulletin board post opens the board.
+    if (getCategory(notif.type) === 'news') {
+        if (!notif.read_at) {
+            try {
+                await notificationService.markSystemNotificationAsRead(notif.id)
+                const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                await refreshUnreadCount()
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        navigateTo(notif.data?.content?.link ?? '/news')
         return
     }
     // A colleague asked for Cody: to its app page, where the trial or a seat is.

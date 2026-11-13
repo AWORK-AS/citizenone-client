@@ -3,7 +3,10 @@
         <Modal size="xs" :title="$t('citizens.calendar.viewSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex justify-end">
+                    <div class="flex justify-end gap-x-2">
+                        <FormButton v-if="props.editable && canManage" type="button" buttonStyle="primary" @click="emit('edit')">
+                            <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" /> {{ $t('calendar.edit') }}
+                        </FormButton>
                         <FormButton v-if="canManage" type="button" buttonStyle="danger" @click="openDeleteConfirmation">
                             {{ $t('citizens.calendar.delete') }}
                         </FormButton>
@@ -135,8 +138,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    // Offer "Edit" (emits edit). The main calendar opens its edit form from here.
+    editable: {
+        type: Boolean,
+        default: false,
+    },
 })
-const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'markEventAsStatus'])
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'markEventAsStatus', 'edit'])
 
 // Cancelled (and maybe moved): the calendar reloads to show both events.
 function onCancelled() {

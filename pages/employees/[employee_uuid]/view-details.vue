@@ -37,7 +37,15 @@
                                     {{ $t('employees.citizens.assignedCitizens') }}
                                 </FormButton>
                             </div>
+                            <!-- Roadmap #301: the colleague gets the "Forgot password" link by email. -->
+                            <div class="flex justify-end" v-if="state.selectedEmployee.email">
+                                <FormButton type="button" buttonStyle="secondary" :disabled="state.resetBusy"
+                                    @click="state.modal.isSendPasswordResetOpen = true">
+                                    <Icon name="ph:key" class="h-4 w-4" aria-hidden="true" /> {{ $t('employees.passwordReset.button') }}
+                                </FormButton>
+                            </div>
                         </div>
+                        <Alert v-if="state.resetMessage" :type="state.resetFailed ? 'danger' : 'success'" :text="state.resetMessage" class="mb-4" />
                         <div
                             class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
                             <div>
@@ -531,6 +539,10 @@
                 @close="state.modal.isMiscellaneousOpen = false" />
             <ModulesUserEmployeeCitizenModalView :isModalOpen="state.modal.isViewCitizensOpen"
                 @close="state.modal.isViewCitizensOpen = false" />
+            <DialogConfirmation :isModalOpen="state.modal.isSendPasswordResetOpen"
+                :message="$t('employees.passwordReset.confirm', { email: state.selectedEmployee.email })"
+                :confirmLabel="$t('employees.passwordReset.send')"
+                @close="state.modal.isSendPasswordResetOpen = false" @confirm="sendPasswordReset" />
         </NuxtLayout>
     </div>
 </template>
@@ -584,7 +596,11 @@ const state = reactive({
         isViewWorkPermitOpen: false,
         isMiscellaneousOpen: false,
         isViewCitizensOpen: false,
+        isSendPasswordResetOpen: false,
     },
+    resetBusy: false,
+    resetMessage: '',
+    resetFailed: false,
     selectedEmployee: {
         firstname: '',
         lastname: '',
@@ -752,4 +768,19 @@ async function fetchEmployee() {
     state.isPageLoading = false
 }
 
+
+async function sendPasswordReset() {
+    state.modal.isSendPasswordResetOpen = false
+    state.resetBusy = true
+    state.resetMessage = ''
+    try {
+        await employeeService.sendPasswordReset(employeeUuid as string)
+        state.resetFailed = false
+        state.resetMessage = t('employees.passwordReset.sent', { email: state.selectedEmployee.email })
+    } catch (error: any) {
+        state.resetFailed = true
+        state.resetMessage = error?.message ?? t('employees.passwordReset.failed')
+    }
+    state.resetBusy = false
+}
 </script>

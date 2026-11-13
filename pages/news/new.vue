@@ -91,6 +91,7 @@ async function saveNews(newsDetails: any) {
         params.append('department_uuid', JSON.stringify(newsDetails.department))
         params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
+        params.append('notify', newsDetails.notify === false ? 'false' : 'true')
         const response = await newsService.saveNews(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('news.form.alert.newNewsSuccessfullySaved')}.`)

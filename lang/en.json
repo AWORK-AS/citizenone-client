@@ -1844,6 +1844,9 @@
     },
     "back": "Back",
     "bellNotification": {
+        "news": {
+            "description": "New post from {author}"
+        },
         "birthday": {
             "title": "Birthday today"
         },
@@ -2214,6 +2217,8 @@
         "featured": "Featured"
     },
     "calendar": {
+        "weekNumber": "Week {week}",
+        "weekShort": "W{week}",
         "duplicate": {
             "label": "Duplicate",
             "help": "Creates a new event with the same title, description, participants and tags. You choose the date and time."
@@ -2817,6 +2822,7 @@
                 "lastname": "Last name",
                 "socialSecurityNumber": "CPR no.",
                 "municipality": "Municipality",
+                "emergencyContact": "Emergency contact",
                 "notifyUseOfForce": "Notify about use of force",
                 "subcategories": "Subcategory",
                 "addSubcategory": "Add new subcategory",
@@ -2846,6 +2852,9 @@
                 "street": "Street",
                 "title": "Title"
             },
+            "filterByTitle": "Filter by title",
+            "allTitles": "All titles",
+            "emergencyBadge": "Emergency",
             "newContact": "New contact",
             "view": {
                 "noNote": "No note added yet.",
@@ -4739,6 +4748,7 @@
                 "required": "Required",
                 "optional": "Optional"
             },
+            "searchPlaceholder": "Search treatments",
             "newTreatment": "New treatment",
             "statuses": {
                 "alert": {
@@ -5588,7 +5598,7 @@
     },
     "department": {
         "all": "All",
-        "allDepartment": "All department",
+        "allDepartment": "All",
         "changedDepartmentTo": "Changed department to",
         "department": "Department"
     },
@@ -8255,6 +8265,13 @@
                 "note": "Note"
             }
         },
+        "passwordReset": {
+            "button": "Send new password link",
+            "send": "Send",
+            "confirm": "{email} gets an email with a link to choose a new password. Any earlier link stops working. Continue?",
+            "sent": "The link has been sent to {email}.",
+            "failed": "The link could not be sent."
+        },
         "editEmployee": "Edit employee",
         "employees": "Employees",
         "employmentStatus": {
@@ -10290,6 +10307,14 @@
             },
             "smtp": "SMTP",
             "smtpEncryption": "SMTP Encryption",
+            "providers": {
+                "title": "Choose your email provider",
+                "hint": "Fills in servers, ports and encryption. The username is almost always your full email address."
+            },
+            "help": {
+                "smtpHost": "The server that sends mail, e.g. smtp.gmail.com. Your provider's help pages list it.",
+                "smtpPort": "Usually 587 (TLS) or 465 (SSL)."
+            },
             "smtpHost": "SMTP Host",
             "smtpPassword": "SMTP Password",
             "smtpPort": "SMTP Port",
@@ -10786,6 +10811,8 @@
         },
         "editNews": "Edit news",
         "form": {
+            "notify": "Notify the recipients",
+            "notifyHint": "Colleagues who can see the post get a notification in the bell and on their phone.",
             "active": "Active",
             "alert": {
                 "newNewsSuccessfullySaved": "New news successfully saved",
@@ -12560,6 +12587,10 @@
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "chatCprWarning": "Warn about CPR numbers in chat",
                 "birthdayNotifications": "Birthday notifications",
+                "dischargeNotificationDays": "Reminder after discharge",
+                "dischargeNotificationDaysHint": "Admins are reminded when a citizen has been discharged this long.",
+                "dischargeNotificationWeeks": "{weeks} weeks after",
+                "dischargeNotificationThirtyDays": "30 days after (default)",
                 "birthdayNotificationsHint": "Everyone gets a notification each morning when a citizen or colleague has a birthday. Choose who it is about, or switch it off for the whole company",
                 "birthdayNotificationOptions": {
                     "all": "Citizens and staff",
@@ -14550,6 +14581,8 @@
             "successDeleted": "Deleted",
             "successDeletedBody": "{name} has been deleted",
             "form": {
+                "nameEn": "Name in English",
+                "nameEnHint": "Shown to users whose language is not Danish",
                 "name": "Name",
                 "icon": "Icon",
                 "iconHint": "An emoji or icon name (e.g. ic:baseline-category)",

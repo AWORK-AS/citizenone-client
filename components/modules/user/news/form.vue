@@ -167,6 +167,14 @@
                         {{ $t('news.form.active') }}
                     </div>
                 </div>
+                <!-- Roadmap #201: tell the colleagues who can see the post. Only for a new post. -->
+                <div v-if="props.formType === 'create'" class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer" @click="state.formNews.notify = !state.formNews.notify">
+                        <FormCheckbox :value="state.formNews.notify" />
+                        {{ $t('news.form.notify') }}
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('news.form.notifyHint') }}</p>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -234,6 +242,7 @@ const state = reactive({
         content: '',
         is_featured: false,
         is_active: true,
+        notify: true,
         audience: [],
         department: [],
         attachments: [] as any[],

@@ -217,7 +217,7 @@
                 </div>
                 <LoadingSpinner v-else :isActive="state.isEventsLoading || state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
-                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent" @viewEvent="viewMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
@@ -225,14 +225,14 @@
                         @createEventForDate="openCreateEventModal"
                         v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
-                        @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent" @viewEvent="viewMyCalendarEvent"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
                         @createEvent="openCreateEventModal"
                         v-if="state.calendarView === 'week'" />
                     <ModulesUserMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
-                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
+                        @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent" @viewEvent="viewMyCalendarEvent"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
@@ -252,6 +252,13 @@
             <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
 
+            <!-- Roadmap #484: a click shows the event; "Edit" from there opens the form. -->
+            <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
+                :selectedSchedule="state.selectedSchedule" statusActions editable
+                @close="state.modal.isViewEventOpen = false" @edit="editFromView"
+                @markEventAsStatus="markStatusFromView"
+                @deleteMyCalendarEvent="(event: any, scope: any) => { state.modal.isViewEventOpen = false; deleteMyCalendarEvent(event, scope) }"
+                @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @duplicateEvent="duplicateMyCalendarEvent" @markEventAsStatus="markStatusFromModal"
@@ -337,6 +344,7 @@ const state = reactive({
         isAddEventForEmployeeOpen: false,
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
+        isViewEventOpen: false,
         isFilterCalendarOpen: false,
         isSubscribeOpen: false,
         isEventJournalPromptOpen: false,
@@ -796,6 +804,21 @@ watch(() => [state.modal.isAddEventForMyselfOpen, state.modal.isAddEventForCitiz
 function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule = selectedCalendarEvent
     state.modal.isEditEventOpen = true
+}
+
+function viewMyCalendarEvent(selectedCalendarEvent: any) {
+    state.selectedSchedule = selectedCalendarEvent
+    state.modal.isViewEventOpen = true
+}
+
+function editFromView() {
+    state.modal.isViewEventOpen = false
+    state.modal.isEditEventOpen = true
+}
+
+function markStatusFromView(status: 'completed' | 'not_completed') {
+    state.modal.isViewEventOpen = false
+    handleMarkEventAsStatus(state.selectedSchedule, status)
 }
 
 // `scope` is this / this_and_following / all (task #133); older emitters pass a

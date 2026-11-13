@@ -1,6 +1,13 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-primary text-base font-medium py-2">{{ $t('overview.bulletBoard') }}</h3>
+        <!-- Roadmap #352: the board and a new post are one click from the overview. -->
+        <div class="flex items-center justify-between gap-2 py-2">
+            <NuxtLink to="/news" class="text-primary text-base font-medium hover:underline">{{ $t('overview.bulletBoard') }}</NuxtLink>
+            <NuxtLink to="/news/new"
+                class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-primary hover:bg-primary/10">
+                <Icon name="ph:plus" class="h-3.5 w-3.5" aria-hidden="true" /> {{ $t('news.newNews') }}
+            </NuxtLink>
+        </div>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 

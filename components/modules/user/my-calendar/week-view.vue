@@ -36,6 +36,10 @@
                     <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                     {{ year }}
                 </h3>
+                <!-- Roadmap #303: the week number, as on the duty schedule. -->
+                <span class="rounded-md bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600">
+                    {{ $t('calendar.weekNumber', { week: isoWeekNumber }) }}
+                </span>
                 <span v-if="weekCount" class="text-sm text-gray-400">
                     {{ weekCount === 1 ? $t('calendar.view.oneEvent') : $t('calendar.view.eventsCount', { count: weekCount }) }}
                 </span>
@@ -75,7 +79,7 @@
             <div class="hidden lg:block">
                 <TimeGrid :days="timeGridDays" :noteNudge="!props.readOnly" @createJournal="openCreateJournal"
                     :statusActions="!props.readOnly" @markStatus="markEventAsStatus"
-                    @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
+                    @eventClick="openEvent" @dayClick="setSelectedDay"
                     @slotDblClick="(date) => { if (!props.readOnly) $emit('createEvent', date) }" />
             </div>
 
@@ -294,6 +298,8 @@ const userStore = useUserStore() as any
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 
+const isoWeekNumber = computed(() => moment(state.selectedDate).isoWeek())
+
 const state = reactive({
     modal: {
         isDeleteScheduleOpen: false,
@@ -351,6 +357,12 @@ const nextWeek = () => {
 function showAllInvitees(myCalendarEvent: any) {
     state.selectedSchedule = myCalendarEvent
     state.modal.isShowAllInviteesOpen = true
+}
+
+// Roadmap #484: a click shows the event first; "Edit" in its menu (or in the view) edits it.
+function openEvent(myCalendarEvent: any) {
+    if (myCalendarEvent?.is_shift) return
+    emit('viewEvent', myCalendarEvent)
 }
 
 function editMyCalendarEvent(myCalendarEvent: any) {

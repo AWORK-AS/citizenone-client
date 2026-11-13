@@ -5,6 +5,11 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees`, 'GET', params)
     }
 
+    // Roadmap #301: the colleague gets the "Forgot password" link by email.
+    async sendPasswordReset(employeeUuid: string): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/send-password-reset`, 'POST')
+    }
+
     async getEmployee(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}`, 'GET')
     }

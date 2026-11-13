@@ -84,6 +84,7 @@ async function updateContact(contactDetails: any) {
                 chat_user_uuid: contactDetails.chat_users ?? [],
             }
         }
+        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true }
         if (contactDetails.title === 'case_manager') {
             params = { ...params, notify_use_of_force: contactDetails.notify_use_of_force === true }
         }
