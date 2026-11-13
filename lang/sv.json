@@ -12957,7 +12957,8 @@
             "contractHourTypes": "Timtyper",
             "paymentTerms": "Betalningsvillkor",
             "contractFields": "Avtalsfält",
-            "infoScreen": "Infoskärm"
+            "infoScreen": "Infoskärm",
+            "publicApi": "CitizenOne API"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13350,6 +13351,10 @@
             "infoScreen": {
                 "title": "Vad gör Infoskärm?",
                 "body": "Visa dagens program, meny, nyheter och bilder på en skärm i allrummet. Skärmen visar aldrig uppgifter om boende."
+            },
+            "publicApi": {
+                "title": "Vad är CitizenOne API?",
+                "body": "Låter era egna system läsa @:terms.citizens{''} och @:terms.journalNotes{''} och skriva anteckningar i CitizenOne. Ni bestämmer exakt vad varje nyckel får göra."
             }
         },
         "movedNotice": {
@@ -13521,6 +13526,84 @@
             "moodNone": "Inga svar",
             "moodAnswers": "{count} svar",
             "buyMore": "Köp fler skärmar"
+        },
+        "publicApi": {
+            "title": "CitizenOne API",
+            "subtitle": "Koppla era egna system till CitizenOne. Läs @:terms.citizens{''} och @:terms.journalNotes{''}, skriv anteckningar från ert eget journalsystem och få besked när något ändras.",
+            "adminOnly": "Endast administratörer kan hantera API-nycklar.",
+            "dataNote": "En nyckel får bara den åtkomst ni kryssar i nedan. Personnummer delas bara med en nyckel som har fått åtkomst till det. Interna anteckningar delas aldrig. Webhooks innehåller bara id:n, aldrig namn eller anteckningstext.",
+            "baseUrl": "API-adress",
+            "baseUrlHint": "Ge denna adress och en nyckel till dem som bygger er integration.",
+            "copy": "Kopiera",
+            "copied": "Kopierat!",
+            "keyOnce": "Kopiera nyckeln nu och spara den på ett säkert ställe. Den visas bara en gång.",
+            "newKey": "Skapa en nyckel",
+            "ownerNote": "Anrop med en nyckel görs som den medarbetare som skapade den. Arkiveras eller inaktiveras medarbetaren slutar nyckeln att fungera och en ny måste skapas.",
+            "keyName": "Nyckelns namn",
+            "keyNamePlaceholder": "Till exempel: Journalsynk",
+            "access": "Åtkomst",
+            "allowedIps": "Tillåt bara dessa IP-adresser (valfritt)",
+            "allowedIpsPlaceholder": "Till exempel: 203.0.113.10 eller 203.0.113.0/24",
+            "allowedIpsHint": "En adress eller ett intervall per rad. Lämna tomt för att tillåta alla adresser.",
+            "createKey": "Skapa nyckel",
+            "keyCreated": "Nyckel skapad",
+            "keys": "Nycklar",
+            "noKeys": "Inga nycklar ännu.",
+            "keyEnds": "Nyckeln slutar på",
+            "lastUsed": "Senast använd",
+            "neverUsed": "Aldrig använd",
+            "createdBy": "skapad av",
+            "ipLimited": "Begränsad till {count} adress(er)",
+            "revoke": "Återkalla",
+            "confirmRevoke": "Återkalla denna nyckel? Integrationer som använder den slutar fungera direkt, och de webhooks som nyckeln har skapat stängs av.",
+            "webhooks": "Webhooks",
+            "webhooksHint": "Er integration skapar själv webhooks via API:et. Här kan ni se och ta bort dem.",
+            "noWebhooks": "Inga webhooks ännu.",
+            "active": "Aktiv",
+            "switchedOff": "Avstängd",
+            "switchedOffHint": "Avstängd efter upprepade misslyckade leveranser. Integrationen kan slå på den igen.",
+            "delete": "Ta bort",
+            "confirmDeleteWebhook": "Ta bort denna webhook? Inget mer skickas till adressen.",
+            "deliveries": "Senaste leveranser",
+            "noDeliveries": "Inget har skickats ännu.",
+            "status": {
+                "delivered": "Levererad",
+                "failed": "Misslyckad",
+                "pending": "Väntar"
+            },
+            "scopes": {
+                "citizens_read": {
+                    "title": "Läsa @:terms.citizens{''}",
+                    "body": "Namn, födelsedatum, ärendenummer och in- och utskrivningsdatum."
+                },
+                "citizens_cpr": {
+                    "title": "Läsa personnummer",
+                    "body": "Tar med personnumret på @:terms.citizens{''}. Kryssa bara i om integrationen verkligen behöver det."
+                },
+                "journals_read": {
+                    "title": "Läsa @:terms.journalNotes{''}",
+                    "body": "Anteckningar om era @:terms.citizens{''}. Aldrig interna anteckningar eller ofärdiga utkast."
+                },
+                "journals_write": {
+                    "title": "Skriva @:terms.journalNotes{''}",
+                    "body": "Skapa anteckningar och ändra anteckningar som integrationen själv skapat. Medarbetare får inget besked om dessa anteckningar."
+                },
+                "webhooks_manage": {
+                    "title": "Hantera webhooks",
+                    "body": "Låter integrationen få besked när @:terms.citizens{''} eller anteckningar ändras."
+                }
+            },
+            "offTitle": "API:et är avstängt",
+            "offBody": "När ni slår på det kan administratörer skapa nycklar som ger era egna system åtkomst till @:terms.citizens{''} och @:terms.journalNotes{''}. Inget delas förrän en nyckel har skapats. Ni kan stänga av det igen när som helst, och då slutar alla nycklar att fungera direkt.",
+            "dpaConfirm": "Vi har ett personuppgiftsbiträdesavtal som täcker delning av personuppgifter med de system vi kopplar till.",
+            "enable": "Slå på API:et",
+            "onTitle": "API:et är påslaget",
+            "enabledBy": "påslaget av {name} den {date}",
+            "disable": "Stäng av",
+            "confirmDisable": "Stänga av API:et? Alla nycklar och webhooks slutar fungera direkt.",
+            "enabledToast": "API:et är påslaget",
+            "disabledToast": "API:et är avstängt",
+            "docsLink": "Dokumentation för utvecklare (på danska)"
         }
     },
     "supportAccess": {

@@ -12962,7 +12962,8 @@
             "contractHourTypes": "Timetyper",
             "paymentTerms": "Betalingsbetingelser",
             "contractFields": "Kontraktfelter",
-            "infoScreen": "Infoskærm"
+            "infoScreen": "Infoskærm",
+            "publicApi": "CitizenOne API"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -13355,6 +13356,10 @@
             "infoScreen": {
                 "title": "Hvad kan Infoskærm?",
                 "body": "Vis dagens program, menu, nyheder og billeder på en skærm i fællesrummet. Skærmen viser aldrig borgeroplysninger."
+            },
+            "publicApi": {
+                "title": "Hvad er CitizenOne API?",
+                "body": "Lader jeres egne systemer læse @:terms.citizens{''} og @:terms.journalNotes{''} og skrive notater ind i CitizenOne. I bestemmer præcis, hvad hver nøgle må."
             }
         },
         "movedNotice": {
@@ -13526,6 +13531,84 @@
             "moodNone": "Ingen svar",
             "moodAnswers": "{count} svar",
             "buyMore": "Køb flere skærme"
+        },
+        "publicApi": {
+            "title": "CitizenOne API",
+            "subtitle": "Forbind jeres egne systemer med CitizenOne. Læs @:terms.citizens{''} og @:terms.journalNotes{''}, skriv notater fra jeres eget journalsystem, og få besked når noget ændrer sig.",
+            "adminOnly": "Kun administratorer kan administrere API-nøgler.",
+            "dataNote": "En nøgle får kun den adgang, I sætter flueben ved herunder. CPR-numre deles kun med en nøgle, der har fået adgang til det. Interne notater deles aldrig. Webhooks indeholder kun id'er, aldrig navne eller notattekst.",
+            "baseUrl": "API-adresse",
+            "baseUrlHint": "Giv denne adresse og en nøgle til dem, der bygger jeres integration.",
+            "copy": "Kopiér",
+            "copied": "Kopieret!",
+            "keyOnce": "Kopiér nøglen nu, og gem den et sikkert sted. Den vises kun én gang.",
+            "newKey": "Opret en nøgle",
+            "ownerNote": "Kald med en nøgle sker som den medarbejder, der oprettede den. Bliver medarbejderen arkiveret eller deaktiveret, holder nøglen op med at virke, og der skal oprettes en ny.",
+            "keyName": "Navn på nøgle",
+            "keyNamePlaceholder": "For eksempel: Journalsynkronisering",
+            "access": "Adgang",
+            "allowedIps": "Tillad kun disse IP-adresser (valgfrit)",
+            "allowedIpsPlaceholder": "For eksempel: 203.0.113.10 eller 203.0.113.0/24",
+            "allowedIpsHint": "Én adresse eller ét interval pr. linje. Lad feltet stå tomt for at tillade alle adresser.",
+            "createKey": "Opret nøgle",
+            "keyCreated": "Nøgle oprettet",
+            "keys": "Nøgler",
+            "noKeys": "Ingen nøgler endnu.",
+            "keyEnds": "Nøglen slutter på",
+            "lastUsed": "Sidst brugt",
+            "neverUsed": "Aldrig brugt",
+            "createdBy": "oprettet af",
+            "ipLimited": "Begrænset til {count} adresse(r)",
+            "revoke": "Tilbagekald",
+            "confirmRevoke": "Tilbagekald denne nøgle? Integrationer, der bruger den, holder op med at virke med det samme, og de webhooks, nøglen har oprettet, bliver slået fra.",
+            "webhooks": "Webhooks",
+            "webhooksHint": "Jeres integration opretter selv webhooks via API'et. Her kan I se og fjerne dem.",
+            "noWebhooks": "Ingen webhooks endnu.",
+            "active": "Aktiv",
+            "switchedOff": "Slået fra",
+            "switchedOffHint": "Slået fra efter gentagne mislykkede afsendelser. Integrationen kan slå den til igen.",
+            "delete": "Slet",
+            "confirmDeleteWebhook": "Slet denne webhook? Der sendes ikke mere til adressen.",
+            "deliveries": "Seneste afsendelser",
+            "noDeliveries": "Der er ikke sendt noget endnu.",
+            "status": {
+                "delivered": "Leveret",
+                "failed": "Fejlet",
+                "pending": "Venter"
+            },
+            "scopes": {
+                "citizens_read": {
+                    "title": "Læse @:terms.citizens{''}",
+                    "body": "Navn, fødselsdato, sagsnummer og ind- og udskrivningsdatoer."
+                },
+                "citizens_cpr": {
+                    "title": "Læse CPR-numre",
+                    "body": "Medtager CPR-nummeret på @:terms.citizens{''}. Sæt kun flueben, hvis integrationen virkelig har brug for det."
+                },
+                "journals_read": {
+                    "title": "Læse @:terms.journalNotes{''}",
+                    "body": "Notater på jeres @:terms.citizens{''}. Aldrig interne notater eller kladder, der ikke er færdige."
+                },
+                "journals_write": {
+                    "title": "Skrive @:terms.journalNotes{''}",
+                    "body": "Oprette notater og rette de notater, integrationen selv har oprettet. Medarbejdere får ikke besked om disse notater."
+                },
+                "webhooks_manage": {
+                    "title": "Administrere webhooks",
+                    "body": "Lader integrationen få besked, når @:terms.citizens{''} eller notater ændrer sig."
+                }
+            },
+            "offTitle": "API'et er slået fra",
+            "offBody": "Når I slår det til, kan administratorer oprette nøgler, der giver jeres egne systemer adgang til @:terms.citizens{''} og @:terms.journalNotes{''}. Intet deles, før der er oprettet en nøgle. I kan altid slå det fra igen, og så stopper alle nøgler med det samme.",
+            "dpaConfirm": "Vi har en databehandleraftale, der dækker deling af personoplysninger med de systemer, vi forbinder.",
+            "enable": "Slå API'et til",
+            "onTitle": "API'et er slået til",
+            "enabledBy": "slået til af {name} den {date}",
+            "disable": "Slå fra",
+            "confirmDisable": "Slå API'et fra? Alle nøgler og webhooks holder op med at virke med det samme.",
+            "enabledToast": "API'et er slået til",
+            "disabledToast": "API'et er slået fra",
+            "docsLink": "Se dokumentationen til udviklere"
         }
     },
     "supportAccess": {

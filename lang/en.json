@@ -12962,7 +12962,8 @@
             "contractHourTypes": "Hour types",
             "paymentTerms": "Payment terms",
             "contractFields": "Contract fields",
-            "infoScreen": "Info screen"
+            "infoScreen": "Info screen",
+            "publicApi": "CitizenOne API"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13355,6 +13356,10 @@
             "infoScreen": {
                 "title": "What does Info screen do?",
                 "body": "Show today's program, menu, news and pictures on a screen in the common room. The screen never shows citizen data."
+            },
+            "publicApi": {
+                "title": "What is the CitizenOne API?",
+                "body": "Lets your own systems read @:terms.citizens{''} and @:terms.journalNotes{''} and write notes into CitizenOne. You decide exactly what each key may access."
             }
         },
         "movedNotice": {
@@ -13526,6 +13531,84 @@
             "moodNone": "No answers",
             "moodAnswers": "{count} answers",
             "buyMore": "Buy more screens"
+        },
+        "publicApi": {
+            "title": "CitizenOne API",
+            "subtitle": "Connect your own systems to CitizenOne. Read @:terms.citizens{''} and @:terms.journalNotes{''}, write notes from your own journal system, and get told when something changes.",
+            "adminOnly": "Only administrators can manage API keys.",
+            "dataNote": "Each key only gets the access you tick below. CPR numbers are only shared with a key that is given that access. Internal notes are never shared. Webhooks carry ids only, never names or note text.",
+            "baseUrl": "API address",
+            "baseUrlHint": "Give this address and a key to the people building your integration.",
+            "copy": "Copy",
+            "copied": "Copied!",
+            "keyOnce": "Copy the key now and keep it somewhere safe. It is shown only once.",
+            "newKey": "Create a key",
+            "ownerNote": "Calls made with a key act as the person who created it. If that person is archived or deactivated, the key stops working and a new one must be created.",
+            "keyName": "Key name",
+            "keyNamePlaceholder": "For example: Journal sync",
+            "access": "Access",
+            "allowedIps": "Only allow these IP addresses (optional)",
+            "allowedIpsPlaceholder": "For example: 203.0.113.10 or 203.0.113.0/24",
+            "allowedIpsHint": "One address or range per line. Leave empty to allow any address.",
+            "createKey": "Create key",
+            "keyCreated": "Key created",
+            "keys": "Keys",
+            "noKeys": "No keys yet.",
+            "keyEnds": "Key ends in",
+            "lastUsed": "Last used",
+            "neverUsed": "Never used",
+            "createdBy": "created by",
+            "ipLimited": "Limited to {count} address(es)",
+            "revoke": "Revoke",
+            "confirmRevoke": "Revoke this key? Integrations that use it stop working immediately, and the webhooks it registered are switched off.",
+            "webhooks": "Webhooks",
+            "webhooksHint": "Your integration registers webhooks itself through the API. You can see and remove them here.",
+            "noWebhooks": "No webhooks yet.",
+            "active": "Active",
+            "switchedOff": "Switched off",
+            "switchedOffHint": "Switched off after repeated failed deliveries. The integration can switch it on again.",
+            "delete": "Delete",
+            "confirmDeleteWebhook": "Delete this webhook? Nothing more will be sent to the address.",
+            "deliveries": "Recent deliveries",
+            "noDeliveries": "Nothing has been sent yet.",
+            "status": {
+                "delivered": "Delivered",
+                "failed": "Failed",
+                "pending": "Pending"
+            },
+            "scopes": {
+                "citizens_read": {
+                    "title": "Read @:terms.citizens{''}",
+                    "body": "Names, birthday, case number and admission dates."
+                },
+                "citizens_cpr": {
+                    "title": "Read CPR numbers",
+                    "body": "Includes the CPR number on @:terms.citizens{''}. Only tick this if the integration really needs it."
+                },
+                "journals_read": {
+                    "title": "Read @:terms.journalNotes{''}",
+                    "body": "Notes on the account's @:terms.citizens{''}. Never internal notes or unfinished drafts."
+                },
+                "journals_write": {
+                    "title": "Write @:terms.journalNotes{''}",
+                    "body": "Create notes, and change notes the integration created itself. Staff are not notified about these notes."
+                },
+                "webhooks_manage": {
+                    "title": "Manage webhooks",
+                    "body": "Lets the integration be told when @:terms.citizens{''} or notes change."
+                }
+            },
+            "offTitle": "The API is switched off",
+            "offBody": "When you switch it on, administrators can create keys that give your own systems access to @:terms.citizens{''} and @:terms.journalNotes{''}. Nothing is shared until a key is created. You can switch it off again at any time, and every key stops at once.",
+            "dpaConfirm": "We have a data processing agreement that covers sharing personal data with the systems we connect.",
+            "enable": "Switch on the API",
+            "onTitle": "The API is switched on",
+            "enabledBy": "switched on by {name} on {date}",
+            "disable": "Switch off",
+            "confirmDisable": "Switch off the API? Every key and webhook stops working immediately.",
+            "enabledToast": "The API is switched on",
+            "disabledToast": "The API is switched off",
+            "docsLink": "Developer documentation (in Danish)"
         }
     },
     "supportAccess": {

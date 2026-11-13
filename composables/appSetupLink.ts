@@ -4,7 +4,9 @@
 //
 // `open: true` means the destination is the app's own area rather than a
 // settings page, which changes the button wording.
-type AppDestination = { path: string; open?: boolean }
+// `activateInSettings: true` means the app is not bought: "Activate" leads to the
+// settings page, where it is switched on (the open API).
+type AppDestination = { path: string; open?: boolean; activateInSettings?: boolean }
 
 const APP_LINKS: Record<string, AppDestination> = {
     // Integrations
@@ -14,6 +16,7 @@ const APP_LINKS: Record<string, AppDestination> = {
     'power-bi': { path: '/settings/power-bi' },
     'info-screen': { path: '/settings/info-screen' },
     'zapier': { path: '/settings/zapier' },
+    'public-api': { path: '/settings/public-api', activateInSettings: true },
     'microsoft-sso': { path: '/settings/company' },
     // Portal apps: who has a login, and what each audience may see
     'relative-access': { path: '/settings/portal-access' },

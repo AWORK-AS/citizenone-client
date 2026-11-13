@@ -37,6 +37,7 @@ export function useSettingsHints() {
         'settings-power-bi': 'powerBi',
         'settings-info-screen': 'infoScreen',
         'settings-zapier': 'zapier',
+        'settings-public-api': 'publicApi',
         'settings-economic': 'economic',
         'settings-dinero': 'dinero',
         'settings-billy': 'billy',

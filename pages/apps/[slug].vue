@@ -107,7 +107,7 @@
                                 </FormButton>
                             </Tooltip>
                             <FormButton type="button" buttonStyle="app-order-now" class="w-full justify-center" v-else
-                                @click="requestActivation(app)">
+                                @click="destination?.activateInSettings ? navigateTo(destination.path) : requestActivation(app)">
                                 {{ app.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}
                             </FormButton>
 
