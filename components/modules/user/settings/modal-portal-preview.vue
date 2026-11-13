@@ -34,6 +34,11 @@
                                 <p class="text-sm font-semibold text-gray-800">{{ $t(section.label) }}</p>
                                 <p class="text-xs text-gray-500 mt-0.5">{{ $t(section.preview) }}</p>
                             </div>
+                            <!-- A line on the app's start page rather than a menu item, so it is not in the sidebar. -->
+                            <div v-if="showBookingShortcut" class="rounded-md border border-gray-200 bg-white px-4 py-3">
+                                <p class="text-sm font-semibold text-gray-800">{{ $t('settings.company.form.portalSectionBookingHomeShortcut') }}</p>
+                                <p class="text-xs text-gray-500 mt-0.5">{{ $t('settings.company.form.portalPreviewBookingHomeShortcut') }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -227,6 +232,12 @@ const NEVER_SEES: Record<string, string[]> = {
 
 const visibleSections = computed(() =>
     (SECTIONS[props.audience] ?? []).filter((section) => props.visibility?.[section.key] !== false))
+
+// Only with booking itself open: while it is off, booking is hidden everywhere and the shortcut with it.
+const showBookingShortcut = computed(() =>
+    props.audience === 'patient'
+    && props.visibility?.booking !== false
+    && props.visibility?.booking_home_shortcut !== false)
 
 const navItems = computed(() => {
     const items = visibleSections.value.map((section) => ({
