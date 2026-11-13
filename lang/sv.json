@@ -309,6 +309,9 @@
         "interestCount": "{count} företag önskar denna | {count} företag önskar denna"
     },
     "compensatoryPayoutsReport": {
+        "delete": "Radera",
+        "deleteConfirm": "Radera utbetalningen av {amount} timmar till {employee}? Timmarna går tillbaka till kompensationssaldot.",
+        "deleteTitle": "Radera utbetalning",
         "export": "Exportera",
         "filters": {
             "dateEnd": "Datum till",
