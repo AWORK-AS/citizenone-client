@@ -6,7 +6,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenJournalForm formType="update" :selectedJournal="props.selectedJournal"
-                        :readonly="props.readonly" :error="state.error"
+                        :readonly="props.readonly" :error="state.error" :citizenUuid="props.citizenUuid"
                         :bookingLinked="props.selectedJournal?.is_from_booking === true"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateJournal" />
@@ -41,6 +41,15 @@ const props = defineProps({
     readonly: {
         type: Boolean,
         default: false,
+    },
+    /**
+     * The note's citizen, for pages that are not a citizen's own (the journal
+     * notes overview). Without it the form has no citizen to load plans and
+     * goals for. Citizen pages leave it out and the form reads the route.
+     */
+    citizenUuid: {
+        type: String,
+        default: null,
     },
 })
 const emit = defineEmits(['close', 'refreshJournal'])
