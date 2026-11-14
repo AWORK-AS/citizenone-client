@@ -5994,6 +5994,10 @@
                 "successfullyPublished": "Vaktplaner publisert vellykket",
                 "publishFailed": "Publisering mislyktes. Vennligst prøv igjen."
             },
+            "publishEmployees": {
+                "label": "Ansatte (valgfritt)",
+                "hint": "La feltet stå tomt for å publisere alle i de valgte avdelingene. Kun ansatte som får nye vakter, mottar en e-post."
+            },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for avdelingen",
                 "publishForSpecificDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for alle avdelinger"
