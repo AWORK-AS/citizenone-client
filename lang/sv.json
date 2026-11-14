@@ -5992,7 +5992,11 @@
         "draft": {
             "alert": {
                 "successfullyPublished": "Tjänsteskeman publicerad",
-                "publishFailed": "Publicering misslyckades. Försök igen."
+                "publishFailed": "Publicering misslyckades. Försök igen.",
+                "publishedSummary": "{count} pass publicerade för {employees} medarbetare, {start} – {end}.",
+                "alreadyLiveSummary": "{count} pass fanns redan i det publicerade schemat och lades inte till igen.",
+                "nothingPublished": "Inga utkastpass matchade den valda perioden och avdelningarna, så inget publicerades.",
+                "remainingDrafts": "{count} utkastpass är fortfarande opublicerade ({start} – {end}). Publicera igen med den perioden och rätt avdelningar för att göra dem aktiva."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för avdelningen",
