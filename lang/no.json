@@ -5992,7 +5992,11 @@
         "draft": {
             "alert": {
                 "successfullyPublished": "Vaktplaner publisert vellykket",
-                "publishFailed": "Publisering mislyktes. Vennligst prøv igjen."
+                "publishFailed": "Publisering mislyktes. Vennligst prøv igjen.",
+                "publishedSummary": "{count} vakt(er) publisert for {employees} ansatt(e), {start} – {end}.",
+                "alreadyLiveSummary": "{count} vakt(er) lå allerede i den publiserte vaktplanen og ble ikke lagt til igjen.",
+                "nothingPublished": "Ingen utkastvakter samsvarte med valgt periode og avdelinger, så ingenting ble publisert.",
+                "remainingDrafts": "{count} utkastvakt(er) er fortsatt ikke publisert ({start} – {end}). Publiser igjen med den perioden og de riktige avdelingene for å gjøre dem aktive."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for avdelingen",

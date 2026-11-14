@@ -3,12 +3,34 @@
         <Modal size="xs" :title="$t('dutySchedules.draft.publish')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="flex flex-col items-center space-y-4 py-6" v-if="state.isPublished">
-                    <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
-                        <Icon name="ph:check-bold" class="w-7 h-7 text-green-600" />
+                    <div class="w-14 h-14 rounded-full flex items-center justify-center"
+                        :class="publishedCount > 0 ? 'bg-green-100' : 'bg-yellow-100'">
+                        <Icon :name="publishedCount > 0 ? 'ph:check-bold' : 'ph:warning-bold'" class="w-7 h-7"
+                            :class="publishedCount > 0 ? 'text-green-600' : 'text-yellow-600'" />
                     </div>
-                    <div class="text-center space-y-1">
-                        <p class="text-base font-semibold text-gray-800">{{ $t('dutySchedules.draft.alert.successfullyPublished') }}</p>
+                    <div class="text-center space-y-2">
+                        <template v-if="publishedCount > 0">
+                            <p class="text-base font-semibold text-gray-800">{{ $t('dutySchedules.draft.alert.successfullyPublished') }}</p>
+                            <p class="text-sm text-gray-600" v-if="state.summary?.published_date_start">
+                                {{ $t('dutySchedules.draft.alert.publishedSummary', {
+                                    count: publishedCount,
+                                    employees: state.summary?.employees ?? 0,
+                                    start: formatDate(state.summary?.published_date_start),
+                                    end: formatDate(state.summary?.published_date_end),
+                                }) }}
+                            </p>
+                        </template>
+                        <p class="text-base font-semibold text-gray-800" v-else>{{ $t('dutySchedules.draft.alert.nothingPublished') }}</p>
+                        <p class="text-sm text-gray-600" v-if="state.summary?.already_live > 0">
+                            {{ $t('dutySchedules.draft.alert.alreadyLiveSummary', { count: state.summary.already_live }) }}
+                        </p>
                     </div>
+                    <Alert type="warning" class="w-full" v-if="state.summary?.remaining?.count > 0"
+                        :text="$t('dutySchedules.draft.alert.remainingDrafts', {
+                            count: state.summary.remaining.count,
+                            start: formatDate(state.summary.remaining.date_start),
+                            end: formatDate(state.summary.remaining.date_end),
+                        })" />
                     <FormButton buttonStyle="primary" class="w-full mt-2" @click="navigateTo('/schedules')">
                         {{ $t('dutySchedules.draft.backToPublished') }}
                     </FormButton>
@@ -82,6 +104,7 @@ import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import moment from 'moment'
 
 const props = defineProps({
     isModalOpen: {
@@ -101,6 +124,7 @@ const state = reactive({
     isPageLoading: false,
     isPublished: false,
     isPublishing: false,
+    summary: null as any,
     formPublish: {
         departments: [],
         download_type: '',
@@ -115,9 +139,16 @@ const state = reactive({
     }
 })
 
+const publishedCount = computed(() => Number(state.summary?.published ?? 0))
+
+function formatDate(date?: string | null) {
+    return date ? moment(date).format('DD.MM.YYYY') : ''
+}
+
 watch(() => props.isModalOpen, () => {
     state.error = {}
     state.isPublished = false
+    state.summary = null
     fetchDepartments()
 })
 
@@ -185,8 +216,10 @@ async function publishSchedule() {
             date_start: state.formPublish.date_start,
             date_end: state.formPublish.date_end,
         }
+        state.summary = null
         const response = await draftScheduleService.publishSchedule(params)
         if (response?.queued === false) {
+            state.summary = response
             state.isPublishing = false
             state.isPublished = true
             return
@@ -204,6 +237,7 @@ function waitForPublish(): Promise<void> {
             try {
                 const s = await draftScheduleService.getPublishStatus()
                 if (s?.status === 'completed') {
+                    state.summary = s
                     state.isPublishing = false
                     state.isPublished = true
                     return resolve()
