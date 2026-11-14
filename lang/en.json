@@ -6049,6 +6049,10 @@
                 "successfullyPublished": "Schedules successfully published",
                 "publishFailed": "Publish failed. Please try again."
             },
+            "publishEmployees": {
+                "label": "Employees (optional)",
+                "hint": "Leave empty to publish everyone in the selected departments. Only employees who get new shifts receive an email."
+            },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments",
                 "publishForSpecificDepartmentConfirmation": "Are you sure you want to publish this schedule for department"
