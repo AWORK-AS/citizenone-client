@@ -67,7 +67,8 @@
                 </LoadingSpinner>
             </div>
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
-                :selectedJournal="state.selectedJournal" @close="state.modal.isEditJournalOpen = false"
+                :selectedJournal="state.selectedJournal" :citizenUuid="state.selectedJournal?.citizen?.uuid"
+                @close="state.modal.isEditJournalOpen = false"
                 @refreshJournal="" />
         </NuxtLayout>
     </div>
