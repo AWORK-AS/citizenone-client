@@ -369,7 +369,11 @@
                         </article>
                     </div>
                     <div class="hidden md:block table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
+                        <!-- table-sticky-actions: with a few optional columns on, the
+                             row is wider than the page (always so in the desktop app,
+                             where the sidebar takes its share), and the row actions
+                             were the part that scrolled out of sight. -->
+                        <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.citizens"
                             :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort"
                             emptyIcon="heroicons:user-group"
                             :emptyMessage="tt('citizens.emptyListHint')">
@@ -394,9 +398,13 @@
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
                                                     citizen.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
                                                     citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
-                                                    'rounded-full w-12 h-12 object-cover border-2'
+                                                    'rounded-full w-12 h-12 shrink-0 object-cover border-2'
                                                 ]" />
-                                            <div>
+                                            <!-- A floor on the width. The hover card's wrapper is
+                                                 max-w-full, which a table reads as "needs no room at
+                                                 all", so a tight table squeezed this column until the
+                                                 name ran over the CPR number next to it. -->
+                                            <div class="min-w-[9rem]">
                                                 <CitizenHoverCard :uuid="citizen.uuid" :preset="citizen">
                                                     <button type="button"
                                                         class="text-left font-medium hover:text-primary hover:underline"
