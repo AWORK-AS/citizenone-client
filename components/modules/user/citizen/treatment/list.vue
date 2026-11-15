@@ -172,7 +172,7 @@
                                 </p>
                             </Badge>
                         </div>
-                        <div v-html="treatment?.description" class="content text-sm" />
+                        <div v-safe-html="treatment?.description" class="content text-sm" />
                     </div>
                 </div>
                 <div v-if="state.treatments?.data?.length === 0">

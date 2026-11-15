@@ -379,8 +379,14 @@
                                         class="space-y-1 flex items-center gap-x-2">
                                         <FormSwitch :value="isSectionVisible(audience.key, section.key)"
                                             :label="$t(section.label)"
+                                            :disabled="isSectionDisabled(audience.key, section.key)"
                                             @toggleSwitch="toggleSection(audience.key, section.key)" />
-                                        <p>{{ $t(section.label) }}</p>
+                                        <div>
+                                            <p :class="{ 'text-gray-400': isSectionDisabled(audience.key, section.key) }">{{ $t(section.label) }}</p>
+                                            <p v-if="isSectionDisabled(audience.key, section.key)" class="text-xs text-gray-500">
+                                                {{ $t('settings.company.form.portalBookingHomeShortcutNeedsBooking') }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Patients write to the whole clinic instead of one employee (AW-2026-6183). -->
@@ -1253,6 +1259,7 @@ const portalAudiences = computed(() => {
                 { key: 'appointments', label: 'settings.company.form.portalSectionAppointments' },
                 { key: 'calendar', label: 'settings.company.form.portalSectionCalendar' },
                 { key: 'booking', label: 'settings.company.form.portalSectionBooking' },
+                { key: 'booking_home_shortcut', label: 'settings.company.form.portalSectionBookingHomeShortcut' },
                 { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
                 { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
                 { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
@@ -1268,7 +1275,15 @@ const portalAudiences = computed(() => {
     return audiences
 })
 
-const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + audience.sections.length, 0))
+// Switches that change what the app shows, not what the portal exposes, matching PortalVisibilityService::LAYOUT_ONLY.
+// They stay out of the counter and the "open right now" summary, which are about who can see records.
+const LAYOUT_ONLY_SECTIONS: Record<string, string[]> = { patient: ['booking_home_shortcut'] }
+
+function accessSections(audience: any) {
+    return audience.sections.filter((section: any) => !(LAYOUT_ONLY_SECTIONS[audience.key] ?? []).includes(section.key))
+}
+
+const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + accessSections(audience).length, 0))
 
 // Sections that start hidden until an admin turns them on, matching PortalVisibilityService::HIDDEN_UNTIL_ENABLED.
 const HIDDEN_UNTIL_ENABLED: Record<string, string[]> = { patient: ['prescriptions'] }
@@ -1279,6 +1294,15 @@ function isSectionVisible(audience: string, section: string) {
     if (value === undefined || value === null) return !(HIDDEN_UNTIL_ENABLED[audience] ?? []).includes(section)
     return value !== false
 }
+
+// The "Book a time" row on the patient app's start page only means something while online booking is open, so
+// its switch is greyed out (showing what is stored) while booking is off.
+function isSectionDisabled(audience: string, section: string) {
+    return audience === 'patient' && section === 'booking_home_shortcut' && !isSectionVisible('patient', 'booking')
+}
+
+// Switches that only move a shortcut and expose no records, so opening them needs no confirmation.
+const NO_CONFIRMATION_SECTIONS = ['booking_home_shortcut']
 
 // Opening a section exposes records to people outside the organization, so it
 // takes an explicit confirmation. Closing one needs none.
@@ -1318,8 +1342,16 @@ function setSection(audience: string, section: string, isVisible: boolean) {
 }
 
 function toggleSection(audience: string, section: string) {
+    if (isSectionDisabled(audience, section)) return
+
     if (isSectionVisible(audience, section)) {
         setSection(audience, section, false)
+
+        return
+    }
+
+    if (NO_CONFIRMATION_SECTIONS.includes(section)) {
+        setSection(audience, section, true)
 
         return
     }
@@ -1336,13 +1368,13 @@ function confirmOpenSection() {
 }
 
 const openSummary = computed(() => portalAudiences.value.flatMap((audience: any) => {
-    const open = audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key))
+    const open = accessSections(audience).filter((section: any) => isSectionVisible(audience.key, section.key))
 
     return open.length ? [`${t(audience.label)}: ${open.map((section: any) => t(section.label)).join(', ')}`] : []
 }))
 
 const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) =>
-    total + audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
+    total + accessSections(audience).filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
 const dischargeNotificationOptions = computed(() => [14, 21, 28, 30].map((value) => ({

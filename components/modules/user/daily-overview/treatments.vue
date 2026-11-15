@@ -96,7 +96,7 @@
                             <h3 class="text-base font-semibold">
                                 {{ treatment?.name }}
                             </h3>
-                            <p v-html="treatment?.description" class="text-xs" />
+                            <p v-safe-html="treatment?.description" class="text-xs" />
                             <p class="content text-xs text-muted-400 mt-1">
                                 {{ $t('overview.treatments.completionDate') }}:
                                 <span>{{ formatDateToReadable(treatment?.completion_date) }}</span>

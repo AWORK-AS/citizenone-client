@@ -6047,7 +6047,11 @@
         "draft": {
             "alert": {
                 "successfullyPublished": "Schedules successfully published",
-                "publishFailed": "Publish failed. Please try again."
+                "publishFailed": "Publish failed. Please try again.",
+                "publishedSummary": "{count} shift(s) published for {employees} employee(s), {start} – {end}.",
+                "alreadyLiveSummary": "{count} shift(s) were already in the published schedule and were not added again.",
+                "nothingPublished": "No draft shifts matched the selected period and departments, so nothing was published.",
+                "remainingDrafts": "{count} draft shift(s) are still unpublished ({start} – {end}). Publish again with that period and the right departments to make them live."
             },
             "publishEmployees": {
                 "label": "Employees (optional)",
@@ -12798,10 +12802,13 @@
                 "portalSectionAppointments": "Appointments",
                 "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
+                "portalSectionBookingHomeShortcut": "'Book a time' on the start page",
+                "portalBookingHomeShortcutNeedsBooking": "Turn on Online booking to use this. While it is off, booking is hidden everywhere.",
                 "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
                 "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments and events you offer in online booking.",
+                "portalPreviewBookingHomeShortcut": "The patient sees a 'Book a time' shortcut on the start page of the app. Booking is always available under Appointments.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
                 "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
@@ -18760,7 +18767,8 @@
             "score": "Score",
             "edit": "Edit",
             "duplicate": "Duplicate",
-            "delete": "Delete"
+            "delete": "Delete",
+            "changeDate": "Change date"
         },
         "status": {
             "completed": "Completed",
@@ -18786,7 +18794,8 @@
             "duplicated": "Survey duplicated",
             "sent": "Survey sent to @:terms.citizen{''}",
             "assignmentDeleted": "Response deleted",
-            "responseSaved": "Response saved"
+            "responseSaved": "Response saved",
+            "completedDateChanged": "Completed date changed"
         },
         "editWarning": {
             "hasResponses": "This survey has {count} response(s). Responses that are already filled in keep the questions and the order they were answered with. Your changes apply to responses filled in from now on.",
@@ -18847,7 +18856,10 @@
         },
         "fill": {
             "enterAnswer": "Enter your answer"
-        }
+        },
+        "completedDate": "Completed on",
+        "completedDateHint": "Choose an earlier date if the survey was completed before today, e.g. on paper.",
+        "changeCompletedDate": "Change completed date"
     },
     "welcomeTour": {
         "name": "Milo",

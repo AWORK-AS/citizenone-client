@@ -58,7 +58,7 @@
                                             {{ plan?.name }}
                                         </h3>
                                         <div class="text-sm text-gray-600 line-clamp-3">
-                                            <div v-html="plan?.description" class="content" />
+                                            <div v-safe-html="plan?.description" class="content" />
                                         </div>
                                     </div>
                                     <FormButton class="rounded-full shrink-0" buttonSize="sm" @click="viewPlan(plan)">
@@ -149,6 +149,9 @@ let currentTablePage = 1
 
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
+        // This dialog stays mounted with the page, possibly overnight. Give each
+        // fresh note today's date before its form mounts; edits keep their date.
+        state.formJournal = { ...state.formJournal, date: moment().format('YYYY-MM-DD') }
         state.selectedContext = { plan: '', goal: '', subgoal: '' }
         fetchPlans()
     }

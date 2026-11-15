@@ -198,7 +198,7 @@
                                                             {{ $t('plansandgoals.completionDate') }}:
                                                             {{ formatDateToReadable(subgoal?.completion_date) }}
                                                         </p>
-                                                        <div v-html="subgoal?.description" class="content text-sm" />
+                                                        <div v-safe-html="subgoal?.description" class="content text-sm" />
                                                     </div>
                                                 </div>
                                                 <div v-if="state.subgoals?.data?.length === 0">

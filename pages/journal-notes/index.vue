@@ -308,7 +308,8 @@
                 :citizenOptions="state.citizenOptions" @close="state.modal.isAddJournalOpen = false"
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
-                :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
+                :selectedJournal="state.selectedJournal" :citizenUuid="state.selectedJournal?.citizen?.uuid"
+                @close="closeEditJournalModal"
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDeletedLogs :isModalOpen="state.modal.isDeletedJournalHistoriesOpen"
                 @close="state.modal.isDeletedJournalHistoriesOpen = false" />

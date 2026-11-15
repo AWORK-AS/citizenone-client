@@ -198,7 +198,7 @@
                                                             {{ $t('plansandgoals.completionDate') }}:
                                                             {{ formatDateToReadable(goal?.completion_date) }}
                                                         </p>
-                                                        <div v-html="goal?.description" class="content text-sm" />
+                                                        <div v-safe-html="goal?.description" class="content text-sm" />
                                                     </div>
                                                     <DisclosurePanel as="dd" class="mt-5 mx-5 my-0">
                                                         <div class="mb-6">
@@ -358,7 +358,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="space-y-1">
-                                                                            <div v-html="subgoal?.description"
+                                                                            <div v-safe-html="subgoal?.description"
                                                                                 class="content text-sm" />
                                                                         </div>
                                                                     </div>
