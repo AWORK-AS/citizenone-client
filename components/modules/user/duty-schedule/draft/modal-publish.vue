@@ -64,6 +64,13 @@
                                     <FormError :error="v$?.formPublish?.departments?.$errors[0]?.$message.toString()" />
                                     <FormError :error="state?.error?.errors?.departments_uuid?.[0]" />
                                 </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="employees" :label="$t('dutySchedules.draft.publishEmployees.label')" />
+                                    <FormSelectMultiple id="employees" :options="state.options.employees"
+                                        v-model="state.formPublish.employees" />
+                                    <p class="text-xs text-gray-500">{{ $t('dutySchedules.draft.publishEmployees.hint') }}</p>
+                                    <FormError :error="state?.error?.errors?.user_uuid?.[0]" />
+                                </div>
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -98,6 +105,7 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { userService } from '@/components/api/user/UserService'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
@@ -127,6 +135,7 @@ const state = reactive({
     summary: null as any,
     formPublish: {
         departments: [],
+        employees: [] as string[],
         download_type: '',
         date_start: '',
         date_end: '',
@@ -136,6 +145,7 @@ const state = reactive({
     },
     options: {
         departments: [],
+        employees: [] as Array<{ value: string, label: string }>,
     }
 })
 
@@ -148,9 +158,27 @@ function formatDate(date?: string | null) {
 watch(() => props.isModalOpen, () => {
     state.error = {}
     state.isPublished = false
+    state.formPublish.employees = []
     state.summary = null
     fetchDepartments()
+    fetchEmployees()
 })
+
+async function fetchEmployees() {
+    try {
+        const response = await userService.getAllUsers({})
+        state.options.employees = (response?.data ?? [])
+            // The list endpoint prepends an "All employees" pseudo-entry; empty selection means that here.
+            .filter((item: any) => item.uuid && item.uuid !== 'all-employees')
+            .map((item: any) => ({
+                value: item.uuid,
+                label: `${item.firstname ?? ''} ${item.lastname ?? ''}`.trim(),
+            }))
+    } catch {
+        // Optional filter: the modal still works without it.
+        state.options.employees = []
+    }
+}
 
 const rules = computed(() => {
     return {
@@ -213,6 +241,8 @@ async function publishSchedule() {
         state.isPublishing = true
         const params = {
             department_uuid: state.formPublish.departments,
+            // Empty = everyone in the selected departments/period.
+            ...(state.formPublish.employees.length > 0 ? { user_uuid: state.formPublish.employees } : {}),
             date_start: state.formPublish.date_start,
             date_end: state.formPublish.date_end,
         }

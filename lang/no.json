@@ -5998,6 +5998,10 @@
                 "nothingPublished": "Ingen utkastvakter samsvarte med valgt periode og avdelinger, så ingenting ble publisert.",
                 "remainingDrafts": "{count} utkastvakt(er) er fortsatt ikke publisert ({start} – {end}). Publiser igjen med den perioden og de riktige avdelingene for å gjøre dem aktive."
             },
+            "publishEmployees": {
+                "label": "Ansatte (valgfritt)",
+                "hint": "La feltet stå tomt for å publisere alle i de valgte avdelingene. Kun ansatte som får nye vakter, mottar en e-post."
+            },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for avdelingen",
                 "publishForSpecificDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for alle avdelinger"

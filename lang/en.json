@@ -6053,6 +6053,10 @@
                 "nothingPublished": "No draft shifts matched the selected period and departments, so nothing was published.",
                 "remainingDrafts": "{count} draft shift(s) are still unpublished ({start} – {end}). Publish again with that period and the right departments to make them live."
             },
+            "publishEmployees": {
+                "label": "Employees (optional)",
+                "hint": "Leave empty to publish everyone in the selected departments. Only employees who get new shifts receive an email."
+            },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments",
                 "publishForSpecificDepartmentConfirmation": "Are you sure you want to publish this schedule for department"

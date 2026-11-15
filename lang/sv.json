@@ -5998,6 +5998,10 @@
                 "nothingPublished": "Inga utkastpass matchade den valda perioden och avdelningarna, så inget publicerades.",
                 "remainingDrafts": "{count} utkastpass är fortfarande opublicerade ({start} – {end}). Publicera igen med den perioden och rätt avdelningar för att göra dem aktiva."
             },
+            "publishEmployees": {
+                "label": "Medarbetare (valfritt)",
+                "hint": "Lämna tomt för att publicera alla i de valda avdelningarna. Endast medarbetare som får nya pass får ett e-postmeddelande."
+            },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för avdelningen",
                 "publishForSpecificDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för alla avdelningar"
