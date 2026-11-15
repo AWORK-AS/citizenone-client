@@ -6047,7 +6047,11 @@
         "draft": {
             "alert": {
                 "successfullyPublished": "Schedules successfully published",
-                "publishFailed": "Publish failed. Please try again."
+                "publishFailed": "Publish failed. Please try again.",
+                "publishedSummary": "{count} shift(s) published for {employees} employee(s), {start} – {end}.",
+                "alreadyLiveSummary": "{count} shift(s) were already in the published schedule and were not added again.",
+                "nothingPublished": "No draft shifts matched the selected period and departments, so nothing was published.",
+                "remainingDrafts": "{count} draft shift(s) are still unpublished ({start} – {end}). Publish again with that period and the right departments to make them live."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments",

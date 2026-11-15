@@ -6047,7 +6047,11 @@
         "draft": {
             "alert": {
                 "successfullyPublished": "Vagtplaner offentliggjort med succes",
-                "publishFailed": "Offentliggørelse mislykkedes. Prøv igen."
+                "publishFailed": "Offentliggørelse mislykkedes. Prøv igen.",
+                "publishedSummary": "{count} vagt(er) offentliggjort for {employees} medarbejder(e), {start} – {end}.",
+                "alreadyLiveSummary": "{count} vagt(er) lå allerede i den offentliggjorte vagtplan og blev ikke tilføjet igen.",
+                "nothingPublished": "Ingen kladdevagter matchede den valgte periode og afdelinger, så intet blev offentliggjort.",
+                "remainingDrafts": "{count} kladdevagt(er) er stadig ikke offentliggjort ({start} – {end}). Offentliggør igen med den periode og de rigtige afdelinger for at gøre dem aktive."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for afdelingen",
