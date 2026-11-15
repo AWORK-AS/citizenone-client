@@ -1,3 +1,5 @@
+import { jsStringLiteral } from '../../utils/inlineHtml'
+
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const baseURL = config.public.apiBaseURL || process.env.API_BASE_URL
@@ -126,11 +128,11 @@ export default defineEventHandler(async (event) => {
                         window.opener.postMessage({
                             type: 'oauth-auth-complete',
                             success: false,
-                            error: '${errorMessage.replace(/'/g, "\\'")}'
+                            error: ${jsStringLiteral(errorMessage)}
                         }, '*');
                         window.close();
                     } else {
-                        window.location.href = '/apps?error=${encodeURIComponent(errorMessage)}';
+                        window.location.href = ${jsStringLiteral('/apps?error=' + encodeURIComponent(errorMessage))};
                     }
                 </script>
                 <p>Authorization failed. This window will close automatically.</p>

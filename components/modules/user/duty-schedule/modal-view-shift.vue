@@ -68,7 +68,7 @@
                             <p class="text-gray-600">
                                 {{ $t('dutySchedules.viewSchedule.note') }}:
                             </p>
-                            <p v-html="props?.selectedEmployeeSchedule?.note?.replace(/\n/g, '<br>')" />
+                            <p v-safe-html="props?.selectedEmployeeSchedule?.note?.replace(/\n/g, '<br>')" />
                         </div>
                         <div class="flex items-center flex-wrap gap-y-0.5 mt-1"
                             v-if="props?.selectedEmployeeSchedule?.tags?.length > 0">

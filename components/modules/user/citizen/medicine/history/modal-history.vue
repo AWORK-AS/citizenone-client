@@ -218,7 +218,7 @@
                                             </span>
                                         </div>
                                         <p class="text-sm text-gray-700"
-                                            v-html="effectEvaluation.evaluation?.replace(/\n/g, '<br>')" />
+                                            v-safe-html="effectEvaluation.evaluation?.replace(/\n/g, '<br>')" />
                                     </div>
                                 </div>
                             </div>
