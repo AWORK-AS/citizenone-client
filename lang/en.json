@@ -18759,7 +18759,8 @@
             "score": "Score",
             "edit": "Edit",
             "duplicate": "Duplicate",
-            "delete": "Delete"
+            "delete": "Delete",
+            "changeDate": "Change date"
         },
         "status": {
             "completed": "Completed",
@@ -18785,7 +18786,8 @@
             "duplicated": "Survey duplicated",
             "sent": "Survey sent to @:terms.citizen{''}",
             "assignmentDeleted": "Response deleted",
-            "responseSaved": "Response saved"
+            "responseSaved": "Response saved",
+            "completedDateChanged": "Completed date changed"
         },
         "editWarning": {
             "hasResponses": "This survey has {count} response(s). Responses that are already filled in keep the questions and the order they were answered with. Your changes apply to responses filled in from now on.",
@@ -18846,7 +18848,10 @@
         },
         "fill": {
             "enterAnswer": "Enter your answer"
-        }
+        },
+        "completedDate": "Completed on",
+        "completedDateHint": "Choose an earlier date if the survey was completed before today, e.g. on paper.",
+        "changeCompletedDate": "Change completed date"
     },
     "welcomeTour": {
         "name": "Milo",
