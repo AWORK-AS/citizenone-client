@@ -19911,7 +19911,8 @@
                 "cooperationStatusDate": "Datumet för status på samarbetet.",
                 "cooperationProtectionStart": "När skyddet börjar. Fylls i manuellt, finns inte i WorkZone-exporten.",
                 "cooperationProtectionEnd": "När skyddet slutar. Får inte ligga före starten.",
-                "isActive": "En inaktiv avdelning kan inte väljas på nya avtalsperioder."
+                "isActive": "En inaktiv avdelning kan inte väljas på nya avtalsperioder.",
+                "billingTiming": "Kundens grundavtal. Ett kontrakt som inte själv har valt förskott eller efterskott följer kunden. Det kan ändras på det enskilda kontraktet."
             },
             "import": {
                 "title": "Importera från WorkZone",
@@ -19979,7 +19980,9 @@
                 "deleted": "Specialpriset har tagits bort",
                 "optional": "Valfritt",
                 "loadFailed": "Specialpriserna kunde inte hämtas"
-            }
+            },
+            "billingTiming": "Faktureringstidpunkt",
+            "billingTimingNone": "Inte valt (i efterskott)"
         },
         "contract": {
             "startDateHint": "Kan lämnas tomt tills startdatumet är känt. Kontraktet faktureras först när det har ett startdatum.",
@@ -20143,7 +20146,9 @@
             "showCaseNumberHelp": "Fakturaraden får med både insatsnumret och ärendets journalnummer om de är registrerade.",
             "specialLanguage": "Särskilt språk",
             "specialLanguageHelp": "Registreras på själva profilen och kan inte ändras här.",
-            "reviewKept": "Oförändrat från föregående period: {items}."
+            "reviewKept": "Oförändrat från föregående period: {items}.",
+            "followCustomer": "Följ kunden ({timing})",
+            "billingTimingFromCustomer": "från kunden"
         },
         "invoices": {
             "title": "Fakturor från uttaget",

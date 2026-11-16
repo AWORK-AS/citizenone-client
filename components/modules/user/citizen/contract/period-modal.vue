@@ -134,13 +134,14 @@
                                     </div>
                                     <select class="co-cell-input w-full" v-model="state.form.billing_timing"
                                         :aria-label="$t('socialWelfare.contract.billingTiming')">
+                                        <option value="">{{ $t('socialWelfare.contract.followCustomer', { timing: $t(`socialWelfare.contract.billingTimings.${customerBillingTiming}`) }) }}</option>
                                         <option value="in_arrears">{{ $t('socialWelfare.contract.billingTimings.in_arrears') }}</option>
                                         <option value="in_advance">{{ $t('socialWelfare.contract.billingTimings.in_advance') }}</option>
                                     </select>
                                     <FormError :error="state.error?.errors?.billing_timing?.[0]" />
                                 </div>
                                 <p class="md:col-span-2 text-[12px] text-slate-500 self-end pb-2">
-                                    {{ $t(`socialWelfare.contract.billingTimingHelps.${state.form.billing_timing}`) }}
+                                    {{ $t(`socialWelfare.contract.billingTimingHelps.${effectiveBillingTiming}`) }}
                                 </p>
                             </div>
                         </div>
@@ -439,7 +440,8 @@ const blank = () => ({
     price: '' as any,
     hours_interval: 'weekly',
     billing_frequency: 'monthly',
-    billing_timing: 'in_arrears',
+    // '' follows the customer's base agreement.
+    billing_timing: '',
     payment_terms_days: '' as any,
     economic_customer_number: '',
     economic_product_number: '',
@@ -477,6 +479,10 @@ const departmentOptions = computed(() =>
 const selectedDepartment = computed(() =>
     departmentOptions.value.find((d: any) => d.uuid === state.form.customer_department_uuid) ?? null
 )
+
+// The customer's base agreement, and what the period bills by with the current choice.
+const customerBillingTiming = computed(() => (selectedDepartment.value as any)?.billing_timing || 'in_arrears')
+const effectiveBillingTiming = computed(() => state.form.billing_timing || customerBillingTiming.value)
 
 const priceLabel = computed(() => {
     if (state.form.price_type === 'fixed') return t('socialWelfare.contract.fixedPrice')
@@ -561,7 +567,8 @@ function fromPeriod(source: any, asNew: boolean) {
     form.price = source.price ?? ''
     form.hours_interval = source.hours_interval || 'weekly'
     form.billing_frequency = source.billing_frequency || 'monthly'
-    form.billing_timing = source.billing_timing || 'in_arrears'
+    // A saved period names its own choice apart from the one it bills by; '' follows the customer.
+    form.billing_timing = ('own_billing_timing' in source ? source.own_billing_timing : source.billing_timing) ?? ''
 
     // The stay's agreed price is an amount per period (a won offer carries its
     // monthly price there), never an hourly rate. Copying it into the hourly
@@ -712,7 +719,7 @@ function payload() {
         hours_interval: state.form.hours_interval,
         hours: hoursPayload(state.hours),
         billing_frequency: state.form.billing_frequency,
-        billing_timing: state.form.billing_timing,
+        billing_timing: state.form.billing_timing || null,
         payment_terms_days: numberOrNull(state.form.payment_terms_days),
         economic_customer_number: textOrNull(state.form.economic_customer_number),
         economic_product_number: textOrNull(state.form.economic_product_number),

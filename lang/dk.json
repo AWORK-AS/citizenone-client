@@ -19996,7 +19996,8 @@
                 "cooperationStatusDate": "Datoen for statussen på samarbejdet.",
                 "cooperationProtectionStart": "Hvornår beskyttelsen begynder. Udfyldes manuelt, findes ikke i WorkZone-udtrækket.",
                 "cooperationProtectionEnd": "Hvornår beskyttelsen slutter. Skal ikke ligge før starten.",
-                "isActive": "En inaktiv afdeling kan ikke vælges på nye kontraktperioder."
+                "isActive": "En inaktiv afdeling kan ikke vælges på nye kontraktperioder.",
+                "billingTiming": "Kundens grundaftale. En kontrakt, der ikke selv har valgt forud eller bagud, følger kunden. Det kan ændres på den enkelte kontrakt."
             },
             "import": {
                 "title": "Importér fra WorkZone",
@@ -20064,7 +20065,9 @@
                 "deleted": "Særprisen er slettet",
                 "optional": "Valgfri",
                 "loadFailed": "Særpriserne kunne ikke hentes"
-            }
+            },
+            "billingTiming": "Faktureringstidspunkt",
+            "billingTimingNone": "Ikke valgt (bagudrettet)"
         },
         "contract": {
             "startDateHint": "Kan udelades, til startdatoen kendes. Kontrakten faktureres først, når den har en startdato.",
@@ -20228,7 +20231,9 @@
             "showCaseNumberHelp": "Fakturalinjen får både indsatsnummeret og sagens journalnummer med, hvis de er registreret.",
             "specialLanguage": "Særligt sprog",
             "specialLanguageHelp": "Registreres på selve profilen og kan ikke ændres her.",
-            "reviewKept": "Uændret fra forrige periode: {items}."
+            "reviewKept": "Uændret fra forrige periode: {items}.",
+            "followCustomer": "Følg kunden ({timing})",
+            "billingTimingFromCustomer": "fra kunden"
         },
         "invoices": {
             "title": "Fakturaer fra udtrækket",

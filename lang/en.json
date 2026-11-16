@@ -19996,7 +19996,8 @@
                 "cooperationStatusDate": "The date of the cooperation status.",
                 "cooperationProtectionStart": "When the protection starts. Filled in by hand, not in the WorkZone export.",
                 "cooperationProtectionEnd": "When the protection ends. Must not be before the start.",
-                "isActive": "An inactive department cannot be chosen on new contract periods."
+                "isActive": "An inactive department cannot be chosen on new contract periods.",
+                "billingTiming": "The customer's base agreement. A contract without its own choice of in advance or in arrears follows the customer. It can be changed on the contract."
             },
             "import": {
                 "title": "Import from WorkZone",
@@ -20064,7 +20065,9 @@
                 "deleted": "The special price was deleted",
                 "optional": "Optional",
                 "loadFailed": "The special prices could not be loaded"
-            }
+            },
+            "billingTiming": "Billing timing",
+            "billingTimingNone": "Not chosen (in arrears)"
         },
         "contract": {
             "startDateHint": "Can be left empty until the start date is known. The contract is only billed once it has a start date.",
@@ -20228,7 +20231,9 @@
             "showCaseNumberHelp": "The invoice line includes both the case number and the case journal number, if they are registered.",
             "specialLanguage": "Special language",
             "specialLanguageHelp": "Registered on the profile itself and cannot be changed here.",
-            "reviewKept": "Unchanged from the previous period: {items}."
+            "reviewKept": "Unchanged from the previous period: {items}.",
+            "followCustomer": "Follow the customer ({timing})",
+            "billingTimingFromCustomer": "from the customer"
         },
         "invoices": {
             "title": "Invoices from the extraction",

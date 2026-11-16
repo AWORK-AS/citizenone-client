@@ -228,6 +228,21 @@
                                     {{ $t('socialWelfare.contract.createPaymentTerms') }}
                                 </NuxtLink>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-1">
+                                    <FormLabel :label="$t('socialWelfare.customerDepartments.billingTiming')" />
+                                    <Tooltip :text="$t('socialWelfare.customerDepartments.help.billingTiming')" wrap position="top">
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-slate-400 hover:text-primary transition" aria-hidden="true" />
+                                    </Tooltip>
+                                </div>
+                                <select class="co-cell-input w-full" v-model="state.form.billing_timing"
+                                    :aria-label="$t('socialWelfare.customerDepartments.billingTiming')">
+                                    <option value="">{{ $t('socialWelfare.customerDepartments.billingTimingNone') }}</option>
+                                    <option value="in_arrears">{{ $t('socialWelfare.contract.billingTimings.in_arrears') }}</option>
+                                    <option value="in_advance">{{ $t('socialWelfare.contract.billingTimings.in_advance') }}</option>
+                                </select>
+                                <FormError :error="state.error?.errors?.billing_timing?.[0]" />
+                            </div>
                             <div class="space-y-1 md:col-span-2">
                                 <div class="flex items-center gap-1">
                                     <FormLabel :label="$t('socialWelfare.customerDepartments.paymentTermsText')" />

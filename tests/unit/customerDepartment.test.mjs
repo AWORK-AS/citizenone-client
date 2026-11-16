@@ -86,3 +86,15 @@ describe('import helpers', () => {
         assert.equal(applyCount(null), 0)
     })
 })
+
+describe('billing timing base agreement', () => {
+    test('is read from the department and sent back, empty as null', () => {
+        const form = formFromDepartment({ name: 'X', billing_timing: 'in_advance' })
+        assert.equal(form.billing_timing, 'in_advance')
+        assert.equal(departmentPayload(form).billing_timing, 'in_advance')
+
+        form.billing_timing = ''
+        assert.equal(departmentPayload(form).billing_timing, null)
+        assert.equal(emptyDepartmentForm().billing_timing, '')
+    })
+})
