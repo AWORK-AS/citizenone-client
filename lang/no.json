@@ -8439,7 +8439,10 @@
             "downloadTemplate": "Last ned mal",
             "importEmployees": "Importer medarbeidere",
             "importTemplate": "Importer mal",
-            "noFileSelected": "Ingen fil valgt"
+            "noFileSelected": "Ingen fil valgt",
+            "updateExisting": "Oppdater eksisterende ansatte",
+            "updateExistingHelp": "Kryss av for å oppdatere ansatte som allerede finnes (funnet via e-post). Tomme celler beholder den eksisterende verdien.",
+            "exportedFileHint": "Du kan også importere en fil du har eksportert fra ansattlisten."
         },
         "inviteEmployee": "Inviter medarbeider",
         "newEmployee": "Ny medarbeider",

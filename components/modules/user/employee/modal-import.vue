@@ -10,6 +10,9 @@
                             {{ $t('employees.importEmployees.downloadTemplate') }}
                         </button>
                     </div>
+                    <p class="mt-2 text-xs text-gray-500">
+                        {{ $t('employees.importEmployees.exportedFileHint') }}
+                    </p>
                     <form @submit.prevent="importEmployees" class="mt-3">
                         <Alert v-if="state.error?.message" type="danger" :text="state.error.message" />
                         <div class="space-y-3">
@@ -29,6 +32,17 @@
                                         <li>{{ state.formImport.file.name }}</li>
                                     </ul>
                                 </div>
+                            </div>
+                            <!-- Off unless ticked: a file that names an employee who exists is otherwise reported, not changed. -->
+                            <div>
+                                <label class="flex items-start gap-x-2 cursor-pointer">
+                                    <input type="checkbox" v-model="state.formImport.updateExisting" id="update_existing_employees"
+                                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-0" />
+                                    <span class="text-sm text-gray-700">{{ $t('employees.importEmployees.updateExisting') }}</span>
+                                </label>
+                                <p class="mt-1 ml-6 text-xs text-gray-500">
+                                    {{ $t('employees.importEmployees.updateExistingHelp') }}
+                                </p>
                             </div>
                         </div>
                         <div class="mt-6">
@@ -72,6 +86,7 @@ const state = reactive({
     isPageLoading: false,
     formImport: {
         file: null as File | null,
+        updateExisting: false,
     },
 })
 
@@ -79,6 +94,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
     if (isModalOpen) {
         state.error = {}
         state.formImport.file = null
+        state.formImport.updateExisting = false
     }
 })
 
@@ -122,6 +138,7 @@ async function importEmployees() {
     try {
         const params = new FormData()
         params.append('file', state.formImport.file)
+        params.append('update_existing', state.formImport.updateExisting ? '1' : '0')
         const response = await employeeService.importEmployees(params)
         if (response) {
             closeModal()

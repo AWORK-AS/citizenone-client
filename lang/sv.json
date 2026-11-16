@@ -8439,7 +8439,10 @@
             "downloadTemplate": "Ladda ner mall",
             "importEmployees": "Importera anställda",
             "importTemplate": "Importera mall",
-            "noFileSelected": "Inga fil vald"
+            "noFileSelected": "Inga fil vald",
+            "updateExisting": "Uppdatera befintliga medarbetare",
+            "updateExistingHelp": "Kryssa i för att uppdatera medarbetare som redan finns (hittas via e-post). Tomma celler behåller det befintliga värdet.",
+            "exportedFileHint": "Du kan också importera en fil som du har exporterat från medarbetarlistan."
         },
         "inviteEmployee": "Inviter anställd",
         "newEmployee": "Ny anställd",
