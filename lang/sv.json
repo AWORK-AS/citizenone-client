@@ -18735,6 +18735,7 @@
             "templates": "Standardenkäter",
             "orBuildYourOwn": "Eller byg dit eget",
             "addFollowUp": "Lägg till följdfråga",
+            "addQuestionBelow": "Lägg till fråga nedanför",
             "followUpShownWhen": "Visas när svaret på \"{question}\" är:",
             "followUpPickOption": "Välj minst ett svar som visar den här frågan.",
             "moveUp": "Flytta upp",
