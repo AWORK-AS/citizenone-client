@@ -9,6 +9,15 @@
 
         <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
+        <div class="flex items-start gap-3">
+            <FormSwitch :value="state.form.enabled" :label="$t('inquiryRecruitment.settings.enabled')"
+                @toggleSwitch="state.form.enabled = !state.form.enabled" />
+            <div>
+                <p class="text-sm text-gray-900">{{ $t('inquiryRecruitment.settings.enabled') }}</p>
+                <p class="text-xs text-gray-500">{{ $t('inquiryRecruitment.settings.enabledHint') }}</p>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="space-y-1">
                 <FormLabel for="recruitment-groups" :label="$t('inquiryRecruitment.settings.groups')" />
@@ -28,10 +37,12 @@
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-3">
-            <p class="text-xs" :class="state.recipientCount ? 'text-gray-500' : 'text-[#c0442c]'">
-                {{ state.recipientCount
-                    ? $t('inquiryRecruitment.settings.recipientCount', { count: state.recipientCount })
-                    : $t('inquiryRecruitment.settings.nobody') }}
+            <p class="text-xs" :class="status === 'count' ? 'text-gray-500' : 'text-[#c0442c]'">
+                {{ status === 'off'
+                    ? $t('inquiryRecruitment.settings.off')
+                    : status === 'count'
+                        ? $t('inquiryRecruitment.settings.recipientCount', { count: state.recipientCount })
+                        : $t('inquiryRecruitment.settings.nobody') }}
             </p>
             <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="save">
                 {{ $t('save') }}
@@ -47,6 +58,7 @@ import { userService } from '@/components/api/user/UserService'
 import { taskService } from '@/components/api/user/TaskService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
+import { recruitmentFormFrom, recruitmentPayload, recruitmentStatus } from '@/composables/inquiryRecruitmentSettings'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -61,11 +73,7 @@ const state = reactive({
     isLoading: false,
     isSaving: false,
     recipientCount: 0,
-    form: {
-        employee_group_uuids: [] as string[],
-        user_uuids: [] as string[],
-        task_board_uuid: '' as string,
-    },
+    form: recruitmentFormFrom(undefined),
     options: {
         groups: [] as any[],
         users: [] as any[],
@@ -73,14 +81,14 @@ const state = reactive({
     },
 })
 
+const status = computed(() => recruitmentStatus(state.form.enabled, state.recipientCount))
+
 onMounted(() => {
     load()
 })
 
 function apply(data: any) {
-    state.form.employee_group_uuids = (data?.employee_groups ?? []).map((group: any) => group.uuid)
-    state.form.user_uuids = (data?.users ?? []).map((user: any) => user.uuid)
-    state.form.task_board_uuid = data?.task_board?.uuid ?? ''
+    state.form = recruitmentFormFrom(data)
     state.recipientCount = data?.recipient_count ?? 0
 }
 
@@ -113,11 +121,7 @@ async function save() {
     state.error = {}
     state.isSaving = true
     try {
-        const response = await inquirySettingService.saveRecruitment({
-            employee_group_uuids: state.form.employee_group_uuids,
-            user_uuids: state.form.user_uuids,
-            task_board_uuid: state.form.task_board_uuid || null,
-        })
+        const response = await inquirySettingService.saveRecruitment(recruitmentPayload(state.form))
         apply(response?.data)
         successAlert(`${t('alert.success')}!`, `${t('inquiryRecruitment.settings.saved')}.`)
     } catch (error: any) {
