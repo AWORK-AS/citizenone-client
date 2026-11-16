@@ -7,6 +7,7 @@ import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
 
 const language = useI18n()
 const router = useRouter()
@@ -15,6 +16,10 @@ const userStore = useUserStore() as any
 const { isAtLeast, seesHrData } = usePermissions()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+// The consultant tab is for consultants only (a role counting as consultant, or
+// employed as one). Until the profile says so, and with a backend that does not
+// say it yet, the tab stays as before.
+const isConsultant = ref(true)
 
 // Managers see every employee's monthly sheet; anyone else only their own, and only when
 // they may see working hours (the same rule the backend enforces).
@@ -77,7 +82,7 @@ function buildTabs() {
                 'employees-employee_uuid-hr-details',
             ]
         }] : []),
-        ...(isInquiryPipelineEnabled.value ? [{
+        ...(isInquiryPipelineEnabled.value && isConsultant.value ? [{
             name: 'employees.tabs.consultantProfile',
             isTranslateName: true,
             href: `/employees/${employeeUuid}/consultant-profile`,
@@ -99,6 +104,19 @@ watch(() => language.locale.value, () => {
 // The user is loaded after the page in some flows, so the tab list follows it.
 watch(canSeeMonthlySheet, () => {
     state.tabs = buildTabs()
+})
+
+onMounted(async () => {
+    if (!isInquiryPipelineEnabled.value || !employeeUuid) return
+    try {
+        const profile: any = await consultantSkillService.getProfile(employeeUuid as string)
+        if (profile?.data?.is_consultant === false) {
+            isConsultant.value = false
+            state.tabs = buildTabs()
+        }
+    } catch {
+        // No profile answer: keep the tab as it was.
+    }
 })
 
 function changeTab(value: any) {
