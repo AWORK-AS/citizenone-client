@@ -18820,6 +18820,7 @@
             "templates": "Standardskemaer",
             "orBuildYourOwn": "Eller byg dit eget",
             "addFollowUp": "Tilføj opfølgende spørgsmål",
+            "addQuestionBelow": "Tilføj spørgsmål nedenunder",
             "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
             "followUpPickOption": "Vælg mindst ét svar, der viser dette spørgsmål.",
             "moveUp": "Flyt op",

@@ -46,6 +46,22 @@ export function adjacentSiblingIndex(questions: BuilderQuestionLike[], index: nu
     return undefined
 }
 
+/**
+ * Inserts a new question right below the question at index, after that
+ * question's own follow-ups so they stay under it. Below a follow-up the new
+ * question becomes another follow-up of the same parent, shown for the same
+ * answers, so it never lands between a parent and its follow-ups.
+ */
+export function insertSurveyQuestionAfter<T extends BuilderQuestionLike & { show_if?: any }>(questions: T[], index: number, question: T): void {
+    const anchor = questions[index]
+    if (parentKeyOf(questions, anchor)) {
+        question.show_if = { question: anchor.show_if.question, options: [...(anchor.show_if.options ?? [])] }
+    } else {
+        delete question.show_if
+    }
+    questions.splice(lastDescendantIndex(questions, index) + 1, 0, question)
+}
+
 /** Moves the question at index (with its follow-ups) one place up or down, in place. */
 export function moveSurveyQuestion(questions: BuilderQuestionLike[], index: number, direction: -1 | 1): void {
     const sibling = adjacentSiblingIndex(questions, index, direction)

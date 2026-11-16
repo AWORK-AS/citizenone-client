@@ -18735,6 +18735,7 @@
             "templates": "Standardskjemaer",
             "orBuildYourOwn": "Eller byg dit eget",
             "addFollowUp": "Legg til oppfølgingsspørsmål",
+            "addQuestionBelow": "Legg til spørsmål under",
             "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
             "followUpPickOption": "Velg minst ett svar som viser dette spørsmålet.",
             "moveUp": "Flytt opp",

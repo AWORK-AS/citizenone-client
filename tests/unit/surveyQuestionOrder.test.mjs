@@ -6,7 +6,7 @@
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { adjacentSiblingIndex, moveSurveyQuestion } from '../../composables/surveyQuestionOrder.ts'
+import { adjacentSiblingIndex, insertSurveyQuestionAfter, moveSurveyQuestion } from '../../composables/surveyQuestionOrder.ts'
 
 const q = (key, parent) => (parent ? { key, show_if: { question: parent, options: [0] } } : { key })
 // 1 mood, 2 smoke (2.1 howMuch (2.1.1 snus), 2.2 since), 3 other
@@ -59,4 +59,42 @@ test('a follow-up whose parent is gone counts as a top-level question', () => {
     const questions = [q('a'), q('orphan', 'deleted'), q('b')]
     moveSurveyQuestion(questions, 1, -1)
     assert.deepEqual(keys(questions), ['orphan', 'a', 'b'])
+})
+
+const inserted = (key) => {
+    const questions = survey()
+    const added = { key: 'new' }
+    insertSurveyQuestionAfter(questions, keys(questions).indexOf(key), added)
+    return { order: keys(questions), added }
+}
+
+test('a question added below a top-level question lands right after it', () => {
+    const { order, added } = inserted('mood')
+    assert.deepEqual(order, ['mood', 'new', 'smoke', 'howMuch', 'snus', 'since', 'other'])
+    assert.equal(added.show_if, undefined)
+})
+
+test('a question added below a question with follow-ups lands after the follow-ups', () => {
+    const { order, added } = inserted('smoke')
+    assert.deepEqual(order, ['mood', 'smoke', 'howMuch', 'snus', 'since', 'new', 'other'])
+    assert.equal(added.show_if, undefined)
+})
+
+test('a question added below a follow-up becomes a follow-up of the same parent', () => {
+    const questions = survey()
+    questions[2].show_if.options = [1, 2]
+    const added = { key: 'new' }
+    insertSurveyQuestionAfter(questions, 2, added)
+    assert.deepEqual(keys(questions), ['mood', 'smoke', 'howMuch', 'snus', 'new', 'since', 'other'])
+    assert.deepEqual(added.show_if, { question: 'smoke', options: [1, 2] })
+    // its own copy, so changing one condition leaves the other alone
+    added.show_if.options.push(0)
+    assert.deepEqual(questions[2].show_if.options, [1, 2])
+    // and it moves like any other follow-up of that parent
+    assert.equal(adjacentSiblingIndex(questions, 4, -1), 2)
+    assert.equal(adjacentSiblingIndex(questions, 4, 1), 5)
+})
+
+test('a question added below the last question goes at the end', () => {
+    assert.deepEqual(inserted('other').order, ['mood', 'smoke', 'howMuch', 'snus', 'since', 'other', 'new'])
 })

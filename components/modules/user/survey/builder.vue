@@ -90,6 +90,13 @@
                             :placeholder="$t('surveys.builder.headingPlaceholder')" v-model="question.value" />
                         <FormError
                             :error="state.submitted && !String(question.value ?? '').trim() ? $t('validation.thisFieldIsRequired') + '.' : ''" />
+                        <button type="button" :data-testid="`survey-insert-below-${qi}`"
+                            class="flex items-center gap-x-1 text-primary-500 text-sm hover:text-primary-700"
+                            @click="toggleInsertBelow(question.key)">
+                            <Icon :name="state.insertAfter === question.key ? 'ph:x-circle' : 'ph:plus'"
+                                class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('surveys.builder.addQuestionBelow') }}
+                        </button>
                     </div>
                     <template v-else>
                     <div class="p-5 space-y-3">
@@ -178,10 +185,17 @@
                     </div>
                     <hr />
                     <div class="px-5 py-3 flex items-center justify-between gap-x-2">
-                        <div>
+                        <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+                            <button type="button" :data-testid="`survey-insert-below-${qi}`"
+                                class="flex items-center gap-x-1 text-primary-500 text-sm hover:text-primary-700"
+                                @click="toggleInsertBelow(question.key)">
+                                <Icon :name="state.insertAfter === question.key ? 'ph:x-circle' : 'ph:plus'"
+                                    class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('surveys.builder.addQuestionBelow') }}
+                            </button>
                             <button v-if="['choice', 'checkbox'].includes(question.type)" type="button"
                                 class="flex items-center gap-x-1 text-primary-500 text-sm hover:text-primary-700"
-                                @click="state.followUpFor = state.followUpFor === question.key ? null : question.key">
+                                @click="toggleFollowUp(question.key)">
                                 <Icon :name="state.followUpFor === question.key ? 'ph:x-circle' : 'ph:arrow-elbow-down-right'"
                                     class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('surveys.builder.addFollowUp') }}
@@ -204,6 +218,26 @@
                         </button>
                     </div>
                     </template>
+                    <!-- A new question right below this one; below a follow-up it is another follow-up of the same question. -->
+                    <div v-if="state.insertAfter === question.key" class="px-5 pb-5 grid grid-cols-3 gap-3"
+                        :data-testid="`survey-insert-picker-${qi}`">
+                        <button v-for="type in questionTypes" :key="type.value" type="button"
+                            class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-white"
+                            @click="insertBelow(qi, type.value)">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon :name="type.icon" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ type.label }}
+                            </div>
+                        </button>
+                        <button v-if="!parentOf(question)" type="button"
+                            class="px-5 py-4 border border-primary rounded-md bg-primary/5 hover:bg-primary/10"
+                            @click="insertBelow(qi, 'heading')">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:text-h" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('surveys.builder.types.heading') }}
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -273,7 +307,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
 import { surveyTemplates, type SurveyTemplate } from '@/components/modules/user/survey/survey-templates'
-import { adjacentSiblingIndex, moveSurveyQuestion } from '@/composables/surveyQuestionOrder'
+import { adjacentSiblingIndex, insertSurveyQuestionAfter, moveSurveyQuestion } from '@/composables/surveyQuestionOrder'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -304,6 +338,7 @@ const state = reactive({
     },
     showAdder: true,
     followUpFor: null as string | null,
+    insertAfter: null as string | null,
     submitted: false,
 })
 
@@ -421,10 +456,32 @@ function addQuestion(type: string) {
     state.showAdder = false
 }
 
+function makeHeading() {
+    return { key: newKey(), type: 'heading', value: '', required: false }
+}
+
 // A heading such as "Hair loss" or "Mental health" that groups the questions after it.
 function addHeading() {
-    state.survey.questions.push({ key: newKey(), type: 'heading', value: '', required: false })
+    state.survey.questions.push(makeHeading())
     state.showAdder = false
+}
+
+// Only one type picker is open at a time.
+function toggleInsertBelow(key: string) {
+    state.insertAfter = state.insertAfter === key ? null : key
+    state.followUpFor = null
+}
+
+function toggleFollowUp(key: string) {
+    state.followUpFor = state.followUpFor === key ? null : key
+    state.insertAfter = null
+}
+
+// Adds a question right below the one at index, so it no longer has to be
+// added at the bottom and moved up step by step.
+function insertBelow(index: number, type: string) {
+    insertSurveyQuestionAfter(state.survey.questions, index, type === 'heading' ? makeHeading() : makeQuestion(type))
+    state.insertAfter = null
 }
 
 function addFollowUp(parentIndex: number, type: string) {
