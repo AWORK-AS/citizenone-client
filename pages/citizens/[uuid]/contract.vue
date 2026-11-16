@@ -364,7 +364,12 @@ function priceLabel(period: any): string {
 }
 
 function timingLabel(period: any): string {
-    return t(`socialWelfare.contract.billingTimings.${period?.billing_timing || 'in_arrears'}`)
+    const label = t(`socialWelfare.contract.billingTimings.${period?.billing_timing || 'in_arrears'}`)
+
+    // No choice of its own: it bills by the customer's base agreement.
+    return period && 'own_billing_timing' in period && !period.own_billing_timing && period.customer_department?.billing_timing
+        ? `${label} (${t('socialWelfare.contract.billingTimingFromCustomer')})`
+        : label
 }
 
 // The flag is on the citizen; each period carries the same value read-only.

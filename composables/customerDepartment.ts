@@ -34,6 +34,8 @@ export function emptyDepartmentForm() {
         vat_exempt: false,
         payment_terms_days: '' as any,
         payment_terms_text: '',
+        // Base agreement: in advance or in arrears. '' = in arrears, as before.
+        billing_timing: '',
         // Vilkar
         price_regulation: '',
         notice_terms: '',
@@ -69,7 +71,7 @@ export function formFromDepartment(d: any) {
 const TEXT_KEYS = [
     'external_id', 'customer_name', 'street', 'address_line_2', 'post_code', 'city', 'address_type', 'region',
     'email', 'phone', 'mobile_phone', 'contact_person', 'customer_number', 'customer_group', 'customer_division',
-    'payment_terms_text', 'price_regulation', 'notice_terms', 'cooperation_status',
+    'payment_terms_text', 'billing_timing', 'price_regulation', 'notice_terms', 'cooperation_status',
     'cooperation_status_date', 'cooperation_protection_start', 'cooperation_protection_end',
 ]
 
