@@ -8,6 +8,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
+import { consultantTabRedirect, showsConsultantTab } from '@/composables/consultantTab'
 
 const language = useI18n()
 const router = useRouter()
@@ -110,9 +111,12 @@ onMounted(async () => {
     if (!isInquiryPipelineEnabled.value || !employeeUuid) return
     try {
         const profile: any = await consultantSkillService.getProfile(employeeUuid as string)
-        if (profile?.data?.is_consultant === false) {
+        if (!showsConsultantTab(profile)) {
             isConsultant.value = false
             state.tabs = buildTabs()
+            // Opened by link or bookmark: the hidden tab sends you to the details.
+            const to = consultantTabRedirect(router.currentRoute.value.path, employeeUuid as string, false)
+            if (to) navigateTo(to)
         }
     } catch {
         // No profile answer: keep the tab as it was.
