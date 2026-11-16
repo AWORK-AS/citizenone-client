@@ -21769,12 +21769,15 @@
         "settings": {
             "title": "Rekryteringsteam",
             "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis, push och mejl som beskriver uppdraget, aldrig personen.",
+            "enabled": "Skicka meddelanden om rekrytering",
+            "enabledHint": "Avstängt får ingen besked och ingen uppgift skapas. Teamet nedan sparas tills ni slår på det igen.",
             "groups": "Medarbetargrupper",
             "users": "Medarbetare",
             "taskBoard": "Skapa uppgift på tavla",
             "taskBoardHint": "Valfritt. Uppgiften läggs i tavlans första kolumn.",
             "recipientCount": "Meddelandet når {count} medarbetare.",
             "nobody": "Ingen meddelas ännu. Välj en grupp eller en medarbetare.",
+            "off": "Avstängt: ingen får besked.",
             "saved": "Rekryteringsteamet har sparats"
         }
     },

@@ -21854,12 +21854,15 @@
         "settings": {
             "title": "Rekrutteringsteam",
             "description": "Dem der får besked, når en henvendelse markeres med behov for rekruttering eller kommer i en fase, der giver besked til rekruttering. Beskeden kommer som notifikation, push og mail og beskriver opgaven, ikke personen.",
+            "enabled": "Send beskeder om rekruttering",
+            "enabledHint": "Slået fra får ingen besked, og der oprettes ingen opgave. Teamet nedenfor gemmes til I slår det til igen.",
             "groups": "Medarbejdergrupper",
             "users": "Medarbejdere",
             "taskBoard": "Opret opgave på tavle",
             "taskBoardHint": "Valgfrit. Opgaven lægges i tavlens første kolonne.",
             "recipientCount": "Beskeden når {count} medarbejder(e).",
             "nobody": "Ingen får besked endnu. Vælg en gruppe eller en medarbejder.",
+            "off": "Slået fra: ingen får besked.",
             "saved": "Rekrutteringsteamet er gemt"
         }
     },

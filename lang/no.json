@@ -21769,12 +21769,15 @@
         "settings": {
             "title": "Rekrutteringsteam",
             "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel, push og e-post og beskriver oppdraget, aldri personen.",
+            "enabled": "Send meldinger om rekruttering",
+            "enabledHint": "Slått av får ingen beskjed, og det opprettes ingen oppgave. Teamet nedenfor beholdes til dere slår det på igjen.",
             "groups": "Medarbeidergrupper",
             "users": "Medarbeidere",
             "taskBoard": "Opprett oppgave på tavle",
             "taskBoardHint": "Valgfritt. Oppgaven legges i tavlens første kolonne.",
             "recipientCount": "Beskjeden når {count} medarbeider(e).",
             "nobody": "Ingen får beskjed ennå. Velg en gruppe eller en medarbeider.",
+            "off": "Slått av: ingen får beskjed.",
             "saved": "Rekrutteringsteamet er lagret"
         }
     },

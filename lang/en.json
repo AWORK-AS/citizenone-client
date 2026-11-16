@@ -21854,12 +21854,15 @@
         "settings": {
             "title": "Recruitment team",
             "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification, a push and a mail describing the work, never the person.",
+            "enabled": "Send recruitment messages",
+            "enabledHint": "When off, nobody is told and no task is made. The team below is kept until you turn it on again.",
             "groups": "Employee groups",
             "users": "Employees",
             "taskBoard": "Create a task on board",
             "taskBoardHint": "Optional. The task goes into the board's first column.",
             "recipientCount": "The message reaches {count} employee(s).",
             "nobody": "Nobody is told yet. Choose a group or an employee.",
+            "off": "Off: nobody is told.",
             "saved": "The recruitment team has been saved"
         }
     },
