@@ -8439,7 +8439,10 @@
             "downloadTemplate": "Download template",
             "importEmployees": "Import employees",
             "importTemplate": "Import template",
-            "noFileSelected": "No file selected"
+            "noFileSelected": "No file selected",
+            "updateExisting": "Update existing employees",
+            "updateExistingHelp": "Tick to update employees who already exist (found by email). Empty cells keep the existing value.",
+            "exportedFileHint": "You can also import a file you exported from the employee list."
         },
         "inviteEmployee": "Invite employee",
         "newEmployee": "New employee",

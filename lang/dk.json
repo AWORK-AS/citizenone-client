@@ -8439,7 +8439,10 @@
             "downloadTemplate": "Download skabelon",
             "importEmployees": "Importer medarbejdere",
             "importTemplate": "Importer skabelon",
-            "noFileSelected": "Ingen fil valgt"
+            "noFileSelected": "Ingen fil valgt",
+            "updateExisting": "Opdater eksisterende medarbejdere",
+            "updateExistingHelp": "Sæt kryds for at opdatere medarbejdere, der allerede findes (fundet via e-mail). Tomme celler beholder den eksisterende værdi.",
+            "exportedFileHint": "Du kan også importere en fil, du har eksporteret fra medarbejderlisten."
         },
         "inviteEmployee": "Inviter medarbejder",
         "newEmployee": "Ny medarbejder",
