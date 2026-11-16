@@ -14265,6 +14265,7 @@
             "visibleToEveryone": "Synlig for alle brancher",
             "visibleToIndustries": "Kun synlig for de valgte brancher",
             "releasedOn": "Udgivet {date}",
+            "releasedBy": "af {name}",
             "form": {
                 "title": "Titel",
                 "description": "Beskrivelse",
