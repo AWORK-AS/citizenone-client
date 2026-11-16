@@ -14260,6 +14260,7 @@
             "visibleToEveryone": "Synlig för alla branscher",
             "visibleToIndustries": "Endast synlig för de valda branscherna",
             "releasedOn": "Lanserad {date}",
+            "releasedBy": "av {name}",
             "form": {
                 "title": "Titel",
                 "description": "Beskrivning",

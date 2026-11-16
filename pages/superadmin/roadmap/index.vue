@@ -143,6 +143,8 @@
                                     <p class="mt-1 text-xs text-gray-400">
                                         {{ item.industries?.length ? $t('superadmin.roadmap.visibleToIndustries') : $t('superadmin.roadmap.visibleToEveryone') }}
                                         <template v-if="item.released_at"> · {{ $t('superadmin.roadmap.releasedOn', { date: formatDate(item.released_at) }) }}</template>
+                                        <!-- The space is inside the braces: Vue drops one at the start of a template. -->
+                                        <template v-if="item.released_at && item.released_by">{{ ' ' + $t('superadmin.roadmap.releasedBy', { name: item.released_by.name }) }}</template>
                                     </p>
                                 </div>
                             </div>

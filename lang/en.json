@@ -14268,6 +14268,7 @@
             "visibleToEveryone": "Visible to all industries",
             "visibleToIndustries": "Only visible to the selected industries",
             "releasedOn": "Released {date}",
+            "releasedBy": "by {name}",
             "form": {
                 "title": "Title",
                 "description": "Description",
