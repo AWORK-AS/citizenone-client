@@ -9219,6 +9219,11 @@
             "responseSuccessfullySaved": "Svar sparad"
         },
         "citizenProfileFields": {
+            "caseNumber": "Ärendenummer",
+            "citizenAddress": "Adress",
+            "responsibleMunicipality": "Ansvarig kommun",
+            "assessmentMunicipality": "Bedömande kommun",
+            "primaryParties": "Primär part",
             "citizenBirthday": "Födelsedatum",
             "citizenCpr": "Personnummer",
             "citizenEmail": "E-post",
