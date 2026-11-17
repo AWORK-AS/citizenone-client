@@ -1651,6 +1651,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleEmailPreference } from '@/composables/scheduleEmailPreference'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
@@ -1663,6 +1664,8 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+// AW-2026-10212: the page's "Send email on changes" switch, sent with every move-shift call.
+const { emailOnChanges } = useScheduleEmailPreference()
 const { isDateLocked, scheduleLockCutoff } = useScheduleLock()
 // Hides the card-wide "drag to move" tooltip while the pointer is over a
 // more specific hotspot (the edit row, the hours icon) that has its own tooltip.
@@ -3204,7 +3207,7 @@ async function reassignShift(employeeUuid: string) {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid, notify_employee: emailOnChanges.value })
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -3488,7 +3491,9 @@ function confirmQuickEditTime(shift: any) {
         : shift?.date_time_end
 
     const userUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
-    const params = buildScheduleUpdateParams(shift, userUuid, newStart, newEnd)
+    // AW-2026-10212: the time changed, so this emailed every time; now it follows the page's
+    // "Send email on changes" switch (on = email, as before).
+    const params = { ...buildScheduleUpdateParams(shift, userUuid, newStart, newEnd), notify_employee: emailOnChanges.value }
     updateDutySchedule(shift?.schedule_uuid, params, employeeIndex, weekIndex, shiftIndex)
     cancelQuickEditTime()
 }
@@ -3666,7 +3671,8 @@ async function onDrop(e: DragEvent, tEmp: any, tWi: any) {
     try {
         await dutyScheduleService.moveShift(sh.schedule_uuid, {
             date: ns.format("YYYY-MM-DD"),
-            user_uuid: tEmp.uuid
+            user_uuid: tEmp.uuid,
+            notify_employee: emailOnChanges.value
         })
         await fetchDutySchedule()
         const dag = dayMap[String(tWi).toLowerCase()] || String(tWi)

@@ -388,9 +388,12 @@
                         <FormCheckbox id="notify_employee" :value="state.notifyEmployee" />
                         {{ $t('dutySchedules.form.sendEmailToEmployee') }}
                     </div>
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs text-gray-500" v-if="emailOnChanges">
                         {{ hasTimesChanged ? $t('dutySchedules.form.sendEmailToEmployeeTimesChanged') :
                             $t('dutySchedules.form.sendEmailToEmployeeTimesUnchanged') }}
+                    </p>
+                    <p class="text-xs text-amber-700" v-else data-testid="notify-employee-off-hint">
+                        {{ $t('dutySchedules.emailOnChanges.formOff') }}
                     </p>
                 </div>
             </div>
@@ -423,6 +426,7 @@
 
 <script setup lang="ts">
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleEmailPreference } from '@/composables/scheduleEmailPreference'
 import moment from 'moment'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
@@ -1123,13 +1127,18 @@ const hasTimesChanged = computed(() => {
         || !isSameMinute(date_time_end, props.selectedShift.date_time_end)
 })
 
-watch(hasTimesChanged, (changed) => {
-    if (!state.isNotifyEmployeeTouched) state.notifyEmployee = changed
+// AW-2026-10212: with "Send email on changes" switched off on the schedule, the box
+// starts unticked and stays so on a date/time change; the planner can still tick it.
+const { emailOnChanges } = useScheduleEmailPreference()
+const suggestedNotifyEmployee = computed(() => emailOnChanges.value && hasTimesChanged.value)
+
+watch(suggestedNotifyEmployee, (suggested) => {
+    if (!state.isNotifyEmployeeTouched) state.notifyEmployee = suggested
 }, { immediate: true })
 
 watch(() => props.selectedShift?.uuid, () => {
     state.isNotifyEmployeeTouched = false
-    state.notifyEmployee = hasTimesChanged.value
+    state.notifyEmployee = suggestedNotifyEmployee.value
 })
 
 function toggleNotifyEmployee() {

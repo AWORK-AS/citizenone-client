@@ -6355,6 +6355,14 @@
             "registersCareHours": "Registrér som indsatstimer",
             "registersCareHoursHint": "Slå fra, hvis timerne på denne vagt ikke skal registreres som indsatstimer. Allerede registrerede timer ændres ikke."
         },
+        "emailOnChanges": {
+            "label": "Send e-mail ved ændringer",
+            "on": "Til",
+            "off": "Fra",
+            "hintOn": "Til: Medarbejderne får en e-mail, når du flytter eller overdrager en vagt eller ændrer dens dato eller tidspunkt. Slå det fra, mens du planlægger frem.",
+            "hintOff": "Fra: Der sendes ingen e-mails, når du flytter, overdrager eller ændrer vagter her. Medarbejderne får stadig en notifikation i appen.",
+            "formOff": "E-mails er slået fra på vagtplanen, så feltet starter uden flueben. Sæt flueben for at sende en e-mail om denne ændring."
+        },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",
         "holidayNonWorked": "Helligdagstimer (ikke-arbejdet)",

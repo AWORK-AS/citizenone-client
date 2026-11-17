@@ -6300,6 +6300,14 @@
             "registersCareHours": "Registrer som tiltakstimer",
             "registersCareHoursHint": "Fjern haken hvis timene på denne vakten ikke skal registreres som tiltakstimer. Allerede registrerte timer endres ikke."
         },
+        "emailOnChanges": {
+            "label": "Send e-post ved endringer",
+            "on": "På",
+            "off": "Av",
+            "hintOn": "På: De ansatte får en e-post når du flytter eller overfører en vakt eller endrer dato eller tidspunkt. Slå det av mens du planlegger fremover.",
+            "hintOff": "Av: Det sendes ingen e-post når du flytter, overfører eller endrer vakter her. De ansatte får fortsatt et varsel i appen.",
+            "formOff": "E-post er slått av på vaktplanen, så feltet starter uten hake. Huk av for å sende en e-post om denne endringen."
+        },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
         "holidayNonWorked": "Helligdagstimer (ikke arbeidet)",
