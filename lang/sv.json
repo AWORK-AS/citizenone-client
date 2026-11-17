@@ -6300,6 +6300,14 @@
             "registersCareHours": "Registrera som insatstimmar",
             "registersCareHoursHint": "Avmarkera om timmarna på det här passet inte ska registreras som insatstimmar. Redan registrerade timmar ändras inte."
         },
+        "emailOnChanges": {
+            "label": "Skicka e-post vid ändringar",
+            "on": "På",
+            "off": "Av",
+            "hintOn": "På: Medarbetarna får ett e-postmeddelande när du flyttar eller omfördelar ett pass eller ändrar dess datum eller tid. Stäng av det medan du planerar framåt.",
+            "hintOff": "Av: Inga e-postmeddelanden skickas när du flyttar, omfördelar eller redigerar pass här. Medarbetarna får fortfarande en avisering i appen.",
+            "formOff": "E-post är avstängt på schemat, så rutan börjar omarkerad. Markera den för att skicka ett e-postmeddelande om den här ändringen."
+        },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
         "holidayNonWorked": "Helgdagstimmar (ej arbetade)",

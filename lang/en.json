@@ -6355,6 +6355,14 @@
             "registersCareHours": "Register as intervention hours",
             "registersCareHoursHint": "Untick if the hours on this shift should not be registered as intervention hours. Hours already registered are not changed."
         },
+        "emailOnChanges": {
+            "label": "Send email on changes",
+            "on": "On",
+            "off": "Off",
+            "hintOn": "On: employees get an email when you move or hand over a shift, or change its date or time. Switch it off while you plan ahead.",
+            "hintOff": "Off: no emails when you move, reassign or edit shifts here. Employees still get an in-app notification.",
+            "formOff": "Emails are switched off on the duty schedule, so this box starts unticked. Tick it to email the employee about this change."
+        },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
         "holidayNonWorked": "Public holiday hours (not worked)",

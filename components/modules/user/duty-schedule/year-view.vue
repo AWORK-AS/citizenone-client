@@ -874,6 +874,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleEmailPreference } from '@/composables/scheduleEmailPreference'
 import { useUserStore } from '@/store/user'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
@@ -911,6 +912,8 @@ const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
+// AW-2026-10212: the page's "Send email on changes" switch, sent with every move-shift call.
+const { emailOnChanges } = useScheduleEmailPreference()
 const favoriteEmployees = useFavoriteEmployees()
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
 const hasManageFavoritesAccess = computed(() => true)
@@ -1616,7 +1619,7 @@ async function reassignShift(employeeUuid: string) {
         state.progress.totalRequests++
         state.progress.pendingRequests++
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid, notify_employee: emailOnChanges.value })
         if (response) {
             state.progress.totalRequests--
             state.progress.pendingRequests--

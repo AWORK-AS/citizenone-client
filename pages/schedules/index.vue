@@ -56,6 +56,25 @@
                         </button>
                     </div>
 
+                    <!-- AW-2026-10212: a planner can stop shift-change emails while planning ahead.
+                         Per planner, on by default; the views and the edit form read it too. -->
+                    <Tooltip v-if="canManageSchedule"
+                        :text="emailOnChanges ? $t('dutySchedules.emailOnChanges.hintOn') : $t('dutySchedules.emailOnChanges.hintOff')">
+                        <button type="button" data-testid="schedule-email-on-changes"
+                            :aria-pressed="emailOnChanges ? 'true' : 'false'"
+                            :aria-label="$t('dutySchedules.emailOnChanges.label')"
+                            @click="emailOnChanges = !emailOnChanges"
+                            :class="[emailOnChanges
+                                ? 'bg-white border-slate-200 text-slate-500 hover:border-primary hover:text-primary'
+                                : 'bg-amber-50 border-amber-300 text-amber-800 hover:border-amber-400',
+                                'inline-flex items-center gap-1.5 px-2.5 2xl:px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all shadow-sm h-[32px]']">
+                            <Icon :name="emailOnChanges ? 'ph:envelope-simple' : 'mdi:email-off-outline'" class="h-3.5 w-3.5"
+                                aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.emailOnChanges.label') }}</span>
+                            <span class="hidden 2xl:inline font-normal">{{ emailOnChanges ? $t('dutySchedules.emailOnChanges.on') : $t('dutySchedules.emailOnChanges.off') }}</span>
+                        </button>
+                    </Tooltip>
+
                     <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- Shift Types legend — surfaced as a clear button so the colour key is discoverable -->
@@ -652,6 +671,7 @@ import { translateMessage } from '@/composables/translateMessage'
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleEmailPreference } from '@/composables/scheduleEmailPreference'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 // import { zenegyService } from '@/components/api/user/ZenegyService'
@@ -668,6 +688,9 @@ const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const { emailOnChanges } = useScheduleEmailPreference()
+// Same rule the views use for edit and hand-over (hasScheduleManageAccess); drag is Admin only.
+const canManageSchedule = computed(() => isAtLeast('Admin') || can('update_schedule'))
 const departmentStore = useDepartmentStore() as any
 const { successAlert, errorAlert } = useAlert()
 const { t, locale } = useI18n()

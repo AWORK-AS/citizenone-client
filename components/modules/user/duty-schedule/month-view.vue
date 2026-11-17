@@ -1073,6 +1073,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleEmailPreference } from '@/composables/scheduleEmailPreference'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
@@ -1086,6 +1087,8 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+// AW-2026-10212: the page's "Send email on changes" switch, sent with every move-shift call.
+const { emailOnChanges } = useScheduleEmailPreference()
 const { isDateLocked, scheduleLockCutoff } = useScheduleLock()
 const favoriteEmployees = useFavoriteEmployees()
 const departmentStore = useDepartmentStore()
@@ -1720,7 +1723,8 @@ async function onMonthDrop(e: DragEvent, targetDay: any) {
     try {
         await dutyScheduleService.moveShift(sh.schedule_uuid, {
             date: targetDate,
-            user_uuid: emp.uuid
+            user_uuid: emp.uuid,
+            notify_employee: emailOnChanges.value
         })
         state.dragSuccessMessage = language.t('dutySchedules.shiftMovedTo') + ' ' + moment(targetDay).format('D. ') + language.t('calendar.month.' + moment(targetDay).format('MMMM'))
         setTimeout(() => { state.dragSuccessMessage = '' }, 3000)
@@ -2036,7 +2040,7 @@ async function reassignShift(employeeUuid: string) {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
-        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid, notify_employee: emailOnChanges.value })
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
