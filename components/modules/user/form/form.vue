@@ -993,6 +993,11 @@ const citizenProfileFieldOptions = computed(() => [
     { key: 'citizen_birthday', label: t('forms.citizenProfileFields.citizenBirthday') },
     { key: 'primary_case_worker', label: term('caseworker', t('forms.citizenProfileFields.primaryCaseWorker')) },
     { key: 'paying_municipality', label: t('forms.citizenProfileFields.payingMunicipality') },
+    { key: 'responsible_municipality', label: t('forms.citizenProfileFields.responsibleMunicipality') },
+    { key: 'assessment_municipality', label: t('forms.citizenProfileFields.assessmentMunicipality') },
+    { key: 'case_number', label: t('forms.citizenProfileFields.caseNumber') },
+    { key: 'citizen_address', label: t('forms.citizenProfileFields.citizenAddress') },
+    { key: 'primary_parties', label: t('forms.citizenProfileFields.primaryParties') },
 ])
 
 function isCitizenProfileFieldSelected(key: string): boolean {

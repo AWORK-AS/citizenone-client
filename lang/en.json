@@ -9232,6 +9232,11 @@
             "responseSuccessfullySaved": "Response successfully saved"
         },
         "citizenProfileFields": {
+            "caseNumber": "Case number",
+            "citizenAddress": "Address",
+            "responsibleMunicipality": "Responsible municipality",
+            "assessmentMunicipality": "Assessing municipality",
+            "primaryParties": "Primary party",
             "citizenBirthday": "Date of birth",
             "citizenCpr": "CPR number",
             "citizenEmail": "Email",

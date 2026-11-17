@@ -9232,6 +9232,11 @@
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
         "citizenProfileFields": {
+            "caseNumber": "Sagsnummer",
+            "citizenAddress": "Adresse",
+            "responsibleMunicipality": "Handlekommune",
+            "assessmentMunicipality": "Visitationskommune",
+            "primaryParties": "Primær part",
             "citizenBirthday": "Fødselsdato",
             "citizenCpr": "CPR-nummer",
             "citizenEmail": "E-mail",
