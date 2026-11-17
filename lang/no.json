@@ -19967,6 +19967,8 @@
                 "title": "Særpriser",
                 "hint": "Kundens egne timepriser per innsatstype. Et tilbud til kunden bruker særprisen i stedet for standardprisen fra datoen den gjelder fra. Tomme felt for administrasjon og reise følger standardprisen.",
                 "saveFirst": "Lagre kunden først for å legge til særpriser.",
+                "allDepartments": "Gjelder også kommunens øvrige avdelinger",
+                "copiedTo": "Også gitt til {count} andre avdelinger.",
                 "serviceType": "Innsatstype",
                 "validFrom": "Gjelder fra",
                 "hourlyRate": "Timepris",

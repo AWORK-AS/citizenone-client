@@ -20052,6 +20052,8 @@
                 "title": "Special prices",
                 "hint": "This customer's own hourly rates per service type. An offer for this customer uses the special price instead of the standard price from the date it applies from. Empty administration and travel rates follow the standard price.",
                 "saveFirst": "Save the customer first to add special prices.",
+                "allDepartments": "Also for the municipality's other departments",
+                "copiedTo": "Also given to {count} other departments.",
                 "serviceType": "Service type",
                 "validFrom": "Valid from",
                 "hourlyRate": "Hourly rate",

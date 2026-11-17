@@ -104,6 +104,11 @@
                         :aria-label="$t('socialWelfare.customerDepartments.specialPrices.note')" />
                     <FormError :error="state.error?.errors?.note?.[0]" />
                 </div>
+                <!-- New prices only: the same price on the municipality's other departments. -->
+                <label v-if="!state.editing.uuid" class="flex items-center gap-2 text-[13px] text-slate-700 md:col-span-3">
+                    <input type="checkbox" v-model="state.editing.all_municipality_departments" class="rounded border-slate-300" />
+                    {{ $t('socialWelfare.customerDepartments.specialPrices.allDepartments') }}
+                </label>
             </div>
             <div class="flex justify-end gap-2">
                 <FormButton type="button" buttonStyle="cancel" @click="cancelEdit">{{ $t('cancel') }}</FormButton>
@@ -238,14 +243,21 @@ async function saveRow() {
 
     state.error = {} as Error
     state.isSaving = true
+    let copied = 0
     try {
         if (row.uuid) {
             await socialWelfareService.updateCustomerDepartmentSpecialPrice(props.departmentUuid, row.uuid, specialPricePayload(row))
         } else {
-            await socialWelfareService.saveCustomerDepartmentSpecialPrice(props.departmentUuid, specialPricePayload(row))
+            const res: any = await socialWelfareService.saveCustomerDepartmentSpecialPrice(props.departmentUuid, {
+                ...specialPricePayload(row),
+                ...(row.all_municipality_departments ? { all_municipality_departments: true } : {}),
+            })
+            copied = Number(res?.meta?.copied_to ?? 0)
         }
         state.editing = null
-        successAlert(`${t('alert.success')}!`, t('socialWelfare.customerDepartments.specialPrices.saved'))
+        successAlert(`${t('alert.success')}!`, copied > 0
+            ? `${t('socialWelfare.customerDepartments.specialPrices.saved')} ${t('socialWelfare.customerDepartments.specialPrices.copiedTo', { count: copied })}`
+            : t('socialWelfare.customerDepartments.specialPrices.saved'))
         await fetchPrices()
     } catch (error: any) {
         state.error = error
