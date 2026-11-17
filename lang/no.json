@@ -21786,9 +21786,11 @@
         "saved": "Rekrutteringsbehovet er lagret",
         "settings": {
             "title": "Rekrutteringsteam",
-            "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel, push og e-post og beskriver oppdraget, aldri personen.",
+            "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel og push - og som e-post, hvis det er slått på - og beskriver oppdraget, aldri personen.",
             "enabled": "Send meldinger om rekruttering",
             "enabledHint": "Slått av får ingen beskjed, og det opprettes ingen oppgave. Teamet nedenfor beholdes til dere slår det på igjen.",
+            "emailEnabled": "Send også en e-post",
+            "emailEnabledHint": "Slått av får teamet fortsatt et varsel og en push i appen, men ingen e-post.",
             "groups": "Medarbeidergrupper",
             "users": "Medarbeidere",
             "taskBoard": "Opprett oppgave på tavle",
