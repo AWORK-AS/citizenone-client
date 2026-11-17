@@ -21778,9 +21778,11 @@
         "saved": "Rekryteringsbehovet har sparats",
         "settings": {
             "title": "Rekryteringsteam",
-            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis, push och mejl som beskriver uppdraget, aldrig personen.",
+            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis och en push - och ett mejl, om det är påslaget - som beskriver uppdraget, aldrig personen.",
             "enabled": "Skicka meddelanden om rekrytering",
             "enabledHint": "Avstängt får ingen besked och ingen uppgift skapas. Teamet nedan sparas tills ni slår på det igen.",
+            "emailEnabled": "Skicka även ett mejl",
+            "emailEnabledHint": "Avstängt får teamet fortfarande en avisering och en push i appen, men inget mejl.",
             "groups": "Medarbetargrupper",
             "users": "Medarbetare",
             "taskBoard": "Skapa uppgift på tavla",

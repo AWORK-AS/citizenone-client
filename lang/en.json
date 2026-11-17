@@ -21863,9 +21863,11 @@
         "saved": "The recruitment need has been saved",
         "settings": {
             "title": "Recruitment team",
-            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification, a push and a mail describing the work, never the person.",
+            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification and a push - and a mail, if turned on - describing the work, never the person.",
             "enabled": "Send recruitment messages",
             "enabledHint": "When off, nobody is told and no task is made. The team below is kept until you turn it on again.",
+            "emailEnabled": "Also send a mail",
+            "emailEnabledHint": "When off, the team still gets a notification and a push in the app, but no mail.",
             "groups": "Employee groups",
             "users": "Employees",
             "taskBoard": "Create a task on board",
