@@ -19980,6 +19980,8 @@
                 "title": "Specialpriser",
                 "hint": "Kundens egna timpriser per insatstyp. Ett erbjudande till kunden använder specialpriset i stället för standardpriset från det datum det gäller från. Tomma fält för administration och resor följer standardpriset.",
                 "saveFirst": "Spara kunden först för att lägga till specialpriser.",
+                "allDepartments": "Gäller även kommunens övriga avdelningar",
+                "copiedTo": "Även given till {count} andra avdelningar.",
                 "serviceType": "Insatstyp",
                 "validFrom": "Gäller från",
                 "hourlyRate": "Timpris",

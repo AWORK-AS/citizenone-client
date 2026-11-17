@@ -20065,6 +20065,8 @@
                 "title": "Særpriser",
                 "hint": "Kundens egne timepriser pr. indsatstype. Et tilbud til kunden bruger særprisen i stedet for standardprisen fra den dato, den gælder fra. Tomme felter for administration og transport følger standardprisen.",
                 "saveFirst": "Gem kunden først for at tilføje særpriser.",
+                "allDepartments": "Gælder også kommunens øvrige afdelinger",
+                "copiedTo": "Også givet til {count} andre afdelinger.",
                 "serviceType": "Indsatstype",
                 "validFrom": "Gælder fra",
                 "hourlyRate": "Timepris",
