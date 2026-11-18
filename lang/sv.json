@@ -2656,6 +2656,9 @@
                     "unsaved": "Ändringarna i insatstimmarna är inte sparade ännu."
                 },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody AI och kan inte kopieras till en plan.",
+                "healthArea": "Hälsoområde",
+                "healthAreaPlaceholder": "Välj område (valfritt)",
+                "healthAreaHelp": "Anteckningen visas under området i översikten över de 12 hälsoområdena.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
@@ -2826,6 +2829,8 @@
                 "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
                 "emergencyContact": "Nödkontakt",
+                "primaryParty": "Huvudpart",
+                "primaryPartyHint": "Personen ärendet gäller utöver medborgaren, t.ex. en förälder. Visas som märke på kontakten.",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Lägg till ny underkategori",
@@ -4231,6 +4236,8 @@
                 "nothingYet": "Inget har registrerats inom hälsoområdena ännu.",
                 "latestStatus": "Senaste status",
                 "openTreatments": "{count} öppen behandling | {count} öppna behandlingar",
+                "medicalJournals": "{count} läkarjournalanteckning | {count} läkarjournalanteckningar",
+                "moreMedicalJournals": "+ {count} äldre",
                 "loadFailed": "Områdena kunde inte hämtas. Försök igen."
             },
             "checklists": {
@@ -9227,6 +9234,11 @@
             "responseSuccessfullySaved": "Svar sparad"
         },
         "citizenProfileFields": {
+            "caseNumber": "Ärendenummer",
+            "citizenAddress": "Adress",
+            "responsibleMunicipality": "Ansvarig kommun",
+            "assessmentMunicipality": "Bedömande kommun",
+            "primaryParties": "Primär part",
             "citizenBirthday": "Födelsedatum",
             "citizenCpr": "Personnummer",
             "citizenEmail": "E-post",
@@ -19975,6 +19987,8 @@
                 "title": "Specialpriser",
                 "hint": "Kundens egna timpriser per insatstyp. Ett erbjudande till kunden använder specialpriset i stället för standardpriset från det datum det gäller från. Tomma fält för administration och resor följer standardpriset.",
                 "saveFirst": "Spara kunden först för att lägga till specialpriser.",
+                "allDepartments": "Gäller även kommunens övriga avdelningar",
+                "copiedTo": "Även given till {count} andra avdelningar.",
                 "serviceType": "Insatstyp",
                 "validFrom": "Gäller från",
                 "hourlyRate": "Timpris",
@@ -21786,9 +21800,11 @@
         "saved": "Rekryteringsbehovet har sparats",
         "settings": {
             "title": "Rekryteringsteam",
-            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis, push och mejl som beskriver uppdraget, aldrig personen.",
+            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis och en push - och ett mejl, om det är påslaget - som beskriver uppdraget, aldrig personen.",
             "enabled": "Skicka meddelanden om rekrytering",
             "enabledHint": "Avstängt får ingen besked och ingen uppgift skapas. Teamet nedan sparas tills ni slår på det igen.",
+            "emailEnabled": "Skicka även ett mejl",
+            "emailEnabledHint": "Avstängt får teamet fortfarande en avisering och en push i appen, men inget mejl.",
             "groups": "Medarbetargrupper",
             "users": "Medarbetare",
             "taskBoard": "Skapa uppgift på tavla",

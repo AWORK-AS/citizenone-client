@@ -208,10 +208,11 @@ import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
-const isManager = computed(() => isAtLeast('Manager'))
+// Managers, and roles given "see employees' hours overview" (coordinators), open any colleague's sheet.
+const isManager = computed(() => isAtLeast('Manager') || can('view_employee_hours'))
 
 const breadcrumbLinks = [
     {

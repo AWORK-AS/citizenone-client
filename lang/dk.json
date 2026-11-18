@@ -2656,6 +2656,9 @@
                     "unsaved": "Ændringerne i indsatstimerne er ikke gemt endnu."
                 },
                 "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody AI og kan ikke kopieres til en plan.",
+                "healthArea": "Sundhedsfagligt område",
+                "healthAreaPlaceholder": "Vælg område (valgfrit)",
+                "healthAreaHelp": "Notatet vises under området i oversigten over de 12 sundhedsfaglige områder.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",
@@ -2826,6 +2829,8 @@
                 "socialSecurityNumber": "CPR-nr.",
                 "municipality": "Kommune",
                 "emergencyContact": "Nødkontakt",
+                "primaryParty": "Primær part",
+                "primaryPartyHint": "Den person sagen handler om ud over borgeren, fx en forælder. Vises som mærke på kontakten.",
                 "notifyUseOfForce": "Giv besked om magtanvendelse",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Tilføj ny underkategori",
@@ -4231,6 +4236,8 @@
                 "nothingYet": "Der er ikke registreret noget på de sundhedsfaglige områder endnu.",
                 "latestStatus": "Seneste status",
                 "openTreatments": "{count} åben behandling | {count} åbne behandlinger",
+                "medicalJournals": "{count} lægejournalnotat | {count} lægejournalnotater",
+                "moreMedicalJournals": "+ {count} ældre",
                 "loadFailed": "Områderne kunne ikke hentes. Prøv igen."
             },
             "checklists": {
@@ -9227,6 +9234,11 @@
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
         "citizenProfileFields": {
+            "caseNumber": "Sagsnummer",
+            "citizenAddress": "Adresse",
+            "responsibleMunicipality": "Handlekommune",
+            "assessmentMunicipality": "Visitationskommune",
+            "primaryParties": "Primær part",
             "citizenBirthday": "Fødselsdato",
             "citizenCpr": "CPR-nummer",
             "citizenEmail": "E-mail",
@@ -20060,6 +20072,8 @@
                 "title": "Særpriser",
                 "hint": "Kundens egne timepriser pr. indsatstype. Et tilbud til kunden bruger særprisen i stedet for standardprisen fra den dato, den gælder fra. Tomme felter for administration og transport følger standardprisen.",
                 "saveFirst": "Gem kunden først for at tilføje særpriser.",
+                "allDepartments": "Gælder også kommunens øvrige afdelinger",
+                "copiedTo": "Også givet til {count} andre afdelinger.",
                 "serviceType": "Indsatstype",
                 "validFrom": "Gælder fra",
                 "hourlyRate": "Timepris",
@@ -21871,9 +21885,11 @@
         "saved": "Rekrutteringsbehovet er gemt",
         "settings": {
             "title": "Rekrutteringsteam",
-            "description": "Dem der får besked, når en henvendelse markeres med behov for rekruttering eller kommer i en fase, der giver besked til rekruttering. Beskeden kommer som notifikation, push og mail og beskriver opgaven, ikke personen.",
+            "description": "Dem der får besked, når en henvendelse markeres med behov for rekruttering eller kommer i en fase, der giver besked til rekruttering. Beskeden kommer som notifikation og push - og som mail, hvis det er slået til - og beskriver opgaven, ikke personen.",
             "enabled": "Send beskeder om rekruttering",
             "enabledHint": "Slået fra får ingen besked, og der oprettes ingen opgave. Teamet nedenfor gemmes til I slår det til igen.",
+            "emailEnabled": "Send også en mail",
+            "emailEnabledHint": "Slået fra får teamet stadig en notifikation og en push i appen, men ingen mail.",
             "groups": "Medarbejdergrupper",
             "users": "Medarbejdere",
             "taskBoard": "Opret opgave på tavle",

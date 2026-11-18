@@ -14,6 +14,7 @@
 
 
 <script setup lang="ts">
+import { primaryPartyParam } from '@/composables/contactPrimaryParty'
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { registrationRuleService, fromUserRuleDraft, userRuleIsSet } from '@/components/api/user/RegistrationRuleService'
 import { useAlert } from '@/composables/alert'
@@ -124,7 +125,7 @@ async function saveContact(contactDetails: any) {
                 company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }
-        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true }
+        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true, ...primaryPartyParam(contactDetails) }
         if (contactDetails.title === 'case_manager') {
             params = { ...params, notify_use_of_force: contactDetails.notify_use_of_force === true }
         }

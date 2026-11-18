@@ -47,6 +47,12 @@
                                     </p>
                                 </Badge>
                             </div>
+                            <div v-if="journal.is_medical_record && journal.area_type">
+                                <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                                    <Icon name="ph:first-aid" class="size-3" aria-hidden="true" />
+                                    {{ careAreaLabel(journal.area_type, language.t) }}
+                                </span>
+                            </div>
                             <div v-if="journal.is_ai_used">
                                 <span
                                     class="inline-flex items-center gap-1 rounded-full bg-ai-bg ring-1 ring-ai-border px-2 py-0.5 text-xs font-medium text-ai-ink">
@@ -210,6 +216,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from 'vue-i18n'
+import { careAreaLabel } from '@/composables/careAreaOptions'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()

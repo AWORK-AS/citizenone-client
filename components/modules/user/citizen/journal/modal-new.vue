@@ -25,6 +25,7 @@
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @dirtyChange="(dirty: boolean) => formDirty = dirty"
                         :draftCitizenUuid="String(citizenUuid ?? '')" @submitForm="saveJournal"
+                        :isMedicalRecord="props.isMedicalRecord"
                         @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
                 </LoadingSpinner>
             </template>
@@ -315,6 +316,8 @@ async function saveJournal(journalDetails: any) {
             is_internal: journalDetails.formJournal.is_internal ?? false,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_medical_record: props.isMedicalRecord,
+            // The health area a medical record note is filed under.
+            ...(props.isMedicalRecord ? { area_type: journalDetails.formJournal.area_type || null } : {}),
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
             assessment: journalDetails.formJournal.assessment,
             note: journalDetails.formJournal.note,

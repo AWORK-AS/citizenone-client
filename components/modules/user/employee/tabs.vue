@@ -14,7 +14,7 @@ const language = useI18n()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
-const { isAtLeast, seesHrData } = usePermissions()
+const { isAtLeast, can, seesHrData } = usePermissions()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 // The consultant tab is for consultants only (a role counting as consultant, or
@@ -22,10 +22,11 @@ const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.in
 // say it yet, the tab stays as before.
 const isConsultant = ref(true)
 
-// Managers see every employee's monthly sheet; anyone else only their own, and only when
-// they may see working hours (the same rule the backend enforces).
+// Managers, and roles given "see employees' hours overview" (coordinators), see every
+// employee's monthly sheet; anyone else only their own, and only when they may see working
+// hours (the same rule the backend enforces).
 const canSeeMonthlySheet = computed(() =>
-    isAtLeast('Manager') || (userStore.getUser?.uuid === employeeUuid && !!userStore.getUser?.show_working_hours))
+    isAtLeast('Manager') || can('view_employee_hours') || (userStore.getUser?.uuid === employeeUuid && !!userStore.getUser?.show_working_hours))
 
 // The backend lets those who see HR data (Admins and roles with "can see HR details
 // and employee documents") read and write HR details, and an employee read their

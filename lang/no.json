@@ -2656,6 +2656,9 @@
                     "unsaved": "Endringene i innsatstimene er ikke lagret ennå."
                 },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody AI og kan ikke kopieres til en plan.",
+                "healthArea": "Helsefaglig område",
+                "healthAreaPlaceholder": "Velg område (valgfritt)",
+                "healthAreaHelp": "Notatet vises under området i oversikten over de 12 helsefaglige områdene.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
                     "title": "Utarbeid med AI",
@@ -2826,6 +2829,8 @@
                 "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommune",
                 "emergencyContact": "Nødkontakt",
+                "primaryParty": "Primærpart",
+                "primaryPartyHint": "Personen saken gjelder i tillegg til innbyggeren, f.eks. en forelder. Vises som merke på kontakten.",
                 "notifyUseOfForce": "Varsle om maktbruk",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Legg til ny underkategori",
@@ -4231,6 +4236,8 @@
                 "nothingYet": "Det er ikke registrert noe på de helsefaglige områdene ennå.",
                 "latestStatus": "Siste status",
                 "openTreatments": "{count} åpen behandling | {count} åpne behandlinger",
+                "medicalJournals": "{count} legejournalnotat | {count} legejournalnotater",
+                "moreMedicalJournals": "+ {count} eldre",
                 "loadFailed": "Områdene kunne ikke hentes. Prøv igjen."
             },
             "checklists": {
@@ -9227,6 +9234,11 @@
             "responseSuccessfullySaved": "Svar lagret vellykket"
         },
         "citizenProfileFields": {
+            "caseNumber": "Saksnummer",
+            "citizenAddress": "Adresse",
+            "responsibleMunicipality": "Ansvarlig kommune",
+            "assessmentMunicipality": "Vurderende kommune",
+            "primaryParties": "Primær part",
             "citizenBirthday": "Fødselsdato",
             "citizenCpr": "Personnummer",
             "citizenEmail": "E-post",
@@ -19975,6 +19987,8 @@
                 "title": "Særpriser",
                 "hint": "Kundens egne timepriser per innsatstype. Et tilbud til kunden bruker særprisen i stedet for standardprisen fra datoen den gjelder fra. Tomme felt for administrasjon og reise følger standardprisen.",
                 "saveFirst": "Lagre kunden først for å legge til særpriser.",
+                "allDepartments": "Gjelder også kommunens øvrige avdelinger",
+                "copiedTo": "Også gitt til {count} andre avdelinger.",
                 "serviceType": "Innsatstype",
                 "validFrom": "Gjelder fra",
                 "hourlyRate": "Timepris",
@@ -21786,9 +21800,11 @@
         "saved": "Rekrutteringsbehovet er lagret",
         "settings": {
             "title": "Rekrutteringsteam",
-            "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel, push og e-post og beskriver oppdraget, aldri personen.",
+            "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel og push - og som e-post, hvis det er slått på - og beskriver oppdraget, aldri personen.",
             "enabled": "Send meldinger om rekruttering",
             "enabledHint": "Slått av får ingen beskjed, og det opprettes ingen oppgave. Teamet nedenfor beholdes til dere slår det på igjen.",
+            "emailEnabled": "Send også en e-post",
+            "emailEnabledHint": "Slått av får teamet fortsatt et varsel og en push i appen, men ingen e-post.",
             "groups": "Medarbeidergrupper",
             "users": "Medarbeidere",
             "taskBoard": "Opprett oppgave på tavle",

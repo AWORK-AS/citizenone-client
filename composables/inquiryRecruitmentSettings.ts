@@ -5,6 +5,7 @@
 
 export type RecruitmentForm = {
     enabled: boolean
+    email_enabled: boolean
     employee_group_uuids: string[]
     user_uuids: string[]
     task_board_uuid: string
@@ -16,10 +17,11 @@ export function recruitmentStatus(enabled: boolean, recipientCount: number): 'of
     return recipientCount > 0 ? 'count' : 'nobody'
 }
 
-/** The settings as the API answers them, onto the form. Missing switch = on (older backend). */
+/** The settings as the API answers them, onto the form. Missing switch = on, missing mail switch = off (older backend). */
 export function recruitmentFormFrom(data: any): RecruitmentForm {
     return {
         enabled: data?.enabled !== false,
+        email_enabled: data?.email_enabled === true,
         employee_group_uuids: (data?.employee_groups ?? []).map((group: any) => group.uuid),
         user_uuids: (data?.users ?? []).map((user: any) => user.uuid),
         task_board_uuid: data?.task_board?.uuid ?? '',
@@ -29,6 +31,7 @@ export function recruitmentFormFrom(data: any): RecruitmentForm {
 export function recruitmentPayload(form: RecruitmentForm) {
     return {
         enabled: form.enabled,
+        email_enabled: form.email_enabled,
         employee_group_uuids: form.employee_group_uuids,
         user_uuids: form.user_uuids,
         task_board_uuid: form.task_board_uuid || null,
