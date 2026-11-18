@@ -2826,6 +2826,8 @@
                 "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommune",
                 "emergencyContact": "Nødkontakt",
+                "primaryParty": "Primærpart",
+                "primaryPartyHint": "Personen saken gjelder i tillegg til innbyggeren, f.eks. en forelder. Vises som merke på kontakten.",
                 "notifyUseOfForce": "Varsle om maktbruk",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Legg til ny underkategori",

@@ -2826,6 +2826,8 @@
                 "socialSecurityNumber": "CPR-nr.",
                 "municipality": "Kommune",
                 "emergencyContact": "Nødkontakt",
+                "primaryParty": "Primær part",
+                "primaryPartyHint": "Den person sagen handler om ud over borgeren, fx en forælder. Vises som mærke på kontakten.",
                 "notifyUseOfForce": "Giv besked om magtanvendelse",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Tilføj ny underkategori",

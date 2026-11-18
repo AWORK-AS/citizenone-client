@@ -2826,6 +2826,8 @@
                 "socialSecurityNumber": "CPR no.",
                 "municipality": "Municipality",
                 "emergencyContact": "Emergency contact",
+                "primaryParty": "Primary party",
+                "primaryPartyHint": "The person the case is about besides the citizen, e.g. a parent. Shown as a badge on the contact.",
                 "notifyUseOfForce": "Notify about use of force",
                 "subcategories": "Subcategory",
                 "addSubcategory": "Add new subcategory",
