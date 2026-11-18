@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for",
-                "hrDataFor": "HR details for"
+                "hrDataFor": "HR details for",
+                "careHoursViewOnly": "View intervention hours only"
             },
             "values": {
                 "yes": "Yes",
@@ -12248,7 +12249,9 @@
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
             "employeeGroups": "Employee groups",
-            "noEmployeeGroups": "No employee groups created yet."
+            "noEmployeeGroups": "No employee groups created yet.",
+            "careHoursViewOnly": "View intervention hours only",
+            "careHoursViewOnlyHelp": "People with this role can only view the intervention hours overview. They cannot add, change, delete or reject hours there, and they do not see the hourly price or the contribution margin. Hours registered with a journal note, check-in/out and mileage work as before. Also tick \"Only own intervention hours\" if they should see only their own hours."
         },
         "matrix": {
             "title": "Permission overview",

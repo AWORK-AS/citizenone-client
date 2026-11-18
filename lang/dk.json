@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
                 "certificateReminderFor": "Får påmindelser om certifikater for",
-                "hrDataFor": "HR-oplysninger for"
+                "hrDataFor": "HR-oplysninger for",
+                "careHoursViewOnly": "Kun se indsatstimer"
             },
             "values": {
                 "yes": "Ja",
@@ -12248,7 +12249,9 @@
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
             "employeeGroups": "Medarbejdergrupper",
-            "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
+            "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu.",
+            "careHoursViewOnly": "Kun se indsatstimer",
+            "careHoursViewOnlyHelp": "Medarbejdere med denne rolle kan kun se Indsatstimer-oversigten. De kan ikke tilføje, rette, slette eller afvise timer der, og de ser ikke timepris og dækningsgrad. Timer registreret med et dagbogsnotat, check ind/ud og kørsel virker som før. Sæt også \"Kun egne indsatstimer\", hvis de kun skal se deres egne timer."
         },
         "matrix": {
             "title": "Tilladelsesoversigt",

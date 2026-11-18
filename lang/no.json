@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-postadresser for titler",
                 "certificateReminderFor": "Får påminnelser om sertifikater for",
-                "hrDataFor": "HR-opplysninger for"
+                "hrDataFor": "HR-opplysninger for",
+                "careHoursViewOnly": "Kun se innsatstimer"
             },
             "values": {
                 "yes": "Ja",
@@ -12243,7 +12244,9 @@
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
             "employeeGroups": "Medarbeidergrupper",
-            "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå."
+            "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå.",
+            "careHoursViewOnly": "Kun se innsatstimer",
+            "careHoursViewOnlyHelp": "Ansatte med denne rollen kan bare se oversikten over innsatstimer. De kan ikke legge til, endre, slette eller avvise timer der, og de ser ikke timepris og dekningsgrad. Timer registrert med et dagboknotat, inn-/utsjekk og kjøring virker som før. Huk også av \"Kun egne innsatstimer\" hvis de bare skal se sine egne timer."
         },
         "matrix": {
             "title": "Tillatelsesoversikt",
