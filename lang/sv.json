@@ -19423,7 +19423,22 @@
         "tabs": {
             "overview": "Översikt",
             "revenue": "Omsättning",
-            "billing": "Faktureringsunderlag"
+            "billing": "Faktureringsunderlag",
+            "contractExport": "Avtalsuttag"
+        },
+        "contractExport": {
+            "title": "Avtalsuttag",
+            "intro": "Hämta alla avtalsperioder på insatserna som en fil. Det är en rad per avtalsperiod med alla avtalets fält och insatsens fält.",
+            "period": "Period",
+            "allPeriods": "Alla avtalsperioder",
+            "periodHint": "Utan period tas alla avtalsperioder med. Med period tas de perioder med som gäller i den.",
+            "fileFormat": "Filformat",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Hämta avtalsuttag",
+            "downloading": "Hämtar …",
+            "fileName": "avtalsuttag",
+            "failed": "Avtalsuttaget kunde inte hämtas. Försök igen."
         }
     },
     "monthlySheet": {
