@@ -189,6 +189,36 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.planNotificationsHelp') }}</p>
             </div>
 
+            <!-- "Kun se indsatstimer": the overview is read-only and the hourly rate and
+                 contribution margin are kept (CitizenCareHour::isViewOnly). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.care_hours_view_only = !state.formRole.care_hours_view_only">
+                    <FormCheckbox id="care_hours_view_only" :value="state.formRole.care_hours_view_only" />
+                    {{ $t('roles.form.careHoursViewOnly') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.careHoursViewOnlyHelp') }}</p>
+            </div>
+
+            <!-- The note on a colleague, and "Løn og bank" on the HR tab, each by their own
+                 setting (App\Support\HrDataAccess::seesNoteOf / seesPayBankOf). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.sees_employee_note = !state.formRole.sees_employee_note">
+                    <FormCheckbox id="sees_employee_note" :value="state.formRole.sees_employee_note" />
+                    {{ $t('roles.form.seesEmployeeNote') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.seesEmployeeNoteHelp') }}</p>
+            </div>
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.sees_pay_bank = !state.formRole.sees_pay_bank">
+                    <FormCheckbox id="sees_pay_bank" :value="state.formRole.sees_pay_bank" />
+                    {{ $t('roles.form.seesPayBank') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.seesPayBankHelp') }}</p>
+            </div>
+
             <!-- Which contact titles the role's people see an address, phone number and email address
                  on. Each works on its own; off is no limit (App\Support\ContactFieldAccess). Admin only. -->
             <div v-if="isAtLeast('Admin')" class="space-y-3" data-testid="contact-field-limits">
@@ -389,6 +419,9 @@ const state = reactive({
         only_own_intervention_events: false,
         only_own_care_hours: false,
         plan_notifications: 'all' as 'all' | 'assigned' | 'none',
+        care_hours_view_only: false,
+        sees_employee_note: false,
+        sees_pay_bank: false,
         // contact_job_titles uuids the role sees the field on; null is no limit.
         contact_address_titles: null as string[] | null,
         contact_phone_titles: null as string[] | null,
@@ -450,6 +483,9 @@ watch(() => props.selectedRole, (newValue: any) => {
             only_own_intervention_events: !!newValue.only_own_intervention_events,
             only_own_care_hours: !!newValue.only_own_care_hours,
             plan_notifications: newValue.plan_notifications ?? 'all',
+            care_hours_view_only: !!newValue.care_hours_view_only,
+            sees_employee_note: !!newValue.sees_employee_note,
+            sees_pay_bank: !!newValue.sees_pay_bank,
             contact_address_titles: newValue.contact_address_titles ?? null,
             contact_phone_titles: newValue.contact_phone_titles ?? null,
             contact_email_titles: newValue.contact_email_titles ?? null,

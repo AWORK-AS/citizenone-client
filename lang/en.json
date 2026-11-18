@@ -1007,7 +1007,10 @@
                 "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for",
                 "hrDataFor": "HR details for",
-                "planNotifications": "Notifications about plans and goals"
+                "planNotifications": "Notifications about plans and goals",
+                "careHoursViewOnly": "View intervention hours only",
+                "seesEmployeeNote": "Can see the note on employees",
+                "seesPayBank": "Can see and change pay and bank"
             },
             "values": {
                 "yes": "Yes",
@@ -10374,7 +10377,11 @@
                 "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
             }
         },
-        "emptyInbox": "Your inbox is empty"
+        "emptyInbox": "Your inbox is empty",
+        "linkedCitizen": {
+            "label": "Linked",
+            "open": "Open the intervention's mails"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Add new mass unit",
@@ -12254,7 +12261,13 @@
             "planNotificationsAll": "All interventions the employee can see",
             "planNotificationsAssigned": "Only interventions the employee is attached to",
             "planNotificationsNone": "None",
-            "planNotificationsHelp": "Controls the reminder about plans, goals and subgoals past their date: the count on the bell, the daily reminder and the list. Employees never see plans on interventions they have no access to. With several roles, the widest applies. Administrators always get all."
+            "planNotificationsHelp": "Controls the reminder about plans, goals and subgoals past their date: the count on the bell, the daily reminder and the list. Employees never see plans on interventions they have no access to. With several roles, the widest applies. Administrators always get all.",
+            "careHoursViewOnly": "View intervention hours only",
+            "careHoursViewOnlyHelp": "People with this role can only view the intervention hours overview. They cannot add, change, delete or reject hours there, and they do not see the hourly price or the contribution margin. Hours registered with a journal note, check-in/out and mileage work as before. Also tick \"Only own intervention hours\" if they should see only their own hours.",
+            "seesEmployeeNote": "Can see the note on employees",
+            "seesEmployeeNoteHelp": "People with this role see the note on colleagues directly on the employee, without clicking Edit. If the role also has HR access limited to chosen roles, the same limit applies to the note. Administrators always see it.",
+            "seesPayBank": "Can see and change pay and bank",
+            "seesPayBankHelp": "People with this role see and change \"Pay and bank\" (tax card, bank, CVR and pay rate) under HR details for the colleagues the role's HR access covers. The role must also be able to see HR details. Administrators always can."
         },
         "matrix": {
             "title": "Permission overview",
@@ -19514,7 +19527,22 @@
         "tabs": {
             "overview": "Overview",
             "revenue": "Revenue",
-            "billing": "Billing extraction"
+            "billing": "Billing extraction",
+            "contractExport": "Contract export"
+        },
+        "contractExport": {
+            "title": "Contract export",
+            "intro": "Download every contract period on the interventions as one file. There is one row per contract period with all of the contract's fields and the intervention's fields.",
+            "period": "Period",
+            "allPeriods": "All contract periods",
+            "periodHint": "Without a period, every contract period is included. With one, the periods that apply in it are included.",
+            "fileFormat": "File format",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Download contract export",
+            "downloading": "Downloading …",
+            "fileName": "contract-export",
+            "failed": "The contract export could not be downloaded. Please try again."
         }
     },
     "monthlySheet": {
@@ -20452,6 +20480,7 @@
         "editField": "Edit field",
         "inactive": "Off",
         "carriedBadge": "Carried to the case",
+        "citizenOnlyBadge": "Case only",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -20483,6 +20512,8 @@
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
             "carryToCitizen": "Carried over to the case",
             "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
+            "citizenOnly": "Only on the case",
+            "citizenOnlyHint": "The field shows only on the case, never on inquiries. For deadlines, follow-ups, hours left and the like.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
@@ -20660,7 +20691,8 @@
             "taxCardType": "Tax card",
             "bankRegNo": "Reg. no.",
             "bankAccountNo": "Account no.",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Pay rate"
         },
         "genders": {
             "female": "Female",
@@ -20676,7 +20708,7 @@
         "no": "No",
         "unset": "Not specified",
         "select": "Select",
-        "bankAdminOnly": "Bank details can only be changed by an administrator",
+        "bankAdminOnly": "Pay and bank can only be changed by an administrator or a role with access to pay and bank",
         "alert": {
             "saved": "HR details saved",
             "saveFailed": "HR details could not be saved"

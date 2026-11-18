@@ -162,7 +162,9 @@
                         <Icon name="ph:list-checks" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.timeLogs.timeLogs') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" @click="state.modal.isAddInterventionHoursOpen = true">
+                    <!-- Not for a role marked "Kun se indsatstimer"; the server refuses it too. -->
+                    <FormButton buttonStyle="action" @click="state.modal.isAddInterventionHoursOpen = true"
+                        v-if="!careHoursViewOnly">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.newInterventionHours') }}
                     </FormButton>
@@ -566,7 +568,8 @@ async function deleteInterventionHours() {
 }
 
 // Reject instead of delete (Manager and up, as the server checks).
-const canReject = computed(() => usePermissions().isAtLeast('Manager'))
+const canReject = computed(() => usePermissions().isAtLeast('Manager') && !usePermissions().careHoursViewOnly())
+const careHoursViewOnly = computed(() => usePermissions().careHoursViewOnly())
 
 function openReject(careHour: any) {
     state.rejecting = careHour

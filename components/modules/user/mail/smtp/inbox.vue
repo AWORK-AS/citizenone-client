@@ -93,6 +93,7 @@
                                 :class="isUnread(email) ? 'font-semibold text-gray-900' : 'text-gray-600'">
                                 {{ email?.header?.subject }}
                             </p>
+                            <ModulesUserMailLinkedCitizenBadge :links="linkedCitizens.forUid(email?.header?.uid)" />
                             <div class="mt-1" v-if="email?.attachments?.length">
                                 <span
                                     class="inline-flex items-center gap-1 text-[10.5px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">
@@ -209,11 +210,12 @@
             :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.header?.uid ?? ''" folder="inbox"
             @close="state.modal.isDownloadAttachment = false" />
         <ModulesUserMailModalLinkToCitizen :isModalOpen="state.modal.isLinkToCitizen"
-            :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="state.modal.isLinkToCitizen = false" />
+            :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="onLinkModalClose" />
     </div>
 </template>
 
 <script setup lang="ts">
+import { useLinkedCitizens } from '@/composables/useLinkedCitizens'
 import { mailSMTPService } from "@/components/api/user/MailSMTPService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { fileHelper } from '@/composables/fileHelper'
@@ -368,6 +370,14 @@ onBeforeUnmount(() => {
     if (searchTimer) clearTimeout(searchTimer)
 })
 
+// "Tilknyttet indsats" labels (Memox 18/11): looked up after each page and after tagging.
+const linkedCitizens = useLinkedCitizens('INBOX')
+
+function onLinkModalClose() {
+    state.modal.isLinkToCitizen = false
+    linkedCitizens.refresh([state.selectedEmail?.header?.uid])
+}
+
 async function fetchEmails(pageNumber: number) {
     state.error = {}
     if (pageNumber > 1) {
@@ -386,6 +396,7 @@ async function fetchEmails(pageNumber: number) {
         if (response?.data) {
             const mails = Array.isArray(response?.data?.data) ? response.data.data : []
             state.emails.push(...mails.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
+            linkedCitizens.refresh(mails.map((mail: any) => mail?.header?.uid))
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
