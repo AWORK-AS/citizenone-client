@@ -57,6 +57,8 @@ const FIELD_KEYS: Record<string, string> = {
     only_own_intervention_events: 'activityLogs.access.fields.onlyOwnInterventionEvents',
     only_own_care_hours: 'activityLogs.access.fields.onlyOwnCareHours',
     care_hours_view_only: 'activityLogs.access.fields.careHoursViewOnly',
+    sees_employee_note: 'activityLogs.access.fields.seesEmployeeNote',
+    sees_pay_bank: 'activityLogs.access.fields.seesPayBank',
     contact_address_titles: 'activityLogs.access.fields.contactAddressTitles',
     contact_phone_titles: 'activityLogs.access.fields.contactPhoneTitles',
     contact_email_titles: 'activityLogs.access.fields.contactEmailTitles',

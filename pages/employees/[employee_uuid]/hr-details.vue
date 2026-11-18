@@ -144,7 +144,8 @@
                             </div>
                         </div>
 
-                        <!-- Pay and bank: only sent by the backend to an admin or the employee. -->
+                        <!-- Pay and bank: only sent by the backend to an admin, the employee and a role marked
+                             "Kan se og rette løn og bank" (HrDataAccess::seesPayBankOf). -->
                         <div class="rounded-lg border border-gray-200 bg-white p-4" v-if="state.canSeeBank">
                             <p class="mb-1 text-sm font-semibold text-gray-900">{{ $t('hrDetails.groups.bank') }}</p>
                             <p class="mb-4 text-xs text-gray-400" v-if="!canWriteBank">
@@ -195,7 +196,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const userStore = useUserStore() as any
-const { isAtLeast, seesHrData } = usePermissions()
+const { seesHrData } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -209,9 +210,9 @@ const breadcrumbLinks = [
 
 // Who may write is decided by the backend; this only decides what to render. An
 // employee reading their own record gets values and no save button.
-const isAdmin = computed(() => isAtLeast('Admin'))
 const canWrite = computed(() => seesHrData())
-const canWriteBank = computed(() => isAdmin.value)
+// Admins and roles marked "Kan se og rette løn og bank", as the backend says (can_write_bank).
+const canWriteBank = computed(() => state.canWriteBank)
 
 const contactFields = ['private_email', 'private_phone', 'work_phone'] as const
 // Stored as booleans: yes, no, or not answered.
@@ -235,6 +236,8 @@ const bankFields = [
     { key: 'bank_reg_no', label: 'bankRegNo' },
     { key: 'bank_account_no', label: 'bankAccountNo' },
     { key: 'cvr', label: 'cvr' },
+    // Lønsats: the employee's hourly pay, the same value as Timeløn on the employee card.
+    { key: 'hourly_rate', label: 'hourlyRate' },
 ]
 const contactLabels: Record<string, string> = {
     private_email: 'privateEmail',
@@ -249,7 +252,7 @@ function emptyForm(): Record<string, any> {
         pension_start_date: '', lunch_scheme: null, flex_job: null, section_56: null,
         days_per_week: null, termination_reason: '', three_month_interview_at: '',
         other_work: '', working_hours_comment: '', not_work_with: '', sim_card: '', contact_status: '', onboarding_status: '',
-        tax_card_type: null, bank_reg_no: '', bank_account_no: '', cvr: '',
+        tax_card_type: null, bank_reg_no: '', bank_account_no: '', cvr: '', hourly_rate: '',
     }
 }
 
@@ -258,6 +261,7 @@ const state = reactive({
     fieldErrors: {} as Record<string, string[]>,
     form: emptyForm(),
     canSeeBank: false,
+    canWriteBank: false,
     customFields: [] as EmployeeHrCustomField[],
     customValues: {} as Record<string, string>,
     countries: [] as any[],
@@ -334,6 +338,7 @@ function applyDetails(data: EmployeeHrDetails) {
     state.nationalityName = data.nationality?.name ?? ''
     state.managerName = data.manager?.name ?? ''
     state.canSeeBank = !!data.can_see_bank
+    state.canWriteBank = !!data.can_write_bank
     state.customFields = data.custom_fields ?? []
     state.customValues = Object.fromEntries(state.customFields.map((field) => [field.uuid, field.value ?? '']))
 }
@@ -403,12 +408,14 @@ function buildPayload(): EmployeeHrDetailsPayload {
     if (state.customFields.length > 0) {
         payload.custom_fields = state.customFields.map((field) => ({ uuid: field.uuid, value: text(state.customValues[field.uuid]) }))
     }
-    // Only an admin may change bank data, and only when the backend sent it.
+    // Pay and bank only when the backend sent them and lets this user change them.
     if (state.canSeeBank && canWriteBank.value) {
         payload.tax_card_type = f.tax_card_type ?? null
         payload.bank_reg_no = text(f.bank_reg_no)
         payload.bank_account_no = text(f.bank_account_no)
         payload.cvr = text(f.cvr)
+        const rate = String(f.hourly_rate ?? '').trim().replace(',', '.')
+        payload.hourly_rate = rate === '' ? null : Number(rate)
     }
     return payload
 }

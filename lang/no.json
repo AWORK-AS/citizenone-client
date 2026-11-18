@@ -1007,7 +1007,9 @@
                 "contactEmailTitles": "Ser kontakters e-postadresser for titler",
                 "certificateReminderFor": "Får påminnelser om sertifikater for",
                 "hrDataFor": "HR-opplysninger for",
-                "careHoursViewOnly": "Kun se innsatstimer"
+                "careHoursViewOnly": "Kun se innsatstimer",
+                "seesEmployeeNote": "Kan se notat på ansatte",
+                "seesPayBank": "Kan se og endre lønn og bank"
             },
             "values": {
                 "yes": "Ja",
@@ -12246,7 +12248,11 @@
             "employeeGroups": "Medarbeidergrupper",
             "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå.",
             "careHoursViewOnly": "Kun se innsatstimer",
-            "careHoursViewOnlyHelp": "Ansatte med denne rollen kan bare se oversikten over innsatstimer. De kan ikke legge til, endre, slette eller avvise timer der, og de ser ikke timepris og dekningsgrad. Timer registrert med et dagboknotat, inn-/utsjekk og kjøring virker som før. Huk også av \"Kun egne innsatstimer\" hvis de bare skal se sine egne timer."
+            "careHoursViewOnlyHelp": "Ansatte med denne rollen kan bare se oversikten over innsatstimer. De kan ikke legge til, endre, slette eller avvise timer der, og de ser ikke timepris og dekningsgrad. Timer registrert med et dagboknotat, inn-/utsjekk og kjøring virker som før. Huk også av \"Kun egne innsatstimer\" hvis de bare skal se sine egne timer.",
+            "seesEmployeeNote": "Kan se notat på ansatte",
+            "seesEmployeeNoteHelp": "Ansatte med denne rollen ser notatet på kolleger direkte på den ansatte uten å klikke Rediger. Har rollen også HR-tilgang begrenset til bestemte roller, gjelder samme begrensning for notatet. Administratorer ser det alltid.",
+            "seesPayBank": "Kan se og endre lønn og bank",
+            "seesPayBankHelp": "Ansatte med denne rollen ser og endrer \"Lønn og bank\" (skattekort, bank, organisasjonsnummer og lønnssats) under HR-opplysninger for kollegene rollens HR-tilgang gjelder for. Rollen må også kunne se HR-opplysninger. Administratorer kan alltid."
         },
         "matrix": {
             "title": "Tillatelsesoversikt",
@@ -19426,7 +19432,22 @@
         "tabs": {
             "overview": "Oversikt",
             "revenue": "Omsetning",
-            "billing": "Faktureringsuttrekk"
+            "billing": "Faktureringsuttrekk",
+            "contractExport": "Kontraktuttrekk"
+        },
+        "contractExport": {
+            "title": "Kontraktuttrekk",
+            "intro": "Last ned alle kontraktperioder på innsatsene som én fil. Det er én linje per kontraktperiode med alle kontraktens felt og innsatsens felt.",
+            "period": "Periode",
+            "allPeriods": "Alle kontraktperioder",
+            "periodHint": "Uten periode tas alle kontraktperioder med. Med periode tas periodene som gjelder i den med.",
+            "fileFormat": "Filformat",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Last ned kontraktuttrekk",
+            "downloading": "Laster ned …",
+            "fileName": "kontraktuttrekk",
+            "failed": "Kontraktuttrekket kunne ikke lastes ned. Prøv igjen."
         }
     },
     "monthlySheet": {
@@ -20364,6 +20385,7 @@
         "editField": "Rediger felt",
         "inactive": "Slått av",
         "carriedBadge": "Følger med til tiltaket",
+        "citizenOnlyBadge": "Kun på tiltaket",
         "noFieldsInStage": "Ingen felter i denne fasen.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -20395,6 +20417,8 @@
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
             "carryToCitizen": "Følger med til tiltaket",
             "carryToCitizenHint": "Når henvendelsen blir et tiltak, lagres svaret også som et felt på tiltaket, der det kan ses og endres senere.",
+            "citizenOnly": "Kun på tiltaket",
+            "citizenOnlyHint": "Feltet vises kun på tiltaket og aldri på henvendelser. Brukes til f.eks. frister, oppfølginger og gjenværende timer.",
             "isActive": "Aktivt",
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
@@ -20572,7 +20596,8 @@
             "taxCardType": "Skattekort",
             "bankRegNo": "Reg.nr.",
             "bankAccountNo": "Kontonr.",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Lønnssats"
         },
         "genders": {
             "female": "Kvinne",
@@ -20588,7 +20613,7 @@
         "no": "Nei",
         "unset": "Ikke oppgitt",
         "select": "Velg",
-        "bankAdminOnly": "Bankopplysninger kan bare endres av en administrator",
+        "bankAdminOnly": "Lønn og bank kan bare endres av en administrator eller en rolle med tilgang til lønn og bank",
         "alert": {
             "saved": "HR-opplysningene er lagret",
             "saveFailed": "HR-opplysningene kunne ikke lagres"
