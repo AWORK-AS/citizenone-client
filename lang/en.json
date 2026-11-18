@@ -19508,7 +19508,22 @@
         "tabs": {
             "overview": "Overview",
             "revenue": "Revenue",
-            "billing": "Billing extraction"
+            "billing": "Billing extraction",
+            "contractExport": "Contract export"
+        },
+        "contractExport": {
+            "title": "Contract export",
+            "intro": "Download every contract period on the interventions as one file. There is one row per contract period with all of the contract's fields and the intervention's fields.",
+            "period": "Period",
+            "allPeriods": "All contract periods",
+            "periodHint": "Without a period, every contract period is included. With one, the periods that apply in it are included.",
+            "fileFormat": "File format",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Download contract export",
+            "downloading": "Downloading …",
+            "fileName": "contract-export",
+            "failed": "The contract export could not be downloaded. Please try again."
         }
     },
     "monthlySheet": {

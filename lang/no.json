@@ -19423,7 +19423,22 @@
         "tabs": {
             "overview": "Oversikt",
             "revenue": "Omsetning",
-            "billing": "Faktureringsuttrekk"
+            "billing": "Faktureringsuttrekk",
+            "contractExport": "Kontraktuttrekk"
+        },
+        "contractExport": {
+            "title": "Kontraktuttrekk",
+            "intro": "Last ned alle kontraktperioder på innsatsene som én fil. Det er én linje per kontraktperiode med alle kontraktens felt og innsatsens felt.",
+            "period": "Periode",
+            "allPeriods": "Alle kontraktperioder",
+            "periodHint": "Uten periode tas alle kontraktperioder med. Med periode tas periodene som gjelder i den med.",
+            "fileFormat": "Filformat",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Last ned kontraktuttrekk",
+            "downloading": "Laster ned …",
+            "fileName": "kontraktuttrekk",
+            "failed": "Kontraktuttrekket kunne ikke lastes ned. Prøv igjen."
         }
     },
     "monthlySheet": {
