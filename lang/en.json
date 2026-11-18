@@ -1007,6 +1007,7 @@
                 "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for",
                 "hrDataFor": "HR details for",
+                "careHoursViewOnly": "View intervention hours only",
                 "seesEmployeeNote": "Can see the note on employees",
                 "seesPayBank": "Can see and change pay and bank"
             },
@@ -12251,6 +12252,8 @@
             "noPermissionsMatch": "No permissions match \"{search}\".",
             "employeeGroups": "Employee groups",
             "noEmployeeGroups": "No employee groups created yet.",
+            "careHoursViewOnly": "View intervention hours only",
+            "careHoursViewOnlyHelp": "People with this role can only view the intervention hours overview. They cannot add, change, delete or reject hours there, and they do not see the hourly price or the contribution margin. Hours registered with a journal note, check-in/out and mileage work as before. Also tick \"Only own intervention hours\" if they should see only their own hours.",
             "seesEmployeeNote": "Can see the note on employees",
             "seesEmployeeNoteHelp": "People with this role see the note on colleagues directly on the employee, without clicking Edit. If the role also has HR access limited to chosen roles, the same limit applies to the note. Administrators always see it.",
             "seesPayBank": "Can see and change pay and bank",

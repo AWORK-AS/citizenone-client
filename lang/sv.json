@@ -1007,6 +1007,7 @@
                 "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
                 "certificateReminderFor": "Får påminnelser om certifikat för",
                 "hrDataFor": "HR-uppgifter för",
+                "careHoursViewOnly": "Endast se insatstimmar",
                 "seesEmployeeNote": "Kan se anteckning på medarbetare",
                 "seesPayBank": "Kan se och ändra lön och bank"
             },
@@ -12246,6 +12247,8 @@
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
             "employeeGroups": "Medarbetargrupper",
             "noEmployeeGroups": "Inga medarbetargrupper skapade än.",
+            "careHoursViewOnly": "Endast se insatstimmar",
+            "careHoursViewOnlyHelp": "Medarbetare med den här rollen kan bara se översikten över insatstimmar. De kan inte lägga till, ändra, radera eller avvisa timmar där, och de ser inte timpris och täckningsgrad. Timmar registrerade med en journalanteckning, in-/utcheckning och körning fungerar som förut. Kryssa också i \"Endast egna insatstimmar\" om de bara ska se sina egna timmar.",
             "seesEmployeeNote": "Kan se anteckning på medarbetare",
             "seesEmployeeNoteHelp": "Medarbetare med den här rollen ser anteckningen på kollegor direkt på medarbetaren utan att klicka Redigera. Har rollen också HR-åtkomst begränsad till valda roller gäller samma begränsning för anteckningen. Administratörer ser den alltid.",
             "seesPayBank": "Kan se och ändra lön och bank",

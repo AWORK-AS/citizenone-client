@@ -1007,6 +1007,7 @@
                 "contactEmailTitles": "Ser kontakters e-postadresser for titler",
                 "certificateReminderFor": "Får påminnelser om sertifikater for",
                 "hrDataFor": "HR-opplysninger for",
+                "careHoursViewOnly": "Kun se innsatstimer",
                 "seesEmployeeNote": "Kan se notat på ansatte",
                 "seesPayBank": "Kan se og endre lønn og bank"
             },
@@ -12246,6 +12247,8 @@
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
             "employeeGroups": "Medarbeidergrupper",
             "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå.",
+            "careHoursViewOnly": "Kun se innsatstimer",
+            "careHoursViewOnlyHelp": "Ansatte med denne rollen kan bare se oversikten over innsatstimer. De kan ikke legge til, endre, slette eller avvise timer der, og de ser ikke timepris og dekningsgrad. Timer registrert med et dagboknotat, inn-/utsjekk og kjøring virker som før. Huk også av \"Kun egne innsatstimer\" hvis de bare skal se sine egne timer.",
             "seesEmployeeNote": "Kan se notat på ansatte",
             "seesEmployeeNoteHelp": "Ansatte med denne rollen ser notatet på kolleger direkte på den ansatte uten å klikke Rediger. Har rollen også HR-tilgang begrenset til bestemte roller, gjelder samme begrensning for notatet. Administratorer ser det alltid.",
             "seesPayBank": "Kan se og endre lønn og bank",
