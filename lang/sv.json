@@ -1006,7 +1006,9 @@
                 "contactPhoneTitles": "Ser kontakters telefonnummer för titlar",
                 "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
                 "certificateReminderFor": "Får påminnelser om certifikat för",
-                "hrDataFor": "HR-uppgifter för"
+                "hrDataFor": "HR-uppgifter för",
+                "seesEmployeeNote": "Kan se anteckning på medarbetare",
+                "seesPayBank": "Kan se och ändra lön och bank"
             },
             "values": {
                 "yes": "Ja",
@@ -12243,7 +12245,11 @@
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
             "employeeGroups": "Medarbetargrupper",
-            "noEmployeeGroups": "Inga medarbetargrupper skapade än."
+            "noEmployeeGroups": "Inga medarbetargrupper skapade än.",
+            "seesEmployeeNote": "Kan se anteckning på medarbetare",
+            "seesEmployeeNoteHelp": "Medarbetare med den här rollen ser anteckningen på kollegor direkt på medarbetaren utan att klicka Redigera. Har rollen också HR-åtkomst begränsad till valda roller gäller samma begränsning för anteckningen. Administratörer ser den alltid.",
+            "seesPayBank": "Kan se och ändra lön och bank",
+            "seesPayBankHelp": "Medarbetare med den här rollen ser och ändrar \"Lön och bank\" (skattsedel, bank, organisationsnummer och lönesats) under HR-uppgifter för de kollegor rollens HR-åtkomst gäller. Rollen måste också kunna se HR-uppgifter. Administratörer kan alltid."
         },
         "matrix": {
             "title": "Behörighetsöversikt",
@@ -20569,7 +20575,8 @@
             "taxCardType": "Skattekort",
             "bankRegNo": "Clearingnr",
             "bankAccountNo": "Kontonr",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Lönesats"
         },
         "genders": {
             "female": "Kvinna",
@@ -20585,7 +20592,7 @@
         "no": "Nej",
         "unset": "Ej angivet",
         "select": "Välj",
-        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "bankAdminOnly": "Lön och bank kan bara ändras av en administratör eller en roll med åtkomst till lön och bank",
         "alert": {
             "saved": "HR-uppgifterna är sparade",
             "saveFailed": "HR-uppgifterna kunde inte sparas"
