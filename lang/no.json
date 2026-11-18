@@ -10376,7 +10376,11 @@
                 "oauthNote": "Merk: XOAUTH2 krever en fullstendig OAuth2-flyt med tilgangstokens og støttes ikke her. Apppassord er riktig tilnærming for denne integrasjonen."
             }
         },
-        "emptyInbox": "Innboksen din er tom"
+        "emptyInbox": "Innboksen din er tom",
+        "linkedCitizen": {
+            "label": "Tilknyttet",
+            "open": "Åpne innsatsens e-poster"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Legg til ny masseenhed",

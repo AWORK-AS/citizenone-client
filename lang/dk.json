@@ -10376,7 +10376,11 @@
                 "oauthNote": "Bemærk: XOAUTH2 kræver et fuldt OAuth2-flow med adgangstokens og understøttes ikke her. App-adgangskode er den korrekte tilgang til denne integration."
             }
         },
-        "emptyInbox": "Din indbakke er tom"
+        "emptyInbox": "Din indbakke er tom",
+        "linkedCitizen": {
+            "label": "Tilknyttet",
+            "open": "Åbn indsatsens mails"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Tilføj ny masseenhed",
