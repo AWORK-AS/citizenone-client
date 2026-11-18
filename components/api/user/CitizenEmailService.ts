@@ -13,6 +13,11 @@ class CitizenEmailService extends BaseAPIService {
         return await this.request(`/user/citizen-emails/${citizenEmailUuid}/visibility`, 'PUT', params)
     }
 
+    // Which of these inbox mails this user tagged to an intervention ("Tilknyttet indsats")
+    async getLinkedCitizens(params: { source_uids: string[]; source_folder?: string }): Promise<any> {
+        return await this.request(`/user/citizen-emails/linked`, 'POST', params)
+    }
+
     async untagEmail(citizenEmailUuid: any): Promise<any> {
         return await this.request(`/user/citizen-emails/${citizenEmailUuid}`, 'DELETE')
     }

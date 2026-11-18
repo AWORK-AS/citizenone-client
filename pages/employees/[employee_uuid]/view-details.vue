@@ -203,6 +203,12 @@
                                         </p>
                                     </div>
                                 </div>
+                                <!-- The note, without opening Rediger (Memox 18/11). The backend sends it
+                                     only to roles marked "Kan se note på medarbejdere" (HrDataAccess::seesNoteOf). -->
+                                <div class="space-y-1" v-if="state.selectedEmployee?.note">
+                                    <Label :label="$t('employees.form.note')" />
+                                    <p class="font-medium whitespace-pre-line">{{ state.selectedEmployee.note }}</p>
+                                </div>
                             </div>
                         </div>
                         <div
@@ -604,6 +610,7 @@ const state = reactive({
     selectedEmployee: {
         firstname: '',
         lastname: '',
+        note: null as string | null,
         email: '',
         phone: '',
         birthday: '',
@@ -715,6 +722,7 @@ async function fetchEmployee() {
                 email: response?.data?.email ?? '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
+                note: response?.data?.note ?? null,
                 departments: concatenatedDepartments,
                 roles: response?.data?.roles?.map((r: any) => r.name) ?? [],
                 street: response?.data?.employee_address?.street ?? '',

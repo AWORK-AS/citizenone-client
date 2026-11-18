@@ -108,6 +108,7 @@
                             <p class="truncate text-[12px] text-gray-500 mt-0.5" v-if="email?.bodyPreview">
                                 {{ email?.bodyPreview }}
                             </p>
+                            <ModulesUserMailLinkedCitizenBadge :links="linkedCitizens.forUid(email?.id)" />
                         </div>
                     </button>
 
@@ -217,11 +218,12 @@
             :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.id ?? ''" folder="inbox"
             @close="state.modal.isDownloadAttachment = false" />
         <ModulesUserMailModalLinkToCitizen :isModalOpen="state.modal.isLinkToCitizen"
-            :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="state.modal.isLinkToCitizen = false" />
+            :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="onLinkModalClose" />
     </div>
 </template>
 
 <script setup lang="ts">
+import { useLinkedCitizens } from '@/composables/useLinkedCitizens'
 import { mailEntraService } from "@/components/api/user/MailEntraService"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { fileHelper } from '@/composables/fileHelper'
@@ -382,6 +384,14 @@ onBeforeUnmount(() => {
     if (searchTimer) clearTimeout(searchTimer)
 })
 
+// "Tilknyttet indsats" labels (Memox 18/11): looked up after each page and after tagging.
+const linkedCitizens = useLinkedCitizens('INBOX')
+
+function onLinkModalClose() {
+    state.modal.isLinkToCitizen = false
+    linkedCitizens.refresh([state.selectedEmail?.id])
+}
+
 async function fetchEmails(page: any) {
     state.error = {}
     state.reconnectRequired = false
@@ -404,6 +414,7 @@ async function fetchEmails(page: any) {
         const response = await mailEntraService.getMails(params)
         if (response?.value) {
             state.emails.push(...response?.value)
+            linkedCitizens.refresh(response.value.map((mail: any) => mail?.id))
             state.nextPageLink = response['@odata.nextLink']
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0

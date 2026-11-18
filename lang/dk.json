@@ -1006,7 +1006,11 @@
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-mailadresser for titler",
                 "certificateReminderFor": "Får påmindelser om certifikater for",
-                "hrDataFor": "HR-oplysninger for"
+                "hrDataFor": "HR-oplysninger for",
+                "planNotifications": "Notifikationer om planer og mål",
+                "careHoursViewOnly": "Kun se indsatstimer",
+                "seesEmployeeNote": "Kan se note på medarbejdere",
+                "seesPayBank": "Kan se og rette løn og bank"
             },
             "values": {
                 "yes": "Ja",
@@ -10373,7 +10377,11 @@
                 "oauthNote": "Bemærk: XOAUTH2 kræver et fuldt OAuth2-flow med adgangstokens og understøttes ikke her. App-adgangskode er den korrekte tilgang til denne integration."
             }
         },
-        "emptyInbox": "Din indbakke er tom"
+        "emptyInbox": "Din indbakke er tom",
+        "linkedCitizen": {
+            "label": "Tilknyttet",
+            "open": "Åbn indsatsens mails"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Tilføj ny masseenhed",
@@ -12248,7 +12256,18 @@
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
             "employeeGroups": "Medarbejdergrupper",
-            "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
+            "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu.",
+            "planNotifications": "Notifikationer om planer og mål",
+            "planNotificationsAll": "Alle indsatser medarbejderen kan se",
+            "planNotificationsAssigned": "Kun indsatser medarbejderen er tilknyttet",
+            "planNotificationsNone": "Ingen",
+            "planNotificationsHelp": "Styrer påmindelsen om planer, mål og delmål, der har passeret deres dato: tallet på klokken, den daglige påmindelse og listen. Medarbejdere ser aldrig planer på indsatser, de ikke har adgang til. Har en medarbejder flere roller, gælder den bredeste. Administratorer får altid alle.",
+            "careHoursViewOnly": "Kun se indsatstimer",
+            "careHoursViewOnlyHelp": "Medarbejdere med denne rolle kan kun se Indsatstimer-oversigten. De kan ikke tilføje, rette, slette eller afvise timer der, og de ser ikke timepris og dækningsgrad. Timer registreret med et dagbogsnotat, check ind/ud og kørsel virker som før. Sæt også \"Kun egne indsatstimer\", hvis de kun skal se deres egne timer.",
+            "seesEmployeeNote": "Kan se note på medarbejdere",
+            "seesEmployeeNoteHelp": "Medarbejdere med denne rolle ser noten på kolleger direkte på medarbejderen uden at klikke Rediger. Har rollen også HR-adgang begrænset til bestemte roller, gælder den samme begrænsning for noten. Administratorer ser den altid.",
+            "seesPayBank": "Kan se og rette løn og bank",
+            "seesPayBankHelp": "Medarbejdere med denne rolle ser og retter \"Løn og bank\" (skattekort, bank, CVR og lønsats) under HR-oplysninger på de kolleger, rollens HR-adgang gælder for. Rollen skal også kunne se HR-oplysninger. Administratorer kan altid."
         },
         "matrix": {
             "title": "Tilladelsesoversigt",
@@ -19514,7 +19533,22 @@
         "tabs": {
             "overview": "Overblik",
             "revenue": "Omsætning",
-            "billing": "Faktureringsudtræk"
+            "billing": "Faktureringsudtræk",
+            "contractExport": "Kontraktudtræk"
+        },
+        "contractExport": {
+            "title": "Kontraktudtræk",
+            "intro": "Hent alle kontraktperioder på indsatserne som én fil. Der er én linje pr. kontraktperiode med alle kontraktens felter og indsatsens felter.",
+            "period": "Periode",
+            "allPeriods": "Alle kontraktperioder",
+            "periodHint": "Uden periode kommer alle kontraktperioder med. Med periode kommer de perioder med, der gælder i den valgte periode.",
+            "fileFormat": "Filformat",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Hent kontraktudtræk",
+            "downloading": "Henter …",
+            "fileName": "kontraktudtraek",
+            "failed": "Kontraktudtrækket kunne ikke hentes. Prøv igen."
         }
     },
     "monthlySheet": {
@@ -20452,6 +20486,7 @@
         "editField": "Rediger felt",
         "inactive": "Slået fra",
         "carriedBadge": "Følger med til indsatsen",
+        "citizenOnlyBadge": "Kun på indsatsen",
         "noFieldsInStage": "Ingen felter i denne fase.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -20483,6 +20518,8 @@
             "isRequiredHint": "Henvendelsen kan ikke flyttes fremad, før feltet er udfyldt.",
             "carryToCitizen": "Følger med til indsatsen",
             "carryToCitizenHint": "Når henvendelsen bliver til en indsats, gemmes svaret også som et felt på indsatsen, hvor det kan ses og rettes senere.",
+            "citizenOnly": "Kun på indsatsen",
+            "citizenOnlyHint": "Feltet vises kun på indsatsen og aldrig på henvendelser. Bruges til fx frister, opfølgninger og resttimer.",
             "isActive": "Aktivt",
             "source": "Slå op i",
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
@@ -20660,7 +20697,8 @@
             "taxCardType": "Skattekort",
             "bankRegNo": "Reg.nr.",
             "bankAccountNo": "Kontonr.",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Lønsats"
         },
         "genders": {
             "female": "Kvinde",
@@ -20676,7 +20714,7 @@
         "no": "Nej",
         "unset": "Ikke angivet",
         "select": "Vælg",
-        "bankAdminOnly": "Bankoplysninger kan kun ændres af en administrator",
+        "bankAdminOnly": "Løn og bank kan kun ændres af en administrator eller en rolle med adgang til løn og bank",
         "alert": {
             "saved": "HR-oplysningerne er gemt",
             "saveFailed": "HR-oplysningerne kunne ikke gemmes"

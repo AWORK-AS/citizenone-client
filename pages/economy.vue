@@ -33,6 +33,7 @@
                 <ModulesUserEconomyRevenue v-else-if="state.tab === 'revenue'" />
                 <ModulesUserEconomyBilling v-else-if="state.tab === 'billing'" />
                 <ModulesUserEconomySocialBilling v-else-if="state.tab === 'social-billing'" />
+                <ModulesUserEconomyContractExport v-else-if="state.tab === 'contract-export'" />
             </div>
         </NuxtLayout>
     </div>
@@ -73,6 +74,9 @@ const tabs = computed(() => {
         // The social sector bills delivered hours per citizen, so it gets its own
         // extraction rather than the employment one, which counts weeks per case.
         available.push({ value: 'social-billing', label: t('economy.tabs.billing') })
+
+        // Kontraktudtræk: every contract period with its fields, as a file.
+        available.push({ value: 'contract-export', label: t('economy.tabs.contractExport') })
     }
 
     if (hasModule('Revenue report')) {
