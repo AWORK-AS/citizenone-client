@@ -12871,7 +12871,9 @@
                 "caseNumberAuto": "Tildel indsatsnummer automatisk",
                 "caseNumberAutoHint": "Nye indsatser uden indsatsnummer får automatisk det næste ledige nummer fra startdatoen. Numre, der allerede er brugt, springes over, og et nummer, der skrives ind manuelt, bevares.",
                 "caseNumberNext": "Næste indsatsnummer",
-                "caseNumberFrom": "Fra dato"
+                "caseNumberFrom": "Fra dato",
+                "requestsToManager": "Anmodninger går til nærmeste leder",
+                "requestsToManagerHint": "Ferie- og fraværsanmodninger, x-timer og afspadsering går kun til medarbejderens nærmeste leder (sættes under HR-oplysninger). Har medarbejderen ingen leder, går de som før til afdelingens administratorer."
             }
         },
         "licenseOverview": {

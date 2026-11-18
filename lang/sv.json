@@ -12866,7 +12866,9 @@
                 "caseNumberAuto": "Tilldela insatsnummer automatiskt",
                 "caseNumberAutoHint": "Nya insatser utan insatsnummer får automatiskt nästa lediga nummer från startdatumet. Nummer som redan används hoppas över, och ett nummer som skrivs in manuellt behålls.",
                 "caseNumberNext": "Nästa insatsnummer",
-                "caseNumberFrom": "Från datum"
+                "caseNumberFrom": "Från datum",
+                "requestsToManager": "Förfrågningar går till närmaste chef",
+                "requestsToManagerHint": "Semester- och frånvaroförfrågningar, extratimmar och kompensationsledighet går bara till medarbetarens närmaste chef (anges under HR-uppgifter). Har medarbetaren ingen chef går de som tidigare till avdelningens administratörer."
             }
         },
         "licenseOverview": {

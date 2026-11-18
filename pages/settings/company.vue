@@ -983,6 +983,18 @@
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideCitizenRatesFromStaffHint') }}.</p>
                             </div>
+                            <!-- Leave, extra hours and compensatory time requests to the employee's
+                                 nærmeste leder (HR details), Memox 18/11 (App\Support\RequestApprovers). -->
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.requests_to_manager_enabled"
+                                        @toggleSwitch="state.formCompany.requests_to_manager_enabled = !state.formCompany.requests_to_manager_enabled" :label="$t('settings.company.form.requestsToManager')" />
+                                    <p>
+                                        {{ $t('settings.company.form.requestsToManager') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.requestsToManagerHint') }}</p>
+                            </div>
                             <!-- Automatic, consecutive intervention numbers (Memox 18/11, App\Support\CaseNumberSequence). -->
                             <div class="space-y-2">
                                 <div class="flex items-center gap-x-2">
@@ -1425,7 +1437,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.registration_mileage_per_indsats_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.treatment_photos_enabled, state.formCompany.auto_ai_for_new_employees])
+const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.requests_to_manager_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.registration_mileage_per_indsats_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.treatment_photos_enabled, state.formCompany.auto_ai_for_new_employees])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
 const otherTotal = computed(() => otherSwitches.value.length + 2)
@@ -1487,6 +1499,7 @@ const state = reactive({
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
+        requests_to_manager_enabled: false,
         case_number_auto_enabled: false,
         case_number_next: null as number | null,
         case_number_auto_from: '' as string,
@@ -1689,6 +1702,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
+            requests_to_manager_enabled: newValue?.company?.requests_to_manager_enabled === true,
             case_number_auto_enabled: newValue?.company?.case_number_auto_enabled === true,
             case_number_next: newValue?.company?.case_number_next ?? null,
             case_number_auto_from: newValue?.company?.case_number_auto_from ?? '',
@@ -1991,6 +2005,7 @@ async function submitForm() {
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
+                requests_to_manager_enabled: state.formCompany.requests_to_manager_enabled,
                 case_number_auto_enabled: state.formCompany.case_number_auto_enabled,
                 case_number_next: state.formCompany.case_number_next || null,
                 case_number_auto_from: state.formCompany.case_number_auto_from || null,

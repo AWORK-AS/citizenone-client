@@ -12866,7 +12866,9 @@
                 "caseNumberAuto": "Tildel innsatsnummer automatisk",
                 "caseNumberAutoHint": "Nye innsatser uten innsatsnummer får automatisk neste ledige nummer fra startdatoen. Numre som allerede er brukt hoppes over, og et nummer som skrives inn manuelt beholdes.",
                 "caseNumberNext": "Neste innsatsnummer",
-                "caseNumberFrom": "Fra dato"
+                "caseNumberFrom": "Fra dato",
+                "requestsToManager": "Forespørsler går til nærmeste leder",
+                "requestsToManagerHint": "Ferie- og fraværsforespørsler, ekstratimer og avspasering går bare til den ansattes nærmeste leder (settes under HR-opplysninger). Har den ansatte ingen leder, går de som før til avdelingens administratorer."
             }
         },
         "licenseOverview": {
