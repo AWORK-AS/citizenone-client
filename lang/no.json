@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Ser kontakters telefonnumre for titler",
                 "contactEmailTitles": "Ser kontakters e-postadresser for titler",
                 "certificateReminderFor": "Får påminnelser om sertifikater for",
-                "hrDataFor": "HR-opplysninger for"
+                "hrDataFor": "HR-opplysninger for",
+                "planNotifications": "Varsler om planer og mål"
             },
             "values": {
                 "yes": "Ja",
@@ -12243,7 +12244,12 @@
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
             "employeeGroups": "Medarbeidergrupper",
-            "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå."
+            "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå.",
+            "planNotifications": "Varsler om planer og mål",
+            "planNotificationsAll": "Alle innsatser den ansatte kan se",
+            "planNotificationsAssigned": "Kun innsatser den ansatte er tilknyttet",
+            "planNotificationsNone": "Ingen",
+            "planNotificationsHelp": "Styrer påminnelsen om planer, mål og delmål som har passert datoen: tallet på klokken, den daglige påminnelsen og listen. Ansatte ser aldri planer på innsatser de ikke har tilgang til. Har en ansatt flere roller, gjelder den bredeste. Administratorer får alltid alle."
         },
         "matrix": {
             "title": "Tillatelsesoversikt",

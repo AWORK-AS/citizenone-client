@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for",
-                "hrDataFor": "HR details for"
+                "hrDataFor": "HR details for",
+                "planNotifications": "Notifications about plans and goals"
             },
             "values": {
                 "yes": "Yes",
@@ -12248,7 +12249,12 @@
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
             "employeeGroups": "Employee groups",
-            "noEmployeeGroups": "No employee groups created yet."
+            "noEmployeeGroups": "No employee groups created yet.",
+            "planNotifications": "Notifications about plans and goals",
+            "planNotificationsAll": "All interventions the employee can see",
+            "planNotificationsAssigned": "Only interventions the employee is attached to",
+            "planNotificationsNone": "None",
+            "planNotificationsHelp": "Controls the reminder about plans, goals and subgoals past their date: the count on the bell, the daily reminder and the list. Employees never see plans on interventions they have no access to. With several roles, the widest applies. Administrators always get all."
         },
         "matrix": {
             "title": "Permission overview",

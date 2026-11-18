@@ -174,6 +174,21 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.onlyOwnCareHoursHelp') }}</p>
             </div>
 
+            <!-- Which overdue plans and goals the role's people are reminded of: the bell,
+                 the daily reminder and the list (App\Support\PlanDeadlineScope). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-2">
+                <p class="text-sm font-medium text-slate-700">{{ $t('roles.form.planNotifications') }}</p>
+                <div class="space-y-1.5">
+                    <label v-for="option in planNotificationOptions" :key="option.value"
+                        class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" :value="option.value" v-model="state.formRole.plan_notifications"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ option.label }}
+                    </label>
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.planNotificationsHelp') }}</p>
+            </div>
+
             <!-- Which contact titles the role's people see an address, phone number and email address
                  on. Each works on its own; off is no limit (App\Support\ContactFieldAccess). Admin only. -->
             <div v-if="isAtLeast('Admin')" class="space-y-3" data-testid="contact-field-limits">
@@ -341,6 +356,12 @@ const vIndeterminate = {
     updated(el: HTMLInputElement, binding: any) { el.indeterminate = !!binding.value },
 }
 
+const planNotificationOptions = computed(() => [
+    { value: 'all', label: t('roles.form.planNotificationsAll') },
+    { value: 'assigned', label: t('roles.form.planNotificationsAssigned') },
+    { value: 'none', label: t('roles.form.planNotificationsNone') },
+])
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -367,6 +388,7 @@ const state = reactive({
         only_assigned_citizens: false,
         only_own_intervention_events: false,
         only_own_care_hours: false,
+        plan_notifications: 'all' as 'all' | 'assigned' | 'none',
         // contact_job_titles uuids the role sees the field on; null is no limit.
         contact_address_titles: null as string[] | null,
         contact_phone_titles: null as string[] | null,
@@ -427,6 +449,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             only_assigned_citizens: !!newValue.only_assigned_citizens,
             only_own_intervention_events: !!newValue.only_own_intervention_events,
             only_own_care_hours: !!newValue.only_own_care_hours,
+            plan_notifications: newValue.plan_notifications ?? 'all',
             contact_address_titles: newValue.contact_address_titles ?? null,
             contact_phone_titles: newValue.contact_phone_titles ?? null,
             contact_email_titles: newValue.contact_email_titles ?? null,

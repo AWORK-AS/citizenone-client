@@ -1006,7 +1006,8 @@
                 "contactPhoneTitles": "Ser kontakters telefonnummer för titlar",
                 "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
                 "certificateReminderFor": "Får påminnelser om certifikat för",
-                "hrDataFor": "HR-uppgifter för"
+                "hrDataFor": "HR-uppgifter för",
+                "planNotifications": "Aviseringar om planer och mål"
             },
             "values": {
                 "yes": "Ja",
@@ -12243,7 +12244,12 @@
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
             "employeeGroups": "Medarbetargrupper",
-            "noEmployeeGroups": "Inga medarbetargrupper skapade än."
+            "noEmployeeGroups": "Inga medarbetargrupper skapade än.",
+            "planNotifications": "Aviseringar om planer och mål",
+            "planNotificationsAll": "Alla insatser medarbetaren kan se",
+            "planNotificationsAssigned": "Endast insatser medarbetaren är kopplad till",
+            "planNotificationsNone": "Inga",
+            "planNotificationsHelp": "Styr påminnelsen om planer, mål och delmål som har passerat sitt datum: siffran på klockan, den dagliga påminnelsen och listan. Medarbetare ser aldrig planer på insatser de inte har åtkomst till. Har en medarbetare flera roller gäller den bredaste. Administratörer får alltid alla."
         },
         "matrix": {
             "title": "Behörighetsöversikt",
