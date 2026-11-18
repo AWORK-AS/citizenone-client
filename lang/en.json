@@ -12852,7 +12852,9 @@
                 "caseNumberAuto": "Assign intervention numbers automatically",
                 "caseNumberAutoHint": "New interventions without a number automatically get the next free number from the start date. Numbers already in use are skipped, and a number typed in manually is kept.",
                 "caseNumberNext": "Next intervention number",
-                "caseNumberFrom": "From date"
+                "caseNumberFrom": "From date",
+                "requestsToManager": "Requests go to the line manager",
+                "requestsToManagerHint": "Leave and absence requests, extra hours and compensatory time go only to the employee's line manager (set under HR details). An employee without a line manager's requests go to the department's administrators as before."
             }
         },
         "licenseOverview": {
