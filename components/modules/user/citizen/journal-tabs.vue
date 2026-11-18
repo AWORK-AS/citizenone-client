@@ -177,7 +177,8 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-surveys'],
         })
     }
-    if (can('Emails')) {
+    // And the role's "Se mail-fanen på indsatser" (view_citizen_emails); Admins always (Memox 18/11).
+    if (can('Emails') && (permissions.isAtLeast('Admin') || permissions.can('view_citizen_emails'))) {
         tabs.push({
             name: 'citizens.tabs.emails', icon: 'ph:envelope', isTranslateName: true,
             category: 'documentation', primary: false,

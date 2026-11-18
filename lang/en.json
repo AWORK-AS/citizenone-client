@@ -10373,7 +10373,11 @@
                 "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
             }
         },
-        "emptyInbox": "Your inbox is empty"
+        "emptyInbox": "Your inbox is empty",
+        "linkedCitizen": {
+            "label": "Linked",
+            "open": "Open the intervention's mails"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Add new mass unit",

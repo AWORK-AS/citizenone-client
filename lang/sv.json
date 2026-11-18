@@ -10373,7 +10373,11 @@
                 "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
             }
         },
-        "emptyInbox": "Din inkorg är tom"
+        "emptyInbox": "Din inkorg är tom",
+        "linkedCitizen": {
+            "label": "Kopplad",
+            "open": "Öppna insatsens e-post"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Lägg till ny masseenhed",
