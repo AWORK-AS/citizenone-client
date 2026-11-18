@@ -12862,7 +12862,11 @@
                 "expenseCitizenRequiredHint": "När den är påslagen kan en utgift bara sparas med en @:terms.citizen{''}, både på webben och i appen",
                 "newPrescriptionSurvey": "Enkät för nytt recept",
                 "newPrescriptionSurveyNone": "Ingen (knappen visas inte)",
-                "newPrescriptionSurveyHint": "Patienter ser \"Begär nytt recept\" under Recept. När de trycker på den får de den här enkäten, och svaren kommer till er som en förfrågan."
+                "newPrescriptionSurveyHint": "Patienter ser \"Begär nytt recept\" under Recept. När de trycker på den får de den här enkäten, och svaren kommer till er som en förfrågan.",
+                "caseNumberAuto": "Tilldela insatsnummer automatiskt",
+                "caseNumberAutoHint": "Nya insatser utan insatsnummer får automatiskt nästa lediga nummer från startdatumet. Nummer som redan används hoppas över, och ett nummer som skrivs in manuellt behålls.",
+                "caseNumberNext": "Nästa insatsnummer",
+                "caseNumberFrom": "Från datum"
             }
         },
         "licenseOverview": {

@@ -12867,7 +12867,11 @@
                 "expenseCitizenRequiredHint": "When on, an expense can only be saved with a @:terms.citizen{''}, on the web and in the app",
                 "newPrescriptionSurvey": "Questionnaire for a new prescription",
                 "newPrescriptionSurveyNone": "None (the button is hidden)",
-                "newPrescriptionSurveyHint": "Patients see \"Request a new prescription\" under Prescriptions. Pressing it sends them this questionnaire, and their answers come to you as a request."
+                "newPrescriptionSurveyHint": "Patients see \"Request a new prescription\" under Prescriptions. Pressing it sends them this questionnaire, and their answers come to you as a request.",
+                "caseNumberAuto": "Assign intervention numbers automatically",
+                "caseNumberAutoHint": "New interventions without a number automatically get the next free number from the start date. Numbers already in use are skipped, and a number typed in manually is kept.",
+                "caseNumberNext": "Next intervention number",
+                "caseNumberFrom": "From date"
             }
         },
         "licenseOverview": {
