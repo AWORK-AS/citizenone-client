@@ -196,7 +196,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const userStore = useUserStore() as any
-const { isAtLeast, seesHrData } = usePermissions()
+const { seesHrData } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
