@@ -174,6 +174,21 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.onlyOwnCareHoursHelp') }}</p>
             </div>
 
+            <!-- Which overdue plans and goals the role's people are reminded of: the bell,
+                 the daily reminder and the list (App\Support\PlanDeadlineScope). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-2">
+                <p class="text-sm font-medium text-slate-700">{{ $t('roles.form.planNotifications') }}</p>
+                <div class="space-y-1.5">
+                    <label v-for="option in planNotificationOptions" :key="option.value"
+                        class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" :value="option.value" v-model="state.formRole.plan_notifications"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ option.label }}
+                    </label>
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.planNotificationsHelp') }}</p>
+            </div>
+
             <!-- "Kun se indsatstimer": the overview is read-only and the hourly rate and
                  contribution margin are kept (CitizenCareHour::isViewOnly). Admin only. -->
             <div v-if="isAtLeast('Admin')" class="space-y-1">
@@ -371,6 +386,12 @@ const vIndeterminate = {
     updated(el: HTMLInputElement, binding: any) { el.indeterminate = !!binding.value },
 }
 
+const planNotificationOptions = computed(() => [
+    { value: 'all', label: t('roles.form.planNotificationsAll') },
+    { value: 'assigned', label: t('roles.form.planNotificationsAssigned') },
+    { value: 'none', label: t('roles.form.planNotificationsNone') },
+])
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -397,6 +418,7 @@ const state = reactive({
         only_assigned_citizens: false,
         only_own_intervention_events: false,
         only_own_care_hours: false,
+        plan_notifications: 'all' as 'all' | 'assigned' | 'none',
         care_hours_view_only: false,
         sees_employee_note: false,
         sees_pay_bank: false,
@@ -460,6 +482,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             only_assigned_citizens: !!newValue.only_assigned_citizens,
             only_own_intervention_events: !!newValue.only_own_intervention_events,
             only_own_care_hours: !!newValue.only_own_care_hours,
+            plan_notifications: newValue.plan_notifications ?? 'all',
             care_hours_view_only: !!newValue.care_hours_view_only,
             sees_employee_note: !!newValue.sees_employee_note,
             sees_pay_bank: !!newValue.sees_pay_bank,

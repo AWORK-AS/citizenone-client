@@ -72,6 +72,7 @@ async function saveRole(roleDetails: any) {
             only_assigned_citizens: roleDetails.only_assigned_citizens ?? false,
             only_own_intervention_events: roleDetails.only_own_intervention_events ?? false,
             only_own_care_hours: roleDetails.only_own_care_hours ?? false,
+            plan_notifications: roleDetails.plan_notifications ?? 'all',
             care_hours_view_only: roleDetails.care_hours_view_only ?? false,
             sees_employee_note: roleDetails.sees_employee_note ?? false,
             sees_pay_bank: roleDetails.sees_pay_bank ?? false,
