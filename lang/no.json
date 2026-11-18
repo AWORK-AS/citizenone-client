@@ -20361,6 +20361,7 @@
         "editField": "Rediger felt",
         "inactive": "Slått av",
         "carriedBadge": "Følger med til tiltaket",
+        "citizenOnlyBadge": "Kun på tiltaket",
         "noFieldsInStage": "Ingen felter i denne fasen.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -20392,6 +20393,8 @@
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
             "carryToCitizen": "Følger med til tiltaket",
             "carryToCitizenHint": "Når henvendelsen blir et tiltak, lagres svaret også som et felt på tiltaket, der det kan ses og endres senere.",
+            "citizenOnly": "Kun på tiltaket",
+            "citizenOnlyHint": "Feltet vises kun på tiltaket og aldri på henvendelser. Brukes til f.eks. frister, oppfølginger og gjenværende timer.",
             "isActive": "Aktivt",
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
