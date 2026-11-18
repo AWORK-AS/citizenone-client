@@ -1006,7 +1006,9 @@
                 "contactPhoneTitles": "Sees contact phone numbers for titles",
                 "contactEmailTitles": "Sees contact email addresses for titles",
                 "certificateReminderFor": "Receives certificate reminders for",
-                "hrDataFor": "HR details for"
+                "hrDataFor": "HR details for",
+                "seesEmployeeNote": "Can see the note on employees",
+                "seesPayBank": "Can see and change pay and bank"
             },
             "values": {
                 "yes": "Yes",
@@ -12248,7 +12250,11 @@
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
             "employeeGroups": "Employee groups",
-            "noEmployeeGroups": "No employee groups created yet."
+            "noEmployeeGroups": "No employee groups created yet.",
+            "seesEmployeeNote": "Can see the note on employees",
+            "seesEmployeeNoteHelp": "People with this role see the note on colleagues directly on the employee, without clicking Edit. If the role also has HR access limited to chosen roles, the same limit applies to the note. Administrators always see it.",
+            "seesPayBank": "Can see and change pay and bank",
+            "seesPayBankHelp": "People with this role see and change \"Pay and bank\" (tax card, bank, CVR and pay rate) under HR details for the colleagues the role's HR access covers. The role must also be able to see HR details. Administrators always can."
         },
         "matrix": {
             "title": "Permission overview",
@@ -20672,7 +20678,8 @@
             "taxCardType": "Tax card",
             "bankRegNo": "Reg. no.",
             "bankAccountNo": "Account no.",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Pay rate"
         },
         "genders": {
             "female": "Female",
@@ -20688,7 +20695,7 @@
         "no": "No",
         "unset": "Not specified",
         "select": "Select",
-        "bankAdminOnly": "Bank details can only be changed by an administrator",
+        "bankAdminOnly": "Pay and bank can only be changed by an administrator or a role with access to pay and bank",
         "alert": {
             "saved": "HR details saved",
             "saveFailed": "HR details could not be saved"

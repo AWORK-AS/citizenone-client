@@ -72,6 +72,8 @@ async function saveRole(roleDetails: any) {
             only_assigned_citizens: roleDetails.only_assigned_citizens ?? false,
             only_own_intervention_events: roleDetails.only_own_intervention_events ?? false,
             only_own_care_hours: roleDetails.only_own_care_hours ?? false,
+            sees_employee_note: roleDetails.sees_employee_note ?? false,
+            sees_pay_bank: roleDetails.sees_pay_bank ?? false,
             contact_address_titles: roleDetails.contact_address_titles ?? null,
             contact_phone_titles: roleDetails.contact_phone_titles ?? null,
             contact_email_titles: roleDetails.contact_email_titles ?? null,
