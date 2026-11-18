@@ -27,16 +27,16 @@
         </LoadingSpinner>
 
         <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen" :isMedicalRecord="true"
-            @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
+            @close="state.modal.isAddJournalOpen = false" @refreshJournal="onJournalsChanged" />
         <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
             :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
-            @refreshJournal="fetchJournals" />
+            @refreshJournal="onJournalsChanged" />
         <ModulesUserCitizenJournalModalCopy :isModalOpen="state.modal.isCopyJournalOpen"
             :selectedJournal="state.selectedJournal" @close="state.modal.isCopyJournalOpen = false"
-            @refreshJournal="fetchJournals" />
+            @refreshJournal="onJournalsChanged" />
         <ModulesUserCitizenJournalModalMove :isModalOpen="state.modal.isMoveJournalOpen"
             :selectedJournal="state.selectedJournal" @close="state.modal.isMoveJournalOpen = false"
-            @refreshJournal="fetchJournals" />
+            @refreshJournal="onJournalsChanged" />
         <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
             :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
         <ModulesUserHistoryModalRecordHistory :isModalOpen="state.modal.isRecordHistoryOpen" type="journal"
@@ -63,6 +63,9 @@ const { isAtLeast, can } = usePermissions()
 const { term } = useTerminology()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
+// Notes can be filed under a health area, so the area overview on the same
+// page listens for saved, moved and deleted notes.
+const emit = defineEmits(['changed'])
 
 const state = reactive({
     error: {} as Error,
@@ -103,6 +106,11 @@ async function fetchJournals() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function onJournalsChanged() {
+    fetchJournals()
+    emit('changed')
 }
 
 function previous() {
@@ -192,7 +200,7 @@ async function deleteJournal() {
     try {
         const response = await journalService.deleteJournal(state.selectedJournal.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchJournals()
+            onJournalsChanged()
             successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.deletedSuccessfully')}.`)
         }
     } catch (error: any) {

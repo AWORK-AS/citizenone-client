@@ -2656,6 +2656,9 @@
                     "unsaved": "Endringene i innsatstimene er ikke lagret ennå."
                 },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody AI og kan ikke kopieres til en plan.",
+                "healthArea": "Helsefaglig område",
+                "healthAreaPlaceholder": "Velg område (valgfritt)",
+                "healthAreaHelp": "Notatet vises under området i oversikten over de 12 helsefaglige områdene.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
                     "title": "Utarbeid med AI",
@@ -4231,6 +4234,8 @@
                 "nothingYet": "Det er ikke registrert noe på de helsefaglige områdene ennå.",
                 "latestStatus": "Siste status",
                 "openTreatments": "{count} åpen behandling | {count} åpne behandlinger",
+                "medicalJournals": "{count} legejournalnotat | {count} legejournalnotater",
+                "moreMedicalJournals": "+ {count} eldre",
                 "loadFailed": "Områdene kunne ikke hentes. Prøv igjen."
             },
             "checklists": {
