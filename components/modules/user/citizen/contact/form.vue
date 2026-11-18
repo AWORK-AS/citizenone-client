@@ -184,6 +184,16 @@
                         :label="$t('citizens.contacts.form.emergencyContact')" />
                     <p class="text-sm text-gray-700">{{ $t('citizens.contacts.form.emergencyContact') }}</p>
                 </div>
+                <!-- AW-2026-10512: mark the primary party of the case, e.g. a parent. Never our own staff. -->
+                <div class="space-y-1" v-if="showsPrimaryParty(state.formContact.title)" data-testid="primary-party">
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formContact.is_primary_party"
+                            @toggleSwitch="state.formContact.is_primary_party = !state.formContact.is_primary_party"
+                            :label="$t('citizens.contacts.form.primaryParty')" />
+                        <p class="text-sm text-gray-700">{{ $t('citizens.contacts.form.primaryParty') }}</p>
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.contacts.form.primaryPartyHint') }}</p>
+                </div>
                 <div class="space-y-1 rounded-lg border border-gray-200 bg-gray-50 p-4"
                     v-if="state.formContact.title === 'case_manager'" data-testid="notify-use-of-force">
                     <div class="flex items-center gap-x-2">
@@ -331,6 +341,7 @@
 </template>
 
 <script setup lang="ts">
+import { showsPrimaryParty } from '@/composables/contactPrimaryParty'
 import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
 import { contactSubcategoriesService } from '@/components/api/user/ContactSubcategoriesService'
 import { relationshipService } from '@/components/api/user/RelationshipService'
@@ -413,6 +424,7 @@ const state = reactive({
         is_primary_gp: false,
         notify_use_of_force: false,
         is_emergency_contact: false,
+        is_primary_party: false,
         subcategories: [] as string[],
         provider_number: '',
         clinic_name: '',
@@ -532,6 +544,7 @@ onMounted(async () => {
         is_primary_gp: contact?.is_primary_gp === true,
         notify_use_of_force: contact?.notify_use_of_force === true,
         is_emergency_contact: contact?.is_emergency_contact === true,
+        is_primary_party: contact?.is_primary_party === true,
         subcategories: subcategoriesOf(contact),
         provider_number: contact?.provider_number ?? '',
         clinic_name: contact?.clinic_name ?? '',
@@ -593,6 +606,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         is_primary_gp: newValue?.is_primary_gp === true,
         notify_use_of_force: newValue?.notify_use_of_force === true,
         is_emergency_contact: newValue?.is_emergency_contact === true,
+        is_primary_party: newValue?.is_primary_party === true,
         subcategories: subcategoriesOf(newValue),
         provider_number: newValue?.provider_number ?? '',
         clinic_name: newValue?.clinic_name ?? '',

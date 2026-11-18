@@ -25,7 +25,7 @@
 
                 <div>
                     <div class="mt-8 space-y-5">
-                        <ModulesUserCitizenNursingAreasAreaOverview :citizenUuid="String(citizenUuid)" />
+                        <ModulesUserCitizenNursingAreasAreaOverview :citizenUuid="String(citizenUuid)" :key="'overview-' + overviewVersion" />
 
                         <Disclosure as="div" v-slot="{ open }" :key="'laegejournal-' + openSection"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
@@ -41,7 +41,7 @@
                             </DisclosureButton>
 
                             <DisclosurePanel as="dd" class="px-5 pb-5">
-                                <ModulesUserCitizenJournalMedicalRecordList />
+                                <ModulesUserCitizenJournalMedicalRecordList @changed="overviewVersion++" />
                             </DisclosurePanel>
                         </Disclosure>
 
@@ -175,6 +175,8 @@ const router = useRouter()
 const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const openSection = computed(() => route.query.open as string)
+// Bumped when a medical record note is saved, so the area overview reloads.
+const overviewVersion = ref(0)
 const breadcrumbLinks = [
     {
         name: 'citizens.nursingAreas.nursingProfessionalRecords',

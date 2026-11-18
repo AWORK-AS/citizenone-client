@@ -14,6 +14,7 @@
 
 
 <script setup lang="ts">
+import { primaryPartyParam } from '@/composables/contactPrimaryParty'
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -84,7 +85,7 @@ async function updateContact(contactDetails: any) {
                 chat_user_uuid: contactDetails.chat_users ?? [],
             }
         }
-        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true }
+        params = { ...params, is_emergency_contact: contactDetails.is_emergency_contact === true, ...primaryPartyParam(contactDetails) }
         if (contactDetails.title === 'case_manager') {
             params = { ...params, notify_use_of_force: contactDetails.notify_use_of_force === true }
         }

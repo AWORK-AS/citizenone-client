@@ -18,6 +18,15 @@
             </div>
         </div>
 
+        <div class="flex items-start gap-3">
+            <FormSwitch :value="state.form.email_enabled" :label="$t('inquiryRecruitment.settings.emailEnabled')"
+                @toggleSwitch="state.form.email_enabled = !state.form.email_enabled" />
+            <div>
+                <p class="text-sm text-gray-900">{{ $t('inquiryRecruitment.settings.emailEnabled') }}</p>
+                <p class="text-xs text-gray-500">{{ $t('inquiryRecruitment.settings.emailEnabledHint') }}</p>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div class="space-y-1">
                 <FormLabel for="recruitment-groups" :label="$t('inquiryRecruitment.settings.groups')" />
@@ -44,7 +53,9 @@
                         ? $t('inquiryRecruitment.settings.recipientCount', { count: state.recipientCount })
                         : $t('inquiryRecruitment.settings.nobody') }}
             </p>
-            <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="save">
+            <!-- Not while loading: the form still holds empty defaults then, and
+                 saving it would wipe the team. -->
+            <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving || state.isLoading" @click="save">
                 {{ $t('save') }}
             </FormButton>
         </div>
@@ -70,7 +81,7 @@ const tasksEnabled = computed(() => !!userStore.getUser?.company?.tasks_workflow
 
 const state = reactive({
     error: {} as Error,
-    isLoading: false,
+    isLoading: true,
     isSaving: false,
     recipientCount: 0,
     form: recruitmentFormFrom(undefined),

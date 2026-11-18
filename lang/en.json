@@ -2656,6 +2656,9 @@
                     "unsaved": "The changes to the intervention hours are not saved yet."
                 },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody AI and cannot be copied to a plan.",
+                "healthArea": "Health area",
+                "healthAreaPlaceholder": "Choose area (optional)",
+                "healthAreaHelp": "The note is shown under the area in the overview of the 12 health areas.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
@@ -2826,6 +2829,8 @@
                 "socialSecurityNumber": "CPR no.",
                 "municipality": "Municipality",
                 "emergencyContact": "Emergency contact",
+                "primaryParty": "Primary party",
+                "primaryPartyHint": "The person the case is about besides the citizen, e.g. a parent. Shown as a badge on the contact.",
                 "notifyUseOfForce": "Notify about use of force",
                 "subcategories": "Subcategory",
                 "addSubcategory": "Add new subcategory",
@@ -4231,6 +4236,8 @@
                 "nothingYet": "Nothing has been recorded in the health areas yet.",
                 "latestStatus": "Latest status",
                 "openTreatments": "{count} open treatment | {count} open treatments",
+                "medicalJournals": "{count} medical record note | {count} medical record notes",
+                "moreMedicalJournals": "+ {count} older",
                 "loadFailed": "The areas could not be loaded. Please try again."
             },
             "checklists": {
@@ -9227,6 +9234,11 @@
             "responseSuccessfullySaved": "Response successfully saved"
         },
         "citizenProfileFields": {
+            "caseNumber": "Case number",
+            "citizenAddress": "Address",
+            "responsibleMunicipality": "Responsible municipality",
+            "assessmentMunicipality": "Assessing municipality",
+            "primaryParties": "Primary party",
             "citizenBirthday": "Date of birth",
             "citizenCpr": "CPR number",
             "citizenEmail": "Email",
@@ -20060,6 +20072,8 @@
                 "title": "Special prices",
                 "hint": "This customer's own hourly rates per service type. An offer for this customer uses the special price instead of the standard price from the date it applies from. Empty administration and travel rates follow the standard price.",
                 "saveFirst": "Save the customer first to add special prices.",
+                "allDepartments": "Also for the municipality's other departments",
+                "copiedTo": "Also given to {count} other departments.",
                 "serviceType": "Service type",
                 "validFrom": "Valid from",
                 "hourlyRate": "Hourly rate",
@@ -21871,9 +21885,11 @@
         "saved": "The recruitment need has been saved",
         "settings": {
             "title": "Recruitment team",
-            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification, a push and a mail describing the work, never the person.",
+            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification and a push - and a mail, if turned on - describing the work, never the person.",
             "enabled": "Send recruitment messages",
             "enabledHint": "When off, nobody is told and no task is made. The team below is kept until you turn it on again.",
+            "emailEnabled": "Also send a mail",
+            "emailEnabledHint": "When off, the team still gets a notification and a push in the app, but no mail.",
             "groups": "Employee groups",
             "users": "Employees",
             "taskBoard": "Create a task on board",
