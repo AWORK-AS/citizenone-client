@@ -20361,6 +20361,7 @@
         "editField": "Redigera fält",
         "inactive": "Avstängt",
         "carriedBadge": "Följer med till insatsen",
+        "citizenOnlyBadge": "Endast på insatsen",
         "noFieldsInStage": "Inga fält i den här fasen.",
         "fieldCount": "{count} fält",
         "actions": {
@@ -20392,6 +20393,8 @@
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
             "carryToCitizen": "Följer med till insatsen",
             "carryToCitizenHint": "När förfrågan blir en insats sparas svaret också som ett fält på insatsen, där det kan ses och ändras senare.",
+            "citizenOnly": "Endast på insatsen",
+            "citizenOnlyHint": "Fältet visas endast på insatsen och aldrig på förfrågningar. Används till t.ex. tidsfrister, uppföljningar och återstående timmar.",
             "isActive": "Aktivt",
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",

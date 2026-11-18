@@ -20446,6 +20446,7 @@
         "editField": "Edit field",
         "inactive": "Off",
         "carriedBadge": "Carried to the case",
+        "citizenOnlyBadge": "Case only",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -20477,6 +20478,8 @@
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
             "carryToCitizen": "Carried over to the case",
             "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
+            "citizenOnly": "Only on the case",
+            "citizenOnlyHint": "The field shows only on the case, never on inquiries. For deadlines, follow-ups, hours left and the like.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
