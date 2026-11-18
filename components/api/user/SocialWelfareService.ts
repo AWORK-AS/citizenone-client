@@ -13,6 +13,11 @@ class SocialWelfareService extends BaseAPIService {
         return await this.request(`/user/social-welfare/billing-extraction`, 'GET', params)
     }
 
+    // Kontraktudtræk: every contract period as Excel or CSV, one row each
+    async downloadContractExport(params: object): Promise<Blob | null> {
+        return await this.requestBlob(`/user/social-welfare/contract-export`, 'GET', params)
+    }
+
     // The individual hour registrations behind one extraction row
     async getBillingRegistrations(params: object): Promise<any> {
         return await this.request(`/user/social-welfare/billing-extraction/registrations`, 'GET', params)
