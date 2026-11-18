@@ -83,6 +83,8 @@ async function updateJournal(journalDetails: any) {
             is_internal: journalDetails.formJournal.is_internal ?? false,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
+            // Only a medical record note carries a health area; other notes leave it out.
+            ...(props.selectedJournal?.is_medical_record ? { area_type: journalDetails.formJournal.area_type || null } : {}),
             assessment: journalDetails.formJournal.assessment,
             note: journalDetails.formJournal.note,
             risk_assessment_tags_uuid: journalDetails.formJournal.risk_assessment_tags,

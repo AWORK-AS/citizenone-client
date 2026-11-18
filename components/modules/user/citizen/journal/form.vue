@@ -60,6 +60,16 @@
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>
+                <!-- A medical record note can be filed under one of the twelve health
+                     areas, so it shows under that area in the health overview. -->
+                <div class="space-y-1" v-if="isMedicalRecordNote">
+                    <FormLabel for="area_type" :label="$t('citizens.citizenJournals.form.healthArea')" />
+                    <FormSelect id="area_type" :options="healthAreaOptions" v-model="state.formJournal.area_type"
+                        :placeholder="$t('citizens.citizenJournals.form.healthAreaPlaceholder')"
+                        :disabled="props.readonly" />
+                    <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.healthAreaHelp') }}</p>
+                    <FormError :error="props?.error?.errors?.area_type?.[0]" />
+                </div>
             </div>
             <div v-if="state.selectedJournalTitleFields.length > 0" class="space-y-3">
                 <div v-for="(field, i) in state.selectedJournalTitleFields" :key="field.uuid" class="space-y-1">
@@ -726,6 +736,7 @@ import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import type { PropType } from 'vue'
 import { useCareHourTypes } from '@/composables/careHourTypeList'
+import { careAreaOptions } from '@/composables/careAreaOptions'
 import {
     defaultHourTypeUuid, extraLineHourTypeUuid, firstLineTakesVisit, hourTypeChoices, journalCareHoursRequest, nextLineStart,
     type CareHoursLine,
@@ -763,6 +774,11 @@ const props = defineProps({
     citizenUuid: {
         type: String,
         default: null,
+    },
+    /** Opened from the Health tab's medical records (lægejournal) section. */
+    isMedicalRecord: {
+        type: Boolean,
+        default: false,
     },
     /** Written from a booking: the booking is the visit, so no visit date is asked for. */
     bookingLinked: {
@@ -802,6 +818,10 @@ const isDentalClinic = computed(() => {
 const language = useI18n()
 
 const { t } = useI18n()
+
+// Only a medical record note is filed under a health area.
+const isMedicalRecordNote = computed(() => props.isMedicalRecord || !!props.selectedJournal?.is_medical_record)
+const healthAreaOptions = computed(() => careAreaOptions(t))
 const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
@@ -883,6 +903,7 @@ const state = reactive({
         is_internal: false,
         is_visible_to_patient: false,
         is_ai_used: false,
+        area_type: null,
         assessment: null,
         note: '',
         risk_assessment_tags: [],
@@ -1517,6 +1538,7 @@ async function setFormJournalFromSelected(journal: any) {
         is_internal: journal.is_internal ?? false,
         is_visible_to_patient: journal.is_visible_to_patient ?? false,
         is_ai_used: journal.is_ai_used ?? false,
+        area_type: journal.area_type ?? null,
         assessment: journal.assessment,
         note: journal.note === null ? '' : journal.note,
         risk_assessment_tags: [],

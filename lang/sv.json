@@ -2656,6 +2656,9 @@
                     "unsaved": "Ändringarna i insatstimmarna är inte sparade ännu."
                 },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody AI och kan inte kopieras till en plan.",
+                "healthArea": "Hälsoområde",
+                "healthAreaPlaceholder": "Välj område (valfritt)",
+                "healthAreaHelp": "Anteckningen visas under området i översikten över de 12 hälsoområdena.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
@@ -4231,6 +4234,8 @@
                 "nothingYet": "Inget har registrerats inom hälsoområdena ännu.",
                 "latestStatus": "Senaste status",
                 "openTreatments": "{count} öppen behandling | {count} öppna behandlingar",
+                "medicalJournals": "{count} läkarjournalanteckning | {count} läkarjournalanteckningar",
+                "moreMedicalJournals": "+ {count} äldre",
                 "loadFailed": "Områdena kunde inte hämtas. Försök igen."
             },
             "checklists": {

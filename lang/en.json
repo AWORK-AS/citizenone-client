@@ -2656,6 +2656,9 @@
                     "unsaved": "The changes to the intervention hours are not saved yet."
                 },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody AI and cannot be copied to a plan.",
+                "healthArea": "Health area",
+                "healthAreaPlaceholder": "Choose area (optional)",
+                "healthAreaHelp": "The note is shown under the area in the overview of the 12 health areas.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
@@ -4231,6 +4234,8 @@
                 "nothingYet": "Nothing has been recorded in the health areas yet.",
                 "latestStatus": "Latest status",
                 "openTreatments": "{count} open treatment | {count} open treatments",
+                "medicalJournals": "{count} medical record note | {count} medical record notes",
+                "moreMedicalJournals": "+ {count} older",
                 "loadFailed": "The areas could not be loaded. Please try again."
             },
             "checklists": {

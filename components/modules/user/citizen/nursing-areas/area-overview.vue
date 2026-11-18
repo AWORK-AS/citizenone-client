@@ -75,6 +75,21 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <!-- Medical record notes (lægejournal) filed under this area. -->
+                        <div v-if="area.medical_journals_count" class="mt-2">
+                            <p class="text-xs font-medium text-gray-900">
+                                {{ $t('citizens.nursingAreas.areaOverview.medicalJournals', { count: area.medical_journals_count }, area.medical_journals_count) }}
+                            </p>
+                            <ul v-if="isExpanded(area.area)" class="mt-1 space-y-0.5">
+                                <li v-for="journal in area.medical_journals" :key="journal.uuid" class="text-xs text-gray-700">
+                                    {{ journal.title }}<span class="text-gray-400"> · {{ formatDateToReadable(journal.date) }}<span v-if="journal.author"> · {{ journal.author }}</span></span>
+                                </li>
+                                <li v-if="area.medical_journals_count > area.medical_journals.length" class="text-xxs text-gray-400">
+                                    {{ $t('citizens.nursingAreas.areaOverview.moreMedicalJournals', { count: area.medical_journals_count - area.medical_journals.length }) }}
+                                </li>
+                            </ul>
+                        </div>
                     </template>
                     <p v-else class="text-xs text-gray-400 mt-2">{{ $t('citizens.nursingAreas.areaOverview.empty') }}</p>
 
@@ -118,7 +133,7 @@ const state = reactive({
 const visibleAreas = computed(() => state.onlyActive ? state.areas.filter(hasContent) : state.areas)
 
 function hasContent(area: any): boolean {
-    return !!(area.assessment || area.status || area.open_treatments?.length || area.open_goals?.length)
+    return !!(area.assessment || area.status || area.open_treatments?.length || area.open_goals?.length || area.medical_journals_count)
 }
 
 function isExpanded(key: string): boolean {
