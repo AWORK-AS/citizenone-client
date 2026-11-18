@@ -983,6 +983,33 @@
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideCitizenRatesFromStaffHint') }}.</p>
                             </div>
+                            <!-- Automatic, consecutive intervention numbers (Memox 18/11, App\Support\CaseNumberSequence). -->
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.case_number_auto_enabled"
+                                        @toggleSwitch="state.formCompany.case_number_auto_enabled = !state.formCompany.case_number_auto_enabled" :label="$t('settings.company.form.caseNumberAuto')" />
+                                    <p>
+                                        {{ $t('settings.company.form.caseNumberAuto') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.caseNumberAutoHint') }}</p>
+                                <div v-if="state.formCompany.case_number_auto_enabled" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg">
+                                    <div class="space-y-1">
+                                        <FormLabel for="case_number_next" :label="$t('settings.company.form.caseNumberNext')" />
+                                        <input id="case_number_next" type="number" min="1" step="1"
+                                            v-model.number="state.formCompany.case_number_next"
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary text-sm" />
+                                        <FormError :error="state.error?.errors?.case_number_next?.[0]" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <FormLabel for="case_number_auto_from" :label="$t('settings.company.form.caseNumberFrom')" />
+                                        <FormDateField id="case_number_auto_from" name="case_number_auto_from"
+                                            :placeholder="$t('settings.company.form.caseNumberFrom')"
+                                            v-model="state.formCompany.case_number_auto_from" />
+                                        <FormError :error="state.error?.errors?.case_number_auto_from?.[0]" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.auto_ai_for_new_employees"
@@ -1460,6 +1487,9 @@ const state = reactive({
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
+        case_number_auto_enabled: false,
+        case_number_next: null as number | null,
+        case_number_auto_from: '' as string,
         auto_ai_for_new_employees: false,
         calendar_subscriptions_enabled: true,
         schedule_registers_care_hours_enabled: true,
@@ -1659,6 +1689,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
+            case_number_auto_enabled: newValue?.company?.case_number_auto_enabled === true,
+            case_number_next: newValue?.company?.case_number_next ?? null,
+            case_number_auto_from: newValue?.company?.case_number_auto_from ?? '',
             auto_ai_for_new_employees: newValue?.company?.auto_ai_for_new_employees === true,
             calendar_subscriptions_enabled: newValue?.company?.calendar_subscriptions_enabled !== false,
             schedule_registers_care_hours_enabled: newValue?.company?.schedule_registers_care_hours_enabled !== false,
@@ -1958,6 +1991,9 @@ async function submitForm() {
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
+                case_number_auto_enabled: state.formCompany.case_number_auto_enabled,
+                case_number_next: state.formCompany.case_number_next || null,
+                case_number_auto_from: state.formCompany.case_number_auto_from || null,
                 auto_ai_for_new_employees: state.formCompany.auto_ai_for_new_employees,
                 calendar_subscriptions_enabled: state.formCompany.calendar_subscriptions_enabled,
                 schedule_registers_care_hours_enabled: state.formCompany.schedule_registers_care_hours_enabled,

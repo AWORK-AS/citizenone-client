@@ -12843,7 +12843,11 @@
                 "expenseCitizenRequiredHint": "Når den er slått på, kan en utgift bare lagres med en @:terms.citizen{''}, både på web og i appen",
                 "newPrescriptionSurvey": "Spørreskjema for ny resept",
                 "newPrescriptionSurveyNone": "Ingen (knappen vises ikke)",
-                "newPrescriptionSurveyHint": "Pasienter ser \"Be om ny resept\" under Resepter. Når de trykker på den, får de dette spørreskjemaet, og svarene kommer til dere som en forespørsel."
+                "newPrescriptionSurveyHint": "Pasienter ser \"Be om ny resept\" under Resepter. Når de trykker på den, får de dette spørreskjemaet, og svarene kommer til dere som en forespørsel.",
+                "caseNumberAuto": "Tildel innsatsnummer automatisk",
+                "caseNumberAutoHint": "Nye innsatser uten innsatsnummer får automatisk neste ledige nummer fra startdatoen. Numre som allerede er brukt hoppes over, og et nummer som skrives inn manuelt beholdes.",
+                "caseNumberNext": "Neste innsatsnummer",
+                "caseNumberFrom": "Fra dato"
             }
         },
         "licenseOverview": {

@@ -12848,7 +12848,11 @@
                 "expenseCitizenRequiredHint": "Når den er slået til, kan en udgift kun gemmes med en @:terms.citizen{''}, både på web og i appen",
                 "newPrescriptionSurvey": "Spørgeskema til ny recept",
                 "newPrescriptionSurveyNone": "Intet (knappen vises ikke)",
-                "newPrescriptionSurveyHint": "Patienter ser \"Anmod om ny recept\" under Recepter. Når de trykker på den, får de dette spørgeskema, og svarene kommer til jer som en anmodning."
+                "newPrescriptionSurveyHint": "Patienter ser \"Anmod om ny recept\" under Recepter. Når de trykker på den, får de dette spørgeskema, og svarene kommer til jer som en anmodning.",
+                "caseNumberAuto": "Tildel indsatsnummer automatisk",
+                "caseNumberAutoHint": "Nye indsatser uden indsatsnummer får automatisk det næste ledige nummer fra startdatoen. Numre, der allerede er brugt, springes over, og et nummer, der skrives ind manuelt, bevares.",
+                "caseNumberNext": "Næste indsatsnummer",
+                "caseNumberFrom": "Fra dato"
             }
         },
         "licenseOverview": {
