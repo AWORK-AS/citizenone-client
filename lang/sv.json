@@ -2829,6 +2829,8 @@
                 "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
                 "emergencyContact": "Nödkontakt",
+                "primaryParty": "Huvudpart",
+                "primaryPartyHint": "Personen ärendet gäller utöver medborgaren, t.ex. en förälder. Visas som märke på kontakten.",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",
                 "addSubcategory": "Lägg till ny underkategori",
