@@ -97,5 +97,10 @@ export function usePermissions() {
         return isAtLeast('Admin') || isPlatformStaff() || userStore.getUser?.sees_hr_data === true
     }
 
-    return { isAtLeast, can, isPlatformStaff, seesHrData }
+    // "Kun se indsatstimer": the Indsatstimer overview is read-only for this user (backend decides).
+    function careHoursViewOnly(): boolean {
+        return userStore.getUser?.care_hours_view_only === true
+    }
+
+    return { isAtLeast, can, isPlatformStaff, seesHrData, careHoursViewOnly }
 }

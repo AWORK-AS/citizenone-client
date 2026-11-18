@@ -1006,7 +1006,11 @@
                 "contactPhoneTitles": "Ser kontakters telefonnummer för titlar",
                 "contactEmailTitles": "Ser kontakters e-postadresser för titlar",
                 "certificateReminderFor": "Får påminnelser om certifikat för",
-                "hrDataFor": "HR-uppgifter för"
+                "hrDataFor": "HR-uppgifter för",
+                "planNotifications": "Aviseringar om planer och mål",
+                "careHoursViewOnly": "Endast se insatstimmar",
+                "seesEmployeeNote": "Kan se anteckning på medarbetare",
+                "seesPayBank": "Kan se och ändra lön och bank"
             },
             "values": {
                 "yes": "Ja",
@@ -10373,7 +10377,11 @@
                 "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
             }
         },
-        "emptyInbox": "Din inkorg är tom"
+        "emptyInbox": "Din inkorg är tom",
+        "linkedCitizen": {
+            "label": "Kopplad",
+            "open": "Öppna insatsens e-post"
+        }
     },
     "massUnits": {
         "addNewMassUnit": "Lägg till ny masseenhed",
@@ -12243,7 +12251,18 @@
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
             "employeeGroups": "Medarbetargrupper",
-            "noEmployeeGroups": "Inga medarbetargrupper skapade än."
+            "noEmployeeGroups": "Inga medarbetargrupper skapade än.",
+            "planNotifications": "Aviseringar om planer och mål",
+            "planNotificationsAll": "Alla insatser medarbetaren kan se",
+            "planNotificationsAssigned": "Endast insatser medarbetaren är kopplad till",
+            "planNotificationsNone": "Inga",
+            "planNotificationsHelp": "Styr påminnelsen om planer, mål och delmål som har passerat sitt datum: siffran på klockan, den dagliga påminnelsen och listan. Medarbetare ser aldrig planer på insatser de inte har åtkomst till. Har en medarbetare flera roller gäller den bredaste. Administratörer får alltid alla.",
+            "careHoursViewOnly": "Endast se insatstimmar",
+            "careHoursViewOnlyHelp": "Medarbetare med den här rollen kan bara se översikten över insatstimmar. De kan inte lägga till, ändra, radera eller avvisa timmar där, och de ser inte timpris och täckningsgrad. Timmar registrerade med en journalanteckning, in-/utcheckning och körning fungerar som förut. Kryssa också i \"Endast egna insatstimmar\" om de bara ska se sina egna timmar.",
+            "seesEmployeeNote": "Kan se anteckning på medarbetare",
+            "seesEmployeeNoteHelp": "Medarbetare med den här rollen ser anteckningen på kollegor direkt på medarbetaren utan att klicka Redigera. Har rollen också HR-åtkomst begränsad till valda roller gäller samma begränsning för anteckningen. Administratörer ser den alltid.",
+            "seesPayBank": "Kan se och ändra lön och bank",
+            "seesPayBankHelp": "Medarbetare med den här rollen ser och ändrar \"Lön och bank\" (skattsedel, bank, organisationsnummer och lönesats) under HR-uppgifter för de kollegor rollens HR-åtkomst gäller. Rollen måste också kunna se HR-uppgifter. Administratörer kan alltid."
         },
         "matrix": {
             "title": "Behörighetsöversikt",
@@ -12843,7 +12862,13 @@
                 "expenseCitizenRequiredHint": "När den är påslagen kan en utgift bara sparas med en @:terms.citizen{''}, både på webben och i appen",
                 "newPrescriptionSurvey": "Enkät för nytt recept",
                 "newPrescriptionSurveyNone": "Ingen (knappen visas inte)",
-                "newPrescriptionSurveyHint": "Patienter ser \"Begär nytt recept\" under Recept. När de trycker på den får de den här enkäten, och svaren kommer till er som en förfrågan."
+                "newPrescriptionSurveyHint": "Patienter ser \"Begär nytt recept\" under Recept. När de trycker på den får de den här enkäten, och svaren kommer till er som en förfrågan.",
+                "caseNumberAuto": "Tilldela insatsnummer automatiskt",
+                "caseNumberAutoHint": "Nya insatser utan insatsnummer får automatiskt nästa lediga nummer från startdatumet. Nummer som redan används hoppas över, och ett nummer som skrivs in manuellt behålls.",
+                "caseNumberNext": "Nästa insatsnummer",
+                "caseNumberFrom": "Från datum",
+                "requestsToManager": "Förfrågningar går till närmaste chef",
+                "requestsToManagerHint": "Semester- och frånvaroförfrågningar, extratimmar och kompensationsledighet går bara till medarbetarens närmaste chef (anges under HR-uppgifter). Har medarbetaren ingen chef går de som tidigare till avdelningens administratörer."
             }
         },
         "licenseOverview": {
@@ -19423,7 +19448,22 @@
         "tabs": {
             "overview": "Översikt",
             "revenue": "Omsättning",
-            "billing": "Faktureringsunderlag"
+            "billing": "Faktureringsunderlag",
+            "contractExport": "Avtalsuttag"
+        },
+        "contractExport": {
+            "title": "Avtalsuttag",
+            "intro": "Hämta alla avtalsperioder på insatserna som en fil. Det är en rad per avtalsperiod med alla avtalets fält och insatsens fält.",
+            "period": "Period",
+            "allPeriods": "Alla avtalsperioder",
+            "periodHint": "Utan period tas alla avtalsperioder med. Med period tas de perioder med som gäller i den.",
+            "fileFormat": "Filformat",
+            "formatExcel": "Excel",
+            "formatCsv": "CSV",
+            "download": "Hämta avtalsuttag",
+            "downloading": "Hämtar …",
+            "fileName": "avtalsuttag",
+            "failed": "Avtalsuttaget kunde inte hämtas. Försök igen."
         }
     },
     "monthlySheet": {
@@ -20361,6 +20401,7 @@
         "editField": "Redigera fält",
         "inactive": "Avstängt",
         "carriedBadge": "Följer med till insatsen",
+        "citizenOnlyBadge": "Endast på insatsen",
         "noFieldsInStage": "Inga fält i den här fasen.",
         "fieldCount": "{count} fält",
         "actions": {
@@ -20392,6 +20433,8 @@
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
             "carryToCitizen": "Följer med till insatsen",
             "carryToCitizenHint": "När förfrågan blir en insats sparas svaret också som ett fält på insatsen, där det kan ses och ändras senare.",
+            "citizenOnly": "Endast på insatsen",
+            "citizenOnlyHint": "Fältet visas endast på insatsen och aldrig på förfrågningar. Används till t.ex. tidsfrister, uppföljningar och återstående timmar.",
             "isActive": "Aktivt",
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
@@ -20569,7 +20612,8 @@
             "taxCardType": "Skattekort",
             "bankRegNo": "Clearingnr",
             "bankAccountNo": "Kontonr",
-            "cvr": "CVR"
+            "cvr": "CVR",
+            "hourlyRate": "Lönesats"
         },
         "genders": {
             "female": "Kvinna",
@@ -20585,7 +20629,7 @@
         "no": "Nej",
         "unset": "Ej angivet",
         "select": "Välj",
-        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "bankAdminOnly": "Lön och bank kan bara ändras av en administratör eller en roll med åtkomst till lön och bank",
         "alert": {
             "saved": "HR-uppgifterna är sparade",
             "saveFailed": "HR-uppgifterna kunde inte sparas"

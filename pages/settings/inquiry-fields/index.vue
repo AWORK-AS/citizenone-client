@@ -66,7 +66,11 @@
                                     class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
                                     {{ $t('inquiryFields.required') }}
                                 </span>
-                                <span v-if="field.carry_to_citizen"
+                                <span v-if="field.citizen_only"
+                                    class="rounded-full bg-[#e6f4ef] px-2 py-px text-[11px] font-semibold text-[#2f7a5f]">
+                                    {{ $t('inquiryFieldSettings.citizenOnlyBadge') }}
+                                </span>
+                                <span v-else-if="field.carry_to_citizen"
                                     class="rounded-full bg-[#e6f4ef] px-2 py-px text-[11px] font-semibold text-[#2f7a5f]">
                                     {{ $t('inquiryFieldSettings.carriedBadge') }}
                                 </span>
@@ -273,6 +277,15 @@
                             <p class="text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.carryToCitizenHint') }}
                             </p>
+                            <!-- Kept only on the indsats: never asked for on an inquiry. -->
+                            <div class="flex w-fit cursor-pointer items-center gap-2"
+                                @click="toggleCitizenOnly">
+                                <FormCheckbox :value="state.form.citizen_only" />
+                                <span class="text-sm">{{ $t('inquiryFieldSettings.form.citizenOnly') }}</span>
+                            </div>
+                            <p class="text-[11px] text-gray-400">
+                                {{ $t('inquiryFieldSettings.form.citizenOnlyHint') }}
+                            </p>
                         </div>
 
                         <div class="grid grid-cols-1 gap-3 pt-2 md:grid-cols-2">
@@ -357,7 +370,14 @@ function emptyForm() {
         is_required: false,
         is_active: true,
         carry_to_citizen: false,
+        citizen_only: false,
     }
+}
+
+function toggleCitizenOnly() {
+    state.form.citizen_only = !state.form.citizen_only
+    // A field only on the indsats lives there, so it is carried.
+    if (state.form.citizen_only) state.form.carry_to_citizen = true
 }
 
 const state = reactive({
@@ -563,6 +583,7 @@ function openEdit(field: any) {
         is_required: !!field.is_required,
         is_active: !!field.is_active,
         carry_to_citizen: !!field.carry_to_citizen,
+        citizen_only: !!field.citizen_only,
     }
     state.formError = {}
     state.isFormOpen = true
@@ -580,7 +601,8 @@ function payload() {
         help_text: state.form.help_text.trim() || null,
         is_required: state.form.is_required,
         is_active: state.form.is_active,
-        carry_to_citizen: state.form.carry_to_citizen,
+        carry_to_citizen: state.form.carry_to_citizen || state.form.citizen_only,
+        citizen_only: state.form.citizen_only,
     }
 
     // The type is fixed after creation, so it is only sent when creating.

@@ -41,6 +41,9 @@ export interface EmployeeHrDetails {
     custom_fields?: EmployeeHrCustomField[]
     // Only present when the backend allows the caller to see bank data.
     can_see_bank?: boolean
+    can_write_bank?: boolean
+    // Lønsats (employee_details.hourly_rate), sent with the bank fields
+    hourly_rate?: number | null
     tax_card_type?: HrTaxCardType | null
     bank_reg_no?: string | null
     bank_account_no?: string | null
@@ -49,7 +52,7 @@ export interface EmployeeHrDetails {
 
 // A subset of the fields, written as the backend names them. A key left out is
 // unchanged and null clears it.
-export type EmployeeHrDetailsPayload = Partial<Omit<EmployeeHrDetails, 'nationality' | 'manager' | 'can_see_bank' | 'custom_fields'>> & {
+export type EmployeeHrDetailsPayload = Partial<Omit<EmployeeHrDetails, 'nationality' | 'manager' | 'can_see_bank' | 'can_write_bank' | 'custom_fields'>> & {
     nationality_country_uuid?: string | null
     manager_uuid?: string | null
     custom_fields?: { uuid: string, value: string | null }[]
