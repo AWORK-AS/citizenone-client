@@ -24,6 +24,13 @@
                         </div>
                     </template>
                 </template>
+                <template v-else-if="!isEditableCompanyFile">
+                    <div class="p-6 text-center" data-testid="edit-file-type-not-supported">
+                        <div class="inline-block rounded bg-amber-100 px-4 py-2 text-amber-800">
+                            {{ $t('drive.editFileTypeNotSupported') }}
+                        </div>
+                    </div>
+                </template>
                 <template v-else>
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesUserDocumentDocsFileForm formType="update" :selectedDocument="state.formDocument"
@@ -44,6 +51,10 @@ const isEditableOneDriveFile = computed(() => {
     const ext = props.selectedDocument?.name?.split('.')?.pop()?.toLowerCase();
     return ['txt', 'html'].includes(ext);
 });
+// The editor only round-trips Word files; saving anything else would replace the
+// original with a Word file of the editor's text.
+const isEditableCompanyFile = computed(() => ['docx', 'doc'].includes(documentExtension(props.selectedDocument)))
+import { documentExtension } from '@/composables/documentBlobViewer'
 import { useMammothConverter } from '@/composables/useMammothConverter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { useAlert } from '@/composables/alert'
@@ -91,7 +102,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
         state.formDocument.is_admin_access = props.selectedDocument?.is_admin_access ? true : false
         if (props.selectedDocument?.is_onedrive && isEditableOneDriveFile.value) {
             fetchOneDriveDocument()
-        } else if (!props.selectedDocument?.is_onedrive) {
+        } else if (!props.selectedDocument?.is_onedrive && isEditableCompanyFile.value) {
             fetchDocument()
         }
     }

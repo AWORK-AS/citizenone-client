@@ -5816,6 +5816,7 @@
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen."
         },
         "editDocument": "Rediger dokument",
+        "editFileTypeNotSupported": "Denne filtype kan ikke redigeres her. Brug Vis for at se en forhåndsvisning, eller hent originalen og åbn den på din computer.",
         "expenses": "Udgifter",
         "form": {
             "editFile": "Rediger fil",

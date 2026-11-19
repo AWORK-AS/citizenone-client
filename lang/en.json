@@ -5816,6 +5816,7 @@
             "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
         },
         "editDocument": "Edit document",
+        "editFileTypeNotSupported": "This file type can't be edited here. Use View to preview it, or download the original and open it on your computer.",
         "expenses": "Expenses",
         "form": {
             "editFile": "Edit file",
