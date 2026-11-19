@@ -139,8 +139,8 @@
                                 </time>
                                 <!-- Roadmap #303: the week number on each Monday. -->
                                 <span v-if="index % 7 === 0" class="mr-auto ml-1.5 text-[10px] font-medium text-gray-400"
-                                    :title="$t('calendar.weekNumber', { week: isoWeek(day.date) })">
-                                    {{ $t('calendar.weekShort', { week: isoWeek(day.date) }) }}
+                                    :title="$t('calendar.weekNumber', { week: isoWeekOf(day.date) })">
+                                    {{ $t('calendar.weekShort', { week: isoWeekOf(day.date) }) }}
                                 </span>
                                 <Icon name="ph:plus"
                                     class="h-3.5 w-3.5 text-gray-300 opacity-0 transition-opacity group-hover/day:opacity-100" />
@@ -603,10 +603,6 @@ const props = defineProps({
 })
 const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'viewEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const today = moment()
-
-function isoWeek(date: string): number {
-    return moment(date).isoWeek()
-}
 
 const state = reactive({
     currentMonth: today.month(),

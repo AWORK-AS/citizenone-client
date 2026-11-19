@@ -17,6 +17,10 @@
                 <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                 {{ year }}
             </h3>
+            <!-- Roadmap #303: the week number, as in my calendar. -->
+            <span class="rounded-md bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600" data-testid="week-number-badge">
+                {{ $t('calendar.weekNumber', { week: isoWeekNumber }) }}
+            </span>
             <span v-if="weekCount" class="text-sm text-gray-400">
                 {{ weekCount === 1 ? $t('calendar.view.oneEvent') : $t('calendar.view.eventsCount', { count: weekCount }) }}
             </span>
@@ -231,6 +235,7 @@ function openCreateJournal(myCalendarEvent: any) {
 
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
+const isoWeekNumber = computed(() => isoWeekOf(currentDate.value))
 
 const weekDays = computed(() => {
     const startOfWeek = moment(currentDate.value).startOf('isoWeek')
