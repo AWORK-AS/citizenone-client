@@ -298,7 +298,7 @@ const userStore = useUserStore() as any
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
 
-const isoWeekNumber = computed(() => moment(state.selectedDate).isoWeek())
+const isoWeekNumber = computed(() => isoWeekOf(state.selectedDate))
 
 const state = reactive({
     modal: {

@@ -3,6 +3,8 @@
         <Modal size="md" :title="$t('employees.documents.editDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesUserEmployeeDocumentBoxMoveFolder :currentType="props.selectedEmployeeDocument?.file_type"
+                        v-model:fileType="state.moveTo" v-model:issuedAt="state.moveIssuedAt" />
                     <ModulesUserEmployeeDocumentBoxForm formType="update" :dateField="props.dateField"
                         :dateLabel="props.dateLabel" :dateHelp="props.dateHelp"
                         :selectedEmployeeDocument="props.selectedEmployeeDocument" :error="state.error"
@@ -53,10 +55,14 @@ const emit = defineEmits(['close', 'refreshEmployeeDocuments'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false
+    isPageLoading: false,
+    moveTo: '',
+    moveIssuedAt: '',
 })
 
 function closeModal() {
+    state.moveTo = ''
+    state.moveIssuedAt = ''
     emit('close')
 }
 
@@ -75,6 +81,10 @@ async function updateEmployeeDocument(employeeDocumentDetails: any) {
         }
         if (props.dateField) {
             params[props.dateField] = employeeDocumentDetails.date || ''
+        }
+        // Moved to another folder, with the date obtained when one is given.
+        if (state.moveTo && state.moveTo !== props.selectedEmployeeDocument?.file_type) {
+            Object.assign(params, { file_type: state.moveTo }, state.moveIssuedAt ? { issued_at: state.moveIssuedAt } : {})
         }
         const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
         if (response.data) {
