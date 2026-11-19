@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "This document contains essential personnel records, including employment contracts, criminal records, and child protection certificates, to ensure compliance and safety",
             "driversLicense": "Drivers License",
             "editDocument": "Edit document",
+            "moveFolder": {
+                "folder": "Folder",
+                "issuedAtHelp": "Only used when the document is moved. The expiry date is worked out from this date."
+            },
             "employmentContracts": "Employment contracts",
             "signature": {
                 "column": "Signature",
@@ -10355,9 +10359,23 @@
                 "title": "Choose your email provider",
                 "hint": "Fills in servers, ports and encryption. The username is almost always your full email address."
             },
-            "help": {
+            "hint": {
                 "smtpHost": "The server that sends mail, e.g. smtp.gmail.com. Your provider's help pages list it.",
                 "smtpPort": "Usually 587 (TLS) or 465 (SSL)."
+            },
+            "help": {
+                "smtpHost": "The server that sends your mail, e.g. smtp.gmail.com. Find it in your email provider's help pages under “SMTP settings”, or in your mail program (Outlook: File → Account settings → Server settings).",
+                "smtpPort": "Usually 587 (with TLS) or 465 (with SSL). Use what your provider lists.",
+                "smtpUsername": "Almost always your full email address.",
+                "smtpPassword": "The password for your email account. Gmail and Microsoft accounts with two-step login need an app password (see the guide below).",
+                "smtpEncryption": "TLS for port 587, SSL for port 465.",
+                "imapHost": "The server that receives your mail, e.g. imap.gmail.com. It is listed next to the SMTP settings.",
+                "imapPort": "Usually 993 (SSL).",
+                "imapUsername": "Normally the same as for SMTP.",
+                "imapPassword": "Normally the same as for SMTP.",
+                "imapEncryption": "Usually SSL for port 993.",
+                "findSettings": "Don't know your settings? Pick your provider below, search the web for “your provider SMTP settings”, or ask whoever manages your email.",
+                "ariaLabel": "Help: {field}"
             },
             "smtpHost": "SMTP Host",
             "smtpPassword": "SMTP Password",
@@ -10375,6 +10393,15 @@
                 "step6Username": "Username: your full Gmail address (you(at)gmail.com)",
                 "step6Password": "Password: the 16-character app password (without spaces)",
                 "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
+            },
+            "microsoftGuide": {
+                "title": "Using Outlook or Microsoft 365? You may need an app password",
+                "intro": "Microsoft is moving away from regular passwords for mail programs. The easiest way is the “Login via Microsoft” button on the previous screen. To use your email and password here instead:",
+                "step1": "Make sure two-step verification is turned on for your Microsoft account.",
+                "step2": "Go to your Microsoft account's security settings → Advanced security options → App passwords.",
+                "step3": "Choose “Create a new app password” and copy the password Microsoft shows (you only see it once).",
+                "step4": "Enter your full email address as username and the app password as password here.",
+                "workAccountNote": "Work or school account? Your IT administrator must allow app passwords and SMTP sign-in. If it does not work, ask them or use “Login via Microsoft”."
             }
         },
         "emptyInbox": "Your inbox is empty",
@@ -12681,6 +12708,8 @@
                 "calendarEventsOwnerOnlyHint": "Colleagues still see each other's events, but only the person who created it, its owner and the invitees can edit, delete, cancel or mark it. Managers, Admins and roles with the right \"Manage colleagues' calendar events\" always can",
                 "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",
                 "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
+                "matchRequiredDocuments": "Documents that must be in order before a match",
+                "matchRequiredDocumentsHint": "A document left unticked still shows as missing in the personnel file, but does not stop a match",
                 "hidePatientFormsTab": "Hide the \"Patient forms\" tab",
                 "hidePatientFormsTabHint": "The tab is hidden on every citizen for the whole company",
                 "groupMedicine": "Medicine",

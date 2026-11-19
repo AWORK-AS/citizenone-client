@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "Dette dokument indeholder essentielle personaleoplysninger, herunder ansættelseskontrakter, strafferegistre og børnebeskyttelsescertifikater, for at sikre overholdelse og sikkerhet",
             "driversLicense": "Kørekort",
             "editDocument": "Rediger dokument",
+            "moveFolder": {
+                "folder": "Mappe",
+                "issuedAtHelp": "Gjelder bare når dokumentet flyttes. Utløpsdatoen regnes ut fra denne datoen."
+            },
             "employmentContracts": "Ansættelseskontrakter",
             "signature": {
                 "column": "Signatur",
@@ -10355,9 +10359,23 @@
                 "title": "Velg e-postleverandør",
                 "hint": "Fyller inn servere, porter og kryptering. Brukernavnet er nesten alltid hele e-postadressen."
             },
-            "help": {
+            "hint": {
                 "smtpHost": "Serveren som sender e-post, f.eks. smtp.gmail.com. Står i leverandørens hjelp.",
                 "smtpPort": "Vanligvis 587 (TLS) eller 465 (SSL)."
+            },
+            "help": {
+                "smtpHost": "Serveren som sender e-posten din, f.eks. smtp.gmail.com. Du finner den i e-postleverandørens hjelp under «SMTP-innstillinger», eller i e-postprogrammet ditt (Outlook: Fil → Kontoinnstillinger → Serverinnstillinger).",
+                "smtpPort": "Vanligvis 587 (med TLS) eller 465 (med SSL). Bruk det leverandøren oppgir.",
+                "smtpUsername": "Nesten alltid din fullstendige e-postadresse.",
+                "smtpPassword": "Passordet til e-postkontoen din. Gmail- og Microsoft-kontoer med totrinnspålogging trenger et apppassord (se veiledningen nedenfor).",
+                "smtpEncryption": "TLS for port 587, SSL for port 465.",
+                "imapHost": "Serveren som mottar e-posten din, f.eks. imap.gmail.com. Den står ved siden av SMTP-innstillingene.",
+                "imapPort": "Vanligvis 993 (SSL).",
+                "imapUsername": "Vanligvis det samme som for SMTP.",
+                "imapPassword": "Vanligvis det samme som for SMTP.",
+                "imapEncryption": "Vanligvis SSL for port 993.",
+                "findSettings": "Vet du ikke innstillingene dine? Velg e-postleverandøren din nedenfor, søk på nettet etter «din leverandør SMTP-innstillinger», eller spør den som administrerer e-posten din.",
+                "ariaLabel": "Hjelp: {field}"
             },
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP passord",
@@ -10375,6 +10393,15 @@
                 "step6Username": "@.capitalize:terms.citizen{'navn'}: din fulle Gmail-adresse (deg(at)gmail.com)",
                 "step6Password": "Passord: apppassordet med 16 tegn (uten mellomrom)",
                 "oauthNote": "Merk: XOAUTH2 krever en fullstendig OAuth2-flyt med tilgangstokens og støttes ikke her. Apppassord er riktig tilnærming for denne integrasjonen."
+            },
+            "microsoftGuide": {
+                "title": "Bruker du Outlook eller Microsoft 365? Du trenger kanskje et apppassord",
+                "intro": "Microsoft fases ut vanlige passord for e-postprogrammer. Enklest er knappen «Logg inn via Microsoft» på forrige skjermbilde. Slik bruker du i stedet e-post og passord her:",
+                "step1": "Sørg for at totrinnsverifisering er slått på for Microsoft-kontoen din.",
+                "step2": "Gå til sikkerhetsinnstillingene for Microsoft-kontoen din → Avanserte sikkerhetsalternativer → Apppassord.",
+                "step3": "Velg «Opprett et nytt apppassord», og kopier passordet Microsoft viser (du ser det bare én gang).",
+                "step4": "Skriv inn din fullstendige e-postadresse som brukernavn og apppassordet som passord her.",
+                "workAccountNote": "Jobb- eller skolekonto? IT-administratoren din må tillate apppassord og SMTP-pålogging. Fungerer det ikke, spør vedkommende, eller bruk «Logg inn via Microsoft»."
             }
         },
         "emptyInbox": "Innboksen din er tom",
@@ -12676,6 +12703,8 @@
                 "calendarEventsOwnerOnlyHint": "Kolleger ser fortsatt hverandres arrangementer, men bare den som opprettet det, eieren og de inviterte kan redigere, slette, avlyse eller markere det. Ledere, administratorer og roller med rettigheten \"Administrer kollegers kalenderarrangementer\" kan alltid",
                 "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",
                 "matchIncludesDoNotContactHint": "Bare konsulenter med en fratredelsesdato utelates. De vises med status og kan ikke spørres",
+                "matchRequiredDocuments": "Dokumenter som må være i orden før match",
+                "matchRequiredDocumentsHint": "Et dokument uten hake vises fortsatt som manglende i personalmappen, men hindrer ikke en match",
                 "hidePatientFormsTab": "Skjul fanen \"Skjemaer til pasienten\"",
                 "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheten",
                 "groupMedicine": "Medisin",

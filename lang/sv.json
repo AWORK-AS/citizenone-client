@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "Detta dokument innehåller essentielle personaleoplysninger, herunder ansättelseskontrakter, strafferegistre och börnebeskyttelsescertifikater, för att sikre overholdelse och sikkerhed",
             "driversLicense": "Körekort",
             "editDocument": "Redigera dokument",
+            "moveFolder": {
+                "folder": "Mapp",
+                "issuedAtHelp": "Gäller bara när dokumentet flyttas. Utgångsdatumet räknas ut från detta datum."
+            },
             "employmentContracts": "Ansättelseskontrakter",
             "signature": {
                 "column": "Underskrift",
@@ -10355,9 +10359,23 @@
                 "title": "Välj din e-postleverantör",
                 "hint": "Fyller i servrar, portar och kryptering. Användarnamnet är nästan alltid hela e-postadressen."
             },
-            "help": {
+            "hint": {
                 "smtpHost": "Servern som skickar e-post, t.ex. smtp.gmail.com. Står i leverantörens hjälp.",
                 "smtpPort": "Vanligtvis 587 (TLS) eller 465 (SSL)."
+            },
+            "help": {
+                "smtpHost": "Servern som skickar din e-post, t.ex. smtp.gmail.com. Du hittar den i e-postleverantörens hjälp under ”SMTP-inställningar” eller i ditt e-postprogram (Outlook: Arkiv → Kontoinställningar → Serverinställningar).",
+                "smtpPort": "Vanligtvis 587 (med TLS) eller 465 (med SSL). Använd det din leverantör anger.",
+                "smtpUsername": "Nästan alltid din fullständiga e-postadress.",
+                "smtpPassword": "Lösenordet till ditt e-postkonto. Gmail- och Microsoft-konton med tvåstegsverifiering behöver ett applösenord (se guiden nedan).",
+                "smtpEncryption": "TLS för port 587, SSL för port 465.",
+                "imapHost": "Servern som tar emot din e-post, t.ex. imap.gmail.com. Den står bredvid SMTP-inställningarna.",
+                "imapPort": "Vanligtvis 993 (SSL).",
+                "imapUsername": "Oftast samma som för SMTP.",
+                "imapPassword": "Oftast samma som för SMTP.",
+                "imapEncryption": "Vanligtvis SSL för port 993.",
+                "findSettings": "Vet du inte dina inställningar? Välj din e-postleverantör nedan, sök på nätet efter ”din leverantör SMTP-inställningar” eller fråga den som hanterar din e-post.",
+                "ariaLabel": "Hjälp: {field}"
             },
             "smtpHost": "SMTP värt",
             "smtpPassword": "SMTP lösenord",
@@ -10375,6 +10393,15 @@
                 "step6Username": "Användarnamn: din fullständiga Gmail-adress (du(at)gmail.com)",
                 "step6Password": "Lösenord: det 16-teckens applösenordet (utan mellanslag)",
                 "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
+            },
+            "microsoftGuide": {
+                "title": "Använder du Outlook eller Microsoft 365? Du kan behöva ett applösenord",
+                "intro": "Microsoft fasar ut vanliga lösenord för e-postprogram. Enklast är knappen ”Logga in via Microsoft” på föregående skärm. Så här använder du i stället e-post och lösenord här:",
+                "step1": "Se till att tvåstegsverifiering är aktiverad för ditt Microsoft-konto.",
+                "step2": "Gå till säkerhetsinställningarna för ditt Microsoft-konto → Avancerade säkerhetsalternativ → Applösenord.",
+                "step3": "Välj ”Skapa ett nytt applösenord” och kopiera lösenordet som Microsoft visar (du ser det bara en gång).",
+                "step4": "Ange din fullständiga e-postadress som användarnamn och applösenordet som lösenord här.",
+                "workAccountNote": "Jobb- eller skolkonto? Din IT-administratör måste tillåta applösenord och SMTP-inloggning. Fungerar det inte, fråga dem eller använd ”Logga in via Microsoft”."
             }
         },
         "emptyInbox": "Din inkorg är tom",
@@ -12676,6 +12703,8 @@
                 "calendarEventsOwnerOnlyHint": "Kollegor ser fortfarande varandras händelser, men bara den som skapade den, ägaren och de inbjudna kan redigera, ta bort, ställa in eller markera den. Chefer, administratörer och roller med rättigheten \"Hantera kollegors kalenderhändelser\" kan alltid",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
                 "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
+                "matchRequiredDocuments": "Dokument som måste vara i ordning före matchning",
+                "matchRequiredDocumentsHint": "Ett dokument utan bock visas fortfarande som saknat i personalakten, men hindrar inte en matchning",
                 "hidePatientFormsTab": "Dölj fliken \"Formulär till patienten\"",
                 "hidePatientFormsTabHint": "Fliken döljs på alla medborgare för hela företaget",
                 "groupMedicine": "Läkemedel",
