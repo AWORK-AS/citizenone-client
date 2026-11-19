@@ -34,7 +34,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="mt-4 grid grid-cols-7 text-[11px] font-semibold uppercase tracking-wide leading-6 text-gray-400">
+                    <div class="mt-4 grid grid-cols-[1.75rem_repeat(7,minmax(0,1fr))] text-[11px] font-semibold uppercase tracking-wide leading-6 text-gray-400">
+                        <div aria-hidden="true"></div>
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Monday') }}</div>
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Tuesday') }}</div>
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Wednesday') }}</div>
@@ -43,8 +44,14 @@
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Saturday') }}</div>
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Sunday') }}</div>
                     </div>
-                    <div class="mt-1 grid grid-cols-7 text-sm">
-                        <div v-for="(day, dayIdx) in days" :key="day.date" class="py-0.5" @click="selectDay(day)">
+                    <div class="mt-1 grid grid-cols-[1.75rem_repeat(7,minmax(0,1fr))] text-sm">
+                        <template v-for="(day, dayIdx) in days" :key="day.date">
+                        <!-- Roadmap #303: the week number in front of each week. -->
+                        <div v-if="dayIdx % 7 === 0" class="flex items-center justify-center text-[10px] font-medium text-gray-400"
+                            data-testid="mini-week-number" :title="$t('calendar.weekNumber', { week: isoWeekOf(day.date) })">
+                            {{ $t('calendar.weekShort', { week: isoWeekOf(day.date) }) }}
+                        </div>
+                        <div class="py-0.5" @click="selectDay(day)">
                             <button type="button" :class="[
                                 day.isSelected && day.isToday && 'bg-tertiary text-white',
                                 day.isSelected && !day.isToday && 'bg-primary text-white',
@@ -61,6 +68,7 @@
                                     v-if="hasSchedule(day)" />
                             </button>
                         </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -72,6 +80,10 @@
                         <h3 class="text-lg font-semibold tracking-tight text-gray-900">
                             {{ formatDateToReadable(state.selectedDate) }}
                         </h3>
+                        <!-- Roadmap #303: the week number, as in my calendar. -->
+                        <span class="rounded-md bg-gray-100 px-2 py-0.5 text-sm font-medium text-gray-600" data-testid="week-number-badge">
+                            {{ $t('calendar.weekNumber', { week: isoWeekNumber }) }}
+                        </span>
                         <span v-if="state.filteredSchedules.length" class="text-sm text-gray-400">
                             {{ state.filteredSchedules.length === 1 ? $t('calendar.view.oneEvent') : $t('calendar.view.eventsCount', { count: state.filteredSchedules.length }) }}
                         </span>
@@ -127,6 +139,7 @@ const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))
 const year = ref(currentMonth.value.format('YYYY'))
 const days = ref(generateDays(currentMonth.value))
+const isoWeekNumber = computed(() => isoWeekOf(state.selectedDate))
 
 const state = reactive({
     filteredSchedules: [] as any,
