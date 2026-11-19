@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "Detta dokument innehåller essentielle personaleoplysninger, herunder ansättelseskontrakter, strafferegistre och börnebeskyttelsescertifikater, för att sikre overholdelse och sikkerhed",
             "driversLicense": "Körekort",
             "editDocument": "Redigera dokument",
+            "moveFolder": {
+                "folder": "Mapp",
+                "issuedAtHelp": "Gäller bara när dokumentet flyttas. Utgångsdatumet räknas ut från detta datum."
+            },
             "employmentContracts": "Ansättelseskontrakter",
             "signature": {
                 "column": "Underskrift",
@@ -12699,6 +12703,8 @@
                 "calendarEventsOwnerOnlyHint": "Kollegor ser fortfarande varandras händelser, men bara den som skapade den, ägaren och de inbjudna kan redigera, ta bort, ställa in eller markera den. Chefer, administratörer och roller med rättigheten \"Hantera kollegors kalenderhändelser\" kan alltid",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
                 "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
+                "matchRequiredDocuments": "Dokument som måste vara i ordning före matchning",
+                "matchRequiredDocumentsHint": "Ett dokument utan bock visas fortfarande som saknat i personalakten, men hindrar inte en matchning",
                 "hidePatientFormsTab": "Dölj fliken \"Formulär till patienten\"",
                 "hidePatientFormsTabHint": "Fliken döljs på alla medborgare för hela företaget",
                 "groupMedicine": "Läkemedel",

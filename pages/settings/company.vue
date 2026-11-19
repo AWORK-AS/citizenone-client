@@ -1072,6 +1072,18 @@
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.matchIncludesDoNotContactHint') }}.</p>
                             </div>
+                            <!-- The documents that hold a consultant's match up. One left out still shows as missing. -->
+                            <div class="space-y-1">
+                                <p>{{ $t('settings.company.form.matchRequiredDocuments') }}</p>
+                                <div class="flex flex-wrap gap-x-4 gap-y-1">
+                                    <div v-for="type in matchDocumentTypes" :key="type" class="flex cursor-pointer items-center gap-2"
+                                        @click="toggleMatchDocument(type)">
+                                        <FormCheckbox :value="state.formCompany.match_required_documents.includes(type)" />
+                                        <span class="text-sm">{{ $t(`consultantProfile.documentTypes.${type}`) }}</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.matchRequiredDocumentsHint') }}.</p>
+                            </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.patient_forms_tab_hidden"
@@ -1437,6 +1449,14 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
+// The documents that can hold a consultant's match up (ConsultantReadiness::MATCH_DOCUMENTS).
+const matchDocumentTypes = ['child_protection_certificate', 'cv', 'education', 'employment_contract', 'drivers_license']
+
+function toggleMatchDocument(type: string) {
+    const chosen = state.formCompany.match_required_documents
+    state.formCompany.match_required_documents = chosen.includes(type) ? chosen.filter((t: string) => t !== type) : [...chosen, type]
+}
+
 const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.care_hour_payroll_lock_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.requests_to_manager_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.registration_mileage_per_indsats_enabled, state.formCompany.expense_citizen_required_enabled, state.formCompany.epikrise_enabled, state.formCompany.treatment_photos_enabled, state.formCompany.auto_ai_for_new_employees])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
@@ -1508,6 +1528,7 @@ const state = reactive({
         schedule_registers_care_hours_enabled: true,
         calendar_events_owner_only: false,
         match_includes_do_not_contact: false,
+        match_required_documents: [...matchDocumentTypes] as string[],
         patient_forms_tab_hidden: false,
         ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, false])) as Record<(typeof APP_HIDDEN_SWITCHES)[number]['key'], boolean>,
         medicine_stats_hidden: false,
@@ -1711,6 +1732,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             schedule_registers_care_hours_enabled: newValue?.company?.schedule_registers_care_hours_enabled !== false,
             calendar_events_owner_only: newValue?.company?.calendar_events_owner_only === true,
             match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
+            match_required_documents: Array.isArray(newValue?.company?.match_required_documents) ? [...newValue.company.match_required_documents] : [...matchDocumentTypes],
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
             ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, newValue?.company?.[item.key] === true])),
             medicine_stats_hidden: newValue?.company?.medicine_stats_hidden === true,
@@ -2014,6 +2036,7 @@ async function submitForm() {
                 schedule_registers_care_hours_enabled: state.formCompany.schedule_registers_care_hours_enabled,
                 calendar_events_owner_only: state.formCompany.calendar_events_owner_only,
                 match_includes_do_not_contact: state.formCompany.match_includes_do_not_contact,
+                match_required_documents: state.formCompany.match_required_documents,
                 patient_forms_tab_hidden: state.formCompany.patient_forms_tab_hidden,
                 ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, state.formCompany[item.key]])),
                 medicine_stats_hidden: state.formCompany.medicine_stats_hidden,

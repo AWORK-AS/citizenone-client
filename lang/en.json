@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "This document contains essential personnel records, including employment contracts, criminal records, and child protection certificates, to ensure compliance and safety",
             "driversLicense": "Drivers License",
             "editDocument": "Edit document",
+            "moveFolder": {
+                "folder": "Folder",
+                "issuedAtHelp": "Only used when the document is moved. The expiry date is worked out from this date."
+            },
             "employmentContracts": "Employment contracts",
             "signature": {
                 "column": "Signature",
@@ -12704,6 +12708,8 @@
                 "calendarEventsOwnerOnlyHint": "Colleagues still see each other's events, but only the person who created it, its owner and the invitees can edit, delete, cancel or mark it. Managers, Admins and roles with the right \"Manage colleagues' calendar events\" always can",
                 "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",
                 "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
+                "matchRequiredDocuments": "Documents that must be in order before a match",
+                "matchRequiredDocumentsHint": "A document left unticked still shows as missing in the personnel file, but does not stop a match",
                 "hidePatientFormsTab": "Hide the \"Patient forms\" tab",
                 "hidePatientFormsTabHint": "The tab is hidden on every citizen for the whole company",
                 "groupMedicine": "Medicine",

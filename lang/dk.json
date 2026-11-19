@@ -8254,6 +8254,10 @@
             "documentsShortDescription": "Dette dokument indeholder essentielle personaleoplysninger, herunder ansættelseskontrakter, strafferegistre og børnebeskyttelsescertifikater, for at sikre overholdelse og sikkerhed",
             "driversLicense": "Kørekort",
             "editDocument": "Rediger dokument",
+            "moveFolder": {
+                "folder": "Mappe",
+                "issuedAtHelp": "Gælder kun, når dokumentet flyttes. Udløbsdatoen regnes ud fra denne dato."
+            },
             "employmentContracts": "Ansættelseskontrakter",
             "signature": {
                 "column": "Underskrift",
@@ -12704,6 +12708,8 @@
                 "calendarEventsOwnerOnlyHint": "Kolleger kan stadig se hinandens begivenheder, men kun den, der har oprettet den, ejeren og de inviterede kan redigere, slette, aflyse eller markere den. Ledere, administratorer og roller med rettigheden \"Administrer kollegers kalenderbegivenheder\" kan altid",
                 "matchIncludesDoNotContact": "Vis også konsulenter, der ikke må kontaktes, i konsulentmatch",
                 "matchIncludesDoNotContactHint": "Kun konsulenter med en fratrædelsesdato udelades. De vises med deres status og kan ikke spørges",
+                "matchRequiredDocuments": "Dokumenter der skal være i orden før match",
+                "matchRequiredDocumentsHint": "Et dokument uden flueben vises stadig som manglende i personalemappen, men forhindrer ikke et match",
                 "hidePatientFormsTab": "Skjul fanen \"Formularer til patienten\"",
                 "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheden",
                 "groupMedicine": "Medicin",
