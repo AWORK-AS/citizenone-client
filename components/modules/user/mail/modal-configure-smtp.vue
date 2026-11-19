@@ -6,6 +6,7 @@
                     <form @submit.prevent="submitForm()" id="formConfigureSMTP">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
+                        <p class="mb-3 text-xs text-gray-600">{{ $t('mail.settings.help.findSettings') }}</p>
                         <!-- Roadmap #260: most people don't know their server names. One click fills them in. -->
                         <div class="mb-4 space-y-2 rounded-lg border border-gray-200 bg-gray-50 p-3">
                             <p class="text-xs font-medium text-gray-700">{{ $t('mail.settings.providers.title') }}</p>
@@ -21,23 +22,29 @@
                         </div>
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="smtp_host" :label="$t('mail.settings.smtpHost')" />
+                                <FormLabelWithHelp for="smtp_host" :label="$t('mail.settings.smtpHost')"
+                                    :help="$t('mail.settings.help.smtpHost')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.smtpHost') })" />
                                 <FormTextField id="smtp_host" name="smtp_host"
                                     :placeholder="$t('mail.settings.smtpHost')" v-model="state.formEmail.smtp_host" />
-                                <p class="text-xs text-gray-500">{{ $t('mail.settings.help.smtpHost') }}</p>
+                                <p class="text-xs text-gray-500">{{ $t('mail.settings.hint.smtpHost') }}</p>
                                 <FormError :error="v$?.formEmail?.smtp_host?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_host?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="smtp_port" :label="$t('mail.settings.smtpPort')" />
+                                <FormLabelWithHelp for="smtp_port" :label="$t('mail.settings.smtpPort')"
+                                    :help="$t('mail.settings.help.smtpPort')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.smtpPort') })" />
                                 <FormTextField id="smtp_port" name="smtp_port"
                                     :placeholder="$t('mail.settings.smtpPort')" v-model="state.formEmail.smtp_port" />
-                                <p class="text-xs text-gray-500">{{ $t('mail.settings.help.smtpPort') }}</p>
+                                <p class="text-xs text-gray-500">{{ $t('mail.settings.hint.smtpPort') }}</p>
                                 <FormError :error="v$?.formEmail?.smtp_port?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_port?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="smtp_username" :label="$t('mail.settings.smtpUsername')" />
+                                <FormLabelWithHelp for="smtp_username" :label="$t('mail.settings.smtpUsername')"
+                                    :help="$t('mail.settings.help.smtpUsername')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.smtpUsername') })" />
                                 <FormTextField id="smtp_username" name="smtp_username"
                                     :placeholder="$t('mail.settings.smtpUsername')"
                                     v-model="state.formEmail.smtp_username" />
@@ -45,7 +52,9 @@
                                 <FormError :error="state?.error?.errors?.smtp_username?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="smtp_password" :label="$t('mail.settings.smtpPassword')" />
+                                <FormLabelWithHelp for="smtp_password" :label="$t('mail.settings.smtpPassword')"
+                                    :help="$t('mail.settings.help.smtpPassword')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.smtpPassword') })" />
                                 <FormPasswordField id="smtp_password" name="smtp_password"
                                     :placeholder="$t('mail.settings.smtpPassword')"
                                     v-model="state.formEmail.smtp_password" />
@@ -53,28 +62,36 @@
                                 <FormError :error="state?.error?.errors?.smtp_password?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="smtp_encryption" :label="$t('mail.settings.smtpEncryption')" />
+                                <FormLabelWithHelp for="smtp_encryption" :label="$t('mail.settings.smtpEncryption')"
+                                    :help="$t('mail.settings.help.smtpEncryption')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.smtpEncryption') })" />
                                 <FormSelect id="smtp_encryption" :options="encryptionOptions"
                                     v-model="state.formEmail.smtp_encryption" />
                                 <FormError :error="v$?.formEmail?.smtp_encryption?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_encryption?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="imap_host" :label="$t('mail.settings.imapHost')" />
+                                <FormLabelWithHelp for="imap_host" :label="$t('mail.settings.imapHost')"
+                                    :help="$t('mail.settings.help.imapHost')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.imapHost') })" />
                                 <FormTextField id="imap_host" name="imap_host"
                                     :placeholder="$t('mail.settings.imapHost')" v-model="state.formEmail.imap_host" />
                                 <FormError :error="v$?.formEmail?.imap_host?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.imap_host?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="imap_port" :label="$t('mail.settings.imapPort')" />
+                                <FormLabelWithHelp for="imap_port" :label="$t('mail.settings.imapPort')"
+                                    :help="$t('mail.settings.help.imapPort')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.imapPort') })" />
                                 <FormTextField id="imap_port" name="imap_port"
                                     :placeholder="$t('mail.settings.imapPort')" v-model="state.formEmail.imap_port" />
                                 <FormError :error="v$?.formEmail?.imap_port?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.imap_port?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="imap_username" :label="$t('mail.settings.imapUsername')" />
+                                <FormLabelWithHelp for="imap_username" :label="$t('mail.settings.imapUsername')"
+                                    :help="$t('mail.settings.help.imapUsername')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.imapUsername') })" />
                                 <FormTextField id="imap_username" name="imap_username"
                                     :placeholder="$t('mail.settings.imapUsername')"
                                     v-model="state.formEmail.imap_username" />
@@ -82,7 +99,9 @@
                                 <FormError :error="state?.error?.errors?.imap_username?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="imap_password" :label="$t('mail.settings.imapPassword')" />
+                                <FormLabelWithHelp for="imap_password" :label="$t('mail.settings.imapPassword')"
+                                    :help="$t('mail.settings.help.imapPassword')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.imapPassword') })" />
                                 <FormPasswordField id="imap_password" name="imap_password"
                                     :placeholder="$t('mail.settings.imapPassword')"
                                     v-model="state.formEmail.imap_password" />
@@ -90,7 +109,9 @@
                                 <FormError :error="state?.error?.errors?.imap_password?.[0]" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="imap_encryption" :label="$t('mail.settings.portEncryption')" />
+                                <FormLabelWithHelp for="imap_encryption" :label="$t('mail.settings.portEncryption')"
+                                    :help="$t('mail.settings.help.imapEncryption')"
+                                    :helpLabel="$t('mail.settings.help.ariaLabel', { field: $t('mail.settings.portEncryption') })" />
                                 <FormSelect id="imap_encryption" :options="encryptionOptions"
                                     v-model="state.formEmail.imap_encryption" />
                                 <FormError :error="v$?.formEmail?.imap_encryption?.$errors[0]?.$message.toString()" />
@@ -138,6 +159,39 @@
                             </div>
                         </div>
 
+                        <!-- Outlook / Microsoft 365 app password guide -->
+                        <div class="mt-4 border border-[#DEECF9] rounded-xl overflow-hidden">
+                            <button type="button"
+                                class="w-full flex items-center justify-between px-4 py-3 bg-[#F0F6FD] text-left"
+                                @click="state.isMicrosoftGuideOpen = !state.isMicrosoftGuideOpen">
+                                <div class="flex items-center gap-2">
+                                    <Icon name="ph:microsoft-outlook-logo" class="w-4 h-4 text-[#0078D4]" />
+                                    <span class="text-[13px] font-medium text-[#0078D4]">
+                                        {{ $t('mail.settings.microsoftGuide.title') }}
+                                    </span>
+                                </div>
+                                <Icon :name="state.isMicrosoftGuideOpen ? 'ph:caret-up' : 'ph:caret-down'"
+                                    class="w-4 h-4 text-[#0078D4]" />
+                            </button>
+                            <div v-show="state.isMicrosoftGuideOpen"
+                                class="px-4 py-3 bg-white space-y-3 text-[13px] text-[#374151]">
+                                <p>{{ $t('mail.settings.microsoftGuide.intro') }}</p>
+                                <ol class="space-y-1.5 list-decimal list-inside">
+                                    <li>{{ $t('mail.settings.microsoftGuide.step1') }}</li>
+                                    <li>{{ $t('mail.settings.microsoftGuide.step2') }}</li>
+                                    <li>{{ $t('mail.settings.microsoftGuide.step3') }}</li>
+                                    <li>{{ $t('mail.settings.microsoftGuide.step4') }}</li>
+                                </ol>
+                                <p class="text-[#6B7280]">{{ $t('mail.settings.microsoftGuide.workAccountNote') }}</p>
+                                <a href="https://account.microsoft.com/security" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1 text-[#205E77] hover:underline font-medium">
+                                    <Icon name="ph:arrow-square-out" class="w-3.5 h-3.5" />
+                                    account.microsoft.com/security
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
@@ -181,10 +235,10 @@ const { t } = useI18n()
 
 // Settings published by each provider. Gmail needs an app password (guide below).
 const MAIL_PROVIDERS = [
-    { name: 'Gmail', smtp: ['smtp.gmail.com', '587', 'TLS'], imap: ['imap.gmail.com', '993', 'SSL'] },
-    { name: 'Outlook / Microsoft 365', smtp: ['smtp.office365.com', '587', 'TLS'], imap: ['outlook.office365.com', '993', 'SSL'] },
-    { name: 'One.com', smtp: ['send.one.com', '465', 'SSL'], imap: ['imap.one.com', '993', 'SSL'] },
-    { name: 'Simply.com', smtp: ['smtp.simply.com', '587', 'TLS'], imap: ['imap.simply.com', '993', 'SSL'] },
+    { name: 'Gmail', guide: 'gmail', smtp: ['smtp.gmail.com', '587', 'TLS'], imap: ['imap.gmail.com', '993', 'SSL'] },
+    { name: 'Outlook / Microsoft 365', guide: 'microsoft', smtp: ['smtp.office365.com', '587', 'TLS'], imap: ['outlook.office365.com', '993', 'SSL'] },
+    { name: 'One.com', guide: '', smtp: ['send.one.com', '465', 'SSL'], imap: ['imap.one.com', '993', 'SSL'] },
+    { name: 'Simply.com', guide: '', smtp: ['smtp.simply.com', '587', 'TLS'], imap: ['imap.simply.com', '993', 'SSL'] },
 ]
 
 function useProvider(provider: typeof MAIL_PROVIDERS[number]) {
@@ -194,7 +248,8 @@ function useProvider(provider: typeof MAIL_PROVIDERS[number]) {
     ;[form.imap_host, form.imap_port, form.imap_encryption] = provider.imap
     // The username is almost always the full email address, for both.
     if (form.smtp_username && !form.imap_username) form.imap_username = form.smtp_username
-    if (provider.name === 'Gmail') state.isGuideOpen = true
+    if (provider.guide === 'gmail') state.isGuideOpen = true
+    if (provider.guide === 'microsoft') state.isMicrosoftGuideOpen = true
 }
 
 const encryptionOptions = [
@@ -207,6 +262,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isGuideOpen: false,
+    isMicrosoftGuideOpen: false,
     provider: '',
     formEmail: {
         smtp_host: '',
