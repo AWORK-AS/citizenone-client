@@ -10355,9 +10355,23 @@
                 "title": "Vælg din mailudbyder",
                 "hint": "Udfylder servere, porte og kryptering. Brugernavn er næsten altid din fulde mailadresse."
             },
-            "help": {
+            "hint": {
                 "smtpHost": "Serveren der sender mail, fx smtp.gmail.com. Står i din mailudbyders hjælp.",
                 "smtpPort": "Typisk 587 (TLS) eller 465 (SSL)."
+            },
+            "help": {
+                "smtpHost": "Serveren, der sender din mail, fx smtp.gmail.com. Du finder den i din mailudbyders hjælp under “SMTP-indstillinger” eller i dit mailprogram (Outlook: Filer → Kontoindstillinger → Serverindstillinger).",
+                "smtpPort": "Typisk 587 (med TLS) eller 465 (med SSL). Brug det, din udbyder angiver.",
+                "smtpUsername": "Næsten altid din fulde mailadresse.",
+                "smtpPassword": "Adgangskoden til din mailkonto. Gmail- og Microsoft-konti med totrinsgodkendelse kræver en app-adgangskode (se vejledningen nedenfor).",
+                "smtpEncryption": "TLS til port 587, SSL til port 465.",
+                "imapHost": "Serveren, der modtager din mail, fx imap.gmail.com. Den står ved siden af SMTP-indstillingerne.",
+                "imapPort": "Typisk 993 (SSL).",
+                "imapUsername": "Normalt det samme som til SMTP.",
+                "imapPassword": "Normalt det samme som til SMTP.",
+                "imapEncryption": "Typisk SSL til port 993.",
+                "findSettings": "Kender du ikke dine indstillinger? Vælg din mailudbyder nedenfor, søg på nettet efter “din udbyder SMTP-indstillinger”, eller spørg den, der administrerer din mail.",
+                "ariaLabel": "Hjælp: {field}"
             },
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP adgangskode",
@@ -10375,6 +10389,15 @@
                 "step6Username": "Brugernavn: din fulde Gmail-adresse (dig(at)gmail.com)",
                 "step6Password": "Adgangskode: den 16-tegns app-adgangskode (uden mellemrum)",
                 "oauthNote": "Bemærk: XOAUTH2 kræver et fuldt OAuth2-flow med adgangstokens og understøttes ikke her. App-adgangskode er den korrekte tilgang til denne integration."
+            },
+            "microsoftGuide": {
+                "title": "Bruger du Outlook eller Microsoft 365? Du skal muligvis bruge en app-adgangskode",
+                "intro": "Microsoft udfaser almindelige adgangskoder til mailprogrammer. Den nemmeste vej er knappen “Log ind via Microsoft” på forrige skærmbillede. Sådan bruger du i stedet din mail og adgangskode her:",
+                "step1": "Sørg for, at totrinsgodkendelse er slået til på din Microsoft-konto.",
+                "step2": "Gå til din Microsoft-kontos sikkerhedsindstillinger → Avancerede sikkerhedsindstillinger → App-adgangskoder.",
+                "step3": "Vælg “Opret en ny app-adgangskode”, og kopiér den adgangskode, Microsoft viser (du ser den kun én gang).",
+                "step4": "Skriv din fulde mailadresse som brugernavn og app-adgangskoden som adgangskode her.",
+                "workAccountNote": "Arbejds- eller skolekonto? Din it-administrator skal tillade app-adgangskoder og SMTP-login. Virker det ikke, så spørg dem, eller brug “Log ind via Microsoft”."
             }
         },
         "emptyInbox": "Din indbakke er tom",
