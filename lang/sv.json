@@ -1896,6 +1896,10 @@
         "journalMention": {
             "title": "nämnde dig i en journalanteckning",
             "description": "nämnde dig i {citizen}s journal"
+        },
+        "journalNotified": {
+            "title": "aviserade dig om en journalanteckning",
+            "description": "aviserade dig om en anteckning i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -2581,6 +2585,7 @@
                 "copyJournal": "Kopiera journal"
             },
             "createdBy": "Skapad av",
+            "lastEditedBy": "Senast redigerad av {name} den {date}",
             "currentLevels": {
                 "currentLevel": "Nuvarande nivå",
                 "minorChallenges": "Mindre utmaningar",
@@ -2720,6 +2725,7 @@
                 "notifyColleagues": "Meddela kollegor",
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
+                "notifiedColleagues": "Redan aviserade",
                 "attachedSurveys": "Enkäter att besvara",
                 "fillPendingSurveys": "Obesvarat frågeformulär ({count}) - fyll i det här tillsammans med @:terms.citizenDefinite{''}",
                 "pendingSurveysWarningTitle": "Obesvarat frågeformulär",
