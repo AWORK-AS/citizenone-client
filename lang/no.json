@@ -5796,6 +5796,7 @@
             "cancel": "Avbryt",
             "close": "Lukk",
             "documentName": "Dokumentnavn",
+            "formatNotEditable": "Denne filtypen kan ikke redigeres i CitizenOne. Du kan endre navnet her. Vil du endre innholdet, rediger filen på datamaskinen din og last den opp på nytt.",
             "save": "Lagre",
             "title": "Dokumenteditor"
         },
