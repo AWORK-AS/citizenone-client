@@ -5796,6 +5796,7 @@
             "cancel": "Cancel",
             "close": "Close",
             "documentName": "Document Name",
+            "formatNotEditable": "This file type can't be edited in CitizenOne. You can change the name here. To change the content, edit the file on your computer and upload it again.",
             "save": "Save",
             "title": "Document Editor"
         },
@@ -5816,6 +5817,7 @@
             "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
         },
         "editDocument": "Edit document",
+        "editFileTypeNotSupported": "This file type can't be edited here. Use View to preview it, or download the original and open it on your computer.",
         "expenses": "Expenses",
         "form": {
             "editFile": "Edit file",

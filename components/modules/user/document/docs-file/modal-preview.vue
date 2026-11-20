@@ -300,7 +300,13 @@ async function fetchDocument() {
 
     // A type nothing here can draw isn't fetched at all; Download fetches it if
     // asked. Without an extension the bytes' type has to decide.
-    const knownKind = documentExtension(document) ? documentPreviewKind(document) : null
+    let knownKind = documentExtension(document) ? documentPreviewKind(document) : null
+    // Office formats are converted to PDF by the server, which only knows company
+    // files; a custom loader's files can't be converted.
+    const convertToPdf = knownKind === 'office' && !props.loadFile && !document?.is_onedrive
+    if (knownKind === 'office' && !convertToPdf) {
+        knownKind = 'none'
+    }
     if (knownKind === 'none') {
         state.kind = 'none'
         return
@@ -308,13 +314,13 @@ async function fetchDocument() {
 
     state.isPageLoading = true
     try {
-        const file = await fetchOriginal(document)
+        const file = convertToPdf ? await documentService.viewPdf(document?.uuid) : await fetchOriginal(document)
         if (token !== loadToken) {
             return
         }
 
         state.file = file
-        const kind = file ? knownKind ?? documentPreviewKind(document, file) : null
+        const kind = file ? (convertToPdf ? 'pdf' : knownKind ?? documentPreviewKind(document, file)) : null
         state.kind = kind
 
         if (!file) {
