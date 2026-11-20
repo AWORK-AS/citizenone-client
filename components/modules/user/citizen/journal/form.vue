@@ -328,6 +328,17 @@
                     :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
                     v-model="state.formJournal.mentioned_user_uuids" />
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.form.notifyColleaguesHint') }}</p>
+                <!-- Who was already notified about the note, through this field or
+                     an @-mention. Not kept in formJournal: it is not edited here. -->
+                <div v-if="props.formType === 'update' && state.notifiedUsers.length > 0"
+                    class="flex flex-wrap items-center gap-1.5 pt-1" data-test="journal-notified-users">
+                    <span class="text-xs font-medium text-gray-600">{{ $t('citizens.citizenJournals.form.notifiedColleagues') }}:</span>
+                    <span v-for="notified in state.notifiedUsers" :key="notified.uuid"
+                        class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-700">
+                        <Icon name="ph:bell-simple" class="size-3" aria-hidden="true" />
+                        {{ notified.name }}
+                    </span>
+                </div>
             </div>
             <div v-if="isFieldVisible('risk_assessment')">
             <div class="space-y-2">
@@ -878,6 +889,8 @@ const editorNoteConfig = ref({
 }) as any
 
 const state = reactive({
+    // Colleagues already notified about the note (edit only), read-only.
+    notifiedUsers: [] as { uuid: string, name: string }[],
     isAutoSaving: false,
     saveFailed: false,
     isSaveInFlight: false,
@@ -1519,6 +1532,7 @@ watch(() => state.hasChanges, (hasChanges) => {
 
 async function setFormJournalFromSelected(journal: any) {
     setWellbeingFromJournal(journal)
+    state.notifiedUsers = Array.isArray(journal.notified_users) ? journal.notified_users : []
     state.formJournal = {
         id: journal.id,
         uuid: journal.uuid,
