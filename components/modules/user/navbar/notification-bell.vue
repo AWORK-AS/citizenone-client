@@ -318,9 +318,12 @@ function getNotifDescription(notif: any): string {
         return data.content?.author ? t('bellNotification.news.description', { author: data.content.author }) : ''
     }
     if (getCategory(notif.type) === 'journal_mention') {
+        // Picked in "Notify colleagues": there is no @ in the note, so it must
+        // not say "mentioned you" (AW-2026-10867).
+        const key = data.content?.via === 'picker' ? 'journalNotified' : 'journalMention'
         return data.content?.citizen_name
-            ? t('bellNotification.journalMention.description', { citizen: data.content.citizen_name })
-            : t('bellNotification.journalMention.title')
+            ? t(`bellNotification.${key}.description`, { citizen: data.content.citizen_name })
+            : t(`bellNotification.${key}.title`)
     }
     if (data.content?.triggered_employee) {
         const emp = data.content.triggered_employee
@@ -651,9 +654,14 @@ async function handleNotifClick(notif: any) {
     }
     if (getCategory(notif.type) === 'journal_mention') {
         const citizenUuid = notif.data?.content?.uuid
+        const journalUuid = notif.data?.content?.journal_uuid
         if (citizenUuid) {
             state.isOpen = false
-            navigateTo(`/citizens/${citizenUuid}/journals`)
+            // Straight to the note itself, not just the journal list.
+            navigateTo({
+                path: `/citizens/${citizenUuid}/journals`,
+                query: journalUuid ? { open_journal: journalUuid } : {},
+            })
         }
     }
     // A new whistleblower report: straight to it in the handlers' inbox.
@@ -761,6 +769,22 @@ function handleClickOutside(e: MouseEvent) {
     }
 }
 
-onMounted(() => document.addEventListener('mousedown', handleClickOutside))
+// The notification email's button lands on ?notifications=open, so the
+// panel is open on arrival. The query is dropped so a reload does not reopen it.
+function openFromQuery() {
+    if (route.query.notifications !== 'open') return
+    state.isOpen = true
+    fetchNotificationsByCategory()
+    const query = { ...route.query }
+    delete query.notifications
+    navigateTo({ path: route.path, query }, { replace: true })
+}
+
+watch(() => route.query.notifications, openFromQuery)
+
+onMounted(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    openFromQuery()
+})
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside))
 </script>
