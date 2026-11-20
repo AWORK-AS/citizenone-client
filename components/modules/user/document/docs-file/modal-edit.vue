@@ -24,6 +24,35 @@
                         </div>
                     </template>
                 </template>
+                <!-- The editor only loads Word files. For anything else (a PDF, an
+                     image) it would show a "not supported" notice, and saving that
+                     replaced the real file (AW-2026-10720), so only the name can be
+                     changed here. -->
+                <template v-else-if="!isEditableCompanyFile">
+                    <LoadingSpinner :isActive="state.isPageLoading">
+                        <form @submit.prevent="renameDocument" class="space-y-4">
+                            <Alert type="danger" :text="state.error?.message"
+                                v-if="state.error?.message && state.error.message.length > 0" />
+                            <div class="space-y-1">
+                                <FormLabel for="document-name" :label="$t('drive.documentEditor.documentName')" />
+                                <FormTextField id="document-name" name="document-name"
+                                    :placeholder="$t('drive.documentEditor.documentName')"
+                                    v-model="state.formDocument.name" />
+                                <FormError :error="state.error?.errors?.name?.[0]" />
+                            </div>
+                            <p class="text-sm text-gray-600">{{ $t('drive.documentEditor.formatNotEditable') }}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                                    {{ $t('drive.documentEditor.cancel') }}
+                                </FormButton>
+                                <FormButton type="submit" buttonStyle="primary"
+                                    :disabled="!state.formDocument.name?.trim()">
+                                    {{ $t('drive.documentEditor.save') }}
+                                </FormButton>
+                            </div>
+                        </form>
+                    </LoadingSpinner>
+                </template>
                 <template v-else>
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesUserDocumentDocsFileForm formType="update" :selectedDocument="state.formDocument"
@@ -43,6 +72,13 @@ const isEditableOneDriveFile = computed(() => {
     if (!props.selectedDocument?.is_onedrive) return false;
     const ext = props.selectedDocument?.name?.split('.')?.pop()?.toLowerCase();
     return ['txt', 'html'].includes(ext);
+});
+// Same list as the backend's EDITABLE_EXTENSIONS: the formats the editor can load.
+const EDITABLE_COMPANY_FILE_EXTENSIONS = ['doc', 'docx']
+const isEditableCompanyFile = computed(() => {
+    const source = props.selectedDocument?.file_url || props.selectedDocument?.name || ''
+    const ext = String(source).split('?')[0].split('.').pop()?.toLowerCase() ?? ''
+    return EDITABLE_COMPANY_FILE_EXTENSIONS.includes(ext)
 });
 import { useMammothConverter } from '@/composables/useMammothConverter'
 import { documentService } from '@/components/api/user/DocumentService'
@@ -91,7 +127,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
         state.formDocument.is_admin_access = props.selectedDocument?.is_admin_access ? true : false
         if (props.selectedDocument?.is_onedrive && isEditableOneDriveFile.value) {
             fetchOneDriveDocument()
-        } else if (!props.selectedDocument?.is_onedrive) {
+        } else if (!props.selectedDocument?.is_onedrive && isEditableCompanyFile.value) {
             fetchDocument()
         }
     }
@@ -233,6 +269,26 @@ async function fetchDocument() {
             } else {
                 state.formDocument.content = response.content || ''
             }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+// Name only: the same endpoint the folder edit uses, which never touches the stored file.
+async function renameDocument() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await documentService.updateFileFolder(props.selectedDocument?.uuid, {
+            name: state.formDocument.name.trim(),
+            is_admin_access: state.formDocument.is_admin_access,
+        })
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, `${t('drive.alert.fileSuccessfullyUpdated')}.`)
+            refreshDocuments()
+            closeModal()
         }
     } catch (error: any) {
         state.error = error

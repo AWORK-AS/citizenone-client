@@ -5796,6 +5796,7 @@
             "cancel": "Annuller",
             "close": "Luk",
             "documentName": "Dokumentnavn",
+            "formatNotEditable": "Denne filtype kan ikke redigeres i CitizenOne. Du kan ændre navnet her. Vil du ændre indholdet, så redigér filen på din computer og upload den igen.",
             "save": "Gem",
             "title": "Dokumenteditor"
         },
@@ -5816,6 +5817,7 @@
             "info-drive-3": "Skift mellem systemerne uden at miste filer - upload til det ønskede system via upload-knappen."
         },
         "editDocument": "Rediger dokument",
+        "editFileTypeNotSupported": "Denne filtype kan ikke redigeres her. Brug Vis for at se en forhåndsvisning, eller hent originalen og åbn den på din computer.",
         "expenses": "Udgifter",
         "form": {
             "editFile": "Rediger fil",

@@ -6,7 +6,7 @@ import { canOpenInBrowser, mimeFromExtension, openDocumentsInTabs, type Document
 // What the in-app viewer can draw, by extension. HTML and SVG are left out: a
 // blob: URL runs with this app's origin, so their scripts would run next to the
 // session. Anything not listed gets a "no preview" message.
-export type DocumentPreviewKind = 'pdf' | 'image' | 'text' | 'docx' | 'none'
+export type DocumentPreviewKind = 'pdf' | 'image' | 'text' | 'docx' | 'office' | 'none'
 
 const PREVIEW_KINDS: Record<string, DocumentPreviewKind> = {
     pdf: 'pdf',
@@ -19,6 +19,16 @@ const PREVIEW_KINDS: Record<string, DocumentPreviewKind> = {
     txt: 'text',
     csv: 'text',
     docx: 'docx',
+    // Converted to PDF by the server (company files only), then shown as a PDF.
+    doc: 'office',
+    pptx: 'office',
+    ppt: 'office',
+    xlsx: 'office',
+    xls: 'office',
+    odt: 'office',
+    odp: 'office',
+    ods: 'office',
+    rtf: 'office',
 }
 
 const PREVIEW_KIND_MIME = /^(application\/pdf|image\/(png|jpe?g|gif|webp|bmp)|text\/(plain|csv))$/i
@@ -90,7 +100,9 @@ function imageMime(document: any, blob: Blob): string {
 }
 
 export function canPreviewInApp(document: any): boolean {
-    return documentPreviewKind(document) !== 'none'
+    // 'office' is only drawable for company files, via the server's PDF conversion.
+    const kind = documentPreviewKind(document)
+    return kind !== 'none' && kind !== 'office'
 }
 
 // Opens an already-downloaded document Blob in a new browser tab instead of

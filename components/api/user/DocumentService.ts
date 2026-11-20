@@ -69,6 +69,11 @@ class DocumentService extends BaseAPIService {
         return await this.requestBlob(`/user/company-file-folders/${documentUuid}/view`, 'GET')
     }
 
+    // An Office file converted to PDF for viewing; needs no download permission.
+    async viewPdf(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/company-file-folders/${documentUuid}/view-pdf`, 'GET')
+    }
+
     async downloadPdf(documentUuid: any, params?: object): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/download-pdf`, 'GET', params)
     }
