@@ -5796,6 +5796,7 @@
             "cancel": "Cancel",
             "close": "Close",
             "documentName": "Document Name",
+            "formatNotEditable": "This file type can't be edited in CitizenOne. You can change the name here. To change the content, edit the file on your computer and upload it again.",
             "save": "Save",
             "title": "Document Editor"
         },
