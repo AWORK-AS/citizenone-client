@@ -2581,6 +2581,7 @@
                 "copyJournal": "Kopier journal"
             },
             "createdBy": "Oprettet af",
+            "lastEditedBy": "Sidst redigeret af {name} den {date}",
             "currentLevels": {
                 "currentLevel": "Nuværende niveau",
                 "minorChallenges": "Mindre udfordringer",

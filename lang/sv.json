@@ -2581,6 +2581,7 @@
                 "copyJournal": "Kopiera journal"
             },
             "createdBy": "Skapad av",
+            "lastEditedBy": "Senast redigerad av {name} den {date}",
             "currentLevels": {
                 "currentLevel": "Nuvarande nivå",
                 "minorChallenges": "Mindre utmaningar",
