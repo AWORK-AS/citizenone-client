@@ -1896,6 +1896,10 @@
         "journalMention": {
             "title": "mentioned you in a journal note",
             "description": "mentioned you in {citizen}’s journal"
+        },
+        "journalNotified": {
+            "title": "notified you about a journal note",
+            "description": "notified you about a note in {citizen}’s journal"
         }
     },
     "bookingSettings": {
@@ -2720,6 +2724,7 @@
                 "notifyColleagues": "Notify colleagues",
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
                 "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
+                "notifiedColleagues": "Already notified",
                 "attachedSurveys": "Surveys to answer",
                 "fillPendingSurveys": "Unanswered questionnaire ({count}) - fill it in here with @:terms.citizenDefinite{''}",
                 "pendingSurveysWarningTitle": "Unanswered questionnaire",

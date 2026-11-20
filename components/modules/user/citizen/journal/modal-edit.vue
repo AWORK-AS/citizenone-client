@@ -91,6 +91,9 @@ async function updateJournal(journalDetails: any) {
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
             field_answers: journalDetails.formJournal.field_answers ?? [],
+            // "Notify colleagues" on an edit. The server notifies each colleague
+            // once per note, so the autosave resending it does not repeat it.
+            mentioned_user_uuids: journalDetails.formJournal.mentioned_user_uuids ?? [],
             // Present only when the form showed the wellbeing ruler.
             ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
             // Visit date and intervention hours (journal form).

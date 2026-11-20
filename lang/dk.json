@@ -1896,6 +1896,10 @@
         "journalMention": {
             "title": "nævnte dig i en journalnote",
             "description": "nævnte dig i {citizen}s journal"
+        },
+        "journalNotified": {
+            "title": "underrettede dig om en journalnote",
+            "description": "underrettede dig om en note i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -2720,6 +2724,7 @@
                 "notifyColleagues": "Underret kolleger",
                 "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
                 "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note.",
+                "notifiedColleagues": "Allerede underrettet",
                 "attachedSurveys": "Spørgeskemaer der skal besvares",
                 "fillPendingSurveys": "Ubesvaret spørgeskema ({count}) - udfyld det her sammen med @:terms.citizenDefinite{''}",
                 "pendingSurveysWarningTitle": "Ubesvaret spørgeskema",
