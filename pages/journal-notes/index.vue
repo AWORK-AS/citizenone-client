@@ -221,6 +221,10 @@
                                             <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                                             {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>
+                                        <!-- AW-2026-10676: the created line above never changes; this says when the note was last changed. -->
+                                        <p v-if="showLastEdited(journal)" class="text-xs" data-testid="journal-last-edited">
+                                            {{ $t('citizens.citizenJournals.lastEditedBy', { name: journal.updated_by, date: formatDateTimeToReadable(journal.edited_at) }) }}
+                                        </p>
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
