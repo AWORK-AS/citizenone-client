@@ -1450,7 +1450,9 @@ const plansCount = computed(() => [
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
 // The documents that can hold a consultant's match up (ConsultantReadiness::MATCH_DOCUMENTS).
-const matchDocumentTypes = ['child_protection_certificate', 'cv', 'education', 'employment_contract', 'drivers_license']
+const matchDocumentTypes = ['child_protection_certificate', 'criminal_record', 'cv', 'education', 'employment_contract', 'drivers_license']
+// Ticked when the company has not chosen (ConsultantReadiness::DEFAULT_MATCH_DOCUMENTS).
+const defaultMatchDocumentTypes = ['child_protection_certificate', 'cv', 'education', 'employment_contract', 'drivers_license']
 
 function toggleMatchDocument(type: string) {
     const chosen = state.formCompany.match_required_documents
@@ -1528,7 +1530,7 @@ const state = reactive({
         schedule_registers_care_hours_enabled: true,
         calendar_events_owner_only: false,
         match_includes_do_not_contact: false,
-        match_required_documents: [...matchDocumentTypes] as string[],
+        match_required_documents: [...defaultMatchDocumentTypes] as string[],
         patient_forms_tab_hidden: false,
         ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, false])) as Record<(typeof APP_HIDDEN_SWITCHES)[number]['key'], boolean>,
         medicine_stats_hidden: false,
@@ -1732,7 +1734,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             schedule_registers_care_hours_enabled: newValue?.company?.schedule_registers_care_hours_enabled !== false,
             calendar_events_owner_only: newValue?.company?.calendar_events_owner_only === true,
             match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
-            match_required_documents: Array.isArray(newValue?.company?.match_required_documents) ? [...newValue.company.match_required_documents] : [...matchDocumentTypes],
+            match_required_documents: Array.isArray(newValue?.company?.match_required_documents) ? [...newValue.company.match_required_documents] : [...defaultMatchDocumentTypes],
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
             ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, newValue?.company?.[item.key] === true])),
             medicine_stats_hidden: newValue?.company?.medicine_stats_hidden === true,
