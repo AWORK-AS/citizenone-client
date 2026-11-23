@@ -10895,7 +10895,8 @@
         "editNews": "Rediger nyheder",
         "form": {
             "notify": "Send notifikation til modtagerne",
-            "notifyHint": "Kolleger, der kan se opslaget, får besked i klokken og på telefonen.",
+            "notifyHint": "Medarbejdere og borgere, der kan se opslaget, får besked.",
+            "notifyInactiveHint": "Opslaget er ikke aktivt: beskeden sendes, når du gør det aktivt.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
