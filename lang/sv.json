@@ -14422,11 +14422,24 @@
                 },
                 "toRoadmap": "Lägg på färdplanen",
                 "decline": "Avböj",
+                "declineConfirm": "Vill du avböja {reference}?",
                 "reopen": "Tillbaka till ny",
                 "newItem": "Ny punkt",
                 "existingItem": "Befintlig punkt",
                 "itemTitle": "Titel på färdplanspunkten",
-                "newItemHint": "Skapas som utkast under Planerad. Önskemålet sparas som ursprunglig text, och kunden noteras som önskande."
+                "newItemHint": "Skapas som utkast under Planerad. Önskemålet sparas som ursprunglig text, och kunden noteras som önskande.",
+                "bulk": {
+                    "selectAll": "Välj alla",
+                    "selected": "{count} valda",
+                    "clear": "Rensa",
+                    "declineConfirm": "Vill du avvisa {count} önskemål?",
+                    "reopenConfirm": "Vill du öppna {count} önskemål igen?",
+                    "doneDeclined": "{count} önskemål avvisade.",
+                    "doneReopened": "{count} önskemål öppnade igen.",
+                    "skipped": "{count} var redan hanterade och hoppades över."
+                },
+                "openItem": "Öppna punkten på färdplanen",
+                "itemNotFound": "Punkten finns inte längre på färdplanen."
             },
             "import": {
                 "button": "Import",

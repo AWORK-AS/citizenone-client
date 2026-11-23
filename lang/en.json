@@ -14430,11 +14430,24 @@
                 },
                 "toRoadmap": "Put on roadmap",
                 "decline": "Decline",
+                "declineConfirm": "Decline {reference}?",
                 "reopen": "Back to new",
                 "newItem": "New item",
                 "existingItem": "Existing item",
                 "itemTitle": "Roadmap item title",
-                "newItemHint": "Created as a draft under Planned. The wish is kept as original text, and the customer is noted as wanting it."
+                "newItemHint": "Created as a draft under Planned. The wish is kept as original text, and the customer is noted as wanting it.",
+                "bulk": {
+                    "selectAll": "Select all",
+                    "selected": "{count} selected",
+                    "clear": "Clear",
+                    "declineConfirm": "Decline {count} wishes?",
+                    "reopenConfirm": "Reopen {count} wishes?",
+                    "doneDeclined": "{count} wishes declined.",
+                    "doneReopened": "{count} wishes reopened.",
+                    "skipped": "{count} were already handled and were skipped."
+                },
+                "openItem": "Open the item on the roadmap",
+                "itemNotFound": "The item is no longer on the roadmap."
             },
             "import": {
                 "button": "Import",

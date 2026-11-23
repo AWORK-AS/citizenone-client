@@ -37,7 +37,7 @@
                 </div>
 
                 <ModulesSuperadminRoadmapWishes v-if="state.activeStatus === 'wishes'" :items="state.items" :canManage="canManage"
-                    @counts="state.wishCounts = $event" @changed="fetchItems" @copy="copyBrief" />
+                    @counts="state.wishCounts = $event" @changed="fetchItems" @copy="copyBrief" @openItem="openItem" />
 
                 <template v-if="state.activeStatus !== 'wishes'">
                 <div class="mb-4 flex flex-wrap items-center gap-2">
@@ -87,11 +87,12 @@
                         {{ $t('superadmin.roadmap.dragHint') }}
                     </p>
                     <ul class="space-y-3">
-                        <li v-for="(item, index) in visibleItems" :key="item.uuid"
+                        <li v-for="(item, index) in visibleItems" :key="item.uuid" :id="`roadmap-item-${item.uuid}`"
                             :draggable="canDrag" @dragstart="onDragStart(index)" @dragover.prevent="onDragOver(index)"
                             @drop.prevent="onDrop" @dragend="onDrop"
                             class="flex items-start justify-between gap-x-4 rounded-lg border bg-white p-4 transition-colors"
-                            :class="state.dragIndex === index ? 'border-primary bg-primary/5' : 'border-gray-200'">
+                            :class="[state.dragIndex === index ? 'border-primary bg-primary/5' : 'border-gray-200',
+                                state.highlightUuid === item.uuid ? 'ring-2 ring-primary' : '']">
                             <div class="flex min-w-0 items-start gap-x-3">
                                 <Icon v-if="canDrag" name="ph:dots-six-vertical" class="mt-0.5 h-5 w-5 flex-none cursor-grab text-gray-300" />
                                 <div class="min-w-0">
@@ -155,6 +156,8 @@
                                     </FormButton>
                                 </Tooltip>
                                 <template v-if="canManage">
+                                <!-- A released item is done, so nobody starts working on it; releasing clears the mark. -->
+                                <template v-if="item.status !== 'released'">
                                 <FormButton v-if="!item.internal?.working_by" buttonStyle="secondary" buttonSize="sm"
                                     :disabled="state.workingSaving === item.uuid" @click="setWorking(item, true)">
                                     <Icon name="ph:hammer" class="h-4 w-4" /> {{ $t('superadmin.roadmap.working.start') }}
@@ -167,6 +170,7 @@
                                     :disabled="state.workingSaving === item.uuid" @click="confirmTakeOver(item)">
                                     {{ $t('superadmin.roadmap.working.takeOver') }}
                                 </FormButton>
+                                </template>
                                 <!-- Moves the item to another column without opening the form. -->
                                 <select :value="item.status" :aria-label="$t('superadmin.roadmap.form.status')"
                                     :disabled="state.statusSaving === item.uuid" :class="filterClass"
@@ -296,6 +300,7 @@ const state = reactive({
     wishCounts: {} as Record<string, number>,
     statusSaving: null as string | null,
     workingSaving: null as string | null,
+    highlightUuid: null as string | null,
     takeOverTarget: null as any,
 })
 
@@ -404,6 +409,24 @@ onMounted(() => {
 
 function openWishes() {
     state.activeStatus = 'wishes'
+}
+
+// From a wish's badge: the item's own tab, with nothing filtering it out, scrolled to
+// and marked for a moment.
+async function openItem(uuid: string) {
+    const item = state.items.find((other: any) => other.uuid === uuid)
+    if (!item) {
+        state.error = t('superadmin.roadmap.wishes.itemNotFound')
+        return
+    }
+    state.filters = { search: '', category: '', priority: '', stage: '', published: '', important: false, notTaken: false }
+    state.activeStatus = item.status
+    state.highlightUuid = uuid
+    await nextTick()
+    document.getElementById(`roadmap-item-${uuid}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    setTimeout(() => {
+        if (state.highlightUuid === uuid) state.highlightUuid = null
+    }, 2500)
 }
 
 // Only the number of new wishes, for the dot on the tab; the list loads in its tab.

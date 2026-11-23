@@ -13,6 +13,26 @@
 
         <Alert type="danger" :text="state.error" v-if="state.error" />
 
+        <!-- Bulk decline / reopen. Putting on the roadmap stays one wish at a time: each needs its own item and title. -->
+        <div v-if="canSelect && state.wishes.length" data-testid="wish-bulk-bar" class="mb-3 flex flex-wrap items-center gap-3 text-sm">
+            <label class="inline-flex cursor-pointer items-center gap-1.5 text-gray-700">
+                <input type="checkbox" :checked="allSelected" :indeterminate="someSelected" @change="toggleAll" />
+                {{ $t('superadmin.roadmap.wishes.bulk.selectAll') }}
+            </label>
+            <template v-if="state.selected.length">
+                <span class="font-medium text-gray-900">{{ $t('superadmin.roadmap.wishes.bulk.selected', { count: state.selected.length }) }}</span>
+                <FormButton v-if="state.status === 'new'" buttonStyle="cancel" buttonSize="sm" :disabled="state.busy" @click="state.bulkConfirm = 'declined'">
+                    {{ $t('superadmin.roadmap.wishes.decline') }}
+                </FormButton>
+                <FormButton v-else buttonStyle="cancel" buttonSize="sm" :disabled="state.busy" @click="state.bulkConfirm = 'new'">
+                    {{ $t('superadmin.roadmap.wishes.reopen') }}
+                </FormButton>
+                <button type="button" class="text-xs text-gray-500 underline hover:text-gray-700" @click="state.selected = []">
+                    {{ $t('superadmin.roadmap.wishes.bulk.clear') }}
+                </button>
+            </template>
+        </div>
+
         <LoadingSpinner :isActive="state.isLoading">
             <div v-if="!state.isLoading && !state.wishes.length"
                 class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-ink-body">
@@ -22,15 +42,24 @@
             <ul class="space-y-3">
                 <li v-for="wish in state.wishes" :key="wish.uuid" class="rounded-lg border border-gray-200 bg-white p-4">
                     <div class="flex flex-wrap items-start justify-between gap-3">
+                        <input v-if="canSelect" v-model="state.selected" type="checkbox" :value="wish.uuid"
+                            :aria-label="wish.reference" class="mt-1" />
                         <div class="min-w-0 flex-1">
                             <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
                                 <span class="font-mono text-gray-400">{{ wish.reference }}</span>
                                 <span class="font-semibold text-gray-900">{{ wish.company?.name ?? '—' }}</span>
                                 <span v-if="wish.user">{{ wish.user.name }}</span>
                                 <span>{{ formatDate(wish.created_at) }}</span>
-                                <span v-if="wish.roadmap_item" class="co-badge co-badge-blue">
+                                <!-- Opens the item on its roadmap tab; the status shows how far the work has come. -->
+                                <button v-if="wish.roadmap_item" type="button" @click="emit('openItem', wish.roadmap_item.uuid)"
+                                    class="co-badge co-badge-blue inline-flex items-center gap-x-1 hover:underline"
+                                    :title="$t('superadmin.roadmap.wishes.openItem')">
                                     #{{ wish.roadmap_item.number }} {{ wish.roadmap_item.title }}
-                                </span>
+                                    <span class="rounded px-1 text-[11px] font-medium" :class="ITEM_STATUS_CLASS[wish.roadmap_item.status]">
+                                        {{ $t(`comingFunctions.status.${wish.roadmap_item.status}`) }}
+                                    </span>
+                                    <Icon name="ph:arrow-square-out" class="h-3.5 w-3.5" />
+                                </button>
                             </div>
                             <p class="mt-2 whitespace-pre-line text-sm text-gray-800">{{ wish.message }}</p>
                             <div v-if="wish.images?.length" class="mt-2 flex flex-wrap gap-2">
@@ -47,7 +76,7 @@
                                 <FormButton v-if="wish.status !== 'on_roadmap'" buttonStyle="primary" buttonSize="sm" @click="openLink(wish)">
                                     <Icon name="ph:map-trifold" class="h-4 w-4" /> {{ $t('superadmin.roadmap.wishes.toRoadmap') }}
                                 </FormButton>
-                                <FormButton v-if="wish.status === 'new'" buttonStyle="cancel" buttonSize="sm" @click="setStatus(wish, 'declined')">
+                                <FormButton v-if="wish.status === 'new'" buttonStyle="cancel" buttonSize="sm" @click="state.declining = wish">
                                     {{ $t('superadmin.roadmap.wishes.decline') }}
                                 </FormButton>
                                 <FormButton v-else buttonStyle="cancel" buttonSize="sm" @click="setStatus(wish, 'new')">
@@ -101,17 +130,37 @@
                 </div>
             </template>
         </Modal>
+
+        <DialogConfirmation :isModalOpen="!!state.bulkConfirm"
+            :message="$t(state.bulkConfirm === 'declined' ? 'superadmin.roadmap.wishes.bulk.declineConfirm' : 'superadmin.roadmap.wishes.bulk.reopenConfirm', { count: state.selected.length })"
+            @close="state.bulkConfirm = null" @confirm="runBulk" />
+
+        <!-- Declining tells the customer no, so it is confirmed first. Putting it back to new is not. -->
+        <DialogConfirmation :isModalOpen="!!state.declining"
+            :message="$t('superadmin.roadmap.wishes.declineConfirm', { reference: state.declining?.reference ?? '' })"
+            @close="state.declining = null" @confirm="confirmDecline" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { roadmapItemService } from '@/components/api/superadmin/RoadmapItemService'
 import { wishBrief } from '@/utils/roadmapBrief'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{ items: any[]; canManage: boolean }>()
-const emit = defineEmits<{ counts: [Record<string, number>]; changed: []; copy: [string] }>()
+const emit = defineEmits<{ counts: [Record<string, number>]; changed: []; copy: [string]; openItem: [string] }>()
+
+const ITEM_STATUS_CLASS: Record<string, string> = {
+    planned: 'bg-gray-100 text-gray-700',
+    in_progress: 'bg-amber-100 text-amber-800',
+    released: 'bg-green-100 text-green-800',
+}
 
 const STATUSES = ['new', 'on_roadmap', 'declined']
+
+const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const state = reactive({
     status: 'new',
@@ -126,7 +175,39 @@ const state = reactive({
     itemSearch: '',
     linkError: '',
     busy: false,
+    selected: [] as string[],
+    bulkConfirm: null as 'new' | 'declined' | null,
+    declining: null as any,
 })
+
+// On roadmap has nothing to do in bulk.
+const canSelect = computed(() => props.canManage && state.status !== 'on_roadmap')
+const allSelected = computed(() => state.wishes.length > 0 && state.selected.length === state.wishes.length)
+const someSelected = computed(() => state.selected.length > 0 && !allSelected.value)
+
+function toggleAll() {
+    state.selected = allSelected.value ? [] : state.wishes.map((wish: any) => wish.uuid)
+}
+
+async function runBulk() {
+    const status = state.bulkConfirm
+    state.bulkConfirm = null
+    if (!status || !state.selected.length) return
+    state.busy = true
+    state.error = ''
+    try {
+        const response = await roadmapItemService.bulkUpdateWishStatus([...state.selected], status)
+        const { updated = 0, skipped = 0 } = response?.data ?? {}
+        const done = t(status === 'declined' ? 'superadmin.roadmap.wishes.bulk.doneDeclined' : 'superadmin.roadmap.wishes.bulk.doneReopened', { count: updated })
+        successAlert(`${t('alert.success')}!`, skipped ? `${done} ${t('superadmin.roadmap.wishes.bulk.skipped', { count: skipped })}` : done)
+        state.selected = []
+        emit('changed')
+        await fetchWishes()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+    state.busy = false
+}
 
 // Released items last: a wish usually belongs to something still to be built.
 const pickableItems = computed(() => {
@@ -139,7 +220,10 @@ const pickableItems = computed(() => {
 
 const canSubmit = computed(() => state.mode === 'new' ? state.title.trim().length > 0 : !!state.itemUuid)
 
-watch(() => state.status, () => fetchWishes(), { immediate: true })
+watch(() => state.status, () => {
+    state.selected = []
+    fetchWishes()
+}, { immediate: true })
 
 async function fetchWishes() {
     state.isLoading = true
@@ -147,6 +231,8 @@ async function fetchWishes() {
     try {
         const response = await roadmapItemService.getWishes(state.status)
         state.wishes = response?.data ?? []
+        const present = new Set(state.wishes.map((wish: any) => wish.uuid))
+        state.selected = state.selected.filter((uuid: string) => present.has(uuid))
         state.counts = response?.counts ?? {}
         emit('counts', state.counts)
     } catch (error: any) {
@@ -179,6 +265,12 @@ async function submitLink() {
         state.linkError = error?.message ?? 'Error'
     }
     state.busy = false
+}
+
+async function confirmDecline() {
+    const wish = state.declining
+    state.declining = null
+    if (wish) await setStatus(wish, 'declined')
 }
 
 async function setStatus(wish: any, status: 'new' | 'declined') {
