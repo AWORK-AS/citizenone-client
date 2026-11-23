@@ -99,3 +99,16 @@ test('go to message never loops forever on broken paging', async () => {
     assert.equal(ok, false)
     assert.equal(loads, MAX_PAGES_TO_FIND_PIN)
 })
+
+test('go to message stops at the first page that fails to load', async () => {
+    let loads = 0
+    const ok = await jumpToPinnedMessage('x', {
+        container: () => null,
+        hasMessage: () => false,
+        isLastPage: () => false,
+        loadOlder: async () => { loads++; return false },
+        settle: async () => {},
+    })
+    assert.equal(ok, false)
+    assert.equal(loads, 1)
+})

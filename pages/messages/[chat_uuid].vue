@@ -793,7 +793,7 @@ async function goToPinnedMessage(uuid: string) {
         isLastPage: () => state.isLastPage,
         loadOlder: async () => {
             currentPage++
-            await fetchChatHistory()
+            return fetchChatHistory()
         },
         settle: () => nextTick(),
     })
@@ -810,9 +810,10 @@ async function goToPinnedMessage(uuid: string) {
     }, 2000)
 }
 
-async function fetchChatHistory() {
+async function fetchChatHistory(): Promise<boolean> {
     state.error = {}
     state.isChatHistoryLoading = true
+    let ok = true
     try {
         const params = { page: currentPage, chat_uuid: chatUuid }
         const response = await messageService.fetchChatHistory(params)
@@ -822,17 +823,22 @@ async function fetchChatHistory() {
         }
     } catch (error: any) {
         state.error = { message: error.message }
+        ok = false
     }
     state.isChatHistoryLoading = false
+    return ok
 }
 
-async function autoFillChatHistory() {
+async function autoFillChatHistory(firstPageOk = true) {
     await nextTick()
+    // A failed page (e.g. 404 for someone outside the chat) never sets isLastPage,
+    // so without these checks the loop asked for page 2, 3, 4 ... forever.
+    if (!firstPageOk) return
     while (!state.isLastPage && scrollableChatHistory.value) {
         const el = scrollableChatHistory.value
         if (el.scrollHeight > el.clientHeight) break
         currentPage++
-        await fetchChatHistory()
+        if (!(await fetchChatHistory())) break
         await nextTick()
     }
     scrollToBottom()

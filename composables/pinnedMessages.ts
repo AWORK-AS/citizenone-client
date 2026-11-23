@@ -73,6 +73,7 @@ export interface PinnedJumpOptions {
     hasMessage: (uuid: string) => boolean
     isLastPage: () => boolean
     // Loads the next older page with the page's own paging (currentPage++ and fetch).
+    // Resolving to false means the page failed: the search stops there.
     loadOlder: () => Promise<unknown>
     // Waits for the DOM to show what was just loaded (Vue's nextTick).
     settle: () => Promise<unknown>
@@ -88,7 +89,7 @@ export async function jumpToPinnedMessage(uuid: string, options: PinnedJumpOptio
 
     let pages = 0
     while (!options.hasMessage(uuid) && !options.isLastPage() && pages < MAX_PAGES_TO_FIND_PIN) {
-        await options.loadOlder()
+        if ((await options.loadOlder()) === false) break
         pages++
     }
 
