@@ -3,7 +3,7 @@
     yet: it has its own card, with the button that writes it. Drawn from here
     so every place that lists cards draws it without knowing about it. -->
     <ModulesUserAssistantProposalCard v-if="isProposalCard(card.type)" :card="card" />
-    <NuxtLink v-else :to="card.link ?? undefined"
+    <NuxtLink v-else :to="codyCardLink(card)"
         class="group block rounded-xl border border-gray-200 bg-white transition-colors hover:border-cody/50">
         <div class="flex items-start gap-2.5 px-3 py-2.5">
             <Icon :name="ICONS[card.type] ?? 'ph:file-text'" class="mt-0.5 size-4 shrink-0 text-cody-deep"
@@ -31,6 +31,7 @@
 </template>
 
 <script setup lang="ts">
+import { codyCardLink } from '@/composables/codyCardLink'
 import { isProposalCard } from '@/composables/codyProposal'
 import type { AnswerCard } from '@/composables/useCodyChat'
 
