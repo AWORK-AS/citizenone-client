@@ -205,7 +205,9 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     if (type.toLowerCase().includes('calendareventreminder')) return 'calendar_event_reminder'
-    if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
+    // A time booked online (the app, or the widget on the clinic's own website):
+    // both open Booked times on that day.
+    if (type.toLowerCase().includes('patientbooking') || type.toLowerCase().includes('bookingcreated')) return 'patient_booking'
     if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
     // Task #97: a contract sent to sign, and a contract signed.
     if (type.toLowerCase().includes('contractsignaturerequested')) return 'contract_to_sign'
