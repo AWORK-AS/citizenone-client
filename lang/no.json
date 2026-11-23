@@ -10895,7 +10895,8 @@
         "editNews": "Rediger nyheter",
         "form": {
             "notify": "Send varsel til mottakerne",
-            "notifyHint": "Kolleger som kan se innlegget, får beskjed i bjellen og på telefonen.",
+            "notifyHint": "Ansatte og innbyggere som kan se innlegget, får beskjed.",
+            "notifyInactiveHint": "Innlegget er ikke aktivt: beskjeden sendes når du gjør det aktivt.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhet er blitt lagret",

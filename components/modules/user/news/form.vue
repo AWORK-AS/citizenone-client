@@ -167,13 +167,17 @@
                         {{ $t('news.form.active') }}
                     </div>
                 </div>
-                <!-- Roadmap #201: tell the colleagues who can see the post. Only for a new post. -->
-                <div v-if="props.formType === 'create'" class="space-y-1">
+                <!-- Roadmap #201: tell the colleagues and citizens who can see the post. On a new post, and on
+                     an edit until it has been sent: an inactive post is sent when it is switched on, once. -->
+                <div v-if="props.formType === 'create' || !props.selectedNews?.notified_at" class="space-y-1" data-testid="news-notify">
                     <div class="w-fit flex items-center cursor-pointer" @click="state.formNews.notify = !state.formNews.notify">
                         <FormCheckbox :value="state.formNews.notify" />
                         {{ $t('news.form.notify') }}
                     </div>
                     <p class="text-xs text-gray-500">{{ $t('news.form.notifyHint') }}</p>
+                    <p v-if="state.formNews.notify && !state.formNews.is_active" class="text-xs text-gray-500" data-testid="news-notify-inactive">
+                        {{ $t('news.form.notifyInactiveHint') }}
+                    </p>
                 </div>
             </div>
             <div class="mt-6">
@@ -268,6 +272,8 @@ watch(() => props.selectedNews, (newValue: any) => {
             content: newValue.content,
             is_featured: newValue.is_featured,
             is_active: newValue.is_active,
+            // An edit starts from what was saved; a new post keeps its default (ticked).
+            notify: newValue.notify ?? newValue.notify_on_publish ?? true,
             audience: newValue.audience || newValue.audiences || [],
             department: newValue.department || newValue.departments || [],
             attachments: [],

@@ -23,6 +23,7 @@
     "test:price-estimate-settlement": "node price-estimate-settlement.mjs",
     "test:dental-recalls": "node dental-recalls.mjs",
     "test:import-employees": "node import-employees.mjs",
+    "test:news-notify": "node news-notify.mjs",
     "test:journal-last-edited": "node journal-last-edited.mjs",
     "test:discharge-reminder-setting": "node discharge-reminder-setting.mjs",
     "test:calendar-week-numbers": "node calendar-week-numbers.mjs",

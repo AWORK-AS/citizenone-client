@@ -10895,7 +10895,8 @@
         "editNews": "Redigera nyheter",
         "form": {
             "notify": "Skicka notis till mottagarna",
-            "notifyHint": "Kollegor som kan se inlägget får en notis i klockan och i telefonen.",
+            "notifyHint": "Medarbetare och invånare som kan se inlägget får ett meddelande.",
+            "notifyInactiveHint": "Inlägget är inte aktivt: meddelandet skickas när du gör det aktivt.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhet är blivit sparad",
