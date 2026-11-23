@@ -7,7 +7,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    distributionStatus, formatWeekHours, isContactWeeklyHoursOn, shiftWeekDate, panelWeekDate, parseWeeklyHours, planProgress, planStatus, weekProgress, weekStatus,
+    distributionStatus, formatWeekHours, isContactWeeklyHoursOn, shiftWeekDate, panelWeekDate, panelSpan, givenHours, parseWeeklyHours, planProgress, planStatus, weekProgress, weekStatus,
 } from '../../composables/citizenWeeklyHours.ts'
 
 describe('isContactWeeklyHoursOn', () => {
@@ -84,8 +84,11 @@ describe('panelWeekDate', () => {
     test('the day on screen', () => {
         assert.equal(panelWeekDate('default', { start_date: '2026-11-03', end_date: '2026-11-03' }, '2026-10-23'), '2026-11-03')
     })
-    test('today for a month or nothing', () => {
-        assert.equal(panelWeekDate('month', { start_date: '2026-09-28', end_date: '2026-11-08' }, '2026-10-23'), '2026-10-23')
+    test('a day in the month on screen for the month grid', () => {
+        // The October grid runs from late September into November.
+        assert.equal(panelWeekDate('month', { start_date: '2026-09-28', end_date: '2026-11-08' }, '2026-12-01'), '2026-10-18')
+    })
+    test('today for nothing', () => {
         assert.equal(panelWeekDate('default', null, '2026-10-23'), '2026-10-23')
     })
 })
@@ -112,5 +115,18 @@ describe('shiftWeekDate', () => {
 
     test('keeps the day across the end of summer time', () => {
         assert.equal(shiftWeekDate('2026-10-21', 1), '2026-10-28')
+    })
+})
+
+describe('panelSpan / givenHours', () => {
+    test('the month view counts the month, the rest the week', () => {
+        assert.equal(panelSpan('month'), 'month')
+        assert.equal(panelSpan('week'), 'week')
+        assert.equal(panelSpan('default'), 'week')
+    })
+    test('the hours given in the span, else the hours a week', () => {
+        assert.equal(givenHours({ weekly_hours: 7, given_hours: 31 }), 31)
+        assert.equal(givenHours({ weekly_hours: 7 }), 7)
+        assert.equal(planProgress({ weekly_hours: 7, given_hours: 28, planned_hours: 7 }), 25)
     })
 })

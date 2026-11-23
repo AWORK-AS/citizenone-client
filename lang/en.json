@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "My hours per @:terms.citizen{''} · week {week}",
+            "titleMonth": "My hours per @:terms.citizen{''} · {month}",
+            "citizenTotal": "In total for @:terms.citizenDefinite{''}: {planned} of {given} h planned",
+            "citizenGrant": "Grant: {given} h",
             "summary": "{planned} of {given} h planned",
             "plan": "Plan",
             "plannedOfGiven": "{planned} of {given} h",

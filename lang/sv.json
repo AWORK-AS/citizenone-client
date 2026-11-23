@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "Mina timmar per @:terms.citizen{''} · vecka {week}",
+            "titleMonth": "Mina timmar per @:terms.citizen{''} · {month}",
+            "citizenTotal": "Totalt för @:terms.citizenDefinite{''}: {planned} av {given} tim planerat",
+            "citizenGrant": "Beviljning: {given} tim",
             "summary": "{planned} av {given} h planerade",
             "plan": "Planera",
             "plannedOfGiven": "{planned} av {given} h",

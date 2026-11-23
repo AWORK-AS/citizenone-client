@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "Mine timer per @:terms.citizen{''} · uke {week}",
+            "titleMonth": "Mine timer per @:terms.citizen{''} · {month}",
+            "citizenTotal": "Totalt for @:terms.citizenDefinite{''}: {planned} av {given} t planlagt",
+            "citizenGrant": "Bevilling: {given} t",
             "summary": "{planned} av {given} t planlagt",
             "plan": "Planlegg",
             "plannedOfGiven": "{planned} av {given} t",
