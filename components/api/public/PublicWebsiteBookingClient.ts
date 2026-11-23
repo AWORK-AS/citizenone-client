@@ -42,6 +42,11 @@ export class PublicWebsiteBookingClient {
         return this.request(`/user/online-booking/courses-events/booking-settings/${bookingSettingUuid}/time-slots/${date}`)
     }
 
+    // The days in a range that still have a time, for the month calendar.
+    async getAvailableDates(bookingSettingUuid: string, from: string, to: string): Promise<any> {
+        return this.request(`/user/online-booking/courses-events/booking-settings/${bookingSettingUuid}/available-dates?from=${from}&to=${to}`)
+    }
+
     async book(serviceUuid: string, payload: object): Promise<any> {
         return this.request(`/public/website-booking/${this.embedToken}/services/${serviceUuid}/book`, 'POST', payload)
     }
