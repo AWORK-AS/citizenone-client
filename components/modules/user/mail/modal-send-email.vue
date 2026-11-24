@@ -55,8 +55,18 @@
                                     {{ $t('mail.form.alwaysEncrypted') }}
                                 </p>
                             </div>
+                            <div class="flex items-start gap-x-2 rounded-md bg-green-50 px-3 py-2 text-sm text-green-800"
+                                v-if="userStore.getUser?.is_secure_mail_active && state.formEmail.encrypt_message && allRecipientsTrusted">
+                                <Icon name="ph:shield-check-fill" class="mt-0.5 w-4 h-4 shrink-0" />
+                                <p>{{ $t('mail.form.trustedNoCode') }}</p>
+                            </div>
+                            <div class="flex items-start gap-x-2 rounded-md bg-gray-50 px-3 py-2 text-sm text-gray-700"
+                                v-else-if="userStore.getUser?.is_secure_mail_active && state.formEmail.encrypt_message && someRecipientsTrusted">
+                                <Icon name="ph:shield-check" class="mt-0.5 w-4 h-4 shrink-0" />
+                                <p>{{ $t('mail.form.trustedSomeNoCode') }}</p>
+                            </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3"
-                                v-if="userStore.getUser?.is_secure_mail_active">
+                                v-if="userStore.getUser?.is_secure_mail_active && !allRecipientsTrusted">
                                 <div class="space-y-1" v-if="state.formEmail.encrypt_message">
                                     <FormLabel for="password" :label="$t('mail.form.createCode')" />
                                     <FormTextField id="password" name="password"
@@ -74,7 +84,7 @@
                                     <FormError :error="state?.error?.errors?.confirm_password?.[0]" />
                                 </div>
                             </div>
-                            <div class="space-y-1" v-if="state.formEmail.encrypt_message">
+                            <div class="space-y-1" v-if="state.formEmail.encrypt_message && !allRecipientsTrusted">
                                 <FormLabel for="password_hint" :label="$t('mail.form.passwordHint')" />
                                 <FormTextField id="password_hint" name="password_hint"
                                     :placeholder="$t('mail.form.passwordHintPlaceholder')"
@@ -206,6 +216,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 import { secureMailSendOutcome } from '@/composables/secureMailSendOutcome'
+import { trustedMailDomainService } from '@/components/api/user/TrustedMailDomainService'
 
 const props = defineProps({
     isModalOpen: {
@@ -274,8 +285,33 @@ const state = reactive({
     }
 })
 
+// Recipients on a domain the company's admin trusts (forced TLS) get a personal link and need no password.
+// When every recipient is trusted, the password fields go away; the backend checks the same rule.
+const trustedDomains = ref<string[]>([])
+
+async function fetchTrustedDomains() {
+    try {
+        const response = await trustedMailDomainService.getAll()
+        trustedDomains.value = (response?.data ?? []).map((item: any) => String(item.domain).toLowerCase())
+    } catch {
+        trustedDomains.value = []
+    }
+}
+
+function isTrustedRecipient(email: string): boolean {
+    const domain = String(email ?? '').split('@').pop()?.trim().toLowerCase()
+    return !!domain && trustedDomains.value.includes(domain)
+}
+
+const allRecipientsTrusted = computed(() => {
+    const recipients = state.formEmail.recipient ?? []
+    return recipients.length > 0 && recipients.every((email: string) => isTrustedRecipient(email))
+})
+
+const someRecipientsTrusted = computed(() => (state.formEmail.recipient ?? []).some((email: string) => isTrustedRecipient(email)))
+
 const rules = computed(() => {
-    if (state.formEmail.encrypt_message) {
+    if (state.formEmail.encrypt_message && !allRecipientsTrusted.value) {
         return {
             formEmail: {
                 recipient: {
@@ -320,6 +356,7 @@ const v$ = useVuelidate(rules, state)
 
 watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
     if (isModalOpen) {
+        fetchTrustedDomains()
         const userSignature = userStore.getUser?.default_signature?.signature
         if (userSignature) {
             const signatureDelimiter = '\n------------------------------\n'
@@ -464,8 +501,10 @@ async function sendEmail() {
         formData.append('content', state.formEmail.content)
         if (state.formEmail.encrypt_message) {
             formData.append('is_encrypted', String(state.formEmail.encrypt_message))
-            formData.append('password', state.formEmail.password)
-            formData.append('password_hint', state.formEmail.password_hint)
+            if (!allRecipientsTrusted.value) {
+                formData.append('password', state.formEmail.password)
+                formData.append('password_hint', state.formEmail.password_hint)
+            }
         }
         state.formEmail.files.forEach((file: any) => formData.append('files[]', file))
         state.formEmail.citizen_files.forEach((file: any) => formData.append('citizen_files[]', file))

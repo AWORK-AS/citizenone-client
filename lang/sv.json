@@ -10266,7 +10266,9 @@
             "reenterCode": "Ange den selvvalgte kod igen",
             "send": "Skicka",
             "subject": "Emne",
-            "to": "Till"
+            "to": "Till",
+            "trustedNoCode": "Alla mottagare är betrodda samarbetspartner. De får en personlig länk och behöver inget lösenord.",
+            "trustedSomeNoCode": "Mottagare på betrodda partnerdomäner får en länk utan lösenord. De andra behöver lösenordet."
         },
         "forward": "Vidare",
         "inbox": "Indbakke",
@@ -23547,5 +23549,22 @@
         "closed": "Frågan är inte öppen just nu.",
         "failed": "Svaret skickades inte. Försök igen.",
         "anonymous": "Anonymt. Vi frågar inte vem du är."
+    },
+    "trustedMailDomains": {
+        "title": "Betrodda partnerdomäner",
+        "intro": "Säker post till dessa domäner kräver inget lösenord. Varje mottagare får en personlig länk som fungerar i 30 dagar. Själva meddelandet stannar i CitizenOne och står aldrig i e-postmeddelandet. Lägg bara till en domän när tvingad TLS är uppsatt mot den i ert eget e-postsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Skicka säker post till kommuner, regioner och andra samarbetspartner utan lösenord, när tvingad TLS är uppsatt mot dem.",
+        "manage": "Hantera betrodda domäner",
+        "domain": "Domän",
+        "domainPlaceholder": "t.ex. stockholm.se",
+        "confirmForcedTls": "Jag bekräftar att tvingad TLS är uppsatt mot den här domänen i vårt e-postsystem.",
+        "add": "Lägg till domän",
+        "added": "Domänen har lagts till",
+        "remove": "Ta bort",
+        "removed": "Domänen har tagits bort",
+        "confirmRemove": "Ta bort {domain}? Länkar som redan skickats till domänen slutar fungera.",
+        "confirmedBy": "Tvingad TLS bekräftad av {name} den {date}",
+        "empty": "Inga betrodda domäner ännu. Säker post ber alltid om ett lösenord.",
+        "loading": "Laddar…"
     }
 }

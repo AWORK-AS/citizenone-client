@@ -10266,7 +10266,9 @@
             "reenterCode": "Indtast den selvvalgte kode igen",
             "send": "Send",
             "subject": "Emne",
-            "to": "Til"
+            "to": "Til",
+            "trustedNoCode": "Alle modtagere er betroede samarbejdspartnere. De får et personligt link og skal ikke bruge en adgangskode.",
+            "trustedSomeNoCode": "Modtagere på betroede partnerdomæner får et link uden adgangskode. De andre skal bruge adgangskoden."
         },
         "forward": "Videre",
         "inbox": "Indbakke",
@@ -23632,5 +23634,22 @@
         "closed": "Spørgsmålet er ikke åbent lige nu.",
         "failed": "Svaret blev ikke sendt. Prøv igen.",
         "anonymous": "Anonymt. Vi spørger ikke, hvem du er."
+    },
+    "trustedMailDomains": {
+        "title": "Betroede partnerdomæner",
+        "intro": "Sikker mail til disse domæner kræver ingen adgangskode. Hver modtager får et personligt link, der virker i 30 dage. Selve beskeden bliver i CitizenOne og står aldrig i mailen. Tilføj kun et domæne, når tvungen TLS er sat op til det i jeres eget mailsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Send sikker mail til kommuner, regioner og andre samarbejdspartnere uden adgangskode, når tvungen TLS er sat op med dem.",
+        "manage": "Administrer betroede domæner",
+        "domain": "Domæne",
+        "domainPlaceholder": "fx aarhus.dk",
+        "confirmForcedTls": "Jeg bekræfter, at tvungen TLS er sat op til dette domæne i vores mailsystem.",
+        "add": "Tilføj domæne",
+        "added": "Domænet er tilføjet",
+        "remove": "Fjern",
+        "removed": "Domænet er fjernet",
+        "confirmRemove": "Fjern {domain}? Links, der allerede er sendt til domænet, holder op med at virke.",
+        "confirmedBy": "Tvungen TLS bekræftet af {name} den {date}",
+        "empty": "Ingen betroede domæner endnu. Sikker mail beder altid om en adgangskode.",
+        "loading": "Indlæser…"
     }
 }
