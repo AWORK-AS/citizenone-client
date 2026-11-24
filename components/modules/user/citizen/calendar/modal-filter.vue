@@ -13,6 +13,14 @@
                             <FormSelectMultiple id="tags" :options="state.options.tags"
                                 v-model="state.formFilter.tags" />
                         </div>
+                        <!-- Roadmap #499: only events that booked one of these units. -->
+                        <div v-if="state.options.units.length" class="space-y-1" data-testid="calendar-filter-units">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('calendar.filter.units') }}
+                            </p>
+                            <FormSelectMultiple id="units" :options="state.options.units"
+                                v-model="state.formFilter.units" />
+                        </div>
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -32,6 +40,7 @@
 
 <script setup lang="ts">
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
+import { unitService } from '@/components/api/user/UnitService'
 import { useCalendarStore } from '@/store/calendar'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
@@ -52,10 +61,12 @@ const state = reactive({
     formFilter: {
         selectedView: calendarStore.getCalendarView as any,
         tags: [],
+        units: [...(calendarStore.getUnitUuids ?? [])] as string[],
     },
     isPageLoading: false,
     options: {
         tags: [],
+        units: [] as { value: string, label: string }[],
         viewFilterLists: [
             { id: 1, title: 'default' },
             { id: 2, title: 'week' },
@@ -68,6 +79,7 @@ const state = reactive({
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         state.formFilter.selectedView = state.options.viewFilterLists.find((item: any) => item.title === calendarStore.getCalendarView)
+        state.formFilter.units = [...(calendarStore.getUnitUuids ?? [])]
     }
 })
 
@@ -77,7 +89,17 @@ function closeModal() {
 
 onMounted(() => {
     fetchAllCalendarTags()
+    fetchAllUnits()
 })
+
+async function fetchAllUnits() {
+    try {
+        const response = await unitService.getAllUnits()
+        state.options.units = (response?.data ?? []).map((unit: any) => ({ value: unit.uuid, label: unit.name }))
+    } catch {
+        state.options.units = []
+    }
+}
 
 async function fetchAllCalendarTags() {
     state.error = {}

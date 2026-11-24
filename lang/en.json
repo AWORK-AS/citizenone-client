@@ -2284,7 +2284,8 @@
             "bookings": "Bookings",
             "treatments": "Treatments",
             "events": "Events",
-            "appointments": "Booked times"
+            "appointments": "Booked times",
+            "units": "Units"
         },
         "today": "Today",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Cancelled",
             "movedTo": "Moved to {time}",
             "movedFrom": "Moved here from {time}"
+        },
+        "filter": {
+            "units": "Unit"
         }
     },
     "calendarTags": {
@@ -17987,7 +17991,8 @@
                 "unitSuccessfullyUpdated": "Unit successfully updated"
             },
             "doYouWantToReserveAUnit": "Do you want to reserve a unit",
-            "name": "Name"
+            "name": "Name",
+            "color": "Colour"
         },
         "newUnit": "New unit",
         "table": {
@@ -18001,7 +18006,23 @@
             "name": "Name"
         },
         "unit": "Unit",
-        "units": "Units"
+        "units": "Units",
+        "overview": {
+            "title": "Units overview",
+            "onlyFree": "Only free units",
+            "booked": "Booked",
+            "free": "Free",
+            "noUnits": "No units yet",
+            "noUnitsHint": "Add cars, rooms or equipment under Settings → Units.",
+            "goToSettings": "Go to units",
+            "noneFree": "No unit is free at that time.",
+            "allUnits": "All units",
+            "freeFrom": "From",
+            "freeTo": "To",
+            "newEventHere": "New event here",
+            "previous": "Previous",
+            "next": "Next"
+        }
     },
     "update": "Update",
     "updates": {
