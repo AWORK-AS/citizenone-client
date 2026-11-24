@@ -205,7 +205,10 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     if (type.toLowerCase().includes('calendareventreminder')) return 'calendar_event_reminder'
-    if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
+    // A time booked online (the app, or the widget on the clinic's own website):
+    // both open Booked times on that day.
+    if (type.toLowerCase().includes('patientbooking') || type.toLowerCase().includes('bookingcreated')) return 'patient_booking'
+    if (type.toLowerCase().includes('dentalmanualrecall')) return 'dental_recall'
     if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
     // Task #97: a contract sent to sign, and a contract signed.
     if (type.toLowerCase().includes('contractsignaturerequested')) return 'contract_to_sign'
@@ -237,6 +240,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
     calendar_event_reminder: { bg: 'bg-primary/10', icon: 'ph:alarm', color: 'text-primary' },
     patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
+    dental_recall: { bg: 'bg-accent-orange/10', icon: 'ph:phone-call', color: 'text-accent-orange' },
     employee_deletion_reminder: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
     contract_to_sign: { bg: 'bg-accent-orange/10', icon: 'ph:signature', color: 'text-accent-orange' },
     contract_signed: { bg: 'bg-secondary/10', icon: 'ph:seal-check', color: 'text-secondary' },
@@ -705,6 +709,15 @@ async function handleNotifClick(notif: any) {
         state.isOpen = false
         const date = notif.data?.content?.date
         navigateTo({ path: '/calendar/bookings/appointments', query: date ? { from: date, to: date } : {} })
+    }
+    // A patient due for a check-up who wants a call or a letter: to the
+    // patient's card, where the phone number and address are.
+    if (getCategory(notif.type) === 'dental_recall') {
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        if (citizenUuid) {
+            state.isOpen = false
+            navigateTo(`/citizens/${citizenUuid}/view-edit`)
+        }
     }
     // Former employees whose data can now be deleted: the archived list, filtered to them.
     if (getCategory(notif.type) === 'employee_deletion_reminder') {

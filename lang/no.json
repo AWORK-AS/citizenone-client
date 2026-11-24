@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "Mine timer per @:terms.citizen{''} · uke {week}",
+            "titleMonth": "Mine timer per @:terms.citizen{''} · {month}",
+            "citizenTotal": "Totalt for @:terms.citizenDefinite{''}: {planned} av {given} t planlagt",
+            "citizenGrant": "Bevilling: {given} t",
             "summary": "{planned} av {given} t planlagt",
             "plan": "Planlegg",
             "plannedOfGiven": "{planned} av {given} t",
@@ -10895,7 +10898,8 @@
         "editNews": "Rediger nyheter",
         "form": {
             "notify": "Send varsel til mottakerne",
-            "notifyHint": "Kolleger som kan se innlegget, får beskjed i bjellen og på telefonen.",
+            "notifyHint": "Ansatte og innbyggere som kan se innlegget, får beskjed.",
+            "notifyInactiveHint": "Innlegget er ikke aktivt: beskjeden sendes når du gjør det aktivt.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhet er blitt lagret",
@@ -14421,11 +14425,24 @@
                 },
                 "toRoadmap": "Sett på veikartet",
                 "decline": "Avvis",
+                "declineConfirm": "Vil du avvise {reference}?",
                 "reopen": "Sett tilbake til ny",
                 "newItem": "Nytt punkt",
                 "existingItem": "Eksisterende punkt",
                 "itemTitle": "Tittel på veikartpunktet",
-                "newItemHint": "Opprettes som utkast under Planlagt. Ønsket lagres som opprinnelig tekst, og kunden noteres som ønsker."
+                "newItemHint": "Opprettes som utkast under Planlagt. Ønsket lagres som opprinnelig tekst, og kunden noteres som ønsker.",
+                "bulk": {
+                    "selectAll": "Velg alle",
+                    "selected": "{count} valgt",
+                    "clear": "Fjern valg",
+                    "declineConfirm": "Vil du avvise {count} ønsker?",
+                    "reopenConfirm": "Vil du gjenåpne {count} ønsker?",
+                    "doneDeclined": "{count} ønsker avvist.",
+                    "doneReopened": "{count} ønsker gjenåpnet.",
+                    "skipped": "{count} var allerede behandlet og ble hoppet over."
+                },
+                "openItem": "Åpne punktet på veikartet",
+                "itemNotFound": "Punktet finnes ikke lenger på veikartet."
             },
             "import": {
                 "button": "Import",

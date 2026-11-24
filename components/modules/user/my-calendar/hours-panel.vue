@@ -9,7 +9,9 @@
             @click="state.isOpen = !state.isOpen">
             <Icon name="ph:hourglass-medium" class="size-5 text-tertiary" aria-hidden="true" />
             <h3 id="hours-panel-heading" class="font-semibold text-gray-900">
-                {{ $t('calendar.hoursPanel.title', { week: state.week.week_number }) }}
+                {{ state.week.span === 'month'
+                    ? $t('calendar.hoursPanel.titleMonth', { month: monthName })
+                    : $t('calendar.hoursPanel.title', { week: state.week.week_number }) }}
             </h3>
             <span class="ml-2 text-xs text-gray-500 tabular-nums">
                 {{ $t('calendar.hoursPanel.summary', { planned: formatWeekHours(totals.planned, locale), given: formatWeekHours(totals.given, locale) }) }}
@@ -41,7 +43,7 @@
                         }"></div>
                     </div>
                     <span class="shrink-0 text-xxs text-gray-500 tabular-nums">
-                        {{ $t('calendar.hoursPanel.plannedOfGiven', { planned: formatWeekHours(row.planned_hours ?? 0, locale), given: formatWeekHours(row.weekly_hours, locale) }) }}
+                        {{ $t('calendar.hoursPanel.plannedOfGiven', { planned: formatWeekHours(row.planned_hours ?? 0, locale), given: formatWeekHours(givenHours(row), locale) }) }}
                     </span>
                 </div>
                 <p class="mt-1 text-xs tabular-nums" :class="{
@@ -51,15 +53,24 @@
                 }">
                     {{ statusText(row) }}
                 </p>
+                <!-- The citizen's whole grant in the span and what every employee booked on it,
+                     beside the employee's own share (AW-2026-10866). -->
+                <p v-if="row.citizen_given_hours !== null && row.citizen_given_hours !== undefined"
+                    class="mt-0.5 text-xxs text-gray-500 tabular-nums">
+                    {{ row.citizen_planned_hours !== null && row.citizen_planned_hours !== undefined
+                        ? $t('calendar.hoursPanel.citizenTotal', { planned: formatWeekHours(row.citizen_planned_hours, locale), given: formatWeekHours(row.citizen_given_hours, locale) })
+                        : $t('calendar.hoursPanel.citizenGrant', { given: formatWeekHours(row.citizen_given_hours, locale) }) }}
+                </p>
             </li>
         </ul>
     </section>
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
-import { formatWeekHours, planProgress, planStatus, type CitizenWeekRow } from '@/composables/citizenWeeklyHours'
+import { formatWeekHours, givenHours, planProgress, planStatus, type CitizenWeekRow } from '@/composables/citizenWeeklyHours'
 
 const props = defineProps({
     // Any day in the week to show (YYYY-MM-DD).
@@ -72,18 +83,23 @@ const props = defineProps({
         type: Number,
         default: 0,
     },
+    // 'month' in the calendar's month view: the month's hours and grant instead of the week's.
+    span: {
+        type: String as PropType<'week' | 'month'>,
+        default: 'week',
+    },
 })
 const emit = defineEmits(['plan'])
 const { t, locale } = useI18n()
 
 const state = reactive({
-    week: null as null | { enabled: boolean, week_number: number, citizens: CitizenWeekRow[] },
+    week: null as null | { enabled: boolean, span?: 'week' | 'month', week_number: number, month?: number, year?: number, citizens: CitizenWeekRow[] },
     isOpen: true,
 })
 
 const totals = computed(() => (state.week?.citizens ?? []).reduce((sum, row) => ({
     planned: sum.planned + (row.planned_hours ?? 0),
-    given: sum.given + row.weekly_hours,
+    given: sum.given + givenHours(row),
 }), { planned: 0, given: 0 }))
 
 function statusText(row: CitizenWeekRow) {
@@ -100,12 +116,25 @@ function statusText(row: CitizenWeekRow) {
 
 async function fetchWeek() {
     try {
-        const response = await dailyOverviewService.getMyCitizenHours({ date: props.date })
+        const response = await dailyOverviewService.getMyCitizenHours({ date: props.date, span: props.span as 'week' | 'month' })
         state.week = response?.data ?? null
     } catch {
         state.week = null
     }
 }
 
-watch(() => [props.date, props.refreshKey], fetchWeek, { immediate: true })
+// "november 2026" in the user's language, for the month view's heading.
+const monthName = computed(() => {
+    const month = state.week?.month
+    const year = state.week?.year
+    if (!month || !year) return ''
+    const tag = locale.value === 'dk' ? 'da' : locale.value === 'no' ? 'nb' : locale.value
+    try {
+        return new Date(Date.UTC(year, month - 1, 15)).toLocaleDateString(tag, { month: 'long', year: 'numeric', timeZone: 'UTC' })
+    } catch {
+        return `${month}/${year}`
+    }
+})
+
+watch(() => [props.date, props.refreshKey, props.span], fetchWeek, { immediate: true })
 </script>

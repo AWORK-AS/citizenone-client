@@ -10,10 +10,15 @@ export type CitizenWeekRow = {
     firstname: string | null
     lastname: string | null
     weekly_hours: number
+    /** What the employee is given in the span shown: the week, or the month in the month view. */
+    given_hours?: number
     planned_hours?: number
     unplanned_hours?: number
     used_hours: number
     remaining_hours: number
+    /** The citizen's whole grant in the span, and what every employee booked on it; null without a grant. */
+    citizen_given_hours?: number | null
+    citizen_planned_hours?: number | null
     /** The own hours over the grant period running that week; null without one that ends. */
     period?: CitizenPeriodHours | null
 }
@@ -79,8 +84,18 @@ export function formatWeekHours(hours: number, language: string | undefined): st
 }
 
 /** How much of the week is booked in the calendar, 0-100, for the bar. */
-export function planProgress(row: Pick<CitizenWeekRow, 'weekly_hours' | 'planned_hours'>): number {
-    return weekProgress({ weekly_hours: row.weekly_hours, used_hours: row.planned_hours ?? 0 })
+export function planProgress(row: Pick<CitizenWeekRow, 'weekly_hours' | 'planned_hours' | 'given_hours'>): number {
+    return weekProgress({ weekly_hours: givenHours(row), used_hours: row.planned_hours ?? 0 })
+}
+
+/** The hours given in the span shown; an older payload has only the hours a week. */
+export function givenHours(row: Pick<CitizenWeekRow, 'weekly_hours' | 'given_hours'>): number {
+    return row.given_hours ?? row.weekly_hours
+}
+
+/** The span the calendar's hours panel counts: the month in the month view, else the week. */
+export function panelSpan(view: string): 'week' | 'month' {
+    return view === 'month' ? 'month' : 'week'
 }
 
 /** 'over' when more is booked than given, 'done' when all is booked, 'open' while hours are left to place. */
@@ -89,13 +104,22 @@ export function planStatus(row: Pick<CitizenWeekRow, 'unplanned_hours'>): 'over'
 }
 
 /**
- * The day whose week the calendar's hours panel shows: the day or week on
- * screen, else today (the month view spans several weeks).
+ * The day whose week (or month) the calendar's hours panel shows: the day or
+ * week on screen, a day inside the month on screen, else today.
  */
 export function panelWeekDate(view: string, range: { start_date?: string, end_date?: string } | null | undefined, today: string): string {
     if (!range?.start_date) return today
     if (view === 'week') return range.start_date
     if (range.start_date === range.end_date) return range.start_date
+    // The month grid starts and ends in the months around it: its middle day
+    // is in the month on screen (AW-2026-10866).
+    if (view === 'month' && range.end_date) {
+        const start = Date.parse(`${range.start_date}T00:00:00Z`)
+        const end = Date.parse(`${range.end_date}T00:00:00Z`)
+        if (Number.isFinite(start) && Number.isFinite(end)) {
+            return new Date(start + Math.floor((end - start) / 86400000 / 2) * 86400000).toISOString().slice(0, 10)
+        }
+    }
     return today
 }
 
