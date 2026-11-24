@@ -47,7 +47,7 @@
                                 a choice that no longer exists.
                             -->
                             <div class="space-y-1 flex items-center gap-x-2"
-                                v-if="userStore.getUser?.is_secure_mail_active">
+                                v-if="userStore.getUser?.is_secure_mail_active && !allRecipientsTrusted">
                                 <div class="flex items-center">
                                     <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
                                 </div>
