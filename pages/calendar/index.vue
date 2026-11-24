@@ -197,8 +197,8 @@
 
             <div class="mt-5 space-y-5">
                 <!-- The employee's hours a week per citizen: given, booked, still to place. -->
-                <ModulesUserMyCalendarHoursPanel :date="hoursPanelDate" :refreshKey="state.hoursPanelRefresh"
-                    @plan="planForCitizen" />
+                <ModulesUserMyCalendarHoursPanel :date="hoursPanelDate" :span="panelSpan(state.calendarView)"
+                    :refreshKey="state.hoursPanelRefresh" @plan="planForCitizen" />
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <!-- A failed load says so, in place of the grid: an empty
@@ -299,7 +299,7 @@ import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { duplicateFields } from '@/composables/calendarEventPresentation'
-import { panelWeekDate } from '@/composables/citizenWeeklyHours'
+import { panelSpan, panelWeekDate } from '@/composables/citizenWeeklyHours'
 import { isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone } from '@/composables/calendarNoteRequired'
 // import { saveAs } from 'file-saver'
 

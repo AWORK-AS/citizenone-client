@@ -47,23 +47,57 @@
                 </div>
             </div>
 
-            <!-- Step 2: date + slot -->
+            <!-- Step 2: date + time. A month with the open days marked, and the
+                 free times of the chosen day beside it (AW-2026-10776). -->
             <div v-else-if="state.step === 'slot'">
                 <h2 class="co-widget__step-title">{{ state.selectedService?.name }}</h2>
+                <p class="co-widget__subtitle">{{ t('chooseDateTime') }}</p>
 
-                <div class="co-widget__field">
-                    <label class="co-widget__label" for="co-widget-date">{{ t('chooseDate') }}</label>
-                    <input id="co-widget-date" type="date" class="co-widget__input" :min="today"
-                        v-model="state.selectedDate" @change="loadTimeSlots" />
-                </div>
+                <div class="co-widget__picker">
+                    <div class="co-widget__calendar">
+                        <div class="co-widget__calendar-head">
+                            <button type="button" class="co-widget__nav" :disabled="!canGoBack"
+                                :aria-label="t('previousMonth')" @click="changeMonth(-1)">&lsaquo;</button>
+                            <span class="co-widget__month">{{ monthTitle }}</span>
+                            <button type="button" class="co-widget__nav" :aria-label="t('nextMonth')"
+                                @click="changeMonth(1)">&rsaquo;</button>
+                        </div>
+                        <div class="co-widget__weekdays">
+                            <span v-for="weekday in weekdayNames" :key="weekday">{{ weekday }}</span>
+                        </div>
+                        <div class="co-widget__days" :class="{ 'co-widget__days--loading': state.isLoadingDates }">
+                            <button type="button" v-for="day in calendarDays" :key="day.date" class="co-widget__day"
+                                :class="{
+                                    'co-widget__day--outside': !day.inMonth,
+                                    'co-widget__day--open': day.isOpen,
+                                    'co-widget__day--selected': day.date === state.selectedDate,
+                                }" :disabled="!day.isOpen" :aria-pressed="day.date === state.selectedDate"
+                                :aria-label="day.label" @click="selectDate(day.date)">
+                                {{ day.day }}
+                            </button>
+                        </div>
+                        <p class="co-widget__empty" v-if="!state.isLoadingDates && !state.availableDates.length">
+                            {{ t('noDatesThisMonth') }}
+                        </p>
+                    </div>
 
-                <div class="co-widget__slots" v-if="state.timeSlots.length">
-                    <button type="button" class="co-widget__slot" v-for="slot in state.timeSlots" :key="slot.uuid"
-                        @click="selectSlot(slot)">
-                        {{ slot.start_time }}
-                    </button>
+                    <div class="co-widget__times">
+                        <div class="co-widget__times-head">
+                            {{ t('availableTimes') }}
+                            <strong v-if="state.selectedDate">{{ selectedDateLabel }}</strong>
+                        </div>
+                        <div class="co-widget__slots" v-if="openSlots.length">
+                            <button type="button" class="co-widget__slot" v-for="slot in openSlots" :key="slot.uuid"
+                                @click="selectSlot(slot)">
+                                {{ shortTime(slot.start_time) }}
+                            </button>
+                        </div>
+                        <p class="co-widget__empty" v-else-if="state.selectedDate && !state.isLoadingSlots">
+                            {{ t('noSlots') }}
+                        </p>
+                        <p class="co-widget__empty" v-else-if="!state.selectedDate">{{ t('pickADay') }}</p>
+                    </div>
                 </div>
-                <p class="co-widget__empty" v-else-if="state.selectedDate">{{ t('noSlots') }}</p>
 
                 <div class="co-widget__button-row">
                     <button type="button" class="co-widget__button co-widget__button--secondary" @click="backToServices">
@@ -137,7 +171,7 @@
 </template>
 
 <script setup lang="ts">
-import { localDateString } from '@/composables/localDate'
+import { localDateString, parseLocalDate } from '@/composables/localDate'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { PublicWebsiteBookingClient } from '@/components/api/public/PublicWebsiteBookingClient'
 import {
@@ -165,6 +199,12 @@ const LABELS: Record<string, Record<string, string>> = {
         allDepartments: 'All departments',
         noServices: 'No services are available for online booking right now.',
         chooseDate: 'Choose a date',
+        chooseDateTime: 'Choose date & time',
+        availableTimes: 'Available times',
+        pickADay: 'Pick a day marked in the calendar.',
+        noDatesThisMonth: 'No available times this month. Try the next month.',
+        previousMonth: 'Previous month',
+        nextMonth: 'Next month',
         noSlots: 'No available times on this date.',
         back: 'Back',
         yourDetails: 'Your details',
@@ -189,6 +229,12 @@ const LABELS: Record<string, Record<string, string>> = {
         allDepartments: 'Alle afdelinger',
         noServices: 'Der er ingen ydelser tilgængelige til online booking lige nu.',
         chooseDate: 'Vælg en dato',
+        chooseDateTime: 'Vælg dato & tid',
+        availableTimes: 'Ledige tider',
+        pickADay: 'Vælg en af de markerede dage i kalenderen.',
+        noDatesThisMonth: 'Ingen ledige tider i denne måned. Prøv næste måned.',
+        previousMonth: 'Forrige måned',
+        nextMonth: 'Næste måned',
         noSlots: 'Ingen ledige tider på denne dato.',
         back: 'Tilbage',
         yourDetails: 'Dine oplysninger',
@@ -213,6 +259,12 @@ const LABELS: Record<string, Record<string, string>> = {
         allDepartments: 'Alle avdelinger',
         noServices: 'Ingen tjenester er tilgjengelige for nettbooking akkurat nå.',
         chooseDate: 'Velg en dato',
+        chooseDateTime: 'Velg dato og tid',
+        availableTimes: 'Ledige tider',
+        pickADay: 'Velg en av de markerte dagene i kalenderen.',
+        noDatesThisMonth: 'Ingen ledige tider denne måneden. Prøv neste måned.',
+        previousMonth: 'Forrige måned',
+        nextMonth: 'Neste måned',
         noSlots: 'Ingen ledige tider på denne datoen.',
         back: 'Tilbake',
         yourDetails: 'Dine opplysninger',
@@ -237,6 +289,12 @@ const LABELS: Record<string, Record<string, string>> = {
         allDepartments: 'Alla avdelningar',
         noServices: 'Inga tjänster är tillgängliga för onlinebokning just nu.',
         chooseDate: 'Välj ett datum',
+        chooseDateTime: 'Välj datum och tid',
+        availableTimes: 'Lediga tider',
+        pickADay: 'Välj en av de markerade dagarna i kalendern.',
+        noDatesThisMonth: 'Inga lediga tider den här månaden. Prova nästa månad.',
+        previousMonth: 'Föregående månad',
+        nextMonth: 'Nästa månad',
         noSlots: 'Inga lediga tider detta datum.',
         back: 'Tillbaka',
         yourDetails: 'Dina uppgifter',
@@ -298,6 +356,11 @@ const state = reactive({
     selectedDate: '',
     timeSlots: [] as any[],
     selectedSlot: null as any,
+    // First day of the month shown in the calendar, YYYY-MM-01.
+    month: '',
+    availableDates: [] as string[],
+    isLoadingDates: false,
+    isLoadingSlots: false,
     contact: {
         firstname: '',
         lastname: '',
@@ -382,7 +445,9 @@ function selectService(service: any) {
     state.selectedDate = ''
     state.timeSlots = []
     state.error = ''
+    state.month = today.slice(0, 8) + '01'
     state.step = 'slot'
+    loadAvailableDates(true)
 }
 
 function backToServices() {
@@ -392,6 +457,7 @@ function backToServices() {
 
 async function loadTimeSlots() {
     if (!state.selectedService?.booking_setting_uuid || !state.selectedDate) return
+    state.isLoadingSlots = true
     try {
         const response = await client.getTimeSlots(state.selectedService.booking_setting_uuid, state.selectedDate)
         state.timeSlots = response?.data ?? []
@@ -399,6 +465,125 @@ async function loadTimeSlots() {
         state.error = error?.message
         state.timeSlots = []
     }
+    state.isLoadingSlots = false
+}
+
+// --- Month calendar -------------------------------------------------------
+
+function addMonths(month: string, count: number): string {
+    const date = parseLocalDate(month) as Date
+    return localDateString(new Date(date.getFullYear(), date.getMonth() + count, 1, 12))
+}
+
+function lastDayOf(month: string): string {
+    const date = parseLocalDate(month) as Date
+    return localDateString(new Date(date.getFullYear(), date.getMonth() + 1, 0, 12))
+}
+
+// Which days of the shown month still have a time. On opening a service the
+// first open day is chosen, and when this month is fully booked the calendar
+// moves on to the next month that has room (up to a year ahead).
+async function loadAvailableDates(pickFirst = false, monthsTried = 0) {
+    const bookingSettingUuid = state.selectedService?.booking_setting_uuid
+    if (!bookingSettingUuid || !state.month) return
+    const month = state.month
+    state.isLoadingDates = true
+    try {
+        const response = await client.getAvailableDates(bookingSettingUuid, month, lastDayOf(month))
+        if (state.month !== month) return
+        state.availableDates = response?.data ?? []
+    } catch (error: any) {
+        state.error = error?.message
+        state.availableDates = []
+    }
+    state.isLoadingDates = false
+
+    if (!pickFirst) return
+    if (state.availableDates.length) {
+        selectDate(state.availableDates[0])
+    } else if (monthsTried < 11) {
+        state.month = addMonths(state.month, 1)
+        await loadAvailableDates(true, monthsTried + 1)
+    } else {
+        state.month = today.slice(0, 8) + '01'
+        await loadAvailableDates(false)
+    }
+}
+
+function changeMonth(step: number) {
+    if (step < 0 && !canGoBack.value) return
+    state.month = addMonths(state.month, step)
+    loadAvailableDates()
+}
+
+function selectDate(date: string) {
+    if (!state.availableDates.includes(date)) return
+    state.selectedDate = date
+    state.error = ''
+    state.timeSlots = []
+    loadTimeSlots()
+}
+
+const canGoBack = computed(() => state.month > today.slice(0, 8) + '01')
+
+const monthTitle = computed(() => {
+    const date = parseLocalDate(state.month)
+    if (!date) return ''
+    const title = new Intl.DateTimeFormat(htmlLang.value, { month: 'long', year: 'numeric' }).format(date)
+    return title.charAt(0).toUpperCase() + title.slice(1)
+})
+
+// Monday first, as the clinics' own calendars are.
+const weekdayNames = computed(() => {
+    const format = new Intl.DateTimeFormat(htmlLang.value, { weekday: 'short' })
+    return Array.from({ length: 7 }, (_, index) => {
+        const name = format.format(new Date(2024, 0, 1 + index, 12)).replace('.', '')
+        return name.charAt(0).toUpperCase() + name.slice(1, 2)
+    })
+})
+
+const calendarDays = computed(() => {
+    const first = parseLocalDate(state.month)
+    if (!first) return []
+    const open = new Set(state.availableDates)
+    const labelFormat = new Intl.DateTimeFormat(htmlLang.value, { weekday: 'long', day: 'numeric', month: 'long' })
+    const leading = (first.getDay() + 6) % 7
+    const start = new Date(first.getFullYear(), first.getMonth(), 1 - leading, 12)
+    const daysInMonth = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate()
+    const cells = Math.ceil((leading + daysInMonth) / 7) * 7
+
+    return Array.from({ length: cells }, (_, index) => {
+        const date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + index, 12)
+        const value = localDateString(date)
+        const inMonth = date.getMonth() === first.getMonth()
+        return {
+            date: value,
+            day: date.getDate(),
+            inMonth,
+            isOpen: inMonth && open.has(value),
+            label: labelFormat.format(date),
+        }
+    })
+})
+
+const selectedDateLabel = computed(() => {
+    const date = parseLocalDate(state.selectedDate)
+    return date ? new Intl.DateTimeFormat(htmlLang.value, { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date) : ''
+})
+
+// Only times with a seat left and, today, not already begun.
+const openSlots = computed(() => {
+    const now = new Date()
+    return state.timeSlots.filter((slot: any) => {
+        if (Number(slot.capacity ?? 1) < 1) return false
+        if (state.selectedDate !== today) return true
+        const [hours, minutes] = String(slot.start_time ?? '').split(':').map(Number)
+        return hours * 60 + minutes > now.getHours() * 60 + now.getMinutes()
+    })
+})
+
+function shortTime(value: string): string {
+    return String(value ?? '').slice(0, 5)
 }
 
 function selectSlot(slot: any) {

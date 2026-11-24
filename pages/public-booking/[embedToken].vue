@@ -38,6 +38,6 @@ const locale = computed(() => (route.query.locale as string) || undefined)
 
 .hosted-page__inner {
     width: 100%;
-    max-width: 480px;
+    max-width: 800px;
 }
 </style>
