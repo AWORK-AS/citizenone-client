@@ -30,6 +30,7 @@ export interface CitizenForm {
     // The attributes kept from the signed-in person (GET /user/citizens/{uuid}).
     hidden_fields?: string[],
     primary_case_worker_uuid: string,
+    secondary_case_worker_uuid?: string,
     paying_municipality: string,
     assessment_municipality: string,
     responsible_municipality: string,

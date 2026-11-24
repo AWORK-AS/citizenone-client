@@ -1456,6 +1456,7 @@ const state = reactive({
             reporting_requirements: '',
             activation_deadline: '',
             referral_reason: '',
+            internship_company: '',
         } as any,
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
@@ -1737,6 +1738,8 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 reporting_requirements: selectedCitizen.employmentData?.reporting_requirements || '',
                 activation_deadline: selectedCitizen.employmentData?.activation_deadline || '',
                 referral_reason: selectedCitizen.employmentData?.referral_reason || '',
+                // Left out, it went to the backend as the text "undefined".
+                internship_company: selectedCitizen.employmentData?.internship_company || '',
             } as any,
             dentalData: {
                 is_member_of_sygeforsikring_danmark: selectedCitizen.dentalData?.is_member_of_sygeforsikring_danmark ?? false,
