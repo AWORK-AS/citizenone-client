@@ -122,4 +122,19 @@ describe('both edit pages', () => {
             assert.match(fetch, new RegExp(`\\b${key}: response\\?\\.data\\?\\.`), `view-edit.vue does not load ${key}`)
         }
     })
+
+    // Always sent (empty lifts the requirement), so never loaded meant every save cleared it.
+    test('both pages and the form load the reporting setup at the top level', () => {
+        for (const name of ['edit.vue', 'view-edit.vue']) {
+            const fetch = page(name).split('async function fetchCitizen')[1].split('async function updateCitizen')[0]
+            for (const key of ['reporting_frequency', 'reporting_starts_on', 'report_draft_days_before']) {
+                assert.match(fetch, new RegExp(`\\b${key}: response\\?\\.data\\?\\.${key}\\b`), `${name} does not load ${key}`)
+            }
+        }
+        const form = readFileSync(new URL('../../components/modules/user/citizen/details/form.vue', import.meta.url), 'utf8')
+        const watch = form.split('watch(() => props.selectedCitizen')[1].split('inquiryData: {')[0]
+        assert.match(watch, /\breporting_frequency: selectedCitizen\.reporting_frequency\b/)
+        assert.match(watch, /\breporting_starts_on: selectedCitizen\.reporting_starts_on\b/)
+        assert.match(watch, /\breport_draft_days_before: selectedCitizen\.report_draft_days_before\b/)
+    })
 })

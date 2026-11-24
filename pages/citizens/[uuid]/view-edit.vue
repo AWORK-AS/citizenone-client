@@ -90,6 +90,9 @@ const state = reactive({
         email: '',
         social_security_number: '',
         case_number: '',
+        reporting_frequency: '',
+        reporting_starts_on: '',
+        report_draft_days_before: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -229,6 +232,11 @@ async function fetchCitizen() {
                 email: response?.data?.email ?? '',
                 social_security_number: response?.data?.social_security_number ?? '',
                 case_number: response?.data?.case_number ?? '',
+                // Sent on every save (clearing the frequency lifts the reporting
+                // requirement), so it must be loaded or each save cleared it.
+                reporting_frequency: response?.data?.reporting_frequency ?? '',
+                reporting_starts_on: response?.data?.reporting_starts_on ?? '',
+                report_draft_days_before: response?.data?.report_draft_days_before ?? '',
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],

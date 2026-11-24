@@ -1354,6 +1354,9 @@ const state = reactive({
         email: '',
         social_security_number: '',
         case_number: '',
+        reporting_frequency: '',
+        reporting_starts_on: '',
+        report_draft_days_before: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -1640,6 +1643,11 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             email: selectedCitizen.email,
             social_security_number: selectedCitizen.social_security_number,
             case_number: selectedCitizen.case_number ?? '',
+            // The inputs bind these at the top level; kept only under
+            // inquiryData they showed empty and every save cleared them.
+            reporting_frequency: selectedCitizen.reporting_frequency || '',
+            reporting_starts_on: selectedCitizen.reporting_starts_on || '',
+            report_draft_days_before: selectedCitizen.report_draft_days_before ? String(selectedCitizen.report_draft_days_before) : '',
             birthday: selectedCitizen.birthday,
             phone: selectedCitizen.phone,
             departments: selectedCitizen.departments,
