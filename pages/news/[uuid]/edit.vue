@@ -103,6 +103,8 @@ async function fetchNews() {
                 department: [],
                 is_featured: response?.data?.is_featured ?? '',
                 is_active: response?.data?.is_active ?? '',
+                notify: response?.data?.notify_on_publish ?? false,
+                notified_at: response?.data?.notified_at ?? null,
                 attachments: response?.data?.attachments ?? [],
             }
             response?.data?.audiences?.forEach((department: any) => {
@@ -131,6 +133,10 @@ async function updateNews(newsDetails: any) {
         params.append('department_uuid', JSON.stringify(newsDetails.department))
         params.append('is_featured', newsDetails.is_featured)
         params.append('is_active', newsDetails.is_active)
+        // Roadmap #201: only while the post has not been sent; after that the tick no longer applies.
+        if (!state.formNews.notified_at) {
+            params.append('notify', newsDetails.notify ? 'true' : 'false')
+        }
         newsDetails.attachments.forEach((file: any, index: number) => {
             params.append(`attachments[${index}]`, file)
         })

@@ -107,7 +107,7 @@ class DailyOverviewService extends BaseAPIService {
     }
 
     /** Hours a week per citizen for the signed-in employee: given, used and left, for the week of `date` (default this week). */
-    async getMyCitizenHours(params: { date?: string }): Promise<any> {
+    async getMyCitizenHours(params: { date?: string, span?: 'week' | 'month' }): Promise<any> {
         return await this.request(`/user/daily-overview/my-citizen-hours`, 'GET', params)
     }
 

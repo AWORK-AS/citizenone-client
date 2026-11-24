@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "Mine timer pr. @:terms.citizen{''} · uge {week}",
+            "titleMonth": "Mine timer pr. @:terms.citizen{''} · {month}",
+            "citizenTotal": "I alt for @:terms.citizenDefinite{''}: {planned} af {given} t planlagt",
+            "citizenGrant": "Bevilling: {given} t",
             "summary": "{planned} af {given} t planlagt",
             "plan": "Planlæg",
             "plannedOfGiven": "{planned} af {given} t",
@@ -10907,7 +10910,8 @@
         "editNews": "Rediger nyheder",
         "form": {
             "notify": "Send notifikation til modtagerne",
-            "notifyHint": "Kolleger, der kan se opslaget, får besked i klokken og på telefonen.",
+            "notifyHint": "Medarbejdere og borgere, der kan se opslaget, får besked.",
+            "notifyInactiveHint": "Opslaget er ikke aktivt: beskeden sendes, når du gør det aktivt.",
             "active": "Aktiv",
             "alert": {
                 "newNewsSuccessfullySaved": "Nyhed er blevet gemt",
@@ -14441,11 +14445,24 @@
                 },
                 "toRoadmap": "Sæt på roadmap",
                 "decline": "Afvis",
+                "declineConfirm": "Vil du afvise {reference}?",
                 "reopen": "Sæt tilbage til ny",
                 "newItem": "Nyt punkt",
                 "existingItem": "Eksisterende punkt",
                 "itemTitle": "Titel på roadmap-punktet",
-                "newItemHint": "Oprettes som kladde under Planlagt. Ønsket gemmes som oprindelig tekst, og kunden noteres som ønsker."
+                "newItemHint": "Oprettes som kladde under Planlagt. Ønsket gemmes som oprindelig tekst, og kunden noteres som ønsker.",
+                "bulk": {
+                    "selectAll": "Vælg alle",
+                    "selected": "{count} valgt",
+                    "clear": "Ryd valg",
+                    "declineConfirm": "Vil du afvise {count} ønsker?",
+                    "reopenConfirm": "Vil du genåbne {count} ønsker?",
+                    "doneDeclined": "{count} ønsker afvist.",
+                    "doneReopened": "{count} ønsker genåbnet.",
+                    "skipped": "{count} var allerede behandlet og blev sprunget over."
+                },
+                "openItem": "Åbn punktet på roadmappen",
+                "itemNotFound": "Punktet findes ikke længere på roadmappen."
             },
             "import": {
                 "button": "Importér",

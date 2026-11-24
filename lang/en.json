@@ -2332,6 +2332,9 @@
         },
         "hoursPanel": {
             "title": "My hours per @:terms.citizen{''} · week {week}",
+            "titleMonth": "My hours per @:terms.citizen{''} · {month}",
+            "citizenTotal": "In total for @:terms.citizenDefinite{''}: {planned} of {given} h planned",
+            "citizenGrant": "Grant: {given} h",
             "summary": "{planned} of {given} h planned",
             "plan": "Plan",
             "plannedOfGiven": "{planned} of {given} h",
@@ -10907,7 +10910,8 @@
         "editNews": "Edit news",
         "form": {
             "notify": "Notify the recipients",
-            "notifyHint": "Colleagues who can see the post get a notification in the bell and on their phone.",
+            "notifyHint": "Employees and citizens who can see the post will be notified.",
+            "notifyInactiveHint": "The post is not active: the notification is sent when you make it active.",
             "active": "Active",
             "alert": {
                 "newNewsSuccessfullySaved": "New news successfully saved",
@@ -14441,11 +14445,24 @@
                 },
                 "toRoadmap": "Put on roadmap",
                 "decline": "Decline",
+                "declineConfirm": "Decline {reference}?",
                 "reopen": "Back to new",
                 "newItem": "New item",
                 "existingItem": "Existing item",
                 "itemTitle": "Roadmap item title",
-                "newItemHint": "Created as a draft under Planned. The wish is kept as original text, and the customer is noted as wanting it."
+                "newItemHint": "Created as a draft under Planned. The wish is kept as original text, and the customer is noted as wanting it.",
+                "bulk": {
+                    "selectAll": "Select all",
+                    "selected": "{count} selected",
+                    "clear": "Clear",
+                    "declineConfirm": "Decline {count} wishes?",
+                    "reopenConfirm": "Reopen {count} wishes?",
+                    "doneDeclined": "{count} wishes declined.",
+                    "doneReopened": "{count} wishes reopened.",
+                    "skipped": "{count} were already handled and were skipped."
+                },
+                "openItem": "Open the item on the roadmap",
+                "itemNotFound": "The item is no longer on the roadmap."
             },
             "import": {
                 "button": "Import",
