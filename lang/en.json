@@ -4004,6 +4004,7 @@
             "deliveredViaPlannedDelivery": "Delivered via planned delivery",
             "createdOn": "Created",
             "nextAdministrationDate": "Next dose",
+            "nextAdministrationCountedFrom": "counted from {date}",
             "pouring": {
                 "activeIngredient": "Active ingredient",
                 "amount": "Amount poured",

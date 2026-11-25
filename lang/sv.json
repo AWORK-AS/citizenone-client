@@ -4004,6 +4004,7 @@
             "deliveredViaPlannedDelivery": "Levererat via planerad leverans",
             "createdOn": "Skapad",
             "nextAdministrationDate": "Nästa dosering",
+            "nextAdministrationCountedFrom": "räknat från {date}",
             "pouring": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd uppmätt",

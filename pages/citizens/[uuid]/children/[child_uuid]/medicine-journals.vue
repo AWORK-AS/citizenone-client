@@ -359,6 +359,9 @@
                                         <p v-if="medicine?.next_administration_date" class="text-xs text-primary font-medium">
                                             {{ $t('citizens.medicineJournals.nextAdministrationDate') }}:
                                             {{ formatDateWithWeekdayToReadable(medicine.next_administration_date) }}
+                                            <span v-if="countsFromCreationDay(medicine)" class="font-normal text-gray-500">
+                                                ({{ $t('citizens.medicineJournals.nextAdministrationCountedFrom', { date: formatDateToReadable(medicine.created_at) }) }})
+                                            </span>
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
@@ -1487,13 +1490,26 @@ function formatScheduleFrequency(medicine: any): string {
         everyday: t('citizens.medicineJournals.scheduleFrequencies.everyday'),
         every_other_day: t('citizens.medicineJournals.scheduleFrequencies.every2Days'),
         every_third_day: t('citizens.medicineJournals.scheduleFrequencies.every3Days'),
+        every_four_days: t('citizens.medicineJournals.scheduleFrequencies.every4Days'),
+        every_five_days: t('citizens.medicineJournals.scheduleFrequencies.every5Days'),
+        every_six_days: t('citizens.medicineJournals.scheduleFrequencies.every6Days'),
         weekly: t('citizens.medicineJournals.scheduleFrequencies.weekly'),
         biweekly: t('citizens.medicineJournals.scheduleFrequencies.biweekly'),
         monthly: t('citizens.medicineJournals.scheduleFrequencies.monthly'),
+        bimonthly: t('citizens.medicineJournals.scheduleFrequencies.bimonthly'),
         quarterly: t('citizens.medicineJournals.scheduleFrequencies.quarterly'),
         annually: t('citizens.medicineJournals.scheduleFrequencies.annually'),
+        custom: t('recurring.custom'),
     }
     return map[freq] ?? freq ?? ''
+}
+
+// ADR 0001: a schedule without stored dates counts from the creation day, so the card says so next
+// to the next dose date. Custom and stored-date schedules count from their own dates (generated
+// from the start date), so the hint would be wrong there.
+function countsFromCreationDay(medicine: any): boolean {
+    const hasStoredDates = Array.isArray(medicine?.recurring_dates) && medicine.recurring_dates.length > 0
+    return !!medicine?.created_at && medicine?.schedule_frequency !== 'custom' && !hasStoredDates
 }
 
 function navigateDate(dir: number) {

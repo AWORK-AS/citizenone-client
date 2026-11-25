@@ -4004,6 +4004,7 @@
             "deliveredViaPlannedDelivery": "Udleveret via planlagt udlevering",
             "createdOn": "Oprettet",
             "nextAdministrationDate": "Næste dosering",
+            "nextAdministrationCountedFrom": "regnet fra {date}",
             "pouring": {
                 "activeIngredient": "Aktivt stof",
                 "amount": "Mængde doseret",
