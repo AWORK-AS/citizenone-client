@@ -4120,16 +4120,16 @@
             },
             "scheduleFrequencies": {
                 "annually": "Årligen",
-                "bimonthly": "Varje annan månad",
-                "biweekly": "Varje annan vecka",
-                "every2Days": "Varje annan dag",
-                "every3Days": "Varje tredje dag",
-                "every4Days": "Varje fjerde dag",
-                "every5Days": "Varje femte dag",
-                "every6Days": "Varje sjette dag",
+                "bimonthly": "Varannan månad",
+                "biweekly": "Varannan vecka",
+                "every2Days": "Varannan dag",
+                "every3Days": "Var tredje dag",
+                "every4Days": "Var fjärde dag",
+                "every5Days": "Var femte dag",
+                "every6Days": "Var sjätte dag",
                 "everyday": "Varje dag",
                 "monthly": "Månadsvis",
-                "quarterly": "Kvartalsvist",
+                "quarterly": "Kvartalsvis",
                 "weekly": "Veckovis"
             },
             "synchronizeWithFMK": "Synkronisera med FMK",
@@ -11879,7 +11879,7 @@
     "recurring": {
         "addThisSessions": "Lägg till denna session",
         "applyChangesToAllRecurringShifts": "Använd också ändring för fremtidige pass",
-        "custom": "Brugerdefineret",
+        "custom": "Anpassad",
         "days": {
             "friday": "Fredag",
             "monday": "Måndag",

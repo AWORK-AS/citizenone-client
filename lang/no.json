@@ -4119,7 +4119,7 @@
                 "dpsdLabel": "DPSD - Norsk Patientsikkerhedsdatabase (officiel UTH-portal):"
             },
             "scheduleFrequencies": {
-                "annually": "Årligt",
+                "annually": "Årlig",
                 "bimonthly": "Hver annen måned",
                 "biweekly": "Hver annen uke",
                 "every2Days": "Hver annen dag",
@@ -4128,9 +4128,9 @@
                 "every5Days": "Hver femte dag",
                 "every6Days": "Hver sjette dag",
                 "everyday": "Hver dag",
-                "monthly": "Månedligt",
-                "quarterly": "Kvartalsvist",
-                "weekly": "Ugentligt"
+                "monthly": "Månedlig",
+                "quarterly": "Kvartalsvis",
+                "weekly": "Ukentlig"
             },
             "synchronizeWithFMK": "Synkroniser med FMK",
             "openFmkOnline": "Åpne FMK-online",
@@ -11879,7 +11879,7 @@
     "recurring": {
         "addThisSessions": "Legg til denne session",
         "applyChangesToAllRecurringShifts": "Bruk også endring for fremtidige vakter",
-        "custom": "Brugerdefineret",
+        "custom": "Egendefinert",
         "days": {
             "friday": "Fredag",
             "monday": "Mandag",
