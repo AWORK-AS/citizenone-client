@@ -356,6 +356,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { medicineCalendarDays } from '@/composables/medicineCalendarDays'
 import { doseRegistrationBlocked } from '@/composables/medicineGiveGuard'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -393,6 +394,8 @@ const state = reactive({
     multiComment: '' as string,
     multiStep: 1 as number, // 1=select dates, 2=confirm
     monthDosageStatusByDate: {} as Record<string, any[]>,
+    // The medicine as the month's request returned it (occurs_dates etc.).
+    monthMedicine: null as any,
     isLoadingMonthStatus: false,
     isPouringEmptyOpen: false,
     pouringEmptyMessage: '',
@@ -502,46 +505,46 @@ const totalDosage = computed(() => {
     }, 0)
 })
 
+const { isDueOnDate, dayMarker } = medicineCalendarDays()
+
 const calendarDays = computed(() => {
     const start = state.calendarMonth.clone().startOf('isoWeek')
     const end = state.calendarMonth.clone().endOf('month').endOf('isoWeek')
     const days = []
     let cur = start.clone()
     const dosages = props.selectedMedicine?.max_dosage_per_time ?? []
+    const today = moment().format('YYYY-MM-DD')
+    const nowTime = moment().format('HH:mm')
+    // The month's own copy carries occurs_dates for exactly this month. Until
+    // it has loaded (or if it failed) the prop is used without its
+    // occurs_dates, which cover whatever range the opening page fetched.
+    const dueMedicine = state.monthMedicine && state.monthMedicine.uuid === props.selectedMedicine?.uuid
+        ? state.monthMedicine
+        : { ...props.selectedMedicine, occurs_dates: null }
 
     while (cur.isSameOrBefore(end, 'day')) {
         const ds = cur.format('YYYY-MM-DD')
         const isCurrentMonth = cur.month() === state.calendarMonth.month()
         const isToday = cur.isSame(moment(), 'day')
-        const isPast = cur.isBefore(moment(), 'day')
         const dots: string[] = []
         let hasOverdue = false
 
         if (isCurrentMonth && dosages.length > 0 && state.isLoadingMonthStatus) {
             dots.push('bg-gray-300 animate-pulse')
         } else if (isCurrentMonth && dosages.length > 0) {
-            const dayEntries: any[] = state.monthDosageStatusByDate[ds] ?? []
-            const anyGiven = dayEntries.some((e: any) => e.status === 'given' || e.status === 'delivered')
-            const anyDeviated = dayEntries.some((e: any) => e.status === 'deviated')
-
-            if (anyGiven) {
-                dots.push('bg-green-500')
-            } else if (isToday) {
-                const now = new Date()
-                const anyOverdue = dosages.some((d: any) => {
-                    const [h, m] = (d.time ?? '').split(':').map(Number)
-                    const sched = new Date(); sched.setHours(h, m, 0, 0)
-                    return now > sched
-                })
-                if (anyOverdue || anyDeviated) { dots.push('bg-red-500'); hasOverdue = true }
-                else dots.push('bg-amber-400')
-            } else if (isPast) {
-                // Past date with no logged 'given'/'delivered' dose - genuinely missed
-                dots.push('bg-red-500')
-                hasOverdue = true
-            } else {
-                dots.push('bg-amber-400')
-            }
+            // Roadmap #317: red only on days the medicine was due and not fully
+            // logged; off days (every other day, weekly ...) get no marker.
+            const marker = dayMarker({
+                dateStr: ds,
+                today,
+                nowTime,
+                due: isDueOnDate(dueMedicine, ds),
+                entries: state.monthDosageStatusByDate[ds],
+                doseTimes: dosages.map((d: any) => d?.time),
+            })
+            if (marker === 'given') dots.push('bg-green-500')
+            else if (marker === 'overdue') { dots.push('bg-red-500'); hasOverdue = true }
+            else if (marker === 'scheduled') dots.push('bg-amber-400')
         }
 
         days.push({ dateStr: ds, dayNum: cur.date(), isCurrentMonth, isToday, hasOverdue, dots })
@@ -553,6 +556,7 @@ const calendarDays = computed(() => {
 async function fetchMonthDosageStatus() {
     if (!props.citizenUuid || !props.selectedMedicine?.uuid) {
         state.monthDosageStatusByDate = {}
+        state.monthMedicine = null
         return
     }
     state.isLoadingMonthStatus = true
@@ -567,8 +571,12 @@ async function fetchMonthDosageStatus() {
         })
         const medicine = response?.data?.find((m: any) => m.uuid === props.selectedMedicine?.uuid)
         state.monthDosageStatusByDate = medicine?.dosage_status_by_date ?? {}
+        // Roadmap #317: the calendar reads occurs_dates (the days the medicine
+        // is due) from this response; null or missing counts every day.
+        state.monthMedicine = medicine ?? null
     } catch (e) {
         state.monthDosageStatusByDate = {}
+        state.monthMedicine = null
         state.monthStatusFailed = true
     } finally {
         state.isLoadingMonthStatus = false
