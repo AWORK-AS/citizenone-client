@@ -23,6 +23,7 @@
     "test:price-estimate-settlement": "node price-estimate-settlement.mjs",
     "test:dental-recalls": "node dental-recalls.mjs",
     "test:import-employees": "node import-employees.mjs",
+    "test:units-overview": "node units-overview.mjs",
     "test:news-notify": "node news-notify.mjs",
     "test:journal-last-edited": "node journal-last-edited.mjs",
     "test:discharge-reminder-setting": "node discharge-reminder-setting.mjs",
@@ -47,7 +48,8 @@
     "test:roadmap-wishes-and-brief": "node roadmap-wishes-and-brief.mjs",
     "test:roadmap-working-hidden-when-released": "node roadmap-working-hidden-when-released.mjs",
     "test:roadmap-wishes-bulk": "node roadmap-wishes-bulk.mjs",
-    "test:roadmap-wish-badge": "node roadmap-wish-badge.mjs"
+    "test:roadmap-wish-badge": "node roadmap-wish-badge.mjs",
+    "test:records-export": "node records-export.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

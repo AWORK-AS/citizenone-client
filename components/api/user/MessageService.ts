@@ -1,5 +1,14 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
+/** The message after a pin or unpin (ChatMessageResource; only the fields the chat reads). */
+export interface PinnedChatMessageResponse {
+    data?: {
+        uuid: string
+        pinned_at: string | null
+        pinned_by?: { uuid: string; name: string } | null
+    }
+}
+
 class MessageService extends BaseAPIService {
     async fetchChats(params: object): Promise<any> {
         return await this.request(`/user/chats`, 'GET', params)
@@ -31,6 +40,16 @@ class MessageService extends BaseAPIService {
 
     async deleteChatMessage(chatUuid: any): Promise<any> {
         return await this.request(`/user/chat-messages/${chatUuid}`, 'DELETE')
+    }
+
+    // Roadmap #375: a pinned message is shared by everyone in the chat. 422 when
+    // the chat already has its maximum of pins; 404 for a non-member.
+    async pinChatMessage(messageUuid: string): Promise<PinnedChatMessageResponse> {
+        return await this.request(`/user/chat-messages/${messageUuid}/pin`, 'POST')
+    }
+
+    async unpinChatMessage(messageUuid: string): Promise<PinnedChatMessageResponse> {
+        return await this.request(`/user/chat-messages/${messageUuid}/pin`, 'DELETE')
     }
 
     async updateGroupChatName(chatUuid: any, params: object): Promise<any> {

@@ -19,7 +19,8 @@
                 </Tooltip>
             </template>
 
-            <ModulesUserCalendarTabs v-if="userStore.getUser?.has_booking_app_access" />
+            <!-- Roadmap #499: always shown now - the units overview is for everyone with the calendar. -->
+            <ModulesUserCalendarTabs />
 
             <div :class="[
                 userStore.getUser?.has_booking_app_access && 'mt-8',
@@ -103,7 +104,7 @@
                             </button>
                         </Tooltip>
                     </div>
-                    <button v-if="state.options.calendarTags.length" class="flex items-center gap-x-1 text-sm text-primary group"
+                    <button v-if="state.options.calendarTags.length || state.options.units.length" data-testid="calendar-filter-button" class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                         <span class="group-hover:text-primary-700">
@@ -298,6 +299,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
+import { unitService } from '@/components/api/user/UnitService'
 import { duplicateFields } from '@/composables/calendarEventPresentation'
 import { panelSpan, panelWeekDate } from '@/composables/citizenWeeklyHours'
 import { isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone } from '@/composables/calendarNoteRequired'
@@ -403,6 +405,7 @@ const state = reactive({
         users: [] as any,
         employeeGroups: [] as any,
         calendarTags: [] as any,
+        units: [] as any,
     }
 })
 
@@ -414,7 +417,7 @@ const activeParticipantFilterCount = computed(() => {
     ].filter((selection: any) => Array.isArray(selection) && selection.length > 0).length
 })
 
-type FilterChip = { kind: 'citizen' | 'employee' | 'group' | 'tag', uuid: string, label: string, icon: string }
+type FilterChip = { kind: 'citizen' | 'employee' | 'group' | 'tag' | 'unit', uuid: string, label: string, icon: string }
 
 const activeFilterChips = computed<FilterChip[]>(() => {
     const labelOf = (options: any[], uuid: string) => options.find((o: any) => o.value === uuid)?.label ?? ''
@@ -432,6 +435,10 @@ const activeFilterChips = computed<FilterChip[]>(() => {
         const tag = state.options.calendarTags.find((t: any) => t.uuid === uuid)
         chips.push({ kind: 'tag', uuid, label: tag?.tag ?? '', icon: 'ph:tag' })
     }
+    for (const uuid of calendarStore.getUnitUuids as string[]) {
+        const unit = state.options.units.find((u: any) => u.uuid === uuid)
+        chips.push({ kind: 'unit', uuid, label: unit?.name ?? '', icon: 'ph:car' })
+    }
     // A selection whose option isn't loaded (yet) still narrows the calendar,
     // so it gets a chip too, under a placeholder rather than a blank.
     return chips.map(chip => ({ ...chip, label: chip.label || '…' }))
@@ -443,6 +450,7 @@ function removeFilterChip(chip: FilterChip) {
     if (chip.kind === 'employee') state.formCalendar.users_uuid = without(state.formCalendar.users_uuid)
     if (chip.kind === 'group') state.formCalendar.employee_group_uuid = without(state.formCalendar.employee_group_uuid)
     if (chip.kind === 'tag') state.filter.tags_uuid = without(state.filter.tags_uuid)
+    if (chip.kind === 'unit') calendarStore.setUnitUuids(without(calendarStore.getUnitUuids))
     fetchMyCalendarEvents()
 }
 
@@ -470,6 +478,7 @@ function clearAllFilters() {
     state.formCalendar.users_uuid = []
     state.formCalendar.employee_group_uuid = []
     state.filter.tags_uuid = []
+    calendarStore.setUnitUuids([])
     fetchMyCalendarEvents()
 }
 
@@ -478,6 +487,7 @@ onMounted(() => {
     fetchAllUsers()
     fetchAllEmployeeGroups()
     fetchCalendarTags()
+    fetchUnitOptions()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
         state.selectedDate = monthGridRange(moment())
@@ -579,6 +589,16 @@ async function fetchAllEmployeeGroups() {
     }
 }
 
+// Roadmap #499: the units, for the "Enhed" filter and its chips.
+async function fetchUnitOptions() {
+    try {
+        const response = await unitService.getAllUnits()
+        state.options.units = response?.data ?? []
+    } catch {
+        state.options.units = []
+    }
+}
+
 async function fetchCalendarTags() {
     try {
         const response = await calendarTagService.getAllCalendarTags({
@@ -659,6 +679,10 @@ async function fetchMyCalendarEvents() {
             params.employee_group_uuid = Array(state.formCalendar.employee_group_uuid)
         }
 
+        // Roadmap #499: only events with one of the chosen units (remembered on this device).
+        if ((calendarStore.getUnitUuids ?? []).length) {
+            params.unit_uuids = JSON.stringify(calendarStore.getUnitUuids)
+        }
         if (state.filter.tags_uuid) {
             params.tags_uuid = JSON.stringify(state.filter.tags_uuid)
         }
@@ -910,6 +934,7 @@ function handleJournalPromptYes() {
 function setFilter(filter: any) {
     setCalendarView(filter.selectedView.title)
     state.filter.tags_uuid = filter.tags
+    calendarStore.setUnitUuids(filter.units ?? [])
     fetchMyCalendarEvents()
 }
 

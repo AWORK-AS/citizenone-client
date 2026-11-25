@@ -10,6 +10,15 @@
                 <FormError :error="v$?.formUnit?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
+            <!-- Roadmap #499: the unit's colour in the calendar and the units overview. -->
+            <div class="space-y-1">
+                <FormLabel for="color" :label="$t('units.form.color')" />
+                <div class="flex items-center gap-x-2">
+                    <FormColorPicker id="color" v-model="state.formUnit.color" />
+                    <span class="text-sm text-gray-500">{{ state.formUnit.color }}</span>
+                </div>
+                <FormError :error="props?.error?.errors?.color?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -48,12 +57,16 @@ const props = defineProps({
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
+// A unit without a colour of its own starts from the calendar's blue.
+const DEFAULT_UNIT_COLOR = '#2563EB'
+
 const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
     formUnit: {
         name: '',
+        color: DEFAULT_UNIT_COLOR,
     },
 })
 
@@ -61,6 +74,7 @@ watch(() => props.selectedUnit, (newValue: any) => {
     if (newValue != null) {
         state.formUnit = {
             name: newValue.name,
+            color: newValue.color || DEFAULT_UNIT_COLOR,
         }
     }
 })

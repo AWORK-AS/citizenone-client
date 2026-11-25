@@ -68,6 +68,7 @@ async function fetchUnit() {
         if (response) {
             state.formUnit = {
                 name: response?.data?.name ?? '',
+                color: response?.data?.color ?? '',
             }
         }
     } catch (error: any) {
@@ -82,6 +83,7 @@ async function updateUnit(unitDetails: any) {
     try {
         const params = {
             name: unitDetails.name,
+            color: unitDetails.color,
         }
         const response = await unitService.updateUnit(unitUuid, params)
         if (response.data) {

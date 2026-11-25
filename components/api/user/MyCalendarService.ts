@@ -5,6 +5,11 @@ class MyCalendarService extends BaseAPIService {
         return await this.request(`/user/my-calendars`, 'GET', params)
     }
 
+    // One event, for opening it from somewhere that only knows its uuid (the units overview, Roadmap #499).
+    async getSchedule(scheduleUuid: string): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}`, 'GET')
+    }
+
     async getCalendarShifts(params: object): Promise<any> {
         return await this.request(`/user/my-calendars/shifts/list`, 'GET', params)
     }
