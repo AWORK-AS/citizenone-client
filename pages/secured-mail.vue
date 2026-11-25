@@ -254,6 +254,8 @@ const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 const { t } = useI18n()
 const router = useRouter()
 const emailUuid = router?.currentRoute?.value?.query?.token
+// Recipients on a domain the sender trusts get a personal key in the link and open without a password.
+const accessKey = router?.currentRoute?.value?.query?.key as string | undefined
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -287,7 +289,25 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
     animateAssets()
+    if (accessKey) {
+        openWithAccessKey()
+    }
 })
+
+async function openWithAccessKey() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await securedMailService.unlockMessage(emailUuid, { access_key: accessKey, locale: userStore.getLanguage })
+        if (response) {
+            state.secured_mail = response?.data
+            state.showMessage = true
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
@@ -314,6 +334,7 @@ async function unlockMessage() {
         try {
             const params = {
                 password: state.formSecuredMail.password,
+                locale: userStore.getLanguage,
             }
             const response = await securedMailService.unlockMessage(emailUuid, params)
             if (response) {

@@ -2284,7 +2284,8 @@
             "bookings": "Bookings",
             "treatments": "Treatments",
             "events": "Events",
-            "appointments": "Booked times"
+            "appointments": "Booked times",
+            "units": "Units"
         },
         "today": "Today",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Cancelled",
             "movedTo": "Moved to {time}",
             "movedFrom": "Moved here from {time}"
+        },
+        "filter": {
+            "units": "Unit"
         }
     },
     "calendarTags": {
@@ -10266,7 +10270,9 @@
             "reenterCode": "Enter the self-chosen code again",
             "send": "Send",
             "subject": "Subject",
-            "to": "To"
+            "to": "To",
+            "trustedNoCode": "All recipients are trusted partners. They get a personal link and need no password.",
+            "trustedSomeNoCode": "Recipients on trusted partner domains get a link without a password. The others need the password."
         },
         "forward": "Forward",
         "inbox": "Inbox",
@@ -10561,7 +10567,10 @@
             "chatPinned": "Chat pinned",
             "chatUnpinned": "Chat unpinned",
             "messageSuccessfullyDeleted": "Message successfully deleted",
-            "messageSuccessfullyUpdated": "Message successfully updated"
+            "messageSuccessfullyUpdated": "Message successfully updated",
+            "messagePinned": "Message pinned",
+            "messageUnpinned": "Message unpinned",
+            "pinLimitReached": "You can pin up to 3 messages in a chat. Unpin a message first."
         },
         "allChats": "All chats",
         "allMessagesAreLoaded": "All messages are loaded",
@@ -10576,6 +10585,15 @@
         "pinChat": "Pin chat",
         "pinnedChats": "Pinned",
         "unpinChat": "Unpin chat",
+        "pinMessage": "Pin message",
+        "unpinMessage": "Unpin message",
+        "pinnedMessage": "Pinned message",
+        "pinnedOfCount": "{current} of {total}",
+        "nextPinnedMessage": "Show the next pinned message",
+        "goToMessage": "Go to message",
+        "pinnedAttachment": "Attachment",
+        "pinnedNoText": "No text",
+        "pinnedMessageNotFound": "The pinned message is no longer in the conversation.",
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
         "openInNewWindow": "Open in new window",
@@ -17987,7 +18005,8 @@
                 "unitSuccessfullyUpdated": "Unit successfully updated"
             },
             "doYouWantToReserveAUnit": "Do you want to reserve a unit",
-            "name": "Name"
+            "name": "Name",
+            "color": "Colour"
         },
         "newUnit": "New unit",
         "table": {
@@ -18001,7 +18020,23 @@
             "name": "Name"
         },
         "unit": "Unit",
-        "units": "Units"
+        "units": "Units",
+        "overview": {
+            "title": "Units overview",
+            "onlyFree": "Only free units",
+            "booked": "Booked",
+            "free": "Free",
+            "noUnits": "No units yet",
+            "noUnitsHint": "Add cars, rooms or equipment under Settings → Units.",
+            "goToSettings": "Go to units",
+            "noneFree": "No unit is free at that time.",
+            "allUnits": "All units",
+            "freeFrom": "From",
+            "freeTo": "To",
+            "newEventHere": "New event here",
+            "previous": "Previous",
+            "next": "Next"
+        }
     },
     "update": "Update",
     "updates": {
@@ -23649,5 +23684,22 @@
         "error": "The file could not be created. Please try again.",
         "toBeforeFrom": "The end date must be on or after the start date.",
         "tooLong": "The period may be at most {years} years."
+    },
+    "trustedMailDomains": {
+        "title": "Trusted partner domains",
+        "intro": "Secure mail to these domains needs no password. Each recipient gets a personal link that works for 30 days. The message itself stays in CitizenOne and never goes in the email. Only add a domain once forced TLS is set up with it in your own mail system (for Microsoft 365, a connector in Exchange).",
+        "settingsHint": "Send secure mail to municipalities, regions and other partners without a password, once forced TLS is set up with them.",
+        "manage": "Manage trusted domains",
+        "domain": "Domain",
+        "domainPlaceholder": "e.g. aarhus.dk",
+        "confirmForcedTls": "I confirm that forced TLS is set up with this domain in our mail system.",
+        "add": "Add domain",
+        "added": "The domain was added",
+        "remove": "Remove",
+        "removed": "The domain was removed",
+        "confirmRemove": "Remove {domain}? Links already sent to this domain stop working.",
+        "confirmedBy": "Forced TLS confirmed by {name} on {date}",
+        "empty": "No trusted domains yet. Secure mail always asks for a password.",
+        "loading": "Loading…"
     }
 }

@@ -56,6 +56,9 @@
                                 @click.stop="$emit('eventClick', ev.raw)">
                                 <span class="flex items-center gap-x-1">
                                     <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
+                                    <!-- Roadmap #499: the unit's colour, when the event booked one. -->
+                                    <span v-if="ev.raw?.unit?.color" data-testid="event-unit-dot" class="h-2 w-2 flex-none rounded-full ring-1 ring-white"
+                                        :style="{ backgroundColor: ev.raw.unit.color }" :title="ev.raw.unit.name"></span>
                                     <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
                                     <!-- Part of a repeating plan (task #133). -->
                                     <Icon v-if="ev.raw?.is_recurring" name="ph:repeat" class="h-3 w-3 flex-none opacity-80"
