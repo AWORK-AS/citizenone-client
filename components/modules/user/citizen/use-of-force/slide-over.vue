@@ -19,7 +19,14 @@
                                                 <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
                                                     {{ $t('citizens.useOfForce.useOfForce') }}
                                                 </DialogTitle>
-                                                <div class="ml-3 flex h-7 items-center">
+                                                <div class="ml-3 flex h-7 items-center gap-x-4">
+                                                    <!-- Roadmap #396: this citizen's registrations as Excel/CSV. -->
+                                                    <button type="button" data-testid="use-of-force-export"
+                                                        class="inline-flex items-center gap-x-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                                        @click="state.modal.isExportOpen = true">
+                                                        <Icon name="ph:download-simple" class="h-4 w-4" aria-hidden="true" />
+                                                        {{ $t('recordsExport.export') }}
+                                                    </button>
                                                     <button type="button"
                                                         class="relative rounded-md bg-white text-tertiary-800 hover:text-tertiary focus:outline-none"
                                                         @click="closeSlide">
@@ -144,6 +151,8 @@
                                 <ModulesUserCitizenUseOfForceStatusModalStatuses
                                     :isModalOpen="state.modal.isStatusesOpen" :selectedData="state.selectedUseOfForce"
                                     @close="closeStatusesModal" @refreshData="fetchUseOfForce" />
+                                <ModulesUserCitizenExportModal kind="useOfForce" :citizenUuid="String(citizenUuid ?? '')"
+                                    :isModalOpen="state.modal.isExportOpen" @close="state.modal.isExportOpen = false" />
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -192,6 +201,7 @@ const state = reactive({
     modal: {
         isDeleteAttachmentOpen: false,
         isStatusesOpen: false,
+        isExportOpen: false,
     },
     selectedUseOfForce: {} as any,
     sortData: {

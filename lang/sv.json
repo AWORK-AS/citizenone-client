@@ -23583,6 +23583,23 @@
         "failed": "Svaret skickades inte. Försök igen.",
         "anonymous": "Anonymt. Vi frågar inte vem du är."
     },
+    "recordsExport": {
+        "export": "Exportera",
+        "titleUseOfForce": "Exportera tvångsåtgärder",
+        "titleIncidents": "Exportera händelser",
+        "from": "Från",
+        "to": "Till",
+        "department": "Avdelning",
+        "allDepartments": "Alla avdelningar",
+        "format": "Format",
+        "includeDrafts": "Ta med utkast",
+        "download": "Ladda ner",
+        "downloading": "Skapar filen…",
+        "personalData": "Filen innehåller känsliga personuppgifter. Förvara den säkert och radera den när du inte längre behöver den. Nedladdningen loggas.",
+        "error": "Filen kunde inte skapas. Försök igen.",
+        "toBeforeFrom": "Till-datumet måste vara samma dag som eller efter från-datumet.",
+        "tooLong": "Perioden får vara högst {years} år."
+    },
     "trustedMailDomains": {
         "title": "Betrodda partnerdomäner",
         "intro": "Säker post till dessa domäner kräver inget lösenord. Varje mottagare får en personlig länk som fungerar i 30 dagar. Själva meddelandet stannar i CitizenOne och står aldrig i e-postmeddelandet. Lägg bara till en domän när tvingad TLS är uppsatt mot den i ert eget e-postsystem (i Microsoft 365 en connector i Exchange).",

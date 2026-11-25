@@ -23668,6 +23668,23 @@
         "failed": "Svaret blev ikke sendt. Prøv igen.",
         "anonymous": "Anonymt. Vi spørger ikke, hvem du er."
     },
+    "recordsExport": {
+        "export": "Eksportér",
+        "titleUseOfForce": "Eksportér magtanvendelser",
+        "titleIncidents": "Eksportér hændelser",
+        "from": "Fra",
+        "to": "Til",
+        "department": "Afdeling",
+        "allDepartments": "Alle afdelinger",
+        "format": "Format",
+        "includeDrafts": "Medtag kladder",
+        "download": "Download",
+        "downloading": "Laver filen…",
+        "personalData": "Filen indeholder følsomme personoplysninger. Opbevar den sikkert, og slet den, når du ikke længere har brug for den. Downloadet bliver logget.",
+        "error": "Filen kunne ikke laves. Prøv igen.",
+        "toBeforeFrom": "Til-datoen skal være samme dag som eller efter fra-datoen.",
+        "tooLong": "Perioden må højst være {years} år."
+    },
     "trustedMailDomains": {
         "title": "Betroede partnerdomæner",
         "intro": "Sikker mail til disse domæner kræver ingen adgangskode. Hver modtager får et personligt link, der virker i 30 dage. Selve beskeden bliver i CitizenOne og står aldrig i mailen. Tilføj kun et domæne, når tvungen TLS er sat op til det i jeres eget mailsystem (i Microsoft 365 en connector i Exchange).",

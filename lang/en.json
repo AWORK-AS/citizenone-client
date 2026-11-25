@@ -23668,6 +23668,23 @@
         "failed": "The answer was not sent. Try again.",
         "anonymous": "Anonymous. We do not ask who you are."
     },
+    "recordsExport": {
+        "export": "Export",
+        "titleUseOfForce": "Export use of force",
+        "titleIncidents": "Export incidents",
+        "from": "From",
+        "to": "To",
+        "department": "Department",
+        "allDepartments": "All departments",
+        "format": "Format",
+        "includeDrafts": "Include drafts",
+        "download": "Download",
+        "downloading": "Preparing file…",
+        "personalData": "The file contains sensitive personal data. Store it safely and delete it when you no longer need it. The download is logged.",
+        "error": "The file could not be created. Please try again.",
+        "toBeforeFrom": "The end date must be on or after the start date.",
+        "tooLong": "The period may be at most {years} years."
+    },
     "trustedMailDomains": {
         "title": "Trusted partner domains",
         "intro": "Secure mail to these domains needs no password. Each recipient gets a personal link that works for 30 days. The message itself stays in CitizenOne and never goes in the email. Only add a domain once forced TLS is set up with it in your own mail system (for Microsoft 365, a connector in Exchange).",
