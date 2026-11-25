@@ -20,7 +20,8 @@
                     <FormButton buttonStyle="link" :disabled="state.saving !== null" @click="openFullForm">
                         {{ $t('overview.medicationOverview.quickDose.moreOptions') }}
                     </FormButton>
-                    <FormButton buttonStyle="danger" :disabled="state.saving !== null" @click="record('deviated')">
+                    <FormButton v-if="isStatusTypeEnabled('deviated')" buttonStyle="danger" :disabled="state.saving !== null"
+                        @click="record('deviated')">
                         <Icon name="ph:spinner" class="size-4 animate-spin" v-if="state.saving === 'deviated'" />
                         {{ $t('overview.medicationOverview.deviated') }}
                     </FormButton>
@@ -37,6 +38,7 @@
 <script setup lang="ts">
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useAlert } from '@/composables/alert'
+import { useMedicineStatusTypes } from '@/composables/useMedicineStatusTypes'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -57,6 +59,8 @@ const emit = defineEmits(['close', 'saved', 'openForm'])
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+// Roadmap #317: Deviated is only offered while the company has it switched on.
+const { loadStatusTypeFields, isStatusTypeEnabled } = useMedicineStatusTypes()
 
 const state = reactive({
     comment: '',
@@ -71,6 +75,7 @@ watch(() => props.isModalOpen, (isOpen: boolean) => {
         state.comment = ''
         state.saving = null
         state.error = {}
+        loadStatusTypeFields()
     }
 })
 

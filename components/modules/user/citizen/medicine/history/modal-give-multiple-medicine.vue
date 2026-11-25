@@ -114,7 +114,8 @@
                                                         </div>
 
                                                         <div class="flex gap-1 justify-center flex-wrap">
-                                                            <button v-for="typeOption in state.options.types"
+                                                            <button v-for="typeOption in typeOptionsFor(state.formGiveMedicine.medicines[medicineIndex]
+                                                                .dosages[getDosageIndexByTime(Number(medicineIndex), time)])"
                                                                 :key="typeOption.value" type="button" @click="state.formGiveMedicine.medicines[medicineIndex]
                                                                     .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
                                                                     = typeOption.value" :class="[
@@ -254,7 +255,7 @@
                                                             v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].type"
                                                             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                                             <RadioGroupOption as="template"
-                                                                v-for="(type, typeIndex) in state.options.types"
+                                                                v-for="(type, typeIndex) in typeOptionsFor()"
                                                                 :key="typeIndex" :value="type.value"
                                                                 v-slot="{ active, checked }">
                                                                 <div
@@ -360,7 +361,7 @@
                                                                                 v-model="state.formGiveMedicine.medicines[selecedMedicineIndex].dosages[dosageIndex].type"
                                                                                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                                                                 <RadioGroupOption as="template"
-                                                                                    v-for="(type, index) in state.options.types"
+                                                                                    v-for="(type, index) in typeOptionsFor(dosage)"
                                                                                     :key="index" :value="type.value"
                                                                                     v-slot="{ active, checked }">
                                                                                     <div
@@ -476,6 +477,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
+import { useMedicineStatusTypes } from '@/composables/useMedicineStatusTypes'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
@@ -492,6 +494,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories', 'openNewPouring'])
 const customPagesStore = useCustomPagesStore() as any
+// Roadmap #317: only the status types the company has switched on, plus a
+// logged dose's own type (it can still be corrected).
+const { loadStatusTypeFields, offeredStatusTypes, isStatusTypeEnabled } = useMedicineStatusTypes()
 
 const state = reactive({
     columnHeaders: [] as any,
@@ -575,6 +580,24 @@ function getDosageIndexByTime(medicineIndex: number, time: string) {
     return dosages.findIndex((d: any) => d?.time === time)
 }
 
+function typeOptionsFor(dosage?: any) {
+    const offered = offeredStatusTypes(dosage?.is_registered ? dosage.registered_type : null)
+    return state.options.types.filter((type: any) => offered.includes(type.value))
+}
+
+// A choice made before the settings arrived must not stay on a type that is off.
+function clearSwitchedOffChoices() {
+    state.formGiveMedicine.medicines?.forEach((medicine: any) => {
+        if (medicine.is_pn_medicine) {
+            if (medicine.type && !isStatusTypeEnabled(medicine.type)) medicine.type = ''
+            return
+        }
+        medicine.dosages?.forEach((dosage: any) => {
+            if (!dosage.is_registered && dosage.type && !isStatusTypeEnabled(dosage.type)) dosage.type = ''
+        })
+    })
+}
+
 function getTypeOptions() {
     return state.options.types.map((type: any) => ({
         value: type.value,
@@ -605,6 +628,7 @@ function generateEvaluationFrequenciesTimeIntervals() {
 watch(() => props.isModalOpen, (newValue) => {
     if (newValue) {
         fetchAllUsers()
+        loadStatusTypeFields().then(clearSwitchedOffChoices)
         state.formGiveMedicine.date = moment().format('YYYY-MM-DD')
         fetchAllSelectedMedicines(state.formGiveMedicine.date)
     }
@@ -712,6 +736,8 @@ function generateDosage(selectedMedicine: any) {
             dosage_unit: doseUnit,
             dosage: dosage?.dosage ?? '',
             is_registered: isRegistered,
+            // The logged dose's own type stays offered even if it's switched off.
+            registered_type: isRegistered ? dosage.status : null,
             // Selecting the medicine in the list is the affirmative act, so an
             // unregistered dose opens pre-set to "given" — the user only clears
             // the exceptions. Self-administered medicines are never pre-filled.

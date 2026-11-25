@@ -200,8 +200,8 @@
                                 </div>
 
                                 <div class="px-4 py-3 space-y-2">
-                                    <div class="grid grid-cols-3 gap-2">
-                                        <button v-for="type in typeOptions" :key="type.value" type="button"
+                                    <div :class="['grid gap-2', typeGridClass(typeOptionsFor(slot.status).length)]">
+                                        <button v-for="type in typeOptionsFor(slot.status)" :key="type.value" type="button"
                                             @click="setSlotType(slot, type.value)" :class="[
                                                 'py-2 rounded-lg text-xs font-medium border transition-all',
                                                 slot.selectedType === type.value ? type.activeClass : type.inactiveClass
@@ -258,8 +258,8 @@
                             <p class="text-xs text-gray-500 font-medium">
                                 {{ $t('citizens.medicineJournals.giveMedicineModal.registerForAllDays') }}
                             </p>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button v-for="type in typeOptions" :key="type.value" type="button"
+                            <div :class="['grid gap-2', typeGridClass(typeOptionsFor().length)]">
+                                <button v-for="type in typeOptionsFor()" :key="type.value" type="button"
                                     @click="state.multiType = type.value"
                                     :class="['py-2 rounded-lg text-xs font-medium border transition-all', state.multiType === type.value ? type.activeClass : type.inactiveClass]">
                                     {{ type.label }}
@@ -360,7 +360,7 @@ import { doseRegistrationBlocked } from '@/composables/medicineGiveGuard'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
-import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { useMedicineStatusTypes } from '@/composables/useMedicineStatusTypes'
 import { medicineSelfAdministration } from '@/composables/medicineSelfAdministration'
 import { saveDatesSettled, remainingDates } from '@/composables/multiDateSave'
 
@@ -408,7 +408,7 @@ function retryHistory() {
     else buildSlots(state.selectedDate)
 }
 
-const typeOptions = computed(() => [
+const allTypeOptions = computed(() => [
     {
         value: 'given',
         label: customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.giveMedicineModal.given'),
@@ -432,16 +432,17 @@ const typeOptions = computed(() => [
 const { defaultDoseType } = medicineSelfAdministration()
 const isSelfAdministered = computed(() => !!props.selectedMedicine?.is_self_administered)
 // The company's status settings (citizen_medicine_history / status_types); null
-// until loaded, which counts as "everything allowed".
-const statusTypeFields = ref<Record<string, boolean> | null>(null)
+// until loaded, which counts as "everything allowed" (Roadmap #317).
+const { statusTypeFields, loadStatusTypeFields, offeredStatusTypes } = useMedicineStatusTypes()
 
-async function loadStatusTypeFields() {
-    try {
-        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine_history' })
-        statusTypeFields.value = response?.data?.find((c: any) => c.form_type === 'status_types')?.form_fields ?? null
-    } catch {
-        statusTypeFields.value = null
-    }
+/** The buttons to show: switched-on types, plus a logged slot's own type. */
+function typeOptionsFor(ownType?: string | null) {
+    const offered = offeredStatusTypes(ownType)
+    return allTypeOptions.value.filter((type) => offered.includes(type.value as any))
+}
+
+function typeGridClass(count: number) {
+    return count >= 3 ? 'grid-cols-3' : count === 2 ? 'grid-cols-2' : 'grid-cols-1'
 }
 
 /** "delivered" for a self-administered medicine (where allowed), otherwise "given". */
@@ -811,10 +812,10 @@ watch(() => props.isModalOpen, async (val) => {
         // If a specific time was preselected, auto-select that slot - handed out
         // for a self-administered medicine, given otherwise (task #115).
         if (props.preselectedTime) {
-            if (isSelfAdministered.value) await loadStatusTypeFields()
+            await loadStatusTypeFields()
             const slot = state.slots.find(s => s.time === props.preselectedTime && !s.status)
             if (slot) slot.selectedType = defaultType.value
-        } else if (isSelfAdministered.value) {
+        } else {
             loadStatusTypeFields()
         }
     }

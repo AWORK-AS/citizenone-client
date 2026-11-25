@@ -98,7 +98,7 @@
                     <div>
                         <RadioGroup v-model="state.formMedicineHistory.type"
                             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                            <RadioGroupOption as="template" v-for="(type, index) in state.options.types" :key="index"
+                            <RadioGroupOption as="template" v-for="(type, index) in typeOptionsFor(props.selectedMedicineHistory?.type)" :key="index"
                                 :value="type.value" v-slot="{ active, checked }">
                                 <div :class="[
                                     active ? 'ring-1 ring-offset-2' : '',
@@ -196,7 +196,7 @@
                                             <RadioGroup v-model="state.formMedicineHistory.dosages[index].type"
                                                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                                 <RadioGroupOption as="template"
-                                                    v-for="(type, index) in state.options.types" :key="index"
+                                                    v-for="(type, typeIndex) in typeOptionsFor(state.loggedTypes[index])" :key="typeIndex"
                                                     :value="type.value" v-slot="{ active, checked }">
                                                     <div
                                                         :class="[
@@ -270,7 +270,7 @@ import moment from 'moment'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { userService } from '@/components/api/user/UserService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
-import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { useMedicineStatusTypes } from '@/composables/useMedicineStatusTypes'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -336,6 +336,9 @@ const state = reactive({
     // much instead of the old numberless "did you enter the right dose?"
     // (AW-2026-3581). null on the unchanged scheduled path.
     pendingLimit: null as { limit: 'max_dose_per_administration' | 'max_daily_dose'; entered: number; max: number; total?: number } | null,
+    // The type each loaded day row was logged with (null when not logged), by
+    // row index: it stays offered even if switched off (Roadmap #317).
+    loggedTypes: [] as Array<string | null>,
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
@@ -349,7 +352,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllUsers()
-    fetchStatusTypesConfig().then(applySelfAdministeredDefault)
+    loadStatusTypeFields().then(applySelfAdministeredDefault)
     fetchMedicineHistoryPerMedicine(moment(props.selectedMedicineHistory?.date).format('YYYY-MM-DD'))
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
@@ -634,7 +637,13 @@ const doseConfirmationMessage = computed(() => {
 // (Udleveret) - staff hand it out - as the give-medicine window does. Only a new
 // entry: an existing one keeps what was recorded.
 const { defaultDoseType } = medicineSelfAdministration()
-const statusTypeFields = ref<Record<string, boolean> | null>(null)
+// Roadmap #317: only switched-on types, plus an existing entry's own type.
+const { statusTypeFields, loadStatusTypeFields, offeredStatusTypes } = useMedicineStatusTypes()
+
+function typeOptionsFor(ownType?: string | null) {
+    const offered = offeredStatusTypes(ownType)
+    return state.options.types.filter((type: any) => offered.includes(type.value))
+}
 
 function newEntryType(): string {
     if (props.formType !== 'create' || !props.selectedMedicine?.is_self_administered) return ''
@@ -672,6 +681,7 @@ async function fetchMedicineHistoryPerMedicine(date: any) {
         const response = await medicineHistoryService.getMedicineHistoryByMedicineUuid(props.selectedMedicine?.uuid, params)
         if (response) {
             state.formMedicineHistory.dosages = response.data
+            state.loggedTypes = (response.data ?? []).map((row: any) => row?.type ?? null)
         }
     } catch (error: any) {
         emit('error', error)
@@ -698,26 +708,6 @@ async function fetchAllUsers() {
         emit('error', error)
     }
     emit('isPageLoading', false)
-}
-
-async function fetchStatusTypesConfig() {
-    try {
-        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine_history' })
-        const config = response?.data?.find((c: any) => c.form_type === 'status_types')
-        const formFields = config?.form_fields
-        if (!formFields) return
-        statusTypeFields.value = formFields
-
-        // Keep the current history entry's own type selectable even if the
-        // company has since disabled it - editing existing data shouldn't break.
-        const currentType = props.selectedMedicineHistory?.type
-        state.options.types = state.options.types.filter(
-            (type: any) => formFields[type.value] !== false || type.value === currentType
-        )
-    } catch (error: any) {
-        // Non-fatal: if this fails, keep showing all types rather than
-        // blocking the give-dose flow entirely.
-    }
 }
 
 generateEvaluationFrequenciesTimeIntervals()

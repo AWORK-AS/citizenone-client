@@ -158,12 +158,17 @@ import { medicineHistoryService } from '@/components/api/user/MedicineHistorySer
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
+import { useCustomPagesStore } from '@/store/custom-pages'
+import { useMedicineStatusTypes } from '@/composables/useMedicineStatusTypes'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const citizenMedicineStore = useCitizenMedicineStore() as any
+const customPagesStore = useCustomPagesStore() as any
+// Roadmap #317: batch dispense only creates new doses, so only switched-on types.
+const { loadStatusTypeFields, isStatusTypeEnabled } = useMedicineStatusTypes()
 
 const props = defineProps({
     isModalOpen: {
@@ -214,16 +219,18 @@ function refreshTypeLabels() {
         // Task #115: each medicine gets its own status - self-administered ones
         // are handed out, the rest given. The backend picks per medicine.
         { value: 'auto', label: t('citizens.medicineJournals.selfAdministered.batchAuto') },
-        { value: 'given', label: t('citizens.medicineJournals.history.form.type.given') },
+        { value: 'given', label: customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.history.form.type.given') },
         { value: 'delivered', label: t('citizens.medicineJournals.history.form.type.delivered') },
         { value: 'deviated', label: t('citizens.medicineJournals.history.form.type.deviated') },
-    ]
+    ].filter((option) => option.value === 'auto' || isStatusTypeEnabled(option.value))
+    if (!state.options.types.some((option) => option.value === state.form.type)) state.form.type = 'auto'
 }
 
 watch(() => props.isModalOpen, (isOpen) => {
     if (isOpen) {
         resetState()
         refreshTypeLabels()
+        loadStatusTypeFields().then(refreshTypeLabels)
         deriveSelectedMedicines()
     }
 })
