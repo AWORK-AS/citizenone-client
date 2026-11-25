@@ -10270,7 +10270,9 @@
             "reenterCode": "Skriv inn den selvvalgte kode igjen",
             "send": "Send",
             "subject": "Emne",
-            "to": "Til"
+            "to": "Til",
+            "trustedNoCode": "Alle mottakere er betrodde samarbeidspartnere. De får en personlig lenke og trenger ikke passord.",
+            "trustedSomeNoCode": "Mottakere på betrodde partnerdomener får en lenke uten passord. De andre trenger passordet."
         },
         "forward": "Videre",
         "inbox": "Indbakke",
@@ -23580,5 +23582,22 @@
         "closed": "Spørsmålet er ikke åpent nå.",
         "failed": "Svaret ble ikke sendt. Prøv igjen.",
         "anonymous": "Anonymt. Vi spør ikke hvem du er."
+    },
+    "trustedMailDomains": {
+        "title": "Betrodde partnerdomener",
+        "intro": "Sikker post til disse domenene krever ikke passord. Hver mottaker får en personlig lenke som virker i 30 dager. Selve meldingen blir i CitizenOne og står aldri i e-posten. Legg bare til et domene når tvungen TLS er satt opp mot det i deres eget e-postsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Send sikker post til kommuner, regioner og andre samarbeidspartnere uten passord, når tvungen TLS er satt opp mot dem.",
+        "manage": "Administrer betrodde domener",
+        "domain": "Domene",
+        "domainPlaceholder": "f.eks. oslo.kommune.no",
+        "confirmForcedTls": "Jeg bekrefter at tvungen TLS er satt opp mot dette domenet i vårt e-postsystem.",
+        "add": "Legg til domene",
+        "added": "Domenet er lagt til",
+        "remove": "Fjern",
+        "removed": "Domenet er fjernet",
+        "confirmRemove": "Fjerne {domain}? Lenker som allerede er sendt til domenet, slutter å virke.",
+        "confirmedBy": "Tvungen TLS bekreftet av {name} {date}",
+        "empty": "Ingen betrodde domener ennå. Sikker post ber alltid om passord.",
+        "loading": "Laster…"
     }
 }
