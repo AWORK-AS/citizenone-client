@@ -23714,6 +23714,28 @@
             "intro": "All information FMK sent about the drug medication, with FMK's own field names."
         },
         "open": "Shared Medication Record (FMK)",
-        "openShort": "Fetch from FMK"
+        "openShort": "Fetch from FMK",
+        "login": {
+            "title": "Sign in to see FMK",
+            "text": "Staff sign in to the Shared Medication Record with MitID Erhverv, so FMK and the citizen's MinLog show exactly who looked.",
+            "button": "Sign in with MitID Erhverv",
+            "redirecting": "Taking you to MitID…",
+            "chooseTitle": "Which role do you want to use in FMK?",
+            "chooseText": "You have several roles or authorisations. Choose the one you are working in now.",
+            "chooseButton": "Continue",
+            "authorisation": "Authorisation",
+            "nationalRole": "National role",
+            "loggedInAs": "Signed in to FMK as {name}",
+            "until": "until {time}",
+            "logout": "Sign out of FMK",
+            "systemCard": "Test environment: fetched with the system ID card, not your own sign-in.",
+            "ok": "You are signed in to FMK.",
+            "error": {
+                "expired": "Signing in to FMK took too long. Please try again.",
+                "login": "Your FMK sign-in could not be verified. Please try again.",
+                "organisation": "Your MitID Erhverv belongs to another organisation. Sign in with MitID Erhverv for this provider.",
+                "sts": "FMK could not issue your ID card. Please try again shortly."
+            }
+        }
     }
 }

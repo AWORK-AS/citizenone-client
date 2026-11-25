@@ -11,6 +11,9 @@
  *    marked as old (GK 3.2).
  * 5. On a phone each row is a card, and the page is no wider than the
  *    medicine page itself.
+ * 6. MitID Erhverv login (API answers stubbed in the browser, no SEB needed):
+ *    login panel when FMK needs it, the button goes to SEB, choosing a role
+ *    after coming back, the signed-in line, and SEB errors explained.
  *
  * Needs the backend with FMK_FAKE=true (sample card, never in production) and
  * a citizen the token's user may see. Read-only: nothing is changed.
@@ -121,6 +124,67 @@ await go(`/citizens/${CITIZEN}/medicine-journals`)
 await page.waitForTimeout(3000)
 const medicineWidth = await page.evaluate(() => document.documentElement.scrollWidth)
 check('FMK page no wider than the medicine page', fmkWidth <= medicineWidth, `fmk ${fmkWidth}, medicine ${medicineWidth}`)
+
+console.log('6. MitID Erhverv login')
+await page.setViewportSize({ width: 1440, height: 1000 })
+const json = (body, status = 200) => ({ status, contentType: 'application/json', body: JSON.stringify(body) })
+const signedOut = { data: { logged_in: false, name: null, role_label: null, expires_at: null, choices: null } }
+let session = signedOut
+await page.route('**/api/user/fmk-login/session', (route) => route.fulfill(json(session)))
+
+// a) FMK needs the staff member's own login
+await page.route('**/fmk/medicine-card', (route) => route.fulfill(json({ message: 'Log ind med MitID Erhverv for at slå op i FMK.', code: 'fmk_login_required' }, 403)))
+await go(`/citizens/${CITIZEN}/fmk`)
+const loginButton = page.getByRole('button', { name: /Log ind med MitID Erhverv|Sign in with MitID Erhverv/ })
+await loginButton.waitFor()
+check('login panel shown when FMK needs the staff login', await loginButton.isVisible())
+check('no comparison table without login', !(await table.isVisible().catch(() => false)))
+let loginBody = null
+await page.route('**/api/user/fmk-login', (route) => { loginBody = route.request().postDataJSON(); return route.fulfill(json({ redirect_url: 'https://seb.stub.test/runtime/saml2/sso?SAMLRequest=x' })) })
+await page.route('https://seb.stub.test/**', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<h1>SEB</h1>' }))
+await Promise.all([page.waitForURL('https://seb.stub.test/**'), loginButton.click()])
+check('button sends the browser to SEB', page.url().startsWith('https://seb.stub.test/runtime/saml2/sso'))
+check('comes back to this FMK page', loginBody?.return_path === `/citizens/${CITIZEN}/fmk`, JSON.stringify(loginBody))
+await page.unroute('**/fmk/medicine-card')
+await page.unroute('**/api/user/fmk-login')
+
+// b) back from SEB with two roles to choose between
+await page.goto(`${BASE}/citizens/${CITIZEN}/timeline`, { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(4000)
+session = { data: { ...signedOut.data, choices: [
+  { key: 'national_role:urn:x:PlejeAssR3', type: 'national_role', label: 'PlejeAssR3' },
+  { key: 'authorisation:ABC12', type: 'authorisation', label: 'Sygeplejerske' },
+] } }
+let chosen = null
+await page.route('**/api/user/fmk-login/session/role', (route) => {
+  chosen = route.request().postDataJSON()
+  session = { data: { logged_in: true, name: 'Karl Kristensen', role_label: 'Sygeplejerske', expires_at: new Date(Date.now() + 8 * 3600e3).toISOString(), choices: null } }
+  return route.fulfill(json(session))
+})
+await go(`/citizens/${CITIZEN}/fmk?fmk_login=choose`)
+await page.getByRole('radio', { name: /Sygeplejerske/ }).waitFor()
+check('role choice offered after SEB', await page.getByRole('radio').count() === 2)
+await page.getByRole('radio', { name: /Sygeplejerske/ }).check()
+await page.getByRole('button', { name: /Fortsæt|Continue/ }).click()
+await page.getByText(/Logget ind i FMK som Karl Kristensen|Signed in to FMK as Karl Kristensen/).waitFor()
+check('chosen role sent', chosen?.key === 'authorisation:ABC12', JSON.stringify(chosen))
+check('signed-in line with role', await page.getByText(/Sygeplejerske/).first().isVisible())
+await table.waitFor()
+check('card fetched after choosing', await table.isVisible())
+check('login query removed from the URL', !page.url().includes('fmk_login'))
+await page.screenshot({ path: path.join(SHOT, 'fmk-screen-signed-in.png'), fullPage: true })
+
+// c) SEB sends the browser back with a full page load, here with an error.
+// The signed-in app state is kept in the browser, so the citizen tab check
+// must not bounce the page before the result is read.
+session = signedOut
+await page.goto(`${BASE}/citizens/${CITIZEN}/fmk?fmk_login=error&fmk_error=organisation`, { waitUntil: 'domcontentloaded' })
+const orgMessage = page.getByText(/anden organisation|another organisation/)
+await orgMessage.waitFor()
+check('organisation mismatch explained', await orgMessage.isVisible())
+check('full page return stays on the FMK page', page.url().includes(`/citizens/${CITIZEN}/fmk`), page.url())
+await page.unroute('**/api/user/fmk-login/session')
+await page.unroute('**/api/user/fmk-login/session/role')
 
 check('no page errors', problems.length === 0, problems.join(' | '))
 

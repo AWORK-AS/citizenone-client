@@ -9,6 +9,23 @@ class FMKService extends BaseAPIService {
     async getMedicineCard(citizenUuid: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card`, 'GET')
     }
+
+    /** MitID Erhverv login via SEB: where to send the browser. */
+    async startLogin(returnPath: string): Promise<any> {
+        return await this.request(`/user/fmk-login`, 'POST', { return_path: returnPath })
+    }
+
+    async getLoginSession(): Promise<any> {
+        return await this.request(`/user/fmk-login/session`, 'GET')
+    }
+
+    async chooseLoginRole(key: string): Promise<any> {
+        return await this.request(`/user/fmk-login/session/role`, 'POST', { key })
+    }
+
+    async logout(): Promise<any> {
+        return await this.request(`/user/fmk-login/session`, 'DELETE')
+    }
 }
 
 export const fMKService = new FMKService()

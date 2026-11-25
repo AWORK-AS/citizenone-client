@@ -23629,6 +23629,28 @@
             "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."
         },
         "open": "Gemensamt läkemedelskort (FMK)",
-        "openShort": "Hämta från FMK"
+        "openShort": "Hämta från FMK",
+        "login": {
+            "title": "Logga in för att se FMK",
+            "text": "Personal loggar in på Gemensamt läkemedelskort med MitID Erhverv, så att FMK och klientens MinLog visar exakt vem som har tittat.",
+            "button": "Logga in med MitID Erhverv",
+            "redirecting": "Skickar dig till MitID…",
+            "chooseTitle": "Vilken roll vill du använda i FMK?",
+            "chooseText": "Du har flera roller eller behörigheter. Välj den du arbetar i nu.",
+            "chooseButton": "Fortsätt",
+            "authorisation": "Legitimation",
+            "nationalRole": "Nationell roll",
+            "loggedInAs": "Inloggad i FMK som {name}",
+            "until": "till {time}",
+            "logout": "Logga ut från FMK",
+            "systemCard": "Testmiljö: hämtat med systemets ID-kort, inte din egen inloggning.",
+            "ok": "Du är inloggad i FMK.",
+            "error": {
+                "expired": "Inloggningen till FMK tog för lång tid. Försök igen.",
+                "login": "Inloggningen till FMK kunde inte bekräftas. Försök igen.",
+                "organisation": "Ditt MitID Erhverv hör till en annan organisation. Logga in med MitID Erhverv för den här verksamheten.",
+                "sts": "FMK kunde inte utfärda ditt ID-kort. Försök igen om en stund."
+            }
+        }
     }
 }

@@ -23714,6 +23714,28 @@
             "intro": "Alle oplysninger, FMK har sendt om ordinationen, med FMK's egne feltnavne."
         },
         "open": "Fælles Medicinkort (FMK)",
-        "openShort": "Hent fra FMK"
+        "openShort": "Hent fra FMK",
+        "login": {
+            "title": "Log ind for at se FMK",
+            "text": "Medarbejdere logger ind på Fælles Medicinkort med MitID Erhverv. Så kan FMK og borgerens MinLog se præcis, hvem der har kigget.",
+            "button": "Log ind med MitID Erhverv",
+            "redirecting": "Sender dig til MitID…",
+            "chooseTitle": "Hvilken rolle vil du bruge i FMK?",
+            "chooseText": "Du har flere roller eller autorisationer. Vælg den, du arbejder i nu.",
+            "chooseButton": "Fortsæt",
+            "authorisation": "Autorisation",
+            "nationalRole": "National rolle",
+            "loggedInAs": "Logget ind i FMK som {name}",
+            "until": "til {time}",
+            "logout": "Log ud af FMK",
+            "systemCard": "Testmiljø: hentet med systemets ID-kort, ikke dit eget login.",
+            "ok": "Du er logget ind i FMK.",
+            "error": {
+                "expired": "Login til FMK tog for lang tid. Prøv igen.",
+                "login": "Login til FMK kunne ikke bekræftes. Prøv igen.",
+                "organisation": "Dit MitID Erhverv hører til en anden organisation end denne. Log ind med MitID Erhverv for dette tilbud.",
+                "sts": "FMK kunne ikke udstede dit ID-kort. Prøv igen om lidt."
+            }
+        }
     }
 }

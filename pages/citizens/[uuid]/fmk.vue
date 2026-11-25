@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, shallowRef } from 'vue'
+import { computed, onMounted, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useFmkMedicineCard } from '@/composables/useFmkMedicineCard'
+import { useFmkLogin } from '@/composables/useFmkLogin'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -9,6 +10,9 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * member asking for the current card (GK 1.2), so it is fetched here and on
  * "Hent igen", never in the background. It is clearly marked as FMK (GK 1.1)
  * and shows FMK next to CitizenOne (GK 3.1).
+ *
+ * FMK is looked up on the staff member's own MitID Erhverv login (via SEB).
+ * Coming back from SEB the URL carries ?fmk_login=ok|choose|error.
  */
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
@@ -16,7 +20,45 @@ const { t } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const citizenUuid = route.params.uuid as string
-const { card, pending, error, fetchCard } = useFmkMedicineCard(citizenUuid)
+const { card, pending, error, loginRequired, fetchCard } = useFmkMedicineCard(citizenUuid)
+const fmkLogin = useFmkLogin()
+const router = useRouter()
+
+const loginNotice = shallowRef<{ tone: 'ok' | 'error', text: string } | null>(null)
+const choices = computed(() => fmkLogin.session.value?.choices ?? null)
+const loggedIn = computed(() => fmkLogin.session.value?.logged_in === true)
+const sessionUntil = computed(() => {
+    const at = fmkLogin.session.value?.expires_at
+    return at ? new Date(at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }) : ''
+})
+
+function login() {
+    fmkLogin.login(`/citizens/${citizenUuid}/fmk`)
+}
+
+async function chooseRole(key: string) {
+    await fmkLogin.chooseRole(key)
+    if (loggedIn.value) await fetchCard()
+}
+
+async function logout() {
+    await fmkLogin.logout()
+    card.value = null
+    await fetchCard()
+}
+
+/** Reads and removes ?fmk_login / ?fmk_error after coming back from SEB. */
+function readLoginReturn() {
+    const status = route.query.fmk_login as string | undefined
+    if (!status) return
+    const reason = (route.query.fmk_error as string | undefined) ?? 'login'
+    if (status === 'ok') loginNotice.value = { tone: 'ok', text: t('fmk.login.ok') }
+    if (status === 'error') {
+        const known = ['expired', 'login', 'organisation', 'sts'].includes(reason) ? reason : 'login'
+        loginNotice.value = { tone: 'error', text: t(`fmk.login.error.${known}`) }
+    }
+    router.replace({ query: {} })
+}
 
 const breadcrumbLinks = [
     { name: 'fmk.title', translate: true, href: `/citizens/${citizenUuid}/fmk` },
@@ -42,7 +84,23 @@ const environmentLabel = computed(() => {
 })
 
 
-onMounted(fetchCard)
+async function load() {
+    await fmkLogin.refresh()
+    // With a role still to choose, the card waits until it is chosen.
+    if (!choices.value) await fetchCard()
+}
+
+onMounted(() => {
+    readLoginReturn()
+    load()
+})
+
+// Back from SEB while the page is already open (same route, new query).
+watch(() => route.query.fmk_login, (status) => {
+    if (!status) return
+    readLoginReturn()
+    load()
+})
 </script>
 
 <template>
@@ -77,6 +135,12 @@ onMounted(fetchCard)
                                 </span>
                             </div>
                             <p class="mt-1 max-w-2xl text-sm text-[#64748b]">{{ $t('fmk.header.intro') }}</p>
+                            <p v-if="loggedIn" class="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-[#1a2332]">
+                                <Icon name="ph:identification-badge" class="size-4 text-[#2dbab2]" aria-hidden="true" />
+                                <span>{{ $t('fmk.login.loggedInAs', { name: fmkLogin.session.value?.name || '' }) }}<template v-if="fmkLogin.session.value?.role_label"> · {{ fmkLogin.session.value.role_label }}</template> · {{ $t('fmk.login.until', { time: sessionUntil }) }}</span>
+                                <button type="button" class="font-semibold text-[#0f4c75] hover:text-[#1b6d8a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]" @click="logout">{{ $t('fmk.login.logout') }}</button>
+                            </p>
+                            <p v-else-if="card && card.environment !== 'sample'" class="mt-2 text-xs text-[#c2410c]">{{ $t('fmk.login.systemCard') }}</p>
                             <p v-if="card" class="mt-2 text-xs text-[#64748b]" aria-live="polite">
                                 {{ $t('fmk.header.fetchedAt', { time: fetchedAt }) }}
                                 <span v-if="card.card.version"> · {{ $t('fmk.header.version', { version: card.card.version }) }}</span>
@@ -95,6 +159,15 @@ onMounted(fetchCard)
                         </div>
                     </div>
                 </header>
+
+                <div v-if="loginNotice" role="status" class="rounded-xl border px-4 py-3 text-sm"
+                    :class="loginNotice.tone === 'ok' ? 'border-[#2dbab2]/40 bg-[#f0faf9] text-[#1a2332]' : 'border-[#fecaca] bg-[#fef2f2] text-[#991b1b]'">
+                    {{ loginNotice.text }}
+                </div>
+                <p v-if="fmkLogin.error.value" role="alert" class="rounded-xl border border-[#fecaca] bg-[#fef2f2] px-4 py-3 text-sm text-[#991b1b]">{{ fmkLogin.error.value }}</p>
+
+                <ModulesUserFmkRolePicker v-if="choices && choices.length" :choices="choices" :pending="fmkLogin.pending.value" @choose="chooseRole" />
+                <ModulesUserFmkLoginPanel v-else-if="loginRequired" :pending="fmkLogin.pending.value" @login="login" />
 
                 <!-- GK 3.2 / 18.1: FMK could not be reached; say so, keep the last card visibly stale. -->
                 <div v-if="error" role="alert"
