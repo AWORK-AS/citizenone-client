@@ -12729,6 +12729,8 @@
                 "hideMedicineQrCodeHint": "Knappen med medborgarens QR-kod och hjälplänkar för läkemedel döljs på läkemedelskortet",
                 "medicineFieldsOptional": "Endast läkemedel och doseringstider är obligatoriska",
                 "medicineFieldsOptionalHint": "Styrka, beredningsform, maximal dygnsdos, innehållsämnen och övrig information blir valfria när ett läkemedel skapas eller redigeras",
+                "medicineRemindersCitizenShiftsOnly": "Läkemedelspåminnelser endast till personal i tjänst hos @:terms.citizenDefinite{''}",
+                "medicineRemindersCitizenShiftsOnlyHint": "Påminnelser om doser och varningar om missade doser går till medarbetare vars pass är kopplat till @:terms.citizenDefinite{''}. Om ingen med ett kopplat pass är i tjänst går de till personal i tjänst på avdelningarna för @:terms.citizenDefinite{''}. Kontaktpersoner som prenumererar på läkemedelsavvikelser får dem alltid",
                 "groupApp": "Appen",
                 "groupAppHint": "Dölj de delar av medarbetarappen som ni inte använder. Det ändrar bara vad som visas i appen – ingen förlorar åtkomst och inga formulär ändras",
                 "hideAppRiskBadge": "Dölj riskbedömning",

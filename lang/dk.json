@@ -12734,6 +12734,8 @@
                 "hideMedicineQrCodeHint": "Knappen med borgerens QR-kode og hjælpelinks til medicin skjules på medicinkortet",
                 "medicineFieldsOptional": "Kun medicin og doseringstider er påkrævet",
                 "medicineFieldsOptionalHint": "Styrke, doseringsform, maksimal daglig dosis, indholdsstoffer og andre oplysninger bliver valgfrie, når medicin oprettes eller redigeres",
+                "medicineRemindersCitizenShiftsOnly": "Medicinpåmindelser kun til medarbejdere på vagt hos @:terms.citizenDefinite{''}",
+                "medicineRemindersCitizenShiftsOnlyHint": "Påmindelser om doser og advarsler om glemte doser går til medarbejdere, hvis vagt er knyttet til @:terms.citizenDefinite{''}. Er ingen med en tilknyttet vagt på arbejde, går de til medarbejdere på vagt i afdelingerne for @:terms.citizenDefinite{''}. Kontaktpersoner, der abonnerer på medicinafvigelser, får dem altid",
                 "groupApp": "Appen",
                 "groupAppHint": "Skjul dele af medarbejder-appen, som I ikke bruger. Det ændrer kun, hvad der vises i appen – ingen mister adgang, og ingen formularer ændres",
                 "hideAppRiskBadge": "Skjul risikovurdering",

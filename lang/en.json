@@ -12734,6 +12734,8 @@
                 "hideMedicineQrCodeHint": "The button with the citizen's QR code and medicine help links is hidden on the medicine card",
                 "medicineFieldsOptional": "Only the medicine and dose times are required",
                 "medicineFieldsOptionalHint": "Strength, dosage form, max daily dose, ingredients and other information become optional when a medicine is created or edited",
+                "medicineRemindersCitizenShiftsOnly": "Medicine reminders only to staff on duty with @:terms.citizenDefinite{''}",
+                "medicineRemindersCitizenShiftsOnlyHint": "Dose reminders and missed-dose alerts go to employees whose shift is linked to @:terms.citizenDefinite{''}. If nobody with a linked shift is on duty, they go to staff on duty in the departments of @:terms.citizenDefinite{''}. Contact persons who subscribe to medicine deviations always get them",
                 "groupApp": "The app",
                 "groupAppHint": "Hide the parts of the staff app you do not use. It only changes what the app shows – nobody loses access and no form changes",
                 "hideAppRiskBadge": "Hide risk assessment",

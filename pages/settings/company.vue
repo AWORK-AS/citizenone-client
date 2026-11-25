@@ -509,7 +509,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupMedicine') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ medicineCount }} / 4</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ medicineCount }} / 5</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.medicine }" />
                             </span>
                         </button>
@@ -555,6 +555,16 @@
                                     </p>
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.medicineFieldsOptionalHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.medicine_reminders_citizen_shifts_only"
+                                        @toggleSwitch="state.formCompany.medicine_reminders_citizen_shifts_only = !state.formCompany.medicine_reminders_citizen_shifts_only" :label="$t('settings.company.form.medicineRemindersCitizenShiftsOnly')" />
+                                    <p>
+                                        {{ $t('settings.company.form.medicineRemindersCitizenShiftsOnly') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.medicineRemindersCitizenShiftsOnlyHint') }}.</p>
                             </div>
                         </div>
                         </div>
@@ -1439,7 +1449,7 @@ const birthdayNotificationOptions = computed(() => ['all', 'staff', 'citizens', 
 })))
 
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled, state.formCompany.chat_cpr_warning_enabled].filter(Boolean).length)
-const medicineCount = computed(() => [state.formCompany.medicine_stats_hidden, state.formCompany.medicine_alarm_banners_hidden, state.formCompany.medicine_qr_code_hidden, state.formCompany.medicine_fields_optional].filter(Boolean).length)
+const medicineCount = computed(() => [state.formCompany.medicine_stats_hidden, state.formCompany.medicine_alarm_banners_hidden, state.formCompany.medicine_qr_code_hidden, state.formCompany.medicine_fields_optional, state.formCompany.medicine_reminders_citizen_shifts_only].filter(Boolean).length)
 const plansCount = computed(() => [
     state.formCompany.plans_enabled,
     state.formCompany.goals_enabled,
@@ -1537,6 +1547,7 @@ const state = reactive({
         medicine_alarm_banners_hidden: false,
         medicine_qr_code_hidden: false,
         medicine_fields_optional: false,
+        medicine_reminders_citizen_shifts_only: false,
         care_hour_types_enabled: false,
         contact_weekly_hours_enabled: false,
         registration_mileage_requires_transport_enabled: false,
@@ -1741,6 +1752,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             medicine_alarm_banners_hidden: newValue?.company?.medicine_alarm_banners_hidden === true,
             medicine_qr_code_hidden: newValue?.company?.medicine_qr_code_hidden === true,
             medicine_fields_optional: newValue?.company?.medicine_fields_optional === true,
+            medicine_reminders_citizen_shifts_only: newValue?.company?.medicine_reminders_citizen_shifts_only === true,
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             contact_weekly_hours_enabled: newValue?.company?.contact_weekly_hours_enabled === true,
             registration_mileage_requires_transport_enabled: newValue?.company?.registration_mileage_requires_transport_enabled === true,
@@ -2045,6 +2057,7 @@ async function submitForm() {
                 medicine_alarm_banners_hidden: state.formCompany.medicine_alarm_banners_hidden,
                 medicine_qr_code_hidden: state.formCompany.medicine_qr_code_hidden,
                 medicine_fields_optional: state.formCompany.medicine_fields_optional,
+                medicine_reminders_citizen_shifts_only: state.formCompany.medicine_reminders_citizen_shifts_only,
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 contact_weekly_hours_enabled: state.formCompany.contact_weekly_hours_enabled,
                 registration_mileage_requires_transport_enabled: state.formCompany.registration_mileage_requires_transport_enabled,
