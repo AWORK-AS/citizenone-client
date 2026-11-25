@@ -13103,7 +13103,8 @@
             "paymentTerms": "Betalingsbetingelser",
             "contractFields": "Kontraktfelter",
             "infoScreen": "Infoskærm",
-            "publicApi": "CitizenOne API"
+            "publicApi": "CitizenOne API",
+            "fmk": "FMK"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -13749,6 +13750,35 @@
             "enabledToast": "API'et er slået til",
             "disabledToast": "API'et er slået fra",
             "docsLink": "Se dokumentationen til udviklere"
+        },
+        "fmk": {
+            "title": "FMK",
+            "subtitle": "Sådan kender Fælles Medicinkort jeres tilbud, hvem FMK kan kontakte om borgernes medicin, og hvilken rolle medarbejderne som udgangspunkt bruger i FMK.",
+            "notPurchased": "I har ikke appen FMK endnu. Køb den i app store, så kan medarbejdere med licens se borgernes medicinkort fra FMK.",
+            "goToApps": "Gå til app store",
+            "organisationTitle": "Jeres tilbud i FMK",
+            "organisationHint": "Står felterne tomme, bruger vi virksomhedens navn og CVR-nummer. Brug SOR-kode eller ydernummer, hvis I har fået det af Sundhedsdatastyrelsen eller regionen.",
+            "idType": "Identificeres med",
+            "idTypes": {
+                "cvr": "CVR-nummer",
+                "sor": "SOR-kode",
+                "ynumber": "Ydernummer"
+            },
+            "idOptional": "Nummer (valgfrit)",
+            "idRequired": "Nummer",
+            "name": "Navn i FMK",
+            "contactTitle": "Kontakt om medicin",
+            "contactHint": "Det nummer og den mail, andre i sundhedsvæsenet kan bruge, hvis de har spørgsmål til en borgers medicin.",
+            "phone": "Telefon",
+            "email": "E-mail",
+            "staffTitle": "Medarbejdere",
+            "staffHint": "Medarbejdere logger ind på FMK med MitID Erhverv. Har en medarbejder en autorisation eller national rolle, bruges den. Ellers bruges rollen her.",
+            "defaultRole": "Rolle i FMK",
+            "cvrMatch": "MitID Erhverv skal høre til jeres CVR-nummer",
+            "cvrMatchHint": "Anbefales. Så kan en medarbejder ikke logge ind på FMK med et MitID Erhverv fra en anden arbejdsplads.",
+            "effectiveTitle": "Det sender vi til FMK",
+            "save": "Gem",
+            "saved": "FMK-indstillingerne er gemt."
         }
     },
     "supportAccess": {

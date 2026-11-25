@@ -23,6 +23,14 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/fmk-login/session/role`, 'POST', { key })
     }
 
+    async getSettings(): Promise<any> {
+        return await this.request(`/user/fmk-settings`, 'GET')
+    }
+
+    async saveSettings(settings: object): Promise<any> {
+        return await this.request(`/user/fmk-settings`, 'PUT', settings)
+    }
+
     async logout(): Promise<any> {
         return await this.request(`/user/fmk-login/session`, 'DELETE')
     }

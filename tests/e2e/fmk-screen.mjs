@@ -14,6 +14,11 @@
  * 6. MitID Erhverv login (API answers stubbed in the browser, no SEB needed):
  *    login panel when FMK needs it, the button goes to SEB, choosing a role
  *    after coming back, the signed-in line, and SEB errors explained.
+ * 7. Staff without an FMK licence do not see "Hent fra FMK".
+ * 8. Settings -> FMK (admin): a SOR code needs its number, saving shows what
+ *    is sent to FMK. Self-restoring: the original settings are put back.
+ *
+ * The token's user must be an admin with an FMK licence.
  *
  * Needs the backend with FMK_FAKE=true (sample card, never in production) and
  * a citizen the token's user may see. Read-only: nothing is changed.
@@ -185,6 +190,56 @@ check('organisation mismatch explained', await orgMessage.isVisible())
 check('full page return stays on the FMK page', page.url().includes(`/citizens/${CITIZEN}/fmk`), page.url())
 await page.unroute('**/api/user/fmk-login/session')
 await page.unroute('**/api/user/fmk-login/session/role')
+
+console.log('7. No licence, no FMK button')
+await page.route('**/api/user', async (route) => {
+  const res = await route.fetch(); const body = await res.json()
+  body.data.has_fmk_licence = false
+  return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })
+})
+await page.goto(`${BASE}/citizens/${CITIZEN}/timeline`, { waitUntil: 'domcontentloaded' })
+await page.waitForResponse((r) => r.url().endsWith('/api/user')).catch(() => {})
+await page.waitForTimeout(3000)
+await go(`/citizens/${CITIZEN}/medicine-journals`)
+await page.getByRole('button', { name: /Ny medicin|New medicine/ }).first().waitFor()
+await page.waitForTimeout(1500)
+check('"Hent fra FMK" hidden without licence', await page.getByRole('button', { name: /Hent fra FMK|Fetch from FMK|Hämta från FMK/ }).count() === 0)
+await page.unroute('**/api/user')
+await page.goto(`${BASE}/citizens/${CITIZEN}/timeline`, { waitUntil: 'domcontentloaded' })
+await page.waitForResponse((r) => r.url().endsWith('/api/user')).catch(() => {})
+await page.waitForTimeout(3000)
+
+console.log('8. Settings -> FMK')
+const firstGet = page.waitForResponse((r) => r.url().includes('/api/user/fmk-settings') && r.request().method() === 'GET')
+await go('/settings/fmk')
+const settingsResponse = await firstGet
+const settingsUrl = settingsResponse.url()
+const original = (await settingsResponse.json()).data
+await page.waitForTimeout(2000)
+// A one-time "what's new" notice can cover the page; close it if it is there.
+const gotIt = page.locator('#headlessui-portal-root').getByRole('button', { name: /^(got it|forstået|forstått|uppfattat|ok)$/i })
+if (await gotIt.count()) { await gotIt.first().click(); await page.waitForTimeout(800) }
+const saveButton = page.getByRole('button', { name: /^(Gem|Save|Lagre|Spara)$/ })
+await saveButton.waitFor()
+const typeSelect = page.locator('#fmk-id-type').locator('xpath=ancestor::div[contains(@class,"multiselect")][1]')
+await typeSelect.click()
+await page.getByRole('option', { name: /SOR/ }).first().click()
+await page.locator('#fmk-id').fill('')
+const saved = (url) => page.waitForResponse((r) => r.url().includes('/api/user/fmk-settings') && r.request().method() === 'PUT')
+let put = saved(); await saveButton.click(); let res = await put
+check('SOR code without number is refused', res.status() === 422, String(res.status()))
+check('field error shown', await page.getByText(/organisation id|nummer|number/i).first().isVisible().catch(() => false))
+await page.locator('#fmk-id').fill('123456789012345')
+await page.locator('#fmk-phone').fill('70 20 30 40')
+put = saved(); await saveButton.click(); res = await put
+check('settings saved', res.status() === 200, String(res.status()))
+check('what FMK is sent is shown', await page.getByText('123456789012345').last().isVisible())
+await page.screenshot({ path: path.join(SHOT, 'fmk-settings.png'), fullPage: true })
+// put back what was there
+await page.request.put(settingsUrl, {
+  headers: { Authorization: `Bearer ${TOKEN}`, Accept: 'application/json' },
+  data: { organisation_id_type: original.organisation_id_type, organisation_id: original.organisation_id, organisation_name: original.organisation_name, contact_phone: original.contact_phone, contact_email: original.contact_email, default_requested_role: original.default_requested_role, require_mitid_cvr_match: original.require_mitid_cvr_match },
+})
 
 check('no page errors', problems.length === 0, problems.join(' | '))
 

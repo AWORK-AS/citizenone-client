@@ -13103,7 +13103,8 @@
             "paymentTerms": "Payment terms",
             "contractFields": "Contract fields",
             "infoScreen": "Info screen",
-            "publicApi": "CitizenOne API"
+            "publicApi": "CitizenOne API",
+            "fmk": "FMK"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13749,6 +13750,35 @@
             "enabledToast": "The API is switched on",
             "disabledToast": "The API is switched off",
             "docsLink": "Developer documentation (in Danish)"
+        },
+        "fmk": {
+            "title": "FMK",
+            "subtitle": "How the Shared Medication Record knows your provider, who FMK can contact about the citizens' medication, and which role staff use in FMK by default.",
+            "notPurchased": "You do not have the FMK app yet. Buy it in the app store so staff with a licence can see the citizens' medication record from FMK.",
+            "goToApps": "Go to the app store",
+            "organisationTitle": "Your provider in FMK",
+            "organisationHint": "Leave the fields empty to use the company name and CVR number. Use a SOR code or yder number if the Danish Health Data Authority or the region has given you one.",
+            "idType": "Identified by",
+            "idTypes": {
+                "cvr": "CVR number",
+                "sor": "SOR code",
+                "ynumber": "Yder number"
+            },
+            "idOptional": "Number (optional)",
+            "idRequired": "Number",
+            "name": "Name in FMK",
+            "contactTitle": "Contact about medication",
+            "contactHint": "The phone number and email others in the health service can use if they have questions about a citizen's medication.",
+            "phone": "Phone",
+            "email": "Email",
+            "staffTitle": "Staff",
+            "staffHint": "Staff sign in to FMK with MitID Erhverv. A staff member's authorisation or national role is used when they have one; otherwise the role here.",
+            "defaultRole": "Role in FMK",
+            "cvrMatch": "MitID Erhverv must belong to your CVR number",
+            "cvrMatchHint": "Recommended. Staff then cannot sign in to FMK with a MitID Erhverv from another workplace.",
+            "effectiveTitle": "What we send to FMK",
+            "save": "Save",
+            "saved": "The FMK settings are saved."
         }
     },
     "supportAccess": {

@@ -204,7 +204,7 @@
                                 <Icon name="ph:package" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                            <FormButton buttonStyle="action" class="rounded-md shrink-0" v-if="hasFmkLicence"
                                 @click="navigateTo(`/citizens/${citizenUuid}/fmk`)">
                                 <Icon name="ph:pill" class="h-4 w-4" />
                                 {{ $t('fmk.openShort') }}
@@ -244,7 +244,7 @@
                                             {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                                         </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }">
+                                        <MenuItem v-if="hasFmkLicence" v-slot="{ active }">
                                         <button type="button" @click="navigateTo(`/citizens/${citizenUuid}/fmk`)"
                                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
                                             <Icon name="ph:pill" class="size-4" />
@@ -1302,6 +1302,9 @@ async function downloadCurrentMedicineList() {
 }
 let currentTablePage = 1
 
+// FMK is per staff member: only those with an FMK licence see the way in.
+const hasFmkLicence = computed(() => !!userStore.getUser?.has_fmk_licence)
+
 const breadcrumbLinks = [
     { name: 'citizens.tabs.medicineCard', translate: true, href: `/citizens/${citizenUuid}/medicine-journals` },
 ]
@@ -1447,7 +1450,7 @@ const paletteCommands = computed(() => {
     }
     cmds.push({ id: 'focus-search', group: A, icon: 'ph:magnifying-glass', hint: '/', label: t('search'), run: () => focusSearch() })
     if (isAtLeast('Admin') || can('update_citizen_medicine')) {
-        cmds.push({ id: 'fmk-card', group: A, icon: 'ph:pill', label: t('fmk.open'), run: () => navigateTo(`/citizens/${citizenUuid}/fmk`) })
+        if (hasFmkLicence.value) cmds.push({ id: 'fmk-card', group: A, icon: 'ph:pill', label: t('fmk.open'), run: () => navigateTo(`/citizens/${citizenUuid}/fmk`) })
         cmds.push({ id: 'fmk', group: A, icon: 'ph:arrow-square-out', label: t('citizens.medicineJournals.openFmkOnline'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
     }
     cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
