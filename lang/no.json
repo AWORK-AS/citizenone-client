@@ -2284,7 +2284,8 @@
             "bookings": "Bookinger",
             "treatments": "Behandlinger",
             "events": "Arrangementer",
-            "appointments": "Bookede tider"
+            "appointments": "Bookede tider",
+            "units": "Enheter"
         },
         "today": "I dag",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Avlyst",
             "movedTo": "Flyttet til {time}",
             "movedFrom": "Flyttet hit fra {time}"
+        },
+        "filter": {
+            "units": "Enhet"
         }
     },
     "calendarTags": {
@@ -17902,7 +17906,8 @@
                 "unitSuccessfullyUpdated": "Enhed oppdatert vellykket"
             },
             "doYouWantToReserveAUnit": "Vil du reservere en enhed",
-            "name": "Navn"
+            "name": "Navn",
+            "color": "Farge"
         },
         "newUnit": "Ny enhed",
         "table": {
@@ -17916,7 +17921,23 @@
             "name": "Navn"
         },
         "unit": "Enhed",
-        "units": "Enheder"
+        "units": "Enheder",
+        "overview": {
+            "title": "Enheter – oversikt",
+            "onlyFree": "Kun ledige enheter",
+            "booked": "Opptatt",
+            "free": "Ledig",
+            "noUnits": "Ingen enheter ennå",
+            "noUnitsHint": "Opprett biler, rom eller utstyr under Innstillinger → Enheter.",
+            "goToSettings": "Gå til enheter",
+            "noneFree": "Ingen enhet er ledig på det tidspunktet.",
+            "allUnits": "Alle enheter",
+            "freeFrom": "Fra",
+            "freeTo": "Til",
+            "newEventHere": "Ny avtale her",
+            "previous": "Forrige",
+            "next": "Neste"
+        }
     },
     "update": "Oppdater",
     "updates": {

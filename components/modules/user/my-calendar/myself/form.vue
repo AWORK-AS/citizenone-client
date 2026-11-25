@@ -481,6 +481,13 @@ watch(() => props.selectedSchedule?.date_time_start, (dateTimeStart: any) => {
     }
 })
 
+// Roadmap #499: a unit picked in the units overview arrives filled in.
+watch(() => props.selectedSchedule?.unit_uuid, (unitUuid: any) => {
+    if (props.formType === 'create' && unitUuid !== undefined) {
+        state.formSchedule.unit_uuid = unitUuid || ''
+    }
+}, { immediate: true })
+
 // A duplicate keeps its length when its start moves; a new event is an hour.
 const eventMinutes = computed(() => props.duplicateOf ? duplicateFields(props.duplicateOf).durationMinutes : 60)
 
