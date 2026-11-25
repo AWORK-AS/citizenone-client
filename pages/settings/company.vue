@@ -1151,6 +1151,16 @@
 
                     </div>
 
+                    <div v-if="isAtLeast('Admin')" class="mt-6 border-t border-gray-200 pt-6 space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('trustedMailDomains.title') }}</h3>
+                        <p class="text-xs text-gray-500">{{ $t('trustedMailDomains.settingsHint') }}</p>
+                        <div>
+                            <FormButton type="button" buttonStyle="action" @click="navigateTo('/settings/trusted-mail-domains')">
+                                {{ $t('trustedMailDomains.manage') }}
+                            </FormButton>
+                        </div>
+                    </div>
+
                     <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
                         <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.ipRestriction') }}</h3>
                         <div class="space-y-1 flex items-center gap-x-2">

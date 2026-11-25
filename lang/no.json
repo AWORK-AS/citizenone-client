@@ -2284,7 +2284,8 @@
             "bookings": "Bookinger",
             "treatments": "Behandlinger",
             "events": "Arrangementer",
-            "appointments": "Bookede tider"
+            "appointments": "Bookede tider",
+            "units": "Enheter"
         },
         "today": "I dag",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Avlyst",
             "movedTo": "Flyttet til {time}",
             "movedFrom": "Flyttet hit fra {time}"
+        },
+        "filter": {
+            "units": "Enhet"
         }
     },
     "calendarTags": {
@@ -10266,7 +10270,9 @@
             "reenterCode": "Skriv inn den selvvalgte kode igjen",
             "send": "Send",
             "subject": "Emne",
-            "to": "Til"
+            "to": "Til",
+            "trustedNoCode": "Alle mottakere er betrodde samarbeidspartnere. De får en personlig lenke og trenger ikke passord.",
+            "trustedSomeNoCode": "Mottakere på betrodde partnerdomener får en lenke uten passord. De andre trenger passordet."
         },
         "forward": "Videre",
         "inbox": "Indbakke",
@@ -10561,7 +10567,10 @@
             "chatPinned": "Chat festet",
             "chatUnpinned": "Festing fjernet",
             "messageSuccessfullyDeleted": "Melding slettet vellykket",
-            "messageSuccessfullyUpdated": "Melding oppdatert vellykket"
+            "messageSuccessfullyUpdated": "Melding oppdatert vellykket",
+            "messagePinned": "Melding festet",
+            "messageUnpinned": "Festing fjernet",
+            "pinLimitReached": "Du kan feste opptil 3 meldinger i en chat. Fjern en festing først."
         },
         "allChats": "Alle chatter",
         "allMessagesAreLoaded": "Alle meldinger er indlæst",
@@ -10576,6 +10585,15 @@
         "pinChat": "Fest chat",
         "pinnedChats": "Festet",
         "unpinChat": "Fjern festing",
+        "pinMessage": "Fest melding",
+        "unpinMessage": "Fjern festing",
+        "pinnedMessage": "Festet melding",
+        "pinnedOfCount": "{current} av {total}",
+        "nextPinnedMessage": "Vis neste festede melding",
+        "goToMessage": "Gå til melding",
+        "pinnedAttachment": "Vedlegg",
+        "pinnedNoText": "Ingen tekst",
+        "pinnedMessageNotFound": "Den festede meldingen finnes ikke lenger i samtalen.",
         "directMessage": "Direkte melding",
         "editMessage": "Rediger melding",
         "openInNewWindow": "Åpne i nytt vindu",
@@ -17902,7 +17920,8 @@
                 "unitSuccessfullyUpdated": "Enhed oppdatert vellykket"
             },
             "doYouWantToReserveAUnit": "Vil du reservere en enhed",
-            "name": "Navn"
+            "name": "Navn",
+            "color": "Farge"
         },
         "newUnit": "Ny enhed",
         "table": {
@@ -17916,7 +17935,23 @@
             "name": "Navn"
         },
         "unit": "Enhed",
-        "units": "Enheder"
+        "units": "Enheder",
+        "overview": {
+            "title": "Enheter – oversikt",
+            "onlyFree": "Kun ledige enheter",
+            "booked": "Opptatt",
+            "free": "Ledig",
+            "noUnits": "Ingen enheter ennå",
+            "noUnitsHint": "Opprett biler, rom eller utstyr under Innstillinger → Enheter.",
+            "goToSettings": "Gå til enheter",
+            "noneFree": "Ingen enhet er ledig på det tidspunktet.",
+            "allUnits": "Alle enheter",
+            "freeFrom": "Fra",
+            "freeTo": "Til",
+            "newEventHere": "Ny avtale her",
+            "previous": "Forrige",
+            "next": "Neste"
+        }
     },
     "update": "Oppdater",
     "updates": {
@@ -23547,5 +23582,39 @@
         "closed": "Spørsmålet er ikke åpent nå.",
         "failed": "Svaret ble ikke sendt. Prøv igjen.",
         "anonymous": "Anonymt. Vi spør ikke hvem du er."
+    },
+    "recordsExport": {
+        "export": "Eksporter",
+        "titleUseOfForce": "Eksporter tvangsbruk",
+        "titleIncidents": "Eksporter hendelser",
+        "from": "Fra",
+        "to": "Til",
+        "department": "Avdeling",
+        "allDepartments": "Alle avdelinger",
+        "format": "Format",
+        "includeDrafts": "Ta med utkast",
+        "download": "Last ned",
+        "downloading": "Lager filen…",
+        "personalData": "Filen inneholder sensitive personopplysninger. Oppbevar den trygt, og slett den når du ikke lenger trenger den. Nedlastingen blir logget.",
+        "error": "Filen kunne ikke lages. Prøv igjen.",
+        "toBeforeFrom": "Til-datoen må være samme dag som eller etter fra-datoen.",
+        "tooLong": "Perioden kan være maks {years} år."
+    },
+    "trustedMailDomains": {
+        "title": "Betrodde partnerdomener",
+        "intro": "Sikker post til disse domenene krever ikke passord. Hver mottaker får en personlig lenke som virker i 30 dager. Selve meldingen blir i CitizenOne og står aldri i e-posten. Legg bare til et domene når tvungen TLS er satt opp mot det i deres eget e-postsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Send sikker post til kommuner, regioner og andre samarbeidspartnere uten passord, når tvungen TLS er satt opp mot dem.",
+        "manage": "Administrer betrodde domener",
+        "domain": "Domene",
+        "domainPlaceholder": "f.eks. oslo.kommune.no",
+        "confirmForcedTls": "Jeg bekrefter at tvungen TLS er satt opp mot dette domenet i vårt e-postsystem.",
+        "add": "Legg til domene",
+        "added": "Domenet er lagt til",
+        "remove": "Fjern",
+        "removed": "Domenet er fjernet",
+        "confirmRemove": "Fjerne {domain}? Lenker som allerede er sendt til domenet, slutter å virke.",
+        "confirmedBy": "Tvungen TLS bekreftet av {name} {date}",
+        "empty": "Ingen betrodde domener ennå. Sikker post ber alltid om passord.",
+        "loading": "Laster…"
     }
 }

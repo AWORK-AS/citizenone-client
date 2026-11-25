@@ -6,6 +6,9 @@ export interface CitizenForm {
     email: string,
     social_security_number: string,
     birthday: string,
+    reporting_frequency?: string,
+    reporting_starts_on?: string,
+    report_draft_days_before?: string | number,
     phone: string,
     departments: string[],
     rooms: string[],
@@ -30,6 +33,7 @@ export interface CitizenForm {
     // The attributes kept from the signed-in person (GET /user/citizens/{uuid}).
     hidden_fields?: string[],
     primary_case_worker_uuid: string,
+    secondary_case_worker_uuid?: string,
     paying_municipality: string,
     assessment_municipality: string,
     responsible_municipality: string,

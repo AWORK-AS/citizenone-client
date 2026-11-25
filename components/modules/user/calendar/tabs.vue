@@ -4,8 +4,12 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 
 const { t } = useI18n()
+const userStore = useUserStore()
+
+const BOOKING_TABS = ['calendar.tabs.bookings', 'calendar.tabs.treatments', 'calendar.tabs.appointments']
 
 const state = reactive({
     tabs: [
@@ -46,8 +50,24 @@ const state = reactive({
                 'calendar-bookings-appointments',
             ]
         },
+        {
+            // Roadmap #499: which car, room or equipment is booked when, and which is free.
+            name: 'calendar.tabs.units',
+            isTranslateName: true,
+            href: `/calendar/units`,
+            routeNames: [
+                'calendar-units',
+            ]
+        },
     ] as any
 })
+
+// Without the booking app the booking tabs are not offered; the calendar and units tabs always are.
+watch(() => userStore.getUser?.has_booking_app_access, (hasBookingApp: any) => {
+    if (!hasBookingApp) {
+        state.tabs = state.tabs.filter((tab: any) => !BOOKING_TABS.includes(tab.name))
+    }
+}, { immediate: true })
 
 function changeTab(value: any) {
     if (value === t('calendar.tabs.events')) {
@@ -61,6 +81,9 @@ function changeTab(value: any) {
     }
     else if (value === t('calendar.tabs.appointments')) {
         navigateTo(`/calendar/bookings/appointments`)
+    }
+    else if (value === t('calendar.tabs.units')) {
+        navigateTo(`/calendar/units`)
     }
 }
 </script>
