@@ -638,12 +638,7 @@ const doseConfirmationMessage = computed(() => {
 // entry: an existing one keeps what was recorded.
 const { defaultDoseType } = medicineSelfAdministration()
 // Roadmap #317: only switched-on types, plus an existing entry's own type.
-const { statusTypeFields, loadStatusTypeFields, offeredStatusTypes } = useMedicineStatusTypes()
-
-function typeOptionsFor(ownType?: string | null) {
-    const offered = offeredStatusTypes(ownType)
-    return state.options.types.filter((type: any) => offered.includes(type.value))
-}
+const { statusTypeFields, loadStatusTypeFields, typeOptionsFor } = useMedicineStatusTypes(() => state.options.types)
 
 function newEntryType(): string {
     if (props.formType !== 'create' || !props.selectedMedicine?.is_self_administered) return ''

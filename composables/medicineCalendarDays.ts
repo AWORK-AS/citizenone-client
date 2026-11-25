@@ -1,14 +1,15 @@
 // Roadmap #317: which days the Give medicine calendar marks, and how.
 // components/modules/user/citizen/medicine/modal-give-medicine.vue feeds it
 // the medicine as its month request (the give-medicine range endpoint) returns
-// it for the shown month. Until that response carries occurs_dates, every day
-// within the start/end bounds counts as due, as before.
+// it for the shown month. That response carries occurs_dates; if it ever
+// doesn't (null or missing), every day within the start/end bounds counts as
+// due, as before.
 //
 // "Due" follows the same gate the medicine tab uses for its day rows
 // (isMedicineActiveOnDate in pages/citizens/[uuid]/medicine-journals.vue):
 // - occurs_dates, when the API sends a list, names the days the schedule
-//   falls on (frequency, custom dates and, once the backend adds them, extra
-//   dates). When it is null or missing every day counts, as before.
+//   falls on (frequency, custom dates and extra dates). When it is null or
+//   missing every day counts, as before.
 // - Never before the start date (or the creation day when there is no start
 //   date), never after the repeat end date (or the end date when there is no
 //   repeat end date), and only inside the filled-in treatment periods unless

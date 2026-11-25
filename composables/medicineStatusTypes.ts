@@ -24,24 +24,33 @@ export type StatusTypeFields = Record<string, boolean> | null | undefined
 
 export const MEDICINE_STATUS_TYPES: readonly MedicineStatusType[] = ['given', 'delivered', 'deviated']
 
-export function medicineStatusTypes() {
-    /** Whether a new dose may use this type. */
-    function isStatusTypeEnabled(fields: StatusTypeFields, type: string): boolean {
-        if (type === 'given') return true
-        return fields?.[type] !== false
-    }
+/** Whether a new dose may use this type. */
+export function isStatusTypeEnabled(fields: StatusTypeFields, type: string): boolean {
+    if (type === 'given') return true
+    return fields?.[type] !== false
+}
 
-    /**
-     * The types to offer, in the standard order. Pass the entry's own type
-     * (or a list of them) when editing something already logged.
-     */
-    function offeredStatusTypes(
-        fields: StatusTypeFields,
-        currentType?: string | null | Array<string | null | undefined>,
-    ): MedicineStatusType[] {
-        const own = Array.isArray(currentType) ? currentType : [currentType]
-        return MEDICINE_STATUS_TYPES.filter((type) => isStatusTypeEnabled(fields, type) || own.includes(type))
-    }
+/**
+ * The types to offer, in the standard order. Pass the entry's own type
+ * (or a list of them) when editing something already logged.
+ */
+export function offeredStatusTypes(
+    fields: StatusTypeFields,
+    currentType?: string | null | Array<string | null | undefined>,
+): MedicineStatusType[] {
+    const own = Array.isArray(currentType) ? currentType : [currentType]
+    return MEDICINE_STATUS_TYPES.filter((type) => isStatusTypeEnabled(fields, type) || own.includes(type))
+}
 
-    return { isStatusTypeEnabled, offeredStatusTypes }
+/**
+ * A dialog's own type options (label, icon, ...) narrowed to the offered
+ * types, keeping the dialog's order.
+ */
+export function statusTypeOptions<T extends { value: string }>(
+    fields: StatusTypeFields,
+    options: readonly T[],
+    currentType?: string | null | Array<string | null | undefined>,
+): T[] {
+    const offered: string[] = offeredStatusTypes(fields, currentType)
+    return options.filter((option) => offered.includes(option.value))
 }

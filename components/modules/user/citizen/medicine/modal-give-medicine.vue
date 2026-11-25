@@ -436,13 +436,8 @@ const { defaultDoseType } = medicineSelfAdministration()
 const isSelfAdministered = computed(() => !!props.selectedMedicine?.is_self_administered)
 // The company's status settings (citizen_medicine_history / status_types); null
 // until loaded, which counts as "everything allowed" (Roadmap #317).
-const { statusTypeFields, loadStatusTypeFields, offeredStatusTypes } = useMedicineStatusTypes()
-
-/** The buttons to show: switched-on types, plus a logged slot's own type. */
-function typeOptionsFor(ownType?: string | null) {
-    const offered = offeredStatusTypes(ownType)
-    return allTypeOptions.value.filter((type) => offered.includes(type.value as any))
-}
+// typeOptionsFor(ownType): the buttons to show, switched-on types plus a logged slot's own type.
+const { statusTypeFields, loadStatusTypeFields, typeOptionsFor } = useMedicineStatusTypes(() => allTypeOptions.value)
 
 function typeGridClass(count: number) {
     return count >= 3 ? 'grid-cols-3' : count === 2 ? 'grid-cols-2' : 'grid-cols-1'

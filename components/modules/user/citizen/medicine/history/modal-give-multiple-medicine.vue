@@ -496,7 +496,8 @@ const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories
 const customPagesStore = useCustomPagesStore() as any
 // Roadmap #317: only the status types the company has switched on, plus a
 // logged dose's own type (it can still be corrected).
-const { loadStatusTypeFields, offeredStatusTypes, isStatusTypeEnabled } = useMedicineStatusTypes()
+const { loadStatusTypeFields, isStatusTypeEnabled, typeOptionsFor: statusTypeOptionsFor } =
+    useMedicineStatusTypes(() => state.options.types)
 
 const state = reactive({
     columnHeaders: [] as any,
@@ -580,9 +581,9 @@ function getDosageIndexByTime(medicineIndex: number, time: string) {
     return dosages.findIndex((d: any) => d?.time === time)
 }
 
+/** A dose's type buttons; a registered dose also keeps its own type. */
 function typeOptionsFor(dosage?: any) {
-    const offered = offeredStatusTypes(dosage?.is_registered ? dosage.registered_type : null)
-    return state.options.types.filter((type: any) => offered.includes(type.value))
+    return statusTypeOptionsFor(dosage?.is_registered ? dosage.registered_type : null)
 }
 
 // A choice made before the settings arrived must not stay on a type that is off.

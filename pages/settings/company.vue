@@ -509,7 +509,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupMedicine') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ medicineCount }} / 5</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ medicineCount }} / {{ medicineSwitches.length }}</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.medicine }" />
                             </span>
                         </button>
@@ -1449,7 +1449,8 @@ const birthdayNotificationOptions = computed(() => ['all', 'staff', 'citizens', 
 })))
 
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled, state.formCompany.chat_cpr_warning_enabled].filter(Boolean).length)
-const medicineCount = computed(() => [state.formCompany.medicine_stats_hidden, state.formCompany.medicine_alarm_banners_hidden, state.formCompany.medicine_qr_code_hidden, state.formCompany.medicine_fields_optional, state.formCompany.medicine_reminders_citizen_shifts_only].filter(Boolean).length)
+const medicineSwitches = computed(() => [state.formCompany.medicine_stats_hidden, state.formCompany.medicine_alarm_banners_hidden, state.formCompany.medicine_qr_code_hidden, state.formCompany.medicine_fields_optional, state.formCompany.medicine_reminders_citizen_shifts_only])
+const medicineCount = computed(() => medicineSwitches.value.filter(Boolean).length)
 const plansCount = computed(() => [
     state.formCompany.plans_enabled,
     state.formCompany.goals_enabled,

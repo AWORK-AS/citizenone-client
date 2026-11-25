@@ -1,6 +1,14 @@
 import { ref } from 'vue'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
-import { medicineStatusTypes, type MedicineStatusType, type StatusTypeFields } from '@/composables/medicineStatusTypes'
+import {
+    isStatusTypeEnabled,
+    offeredStatusTypes,
+    statusTypeOptions,
+    type MedicineStatusType,
+    type StatusTypeFields,
+} from '@/composables/medicineStatusTypes'
+
+type CurrentType = string | null | Array<string | null | undefined>
 
 // Roadmap #317: the one way a dose dialog reads the company's status-type
 // switches. The rules live in composables/medicineStatusTypes.ts.
@@ -8,9 +16,11 @@ import { medicineStatusTypes, type MedicineStatusType, type StatusTypeFields } f
 // Until the settings have loaded (or if loading fails) every type counts as
 // on, so a failed request never blocks logging a dose; the backend still
 // refuses a switched-off type on a new dose.
-export function useMedicineStatusTypes() {
+//
+// Pass the dialog's own type options (a getter, read lazily) to get
+// typeOptionsFor(ownType): those options narrowed to the offered types.
+export function useMedicineStatusTypes<T extends { value: string }>(options?: () => readonly T[]) {
     const statusTypeFields = ref<Record<string, boolean> | null>(null)
-    const { isStatusTypeEnabled, offeredStatusTypes } = medicineStatusTypes()
 
     async function loadStatusTypeFields(): Promise<StatusTypeFields> {
         try {
@@ -26,7 +36,9 @@ export function useMedicineStatusTypes() {
         statusTypeFields,
         loadStatusTypeFields,
         isStatusTypeEnabled: (type: string) => isStatusTypeEnabled(statusTypeFields.value, type),
-        offeredStatusTypes: (currentType?: string | null | Array<string | null | undefined>): MedicineStatusType[] =>
+        offeredStatusTypes: (currentType?: CurrentType): MedicineStatusType[] =>
             offeredStatusTypes(statusTypeFields.value, currentType),
+        typeOptionsFor: (currentType?: CurrentType): T[] =>
+            statusTypeOptions(statusTypeFields.value, options?.() ?? [], currentType),
     }
 }

@@ -7,9 +7,7 @@
  */
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { medicineStatusTypes } from '../../composables/medicineStatusTypes.ts'
-
-const { isStatusTypeEnabled, offeredStatusTypes } = medicineStatusTypes()
+import { isStatusTypeEnabled, offeredStatusTypes, statusTypeOptions } from '../../composables/medicineStatusTypes.ts'
 
 describe('offeredStatusTypes', () => {
     test('everything is offered while the settings are unknown', () => {
@@ -47,5 +45,19 @@ describe('isStatusTypeEnabled', () => {
         assert.equal(isStatusTypeEnabled(null, 'deviated'), true)
         assert.equal(isStatusTypeEnabled({ deviated: false }, 'deviated'), false)
         assert.equal(isStatusTypeEnabled({ given: false }, 'given'), true)
+    })
+})
+
+describe('statusTypeOptions', () => {
+    const options = [
+        { value: 'deviated', label: 'D' },
+        { value: 'given', label: 'G' },
+        { value: 'delivered', label: 'L' },
+    ]
+
+    test("keeps the dialog's own options and order, narrowed to the offered types", () => {
+        assert.deepEqual(statusTypeOptions(null, options), options)
+        assert.deepEqual(statusTypeOptions({ deviated: false }, options).map((o) => o.value), ['given', 'delivered'])
+        assert.deepEqual(statusTypeOptions({ deviated: false }, options, 'deviated').map((o) => o.value), ['deviated', 'given', 'delivered'])
     })
 })
