@@ -102,6 +102,9 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Pinned messages (Roadmap #375): staff pin them, this portal only sees them -->
+                        <ModulesUserMessagesPinnedBanner :pinnedMessages="state.chat?.data?.pinned_messages" readonly
+                            @go-to="goToPinnedMessage" />
                         <div class="overflow-y-auto pt-4 mb-4" style="height: 62vh;" ref="scrollableChatHistory"
                             @scroll="handleScroll">
                             <!-- Chat Messages -->
@@ -118,7 +121,9 @@
                                     <span class="dot4">.</span>
                                     <span class="dot5">.</span>
                                 </div>
-                                <div v-for="(message, index) in state.messages" :key="index">
+                                <div v-for="(message, index) in state.messages" :key="index" :data-uuid="message?.uuid"
+                                    class="rounded-lg transition-colors duration-700"
+                                    :class="{ 'bg-primary/10': state.highlightedMessageUuid && state.highlightedMessageUuid === message?.uuid }">
                                     <!-- Message (Right) -->
                                     <div v-if="message?.sender?.id === userStore.getUser?.id">
                                         <div class="flex items-start justify-end mb-4">
@@ -247,12 +252,17 @@ import { messageService } from '@/components/api/citizen/MessageService'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+import { jumpToPinnedMessage } from '@/composables/pinnedMessages'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { confirmChatText } = useChatCprWarning()
 const userStore = useUserStore() as any
 const router = useRouter()
+const { t } = useI18n()
+const { warningAlert } = useAlert()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const currentRoute = router?.currentRoute?.value?.name
 const scrollableChatHistory = ref<HTMLElement | null>(null)
@@ -279,6 +289,8 @@ const state = reactive({
     isPageLoading: false,
     message: '',
     messages: [] as any,
+    highlightedMessageUuid: null as string | null,
+    isJumpingToPin: false,
     modal: {
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false
@@ -287,6 +299,9 @@ const state = reactive({
 
 onMounted(() => {
     const channel = pusher.subscribe('citizenone.' + chatUuid)
+    // Roadmap #375: a message was pinned or unpinned. The event carries no
+    // text, so the pins are fetched again through the authenticated API.
+    channel.bind('chat-message-pinned', () => refreshPinnedMessages())
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
@@ -338,6 +353,39 @@ async function fetchChats() {
     state.isChatLoading = false
 }
 
+// The pins again, quietly (no loading overlay), after a live pin or unpin.
+// A missing pinned_messages field (an older backend) just shows no banner.
+async function refreshPinnedMessages() {
+    try {
+        const response = await messageService.fetchChat(chatUuid)
+        if (response?.data) state.chat = response
+    } catch (error: any) { }
+}
+// "Go to message" in the pinned banner: loads older pages until the message is
+// in the list, scrolls to it and highlights it for a moment.
+async function goToPinnedMessage(uuid: string) {
+    if (state.isJumpingToPin) return
+    state.isJumpingToPin = true
+    const found = await jumpToPinnedMessage(uuid, {
+        container: () => scrollableChatHistory.value,
+        hasMessage: (wanted) => state.messages.some((message: any) => message?.uuid === wanted),
+        isLastPage: () => state.isLastPage,
+        loadOlder: async () => {
+            currentPage++
+            await fetchChatHistory()
+        },
+        settle: () => nextTick(),
+    })
+    state.isJumpingToPin = false
+    if (!found) {
+        warningAlert(`${t('alert.warning')}!`, t('messages.pinnedMessageNotFound'))
+        return
+    }
+    state.highlightedMessageUuid = uuid
+    setTimeout(() => {
+        if (state.highlightedMessageUuid === uuid) state.highlightedMessageUuid = null
+    }, 2000)
+}
 async function fetchChatHistory() {
     state.error = {}
     state.isChatHistoryLoading = true
@@ -410,6 +458,9 @@ function scrollToBottom() {
 }
 
 function handleScroll() {
+    // "Go to message" is already loading older pages; a second loader would
+    // fetch pages out of order.
+    if (state.isJumpingToPin) return
     if (scrollableChatHistory.value) {
         if (scrollableChatHistory.value.scrollTop === 0 && !state.isLastPage) {
             // Store the current scroll height

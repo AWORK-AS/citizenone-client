@@ -118,6 +118,10 @@
                 </div>
             </div>
 
+            <!-- Pinned messages (Roadmap #375), shared by everyone in the chat -->
+            <ModulesUserMessagesPinnedBanner :pinnedMessages="state.chat?.data?.pinned_messages"
+                @go-to="goToPinnedMessage" @unpin="(pin: any) => togglePinMessage(pin, true)" />
+
             <!-- Messages Area -->
             <div class="flex-1 overflow-y-auto px-3 md:px-5 py-4 space-y-1" ref="scrollableChatHistory"
                 @scroll="handleScroll" @click="state.openMessageMenuIndex = null">
@@ -132,7 +136,9 @@
                 </div>
 
                 <!-- Messages -->
-                <div v-for="(message, index) in state.messages" :key="index">
+                <div v-for="(message, index) in state.messages" :key="index" :data-uuid="message?.uuid"
+                    class="rounded-xl transition-colors duration-700"
+                    :class="{ 'bg-primary/10': state.highlightedMessageUuid && state.highlightedMessageUuid === message?.uuid }">
 
                     <!-- Date Divider -->
                     <div v-if="shouldShowDateDivider(Number(index))" class="flex items-center gap-3 py-2 my-1">
@@ -147,7 +153,9 @@
                         class="flex flex-col items-end mb-3 group/msg">
                         <!-- Header: name + time + avatar -->
                         <div class="flex items-center gap-2 mb-1">
-                            <p class="text-xs text-gray-500 font-medium">
+                            <p class="text-xs text-gray-500 font-medium flex items-center gap-1">
+                                <Icon v-if="message?.pinned_at" name="ph:push-pin-fill" class="h-3 w-3 text-primary"
+                                    :aria-label="$t('messages.pinnedMessage')" />
                                 {{ $t('messages.you') }}
                                 <span class="text-gray-400 font-normal">{{
                                     formatMessageTime(message?.created_at) }}</span>
@@ -173,6 +181,13 @@
                                         <div v-if="state.openMessageMenuIndex === index"
                                             class="absolute right-0 bottom-full mb-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20"
                                             @click.stop>
+                                            <button
+                                                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                                @click="togglePinMessage(message)">
+                                                <Icon :name="message?.pinned_at ? 'ph:push-pin-slash' : 'ph:push-pin'"
+                                                    class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                                {{ message?.pinned_at ? $t('messages.unpinMessage') : $t('messages.pinMessage') }}
+                                            </button>
                                             <button v-if="!(message?.chat_message_attachments?.length > 0)"
                                                 class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                                                 @click="editChatMessage(Number(index), message); state.openMessageMenuIndex = null">
@@ -229,19 +244,43 @@
                     </div>
 
                     <!-- Received Message (Left) -->
-                    <div v-else class="flex flex-col items-start mb-3">
+                    <div v-else class="flex flex-col items-start mb-3 group/msg">
                         <!-- Header: avatar + name + time -->
                         <div class="flex items-center gap-2 mb-1">
                             <img :src="senderAvatar(message)" alt="User"
                                 class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                            <p class="text-xs font-medium">
+                            <p class="text-xs font-medium flex items-center gap-1">
                                 <span :class="senderColor(message)">{{ senderDisplayName(message) }}</span>
                                 <span class="text-gray-400 font-normal">{{
                                     formatMessageTime(message?.created_at) }}</span>
+                                <Icon v-if="message?.pinned_at" name="ph:push-pin-fill" class="h-3 w-3 text-primary"
+                                    :aria-label="$t('messages.pinnedMessage')" />
                             </p>
                         </div>
                         <!-- Bubble -->
-                        <div class="max-w-[85%] md:max-w-[70%] ml-10">
+                        <div class="max-w-[85%] md:max-w-[70%] ml-10 relative">
+                            <!-- Hover action: pin only (editing and deleting stay with the sender) -->
+                            <div
+                                class="hidden group-hover/msg:flex items-center gap-0.5 absolute left-full pl-2 top-1/2 -translate-y-1/2">
+                                <div class="relative">
+                                    <button @click.stop="toggleMessageMenu(Number(index))"
+                                        class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                                        :title="$t('messages.actions.more')">
+                                        <Icon name="ph:dots-three" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                    </button>
+                                    <div v-if="state.openMessageMenuIndex === index"
+                                        class="absolute left-0 bottom-full mb-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20"
+                                        @click.stop>
+                                        <button
+                                            class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                            @click="togglePinMessage(message)">
+                                            <Icon :name="message?.pinned_at ? 'ph:push-pin-slash' : 'ph:push-pin'"
+                                                class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                            {{ message?.pinned_at ? $t('messages.unpinMessage') : $t('messages.pinMessage') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="bg-gray-100 text-gray-800 px-4 py-2.5 rounded-2xl rounded-bl-sm shadow-sm">
                                 <!-- Attachments -->
                                 <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
@@ -363,13 +402,14 @@ import { useIsDesktopApp, openInNewDesktopWindow } from '@/composables/useIsDesk
 import { useUserStore } from '@/store/user'
 import { useCitizenFirstPage } from '@/composables/citizenFirstPage'
 import { useChatDraftStore } from '@/store/chat-draft'
+import { jumpToPinnedMessage, pinnedMessagesOf, syncPinnedAt } from '@/composables/pinnedMessages'
 import { mergeIntoField } from '@/composables/codyChatDraft'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert, warningAlert } = useAlert()
 const { reportContinuity } = useContinuity()
 const { confirmChatText } = useChatCprWarning()
 const isDesktopApp = useIsDesktopApp()
@@ -401,6 +441,8 @@ const state = reactive({
     message: '',
     messages: [] as any,
     openMessageMenuIndex: null as number | null,
+    highlightedMessageUuid: null as string | null,
+    isJumpingToPin: false,
     modal: {
         isDeleteConfirmationOpen: false,
         isEditChatMessageOpen: false,
@@ -445,6 +487,10 @@ function subscribeToChat() {
         scrollToBottom()
         notifyIfBackgrounded(response?.data)
     })
+    // Roadmap #375: someone pinned or unpinned a message. The public channel
+    // carries only the uuid and the new state, so the pins are fetched again
+    // through the authenticated chat endpoint.
+    channel.bind('chat-message-pinned', () => refreshPinnedMessages())
 }
 
 // Only for the chat currently open - a full "any new message anywhere"
@@ -701,9 +747,73 @@ async function fetchChat() {
     state.isPageLoading = false
 }
 
-async function fetchChatHistory() {
+// The pins again, quietly (no loading overlay): after a pin or unpin here, or a
+// live event from someone else. Ignored when the chat was switched meanwhile.
+async function refreshPinnedMessages() {
+    const uuid = chatUuid
+    try {
+        const response = await messageService.fetchChat(uuid)
+        if (!response?.data || uuid !== chatUuid) return
+        state.chat = response
+        // An older backend sends no pinned_messages: leave the bubbles alone.
+        if (Array.isArray(response.data.pinned_messages)) {
+            syncPinnedAt(state.messages, pinnedMessagesOf(response))
+        }
+    } catch (error: any) { }
+}
+
+async function togglePinMessage(message: any, unpinOnly = false) {
+    state.openMessageMenuIndex = null
+    if (!message?.uuid) return
+    const pinning = !unpinOnly && !message.pinned_at
+    try {
+        const response = pinning
+            ? await messageService.pinChatMessage(message.uuid)
+            : await messageService.unpinChatMessage(message.uuid)
+        if (response?.data) {
+            const loaded = state.messages.find((existing: any) => existing?.uuid === message.uuid)
+            if (loaded) loaded.pinned_at = response.data.pinned_at ?? null
+            successAlert(`${t('alert.success')}!`, pinning ? t('messages.alert.messagePinned') : t('messages.alert.messageUnpinned'))
+            refreshPinnedMessages()
+        }
+    } catch (error: any) {
+        // 422: the chat already has its maximum of pinned messages.
+        errorAlert(`${t('alert.error')}!`, error?.message || t('messages.alert.pinLimitReached'))
+    }
+}
+
+// "Go to message" in the pinned banner: loads older pages until the message is
+// in the list, scrolls to it and highlights it for a moment.
+async function goToPinnedMessage(uuid: string) {
+    if (state.isJumpingToPin) return
+    state.isJumpingToPin = true
+    const found = await jumpToPinnedMessage(uuid, {
+        container: () => scrollableChatHistory.value,
+        hasMessage: (wanted) => state.messages.some((message: any) => message?.uuid === wanted),
+        isLastPage: () => state.isLastPage,
+        loadOlder: async () => {
+            currentPage++
+            return fetchChatHistory()
+        },
+        settle: () => nextTick(),
+    })
+    state.isJumpingToPin = false
+
+    if (!found) {
+        warningAlert(`${t('alert.warning')}!`, t('messages.pinnedMessageNotFound'))
+        return
+    }
+
+    state.highlightedMessageUuid = uuid
+    setTimeout(() => {
+        if (state.highlightedMessageUuid === uuid) state.highlightedMessageUuid = null
+    }, 2000)
+}
+
+async function fetchChatHistory(): Promise<boolean> {
     state.error = {}
     state.isChatHistoryLoading = true
+    let ok = true
     try {
         const params = { page: currentPage, chat_uuid: chatUuid }
         const response = await messageService.fetchChatHistory(params)
@@ -713,17 +823,22 @@ async function fetchChatHistory() {
         }
     } catch (error: any) {
         state.error = { message: error.message }
+        ok = false
     }
     state.isChatHistoryLoading = false
+    return ok
 }
 
-async function autoFillChatHistory() {
+async function autoFillChatHistory(firstPageOk = true) {
     await nextTick()
+    // A failed page (e.g. 404 for someone outside the chat) never sets isLastPage,
+    // so without these checks the loop asked for page 2, 3, 4 ... forever.
+    if (!firstPageOk) return
     while (!state.isLastPage && scrollableChatHistory.value) {
         const el = scrollableChatHistory.value
         if (el.scrollHeight > el.clientHeight) break
         currentPage++
-        await fetchChatHistory()
+        if (!(await fetchChatHistory())) break
         await nextTick()
     }
     scrollToBottom()
@@ -775,6 +890,9 @@ function scrollToBottom() {
 }
 
 function handleScroll() {
+    // "Go to message" is already loading older pages; a second loader would
+    // fetch pages out of order.
+    if (state.isJumpingToPin) return
     if (scrollableChatHistory.value) {
         if (scrollableChatHistory.value.scrollTop === 0 && !state.isLastPage) {
             const previousScrollHeight = scrollableChatHistory.value.scrollHeight
@@ -899,6 +1017,8 @@ async function deleteChatMessage() {
             if (chatIndex !== undefined && chatIndex !== -1) {
                 state.messages.splice(chatIndex, 1)
             }
+            // A deleted message takes its pin with it.
+            if (state.selectedChat?.pinned_at) refreshPinnedMessages()
         }
     } catch (error: any) {
         state.error = error
