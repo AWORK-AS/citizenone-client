@@ -3,6 +3,9 @@ import { computed, onMounted, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useFmkMedicineCard } from '@/composables/useFmkMedicineCard'
 import { useFmkLogin } from '@/composables/useFmkLogin'
+import { usePermissions } from '@/composables/usePermissions'
+import { useAlert } from '@/composables/alert'
+import { fMKService } from '@/components/api/user/FMKService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -23,6 +26,39 @@ const citizenUuid = route.params.uuid as string
 const { card, pending, error, loginRequired, fetchCard } = useFmkMedicineCard(citizenUuid)
 const fmkLogin = useFmkLogin()
 const router = useRouter()
+const { isAtLeast, can } = usePermissions()
+const { successAlert, errorAlert } = useAlert()
+
+// Same rule as "Ny medicin" on the medicine page.
+const canEdit = computed(() => isAtLeast('Admin') || can('create_citizen_medicine'))
+const busyKey = shallowRef<string | null>(null)
+
+/** Takes a drug medication over from FMK, as a draft to finish with a dosage plan. */
+async function takeOver(identifier: string) {
+    busyKey.value = `fmk-${identifier}`
+    try {
+        await fMKService.takeOver(citizenUuid, identifier)
+        successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
+        await fetchCard()
+    } catch (cause: any) {
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        busyKey.value = null
+    }
+}
+
+async function acknowledge(identifier: string) {
+    busyKey.value = `fmk-${identifier}`
+    try {
+        await fMKService.acknowledge(citizenUuid, identifier)
+        successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
+        await fetchCard()
+    } catch (cause: any) {
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        busyKey.value = null
+    }
+}
 
 const loginNotice = shallowRef<{ tone: 'ok' | 'error', text: string } | null>(null)
 const choices = computed(() => fmkLogin.session.value?.choices ?? null)
@@ -187,7 +223,8 @@ watch(() => route.query.fmk_login, (status) => {
 
                 <template v-if="card">
                     <ModulesUserFmkCardStatus :card="card.card" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" @details="detailsFor = $event" />
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" @details="detailsFor = $event"
+                        @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="navigateTo(`/citizens/${citizenUuid}/medicine-journals`)" />
                 </template>
             </div>
 

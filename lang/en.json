@@ -23738,7 +23738,13 @@
                 "only_fmk": "Only in FMK",
                 "only_local": "Only in CitizenOne",
                 "missing_in_fmk": "No longer in FMK"
-            }
+            },
+            "takeOver": "Take over into CitizenOne",
+            "takenOver": "The medicine is taken over as a draft. Fill in the dosage plan on the medicine card before it is given.",
+            "acknowledge": "Mark as reviewed",
+            "acknowledgeHint": "Update the medicine in CitizenOne if the change applies, then mark it as reviewed.",
+            "acknowledged": "The change in FMK is marked as reviewed.",
+            "draft": "Draft – no dosage plan yet"
         },
         "details": {
             "intro": "All information FMK sent about the drug medication, with FMK's own field names."

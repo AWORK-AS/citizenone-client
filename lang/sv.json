@@ -23653,7 +23653,13 @@
                 "only_fmk": "Bara i FMK",
                 "only_local": "Bara i CitizenOne",
                 "missing_in_fmk": "Inte längre i FMK"
-            }
+            },
+            "takeOver": "Ta över till CitizenOne",
+            "takenOver": "Läkemedlet har tagits över som utkast. Fyll i doseringsplanen i läkemedelskortet innan det ges.",
+            "acknowledge": "Markera som granskad",
+            "acknowledgeHint": "Ändra läkemedlet i CitizenOne om ändringen ska gälla och markera det sedan som granskat.",
+            "acknowledged": "Ändringen i FMK är markerad som granskad.",
+            "draft": "Utkast – saknar doseringsplan"
         },
         "details": {
             "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."

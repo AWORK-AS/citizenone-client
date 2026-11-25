@@ -10,6 +10,16 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card`, 'GET')
     }
 
+    /** Takes a drug medication from FMK over into CitizenOne (as a draft). */
+    async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    }
+
+    /** Staff have checked what changed in FMK since the medicine was taken over. */
+    async acknowledge(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/acknowledge`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    }
+
     /** MitID Erhverv login via SEB: where to send the browser. */
     async startLogin(returnPath: string): Promise<any> {
         return await this.request(`/user/fmk-login`, 'POST', { return_path: returnPath })

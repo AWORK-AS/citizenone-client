@@ -10,8 +10,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * has nothing, differences marked with icon and text. Sort order comes from
  * the backend and is the same for both sides.
  */
-const props = defineProps<{ rows: FmkRow[] }>()
-const emit = defineEmits<{ details: [identifier: string] }>()
+const props = defineProps<{ rows: FmkRow[], canEdit?: boolean, busyKey?: string | null }>()
+const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [] }>()
 
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -74,6 +74,19 @@ function localPeriod(row: FmkRow): string {
                 <div>
                     <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.compare.fmkColumn') }}</p>
                     <ModulesUserFmkMedicationSummary v-if="row.fmk" :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
+                    <div v-if="canEdit && row.fmk && (row.status === 'only_fmk' || row.status === 'changed_in_fmk')" class="mt-3">
+                        <FormButton v-if="row.status === 'only_fmk'" buttonStyle="action" class="rounded-md" :disabled="busyKey === row.key"
+                            @click="emit('takeOver', row.fmk.identifier)">
+                            <Icon :name="busyKey === row.key ? 'ph:spinner' : 'ph:arrow-fat-line-right'" :class="['size-4', busyKey === row.key && 'motion-safe:animate-spin']" aria-hidden="true" />
+                            {{ $t('fmk.compare.takeOver') }}
+                        </FormButton>
+                        <FormButton v-else buttonStyle="action" class="rounded-md" :disabled="busyKey === row.key"
+                            @click="emit('acknowledge', row.fmk.identifier)">
+                            <Icon :name="busyKey === row.key ? 'ph:spinner' : 'ph:check'" :class="['size-4', busyKey === row.key && 'motion-safe:animate-spin']" aria-hidden="true" />
+                            {{ $t('fmk.compare.acknowledge') }}
+                        </FormButton>
+                        <p v-if="row.status === 'changed_in_fmk'" class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.acknowledgeHint') }}</p>
+                    </div>
                     <p v-else class="text-sm text-[#64748b]">{{ $t('fmk.compare.notInFmk') }}</p>
                 </div>
                 <div class="rounded-lg bg-[#f8fafc] px-3 py-2">
@@ -82,6 +95,11 @@ function localPeriod(row: FmkRow): string {
                         <p class="font-semibold text-[#1a2332]">{{ [row.local.name, row.local.strength].filter(Boolean).join(' ') || $t('fmk.medication.unnamed') }}</p>
                         <p v-if="row.local.treatment_reason" class="text-sm text-[#64748b]">{{ row.local.treatment_reason }}</p>
                         <p class="text-xs text-[#64748b]">{{ localPeriod(row) }}</p>
+                        <button v-if="row.local.is_draft" type="button" @click="emit('openLocal')"
+                            class="mt-2 inline-flex items-center gap-1 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2 py-0.5 text-[11px] font-semibold text-[#c2410c] hover:border-[#c2410c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                            <Icon name="ph:pencil-simple" class="size-3.5" aria-hidden="true" />
+                            {{ $t('fmk.compare.draft') }}
+                        </button>
                     </template>
                     <p v-else class="text-sm text-[#64748b]">{{ $t('fmk.compare.notInLocal') }}</p>
                 </div>
@@ -114,6 +132,19 @@ function localPeriod(row: FmkRow): string {
                         <td class="px-4 py-4 sm:px-6" :class="row.status === 'same' ? '' : 'border-l-4 border-l-[#fed7aa]'">
                             <ModulesUserFmkMedicationSummary v-if="row.fmk" :medication="row.fmk"
                                 @details="emit('details', row.fmk.identifier)" />
+                            <div v-if="canEdit && row.fmk && (row.status === 'only_fmk' || row.status === 'changed_in_fmk')" class="mt-3">
+                                <FormButton v-if="row.status === 'only_fmk'" buttonStyle="action" class="rounded-md" :disabled="busyKey === row.key"
+                                    @click="emit('takeOver', row.fmk.identifier)">
+                                    <Icon :name="busyKey === row.key ? 'ph:spinner' : 'ph:arrow-fat-line-right'" :class="['size-4', busyKey === row.key && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                    {{ $t('fmk.compare.takeOver') }}
+                                </FormButton>
+                                <FormButton v-else buttonStyle="action" class="rounded-md" :disabled="busyKey === row.key"
+                                    @click="emit('acknowledge', row.fmk.identifier)">
+                                    <Icon :name="busyKey === row.key ? 'ph:spinner' : 'ph:check'" :class="['size-4', busyKey === row.key && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                    {{ $t('fmk.compare.acknowledge') }}
+                                </FormButton>
+                                <p v-if="row.status === 'changed_in_fmk'" class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.acknowledgeHint') }}</p>
+                            </div>
                             <p v-else class="rounded-lg border border-dashed border-[#e2e8f0] px-3 py-4 text-sm text-[#64748b]">
                                 {{ $t('fmk.compare.notInFmk') }}
                             </p>
@@ -136,6 +167,11 @@ function localPeriod(row: FmkRow): string {
                                     class="mt-2 inline-block rounded-full border border-[#e2e8f0] bg-[#f8fafc] px-2 py-0.5 text-[11px] font-semibold text-[#64748b]">
                                     {{ $t('fmk.compare.pn') }}
                                 </span>
+                                <button v-if="row.local.is_draft" type="button" @click="emit('openLocal')"
+                                    class="mt-2 inline-flex items-center gap-1 rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2 py-0.5 text-[11px] font-semibold text-[#c2410c] hover:border-[#c2410c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                                    <Icon name="ph:pencil-simple" class="size-3.5" aria-hidden="true" />
+                                    {{ $t('fmk.compare.draft') }}
+                                </button>
                             </div>
                             <p v-else class="rounded-lg border border-dashed border-[#e2e8f0] px-3 py-4 text-sm text-[#64748b]">
                                 {{ $t('fmk.compare.notInLocal') }}

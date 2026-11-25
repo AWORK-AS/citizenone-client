@@ -23738,7 +23738,13 @@
                 "only_fmk": "Kun i FMK",
                 "only_local": "Kun i CitizenOne",
                 "missing_in_fmk": "Ikke længere i FMK"
-            }
+            },
+            "takeOver": "Overtag til CitizenOne",
+            "takenOver": "Medicinen er overtaget som kladde. Udfyld doseringsplanen i medicinkortet, før den gives.",
+            "acknowledge": "Markér som gennemgået",
+            "acknowledgeHint": "Ret medicinen i CitizenOne, hvis ændringen skal med, og markér den så som gennemgået.",
+            "acknowledged": "Ændringen i FMK er markeret som gennemgået.",
+            "draft": "Kladde – mangler doseringsplan"
         },
         "details": {
             "intro": "Alle oplysninger, FMK har sendt om ordinationen, med FMK's egne feltnavne."

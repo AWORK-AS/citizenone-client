@@ -18,6 +18,11 @@
  * 8. Settings -> FMK (admin): a SOR code needs its number, saving shows what
  *    is sent to FMK. Self-restoring: the original settings are put back.
  *
+ * 9. "Overtag til CitizenOne" on a row only in FMK creates a draft that lines
+ *    up with FMK; "Markér som gennemgået" clears an FMK change. The draft the
+ *    test creates is deleted again; a catalogue medicine with the FMK drug
+ *    name may stay (Settings -> Medicines).
+ *
  * The token's user must be an admin with an FMK licence.
  *
  * Needs the backend with FMK_FAKE=true (sample card, never in production) and
@@ -240,6 +245,38 @@ await page.request.put(settingsUrl, {
   headers: { Authorization: `Bearer ${TOKEN}`, Accept: 'application/json' },
   data: { organisation_id_type: original.organisation_id_type, organisation_id: original.organisation_id, organisation_name: original.organisation_name, contact_phone: original.contact_phone, contact_email: original.contact_email, default_requested_role: original.default_requested_role, require_mitid_cvr_match: original.require_mitid_cvr_match },
 })
+
+console.log('9. Take over from FMK')
+await go(`/citizens/${CITIZEN}/fmk`)
+await table.waitFor()
+const takeOverButton = table.getByRole('button', { name: /Overtag til CitizenOne|Take over into CitizenOne/ }).first()
+if (await takeOverButton.count()) {
+  const row = takeOverButton.locator('xpath=ancestor::tr[1]')
+  const drug = (await row.locator('td').first().locator('p').first().innerText()).trim()
+  const posted = page.waitForResponse((r) => r.url().includes('/fmk/take-over'))
+  await takeOverButton.click()
+  const response = await posted
+  check('take over creates the draft', response.status() === 201, String(response.status()))
+  const created = (await response.json()).data
+  const sameRow = table.locator('tr').filter({ hasText: drug })
+  await sameRow.getByText(/Kladde – mangler doseringsplan|Draft – no dosage plan yet/).waitFor()
+  check('row now lined up with a draft on the CitizenOne side', (await sameRow.innerText()).match(/Ens|Same/) !== null)
+  await page.screenshot({ path: path.join(SHOT, 'fmk-taken-over.png'), fullPage: true })
+  // clean up the draft this test created
+  const apiBase = response.url().split('/user/citizens/')[0]
+  const del = await page.request.delete(`${apiBase}/user/citizen-medicines/${created.uuid}`, { headers: { Authorization: `Bearer ${TOKEN}`, Accept: 'application/json' } })
+  check('test draft removed again', del.ok(), String(del.status()))
+} else {
+  console.log('  skip no row only in FMK')
+}
+const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
+if (await ackButton.count()) {
+  const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))
+  await ackButton.click()
+  check('change marked as reviewed', (await acked).status() === 200)
+} else {
+  console.log('  skip no row changed in FMK')
+}
 
 check('no page errors', problems.length === 0, problems.join(' | '))
 

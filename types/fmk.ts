@@ -39,6 +39,7 @@ export interface FmkLocalMedicine {
     start_date: string | null
     end_date: string | null
     is_pn_medicine: boolean
+    is_draft: boolean
     fmk_drug_medication_id: string | null
     fmk_drug_medication_version: string | null
 }
