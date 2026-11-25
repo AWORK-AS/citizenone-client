@@ -23547,5 +23547,22 @@
         "closed": "Spørsmålet er ikke åpent nå.",
         "failed": "Svaret ble ikke sendt. Prøv igjen.",
         "anonymous": "Anonymt. Vi spør ikke hvem du er."
+    },
+    "recordsExport": {
+        "export": "Eksporter",
+        "titleUseOfForce": "Eksporter tvangsbruk",
+        "titleIncidents": "Eksporter hendelser",
+        "from": "Fra",
+        "to": "Til",
+        "department": "Avdeling",
+        "allDepartments": "Alle avdelinger",
+        "format": "Format",
+        "includeDrafts": "Ta med utkast",
+        "download": "Last ned",
+        "downloading": "Lager filen…",
+        "personalData": "Filen inneholder sensitive personopplysninger. Oppbevar den trygt, og slett den når du ikke lenger trenger den. Nedlastingen blir logget.",
+        "error": "Filen kunne ikke lages. Prøv igjen.",
+        "toBeforeFrom": "Til-datoen må være samme dag som eller etter fra-datoen.",
+        "tooLong": "Perioden kan være maks {years} år."
     }
 }

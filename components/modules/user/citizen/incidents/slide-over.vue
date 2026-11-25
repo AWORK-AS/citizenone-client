@@ -19,7 +19,14 @@
                                                 <DialogTitle class="text-base font-semibold leading-6 text-gray-900">
                                                     {{ $t('citizens.incidents.incidents') }}
                                                 </DialogTitle>
-                                                <div class="ml-3 flex h-7 items-center">
+                                                <div class="ml-3 flex h-7 items-center gap-x-4">
+                                                    <!-- Roadmap #396: this citizen's registrations as Excel/CSV. -->
+                                                    <button type="button" data-testid="incidents-export"
+                                                        class="inline-flex items-center gap-x-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                                        @click="state.modal.isExportOpen = true">
+                                                        <Icon name="ph:download-simple" class="h-4 w-4" aria-hidden="true" />
+                                                        {{ $t('recordsExport.export') }}
+                                                    </button>
                                                     <button type="button"
                                                         class="relative rounded-md bg-white text-tertiary-800 hover:text-tertiary focus:outline-none"
                                                         @click="closeSlide">
@@ -136,6 +143,8 @@
                                             :isModalOpen="state.modal.isStatusesOpen"
                                             :selectedData="state.selectedIncident" @close="closeStatusesModal"
                                             @refreshData="fetchIncidents" />
+                                        <ModulesUserCitizenExportModal kind="incidents" :citizenUuid="String(citizenUuid ?? '')"
+                                            :isModalOpen="state.modal.isExportOpen" @close="state.modal.isExportOpen = false" />
                                     </LoadingSpinner>
                                 </div>
                             </DialogPanel>
@@ -183,7 +192,8 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isEditIncidentOpen: false,
-        isStatusesOpen: false
+        isStatusesOpen: false,
+        isExportOpen: false,
     },
     selectedIncident: {} as any,
     sortData: {
