@@ -23547,5 +23547,88 @@
         "closed": "Frågan är inte öppen just nu.",
         "failed": "Svaret skickades inte. Försök igen.",
         "anonymous": "Anonymt. Vi frågar inte vem du är."
+    },
+    "fmk": {
+        "title": "Gemensamt läkemedelskort (FMK)",
+        "header": {
+            "intro": "Läkemedelskortet hämtas direkt från FMK och visas bredvid läkemedlen i CitizenOne, så att skillnader är lätta att se. Det kan inte ändras här.",
+            "fetchedAt": "Hämtat från FMK {time}",
+            "version": "Läkemedelskort version {version}",
+            "refresh": "Hämta igen",
+            "fetching": "Hämtar från FMK…",
+            "sampleData": "Exempeldata",
+            "testEnvironment": "Testmiljö ({environment})"
+        },
+        "error": {
+            "title": "FMK kunde inte nås",
+            "showingOlder": "Du ser läkemedelskortet som det var {time}. Det är kanske inte det senaste."
+        },
+        "status": {
+            "label": "Markeringar på läkemedelskortet",
+            "reviewed": "Senast uppdaterat:",
+            "byPatient": "klienten själv",
+            "invalidTitle": "Läkemedelskortet är markerat ogiltigt",
+            "invalidText": "Sundhedsdatastyrelsen har markerat att uppgifterna kan vara felaktiga. Markeringen försvinner när en läkare uppdaterar läkemedelskortet.",
+            "notReviewedTitle": "Läkemedelskortet är markerat som inte uppdaterat",
+            "notReviewedText": "Läkemedlen kan hanteras någon annanstans, till exempel under en sjukhusvistelse. Markerat av",
+            "neverReviewedTitle": "Läkemedelskortet har aldrig uppdaterats",
+            "neverReviewedText": "Ingen läkare har bekräftat att läkemedelskortet är komplett.",
+            "privateTitle": "{count} läkemedelsordination är privatmarkerad och visas inte | {count} läkemedelsordinationer är privatmarkerade och visas inte",
+            "privateText": "Klienten har valt att dölja dem. De kan bara visas med klientens samtycke eller i en nödsituation.",
+            "loosePrescriptions": "Det finns {count} recept som inte hör till en ordination | Det finns {count} recept som inte hör till en ordination",
+            "orderedPrescriptions": "Det finns receptförfrågningar som läkaren inte har behandlat än",
+            "administrationTitle": "Kopplad till läkemedelsadministration",
+            "doseDispensing": "Klienten får dosdispenserade läkemedel"
+        },
+        "medication": {
+            "unnamed": "Läkemedel utan namn",
+            "dosageWrittenInstructions": "Dosering enligt skriftlig anvisning",
+            "dosageStructured": "Strukturerad dosering – se detaljer",
+            "noCurrentDosage": "Ingen aktuell dosering",
+            "startedPreviously": "Påbörjad tidigare",
+            "noEndDate": "inget slutdatum",
+            "withdrawn": "Utsatt – inte aktuell",
+            "expired": "Utgånget – inte aktuell",
+            "paused": "Pausat",
+            "pausedFrom": "Pausas från {date}",
+            "pausedUntil": "till {date}",
+            "pausedNoEnd": "inget slutdatum",
+            "notStartedYet": "Inte påbörjat än – startar {date}",
+            "followUpDates": "Kontrolldatum",
+            "private": "Privatmarkerad",
+            "doseDispensed": "Dosdispenserad",
+            "prescriptions": "{count} recept | {count} recept",
+            "effectuations": "{count} utlämning | {count} utlämningar",
+            "markings": "Markeringar",
+            "showDetails": "Visa alla uppgifter från FMK"
+        },
+        "compare": {
+            "label": "FMK och CitizenOne sida vid sida",
+            "title": "Läkemedel i FMK och CitizenOne",
+            "filterLabel": "Visa",
+            "all": "Alla ({count})",
+            "differences": "Skillnader ({count})",
+            "emptyAll": "Det finns inga läkemedel i FMK eller CitizenOne.",
+            "emptyDifferences": "FMK och CitizenOne stämmer överens.",
+            "caption": "Läkemedel från FMK till vänster och från CitizenOne till höger. Samma ordination står på samma rad.",
+            "fmkColumn": "Gemensamt läkemedelskort",
+            "statusColumn": "Jämförelse",
+            "localColumn": "CitizenOne",
+            "notInFmk": "Finns inte i FMK",
+            "notInLocal": "Finns inte i CitizenOne",
+            "pn": "Vid behov",
+            "status": {
+                "same": "Lika",
+                "changed_in_fmk": "Ändrat i FMK",
+                "only_fmk": "Bara i FMK",
+                "only_local": "Bara i CitizenOne",
+                "missing_in_fmk": "Inte längre i FMK"
+            }
+        },
+        "details": {
+            "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."
+        },
+        "open": "Gemensamt läkemedelskort (FMK)",
+        "openShort": "Hämta från FMK"
     }
 }

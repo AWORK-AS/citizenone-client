@@ -23632,5 +23632,88 @@
         "closed": "The question is not open right now.",
         "failed": "The answer was not sent. Try again.",
         "anonymous": "Anonymous. We do not ask who you are."
+    },
+    "fmk": {
+        "title": "Shared Medication Record",
+        "header": {
+            "intro": "The medication record is fetched directly from FMK and shown next to the medicines in CitizenOne, so differences are easy to spot. It cannot be changed here.",
+            "fetchedAt": "Fetched from FMK {time}",
+            "version": "Medication record version {version}",
+            "refresh": "Fetch again",
+            "fetching": "Fetching from FMK…",
+            "sampleData": "Sample data",
+            "testEnvironment": "Test environment ({environment})"
+        },
+        "error": {
+            "title": "FMK could not be reached",
+            "showingOlder": "You are seeing the medication record as it was {time}. It may not be the latest."
+        },
+        "status": {
+            "label": "Markings on the medication record",
+            "reviewed": "Last reviewed:",
+            "byPatient": "the citizen",
+            "invalidTitle": "The medication record is marked invalid",
+            "invalidText": "The Danish Health Data Authority has marked that the information may be wrong. The marking disappears when a doctor reviews the record.",
+            "notReviewedTitle": "The medication record is marked not reviewed",
+            "notReviewedText": "Medication may be managed elsewhere, e.g. during a hospital stay. Marked by",
+            "neverReviewedTitle": "The medication record has never been reviewed",
+            "neverReviewedText": "No doctor has confirmed that the medication record is complete.",
+            "privateTitle": "{count} drug medication is marked private and not shown | {count} drug medications are marked private and not shown",
+            "privateText": "The citizen has chosen to hide them. They can only be shown with the citizen's consent or in an emergency.",
+            "loosePrescriptions": "There is {count} prescription not linked to a drug medication | There are {count} prescriptions not linked to a drug medication",
+            "orderedPrescriptions": "There are prescription requests the doctor has not handled yet",
+            "administrationTitle": "Linked to medication administration",
+            "doseDispensing": "The citizen receives dose-dispensed medication"
+        },
+        "medication": {
+            "unnamed": "Unnamed drug",
+            "dosageWrittenInstructions": "Dosage according to written instructions",
+            "dosageStructured": "Structured dosage – see details",
+            "noCurrentDosage": "No current dosage",
+            "startedPreviously": "Started previously",
+            "noEndDate": "no end date",
+            "withdrawn": "Withdrawn – not current",
+            "expired": "Expired – not current",
+            "paused": "Paused",
+            "pausedFrom": "Paused from {date}",
+            "pausedUntil": "until {date}",
+            "pausedNoEnd": "no end date",
+            "notStartedYet": "Not started yet – starts {date}",
+            "followUpDates": "Follow-up date",
+            "private": "Marked private",
+            "doseDispensed": "Dose-dispensed",
+            "prescriptions": "{count} prescription | {count} prescriptions",
+            "effectuations": "{count} dispensing | {count} dispensings",
+            "markings": "Markings",
+            "showDetails": "Show all information from FMK"
+        },
+        "compare": {
+            "label": "FMK and CitizenOne side by side",
+            "title": "Medicines in FMK and CitizenOne",
+            "filterLabel": "Show",
+            "all": "All ({count})",
+            "differences": "Differences ({count})",
+            "emptyAll": "There are no medicines in FMK or CitizenOne.",
+            "emptyDifferences": "FMK and CitizenOne match.",
+            "caption": "Medicines from FMK on the left and from CitizenOne on the right. The same drug medication is on the same row.",
+            "fmkColumn": "Shared Medication Record",
+            "statusColumn": "Comparison",
+            "localColumn": "CitizenOne",
+            "notInFmk": "Not in FMK",
+            "notInLocal": "Not in CitizenOne",
+            "pn": "PRN",
+            "status": {
+                "same": "Same",
+                "changed_in_fmk": "Changed in FMK",
+                "only_fmk": "Only in FMK",
+                "only_local": "Only in CitizenOne",
+                "missing_in_fmk": "No longer in FMK"
+            }
+        },
+        "details": {
+            "intro": "All information FMK sent about the drug medication, with FMK's own field names."
+        },
+        "open": "Shared Medication Record (FMK)",
+        "openShort": "Fetch from FMK"
     }
 }

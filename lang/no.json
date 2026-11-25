@@ -23547,5 +23547,88 @@
         "closed": "Spørsmålet er ikke åpent nå.",
         "failed": "Svaret ble ikke sendt. Prøv igjen.",
         "anonymous": "Anonymt. Vi spør ikke hvem du er."
+    },
+    "fmk": {
+        "title": "Felles legemiddelkort (FMK)",
+        "header": {
+            "intro": "Legemiddelkortet er hentet direkte fra FMK og vises ved siden av legemidlene i CitizenOne, slik at forskjeller er lette å se. Det kan ikke endres her.",
+            "fetchedAt": "Hentet fra FMK {time}",
+            "version": "Legemiddelkort versjon {version}",
+            "refresh": "Hent på nytt",
+            "fetching": "Henter fra FMK…",
+            "sampleData": "Eksempeldata",
+            "testEnvironment": "Testmiljø ({environment})"
+        },
+        "error": {
+            "title": "FMK kunne ikke nås",
+            "showingOlder": "Du ser legemiddelkortet slik det var {time}. Det er kanskje ikke det nyeste."
+        },
+        "status": {
+            "label": "Markeringer på legemiddelkortet",
+            "reviewed": "Sist oppdatert:",
+            "byPatient": "brukeren selv",
+            "invalidTitle": "Legemiddelkortet er merket ugyldig",
+            "invalidText": "Sundhedsdatastyrelsen har merket at opplysningene kan være feil. Merkingen forsvinner når en lege oppdaterer legemiddelkortet.",
+            "notReviewedTitle": "Legemiddelkortet er merket ikke oppdatert",
+            "notReviewedText": "Legemidlene kan være ført et annet sted, for eksempel under en innleggelse. Merket av",
+            "neverReviewedTitle": "Legemiddelkortet har aldri blitt oppdatert",
+            "neverReviewedText": "Ingen lege har bekreftet at legemiddelkortet er komplett.",
+            "privateTitle": "{count} legemiddelordinasjon er privatmerket og vises ikke | {count} legemiddelordinasjoner er privatmerket og vises ikke",
+            "privateText": "Brukeren har valgt å skjule dem. De kan bare vises med brukerens samtykke eller i en nødsituasjon.",
+            "loosePrescriptions": "Det finnes {count} resept som ikke hører til en ordinasjon | Det finnes {count} resepter som ikke hører til en ordinasjon",
+            "orderedPrescriptions": "Det finnes reseptforespørsler som legen ikke har behandlet ennå",
+            "administrationTitle": "Tilknyttet legemiddeladministrasjon",
+            "doseDispensing": "Brukeren får multidosepakkede legemidler"
+        },
+        "medication": {
+            "unnamed": "Legemiddel uten navn",
+            "dosageWrittenInstructions": "Dosering etter skriftlig anvisning",
+            "dosageStructured": "Strukturert dosering – se detaljer",
+            "noCurrentDosage": "Ingen aktuell dosering",
+            "startedPreviously": "Startet tidligere",
+            "noEndDate": "ingen sluttdato",
+            "withdrawn": "Seponert – ikke aktuell",
+            "expired": "Utløpt – ikke aktuell",
+            "paused": "Pauset",
+            "pausedFrom": "Pauses fra {date}",
+            "pausedUntil": "til {date}",
+            "pausedNoEnd": "ingen sluttdato",
+            "notStartedYet": "Ikke startet ennå – starter {date}",
+            "followUpDates": "Kontrolldato",
+            "private": "Privatmerket",
+            "doseDispensed": "Multidose",
+            "prescriptions": "{count} resept | {count} resepter",
+            "effectuations": "{count} utlevering | {count} utleveringer",
+            "markings": "Markeringer",
+            "showDetails": "Vis alle opplysninger fra FMK"
+        },
+        "compare": {
+            "label": "FMK og CitizenOne side om side",
+            "title": "Legemidler i FMK og CitizenOne",
+            "filterLabel": "Vis",
+            "all": "Alle ({count})",
+            "differences": "Forskjeller ({count})",
+            "emptyAll": "Det finnes ingen legemidler i FMK eller CitizenOne.",
+            "emptyDifferences": "FMK og CitizenOne stemmer overens.",
+            "caption": "Legemidler fra FMK til venstre og fra CitizenOne til høyre. Samme ordinasjon står på samme linje.",
+            "fmkColumn": "Felles legemiddelkort",
+            "statusColumn": "Sammenligning",
+            "localColumn": "CitizenOne",
+            "notInFmk": "Finnes ikke i FMK",
+            "notInLocal": "Finnes ikke i CitizenOne",
+            "pn": "Ved behov",
+            "status": {
+                "same": "Like",
+                "changed_in_fmk": "Endret i FMK",
+                "only_fmk": "Bare i FMK",
+                "only_local": "Bare i CitizenOne",
+                "missing_in_fmk": "Ikke lenger i FMK"
+            }
+        },
+        "details": {
+            "intro": "Alle opplysninger FMK har sendt om ordinasjonen, med FMKs egne feltnavn."
+        },
+        "open": "Felles legemiddelkort (FMK)",
+        "openShort": "Hent fra FMK"
     }
 }
