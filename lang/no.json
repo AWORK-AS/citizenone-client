@@ -13116,7 +13116,8 @@
             "paymentTerms": "Betalingsbetingelser",
             "contractFields": "Kontraktfelt",
             "infoScreen": "Infoskjerm",
-            "publicApi": "CitizenOne API"
+            "publicApi": "CitizenOne API",
+            "fmk": "FMK"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -13762,6 +13763,35 @@
             "enabledToast": "API-et er slått på",
             "disabledToast": "API-et er slått av",
             "docsLink": "Dokumentasjon for utviklere (på dansk)"
+        },
+        "fmk": {
+            "title": "FMK",
+            "subtitle": "Slik kjenner Felles legemiddelkort tilbudet deres, hvem FMK kan kontakte om brukernes legemidler, og hvilken rolle de ansatte bruker i FMK som utgangspunkt.",
+            "notPurchased": "Dere har ikke appen FMK ennå. Kjøp den i app store, så kan ansatte med lisens se brukernes legemiddelkort fra FMK.",
+            "goToApps": "Gå til app store",
+            "organisationTitle": "Tilbudet deres i FMK",
+            "organisationHint": "Står feltene tomme, bruker vi virksomhetens navn og CVR-nummer. Bruk SOR-kode eller ydernummer hvis dere har fått det av Sundhedsdatastyrelsen eller regionen.",
+            "idType": "Identifiseres med",
+            "idTypes": {
+                "cvr": "CVR-nummer",
+                "sor": "SOR-kode",
+                "ynumber": "Ydernummer"
+            },
+            "idOptional": "Nummer (valgfritt)",
+            "idRequired": "Nummer",
+            "name": "Navn i FMK",
+            "contactTitle": "Kontakt om legemidler",
+            "contactHint": "Nummeret og e-posten andre i helsevesenet kan bruke hvis de har spørsmål om en brukers legemidler.",
+            "phone": "Telefon",
+            "email": "E-post",
+            "staffTitle": "Ansatte",
+            "staffHint": "Ansatte logger inn på FMK med MitID Erhverv. Har en ansatt en autorisasjon eller nasjonal rolle, brukes den. Ellers brukes rollen her.",
+            "defaultRole": "Rolle i FMK",
+            "cvrMatch": "MitID Erhverv må høre til CVR-nummeret deres",
+            "cvrMatchHint": "Anbefales. Da kan en ansatt ikke logge inn på FMK med MitID Erhverv fra en annen arbeidsplass.",
+            "effectiveTitle": "Dette sender vi til FMK",
+            "save": "Lagre",
+            "saved": "FMK-innstillingene er lagret."
         }
     },
     "supportAccess": {
@@ -23582,6 +23612,117 @@
         "closed": "Spørsmålet er ikke åpent nå.",
         "failed": "Svaret ble ikke sendt. Prøv igjen.",
         "anonymous": "Anonymt. Vi spør ikke hvem du er."
+    },
+    "fmk": {
+        "title": "Felles legemiddelkort (FMK)",
+        "header": {
+            "intro": "Legemiddelkortet er hentet direkte fra FMK og vises ved siden av legemidlene i CitizenOne, slik at forskjeller er lette å se. Det kan ikke endres her.",
+            "fetchedAt": "Hentet fra FMK {time}",
+            "version": "Legemiddelkort versjon {version}",
+            "refresh": "Hent på nytt",
+            "fetching": "Henter fra FMK…",
+            "sampleData": "Eksempeldata",
+            "testEnvironment": "Testmiljø ({environment})"
+        },
+        "error": {
+            "title": "FMK kunne ikke nås",
+            "showingOlder": "Du ser legemiddelkortet slik det var {time}. Det er kanskje ikke det nyeste."
+        },
+        "status": {
+            "label": "Markeringer på legemiddelkortet",
+            "reviewed": "Sist oppdatert:",
+            "byPatient": "brukeren selv",
+            "invalidTitle": "Legemiddelkortet er merket ugyldig",
+            "invalidText": "Sundhedsdatastyrelsen har merket at opplysningene kan være feil. Merkingen forsvinner når en lege oppdaterer legemiddelkortet.",
+            "notReviewedTitle": "Legemiddelkortet er merket ikke oppdatert",
+            "notReviewedText": "Legemidlene kan være ført et annet sted, for eksempel under en innleggelse. Merket av",
+            "neverReviewedTitle": "Legemiddelkortet har aldri blitt oppdatert",
+            "neverReviewedText": "Ingen lege har bekreftet at legemiddelkortet er komplett.",
+            "privateTitle": "{count} legemiddelordinasjon er privatmerket og vises ikke | {count} legemiddelordinasjoner er privatmerket og vises ikke",
+            "privateText": "Brukeren har valgt å skjule dem. De kan bare vises med brukerens samtykke eller i en nødsituasjon.",
+            "loosePrescriptions": "Det finnes {count} resept som ikke hører til en ordinasjon | Det finnes {count} resepter som ikke hører til en ordinasjon",
+            "orderedPrescriptions": "Det finnes reseptforespørsler som legen ikke har behandlet ennå",
+            "administrationTitle": "Tilknyttet legemiddeladministrasjon",
+            "doseDispensing": "Brukeren får multidosepakkede legemidler"
+        },
+        "medication": {
+            "unnamed": "Legemiddel uten navn",
+            "dosageWrittenInstructions": "Dosering etter skriftlig anvisning",
+            "dosageStructured": "Strukturert dosering – se detaljer",
+            "noCurrentDosage": "Ingen aktuell dosering",
+            "startedPreviously": "Startet tidligere",
+            "noEndDate": "ingen sluttdato",
+            "withdrawn": "Seponert – ikke aktuell",
+            "expired": "Utløpt – ikke aktuell",
+            "paused": "Pauset",
+            "pausedFrom": "Pauses fra {date}",
+            "pausedUntil": "til {date}",
+            "pausedNoEnd": "ingen sluttdato",
+            "notStartedYet": "Ikke startet ennå – starter {date}",
+            "followUpDates": "Kontrolldato",
+            "private": "Privatmerket",
+            "doseDispensed": "Multidose",
+            "prescriptions": "{count} resept | {count} resepter",
+            "effectuations": "{count} utlevering | {count} utleveringer",
+            "markings": "Markeringer",
+            "showDetails": "Vis alle opplysninger fra FMK"
+        },
+        "compare": {
+            "label": "FMK og CitizenOne side om side",
+            "title": "Legemidler i FMK og CitizenOne",
+            "filterLabel": "Vis",
+            "all": "Alle ({count})",
+            "differences": "Forskjeller ({count})",
+            "emptyAll": "Det finnes ingen legemidler i FMK eller CitizenOne.",
+            "emptyDifferences": "FMK og CitizenOne stemmer overens.",
+            "caption": "Legemidler fra FMK til venstre og fra CitizenOne til høyre. Samme ordinasjon står på samme linje.",
+            "fmkColumn": "Felles legemiddelkort",
+            "statusColumn": "Sammenligning",
+            "localColumn": "CitizenOne",
+            "notInFmk": "Finnes ikke i FMK",
+            "notInLocal": "Finnes ikke i CitizenOne",
+            "pn": "Ved behov",
+            "status": {
+                "same": "Like",
+                "changed_in_fmk": "Endret i FMK",
+                "only_fmk": "Bare i FMK",
+                "only_local": "Bare i CitizenOne",
+                "missing_in_fmk": "Ikke lenger i FMK"
+            },
+            "takeOver": "Overta til CitizenOne",
+            "takenOver": "Legemiddelet er overtatt som utkast. Fyll ut doseringsplanen i legemiddelkortet før det gis.",
+            "acknowledge": "Merk som gjennomgått",
+            "acknowledgeHint": "Rett legemiddelet i CitizenOne hvis endringen skal med, og merk det så som gjennomgått.",
+            "acknowledged": "Endringen i FMK er merket som gjennomgått.",
+            "draft": "Utkast – mangler doseringsplan"
+        },
+        "details": {
+            "intro": "Alle opplysninger FMK har sendt om ordinasjonen, med FMKs egne feltnavn."
+        },
+        "open": "Felles legemiddelkort (FMK)",
+        "openShort": "Hent fra FMK",
+        "login": {
+            "title": "Logg inn for å se FMK",
+            "text": "Ansatte logger inn på Felles legemiddelkort med MitID Erhverv, slik at FMK og brukerens MinLog viser nøyaktig hvem som har sett.",
+            "button": "Logg inn med MitID Erhverv",
+            "redirecting": "Sender deg til MitID…",
+            "chooseTitle": "Hvilken rolle vil du bruke i FMK?",
+            "chooseText": "Du har flere roller eller autorisasjoner. Velg den du jobber i nå.",
+            "chooseButton": "Fortsett",
+            "authorisation": "Autorisasjon",
+            "nationalRole": "Nasjonal rolle",
+            "loggedInAs": "Logget inn i FMK som {name}",
+            "until": "til {time}",
+            "logout": "Logg ut av FMK",
+            "systemCard": "Testmiljø: hentet med systemets ID-kort, ikke din egen innlogging.",
+            "ok": "Du er logget inn i FMK.",
+            "error": {
+                "expired": "Innloggingen til FMK tok for lang tid. Prøv igjen.",
+                "login": "Innloggingen til FMK kunne ikke bekreftes. Prøv igjen.",
+                "organisation": "Din MitID Erhverv hører til en annen organisasjon. Logg inn med MitID Erhverv for dette tilbudet.",
+                "sts": "FMK kunne ikke utstede ID-kortet ditt. Prøv igjen om litt."
+            }
+        }
     },
     "recordsExport": {
         "export": "Eksporter",

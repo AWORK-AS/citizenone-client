@@ -13121,7 +13121,8 @@
             "paymentTerms": "Payment terms",
             "contractFields": "Contract fields",
             "infoScreen": "Info screen",
-            "publicApi": "CitizenOne API"
+            "publicApi": "CitizenOne API",
+            "fmk": "FMK"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13767,6 +13768,35 @@
             "enabledToast": "The API is switched on",
             "disabledToast": "The API is switched off",
             "docsLink": "Developer documentation (in Danish)"
+        },
+        "fmk": {
+            "title": "FMK",
+            "subtitle": "How the Shared Medication Record knows your provider, who FMK can contact about the citizens' medication, and which role staff use in FMK by default.",
+            "notPurchased": "You do not have the FMK app yet. Buy it in the app store so staff with a licence can see the citizens' medication record from FMK.",
+            "goToApps": "Go to the app store",
+            "organisationTitle": "Your provider in FMK",
+            "organisationHint": "Leave the fields empty to use the company name and CVR number. Use a SOR code or yder number if the Danish Health Data Authority or the region has given you one.",
+            "idType": "Identified by",
+            "idTypes": {
+                "cvr": "CVR number",
+                "sor": "SOR code",
+                "ynumber": "Yder number"
+            },
+            "idOptional": "Number (optional)",
+            "idRequired": "Number",
+            "name": "Name in FMK",
+            "contactTitle": "Contact about medication",
+            "contactHint": "The phone number and email others in the health service can use if they have questions about a citizen's medication.",
+            "phone": "Phone",
+            "email": "Email",
+            "staffTitle": "Staff",
+            "staffHint": "Staff sign in to FMK with MitID Erhverv. A staff member's authorisation or national role is used when they have one; otherwise the role here.",
+            "defaultRole": "Role in FMK",
+            "cvrMatch": "MitID Erhverv must belong to your CVR number",
+            "cvrMatchHint": "Recommended. Staff then cannot sign in to FMK with a MitID Erhverv from another workplace.",
+            "effectiveTitle": "What we send to FMK",
+            "save": "Save",
+            "saved": "The FMK settings are saved."
         }
     },
     "supportAccess": {
@@ -23667,6 +23697,117 @@
         "closed": "The question is not open right now.",
         "failed": "The answer was not sent. Try again.",
         "anonymous": "Anonymous. We do not ask who you are."
+    },
+    "fmk": {
+        "title": "Shared Medication Record",
+        "header": {
+            "intro": "The medication record is fetched directly from FMK and shown next to the medicines in CitizenOne, so differences are easy to spot. It cannot be changed here.",
+            "fetchedAt": "Fetched from FMK {time}",
+            "version": "Medication record version {version}",
+            "refresh": "Fetch again",
+            "fetching": "Fetching from FMK…",
+            "sampleData": "Sample data",
+            "testEnvironment": "Test environment ({environment})"
+        },
+        "error": {
+            "title": "FMK could not be reached",
+            "showingOlder": "You are seeing the medication record as it was {time}. It may not be the latest."
+        },
+        "status": {
+            "label": "Markings on the medication record",
+            "reviewed": "Last reviewed:",
+            "byPatient": "the citizen",
+            "invalidTitle": "The medication record is marked invalid",
+            "invalidText": "The Danish Health Data Authority has marked that the information may be wrong. The marking disappears when a doctor reviews the record.",
+            "notReviewedTitle": "The medication record is marked not reviewed",
+            "notReviewedText": "Medication may be managed elsewhere, e.g. during a hospital stay. Marked by",
+            "neverReviewedTitle": "The medication record has never been reviewed",
+            "neverReviewedText": "No doctor has confirmed that the medication record is complete.",
+            "privateTitle": "{count} drug medication is marked private and not shown | {count} drug medications are marked private and not shown",
+            "privateText": "The citizen has chosen to hide them. They can only be shown with the citizen's consent or in an emergency.",
+            "loosePrescriptions": "There is {count} prescription not linked to a drug medication | There are {count} prescriptions not linked to a drug medication",
+            "orderedPrescriptions": "There are prescription requests the doctor has not handled yet",
+            "administrationTitle": "Linked to medication administration",
+            "doseDispensing": "The citizen receives dose-dispensed medication"
+        },
+        "medication": {
+            "unnamed": "Unnamed drug",
+            "dosageWrittenInstructions": "Dosage according to written instructions",
+            "dosageStructured": "Structured dosage – see details",
+            "noCurrentDosage": "No current dosage",
+            "startedPreviously": "Started previously",
+            "noEndDate": "no end date",
+            "withdrawn": "Withdrawn – not current",
+            "expired": "Expired – not current",
+            "paused": "Paused",
+            "pausedFrom": "Paused from {date}",
+            "pausedUntil": "until {date}",
+            "pausedNoEnd": "no end date",
+            "notStartedYet": "Not started yet – starts {date}",
+            "followUpDates": "Follow-up date",
+            "private": "Marked private",
+            "doseDispensed": "Dose-dispensed",
+            "prescriptions": "{count} prescription | {count} prescriptions",
+            "effectuations": "{count} dispensing | {count} dispensings",
+            "markings": "Markings",
+            "showDetails": "Show all information from FMK"
+        },
+        "compare": {
+            "label": "FMK and CitizenOne side by side",
+            "title": "Medicines in FMK and CitizenOne",
+            "filterLabel": "Show",
+            "all": "All ({count})",
+            "differences": "Differences ({count})",
+            "emptyAll": "There are no medicines in FMK or CitizenOne.",
+            "emptyDifferences": "FMK and CitizenOne match.",
+            "caption": "Medicines from FMK on the left and from CitizenOne on the right. The same drug medication is on the same row.",
+            "fmkColumn": "Shared Medication Record",
+            "statusColumn": "Comparison",
+            "localColumn": "CitizenOne",
+            "notInFmk": "Not in FMK",
+            "notInLocal": "Not in CitizenOne",
+            "pn": "PRN",
+            "status": {
+                "same": "Same",
+                "changed_in_fmk": "Changed in FMK",
+                "only_fmk": "Only in FMK",
+                "only_local": "Only in CitizenOne",
+                "missing_in_fmk": "No longer in FMK"
+            },
+            "takeOver": "Take over into CitizenOne",
+            "takenOver": "The medicine is taken over as a draft. Fill in the dosage plan on the medicine card before it is given.",
+            "acknowledge": "Mark as reviewed",
+            "acknowledgeHint": "Update the medicine in CitizenOne if the change applies, then mark it as reviewed.",
+            "acknowledged": "The change in FMK is marked as reviewed.",
+            "draft": "Draft – no dosage plan yet"
+        },
+        "details": {
+            "intro": "All information FMK sent about the drug medication, with FMK's own field names."
+        },
+        "open": "Shared Medication Record (FMK)",
+        "openShort": "Fetch from FMK",
+        "login": {
+            "title": "Sign in to see FMK",
+            "text": "Staff sign in to the Shared Medication Record with MitID Erhverv, so FMK and the citizen's MinLog show exactly who looked.",
+            "button": "Sign in with MitID Erhverv",
+            "redirecting": "Taking you to MitID…",
+            "chooseTitle": "Which role do you want to use in FMK?",
+            "chooseText": "You have several roles or authorisations. Choose the one you are working in now.",
+            "chooseButton": "Continue",
+            "authorisation": "Authorisation",
+            "nationalRole": "National role",
+            "loggedInAs": "Signed in to FMK as {name}",
+            "until": "until {time}",
+            "logout": "Sign out of FMK",
+            "systemCard": "Test environment: fetched with the system ID card, not your own sign-in.",
+            "ok": "You are signed in to FMK.",
+            "error": {
+                "expired": "Signing in to FMK took too long. Please try again.",
+                "login": "Your FMK sign-in could not be verified. Please try again.",
+                "organisation": "Your MitID Erhverv belongs to another organisation. Sign in with MitID Erhverv for this provider.",
+                "sts": "FMK could not issue your ID card. Please try again shortly."
+            }
+        }
     },
     "recordsExport": {
         "export": "Export",

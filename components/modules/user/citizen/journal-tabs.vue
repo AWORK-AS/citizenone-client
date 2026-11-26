@@ -122,7 +122,8 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             name: 'citizens.tabs.medicineCard', icon: 'ph:pill', isTranslateName: true,
             category: 'care', primary: true,
             href: `/citizens/${citizenUuid}/medicine-journals`,
-            routeNames: ['citizens-uuid-medicine-journals'],
+            // The FMK page belongs to the medicine card: same tab, same access.
+            routeNames: ['citizens-uuid-medicine-journals', 'citizens-uuid-fmk'],
         })
     }
     // Same stale-flag issue as Medicine card above - can('Documents') is

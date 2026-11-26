@@ -15,6 +15,7 @@ const APP_LINKS: Record<string, AppDestination> = {
     'billy': { path: '/settings/billy' },
     'power-bi': { path: '/settings/power-bi' },
     'info-screen': { path: '/settings/info-screen' },
+    'fmk': { path: '/settings/fmk' },
     'zapier': { path: '/settings/zapier' },
     'public-api': { path: '/settings/public-api', activateInSettings: true },
     'microsoft-sso': { path: '/settings/company' },
