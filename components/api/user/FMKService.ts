@@ -41,6 +41,18 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/fmk-settings`, 'PUT', settings)
     }
 
+    async getLicences(): Promise<any> {
+        return await this.request(`/user/fmk-settings/licences`, 'GET')
+    }
+
+    async assignLicence(userUuid: string): Promise<any> {
+        return await this.request(`/user/fmk-settings/licences`, 'POST', { user_uuid: userUuid })
+    }
+
+    async releaseLicence(userUuid: string): Promise<any> {
+        return await this.request(`/user/fmk-settings/licences/${userUuid}`, 'DELETE')
+    }
+
     async logout(): Promise<any> {
         return await this.request(`/user/fmk-login/session`, 'DELETE')
     }

@@ -13791,7 +13791,21 @@
             "cvrMatchHint": "Rekommenderas. Då kan en medarbetare inte logga in på FMK med MitID Erhverv från en annan arbetsplats.",
             "effectiveTitle": "Det här skickar vi till FMK",
             "save": "Spara",
-            "saved": "FMK-inställningarna är sparade."
+            "saved": "FMK-inställningarna är sparade.",
+            "licences": {
+                "title": "Vem har åtkomst till FMK",
+                "hint": "Varje medarbetare som ska se FMK använder en licens. Tar du bort åtkomsten loggas medarbetaren också ut från FMK.",
+                "used": "{used} av {total} licenser används",
+                "buyMore": "Köp fler licenser",
+                "noneFree": "Alla licenser används. Köp fler eller ta bort åtkomsten från en medarbetare som inte använder FMK.",
+                "search": "Sök efter medarbetare",
+                "toggle": "Åtkomst till FMK för {name}",
+                "noStaff": "Inga medarbetare hittades."
+            },
+            "idPlaceholder": "t.ex. 8 siffror",
+            "phonePlaceholder": "t.ex. 70 20 30 40",
+            "emailPlaceholder": "t.ex. lakemedel{'@'}verksamheten.dk",
+            "idMissing": "Det saknas ett CVR-nummer, en SOR-kod eller ett ydernummer. Utan det kan FMK inte användas."
         }
     },
     "supportAccess": {

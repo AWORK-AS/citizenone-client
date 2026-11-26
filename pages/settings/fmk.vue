@@ -131,12 +131,12 @@ onMounted(load)
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <FormLabel for="fmk-id-type" :label="$t('settings.fmk.idType')" />
-                                    <FormSelect id="fmk-id-type" v-model="form.organisation_id_type" :options="typeOptions" :canClear="false" :canDeselect="false" />
+                                    <FormSelect id="fmk-id-type" v-model="form.organisation_id_type" :options="typeOptions" :canClear="false" :canDeselect="false" :appendToBody="true" />
                                 </div>
                                 <div>
                                     <FormLabel for="fmk-id" :label="idRequired ? $t('settings.fmk.idRequired') : $t('settings.fmk.idOptional')" />
                                     <FormTextField id="fmk-id" name="fmk-id" v-model="form.organisation_id" :maxLength="50"
-                                        :placeholder="form.organisation_id_type === 'cvr' ? (loaded.company.cvr || '12345678') : ''" />
+                                        :placeholder="form.organisation_id_type === 'cvr' && loaded.company.cvr ? loaded.company.cvr : $t('settings.fmk.idPlaceholder')" />
                                     <FormError v-if="fieldErrors.organisation_id" :error="fieldErrors.organisation_id[0]" />
                                 </div>
                                 <div class="sm:col-span-2">
@@ -155,11 +155,11 @@ onMounted(load)
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <FormLabel for="fmk-phone" :label="$t('settings.fmk.phone')" />
-                                    <FormTextField id="fmk-phone" name="tel" v-model="form.contact_phone" :maxLength="30" placeholder="70 20 30 40" />
+                                    <FormTextField id="fmk-phone" name="tel" v-model="form.contact_phone" :maxLength="30" :placeholder="$t('settings.fmk.phonePlaceholder')" />
                                 </div>
                                 <div>
                                     <FormLabel for="fmk-email" :label="$t('settings.fmk.email')" />
-                                    <FormTextField id="fmk-email" name="email" v-model="form.contact_email" :maxLength="150" placeholder="medicin@bosted.dk" />
+                                    <FormTextField id="fmk-email" name="email" v-model="form.contact_email" :maxLength="150" :placeholder="$t('settings.fmk.emailPlaceholder')" />
                                     <FormError v-if="fieldErrors.contact_email" :error="fieldErrors.contact_email[0]" />
                                 </div>
                             </div>
@@ -173,7 +173,7 @@ onMounted(load)
                             </div>
                             <div class="sm:w-1/2">
                                 <FormLabel for="fmk-role" :label="$t('settings.fmk.defaultRole')" />
-                                <FormSelect id="fmk-role" v-model="form.default_requested_role" :options="roleOptions" :placeholder="loaded.effective.requested_role" />
+                                <FormSelect id="fmk-role" v-model="form.default_requested_role" :options="roleOptions" :placeholder="loaded.effective.requested_role" :appendToBody="true" />
                             </div>
                             <div class="flex items-start gap-3">
                                 <FormSwitch :value="form.require_mitid_cvr_match" :label="$t('settings.fmk.cvrMatch')"
@@ -188,6 +188,10 @@ onMounted(load)
                         <!-- What FMK will actually be sent -->
                         <section class="rounded-xl border border-[#e2e8f0] bg-[#f0faf9] p-5 text-sm" aria-live="polite">
                             <h2 class="font-semibold text-[#1a2332]">{{ $t('settings.fmk.effectiveTitle') }}</h2>
+                            <p v-if="!loaded.effective.organisation_id" role="alert"
+                                class="mt-2 rounded-lg border border-[#fed7aa] bg-[#fff7ed] px-3 py-2 text-[#c2410c]">
+                                {{ $t('settings.fmk.idMissing') }}
+                            </p>
                             <dl class="mt-2 grid gap-x-6 gap-y-1 sm:grid-cols-[auto_1fr]">
                                 <dt class="text-[#64748b]">{{ $t('settings.fmk.name') }}</dt>
                                 <dd class="text-[#1a2332]">{{ loaded.effective.organisation_name }}</dd>
@@ -205,6 +209,10 @@ onMounted(load)
                             </FormButton>
                         </div>
                     </form>
+
+                    <!-- Who may use FMK (one licence per staff member). Kept outside the
+                         v-if/v-else-if chain above. -->
+                    <ModulesUserFmkLicencePanel v-if="loaded && loaded.app_active" />
                 </div>
             </LoadingSpinner>
         </NuxtLayout>
