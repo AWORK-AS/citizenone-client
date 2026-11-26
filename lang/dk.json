@@ -13809,7 +13809,8 @@
             },
             "idPlaceholder": "fx 8 cifre",
             "phonePlaceholder": "fx 70 20 30 40",
-            "emailPlaceholder": "fx medicin@jeres-tilbud.dk"
+            "emailPlaceholder": "fx medicin@jeres-tilbud.dk",
+            "idMissing": "Der mangler et CVR-nummer, en SOR-kode eller et ydernummer. Uden det kan FMK ikke bruges."
         }
     },
     "supportAccess": {

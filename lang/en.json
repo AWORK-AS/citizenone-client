@@ -13809,7 +13809,8 @@
             },
             "idPlaceholder": "e.g. 8 digits",
             "phonePlaceholder": "e.g. 70 20 30 40",
-            "emailPlaceholder": "e.g. medicine@your-provider.dk"
+            "emailPlaceholder": "e.g. medicine@your-provider.dk",
+            "idMissing": "A CVR number, SOR code or yder number is missing. FMK cannot be used without it."
         }
     },
     "supportAccess": {

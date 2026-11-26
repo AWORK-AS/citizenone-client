@@ -188,6 +188,10 @@ onMounted(load)
                         <!-- What FMK will actually be sent -->
                         <section class="rounded-xl border border-[#e2e8f0] bg-[#f0faf9] p-5 text-sm" aria-live="polite">
                             <h2 class="font-semibold text-[#1a2332]">{{ $t('settings.fmk.effectiveTitle') }}</h2>
+                            <p v-if="!loaded.effective.organisation_id" role="alert"
+                                class="mt-2 rounded-lg border border-[#fed7aa] bg-[#fff7ed] px-3 py-2 text-[#c2410c]">
+                                {{ $t('settings.fmk.idMissing') }}
+                            </p>
                             <dl class="mt-2 grid gap-x-6 gap-y-1 sm:grid-cols-[auto_1fr]">
                                 <dt class="text-[#64748b]">{{ $t('settings.fmk.name') }}</dt>
                                 <dd class="text-[#1a2332]">{{ loaded.effective.organisation_name }}</dd>
