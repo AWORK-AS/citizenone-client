@@ -60,9 +60,9 @@ const notices = computed<Notice[]>(() => {
 const reviewedLine = computed(() => (props.card.reviewed ? by(props.card.reviewed) : null))
 
 const toneClass: Record<Tone, string> = {
-    danger: 'border-[#fecaca] bg-[#fef2f2] text-[#991b1b]',
-    warning: 'border-[#fed7aa] bg-[#fff7ed] text-[#9a3412]',
-    info: 'border-[#e2e8f0] bg-[#f0faf9] text-[#1a2332]',
+    danger: 'border-l-[#dc2626] bg-[#fef2f2] text-[#991b1b]',
+    warning: 'border-l-[#f97316] bg-[#fffaf5] text-[#9a3412]',
+    info: 'border-l-[#2dbab2] bg-white text-[#1a2332]',
 }
 const iconClass: Record<Tone, string> = {
     danger: 'text-[#dc2626]',
@@ -72,18 +72,23 @@ const iconClass: Record<Tone, string> = {
 </script>
 
 <template>
-    <section :aria-label="$t('fmk.status.label')" class="space-y-2">
-        <p v-if="reviewedLine" class="text-sm text-[#64748b]">
-            <Icon name="ph:check-circle" class="mr-1 inline size-4 align-text-bottom text-[#2dbab2]" aria-hidden="true" />
-            {{ $t('fmk.status.reviewed') }} {{ reviewedLine }}
-        </p>
-        <div v-for="notice in notices" :key="notice.key" role="status"
-            class="flex items-start gap-3 rounded-xl border px-4 py-3" :class="toneClass[notice.tone]">
-            <Icon :name="notice.icon" class="mt-0.5 size-5 shrink-0" :class="iconClass[notice.tone]" aria-hidden="true" />
-            <div class="min-w-0 text-sm">
-                <p class="font-semibold">{{ notice.title }}</p>
-                <p v-if="notice.text" class="mt-0.5">{{ notice.text }}</p>
-            </div>
-        </div>
+    <!-- One compact panel instead of a box per marking: every marking FMK
+         requires stays visible, but the medicine is no longer pushed down. -->
+    <section v-if="notices.length || reviewedLine" :aria-label="$t('fmk.status.label')"
+        class="overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white">
+        <ul class="divide-y divide-[#e2e8f0]">
+            <li v-if="reviewedLine" class="flex items-start gap-3 border-l-4 border-l-[#2dbab2] px-4 py-2.5 text-sm text-[#1a2332]">
+                <Icon name="ph:check-circle" class="mt-0.5 size-5 shrink-0 text-[#2dbab2]" aria-hidden="true" />
+                <p><span class="font-semibold">{{ $t('fmk.status.reviewed') }}</span> {{ reviewedLine }}</p>
+            </li>
+            <li v-for="notice in notices" :key="notice.key" role="status"
+                class="flex items-start gap-3 border-l-4 px-4 py-2.5" :class="toneClass[notice.tone]">
+                <Icon :name="notice.icon" class="mt-0.5 size-5 shrink-0" :class="iconClass[notice.tone]" aria-hidden="true" />
+                <p class="min-w-0 text-sm">
+                    <span class="font-semibold">{{ notice.title }}</span>
+                    <span v-if="notice.text" class="block opacity-90 lg:ml-1.5 lg:inline">{{ notice.text }}</span>
+                </p>
+            </li>
+        </ul>
     </section>
 </template>

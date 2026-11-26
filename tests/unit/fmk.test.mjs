@@ -57,3 +57,28 @@ describe('fmkToday', () => {
         assert.ok('2000-01-01' < today && today < '2999-12-31')
     })
 })
+
+const { fmkNeedsAction, fmkDifferences } = await import('../../utils/fmk.ts')
+
+describe('fmkNeedsAction', () => {
+    test('a difference needs action', () => assert.equal(fmkNeedsAction({ status: 'only_fmk', local: null }), true))
+    test('the same medicine needs nothing', () => assert.equal(fmkNeedsAction({ status: 'same', local: { is_draft: false } }), false))
+    test('a taken-over draft still needs its dosage plan', () => assert.equal(fmkNeedsAction({ status: 'same', local: { is_draft: true } }), true))
+})
+
+describe('fmkDifferences', () => {
+    const fmk = { strength: '400 mg', indication: 'mod smerter', treatment_start: '2026-01-02', treatment_end: null }
+    const local = { strength: '400', treatment_reason: 'Mod smerter ', start_date: '2026-01-02T00:00:00.000000Z', end_date: null }
+
+    test('unit, case, spacing and time of day are not differences', () => assert.deepEqual(fmkDifferences({ fmk, local }), []))
+    test('each differing field is listed with both values', () => {
+        const diffs = fmkDifferences({ fmk: { ...fmk, strength: '200 mg', treatment_end: '2026-12-31' }, local: { ...local, treatment_reason: 'mod feber' } })
+        assert.deepEqual(diffs, [
+            { field: 'strength', fmk: '200 mg', local: '400' },
+            { field: 'reason', fmk: 'mod smerter', local: 'mod feber' },
+            { field: 'end', fmk: '2026-12-31', local: null },
+        ])
+    })
+    test('decimal comma and point are the same strength', () => assert.deepEqual(fmkDifferences({ fmk: { ...fmk, strength: '2,5 mg' }, local: { ...local, strength: '2.5' } }), []))
+    test('a row with only one side has no field differences', () => assert.deepEqual(fmkDifferences({ fmk, local: null }), []))
+})

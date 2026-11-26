@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useFmkMedicineCard } from '@/composables/useFmkMedicineCard'
 import { useFmkLogin } from '@/composables/useFmkLogin'
@@ -32,14 +32,25 @@ const { successAlert, errorAlert } = useAlert()
 // Same rule as "Ny medicin" on the medicine page.
 const canEdit = computed(() => isAtLeast('Admin') || can('create_citizen_medicine'))
 const busyKey = shallowRef<string | null>(null)
+// The row that just changed glows briefly, so the eye finds it after the refetch.
+const flashKey = shallowRef<string | null>(null)
+let flashTimer: ReturnType<typeof setTimeout> | undefined
+function flash(key: string) {
+    clearTimeout(flashTimer)
+    flashKey.value = key
+    flashTimer = setTimeout(() => { flashKey.value = null }, 1800)
+}
+onBeforeUnmount(() => clearTimeout(flashTimer))
+const showIntro = shallowRef(false)
 
 /** Takes a drug medication over from FMK, as a draft to finish with a dosage plan. */
 async function takeOver(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
         await fMKService.takeOver(citizenUuid, identifier)
-        successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
         await fetchCard()
+        flash(`fmk-${identifier}`)
+        successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
     } catch (cause: any) {
         errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
@@ -51,8 +62,9 @@ async function acknowledge(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
         await fMKService.acknowledge(citizenUuid, identifier)
-        successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
         await fetchCard()
+        flash(`fmk-${identifier}`)
+        successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
     } catch (cause: any) {
         errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
@@ -165,22 +177,28 @@ watch(() => route.query.fmk_login, (status) => {
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="rounded-full bg-[#0f4c75] px-2.5 py-0.5 text-[11px] font-semibold text-white" translate="no">FMK</span>
                                 <h1 class="text-xl font-light text-[#1a2332]">{{ $t('fmk.title') }}</h1>
+                                <button type="button" :aria-expanded="showIntro" aria-controls="fmk-intro" :aria-label="$t('fmk.header.about')" :title="$t('fmk.header.about')"
+                                    class="rounded-full text-[#64748b] hover:text-[#0f4c75] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]"
+                                    @click="showIntro = !showIntro">
+                                    <Icon :name="showIntro ? 'ph:info-fill' : 'ph:info'" class="size-5" aria-hidden="true" />
+                                </button>
                                 <span v-if="environmentLabel"
                                     class="rounded-full border border-[#fed7aa] bg-[#fff7ed] px-2 py-0.5 text-[11px] font-semibold text-[#c2410c]">
                                     {{ environmentLabel }}
                                 </span>
                             </div>
-                            <p class="mt-1 max-w-2xl text-sm text-[#64748b]">{{ $t('fmk.header.intro') }}</p>
+                            <p v-if="card" class="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-[#64748b]" aria-live="polite">
+                                <Icon name="ph:clock-counter-clockwise" class="size-3.5" aria-hidden="true" />
+                                {{ $t('fmk.header.fetchedAt', { time: fetchedAt }) }}
+                                <span v-if="card.card.version">· {{ $t('fmk.header.version', { version: card.card.version }) }}</span>
+                            </p>
+                            <p v-if="showIntro" id="fmk-intro" class="mt-2 max-w-2xl rounded-lg bg-[#f8fafc] px-3 py-2 text-sm text-[#64748b]">{{ $t('fmk.header.intro') }}</p>
                             <p v-if="loggedIn" class="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-[#1a2332]">
                                 <Icon name="ph:identification-badge" class="size-4 text-[#2dbab2]" aria-hidden="true" />
                                 <span>{{ $t('fmk.login.loggedInAs', { name: fmkLogin.session.value?.name || '' }) }}<template v-if="fmkLogin.session.value?.role_label"> · {{ fmkLogin.session.value.role_label }}</template> · {{ $t('fmk.login.until', { time: sessionUntil }) }}</span>
                                 <button type="button" class="font-semibold text-[#0f4c75] hover:text-[#1b6d8a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]" @click="logout">{{ $t('fmk.login.logout') }}</button>
                             </p>
                             <p v-else-if="card && card.environment !== 'sample'" class="mt-2 text-xs text-[#c2410c]">{{ $t('fmk.login.systemCard') }}</p>
-                            <p v-if="card" class="mt-2 text-xs text-[#64748b]" aria-live="polite">
-                                {{ $t('fmk.header.fetchedAt', { time: fetchedAt }) }}
-                                <span v-if="card.card.version"> · {{ $t('fmk.header.version', { version: card.card.version }) }}</span>
-                            </p>
                         </div>
                         <div class="flex shrink-0 items-center gap-2">
                             <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard">
@@ -216,14 +234,37 @@ watch(() => route.query.fmk_login, (status) => {
                     </div>
                 </div>
 
-                <div v-if="pending && !card" class="rounded-2xl border border-[#e2e8f0] bg-white px-6 py-16 text-center" role="status">
-                    <Icon name="ph:spinner" class="mx-auto size-6 motion-safe:animate-spin text-[#2dbab2]" aria-hidden="true" />
-                    <p class="mt-3 text-sm text-[#64748b]">{{ $t('fmk.header.fetching') }}</p>
+                <!-- Loading: the shape of the table, so nothing jumps when it arrives. -->
+                <div v-if="pending && !card" class="overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white" role="status">
+                    <span class="sr-only">{{ $t('fmk.header.fetching') }}</span>
+                    <div class="flex items-center gap-3 border-b border-[#e2e8f0] px-6 py-4 motion-safe:animate-pulse" aria-hidden="true">
+                        <span class="size-11 rounded-full bg-[#e2e8f0]" />
+                        <div class="space-y-2">
+                            <span class="block h-4 w-48 rounded bg-[#e2e8f0]" />
+                            <span class="block h-3 w-72 rounded bg-[#f1f5f9]" />
+                        </div>
+                    </div>
+                    <div v-for="n in 3" :key="n" class="grid grid-cols-[44%_12%_44%] gap-0 border-b border-[#f1f5f9] px-6 py-5 motion-safe:animate-pulse" aria-hidden="true">
+                        <div class="space-y-2 pr-6">
+                            <span class="block h-4 w-3/5 rounded bg-[#e2e8f0]" />
+                            <span class="block h-3 w-2/5 rounded bg-[#f1f5f9]" />
+                            <span class="block h-3 w-1/3 rounded bg-[#f1f5f9]" />
+                        </div>
+                        <span class="mx-auto block h-10 w-14 rounded-xl bg-[#f1f5f9]" />
+                        <div class="space-y-2 pl-6">
+                            <span class="block h-4 w-1/2 rounded bg-[#e2e8f0]" />
+                            <span class="block h-3 w-1/3 rounded bg-[#f1f5f9]" />
+                        </div>
+                    </div>
+                    <p class="flex items-center justify-center gap-2 px-6 py-3 text-xs text-[#64748b]" aria-hidden="true">
+                        <Icon name="ph:spinner" class="size-4 motion-safe:animate-spin text-[#2dbab2]" />
+                        {{ $t('fmk.header.fetching') }}
+                    </p>
                 </div>
 
                 <template v-if="card">
                     <ModulesUserFmkCardStatus :card="card.card" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" @details="detailsFor = $event"
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="navigateTo(`/citizens/${citizenUuid}/medicine-journals`)" />
                 </template>
             </div>

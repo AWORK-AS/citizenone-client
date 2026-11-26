@@ -23721,7 +23721,8 @@
             "refresh": "Fetch again",
             "fetching": "Fetching from FMK…",
             "sampleData": "Sample data",
-            "testEnvironment": "Test environment ({environment})"
+            "testEnvironment": "Test environment ({environment})",
+            "about": "About the Shared Medication Record"
         },
         "error": {
             "title": "FMK could not be reached",
@@ -23773,7 +23774,7 @@
             "all": "All ({count})",
             "differences": "Differences ({count})",
             "emptyAll": "There are no medicines in FMK or CitizenOne.",
-            "emptyDifferences": "FMK and CitizenOne match.",
+            "emptyDifferences": "All done. FMK and CitizenOne match.",
             "caption": "Medicines from FMK on the left and from CitizenOne on the right. The same drug medication is on the same row.",
             "fmkColumn": "Shared Medication Record",
             "statusColumn": "Comparison",
@@ -23793,7 +23794,28 @@
             "acknowledge": "Mark as reviewed",
             "acknowledgeHint": "Update the medicine in CitizenOne if the change applies, then mark it as reviewed.",
             "acknowledged": "The change in FMK is marked as reviewed.",
-            "draft": "Draft – no dosage plan yet"
+            "draft": "Draft – no dosage plan yet",
+            "actionTitle": "Nothing needs action | {count} line needs action | {count} lines need action",
+            "actionHint": "Go through the lines below so the medicine in CitizenOne matches FMK.",
+            "allMatch": "The medicine matches FMK",
+            "allMatchHint": "Every medicine in FMK is in CitizenOne, and there are no drafts.",
+            "needsAction": "Needs action ({count})",
+            "kindsLabel": "Show only",
+            "drafts": "Drafts",
+            "showAll": "Show all {count}",
+            "diffTitle": "Differs from FMK",
+            "fields": {
+                "strength": "Strength",
+                "reason": "Treatment for",
+                "start": "Start date",
+                "end": "End date"
+            },
+            "noValue": "none",
+            "inFmk": "in FMK:",
+            "fillDosage": "Fill in dosage plan",
+            "changedVersion": "New version in FMK ({fmk}), CitizenOne is based on version {local}",
+            "changedBy": "changed by {by}",
+            "takingOver": "Taking over …"
         },
         "details": {
             "intro": "All information FMK sent about the drug medication, with FMK's own field names."

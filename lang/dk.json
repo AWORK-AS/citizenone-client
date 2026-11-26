@@ -23721,7 +23721,8 @@
             "refresh": "Hent igen",
             "fetching": "Henter fra FMK…",
             "sampleData": "Eksempeldata",
-            "testEnvironment": "Testmiljø ({environment})"
+            "testEnvironment": "Testmiljø ({environment})",
+            "about": "Om Fælles Medicinkort"
         },
         "error": {
             "title": "FMK kunne ikke nås",
@@ -23773,7 +23774,7 @@
             "all": "Alle ({count})",
             "differences": "Forskelle ({count})",
             "emptyAll": "Der er ingen medicin i FMK eller CitizenOne.",
-            "emptyDifferences": "FMK og CitizenOne stemmer overens.",
+            "emptyDifferences": "Alt er gennemgået. FMK og CitizenOne stemmer overens.",
             "caption": "Medicin fra FMK til venstre og fra CitizenOne til højre. Samme ordination står på samme linje.",
             "fmkColumn": "Fælles Medicinkort",
             "statusColumn": "Sammenligning",
@@ -23793,7 +23794,28 @@
             "acknowledge": "Markér som gennemgået",
             "acknowledgeHint": "Ret medicinen i CitizenOne, hvis ændringen skal med, og markér den så som gennemgået.",
             "acknowledged": "Ændringen i FMK er markeret som gennemgået.",
-            "draft": "Kladde – mangler doseringsplan"
+            "draft": "Kladde – mangler doseringsplan",
+            "actionTitle": "Intet kræver handling | {count} linje kræver handling | {count} linjer kræver handling",
+            "actionHint": "Gennemgå linjerne herunder, så medicinen i CitizenOne stemmer med FMK.",
+            "allMatch": "Medicinen stemmer med FMK",
+            "allMatchHint": "Alle præparater i FMK findes i CitizenOne, og der er ingen kladder.",
+            "needsAction": "Kræver handling ({count})",
+            "kindsLabel": "Vis kun",
+            "drafts": "Kladder",
+            "showAll": "Vis alle {count}",
+            "diffTitle": "Afviger fra FMK",
+            "fields": {
+                "strength": "Styrke",
+                "reason": "Behandling mod",
+                "start": "Startdato",
+                "end": "Slutdato"
+            },
+            "noValue": "ingen",
+            "inFmk": "i FMK:",
+            "fillDosage": "Udfyld doseringsplan",
+            "changedVersion": "Ny version i FMK ({fmk}), CitizenOne bygger på version {local}",
+            "changedBy": "ændret af {by}",
+            "takingOver": "Overtager …"
         },
         "details": {
             "intro": "Alle oplysninger, FMK har sendt om ordinationen, med FMK's egne feltnavne."

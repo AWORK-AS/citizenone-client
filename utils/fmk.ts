@@ -37,3 +37,47 @@ export function fmkToday(): string {
     const d = new Date()
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
+
+/**
+ * Whether a row still needs the staff member: FMK and CitizenOne differ, or a
+ * medicine taken over from FMK is a draft without a dosage plan.
+ */
+export function fmkNeedsAction(row: { status: string, local: { is_draft: boolean } | null }): boolean {
+    return row.status !== 'same' || row.local?.is_draft === true
+}
+
+export type FmkDifferenceField = 'strength' | 'reason' | 'start' | 'end'
+
+export interface FmkFieldDifference {
+    field: FmkDifferenceField
+    fmk: string | null
+    local: string | null
+}
+
+/**
+ * The fields where CitizenOne differs from FMK on the same row, so staff see
+ * what to correct without comparing both sides themselves. Strength compares
+ * the number only (CitizenOne keeps the unit apart); dates as YYYY-MM-DD.
+ */
+export function fmkDifferences(row: {
+    fmk: { strength: string | null, indication: string | null, treatment_start: string | null, treatment_end: string | null } | null
+    local: { strength: string | null, treatment_reason: string | null, start_date: string | null, end_date: string | null } | null
+}): FmkFieldDifference[] {
+    const { fmk, local } = row
+    if (!fmk || !local) return []
+
+    const list: FmkFieldDifference[] = []
+    const text = (v: string | null) => (v ?? '').trim().toLowerCase().replace(/\s+/g, ' ')
+    const day = (v: string | null) => (v ? v.slice(0, 10) : '')
+    const number = (v: string | null) => {
+        const match = (v ?? '').match(/\d+(?:[.,]\d+)?/)
+        return match ? String(Number(match[0].replace(',', '.'))) : text(v)
+    }
+
+    if (fmk.strength && number(fmk.strength) !== number(local.strength)) list.push({ field: 'strength', fmk: fmk.strength, local: local.strength })
+    if (fmk.indication && text(fmk.indication) !== text(local.treatment_reason)) list.push({ field: 'reason', fmk: fmk.indication, local: local.treatment_reason })
+    if (fmk.treatment_start && day(fmk.treatment_start) !== day(local.start_date)) list.push({ field: 'start', fmk: day(fmk.treatment_start), local: day(local.start_date) || null })
+    if (day(fmk.treatment_end) !== day(local.end_date)) list.push({ field: 'end', fmk: day(fmk.treatment_end) || null, local: day(local.end_date) || null })
+
+    return list
+}
