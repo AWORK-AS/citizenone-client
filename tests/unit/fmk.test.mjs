@@ -197,3 +197,20 @@ describe('fmkAddresseeSuggestions', () => {
     })
     test('no identifier, no suggestion', () => assert.deepEqual(fmkAddresseeSuggestions({ created: { By: { AuthorisedHealthcareProfessional: { Name: 'Læge Test' } } } }), []))
 })
+
+const { fmkPharmacySuggestions } = await import('../../utils/fmk.ts')
+
+describe('fmkPharmacySuggestions', () => {
+    const pharmacy = { Name: 'Testapoteket', Identifier: { '#text': '500000000009999', '@source': 'SOR' } }
+    test('pharmacies that dispensed, once each, plus the dose dispensing pharmacy', () => {
+        const card = {
+            dose_dispensing_summary: { ordered_at_pharmacy: { Name: 'Dosisapoteket', Identifier: { '#text': '500000000008888', '@source': 'SOR' } } },
+            drug_medications: [{ effectuation_list: [{ created: { By: { Organisation: pharmacy } } }], prescription_list: [{ effectuations: [{ created: { By: { Organisation: pharmacy } } }] }] }],
+        }
+        assert.deepEqual(fmkPharmacySuggestions(card).map(p => p.name), ['Dosisapoteket', 'Testapoteket'])
+    })
+    test('staff and identifiers an order cannot use are left out', () => {
+        const card = { drug_medications: [{ effectuation_list: [{ created: { By: { Organisation: { Name: 'Hjemmeplejen', Identifier: { '#text': '1', '@source': 'Yder' } } } } }] }] }
+        assert.deepEqual(fmkPharmacySuggestions(card), [])
+    })
+})

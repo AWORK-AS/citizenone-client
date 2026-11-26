@@ -241,3 +241,15 @@ export interface FmkPrescriptionRequest {
 
 /** Who a prescription request goes to. */
 export interface FmkAddressee { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }
+
+/** One item in the FMK order basket (GK 16.5). ready: an open prescription can be dispensed now. */
+export interface FmkBasketItem {
+    uuid: string
+    fmk_drug_medication_id: string
+    drug_name: string | null
+    state: 'ready' | 'waiting'
+    prescription_id: string | null
+    added_at: string | null
+}
+
+export interface FmkPharmacy { name: string, id_source: 'SOR' | 'EAN-Lokationsnummer' | 'CVR-P', id: string }

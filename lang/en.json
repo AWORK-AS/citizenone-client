@@ -24050,6 +24050,36 @@
             "cancel": "Cancel",
             "cancelled": "The request has been cancelled.",
             "drugMedication": "Drug medication {id}"
+        },
+        "basket": {
+            "title": "Order from pharmacy",
+            "open": "Show the basket",
+            "empty": "The basket is empty. Use \"Add to basket\" at a drug medication.",
+            "add": "Add to basket",
+            "added": "Added to the basket.",
+            "remove": "Remove {drug} from the basket",
+            "states": {
+                "ready": "Ready to order",
+                "waiting": "Awaiting a new prescription"
+            },
+            "pharmacy": "Pharmacy",
+            "otherPharmacy": "Another pharmacy",
+            "pharmacyName": "Pharmacy's name",
+            "delivery": "Delivery",
+            "pickup": "Collected at the pharmacy",
+            "street": "Address",
+            "postCode": "Postcode",
+            "contact": "Contact person",
+            "instruction": "Message to the pharmacy (optional)",
+            "waitingNote": "Waiting for a new prescription from the doctor: {drugs}. Not in this order; stays in the basket until the prescription is issued.",
+            "order": "Nothing in the basket can be ordered | Send order ({count}) | Send order ({count})",
+            "ordered": "The order has been sent to the pharmacy: {drugs}.",
+            "priorities": {
+                "0": "Send to another address the same day",
+                "1": "Send to another address by post",
+                "2": "Send to the citizen's address the same day",
+                "3": "Send to the citizen's address by post"
+            }
         }
     },
     "recordsExport": {

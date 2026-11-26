@@ -24050,6 +24050,36 @@
             "cancel": "Fortryd",
             "cancelled": "Anmodningen er fortrudt.",
             "drugMedication": "Ordination {id}"
+        },
+        "basket": {
+            "title": "Bestil fra apotek",
+            "open": "Vis kurven",
+            "empty": "Kurven er tom. Brug \"Læg i kurv\" ved en ordination.",
+            "add": "Læg i kurv",
+            "added": "Lagt i kurven.",
+            "remove": "Fjern {drug} fra kurven",
+            "states": {
+                "ready": "Klar til bestilling",
+                "waiting": "Afventer ny recept"
+            },
+            "pharmacy": "Apotek",
+            "otherPharmacy": "Andet apotek",
+            "pharmacyName": "Apotekets navn",
+            "delivery": "Levering",
+            "pickup": "Hentes på apoteket",
+            "street": "Adresse",
+            "postCode": "Postnr.",
+            "contact": "Kontaktperson",
+            "instruction": "Besked til apoteket (valgfrit)",
+            "waitingNote": "Venter på en ny recept fra lægen: {drugs}. Kommer ikke med i denne bestilling og bliver i kurven, til recepten er udstedt.",
+            "order": "Kurven har intet, der kan bestilles | Send bestilling ({count}) | Send bestilling ({count})",
+            "ordered": "Bestillingen er sendt til apoteket: {drugs}.",
+            "priorities": {
+                "0": "Send til anden adresse samme dag",
+                "1": "Send til anden adresse med posten",
+                "2": "Send til borgerens adresse samme dag",
+                "3": "Send til borgerens adresse med posten"
+            }
         }
     },
     "recordsExport": {

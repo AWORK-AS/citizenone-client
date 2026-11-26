@@ -37,6 +37,24 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests/${requestId}`, 'DELETE')
     }
 
+    /** GK 16.5: the order basket. */
+    async getBasket(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket`, 'GET')
+    }
+
+    async addToBasket(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    }
+
+    async removeFromBasket(citizenUuid: string, itemUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket/${itemUuid}`, 'DELETE')
+    }
+
+    /** GK 16.2/16.5: one order to the pharmacy for the ready items. */
+    async orderBasket(citizenUuid: string, payload: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket/order`, 'POST', payload)
+    }
+
     async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
     }

@@ -443,6 +443,29 @@ if (await requestButton.count()) {
   console.log('  skip staff may not request prescriptions')
 }
 
+console.log('16. Order basket (GK 16.2, 16.5)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const basketSection = page.locator('section').filter({ has: page.getByRole('heading', { name: /Bestil fra apotek|Order from pharmacy/ }) })
+const addIbu = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first().getByRole('button', { name: /Læg i kurv|Add to basket/ })
+if (await addIbu.count()) {
+  await addIbu.click()
+  await basketSection.getByText(/Klar til bestilling|Ready to order/).first().waitFor()
+  await table.locator('tr').filter({ hasText: 'Magnesia' }).first().getByRole('button', { name: /Læg i kurv|Add to basket/ }).click()
+  await basketSection.getByText(/Afventer ny recept|Awaiting a new prescription/).first().waitFor()
+  check('ready and waiting items told apart', true)
+  check('pharmacy suggested from the card', await basketSection.getByRole('radio').first().isChecked())
+  check('waiting items are said not to be in this order', /Venter på en ny recept fra lægen|Waiting for a new prescription/.test(await basketSection.innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-basket.png'), fullPage: true })
+  const ordered = page.waitForResponse((r) => r.url().includes('/fmk/basket/order'))
+  await basketSection.getByRole('button', { name: /Send bestilling|Send order/ }).click()
+  check('one order sent', (await ordered).status() === 200)
+  await basketSection.getByText(/Klar til bestilling|Ready to order/).first().waitFor({ state: 'detached' })
+  check('waiting item stays in the basket', await basketSection.getByText(/Afventer ny recept|Awaiting a new prescription/).count() === 1)
+} else {
+  console.log('  skip staff may not order')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

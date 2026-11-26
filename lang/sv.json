@@ -23965,6 +23965,36 @@
             "cancel": "Ångra",
             "cancelled": "Begäran har ångrats.",
             "drugMedication": "Ordination {id}"
+        },
+        "basket": {
+            "title": "Beställ från apotek",
+            "open": "Visa korgen",
+            "empty": "Korgen är tom. Använd \"Lägg i korg\" vid en ordination.",
+            "add": "Lägg i korg",
+            "added": "Lagt i korgen.",
+            "remove": "Ta bort {drug} från korgen",
+            "states": {
+                "ready": "Klar att beställa",
+                "waiting": "Väntar på nytt recept"
+            },
+            "pharmacy": "Apotek",
+            "otherPharmacy": "Annat apotek",
+            "pharmacyName": "Apotekets namn",
+            "delivery": "Leverans",
+            "pickup": "Hämtas på apoteket",
+            "street": "Adress",
+            "postCode": "Postnr",
+            "contact": "Kontaktperson",
+            "instruction": "Meddelande till apoteket (valfritt)",
+            "waitingNote": "Väntar på ett nytt recept från läkaren: {drugs}. Ingår inte i den här beställningen och stannar i korgen tills receptet är utfärdat.",
+            "order": "Inget i korgen kan beställas | Skicka beställning ({count}) | Skicka beställning ({count})",
+            "ordered": "Beställningen har skickats till apoteket: {drugs}.",
+            "priorities": {
+                "0": "Skicka till annan adress samma dag",
+                "1": "Skicka till annan adress med posten",
+                "2": "Skicka till klientens adress samma dag",
+                "3": "Skicka till klientens adress med posten"
+            }
         }
     },
     "recordsExport": {

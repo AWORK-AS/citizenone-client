@@ -14,7 +14,7 @@ import { fmkNeedsAction } from '@/utils/fmk'
  * colour (always with icon and text), so warnings stay orange only.
  */
 const props = defineProps<{ rows: FmkRow[], canEdit?: boolean, busyKey?: string | null, flashKey?: string | null, includeWithdrawn?: boolean, withdrawnPending?: boolean }>()
-const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null], toggleWithdrawn: [], requestPrescription: [identifier: string] }>()
+const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null], toggleWithdrawn: [], requestPrescription: [identifier: string], addToBasket: [identifier: string] }>()
 
 type Filter = 'action' | 'all' | 'draft' | FmkRowStatus
 
@@ -205,7 +205,7 @@ function rowClass(row: FmkRow): string[] {
                     <template v-if="row.fmk">
                         <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                         <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" />
+                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" @addToBasket="emit('addToBasket', $event)" />
                     </template>
                     <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                         <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
@@ -246,7 +246,7 @@ function rowClass(row: FmkRow): string[] {
                             <template v-if="row.fmk">
                                 <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                                 <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" />
+                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" @addToBasket="emit('addToBasket', $event)" />
                             </template>
                             <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                                 <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />

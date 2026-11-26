@@ -262,3 +262,28 @@ export function fmkAddresseeSuggestions(medication: { created: any, prescription
     }
     return list
 }
+
+/**
+ * GK 16.2/16.5: pharmacies to suggest for an order, from the card: those
+ * that dispensed the citizen's medicine and the dose dispensing pharmacy,
+ * when FMK gave an identifier the order can use (SOR, EAN or CVR-P).
+ */
+export function fmkPharmacySuggestions(card: { drug_medications: { effectuation_list?: { created: any }[], prescription_list?: { effectuations?: { created: any }[] }[] }[], dose_dispensing_summary?: { ordered_at_pharmacy: any } | null }): { name: string, id_source: 'SOR' | 'EAN-Lokationsnummer' | 'CVR-P', id: string }[] {
+    const orgs: any[] = [card.dose_dispensing_summary?.ordered_at_pharmacy]
+    for (const m of card.drug_medications) {
+        for (const e of m.effectuation_list ?? []) orgs.push(e.created?.By?.Organisation)
+        for (const p of m.prescription_list ?? []) for (const e of p.effectuations ?? []) orgs.push(e.created?.By?.Organisation)
+    }
+    const seen = new Set<string>()
+    const list: { name: string, id_source: 'SOR' | 'EAN-Lokationsnummer' | 'CVR-P', id: string }[] = []
+    for (const org of orgs) {
+        const id = org?.Identifier
+        const value = fmkText(id)
+        const source = id && typeof id === 'object' ? id['@source'] : null
+        const name = fmkText(org?.Name)
+        if (!name || !value || !['SOR', 'EAN-Lokationsnummer', 'CVR-P'].includes(source) || seen.has(`${source}:${value}`)) continue
+        seen.add(`${source}:${value}`)
+        list.push({ name, id_source: source, id: value })
+    }
+    return list
+}

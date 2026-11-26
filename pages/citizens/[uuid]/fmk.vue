@@ -55,6 +55,12 @@ const doseDispensingOpen = shallowRef(false)
 const requestFor = shallowRef<string | null>(null)
 const requestMedication = computed(() => card.value?.card.drug_medications.find(m => m.identifier === requestFor.value) ?? null)
 const requestsPanel = shallowRef<{ load: () => Promise<void> } | null>(null)
+// GK 16.2/16.5: the order basket.
+const basketPanel = shallowRef<{ load: () => Promise<void>, add: (id: string) => Promise<void> } | null>(null)
+async function addToBasket(identifier: string) {
+    await basketPanel.value?.add(identifier)
+    successAlert(`${t('alert.success')}!`, t('fmk.basket.added'))
+}
 async function prescriptionRequested() {
     requestFor.value = null
     successAlert(`${t('alert.success')}!`, t('fmk.request.sent'))
@@ -319,8 +325,9 @@ watch(() => route.query.fmk_login, (status) => {
                         <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
                     </p>
                     <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" @showDoseDispensing="doseDispensingOpen = true" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @requestPrescription="requestFor = $event" @details="detailsFor = $event"
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @requestPrescription="requestFor = $event" @addToBasket="addToBasket" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
+                    <ModulesUserFmkBasketPanel ref="basketPanel" :citizenUuid="citizenUuid" :card="card.card" :canEdit="canEdit" />
                     <ModulesUserFmkPrescriptionRequestsPanel ref="requestsPanel" :citizenUuid="citizenUuid" :medications="card.card.drug_medications" :canEdit="canEdit" />
                 </template>
             </div>
