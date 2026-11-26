@@ -946,6 +946,19 @@
                                     {{ $t('settings.company.form.calendarDoneCreatesCareHours') }}
                                 </p>
                             </div>
+                            <!-- AW-2026-11013: staff meetings and supervision paid as salary. Only where the company has hour types. -->
+                            <div v-if="workTimeHourTypeOptions.length > 0" class="space-y-1" data-testid="work-time-hour-type">
+                                <FormLabel for="work_time_hour_type_uuid"
+                                    :label="$t('settings.company.form.workTimeHourType')" />
+                                <div class="max-w-md">
+                                    <FormSelect id="work_time_hour_type_uuid" :options="workTimeHourTypeOptions"
+                                        :searchable="false" :canClear="true" :canDeselect="true"
+                                        :placeholder="$t('settings.company.form.workTimeHourTypeNone')"
+                                        v-model="state.formCompany.work_time_hour_type_uuid" />
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.workTimeHourTypeHint') }}</p>
+                                <FormError :error="state?.error?.errors?.work_time_hour_type_uuid?.[0]" />
+                            </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.care_hour_payroll_lock_enabled"
@@ -1236,6 +1249,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { roleService } from '@/components/api/user/RoleService'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
 import { useUserStore } from '@/store/user'
@@ -1559,6 +1573,7 @@ const state = reactive({
         portal_email_login_enabled: false,
         portal_visibility: {} as any,
         new_prescription_survey_uuid: null as string | null,
+        work_time_hour_type_uuid: null as string | null,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
         intervention_checkin_enabled: false,
@@ -1664,6 +1679,29 @@ async function fetchNewPrescriptionSurveyOptions() {
     }
 }
 
+// The hour types a done staff meeting or supervision can be registered as (AW-2026-11013).
+// Active ones, plus the one picked today if it has since been turned off, so it isn't lost on save.
+const workTimeHourTypes = ref<{ uuid: string, name: string, is_active?: boolean }[]>([])
+const workTimeHourTypeOptions = computed(() => workTimeHourTypes.value
+    .filter(type => type.is_active !== false || type.uuid === state.formCompany.work_time_hour_type_uuid)
+    .map(type => ({ value: type.uuid, label: type.name })))
+
+let workTimeHourTypesLoaded = false
+watch(() => userStore.getUser, () => fetchWorkTimeHourTypes(), { immediate: true })
+
+async function fetchWorkTimeHourTypes() {
+    if (import.meta.server || workTimeHourTypesLoaded || !userStore.getUser) return
+    // Hour types are a social welfare catalogue; elsewhere the endpoint refuses.
+    if ((userStore.getUser as any)?.company?.industry?.system_name !== 'social_welfare') return
+    workTimeHourTypesLoaded = true
+    try {
+        const response = await socialWelfareService.getContractHourTypes()
+        workTimeHourTypes.value = response?.data ?? []
+    } catch {
+        workTimeHourTypes.value = []
+    }
+}
+
 async function fetchPublicHolidays() {
     try {
         const response = await userService.getPublicHolidays()
@@ -1763,6 +1801,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             portal_email_login_enabled: newValue?.company?.portal_email_login_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             new_prescription_survey_uuid: newValue?.company?.new_prescription_survey_uuid ?? null,
+            work_time_hour_type_uuid: newValue?.company?.work_time_hour_type_uuid ?? null,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
@@ -2067,6 +2106,7 @@ async function submitForm() {
                 portal_email_login_enabled: state.formCompany.portal_email_login_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
                 new_prescription_survey_uuid: state.formCompany.new_prescription_survey_uuid || null,
+                work_time_hour_type_uuid: state.formCompany.work_time_hour_type_uuid || null,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,
