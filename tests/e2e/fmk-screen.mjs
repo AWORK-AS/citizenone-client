@@ -5,7 +5,7 @@
  * 1. The medicine page has "Hent fra FMK", and it opens the FMK page under the
  *    Medicinkort tab.
  * 2. The page says it is FMK (GK 1.1), shows the card markings, and FMK is the
- *    left column, CitizenOne the right (GK 3.1). "Forskelle" filters rows.
+ *    left column, CitizenOne the right (GK 3.1). "Kræver handling" filters rows.
  * 3. "Vis alle oplysninger fra FMK" shows FMK's own fields (GK 3.5).
  * 4. When a refresh fails, the FMK error is shown and the last card stays,
  *    marked as old (GK 3.2).
@@ -93,11 +93,15 @@ const headers = table.locator('thead th')
 const fmkX = (await headers.nth(0).boundingBox()).x
 const localX = (await headers.nth(2).boundingBox()).x
 check('FMK column is left of CitizenOne', fmkX < localX, `fmk ${fmkX}, local ${localX}`)
+check('overview says what needs action', await page.getByRole('heading', { name: /kræver handling|needs? action|stemmer med FMK|matches FMK/ }).isVisible())
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(500)
 const allRows = await table.locator('tbody tr').count()
 check('rows listed', allRows > 0, `${allRows} rows`)
-await page.getByRole('button', { name: /Forskelle|Differences/ }).click()
+await page.getByRole('button', { name: /Kræver handling|Needs action/ }).click()
+await page.waitForTimeout(500)
 const diffRows = await table.locator('tbody tr').count()
-check('"Forskelle" never shows more rows than "Alle"', diffRows <= allRows, `${diffRows} of ${allRows}`)
+check('"Kræver handling" never shows more rows than "Alle"', diffRows <= allRows, `${diffRows} of ${allRows}`)
 await page.screenshot({ path: path.join(SHOT, 'fmk-screen-desktop.png'), fullPage: true })
 
 console.log('3. All FMK fields')
@@ -264,7 +268,7 @@ if (await takeOverButton.count()) {
   check('take over creates the draft', response.status() === 201, String(response.status()))
   const created = (await response.json()).data
   const sameRow = table.locator('tr').filter({ hasText: drug })
-  await sameRow.getByText(/Kladde – mangler doseringsplan|Draft – no dosage plan yet/).waitFor()
+  await sameRow.getByText(/Udfyld doseringsplan|Fill in dosage plan/).waitFor()
   check('row now lined up with a draft on the CitizenOne side', (await sameRow.innerText()).match(/Ens|Same/) !== null)
   await page.screenshot({ path: path.join(SHOT, 'fmk-taken-over.png'), fullPage: true })
   // clean up the draft this test created
@@ -274,6 +278,41 @@ if (await takeOverButton.count()) {
 } else {
   console.log('  skip no row only in FMK')
 }
+
+console.log('10. What changed, jumping between rows, straight to the medicine')
+const historyButton = table.getByRole('button', { name: /Se hvad der er ændret|See what changed/ }).first()
+if (await historyButton.count()) {
+  const fetched = page.waitForResponse((r) => r.url().includes('/history'))
+  await historyButton.click()
+  check('history fetched when asked', (await fetched).status() === 200)
+  const title = table.getByText(/Ændret fra version|Changed from version/).first()
+  await title.waitFor()
+  check('changes listed', (await title.locator('xpath=..').innerText()).split('\n').length > 2)
+} else {
+  console.log('  skip no row changed in FMK')
+}
+const nextButton = page.getByRole('button', { name: /^(Næste|Next)$/ })
+if (await nextButton.count()) {
+  await nextButton.click()
+  await page.waitForTimeout(600)
+  check('"Næste" focuses a row that needs action', Boolean(await page.evaluate(() => document.activeElement?.dataset?.fmkRow)))
+} else {
+  console.log('  skip fewer than two rows need action')
+}
+const editButton = table.getByRole('button', { name: /Ret i CitizenOne|Edit in CitizenOne/ }).first()
+if (await editButton.count()) {
+  await editButton.click()
+  await page.waitForURL(/medicine-journals/)
+  await page.locator('[role=dialog][data-headlessui-state=open] [id^=headlessui-dialog-title]').first().waitFor()
+  check('"Ret i CitizenOne" opens that medicine for editing', true)
+  check('edit link not left in the URL', !page.url().includes('edit='), page.url())
+  await page.keyboard.press('Escape')
+  await go(`/citizens/${CITIZEN}/fmk`)
+  await table.waitFor()
+} else {
+  console.log('  skip no medicine to edit')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

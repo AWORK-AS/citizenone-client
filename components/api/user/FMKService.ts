@@ -21,6 +21,11 @@ class FMKService extends BaseAPIService {
     }
 
     /** MitID Erhverv login via SEB: where to send the browser. */
+    /** One drug medication's versions in FMK, to show what changed (only when staff ask). */
+    async getDrugMedicationHistory(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/drug-medications/${fmkDrugMedicationId}/history`, 'GET')
+    }
+
     async startLogin(returnPath: string): Promise<any> {
         return await this.request(`/user/fmk-login`, 'POST', { return_path: returnPath })
     }

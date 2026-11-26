@@ -57,3 +57,52 @@ describe('fmkToday', () => {
         assert.ok('2000-01-01' < today && today < '2999-12-31')
     })
 })
+
+const { fmkNeedsAction, fmkDifferences } = await import('../../utils/fmk.ts')
+
+describe('fmkNeedsAction', () => {
+    test('a difference needs action', () => assert.equal(fmkNeedsAction({ status: 'only_fmk', local: null }), true))
+    test('the same medicine needs nothing', () => assert.equal(fmkNeedsAction({ status: 'same', local: { is_draft: false } }), false))
+    test('a taken-over draft still needs its dosage plan', () => assert.equal(fmkNeedsAction({ status: 'same', local: { is_draft: true } }), true))
+})
+
+describe('fmkDifferences', () => {
+    const fmk = { strength: '400 mg', indication: 'mod smerter', treatment_start: '2026-01-02', treatment_end: null }
+    const local = { strength: '400', treatment_reason: 'Mod smerter ', start_date: '2026-01-02T00:00:00.000000Z', end_date: null }
+
+    test('unit, case, spacing and time of day are not differences', () => assert.deepEqual(fmkDifferences({ fmk, local }), []))
+    test('each differing field is listed with both values', () => {
+        const diffs = fmkDifferences({ fmk: { ...fmk, strength: '200 mg', treatment_end: '2026-12-31' }, local: { ...local, treatment_reason: 'mod feber' } })
+        assert.deepEqual(diffs, [
+            { field: 'strength', fmk: '200 mg', local: '400' },
+            { field: 'reason', fmk: 'mod smerter', local: 'mod feber' },
+            { field: 'end', fmk: '2026-12-31', local: null },
+        ])
+    })
+    test('decimal comma and point are the same strength', () => assert.deepEqual(fmkDifferences({ fmk: { ...fmk, strength: '2,5 mg' }, local: { ...local, strength: '2.5' } }), []))
+    test('a row with only one side has no field differences', () => assert.deepEqual(fmkDifferences({ fmk, local: null }), []))
+})
+
+const { fmkHistoryChanges } = await import('../../utils/fmk.ts')
+
+describe('fmkHistoryChanges', () => {
+    const period = (version, over = {}) => ({ version, drug_name: 'Ibumetin', form: 'tabletter', strength: '400 mg', dosage_free_text: '1 tablet 2 gange dagligt', dosage_type: 'Fast', dosage_by_local_schema: false, paused: null, ...over })
+
+    test('dosage and pause changed since our version', () => {
+        const result = fmkHistoryChanges([period('1', { strength: '200 mg' }), period('2'), period('3', { dosage_free_text: '1 tablet 3 gange dagligt', paused: { from: '2026-11-24', to: '2026-12-01' } })], '2')
+        assert.deepEqual(result, {
+            from: '2', to: '3',
+            changes: [
+                { field: 'dosage', before: '1 tablet 2 gange dagligt', after: '1 tablet 3 gange dagligt' },
+                { field: 'paused', before: null, after: '2026-11-24|2026-12-01' },
+            ],
+        })
+    })
+    test('from an older version every change since is included', () => {
+        const result = fmkHistoryChanges([period('1', { strength: '200 mg' }), period('2'), period('3')], '1')
+        assert.deepEqual(result.changes, [{ field: 'strength', before: '200 mg', after: '400 mg' }])
+    })
+    test('unknown version compares the last two', () => assert.equal(fmkHistoryChanges([period('4'), period('5', { form: 'brusetabletter' })], '2').from, '4'))
+    test('only one version: nothing to compare', () => assert.deepEqual(fmkHistoryChanges([period('1')], '1').changes, []))
+    test('case and spacing are not changes', () => assert.deepEqual(fmkHistoryChanges([period('1'), period('2', { drug_name: ' ibumetin ' })], '1').changes, []))
+})
