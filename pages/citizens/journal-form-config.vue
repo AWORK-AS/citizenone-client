@@ -67,6 +67,45 @@
                                 </p>
                             </div>
 
+                            <div class="border-t border-gray-100 pt-4 space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.isNotifyColleaguesVisible" data-test="journal-config-notify-colleagues"
+                                        @toggleSwitch="state.isNotifyColleaguesVisible = !state.isNotifyColleaguesVisible" />
+                                    <p class="text-sm text-gray-700">
+                                        {{ $t('journalFormConfig.notifyColleaguesToggle') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('journalFormConfig.notifyColleaguesDescription') }}
+                                </p>
+                            </div>
+
+                            <div class="border-t border-gray-100 pt-4 space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.isVisitDateVisible" data-test="journal-config-visit-date"
+                                        @toggleSwitch="state.isVisitDateVisible = !state.isVisitDateVisible" />
+                                    <p class="text-sm text-gray-700">
+                                        {{ $t('journalFormConfig.visitDateToggle') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('journalFormConfig.visitDateDescription') }}
+                                </p>
+                            </div>
+
+                            <div class="border-t border-gray-100 pt-4 space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.isCareHoursVisible" data-test="journal-config-care-hours"
+                                        @toggleSwitch="state.isCareHoursVisible = !state.isCareHoursVisible" />
+                                    <p class="text-sm text-gray-700">
+                                        {{ $t('journalFormConfig.careHoursToggle') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('journalFormConfig.careHoursDescription') }}
+                                </p>
+                            </div>
+
                             <div class="pt-2">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"
                                     @click="submitFormFieldConfig()">
@@ -114,6 +153,11 @@ const state = reactive({
     // Off unless switched on: the ruler is an opt-in for the companies that
     // measure wellbeing, not a field every journal form should grow.
     isWellbeingRulerVisible: false,
+    // Shown unless switched off, so a company that never opens this page
+    // keeps the form as it was. Hiding only drops them from the form.
+    isNotifyColleaguesVisible: true,
+    isVisitDateVisible: true,
+    isCareHoursVisible: true,
 })
 
 onMounted(() => {
@@ -141,6 +185,11 @@ async function fetchFormFieldConfigs() {
 
             const rulerValue = createConfig?.form_fields?.wellbeing_ruler ?? editConfig?.form_fields?.wellbeing_ruler
             state.isWellbeingRulerVisible = rulerValue === true
+
+            const shownUnlessOff = (key: string) => (createConfig?.form_fields?.[key] ?? editConfig?.form_fields?.[key]) !== false
+            state.isNotifyColleaguesVisible = shownUnlessOff('notify_colleagues')
+            state.isVisitDateVisible = shownUnlessOff('visit_date')
+            state.isCareHoursVisible = shownUnlessOff('care_hours')
         }
     } catch (error: any) {
         state.error = error
@@ -152,25 +201,25 @@ async function submitFormFieldConfig() {
     state.error = {}
     state.isPageLoading = true
     try {
-        // The risk assessment section behaves identically in create and edit mode,
-        // so both form_type rows are kept in sync with a single toggle.
+        // The sections behave identically in create and edit mode, so both
+        // form_type rows are kept in sync with a single toggle.
+        const formFields = {
+            risk_assessment: state.isRiskAssessmentVisible,
+            score: state.isScoreVisible,
+            wellbeing_ruler: state.isWellbeingRulerVisible,
+            notify_colleagues: state.isNotifyColleaguesVisible,
+            visit_date: state.isVisitDateVisible,
+            care_hours: state.isCareHoursVisible,
+        }
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'create',
-            form_fields: {
-                risk_assessment: state.isRiskAssessmentVisible,
-                score: state.isScoreVisible,
-                wellbeing_ruler: state.isWellbeingRulerVisible,
-            },
+            form_fields: formFields,
         })
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'edit',
-            form_fields: {
-                risk_assessment: state.isRiskAssessmentVisible,
-                score: state.isScoreVisible,
-                wellbeing_ruler: state.isWellbeingRulerVisible,
-            },
+            form_fields: formFields,
         })
         successAlert(`${t('alert.success')}!`, `${t('journalFormConfig.alert.successfullyUpdated')}.`)
         navigateTo('/citizens')

@@ -9958,7 +9958,13 @@
         "scoreToggle": "Show \"Current level\" in the journal form",
         "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it.",
         "wellbeingRulerToggle": "Show the wellbeing ruler in @:terms.journalNotes{''}",
-        "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler."
+        "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler.",
+        "notifyColleaguesToggle": "Show \"Notify colleagues\" in the journal form",
+        "notifyColleaguesDescription": "When switched off, the \"Notify colleagues\" field is not shown in the journal create and edit forms.",
+        "visitDateToggle": "Show \"Visit date\" in the journal form",
+        "visitDateDescription": "When switched off, the visit date and its time from/to are not shown in the journal create and edit forms. Visits already saved on notes are kept.",
+        "careHoursToggle": "Show \"Intervention hours\" in the journal form",
+        "careHoursDescription": "When switched off, \"Register intervention hours\" is not shown on new notes and \"Intervention hours on the note\" is not shown on existing notes. Hours already registered are kept."
     },
     "journalNotes": {
         "removeFilter": "Remove filter: {name}",

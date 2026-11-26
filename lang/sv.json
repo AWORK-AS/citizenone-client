@@ -9958,7 +9958,13 @@
         "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
         "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den.",
         "wellbeingRulerToggle": "Visa välmåendelinjal i @:terms.journalNotes{''}",
-        "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
+        "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal.",
+        "notifyColleaguesToggle": "Visa \"Meddela kollegor\" i journalformuläret",
+        "notifyColleaguesDescription": "När den är avstängd visas inte fältet \"Meddela kollegor\" i journalens formulär för att skapa och redigera.",
+        "visitDateToggle": "Visa \"Besöksdatum\" i journalformuläret",
+        "visitDateDescription": "När den är avstängd visas inte besöksdatum och tid från/till i journalens formulär för att skapa och redigera. Besök som redan är sparade på anteckningar behålls.",
+        "careHoursToggle": "Visa \"Insatstimmar\" i journalformuläret",
+        "careHoursDescription": "När den är avstängd visas inte \"Registrera insatstimmar\" på nya anteckningar och \"Insatstimmar på anteckningen\" på befintliga anteckningar. Timmar som redan är registrerade behålls."
     },
     "journalNotes": {
         "removeFilter": "Ta bort filter: {name}",

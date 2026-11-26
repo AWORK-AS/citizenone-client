@@ -322,7 +322,7 @@
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="isFieldVisible('notify_colleagues')">
                 <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
                 <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
                     :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
@@ -508,12 +508,14 @@
                  calendar. A note written from a booking is about that booking. -->
             <!-- On an existing note, changing the visit is its own right
                  (update_citizen_journal_visit_date); without it the visit is shown. -->
-            <p class="text-sm" v-if="!props.bookingLinked && !canEditVisitDate && state.formJournal.visit_date">
+            <!-- A company can hide the visit (journal form config, visit_date). The
+                 payload then leaves the visit out, so a saved one is kept. -->
+            <p class="text-sm" v-if="isVisitVisible && !props.bookingLinked && !canEditVisitDate && state.formJournal.visit_date">
                 <span class="font-medium">{{ $t('citizens.citizenJournals.form.visit.date') }}:</span>
                 {{ state.formJournal.visit_date }}<template v-if="state.formJournal.visit_time_start">,
                     {{ state.formJournal.visit_time_start }}<template v-if="state.formJournal.visit_time_end">-{{ state.formJournal.visit_time_end }}</template></template>
             </p>
-            <div class="space-y-1" v-if="!props.bookingLinked && canEditVisitDate">
+            <div class="space-y-1" v-if="isVisitVisible && !props.bookingLinked && canEditVisitDate">
                 <div class="grid md:grid-cols-3 gap-x-3 gap-y-2">
                     <div class="space-y-1">
                         <FormLabel for="visit_date" :label="term('visitDate', $t('citizens.citizenJournals.form.visit.date'))" />
@@ -542,7 +544,7 @@
                  else the note's date. One line per hour type: the visit, and the
                  admin around it. Hidden without the right, so a note is never
                  refused for hours its author may not register. -->
-            <div class="space-y-2" v-if="props.formType === 'create' && canRegisterCareHours">
+            <div class="space-y-2" v-if="props.formType === 'create' && canRegisterCareHours && isCareHoursVisible">
                 <div class="w-fit flex items-center cursor-pointer" @click="toggleCareHours">
                     <FormCheckbox id="register_care_hours" :value="state.formJournal.register_care_hours" />
                     {{ $t('citizens.citizenJournals.form.careHours.register') }}
@@ -596,7 +598,7 @@
             <!-- The hours of a note that already exists, with their own right
                  (update_citizen_journal_care_hours) and their own save. -->
             <ModulesUserCitizenJournalEditCareHours
-                v-if="props.formType === 'update' && !props.readonly && canEditCareHours && state.formJournal.uuid"
+                v-if="props.formType === 'update' && !props.readonly && canEditCareHours && isCareHoursVisible && state.formJournal.uuid"
                 :journalUuid="state.formJournal.uuid" :defaultDate="careHoursDate" />
             <div class="space-y-1" v-if="!props.hideDraft">
                 <div class="w-fit flex items-center cursor-pointer"
@@ -1000,8 +1002,8 @@ const state = reactive({
     },
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true, score: true, wellbeing_ruler: false } as Record<string, boolean>,
-        edit: { risk_assessment: true, score: true, wellbeing_ruler: false } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true, wellbeing_ruler: false, notify_colleagues: true, visit_date: true, care_hours: true } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true, wellbeing_ruler: false, notify_colleagues: true, visit_date: true, care_hours: true } as Record<string, boolean>,
     },
     // One score per child in the case, keyed by the child's uuid, or under
     // CASE_KEY when the case has no children.
@@ -1096,7 +1098,7 @@ function removeCareHoursLine(index: number) {
 }
 
 function applyPresetCareHours() {
-    if (!props.presetCareHours || !canRegisterCareHours.value) return
+    if (!props.presetCareHours || !canRegisterCareHours.value || !isCareHoursVisible.value) return
     state.formJournal.register_care_hours = true
     state.formJournal.care_hours = [careHoursLine(props.presetCareHours.start, props.presetCareHours.end, defaultHourTypeUuid(careHourTypes.value))]
 }
@@ -1104,12 +1106,12 @@ function applyPresetCareHours() {
 function visitAndHoursPayload() {
     const form = state.formJournal
     const payload: Record<string, any> = {}
-    if (!props.bookingLinked && canEditVisitDate.value) {
+    if (isVisitVisible.value && !props.bookingLinked && canEditVisitDate.value) {
         payload.visit_date = form.visit_date || null
         payload.visit_time_start = form.visit_date && form.visit_time_start ? form.visit_time_start : null
         payload.visit_time_end = form.visit_date && form.visit_time_end ? form.visit_time_end : null
     }
-    if (props.formType === 'create' && form.register_care_hours && canRegisterCareHours.value) {
+    if (props.formType === 'create' && form.register_care_hours && canRegisterCareHours.value && isCareHoursVisible.value) {
         const request = journalCareHoursRequest(form.care_hours, careHoursDate.value, careHourTypeOptions.value.length > 0)
         sentCareHoursKeys = request.keys
         if (request.lines.length > 0) payload.care_hours = request.lines
@@ -1177,6 +1179,11 @@ function isFieldVisible(fieldKey: string): boolean {
     return state.formFieldConfig[formTypeKey]?.[fieldKey] !== false
 }
 
+// Shown unless the company hid them in the journal form config. Hidden, they
+// are left out of the payload too, so a visit or hours already saved are kept.
+const isVisitVisible = computed(() => isFieldVisible('visit_date'))
+const isCareHoursVisible = computed(() => isFieldVisible('care_hours'))
+
 async function fetchFormFieldConfig() {
     try {
         const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_journal' })
@@ -1187,6 +1194,9 @@ async function fetchFormFieldConfig() {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
                         score: config.form_fields?.score !== false,
                         wellbeing_ruler: config.form_fields?.wellbeing_ruler === true,
+                        notify_colleagues: config.form_fields?.notify_colleagues !== false,
+                        visit_date: config.form_fields?.visit_date !== false,
+                        care_hours: config.form_fields?.care_hours !== false,
                     }
                 }
             })
