@@ -124,6 +124,7 @@ export interface FmkHistoryPeriod {
     dosage_free_text: string | null
     dosage_type: string | null
     dosage_by_local_schema: boolean
+    dosage_text?: { short: string | null, long: string | null } | null
     paused: { from: string | null, to: string | null } | null
 }
 

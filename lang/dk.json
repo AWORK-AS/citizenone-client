@@ -24080,6 +24080,18 @@
                 "2": "Send til borgerens adresse samme dag",
                 "3": "Send til borgerens adresse med posten"
             }
+        },
+        "history": {
+            "title": "Historik i FMK",
+            "load": "Hent historik fra FMK",
+            "current": "Aktuel",
+            "now": "nu",
+            "paused": "Pauseret {from} – {to}",
+            "none": "FMK har ingen tidligere versioner."
+        },
+        "pdf": {
+            "print": "Udskriv (PDF)",
+            "hint": "Medicinkortet som PDF fra FMK, til visning og udskrift"
         }
     },
     "recordsExport": {

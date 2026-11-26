@@ -23995,6 +23995,18 @@
                 "2": "Send til brukerens adresse samme dag",
                 "3": "Send til brukerens adresse med posten"
             }
+        },
+        "history": {
+            "title": "Historikk i FMK",
+            "load": "Hent historikk fra FMK",
+            "current": "Aktuell",
+            "now": "nå",
+            "paused": "Pauset {from} – {to}",
+            "none": "FMK har ingen tidligere versjoner."
+        },
+        "pdf": {
+            "print": "Skriv ut (PDF)",
+            "hint": "Legemiddelkortet som PDF fra FMK, til visning og utskrift"
         }
     },
     "recordsExport": {

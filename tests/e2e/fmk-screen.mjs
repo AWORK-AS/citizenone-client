@@ -466,6 +466,27 @@ if (await addIbu.count()) {
   console.log('  skip staff may not order')
 }
 
+console.log('17. Medicine card as PDF and full history (GK 12.6, 3.11)')
+const pdfResponse = page.waitForResponse((r) => r.url().includes('/fmk/medicine-card/pdf'))
+const popup = page.waitForEvent('popup')
+await page.getByRole('button', { name: /Udskriv \(PDF\)|Print \(PDF\)/ }).click()
+const pdfRes = await pdfResponse
+check('PDF fetched from FMK', pdfRes.status() === 200 && (pdfRes.headers()['content-type'] ?? '').includes('application/pdf'))
+const pdfTab = await popup
+check('PDF opened in a new tab', Boolean(pdfTab))
+await pdfTab.close().catch(() => {})
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+await table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first().getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).click()
+const histDialog = page.getByRole('dialog')
+await histDialog.getByRole('button', { name: /Hent historik fra FMK|Fetch history from FMK/ }).click()
+await histDialog.getByText(/^(Aktuel|Current)$/).first().waitFor()
+const histText = await histDialog.innerText()
+check('every version listed, newest first', histText.indexOf('version 3') < histText.indexOf('version 2') && histText.includes('version 1'))
+check('each version with its dosage', histText.includes('1 tablet 2 gange dagligt') && histText.includes('1 tablet 3 gange dagligt'))
+await page.keyboard.press('Escape')
+await histDialog.getByText(/^(Aktuel|Current)$/).first().waitFor({ state: 'hidden' })
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

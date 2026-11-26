@@ -11,7 +11,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * the treatment, the full dosage and who created and changed it, with codes
  * next to texts. Every other field FMK sent stays available below (GK 3.5).
  */
-const props = defineProps<{ medication: FmkDrugMedication, raw: unknown }>()
+const props = defineProps<{ medication: FmkDrugMedication, raw: unknown, citizenUuid?: string }>()
 
 const { t } = useI18n()
 const { by } = useFmkModifier()
@@ -87,6 +87,12 @@ const sections = computed<Section[]>(() => {
         <section v-if="medication.effectuation_list?.length" aria-labelledby="fmk-details-effectuations">
             <h3 id="fmk-details-effectuations" class="text-xs font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.details.sections.effectuations') }}</h3>
             <div class="mt-2"><ModulesUserFmkEffectuationList :effectuations="medication.effectuation_list" :more="medication.more_effectuations" /></div>
+        </section>
+
+        <!-- GK 3.11: every version in FMK. -->
+        <section v-if="citizenUuid" aria-labelledby="fmk-details-history">
+            <h3 id="fmk-details-history" class="mb-2 text-xs font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.history.title') }}</h3>
+            <ModulesUserFmkHistoryList :citizenUuid="citizenUuid" :identifier="medication.identifier" />
         </section>
 
         <!-- GK 3.5: every field FMK returned, for what is not shown above. -->

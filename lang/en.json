@@ -24080,6 +24080,18 @@
                 "2": "Send to the citizen's address the same day",
                 "3": "Send to the citizen's address by post"
             }
+        },
+        "history": {
+            "title": "History in FMK",
+            "load": "Fetch history from FMK",
+            "current": "Current",
+            "now": "now",
+            "paused": "Paused {from} – {to}",
+            "none": "FMK has no earlier versions."
+        },
+        "pdf": {
+            "print": "Print (PDF)",
+            "hint": "The medicine card as a PDF from FMK, to view and print"
         }
     },
     "recordsExport": {

@@ -55,6 +55,11 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/basket/order`, 'POST', payload)
     }
 
+    /** GK 12.6: FMK's PDF print of the card ("læge" or "borger"). */
+    async getMedicineCardPdf(citizenUuid: string, type: 'læge' | 'borger' = 'læge'): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizens/${citizenUuid}/fmk/medicine-card/pdf${type === 'borger' ? '?type=borger' : ''}`, 'GET')
+    }
+
     async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
     }

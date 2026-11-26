@@ -23995,6 +23995,18 @@
                 "2": "Skicka till klientens adress samma dag",
                 "3": "Skicka till klientens adress med posten"
             }
+        },
+        "history": {
+            "title": "Historik i FMK",
+            "load": "Hämta historik från FMK",
+            "current": "Aktuell",
+            "now": "nu",
+            "paused": "Pausad {from} – {to}",
+            "none": "FMK har inga tidigare versioner."
+        },
+        "pdf": {
+            "print": "Skriv ut (PDF)",
+            "hint": "Läkemedelskortet som PDF från FMK, för visning och utskrift"
         }
     },
     "recordsExport": {

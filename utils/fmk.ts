@@ -100,6 +100,7 @@ interface HistoryPeriod {
     dosage_free_text: string | null
     dosage_type: string | null
     dosage_by_local_schema: boolean
+    dosage_text?: { short: string | null, long: string | null } | null
     paused: { from: string | null, to: string | null } | null
 }
 
@@ -114,7 +115,7 @@ export function fmkHistoryChanges(periods: HistoryPeriod[], fromVersion: string 
     const base = periods.find(p => p.version === fromVersion) ?? periods[periods.length - 2] ?? null
     if (!base || base === latest) return { from: base?.version ?? null, to: latest.version, changes: [] }
 
-    const dosage = (p: HistoryPeriod) => (p.dosage_by_local_schema ? 'local-schema' : p.dosage_free_text ?? p.dosage_type ?? null)
+    const dosage = (p: HistoryPeriod) => (p.dosage_by_local_schema ? 'local-schema' : p.dosage_free_text ?? p.dosage_text?.long ?? p.dosage_text?.short ?? p.dosage_type ?? null)
     const pause = (p: HistoryPeriod) => (p.paused ? `${p.paused.from ?? ''}|${p.paused.to ?? ''}` : null)
     const same = (a: string | null, b: string | null) => (a ?? '').trim().toLowerCase() === (b ?? '').trim().toLowerCase()
 

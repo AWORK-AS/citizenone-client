@@ -45,6 +45,27 @@ function flash(key: string) {
 onBeforeUnmount(() => clearTimeout(flashTimer))
 const showIntro = shallowRef(false)
 
+// GK 12.6: FMK's own PDF print, opened in a new tab to view and print.
+const pdfPending = shallowRef(false)
+async function openPdf(type: 'læge' | 'borger') {
+    // Open the tab while still in the click, so pop-up blockers allow it.
+    const tab = window.open('about:blank', '_blank')
+    pdfPending.value = true
+    try {
+        const blob = await fMKService.getMedicineCardPdf(citizenUuid, type)
+        if (!blob) throw new Error(t('fmk.error.title'))
+        const url = URL.createObjectURL(blob)
+        if (tab) tab.location.href = url
+        else window.location.assign(url)
+        setTimeout(() => URL.revokeObjectURL(url), 60_000)
+    } catch (cause: any) {
+        tab?.close()
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        pdfPending.value = false
+    }
+}
+
 // GK 4.3: privacy-marked medication, only with a stated reason.
 const consentOpen = shallowRef(false)
 // GK 3.1.6 / 6.1: loose prescriptions (not tied to a drug medication).
@@ -255,11 +276,16 @@ watch(() => route.query.fmk_login, (status) => {
                             </p>
                             <p v-else-if="card && card.environment !== 'sample'" class="mt-2 text-xs text-[#c2410c]">{{ $t('fmk.login.systemCard') }}</p>
                         </div>
-                        <div class="flex shrink-0 items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-2 sm:shrink-0">
                             <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard()">
                                 <Icon :name="pending ? 'ph:spinner' : 'ph:arrows-clockwise'" :class="['size-4', pending && 'motion-safe:animate-spin']" aria-hidden="true" />
                                 {{ pending ? $t('fmk.header.fetching') : $t('fmk.header.refresh') }}
                             </FormButton>
+                            <button type="button" :disabled="pdfPending" :title="$t('fmk.pdf.hint')" @click="openPdf('læge')"
+                                class="inline-flex items-center gap-1.5 rounded-md border border-[#e2e8f0] bg-white px-3 py-2 text-sm font-semibold text-[#0f4c75] hover:border-[#0f4c75] disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                                <Icon :name="pdfPending ? 'ph:spinner' : 'ph:printer'" :class="['size-4', pdfPending && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                {{ $t('fmk.pdf.print') }}
+                            </button>
                             <!-- Changes to FMK itself are made in FMK-online, so it stays a quiet link. -->
                             <a href="https://fmk-online.dk/fmk" target="_blank" rel="noopener" :title="$t('fmk.header.fmkOnlineHint')"
                                 class="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-sm font-semibold text-[#0f4c75] hover:text-[#1b6d8a] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
@@ -352,7 +378,7 @@ watch(() => route.query.fmk_login, (status) => {
                 <template #modal-body>
                     <p class="mb-4 text-sm text-[#64748b]">{{ $t('fmk.details.intro') }}</p>
                     <div class="max-h-[65vh] overflow-y-auto pr-2">
-                        <ModulesUserFmkDetailsView v-if="detailsMedication" :medication="detailsMedication" :raw="detailsRaw" />
+                        <ModulesUserFmkDetailsView v-if="detailsMedication" :medication="detailsMedication" :raw="detailsRaw" :citizenUuid="citizenUuid" />
                     </div>
                 </template>
             </Modal>
