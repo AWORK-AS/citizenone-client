@@ -23744,7 +23744,12 @@
             "loosePrescriptions": "Der er {count} løs recept, som ikke hører til en ordination | Der er {count} løse recepter, som ikke hører til en ordination",
             "orderedPrescriptions": "Der er receptanmodninger, som lægen ikke har behandlet endnu",
             "administrationTitle": "Tilknyttet medicinadministration",
-            "doseDispensing": "Borgeren får dosisdispenseret medicin"
+            "doseDispensing": "Borgeren får dosisdispenseret medicin",
+            "phone": "tlf. {phone}",
+            "withAuthorisation": "{name} (aut. {code})",
+            "registeredBy": "registreret af {by}",
+            "admittedTitle": "Borgeren er indlagt",
+            "relationTitle": "Tilknyttet: {type}"
         },
         "medication": {
             "unnamed": "Lægemiddel uden navn",

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkCardSummary } from '@/types/fmk'
-import { fmkModificator, fmkText } from '@/utils/fmk'
+import { fmkModificator, fmkOrganisation, fmkRelation, fmkText } from '@/utils/fmk'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -18,9 +18,21 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 type Tone = 'danger' | 'warning' | 'info'
 interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string }
 
+/** Organisation name with its identifier (SKS/SOR/yder) and phone, as FMK sent it. */
+function organisationLine(org: any): string {
+    const o = fmkOrganisation(org)
+    return [o.name, o.identifier && `(${o.identifier})`, o.phone && t('fmk.status.phone', { phone: o.phone })].filter(Boolean).join(' ')
+}
+
+/**
+ * Who did it and when (modifikator, GK 3.6 / 3.7.1): name with authorisation
+ * code, organisation with identifier and phone, date and time.
+ */
 function by(entry: any): string {
     const m = fmkModificator(entry?.By)
-    const who = m.isPatient ? t('fmk.status.byPatient') : [m.who, m.organisation].filter(Boolean).join(', ')
+    const person = m.who && m.authorisation ? t('fmk.status.withAuthorisation', { name: m.who, code: m.authorisation }) : m.who
+    const org = organisationLine(entry?.By?.Organisation ?? entry?.By?.AuthorisedHealthcareProfessional?.Organisation ?? entry?.By?.Other?.Organisation)
+    const who = m.isPatient ? t('fmk.status.byPatient') : [person, org].filter(Boolean).join(', ')
     const when = entry?.DateTime ? formatDateTimeToReadable(fmkText(entry.DateTime) ?? '') : ''
     return [who, when].filter(Boolean).join(' · ')
 }
@@ -47,15 +59,29 @@ const notices = computed<Notice[]>(() => {
     if (c.ordered_prescriptions_exist) {
         list.push({ key: 'ordered', tone: 'info', icon: 'ph:hourglass-medium', title: t('fmk.status.orderedPrescriptions') })
     }
-    if (c.organisation_relations.length > 0) {
-        const names = c.organisation_relations.map((r: any) => fmkText(r?.Organisation?.Name)).filter(Boolean).join(', ')
-        list.push({ key: 'administration', tone: 'info', icon: 'ph:hand-heart', title: t('fmk.status.administrationTitle'), text: names })
-    }
+    // GK 3.7.1 / 3.17: an admission to hospital stands out; other relations
+    // say who else gives the citizen medicine. Each with organisation and who
+    // registered it.
+    c.organisation_relations.forEach((raw: any, index: number) => {
+        const r = fmkRelation(raw)
+        const registered = raw?.Created ? t('fmk.status.registeredBy', { by: by(raw.Created) }) : ''
+        const text = [organisationLine(raw?.Organisation), registered].filter(Boolean).join(' · ')
+        if (r.admitted) {
+            list.push({ key: `admitted-${index}`, tone: 'warning', icon: 'ph:hospital', title: t('fmk.status.admittedTitle'), text })
+        } else {
+            list.push({ key: `relation-${index}`, tone: 'info', icon: 'ph:hand-heart', title: r.type ? t('fmk.status.relationTitle', { type: r.type }) : t('fmk.status.administrationTitle'), text })
+        }
+    })
     if (c.dose_dispensing) {
         list.push({ key: 'dose-dispensing', tone: 'info', icon: 'ph:package', title: t('fmk.status.doseDispensing') })
     }
 
-    return list
+    // An admission to hospital is the most important marking after "invalid".
+    const admitted = list.filter(n => n.key.startsWith('admitted-'))
+    const rest = list.filter(n => !n.key.startsWith('admitted-'))
+    const at = rest.findIndex(n => n.key !== 'invalid')
+    rest.splice(at < 0 ? rest.length : at, 0, ...admitted)
+    return rest
 })
 
 const reviewedLine = computed(() => (props.card.reviewed ? by(props.card.reviewed) : null))

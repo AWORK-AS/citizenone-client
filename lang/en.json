@@ -23744,7 +23744,12 @@
             "loosePrescriptions": "There is {count} prescription not linked to a drug medication | There are {count} prescriptions not linked to a drug medication",
             "orderedPrescriptions": "There are prescription requests the doctor has not handled yet",
             "administrationTitle": "Linked to medication administration",
-            "doseDispensing": "The citizen receives dose-dispensed medication"
+            "doseDispensing": "The citizen receives dose-dispensed medication",
+            "phone": "phone {phone}",
+            "withAuthorisation": "{name} (auth. {code})",
+            "registeredBy": "registered by {by}",
+            "admittedTitle": "The citizen is admitted to hospital",
+            "relationTitle": "Linked: {type}"
         },
         "medication": {
             "unnamed": "Unnamed drug",

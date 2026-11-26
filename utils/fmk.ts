@@ -129,3 +129,34 @@ export function fmkHistoryChanges(periods: HistoryPeriod[], fromVersion: string 
 
     return { from: base.version, to: latest.version, changes }
 }
+
+/**
+ * An organisation as FMK sends it: name, identifier with its source (SKS,
+ * SOR, yder number, CVR) and phone, so staff can call (GK 3.7.1, 3.17).
+ */
+export function fmkOrganisation(org: any): { name: string | null, identifier: string | null, phone: string | null } {
+    if (!org || typeof org !== 'object') return { name: null, identifier: null, phone: null }
+    const id = org.Identifier
+    const source = id && typeof id === 'object' ? id['@source'] : null
+    const value = fmkText(id)
+    return {
+        name: fmkText(org.Name),
+        identifier: value ? [source, value].filter(Boolean).join(' ') : null,
+        phone: fmkText(org.TelephoneNumber),
+    }
+}
+
+/**
+ * A patient-organisation relation on the medicine card (GK 3.7.1, 3.17).
+ * "Indlagt" means the citizen is admitted to hospital, which must stand out;
+ * other types (e.g. "Visiteret til hjemmesygeplejen") say who else gives the
+ * citizen medicine.
+ */
+export function fmkRelation(relation: any): { admitted: boolean, type: string | null, organisation: ReturnType<typeof fmkOrganisation> } {
+    const type = fmkText(relation?.Type)
+    return {
+        admitted: (type ?? '').trim().toLowerCase() === 'indlagt',
+        type,
+        organisation: fmkOrganisation(relation?.Organisation),
+    }
+}

@@ -106,3 +106,22 @@ describe('fmkHistoryChanges', () => {
     test('only one version: nothing to compare', () => assert.deepEqual(fmkHistoryChanges([period('1')], '1').changes, []))
     test('case and spacing are not changes', () => assert.deepEqual(fmkHistoryChanges([period('1'), period('2', { drug_name: ' ibumetin ' })], '1').changes, []))
 })
+
+const { fmkOrganisation, fmkRelation } = await import('../../utils/fmk.ts')
+
+describe('fmkRelation', () => {
+    test('a hospital admission stands out with the hospital\'s SKS code and phone', () => {
+        const r = fmkRelation({ Type: 'Indlagt', Organisation: { Name: 'Aarhus Universitetshospital', Identifier: { '#text': '6620', '@source': 'SKS' }, TelephoneNumber: '78450000' } })
+        assert.deepEqual(r, { admitted: true, type: 'Indlagt', organisation: { name: 'Aarhus Universitetshospital', identifier: 'SKS 6620', phone: '78450000' } })
+    })
+    test('home nursing is a relation, not an admission', () => {
+        const r = fmkRelation({ Type: 'Visiteret til hjemmesygeplejen', Organisation: { Name: 'Favrskov Kommune' } })
+        assert.equal(r.admitted, false)
+        assert.equal(r.type, 'Visiteret til hjemmesygeplejen')
+        assert.deepEqual(r.organisation, { name: 'Favrskov Kommune', identifier: null, phone: null })
+    })
+    test('missing parts give nulls, not errors', () => {
+        assert.deepEqual(fmkRelation(null), { admitted: false, type: null, organisation: { name: null, identifier: null, phone: null } })
+        assert.deepEqual(fmkOrganisation({ Name: 'X', Identifier: '123' }), { name: 'X', identifier: '123', phone: null })
+    })
+})

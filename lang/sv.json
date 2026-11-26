@@ -23659,7 +23659,12 @@
             "loosePrescriptions": "Det finns {count} recept som inte hör till en ordination | Det finns {count} recept som inte hör till en ordination",
             "orderedPrescriptions": "Det finns receptförfrågningar som läkaren inte har behandlat än",
             "administrationTitle": "Kopplad till läkemedelsadministration",
-            "doseDispensing": "Klienten får dosdispenserade läkemedel"
+            "doseDispensing": "Klienten får dosdispenserade läkemedel",
+            "phone": "tfn {phone}",
+            "withAuthorisation": "{name} (leg. {code})",
+            "registeredBy": "registrerad av {by}",
+            "admittedTitle": "Klienten är inlagd på sjukhus",
+            "relationTitle": "Kopplad: {type}"
         },
         "medication": {
             "unnamed": "Läkemedel utan namn",
