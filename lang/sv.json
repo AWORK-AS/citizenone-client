@@ -13804,7 +13804,7 @@
             },
             "idPlaceholder": "t.ex. 8 siffror",
             "phonePlaceholder": "t.ex. 70 20 30 40",
-            "emailPlaceholder": "t.ex. lakemedel@verksamheten.dk",
+            "emailPlaceholder": "t.ex. lakemedel{'@'}verksamheten.dk",
             "idMissing": "Det saknas ett CVR-nummer, en SOR-kod eller ett ydernummer. Utan det kan FMK inte användas."
         }
     },

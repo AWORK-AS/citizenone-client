@@ -131,7 +131,7 @@ onMounted(load)
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <FormLabel for="fmk-id-type" :label="$t('settings.fmk.idType')" />
-                                    <FormSelect id="fmk-id-type" v-model="form.organisation_id_type" :options="typeOptions" :canClear="false" :canDeselect="false" />
+                                    <FormSelect id="fmk-id-type" v-model="form.organisation_id_type" :options="typeOptions" :canClear="false" :canDeselect="false" :appendToBody="true" />
                                 </div>
                                 <div>
                                     <FormLabel for="fmk-id" :label="idRequired ? $t('settings.fmk.idRequired') : $t('settings.fmk.idOptional')" />
@@ -173,7 +173,7 @@ onMounted(load)
                             </div>
                             <div class="sm:w-1/2">
                                 <FormLabel for="fmk-role" :label="$t('settings.fmk.defaultRole')" />
-                                <FormSelect id="fmk-role" v-model="form.default_requested_role" :options="roleOptions" :placeholder="loaded.effective.requested_role" />
+                                <FormSelect id="fmk-role" v-model="form.default_requested_role" :options="roleOptions" :placeholder="loaded.effective.requested_role" :appendToBody="true" />
                             </div>
                             <div class="flex items-start gap-3">
                                 <FormSwitch :value="form.require_mitid_cvr_match" :label="$t('settings.fmk.cvrMatch')"

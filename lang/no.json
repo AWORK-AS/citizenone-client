@@ -13804,7 +13804,7 @@
             },
             "idPlaceholder": "f.eks. 8 sifre",
             "phonePlaceholder": "f.eks. 70 20 30 40",
-            "emailPlaceholder": "f.eks. medisin@tilbudet.dk",
+            "emailPlaceholder": "f.eks. medisin{'@'}tilbudet.dk",
             "idMissing": "Det mangler et CVR-nummer, en SOR-kode eller et ydernummer. Uten det kan FMK ikke brukes."
         }
     },
