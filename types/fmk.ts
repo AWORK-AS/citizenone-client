@@ -71,6 +71,8 @@ export interface FmkCardSummary {
 export interface FmkMedicineCardResponse {
     citizen_uuid: string
     environment: string
+    /** Set when privacy-marked medication is shown (GK 4.3). */
+    negative_consent: 'consent' | 'emergency' | null
     fetched_at: string
     card: FmkCardSummary
     raw: Record<string, any>

@@ -16,13 +16,16 @@ export function useFmkMedicineCard(citizenUuid: string) {
 
     let current = 0
 
-    async function fetchCard() {
+    /** With a reason, privacy-marked medication is included (GK 4.3). */
+    async function fetchCard(negativeConsent?: 'consent' | 'emergency') {
         const request = ++current
         pending.value = true
         error.value = null
         loginRequired.value = false
         try {
-            const response = await fMKService.getMedicineCard(citizenUuid)
+            const response = negativeConsent
+                ? await fMKService.getMedicineCardWithNegativeConsent(citizenUuid, negativeConsent)
+                : await fMKService.getMedicineCard(citizenUuid)
             if (request === current) card.value = (response?.data ?? response) as FmkMedicineCardResponse
         } catch (cause: any) {
             if (request !== current) return

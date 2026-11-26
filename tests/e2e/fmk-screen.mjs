@@ -313,6 +313,30 @@ if (await editButton.count()) {
   console.log('  skip no medicine to edit')
 }
 
+console.log('11. Privacy-marked medicine (GK 4.3)')
+const privateButton = page.getByRole('button', { name: /Vis privatmarkeret medicin|Show privacy-marked medicine/ }).first()
+if (await privateButton.count()) {
+  await privateButton.click()
+  const confirm = page.getByRole('button', { name: /Vis medicinen|Show the medicine/ })
+  await confirm.waitFor()
+  check('no reason chosen: cannot confirm', await confirm.isDisabled())
+  await page.getByRole('radio', { name: /Værdispring|Emergency/ }).check()
+  const sent = page.waitForResponse((r) => r.url().includes('/negative-consent'))
+  await confirm.click()
+  const res = await sent
+  check('reason sent to the backend', res.status() === 200 && JSON.parse(res.request().postData() || '{}').reason === 'emergency')
+  await page.getByText(/Privatmarkeret medicin vises|Privacy-marked medicine is shown/).first().waitFor()
+  check('says why the medicine is shown', true)
+  await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+  await page.waitForTimeout(500)
+  const marked = table.locator('tr').filter({ hasText: 'Cipramil' })
+  check('hidden medicine now listed', await marked.count() === 1)
+  check('it is marked as privacy-marked', /Privatmarkeret|Privacy-marked|Private/i.test(await marked.first().innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-private.png'), fullPage: true })
+} else {
+  console.log('  skip no privacy-marked medicine on this card')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

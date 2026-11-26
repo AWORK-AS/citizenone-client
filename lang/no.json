@@ -23777,6 +23777,27 @@
                 "organisation": "Din MitID Erhverv hører til en annen organisasjon. Logg inn med MitID Erhverv for dette tilbudet.",
                 "sts": "FMK kunne ikke utstede ID-kortet ditt. Prøv igjen om litt."
             }
+        },
+        "consent": {
+            "open": "Vis privatmerkede legemidler",
+            "title": "Vis privatmerkede legemidler",
+            "intro": "Brukeren har skjult noen legemidler i FMK. Du kan bare se dem hvis brukeren har gitt samtykke, eller hvis det er en nødsituasjon (værdispring).",
+            "legend": "Hvorfor må du se de privatmerkede legemidlene?",
+            "consent": {
+                "title": "Brukeren har gitt samtykke",
+                "text": "Brukeren har i dag sagt ja til at du ser de skjulte legemidlene."
+            },
+            "emergency": {
+                "title": "Nødsituasjon (værdispring)",
+                "text": "Det er nødvendig for å beskytte brukerens liv eller helse, og samtykke kan ikke innhentes."
+            },
+            "logged": "Valget ditt sendes til FMK og registreres med navnet ditt. Brukeren kan se det på sundhed.dk.",
+            "cancel": "Avbryt",
+            "confirm": "Vis legemidlene",
+            "shown": {
+                "consent": "Privatmerkede legemidler vises fordi du har oppgitt brukerens samtykke. Det er registrert.",
+                "emergency": "Privatmerkede legemidler vises fordi du har oppgitt nødsituasjon (værdispring). Det er registrert."
+            }
         }
     },
     "recordsExport": {

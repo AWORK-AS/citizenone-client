@@ -43,6 +43,13 @@ function flash(key: string) {
 onBeforeUnmount(() => clearTimeout(flashTimer))
 const showIntro = shallowRef(false)
 
+// GK 4.3: privacy-marked medication, only with a stated reason.
+const consentOpen = shallowRef(false)
+async function showPrivate(reason: 'consent' | 'emergency') {
+    await fetchCard(reason)
+    if (!error.value) consentOpen.value = false
+}
+
 /** "Ret i CitizenOne" / "Udfyld doseringsplan": straight to that medicine's edit dialog. */
 function openLocal(medicineUuid: string | null) {
     navigateTo({ path: `/citizens/${citizenUuid}/medicine-journals`, query: medicineUuid ? { edit: medicineUuid } : {} })
@@ -53,7 +60,7 @@ async function takeOver(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
         await fMKService.takeOver(citizenUuid, identifier)
-        await fetchCard()
+        await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
     } catch (cause: any) {
@@ -67,7 +74,7 @@ async function acknowledge(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
         await fMKService.acknowledge(citizenUuid, identifier)
-        await fetchCard()
+        await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
     } catch (cause: any) {
@@ -206,7 +213,7 @@ watch(() => route.query.fmk_login, (status) => {
                             <p v-else-if="card && card.environment !== 'sample'" class="mt-2 text-xs text-[#c2410c]">{{ $t('fmk.login.systemCard') }}</p>
                         </div>
                         <div class="flex shrink-0 items-center gap-2">
-                            <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard">
+                            <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard()">
                                 <Icon :name="pending ? 'ph:spinner' : 'ph:arrows-clockwise'" :class="['size-4', pending && 'motion-safe:animate-spin']" aria-hidden="true" />
                                 {{ pending ? $t('fmk.header.fetching') : $t('fmk.header.refresh') }}
                             </FormButton>
@@ -269,11 +276,18 @@ watch(() => route.query.fmk_login, (status) => {
                 </div>
 
                 <template v-if="card">
-                    <ModulesUserFmkCardStatus :card="card.card" />
+                    <p v-if="card.negative_consent" role="status"
+                        class="flex items-start gap-3 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm text-[#9a3412]">
+                        <Icon name="ph:eye" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
+                        <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
+                    </p>
+                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" />
                     <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
                 </template>
             </div>
+
+            <ModulesUserFmkNegativeConsentDialog :show="consentOpen" :pending="pending" @close="consentOpen = false" @confirm="showPrivate" />
 
             <!-- GK 3.5: every field FMK returned for the drug medication. -->
             <Modal :show="detailsFor !== null" :title="detailsTitle" size="xl" @close="detailsFor = null">

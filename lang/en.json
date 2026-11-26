@@ -23862,6 +23862,27 @@
                 "organisation": "Your MitID Erhverv belongs to another organisation. Sign in with MitID Erhverv for this provider.",
                 "sts": "FMK could not issue your ID card. Please try again shortly."
             }
+        },
+        "consent": {
+            "open": "Show privacy-marked medicine",
+            "title": "Show privacy-marked medicine",
+            "intro": "The citizen has hidden some medicine in FMK. You may only see it if the citizen has given consent, or in an emergency (værdispring).",
+            "legend": "Why do you need to see the privacy-marked medicine?",
+            "consent": {
+                "title": "The citizen has given consent",
+                "text": "The citizen has agreed today that you may see the hidden medicine."
+            },
+            "emergency": {
+                "title": "Emergency (værdispring)",
+                "text": "It is necessary to protect the citizen's life or health, and consent cannot be obtained."
+            },
+            "logged": "Your choice is sent to FMK and recorded with your name. The citizen can see it on sundhed.dk.",
+            "cancel": "Cancel",
+            "confirm": "Show the medicine",
+            "shown": {
+                "consent": "Privacy-marked medicine is shown because you stated the citizen's consent. This has been recorded.",
+                "emergency": "Privacy-marked medicine is shown because you stated an emergency (værdispring). This has been recorded."
+            }
         }
     },
     "recordsExport": {

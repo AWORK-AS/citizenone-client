@@ -11,6 +11,11 @@ class FMKService extends BaseAPIService {
     }
 
     /** Takes a drug medication from FMK over into CitizenOne (as a draft). */
+    /** GK 4.3: the card including privacy-marked medication, on the citizen's consent or værdispring. */
+    async getMedicineCardWithNegativeConsent(citizenUuid: string, reason: 'consent' | 'emergency'): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card/negative-consent`, 'POST', { reason })
+    }
+
     async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
     }
