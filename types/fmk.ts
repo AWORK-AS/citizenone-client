@@ -8,6 +8,13 @@ export interface FmkDrugMedication {
     type: string | null
     drug_name: string | null
     drug_identifier: string | null
+    detailed_drug_text: string | null
+    substances: string[]
+    route_code: string | null
+    indication_code: string | null
+    reported_by: Record<string, any> | null
+    modified_nonclinical: Record<string, any> | null
+    reimbursement_clause: FmkRaw | null
     atc_code: string | null
     atc_text: string | null
     form: string | null
@@ -71,6 +78,9 @@ export interface FmkCardSummary {
     loose_prescriptions: number
     ordered_prescriptions_exist: boolean
     dose_dispensing: Record<string, any> | null
+    /** Who last changed the card (GK 3.5.5-3.5.10). */
+    modified: Record<string, any> | null
+    reported_by: Record<string, any> | null
     drug_medications: FmkDrugMedication[]
 }
 

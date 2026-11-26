@@ -7,6 +7,8 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { fMKService } from '@/components/api/user/FMKService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useFmkModifier } from '@/composables/useFmkModifier'
+import { fmkText } from '@/utils/fmk'
 
 /**
  * FMK (Fælles Medicinkort) for one citizen. Opening this page is the staff
@@ -130,10 +132,24 @@ const detailsRaw = computed(() => {
     const list = card.value.raw?.DrugMedication ?? []
     return list.find((m: any) => String(m?.Identifier) === detailsFor.value) ?? null
 })
+const detailsMedication = computed(() => card.value?.card.drug_medications.find(m => m.identifier === detailsFor.value) ?? null)
 const detailsTitle = computed(() => {
     const med = card.value?.card.drug_medications.find(m => m.identifier === detailsFor.value)
     return [med?.drug_name, med?.strength].filter(Boolean).join(' ') || t('fmk.title')
 })
+
+const { by: modifiedBy } = useFmkModifier()
+
+/** GK 3.5.1-3.5.3: the citizen as FMK knows them, so staff see it is the right card. */
+const fmkPatient = computed(() => {
+    const person = (card.value?.card.patient as any)?.Person
+    if (!person) return null
+    const name = [fmkText(person.Name?.GivenName), fmkText(person.Name?.Surname)].filter(Boolean).join(' ')
+    const cpr = fmkText(person.PersonIdentifier)
+    return { name, cpr: cpr && cpr.length === 10 ? `${cpr.slice(0, 6)}-${cpr.slice(6)}` : cpr }
+})
+/** GK 3.5.5-3.5.10: who last changed the card. */
+const lastChanged = computed(() => (card.value?.card.modified ? modifiedBy(card.value.card.modified) : null))
 
 const fetchedAt = computed(() => (card.value ? formatDateTimeToReadable(card.value.fetched_at) : ''))
 const environmentLabel = computed(() => {
@@ -185,7 +201,7 @@ watch(() => route.query.fmk_login, (status) => {
                 <!-- GK 1.1: it must be obvious that this is FMK, not CitizenOne's own card. -->
                 <header class="rounded-2xl border border-[#e2e8f0] bg-white px-4 py-4 sm:px-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div class="min-w-0">
+                        <div class="min-w-0 flex-1 basis-80">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="rounded-full bg-[#0f4c75] px-2.5 py-0.5 text-[11px] font-semibold text-white" translate="no">FMK</span>
                                 <h1 class="text-xl font-light text-[#1a2332]">{{ $t('fmk.title') }}</h1>
@@ -203,6 +219,14 @@ watch(() => route.query.fmk_login, (status) => {
                                 <Icon name="ph:clock-counter-clockwise" class="size-3.5" aria-hidden="true" />
                                 {{ $t('fmk.header.fetchedAt', { time: fetchedAt }) }}
                                 <span v-if="card.card.version">· {{ $t('fmk.header.version', { version: card.card.version }) }}</span>
+                            </p>
+                            <p v-if="card && fmkPatient" class="mt-1 flex items-center gap-x-1.5 text-xs text-[#64748b]">
+                                <Icon name="ph:user" class="size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ $t('fmk.header.patient', { name: fmkPatient.name }) }}<template v-if="fmkPatient.cpr"> · <span translate="no">{{ fmkPatient.cpr }}</span></template></span>
+                            </p>
+                            <p v-if="card && lastChanged" class="mt-1 flex items-start gap-x-1.5 text-xs text-[#64748b]">
+                                <Icon name="ph:pencil-simple-line" class="mt-px size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ $t('fmk.header.lastChanged', { by: lastChanged }) }}</span>
                             </p>
                             <p v-if="showIntro" id="fmk-intro" class="mt-2 max-w-2xl rounded-lg bg-[#f8fafc] px-3 py-2 text-sm text-[#64748b]">{{ $t('fmk.header.intro') }}</p>
                             <p v-if="loggedIn" class="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-[#1a2332]">
@@ -294,7 +318,7 @@ watch(() => route.query.fmk_login, (status) => {
                 <template #modal-body>
                     <p class="mb-4 text-sm text-[#64748b]">{{ $t('fmk.details.intro') }}</p>
                     <div class="max-h-[65vh] overflow-y-auto pr-2">
-                        <ModulesUserFmkFieldTree v-if="detailsRaw" :value="detailsRaw" />
+                        <ModulesUserFmkDetailsView v-if="detailsMedication" :medication="detailsMedication" :raw="detailsRaw" />
                     </div>
                 </template>
             </Modal>

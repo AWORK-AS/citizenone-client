@@ -23638,7 +23638,9 @@
             "sampleData": "Eksempeldata",
             "testEnvironment": "Testmiljø ({environment})",
             "about": "Om Fælles Medicinkort",
-            "fmkOnlineHint": "Endringer i selve FMK, f.eks. pause eller ny dosering, gjøres i FMK-online."
+            "fmkOnlineHint": "Endringer i selve FMK, f.eks. pause eller ny dosering, gjøres i FMK-online.",
+            "patient": "Legemiddelkort for {name}",
+            "lastChanged": "Sist endret av {by}"
         },
         "error": {
             "title": "FMK kunne ikke nås",
@@ -23757,7 +23759,37 @@
             "jumpPosition": "{at} av {count}"
         },
         "details": {
-            "intro": "Alle opplysninger FMK har sendt om ordinasjonen, med FMKs egne feltnavn."
+            "intro": "Opplysningene om ordinasjonen fra FMK. Koder står i parentes.",
+            "allFields": "Vis alle felter fra FMK",
+            "dosage": "Dosering",
+            "sections": {
+                "drug": "Legemiddel",
+                "treatment": "Behandling",
+                "record": "Ordinasjonen"
+            },
+            "name": "Navn",
+            "detailedText": "Legemiddeltekst",
+            "form": "Form",
+            "strength": "Styrke",
+            "substances": "Virkestoffer",
+            "atc": "ATC",
+            "drugId": "Legemiddel-id",
+            "indication": "Behandling mot",
+            "route": "Administrasjonsvei",
+            "treatmentStart": "Behandlingsstart",
+            "treatmentStartMissing": "Startdato for behandlingen er ikke angitt",
+            "treatmentEnd": "Behandlingsslutt",
+            "dosageType": "Doseringstype",
+            "paused": "Pauset",
+            "type": "Type",
+            "identifier": "Ordinasjons-id",
+            "version": "versjon {version}",
+            "created": "Opprettet",
+            "modified": "Sist endret",
+            "reportedBy": "Innrapportert av",
+            "modifiedNonclinical": "Ikke-klinisk endring",
+            "prescriptions": "Resepter",
+            "effectuations": "Utleveringer"
         },
         "open": "Felles legemiddelkort (FMK)",
         "openShort": "Hent fra FMK",

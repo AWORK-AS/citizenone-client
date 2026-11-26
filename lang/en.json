@@ -23723,7 +23723,9 @@
             "sampleData": "Sample data",
             "testEnvironment": "Test environment ({environment})",
             "about": "About the Shared Medication Record",
-            "fmkOnlineHint": "Changes to FMK itself, e.g. a pause or new dosage, are made in FMK-online."
+            "fmkOnlineHint": "Changes to FMK itself, e.g. a pause or new dosage, are made in FMK-online.",
+            "patient": "Medicine card for {name}",
+            "lastChanged": "Last changed by {by}"
         },
         "error": {
             "title": "FMK could not be reached",
@@ -23842,7 +23844,37 @@
             "jumpPosition": "{at} of {count}"
         },
         "details": {
-            "intro": "All information FMK sent about the drug medication, with FMK's own field names."
+            "intro": "The information about the drug medication from FMK. Codes are in brackets.",
+            "allFields": "Show all fields from FMK",
+            "dosage": "Dosage",
+            "sections": {
+                "drug": "Drug",
+                "treatment": "Treatment",
+                "record": "The drug medication"
+            },
+            "name": "Name",
+            "detailedText": "Drug text",
+            "form": "Form",
+            "strength": "Strength",
+            "substances": "Active substances",
+            "atc": "ATC",
+            "drugId": "Drug id",
+            "indication": "Treatment for",
+            "route": "Route of administration",
+            "treatmentStart": "Treatment start",
+            "treatmentStartMissing": "Treatment start date is not given",
+            "treatmentEnd": "Treatment end",
+            "dosageType": "Dosage type",
+            "paused": "Paused",
+            "type": "Type",
+            "identifier": "Drug medication id",
+            "version": "version {version}",
+            "created": "Created",
+            "modified": "Last changed",
+            "reportedBy": "Reported by",
+            "modifiedNonclinical": "Non-clinical change",
+            "prescriptions": "Prescriptions",
+            "effectuations": "Dispensings"
         },
         "open": "Shared Medication Record (FMK)",
         "openShort": "Fetch from FMK",

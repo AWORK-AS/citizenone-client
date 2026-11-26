@@ -23638,7 +23638,9 @@
             "sampleData": "Exempeldata",
             "testEnvironment": "Testmiljö ({environment})",
             "about": "Om Fælles Medicinkort",
-            "fmkOnlineHint": "Ändringar i själva FMK, t.ex. paus eller ny dosering, görs i FMK-online."
+            "fmkOnlineHint": "Ändringar i själva FMK, t.ex. paus eller ny dosering, görs i FMK-online.",
+            "patient": "Läkemedelskort för {name}",
+            "lastChanged": "Senast ändrat av {by}"
         },
         "error": {
             "title": "FMK kunde inte nås",
@@ -23757,7 +23759,37 @@
             "jumpPosition": "{at} av {count}"
         },
         "details": {
-            "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."
+            "intro": "Uppgifterna om ordinationen från FMK. Koder står inom parentes.",
+            "allFields": "Visa alla fält från FMK",
+            "dosage": "Dosering",
+            "sections": {
+                "drug": "Läkemedel",
+                "treatment": "Behandling",
+                "record": "Ordinationen"
+            },
+            "name": "Namn",
+            "detailedText": "Läkemedelstext",
+            "form": "Form",
+            "strength": "Styrka",
+            "substances": "Aktiva substanser",
+            "atc": "ATC",
+            "drugId": "Läkemedels-id",
+            "indication": "Behandling mot",
+            "route": "Administrationsväg",
+            "treatmentStart": "Behandlingsstart",
+            "treatmentStartMissing": "Startdatum för behandlingen är inte angivet",
+            "treatmentEnd": "Behandlingsslut",
+            "dosageType": "Doseringstyp",
+            "paused": "Pausad",
+            "type": "Typ",
+            "identifier": "Ordinations-id",
+            "version": "version {version}",
+            "created": "Skapad",
+            "modified": "Senast ändrad",
+            "reportedBy": "Rapporterad av",
+            "modifiedNonclinical": "Icke-klinisk ändring",
+            "prescriptions": "Recept",
+            "effectuations": "Uttag"
         },
         "open": "Gemensamt läkemedelskort (FMK)",
         "openShort": "Hämta från FMK",

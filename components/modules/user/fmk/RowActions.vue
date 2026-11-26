@@ -2,7 +2,8 @@
 import { computed, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkHistoryPeriod, FmkRow } from '@/types/fmk'
-import { fmkHistoryChanges, fmkModificator, fmkText } from '@/utils/fmk'
+import { fmkHistoryChanges } from '@/utils/fmk'
+import { useFmkModifier } from '@/composables/useFmkModifier'
 import type { FmkHistoryChange } from '@/utils/fmk'
 import { fMKService } from '@/components/api/user/FMKService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -16,18 +17,12 @@ const props = defineProps<{ row: FmkRow, canEdit?: boolean, busy?: boolean }>()
 const emit = defineEmits<{ takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null] }>()
 
 const { t } = useI18n()
-const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const route = useRoute()
 
 /** Who changed it in FMK and when (GK 3.6), for "Ændret i FMK". */
-const changedBy = computed(() => {
-    const modified = props.row.fmk?.modified
-    if (!modified) return null
-    const m = fmkModificator(modified.By)
-    const who = m.isPatient ? t('fmk.status.byPatient') : [m.who, m.organisation].filter(Boolean).join(', ')
-    const when = modified.DateTime ? formatDateTimeToReadable(fmkText(modified.DateTime) ?? '') : ''
-    return [who, when].filter(Boolean).join(' · ') || null
-})
+const { by } = useFmkModifier()
+const changedBy = computed(() => (props.row.fmk?.modified ? by(props.row.fmk.modified) || null : null))
 
 // "Se hvad der er ændret": FMK's version history, fetched only when asked (GK 1.2).
 const history = shallowRef<{ from: string | null, to: string | null, changes: FmkHistoryChange[] } | null>(null)

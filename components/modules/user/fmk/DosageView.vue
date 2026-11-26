@@ -12,7 +12,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * note when there is no current dosage, later periods that can be opened,
  * and the extra rules for vitamin K antagonists.
  */
-const props = defineProps<{ medication: FmkDrugMedication }>()
+/** expanded: start with the full text and later periods open (details window). */
+const props = defineProps<{ medication: FmkDrugMedication, expanded?: boolean }>()
 
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -23,8 +24,8 @@ const periods = computed(() => m.value.dosage_periods ?? [])
 const now = computed(() => fmkDosageNow(periods.value, today))
 const vka = computed(() => (m.value.is_vka ? fmkVkaNotes(periods.value, today, m.value.treatment_end) : null))
 
-const showLong = shallowRef(false)
-const showLater = shallowRef(false)
+const showLong = shallowRef(props.expanded === true)
+const showLater = shallowRef(props.expanded === true)
 
 const date = (d: string | null) => (d ? formatDateToReadable(d) : '')
 

@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkCardSummary } from '@/types/fmk'
-import { fmkModificator, fmkOrganisation, fmkRelation, fmkText } from '@/utils/fmk'
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { fmkRelation } from '@/utils/fmk'
+import { useFmkModifier } from '@/composables/useFmkModifier'
 
 /**
  * The card-level markings FMK requires to stand out (GK 3.7, 3.8, 3.8.1,
@@ -13,29 +13,10 @@ const props = defineProps<{ card: FmkCardSummary }>()
 const emit = defineEmits<{ showPrivate: [] }>()
 
 const { t } = useI18n()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { by, organisationLine } = useFmkModifier()
 
 type Tone = 'danger' | 'warning' | 'info'
 interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string }
-
-/** Organisation name with its identifier (SKS/SOR/yder) and phone, as FMK sent it. */
-function organisationLine(org: any): string {
-    const o = fmkOrganisation(org)
-    return [o.name, o.identifier && `(${o.identifier})`, o.phone && t('fmk.status.phone', { phone: o.phone })].filter(Boolean).join(' ')
-}
-
-/**
- * Who did it and when (modifikator, GK 3.6 / 3.7.1): name with authorisation
- * code, organisation with identifier and phone, date and time.
- */
-function by(entry: any): string {
-    const m = fmkModificator(entry?.By)
-    const person = m.who && m.authorisation ? t('fmk.status.withAuthorisation', { name: m.who, code: m.authorisation }) : m.who
-    const org = organisationLine(entry?.By?.Organisation ?? entry?.By?.AuthorisedHealthcareProfessional?.Organisation ?? entry?.By?.Other?.Organisation)
-    const who = m.isPatient ? t('fmk.status.byPatient') : [person, org].filter(Boolean).join(', ')
-    const when = entry?.DateTime ? formatDateTimeToReadable(fmkText(entry.DateTime) ?? '') : ''
-    return [who, when].filter(Boolean).join(' · ')
-}
 
 const notices = computed<Notice[]>(() => {
     const c = props.card

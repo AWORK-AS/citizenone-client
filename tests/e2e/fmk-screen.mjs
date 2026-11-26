@@ -107,11 +107,18 @@ await page.screenshot({ path: path.join(SHOT, 'fmk-screen-desktop.png'), fullPag
 console.log('3. All FMK fields')
 await page.getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).first().click()
 // Headless UI's dialog root has no box of its own; wait for its content.
-const field = page.getByRole('dialog').getByText('Identifier').first()
+const dialog = page.getByRole('dialog')
+const route = dialog.getByText(/^(Administrationsvej|Route of administration)$/).first()
+await route.waitFor()
+check('details in plain words (route of administration, ATC)', await route.isVisible() && await dialog.getByText(/^ATC$/).first().isVisible())
+check('who created it, with authorisation code', /aut\.|auth\./.test(await dialog.innerText()))
+await dialog.getByRole('button', { name: /Vis alle felter fra FMK|Show all fields from FMK/ }).click()
+const field = dialog.getByText('Identifier').first()
 await field.waitFor()
-check('details show FMK field names', await field.isVisible())
+check('every FMK field still available', await field.isVisible())
+await page.screenshot({ path: path.join(SHOT, 'fmk-details.png') })
 await page.keyboard.press('Escape')
-await field.waitFor({ state: 'hidden' })
+await route.waitFor({ state: 'hidden' })
 
 console.log('4. FMK unavailable on refresh')
 await page.route('**/fmk/medicine-card', (route) => route.fulfill({

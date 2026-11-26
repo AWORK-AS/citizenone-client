@@ -23723,7 +23723,9 @@
             "sampleData": "Eksempeldata",
             "testEnvironment": "Testmiljø ({environment})",
             "about": "Om Fælles Medicinkort",
-            "fmkOnlineHint": "Ændringer i selve FMK, fx pause eller ny dosering, laves i FMK-online."
+            "fmkOnlineHint": "Ændringer i selve FMK, fx pause eller ny dosering, laves i FMK-online.",
+            "patient": "Medicinkort for {name}",
+            "lastChanged": "Senest ændret af {by}"
         },
         "error": {
             "title": "FMK kunne ikke nås",
@@ -23842,7 +23844,37 @@
             "jumpPosition": "{at} af {count}"
         },
         "details": {
-            "intro": "Alle oplysninger, FMK har sendt om ordinationen, med FMK's egne feltnavne."
+            "intro": "Oplysningerne om ordinationen fra FMK. Koder står i parentes.",
+            "allFields": "Vis alle felter fra FMK",
+            "dosage": "Dosering",
+            "sections": {
+                "drug": "Lægemiddel",
+                "treatment": "Behandling",
+                "record": "Ordinationen"
+            },
+            "name": "Navn",
+            "detailedText": "Lægemiddeltekst",
+            "form": "Form",
+            "strength": "Styrke",
+            "substances": "Aktive stoffer",
+            "atc": "ATC",
+            "drugId": "Lægemiddel-id",
+            "indication": "Behandling mod",
+            "route": "Administrationsvej",
+            "treatmentStart": "Behandlingsstart",
+            "treatmentStartMissing": "Behandlingsstartdato er ikke angivet",
+            "treatmentEnd": "Behandlingsslut",
+            "dosageType": "Doseringstype",
+            "paused": "Pauseret",
+            "type": "Type",
+            "identifier": "Ordinations-id",
+            "version": "version {version}",
+            "created": "Oprettet",
+            "modified": "Senest ændret",
+            "reportedBy": "Indberettet af",
+            "modifiedNonclinical": "Ikke-klinisk ændring",
+            "prescriptions": "Recepter",
+            "effectuations": "Udleveringer"
         },
         "open": "Fælles Medicinkort (FMK)",
         "openShort": "Hent fra FMK",
