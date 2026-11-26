@@ -5,7 +5,12 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <div class="flex justify-end items-center">
+                    <p v-if="props.managedBy" data-testid="chat-members-managed"
+                        class="mb-3 flex items-start gap-2 rounded-lg bg-primary-50 px-3 py-2 text-sm text-primary">
+                        <Icon name="ph:link" class="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                        {{ $t('messages.linkedChat.membersManagedBy', { name: props.managedBy }) }}
+                    </p>
+                    <div v-else class="flex justify-end items-center">
                         <FormButton buttonStyle="action" buttonSize="sm"
                             @click="state.modal.isAddNewGroupChatMembersOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -33,7 +38,7 @@
                                 </span>
                             </div>
 
-                            <Tooltip :text="$t('messages.groupChat.removeUser')">
+                            <Tooltip v-if="!props.managedBy" :text="$t('messages.groupChat.removeUser')">
                                 <button :aria-label="$t('messages.groupChat.removeUser')" @click="confirmUserRemoval(member)">
                                     <Icon name="ph:user-minus" class="h-5 w-5" aria-hidden="true" />
                                 </button>
@@ -63,6 +68,11 @@ const props = defineProps({
     isModalOpen: {
         type: Boolean,
         required: true,
+    },
+    // Roadmap #501: the members follow a department or an employee group.
+    managedBy: {
+        type: String,
+        default: '',
     },
 })
 const emit = defineEmits(['close', 'refreshChat'])

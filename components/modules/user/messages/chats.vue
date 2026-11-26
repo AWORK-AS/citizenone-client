@@ -111,6 +111,11 @@
                     <div class="flex items-center justify-between mt-0.5">
                         <p class="text-xs text-gray-400 truncate">
                             <span v-if="chat.type === 'direct'">{{ $t('messages.directMessage') }}</span>
+                            <!-- Roadmap #501: a chat that follows a department or an employee group. -->
+                            <span v-else-if="linkedChatLabel(chat, t)" class="text-primary" data-testid="chat-list-linked-label">
+                                <Icon :name="chat.archived_at ? 'ph:archive' : 'ph:link'" class="h-3 w-3 inline -mt-0.5" aria-hidden="true" />
+                                {{ linkedChatLabel(chat, t) }}
+                            </span>
                             <span v-else>{{ chat?.chat_members?.length || 0 }} {{ $t('messages.members') }}</span>
                         </p>
                         <span v-if="chat?.unread_messages > 0"
@@ -154,6 +159,7 @@
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import { messageService } from '@/components/api/user/MessageService'
+import { linkedChatLabel } from '@/composables/linkedChat'
 import { useAlert } from '@/composables/alert'
 import { useChatDraftStore } from '@/store/chat-draft'
 

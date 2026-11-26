@@ -63,6 +63,11 @@
                                 {{ state.chat?.data?.name || chatGroupMembers(state.chat?.data) }}
                             </h4>
                         </Tooltip>
+                        <!-- Roadmap #501: why you are in this chat. -->
+                        <p v-if="linkedLabel" class="text-xs text-primary font-medium line-clamp-1" data-testid="chat-linked-label">
+                            <Icon name="ph:link" class="h-3 w-3 inline -mt-0.5" aria-hidden="true" />
+                            {{ linkedLabel }}
+                        </p>
                         <p class="text-xs text-gray-400">
                             {{ state.chat?.data?.chat_members?.length || 0 }} {{ $t('messages.members') }}
                             <span v-if="state.chat?.data?.unread_messages > 0" class="ml-1 text-primary font-medium">
@@ -308,8 +313,15 @@
                 </div>
             </div>
 
+            <!-- Roadmap #501: the department or group was deleted; the chat can be read only. -->
+            <div v-if="state.chat?.data?.archived_at" data-testid="chat-archived"
+                class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-gray-50 text-sm text-gray-600 flex items-center gap-2">
+                <Icon name="ph:archive" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                {{ $t('messages.linkedChat.archived') }}
+            </div>
+
             <!-- Message Input -->
-            <div class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-white">
+            <div v-else class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-white">
                 <div class="flex items-end gap-2">
                     <!-- Attachment Button -->
                     <input ref="fileInput" type="file" multiple @change="handleFileChange" class="hidden" />
@@ -347,6 +359,7 @@
             :selectedChat="state.selectedChat" @close="state.modal.isEditGroupNameOpen = false"
             @refreshChatDetails="refreshChatDetails" />
         <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
+            :managedBy="linkedLabel"
             @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
         <ModulesUserMessagesModalExport :isModalOpen="state.modal.isExportOpen"
             :chatUuid="String($route.params.chat_uuid || '')" :chatName="exportChatName()"
@@ -395,6 +408,7 @@ import moment from 'moment'
 import { messageService } from '@/components/api/user/MessageService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
+import { linkedChatLabel } from '@/composables/linkedChat'
 import { useAlert } from '@/composables/alert'
 import { useContinuity } from '@/composables/useContinuity'
 import { useChatCprWarning } from '@/composables/chatCprWarning'
@@ -642,6 +656,9 @@ function memberAvatar(member: any) {
 // The one citizen in this chat: the patient in a direct chat or in the shared
 // patient inbox thread. Matched on user_type, as ids are per table and a
 // citizen can share one with the signed-in employee.
+// Roadmap #501: a chat whose members follow a department or an employee group.
+const linkedLabel = computed(() => linkedChatLabel(state.chat?.data, t))
+
 const chatCitizen = computed(() => {
     const citizens = (state.chat?.data?.chat_members || [])
         .filter((m: any) => m?.user_type === 'App\\Models\\Citizen' && m?.user?.uuid)

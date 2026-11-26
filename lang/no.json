@@ -10672,7 +10672,22 @@
         "sending": "Sender...",
         "employeeGroups": "Medarbeidergruppe",
         "selectEmployeeGroups": "Velg medarbeidergrupper",
-        "employeeGroupsHint": "Gruppens medlemmer legges inn som mottakere, og du kan endre listen etterpå."
+        "employeeGroupsHint": "Gruppens medlemmer legges inn som mottakere, og du kan endre listen etterpå.",
+        "linkedChat": {
+            "linkTo": "Knytt til",
+            "none": "Ingenting",
+            "department": "Avdeling",
+            "employeeGroup": "Medarbeidergruppe",
+            "chooseDepartment": "Velg avdeling",
+            "chooseGroup": "Velg medarbeidergruppe",
+            "createHint": "Alle i den blir medlemmer, og medlemmene følger den: nye medarbeidere kommer med, og den som forlater den, fjernes. Ingen kan legges til eller forlate chatten manuelt.",
+            "nameOptional": "Navn på chat (valgfritt)",
+            "create": "Opprett chat",
+            "createdNotMember": "Chatten er opprettet med {count} medlemmer. Du er ikke selv i avdelingen eller gruppen, så den står ikke på listen din.",
+            "groupLabel": "Gruppe: {name}",
+            "membersManagedBy": "Medlemmer styres av {name}.",
+            "archived": "Denne chatten er arkivert fordi avdelingen eller medarbeidergruppen er slettet. Du kan lese den, men ikke skrive."
+        }
     },
     "map": {
         "layers": {

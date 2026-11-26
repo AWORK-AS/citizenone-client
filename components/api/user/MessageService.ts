@@ -60,6 +60,11 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chat-messages`, 'POST', params)
     }
 
+    // Roadmap #501: a group chat whose members follow a department or an employee group.
+    async createLinkedChat(params: object): Promise<any> {
+        return await this.request(`/user/chats`, 'POST', params)
+    }
+
     async sendMessageViaChatUuid(params: object): Promise<any> {
         return await this.request(`/user/chat-messages/send/message`, 'POST', params)
     }
