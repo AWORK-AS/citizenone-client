@@ -374,6 +374,23 @@ if (await looseButton.count()) {
   await brentan.waitFor({ state: 'hidden' })
 }
 
+console.log('13. Withdrawn drug medications and follow-up dates (GK 3.9, 3.15)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+check('withdrawn ones are not fetched by default', await table.locator('tr').filter({ hasText: 'Selo-Zok' }).count() === 0)
+const withdrawnToggle = page.getByRole('button', { name: /Vis seponerede|Show withdrawn/ })
+const asked = page.waitForRequest((r) => r.url().includes('/fmk/medicine-card') && r.url().includes('include_withdrawn=1'))
+await withdrawnToggle.click()
+await asked
+const seloRow = table.locator('tr').filter({ hasText: 'Selo-Zok' }).first()
+await seloRow.waitFor()
+check('withdrawn one shown on request with who and when', /Seponeret i FMK af Læge Test|Withdrawn in FMK by Læge Test/.test(await seloRow.innerText()))
+const marevanRow = table.locator('tr').filter({ hasText: 'Marevan' }).first()
+if (await marevanRow.count()) check('passed follow-up date stands out', /Kontroldato overskredet|Follow-up date passed/.test(await marevanRow.innerText()))
+await withdrawnToggle.click()
+await seloRow.waitFor({ state: 'detached' })
+check('withdrawn ones hidden again', true)
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

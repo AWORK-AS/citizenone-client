@@ -43,6 +43,8 @@ export function fmkToday(): string {
  * medicine taken over from FMK is a draft without a dosage plan.
  */
 export function fmkNeedsAction(row: { status: string, local: { is_draft: boolean } | null }): boolean {
+    // Withdrawn in FMK only matters while CitizenOne still has the medicine.
+    if (row.status === 'withdrawn_in_fmk') return row.local !== null
     return row.status !== 'same' || row.local?.is_draft === true
 }
 
@@ -224,4 +226,13 @@ export function fmkPrescriptionState(p: { status: string | null, valid_from: str
         future: open && Boolean(p.valid_from) && p.valid_from! > today,
         expired: Boolean(p.valid_to) && p.valid_to! < today,
     }
+}
+
+/**
+ * GK 3.15: the follow-up date that has passed (shown as overdue) and the next
+ * one to come.
+ */
+export function fmkFollowUp(dates: string[], today: string): { overdue: string | null, next: string | null } {
+    const past = dates.filter(d => d < today)
+    return { overdue: past[past.length - 1] ?? null, next: dates.find(d => d >= today) ?? null }
 }

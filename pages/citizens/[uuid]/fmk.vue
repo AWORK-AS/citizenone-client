@@ -25,7 +25,7 @@ const { t } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const citizenUuid = route.params.uuid as string
-const { card, pending, error, loginRequired, fetchCard } = useFmkMedicineCard(citizenUuid)
+const { card, pending, error, loginRequired, includeWithdrawn, fetchCard, toggleWithdrawn } = useFmkMedicineCard(citizenUuid)
 const fmkLogin = useFmkLogin()
 const router = useRouter()
 const { isAtLeast, can } = usePermissions()
@@ -308,7 +308,7 @@ watch(() => route.query.fmk_login, (status) => {
                         <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
                     </p>
                     <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
                 </template>
             </div>

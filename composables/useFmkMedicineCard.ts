@@ -13,6 +13,8 @@ export function useFmkMedicineCard(citizenUuid: string) {
     const error = shallowRef<string | null>(null)
     // FMK needs the staff member's own MitID Erhverv login first.
     const loginRequired = shallowRef(false)
+    // GK 3.9: withdrawn drug medications only when staff ask for them.
+    const includeWithdrawn = shallowRef(false)
 
     let current = 0
 
@@ -25,7 +27,7 @@ export function useFmkMedicineCard(citizenUuid: string) {
         try {
             const response = negativeConsent
                 ? await fMKService.getMedicineCardWithNegativeConsent(citizenUuid, negativeConsent)
-                : await fMKService.getMedicineCard(citizenUuid)
+                : await fMKService.getMedicineCard(citizenUuid, includeWithdrawn.value)
             if (request === current) card.value = (response?.data ?? response) as FmkMedicineCardResponse
         } catch (cause: any) {
             if (request !== current) return
@@ -36,5 +38,10 @@ export function useFmkMedicineCard(citizenUuid: string) {
         }
     }
 
-    return { card, pending, error, loginRequired, fetchCard }
+    async function toggleWithdrawn() {
+        includeWithdrawn.value = !includeWithdrawn.value
+        await fetchCard()
+    }
+
+    return { card, pending, error, loginRequired, includeWithdrawn, fetchCard, toggleWithdrawn }
 }

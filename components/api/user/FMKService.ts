@@ -6,8 +6,9 @@ class FMKService extends BaseAPIService {
     }
 
     /** The citizen's FMK medicine card lined up with their CitizenOne medicines. */
-    async getMedicineCard(citizenUuid: string): Promise<any> {
-        return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card`, 'GET')
+    /** includeWithdrawn: also withdrawn and expired drug medications (GK 3.9). */
+    async getMedicineCard(citizenUuid: string, includeWithdrawn = false): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card`, 'GET', includeWithdrawn ? { include_withdrawn: 1 } : undefined)
     }
 
     /** Takes a drug medication from FMK over into CitizenOne (as a draft). */

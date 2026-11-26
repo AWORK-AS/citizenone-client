@@ -23689,7 +23689,9 @@
             "effectuations": "{count} utlämnat/givet | {count} utlämnat/givet",
             "markings": "Markeringar",
             "showDetails": "Visa alla uppgifter från FMK",
-            "openPrescriptions": "{count} öppet recept | {count} öppna recept"
+            "openPrescriptions": "{count} öppet recept | {count} öppna recept",
+            "followUpOverdue": "Kontrolldatum passerat ({date})",
+            "followUpNext": "Kontrolldatum {date}"
         },
         "compare": {
             "label": "FMK och CitizenOne sida vid sida",
@@ -23711,7 +23713,8 @@
                 "changed_in_fmk": "Ändrat i FMK",
                 "only_fmk": "Bara i FMK",
                 "only_local": "Bara i CitizenOne",
-                "missing_in_fmk": "Inte längre i FMK"
+                "missing_in_fmk": "Inte längre i FMK",
+                "withdrawn_in_fmk": "Utsatt i FMK"
             },
             "takeOver": "Ta över till CitizenOne",
             "takenOver": "Läkemedlet har tagits över som utkast. Fyll i doseringsplanen i läkemedelskortet innan det ges.",
@@ -23757,7 +23760,10 @@
             "jumpLabel": "Gå mellan rader som kräver åtgärd",
             "jumpPrevious": "Föregående",
             "jumpNext": "Nästa",
-            "jumpPosition": "{at} av {count}"
+            "jumpPosition": "{at} av {count}",
+            "showWithdrawn": "Visa utsatta",
+            "withdrawnBy": "Utsatt i FMK av {by}",
+            "withdrawnHint": "Om läkemedlet fortfarande är aktivt i CitizenOne, sätt ut det här också."
         },
         "details": {
             "intro": "Uppgifterna om ordinationen från FMK. Koder står inom parentes.",
@@ -23792,7 +23798,9 @@
             "reportedBy": "Rapporterad av",
             "modifiedNonclinical": "Icke-klinisk ändring",
             "prescriptions": "Recept",
-            "effectuations": "Uttag"
+            "effectuations": "Uttag",
+            "withdrawn": "Utsatt",
+            "followUp": "Kontrolldatum"
         },
         "open": "Gemensamt läkemedelskort (FMK)",
         "openShort": "Hämta från FMK",

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkDrugMedication } from '@/types/fmk'
-import { fmkPrescriptionState, fmkText, fmkToday } from '@/utils/fmk'
+import { fmkFollowUp, fmkPrescriptionState, fmkText, fmkToday } from '@/utils/fmk'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -54,7 +54,14 @@ const badges = computed<Badge[]>(() => {
     if (med.treatment_start && med.treatment_start > today) {
         list.push({ key: 'future', tone: 'warning', text: t('fmk.medication.notStartedYet', { date: formatDateToReadable(med.treatment_start) }) })
     }
-    if (med.follow_up_dates) {
+    // GK 3.15: a passed follow-up date stands out; the next one is shown.
+    const followUp = fmkFollowUp(med.follow_up ?? [], today)
+    if (followUp.overdue) {
+        list.push({ key: 'follow-up-overdue', tone: 'danger', text: t('fmk.medication.followUpOverdue', { date: formatDateToReadable(followUp.overdue) }) })
+    }
+    if (followUp.next) {
+        list.push({ key: 'follow-up', tone: 'info', text: t('fmk.medication.followUpNext', { date: formatDateToReadable(followUp.next) }) })
+    } else if (med.follow_up_dates && !followUp.overdue) {
         list.push({ key: 'follow-up', tone: 'info', text: t('fmk.medication.followUpDates') })
     }
     if (med.has_negative_consent) {

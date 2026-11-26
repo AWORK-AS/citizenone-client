@@ -171,3 +171,15 @@ describe('fmkPrescriptionState', () => {
     test('an open prescription valid from a later date is a future one', () => assert.equal(fmkPrescriptionState({ status: 'åben', valid_from: '2026-12-01', valid_to: null }, '2026-11-26').future, true))
     test('a closed one is never future', () => assert.deepEqual(fmkPrescriptionState({ status: 'afsluttet', valid_from: '2026-12-01', valid_to: '2026-11-01' }, '2026-11-26'), { open: false, future: false, expired: true }))
 })
+
+const { fmkFollowUp } = await import('../../utils/fmk.ts')
+
+describe('withdrawn in FMK and follow-up dates', () => {
+    test('withdrawn needs action only while CitizenOne still has it', () => {
+        assert.equal(fmkNeedsAction({ status: 'withdrawn_in_fmk', local: { is_draft: false } }), true)
+        assert.equal(fmkNeedsAction({ status: 'withdrawn_in_fmk', local: null }), false)
+    })
+    test('a passed follow-up date is overdue, the next one is shown', () => assert.deepEqual(fmkFollowUp(['2026-11-20', '2027-01-15'], '2026-11-26'), { overdue: '2026-11-20', next: '2027-01-15' }))
+    test('only future dates', () => assert.deepEqual(fmkFollowUp(['2027-01-15'], '2026-11-26'), { overdue: null, next: '2027-01-15' }))
+    test('no dates', () => assert.deepEqual(fmkFollowUp([], '2026-11-26'), { overdue: null, next: null }))
+})

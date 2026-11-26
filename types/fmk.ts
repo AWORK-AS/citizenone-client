@@ -36,6 +36,8 @@ export interface FmkDrugMedication {
     paused: Record<string, any> | null
     withdrawn: Record<string, any> | null
     follow_up_dates: FmkRaw | null
+    /** Follow-up dates, sorted (GK 3.15). */
+    follow_up: string[]
     has_negative_consent: boolean
     is_dose_dispensed: boolean
     effectuations: number
@@ -62,7 +64,7 @@ export interface FmkLocalMedicine {
     fmk_drug_medication_version: string | null
 }
 
-export type FmkRowStatus = 'same' | 'changed_in_fmk' | 'only_fmk' | 'only_local' | 'missing_in_fmk'
+export type FmkRowStatus = 'same' | 'changed_in_fmk' | 'only_fmk' | 'only_local' | 'missing_in_fmk' | 'withdrawn_in_fmk'
 
 export interface FmkRow {
     key: string
@@ -95,6 +97,8 @@ export interface FmkMedicineCardResponse {
     environment: string
     /** Set when privacy-marked medication is shown (GK 4.3). */
     negative_consent: 'consent' | 'emergency' | null
+    /** Withdrawn drug medications were asked for (GK 3.9). */
+    include_withdrawn: boolean
     fetched_at: string
     card: FmkCardSummary
     raw: Record<string, any>

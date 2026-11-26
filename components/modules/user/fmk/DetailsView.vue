@@ -44,6 +44,8 @@ const sections = computed<Section[]>(() => {
             { label: t('fmk.details.treatmentEnd'), value: x.treatment_end ? formatDateToReadable(x.treatment_end) : t('fmk.medication.noEndDate') },
             { label: t('fmk.details.dosageType'), value: x.dosage_type },
             { label: t('fmk.details.paused'), value: paused },
+            { label: t('fmk.details.withdrawn'), value: x.withdrawn ? by(x.withdrawn) : null },
+            { label: t('fmk.details.followUp'), value: x.follow_up?.length ? x.follow_up.map(d => formatDateToReadable(d)).join(', ') : null },
         ] },
         { key: 'record', rows: [
             { label: t('fmk.details.type'), value: x.type },

@@ -23774,7 +23774,9 @@
             "effectuations": "{count} udleveret/indgivet | {count} udleveret/indgivet",
             "markings": "Markeringer",
             "showDetails": "Vis alle oplysninger fra FMK",
-            "openPrescriptions": "{count} åben recept | {count} åbne recepter"
+            "openPrescriptions": "{count} åben recept | {count} åbne recepter",
+            "followUpOverdue": "Kontroldato overskredet ({date})",
+            "followUpNext": "Kontroldato {date}"
         },
         "compare": {
             "label": "FMK og CitizenOne side om side",
@@ -23796,7 +23798,8 @@
                 "changed_in_fmk": "Ændret i FMK",
                 "only_fmk": "Kun i FMK",
                 "only_local": "Kun i CitizenOne",
-                "missing_in_fmk": "Ikke længere i FMK"
+                "missing_in_fmk": "Ikke længere i FMK",
+                "withdrawn_in_fmk": "Seponeret i FMK"
             },
             "takeOver": "Overtag til CitizenOne",
             "takenOver": "Medicinen er overtaget som kladde. Udfyld doseringsplanen i medicinkortet, før den gives.",
@@ -23842,7 +23845,10 @@
             "jumpLabel": "Gå mellem linjer, der kræver handling",
             "jumpPrevious": "Forrige",
             "jumpNext": "Næste",
-            "jumpPosition": "{at} af {count}"
+            "jumpPosition": "{at} af {count}",
+            "showWithdrawn": "Vis seponerede",
+            "withdrawnBy": "Seponeret i FMK af {by}",
+            "withdrawnHint": "Står medicinen stadig aktiv i CitizenOne, så stop den her også."
         },
         "details": {
             "intro": "Oplysningerne om ordinationen fra FMK. Koder står i parentes.",
@@ -23877,7 +23883,9 @@
             "reportedBy": "Indberettet af",
             "modifiedNonclinical": "Ikke-klinisk ændring",
             "prescriptions": "Recepter",
-            "effectuations": "Udleveringer"
+            "effectuations": "Udleveringer",
+            "withdrawn": "Seponeret",
+            "followUp": "Kontroldatoer"
         },
         "open": "Fælles Medicinkort (FMK)",
         "openShort": "Hent fra FMK",

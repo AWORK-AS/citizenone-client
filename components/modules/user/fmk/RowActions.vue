@@ -110,6 +110,22 @@ function shown(change: FmkHistoryChange, value: string | null): string {
         </div>
     </div>
 
+    <!-- GK 3.9: withdrawn in FMK, with who and when; stop it here too if CitizenOne still has it. -->
+    <div v-else-if="row.fmk && row.status === 'withdrawn_in_fmk'" class="mt-3 rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-3">
+        <p class="flex items-start gap-2 text-sm font-semibold text-[#334155]">
+            <Icon name="ph:prohibit" class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            {{ row.fmk.withdrawn ? $t('fmk.compare.withdrawnBy', { by: by(row.fmk.withdrawn) }) : $t('fmk.compare.status.withdrawn_in_fmk') }}
+        </p>
+        <template v-if="row.local && canEdit">
+            <p class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.withdrawnHint') }}</p>
+            <button type="button" @click="emit('openLocal', row.local.uuid)"
+                class="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#0f4c75] transition-colors hover:border-[#0f4c75] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] focus-visible:ring-offset-2">
+                <Icon name="ph:pencil-simple" class="size-4" aria-hidden="true" />
+                {{ $t('fmk.compare.editLocal') }}
+            </button>
+        </template>
+    </div>
+
     <div v-else-if="row.fmk && row.status === 'only_fmk' && canEdit" class="mt-3">
         <button type="button" :disabled="busy" @click="emit('takeOver', row.fmk.identifier)"
             class="inline-flex items-center gap-2 rounded-lg bg-[#2dbab2] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1b6d8a] disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] focus-visible:ring-offset-2">

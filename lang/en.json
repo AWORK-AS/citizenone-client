@@ -23774,7 +23774,9 @@
             "effectuations": "{count} dispensed/given | {count} dispensed/given",
             "markings": "Markings",
             "showDetails": "Show all information from FMK",
-            "openPrescriptions": "{count} open prescription | {count} open prescriptions"
+            "openPrescriptions": "{count} open prescription | {count} open prescriptions",
+            "followUpOverdue": "Follow-up date passed ({date})",
+            "followUpNext": "Follow-up {date}"
         },
         "compare": {
             "label": "FMK and CitizenOne side by side",
@@ -23796,7 +23798,8 @@
                 "changed_in_fmk": "Changed in FMK",
                 "only_fmk": "Only in FMK",
                 "only_local": "Only in CitizenOne",
-                "missing_in_fmk": "No longer in FMK"
+                "missing_in_fmk": "No longer in FMK",
+                "withdrawn_in_fmk": "Withdrawn in FMK"
             },
             "takeOver": "Take over into CitizenOne",
             "takenOver": "The medicine is taken over as a draft. Fill in the dosage plan on the medicine card before it is given.",
@@ -23842,7 +23845,10 @@
             "jumpLabel": "Move between lines that need action",
             "jumpPrevious": "Previous",
             "jumpNext": "Next",
-            "jumpPosition": "{at} of {count}"
+            "jumpPosition": "{at} of {count}",
+            "showWithdrawn": "Show withdrawn",
+            "withdrawnBy": "Withdrawn in FMK by {by}",
+            "withdrawnHint": "If the medicine is still active in CitizenOne, stop it here too."
         },
         "details": {
             "intro": "The information about the drug medication from FMK. Codes are in brackets.",
@@ -23877,7 +23883,9 @@
             "reportedBy": "Reported by",
             "modifiedNonclinical": "Non-clinical change",
             "prescriptions": "Prescriptions",
-            "effectuations": "Dispensings"
+            "effectuations": "Dispensings",
+            "withdrawn": "Withdrawn",
+            "followUp": "Follow-up dates"
         },
         "open": "Shared Medication Record (FMK)",
         "openShort": "Fetch from FMK",
