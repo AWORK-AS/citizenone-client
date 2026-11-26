@@ -10672,7 +10672,22 @@
         "sending": "Sending...",
         "employeeGroups": "Employee group",
         "selectEmployeeGroups": "Select employee groups",
-        "employeeGroupsHint": "The group members are added as recipients, and you can adjust the list afterwards."
+        "employeeGroupsHint": "The group members are added as recipients, and you can adjust the list afterwards.",
+        "linkedChat": {
+            "linkTo": "Link to",
+            "none": "Nothing",
+            "department": "Department",
+            "employeeGroup": "Employee group",
+            "chooseDepartment": "Choose department",
+            "chooseGroup": "Choose employee group",
+            "createHint": "Everyone in it becomes a member, and the members follow it: new employees join, and someone who leaves is removed. Nobody can be added or leave by hand.",
+            "nameOptional": "Chat name (optional)",
+            "create": "Create chat",
+            "createdNotMember": "The chat was created with {count} members. You are not in the department or group, so it is not in your list.",
+            "groupLabel": "Group: {name}",
+            "membersManagedBy": "Members are managed by {name}.",
+            "archived": "This chat is archived because its department or employee group was deleted. You can read it, but not write."
+        }
     },
     "map": {
         "layers": {

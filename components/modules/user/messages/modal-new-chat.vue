@@ -39,11 +39,39 @@
                                 </div>
                             </div>
 
+                            <!-- Roadmap #501: a group chat linked to a department or an
+                                 employee group. Its members follow the department or
+                                 group, so no recipients are picked by hand. -->
+                            <div class="space-y-2" v-if="canLink" data-testid="chat-link">
+                                <FormLabel for="link_target" :label="$t('messages.linkedChat.linkTo')" />
+                                <div id="link_target" role="radiogroup" class="grid grid-cols-3 gap-2">
+                                    <button v-for="option in linkTargets" :key="option.value" type="button" role="radio"
+                                        :aria-checked="state.link.target === option.value"
+                                        :data-testid="`chat-link-${option.value}`"
+                                        @click="setLinkTarget(option.value)"
+                                        :class="['rounded-lg border px-2 py-2 text-xs font-medium transition-colors',
+                                            state.link.target === option.value
+                                                ? 'border-primary bg-primary-50 text-primary'
+                                                : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300']">
+                                        {{ option.label }}
+                                    </button>
+                                </div>
+                                <template v-if="isLinked">
+                                    <FormSelect id="link_uuid" :options="linkOptions" v-model="state.link.uuid"
+                                        :placeholder="state.link.target === 'department' ? $t('messages.linkedChat.chooseDepartment') : $t('messages.linkedChat.chooseGroup')"
+                                        data-testid="chat-link-select" />
+                                    <FormError :error="state?.error?.errors?.department_uuid?.[0] || state?.error?.errors?.employee_group_uuid?.[0]" />
+                                    <p class="text-xs text-gray-500" data-testid="chat-link-hint">
+                                        {{ $t('messages.linkedChat.createHint') }}
+                                    </p>
+                                </template>
+                            </div>
+
                             <!-- Writing to a whole employee group: picking one fills the
                                  recipients with its members, which stays editable
                                  afterwards, so the group is a shortcut and not a
                                  second kind of conversation. -->
-                            <div class="space-y-1" v-if="userStore.getUser?.company?.group_chat_enabled && state.recipientType === 'employees'">
+                            <div class="space-y-1" v-if="!isLinked && userStore.getUser?.company?.group_chat_enabled && state.recipientType === 'employees'">
                                 <FormLabel for="employee_groups" :label="$t('messages.employeeGroups')" />
                                 <FormSelectMultiple id="employee_groups" :options="state.options.employeeGroups"
                                     :placeholder="$t('messages.selectEmployeeGroups')"
@@ -51,7 +79,7 @@
                                 <p class="text-xs text-gray-500">{{ $t('messages.employeeGroupsHint') }}</p>
                             </div>
 
-                            <div class="space-y-1">
+                            <div class="space-y-1" v-if="!isLinked">
                                 <FormLabel for="receivers" :label="receiversLabel" />
                                 <FormSelectMultiple id="receivers" :key="`multi-${state.recipientType}`" :options="receiverOptions"
                                     :placeholder="receiversPlaceholder"
@@ -72,13 +100,13 @@
                             </div>
 
                             <div class="space-y-1">
-                                <FormLabel for="subject" :label="$t('messages.subjectOptional')" />
+                                <FormLabel for="subject" :label="isLinked ? $t('messages.linkedChat.nameOptional') : $t('messages.subjectOptional')" />
                                 <FormTextField id="subject" name="subject"
                                     :placeholder="$t('messages.subjectPlaceholder')" v-model="state.formChat.subject" />
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
 
-                            <div class="space-y-1">
+                            <div class="space-y-1" v-if="!isLinked">
                                 <FormLabel for="message" :label="$t('messages.message')" />
                                 <FormTextArea id="message" name="message" :placeholder="$t('messages.messagePlaceholder')"
                                     v-model="state.formChat.message" @keydown="handleKeydown" />
@@ -91,7 +119,7 @@
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
                             </div>
 
-                            <div class="space-y-1">
+                            <div class="space-y-1" v-if="!isLinked">
                                 <ModulesCitizenMessagesAttachmentPicker v-model="state.formChat.files" />
                                 <FormError :error="attachmentError" />
                             </div>
@@ -104,9 +132,9 @@
                             </button>
                             <button type="submit" :disabled="!canSend"
                                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-600 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                                <Icon v-if="!state.isSending" name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
+                                <Icon v-if="!state.isSending" :name="isLinked ? 'ph:link' : 'ph:paper-plane-tilt'" class="h-4 w-4" aria-hidden="true" />
                                 <Icon v-else name="ph:circle-notch" class="h-4 w-4 animate-spin" aria-hidden="true" />
-                                {{ $t('messages.send') }}
+                                {{ isLinked ? $t('messages.linkedChat.create') : $t('messages.send') }}
                             </button>
                         </div>
                     </form>
@@ -130,6 +158,10 @@ import { employeeGroupService } from '@/components/api/user/EmployeeGroupService
 import { citizenRecipientOptions, employeeRecipientOptions, recipientTypeOf, type RecipientType } from '@/composables/chatRecipients'
 import { useChatDraftStore } from '@/store/chat-draft'
 import { mergeIntoField } from '@/composables/codyChatDraft'
+import { usePermissions } from '@/composables/usePermissions'
+import { useAlert } from '@/composables/alert'
+import { departmentService } from '@/components/api/user/DepartmentService'
+import { linkableOptions, linkedChatPayload, type LinkTarget } from '@/composables/linkedChat'
 
 const props = defineProps({
     isModalOpen: {
@@ -166,7 +198,70 @@ const state = reactive({
     // The group's members, so deselecting a group takes its members out again
     // without touching anyone who was picked by hand.
     groupMembers: {} as Record<string, string[]>,
+    // Roadmap #501: a chat linked to a department or an employee group.
+    link: { target: 'none' as LinkTarget, uuid: '' as string },
+    linkSources: { departments: [] as any[], groups: [] as any[] },
 })
+
+const { isAtLeast } = usePermissions()
+const { successAlert } = useAlert()
+const canLink = computed(() => !!userStore.getUser?.company?.group_chat_enabled
+    && state.recipientType === 'employees' && isAtLeast('Manager'))
+const isLinked = computed(() => canLink.value && state.link.target !== 'none')
+const linkTargets = computed(() => [
+    { value: 'none' as LinkTarget, label: t('messages.linkedChat.none') },
+    { value: 'department' as LinkTarget, label: t('messages.linkedChat.department') },
+    { value: 'employee_group' as LinkTarget, label: t('messages.linkedChat.employeeGroup') },
+])
+const ownDepartmentIds = computed(() => (userStore.getUser?.departments ?? []).map((department: any) => Number(department.id)))
+const linkOptions = computed(() => {
+    const isAdmin = isAtLeast('Admin')
+    if (state.link.target === 'department') {
+        return linkableOptions(state.linkSources.departments, 'department', isAdmin, ownDepartmentIds.value)
+            .map((department: any) => ({ value: department.uuid, label: department.name }))
+    }
+    return linkableOptions(state.linkSources.groups, 'employee_group', isAdmin, ownDepartmentIds.value)
+        .map((group: any) => ({ value: group.uuid, label: group.department?.name ? `${group.name} (${group.department.name})` : group.name }))
+})
+
+function setLinkTarget(target: LinkTarget) {
+    state.link.target = target
+    state.link.uuid = ''
+    if (target !== 'none' && !state.linkSources.departments.length) fetchDepartments()
+}
+
+async function fetchDepartments() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        state.linkSources.departments = (response?.data ?? []).filter((department: any) => department.uuid !== 'all-departments')
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+/** Roadmap #501: creates the linked chat; its members follow the department or group. */
+async function createLinkedChat() {
+    const payload = linkedChatPayload(state.link.target, state.link.uuid, state.formChat.subject)
+    if (!payload) return
+    state.isSending = true
+    state.error = {}
+    try {
+        const response = await messageService.createLinkedChat(payload)
+        const chatUuid = response?.data?.uuid
+        state.link = { target: 'none', uuid: '' }
+        state.formChat.subject = ''
+        emit('chatCreated')
+        closeModal()
+        if (response?.is_member && chatUuid) {
+            navigateTo(`/messages/${chatUuid}`)
+        } else {
+            successAlert(`${t('alert.success')}!`, t('messages.linkedChat.createdNotMember', { count: response?.member_count ?? 0 }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isSending = false
+}
 
 const hasCitizens = computed(() => state.options.citizens.length > 0)
 
@@ -189,6 +284,7 @@ function setRecipientType(type: RecipientType) {
 }
 
 const canSend = computed(() => {
+    if (isLinked.value) return !!state.link.uuid && !state.isSending
     const hasRecipients = Array.isArray(state.formChat.receivers)
         ? state.formChat.receivers.length > 0
         : !!state.formChat.receivers
@@ -323,12 +419,16 @@ async function fetchEmployeeGroups() {
         state.groupMembers = Object.fromEntries(
             groups.map((group: any) => [group.uuid, (group.users ?? []).map((member: any) => member.uuid)])
         )
+        state.linkSources.groups = groups
     } catch (error: any) {
         state.error = error
     }
 }
 
 async function sendMessage() {
+    if (isLinked.value) {
+        return createLinkedChat()
+    }
     v$.value.$validate()
     if (!v$.value.$error) {
         if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
