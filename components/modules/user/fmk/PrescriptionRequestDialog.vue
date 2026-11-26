@@ -12,8 +12,8 @@ import { fMKService } from '@/components/api/user/FMKService'
  * or ask for the same package as last time, with quantity and, if wanted,
  * several dispensings.
  */
-const props = defineProps<{ show: boolean, citizenUuid: string, medication: FmkDrugMedication | null }>()
-const emit = defineEmits<{ close: [], sent: [] }>()
+const props = defineProps<{ show: boolean, citizenUuid: string, medication: FmkDrugMedication | null, cardVersion?: string | null }>()
+const emit = defineEmits<{ close: [], sent: [], cardChanged: [] }>()
 
 const { t } = useI18n()
 
@@ -55,6 +55,7 @@ async function send() {
     try {
         await fMKService.requestPrescription(props.citizenUuid, {
             fmk_drug_medication_id: props.medication.identifier,
+            card_version: props.cardVersion ?? undefined,
             organisation: addressee.value,
             dispensing: form.packageChoice === 'same' && lastPackage.value
                 ? { package_number: lastPackage.value, package_quantity: form.quantity, reiteration: form.reiterate ? form.reiteration : null }
@@ -62,6 +63,10 @@ async function send() {
         })
         emit('sent')
     } catch (cause: any) {
+        if (cause?.code === 'fmk_card_changed') {
+            emit('cardChanged')
+            return
+        }
         fieldErrors.value = cause?.errors ?? {}
         error.value = cause?.message ?? String(cause)
     } finally {

@@ -487,6 +487,31 @@ check('each version with its dosage', histText.includes('1 tablet 2 gange daglig
 await page.keyboard.press('Escape')
 await histDialog.getByText(/^(Aktuel|Current)$/).first().waitFor({ state: 'hidden' })
 
+console.log('18. Card changed in FMK since it was fetched (GK 1.5)')
+// The browser is shown an older version than FMK has now.
+await page.route('**/fmk/medicine-card', async (route) => {
+  const res = await route.fetch(); const body = await res.json()
+  body.data.card.version = '4700'
+  await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })
+})
+await page.getByRole('button', { name: /^(Hent igen|Fetch again)$/ }).first().click()
+await page.waitForTimeout(1500)
+await page.unroute('**/fmk/medicine-card')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const staleTakeOver = table.getByRole('button', { name: /Overtag til CitizenOne|Take over into CitizenOne/ }).first()
+if (await staleTakeOver.count()) {
+  const refused = page.waitForResponse((r) => r.url().includes('/fmk/take-over'))
+  const refetched = page.waitForResponse((r) => r.url().includes('/fmk/medicine-card') && r.request().method() === 'GET')
+  await staleTakeOver.click()
+  check('action on an older card refused', (await refused).status() === 409)
+  await page.getByText(/Medicinkortet er ændret i FMK, siden du hentede det|The medicine card has changed in FMK since you fetched it/).first().waitFor()
+  check('staff told the card changed', true)
+  check('card fetched again', (await refetched).status() === 200)
+} else {
+  console.log('  skip nothing to take over')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

@@ -13,6 +13,7 @@ import { useAlert } from '@/composables/alert'
  * has issued it.
  */
 const props = defineProps<{ citizenUuid: string, card: FmkCardSummary, canEdit?: boolean }>()
+const emit = defineEmits<{ cardChanged: [] }>()
 
 const { t } = useI18n()
 const { successAlert, errorAlert } = useAlert()
@@ -43,13 +44,14 @@ async function run(call: () => Promise<any>) {
         const response = await call()
         items.value = ((response?.data ?? response) ?? []) as FmkBasketItem[]
     } catch (cause: any) {
-        error.value = cause?.message ?? String(cause)
+        if (cause?.code === 'fmk_card_changed') emit('cardChanged')
+        else error.value = cause?.message ?? String(cause)
     } finally {
         pending.value = false
     }
 }
 const load = () => run(() => fMKService.getBasket(props.citizenUuid))
-const add = (identifier: string) => run(() => fMKService.addToBasket(props.citizenUuid, identifier))
+const add = (identifier: string) => run(() => fMKService.addToBasket(props.citizenUuid, identifier, props.card.version))
 const remove = (item: FmkBasketItem) => run(() => fMKService.removeFromBasket(props.citizenUuid, item.uuid))
 
 async function order() {
@@ -60,12 +62,14 @@ async function order() {
             pharmacy: pharmacy.value,
             delivery: form.delivery === 'pickup' ? null : { priority: form.delivery, street: form.street || null, post_code: form.postCode || null, contact: form.contact || null },
             instruction: form.instruction || null,
+            card_version: props.card.version ?? undefined,
         })
         const result = (response?.data ?? response) as { ordered: string[], waiting: string[] }
         successAlert(`${t('alert.success')}!`, t('fmk.basket.ordered', { drugs: result.ordered.join(', ') }))
         await load()
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') emit('cardChanged')
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         ordering.value = false
     }

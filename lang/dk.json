@@ -24092,6 +24092,11 @@
         "pdf": {
             "print": "Udskriv (PDF)",
             "hint": "Medicinkortet som PDF fra FMK, til visning og udskrift"
+        },
+        "changed": {
+            "title": "Medicinkortet er ændret i FMK, siden du hentede det.",
+            "text": "Intet er gemt eller sendt. Medicinkortet er hentet igen. Se ændringen, og prøv igen.",
+            "dismiss": "Luk beskeden"
         }
     },
     "recordsExport": {

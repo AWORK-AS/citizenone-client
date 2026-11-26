@@ -12,7 +12,8 @@ import { useAlert } from '@/composables/alert'
  * first, with who they went to, their status and, for rejected ones, the
  * reason. Unhandled ones can be cancelled. Fetched when staff open it.
  */
-const props = defineProps<{ citizenUuid: string, medications: FmkDrugMedication[], canEdit?: boolean }>()
+const props = defineProps<{ citizenUuid: string, medications: FmkDrugMedication[], canEdit?: boolean, cardVersion?: string | null }>()
+const emit = defineEmits<{ cardChanged: [] }>()
 
 const { t } = useI18n()
 const { by } = useFmkModifier()
@@ -40,11 +41,12 @@ async function cancel(r: FmkPrescriptionRequest) {
     if (!r.identifier) return
     busy.value = r.identifier
     try {
-        await fMKService.cancelPrescriptionRequest(props.citizenUuid, r.identifier)
+        await fMKService.cancelPrescriptionRequest(props.citizenUuid, r.identifier, props.cardVersion)
         successAlert(`${t('alert.success')}!`, t('fmk.request.cancelled'))
         await load()
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') emit('cardChanged')
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         busy.value = null
     }

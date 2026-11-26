@@ -24007,6 +24007,11 @@
         "pdf": {
             "print": "Skriv ut (PDF)",
             "hint": "Läkemedelskortet som PDF från FMK, för visning och utskrift"
+        },
+        "changed": {
+            "title": "Läkemedelskortet har ändrats i FMK sedan du hämtade det.",
+            "text": "Inget har sparats eller skickats. Läkemedelskortet har hämtats igen. Titta på ändringen och försök igen.",
+            "dismiss": "Stäng meddelandet"
         }
     },
     "recordsExport": {

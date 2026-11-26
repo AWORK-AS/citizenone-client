@@ -24007,6 +24007,11 @@
         "pdf": {
             "print": "Skriv ut (PDF)",
             "hint": "Legemiddelkortet som PDF fra FMK, til visning og utskrift"
+        },
+        "changed": {
+            "title": "Legemiddelkortet er endret i FMK siden du hentet det.",
+            "text": "Ingenting er lagret eller sendt. Legemiddelkortet er hentet på nytt. Se på endringen, og prøv igjen.",
+            "dismiss": "Lukk meldingen"
         }
     },
     "recordsExport": {

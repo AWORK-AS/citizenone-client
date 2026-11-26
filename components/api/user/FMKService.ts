@@ -33,8 +33,8 @@ class FMKService extends BaseAPIService {
     }
 
     /** GK 16.4: cancel an own request ("Receptanmodning fortrudt"). */
-    async cancelPrescriptionRequest(citizenUuid: string, requestId: string): Promise<any> {
-        return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests/${requestId}`, 'DELETE')
+    async cancelPrescriptionRequest(citizenUuid: string, requestId: string, cardVersion?: string | null): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests/${requestId}${cardVersion ? `?card_version=${encodeURIComponent(cardVersion)}` : ''}`, 'DELETE')
     }
 
     /** GK 16.5: the order basket. */
@@ -42,8 +42,8 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/basket`, 'GET')
     }
 
-    async addToBasket(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
-        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    async addToBasket(citizenUuid: string, fmkDrugMedicationId: string, cardVersion?: string | null): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/basket`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId, card_version: cardVersion ?? undefined })
     }
 
     async removeFromBasket(citizenUuid: string, itemUuid: string): Promise<any> {
@@ -60,13 +60,14 @@ class FMKService extends BaseAPIService {
         return await this.requestBlob(`/user/citizens/${citizenUuid}/fmk/medicine-card/pdf${type === 'borger' ? '?type=borger' : ''}`, 'GET')
     }
 
-    async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
-        return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    // cardVersion: the card version staff saw; FMK changes since then are refused with 409 fmk_card_changed (GK 1.5).
+    async takeOver(citizenUuid: string, fmkDrugMedicationId: string, cardVersion?: string | null): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId, card_version: cardVersion ?? undefined })
     }
 
     /** Staff have checked what changed in FMK since the medicine was taken over. */
-    async acknowledge(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
-        return await this.request(`/user/citizens/${citizenUuid}/fmk/acknowledge`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
+    async acknowledge(citizenUuid: string, fmkDrugMedicationId: string, cardVersion?: string | null): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/acknowledge`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId, card_version: cardVersion ?? undefined })
     }
 
     /** MitID Erhverv login via SEB: where to send the browser. */

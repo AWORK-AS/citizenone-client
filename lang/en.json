@@ -24092,6 +24092,11 @@
         "pdf": {
             "print": "Print (PDF)",
             "hint": "The medicine card as a PDF from FMK, to view and print"
+        },
+        "changed": {
+            "title": "The medicine card has changed in FMK since you fetched it.",
+            "text": "Nothing was saved or sent. The medicine card has been fetched again. Look at the change and try again.",
+            "dismiss": "Close the message"
         }
     },
     "recordsExport": {

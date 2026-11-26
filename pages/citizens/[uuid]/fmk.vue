@@ -34,6 +34,15 @@ const { successAlert, errorAlert } = useAlert()
 // Same rule as "Ny medicin" on the medicine page.
 const canEdit = computed(() => isAtLeast('Admin') || can('create_citizen_medicine'))
 const busyKey = shallowRef<string | null>(null)
+
+// GK 1.5: FMK changed since the card staff saw. Nothing was done; fetch the
+// card again and tell them, so they look at the change before trying again.
+const cardChangedNotice = shallowRef(false)
+async function cardChanged() {
+    requestFor.value = null
+    cardChangedNotice.value = true
+    await fetchCard(card.value?.negative_consent ?? undefined)
+}
 // The row that just changed glows briefly, so the eye finds it after the refetch.
 const flashKey = shallowRef<string | null>(null)
 let flashTimer: ReturnType<typeof setTimeout> | undefined
@@ -101,12 +110,13 @@ function openLocal(medicineUuid: string | null) {
 async function takeOver(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
-        await fMKService.takeOver(citizenUuid, identifier)
+        await fMKService.takeOver(citizenUuid, identifier, card.value?.card.version)
         await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') await cardChanged()
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         busyKey.value = null
     }
@@ -115,12 +125,13 @@ async function takeOver(identifier: string) {
 async function acknowledge(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
-        await fMKService.acknowledge(citizenUuid, identifier)
+        await fMKService.acknowledge(citizenUuid, identifier, card.value?.card.version)
         await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') await cardChanged()
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         busyKey.value = null
     }
@@ -345,6 +356,14 @@ watch(() => route.query.fmk_login, (status) => {
                 </div>
 
                 <template v-if="card">
+                    <div v-if="cardChangedNotice" role="alert"
+                        class="flex items-start gap-3 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm text-[#9a3412]">
+                        <Icon name="ph:arrows-clockwise" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
+                        <p class="flex-1"><strong>{{ $t('fmk.changed.title') }}</strong> {{ $t('fmk.changed.text') }}</p>
+                        <button type="button" :aria-label="$t('fmk.changed.dismiss')" class="rounded p-0.5 hover:bg-[#fed7aa]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]" @click="cardChangedNotice = false">
+                            <Icon name="ph:x" class="size-4" aria-hidden="true" />
+                        </button>
+                    </div>
                     <p v-if="card.negative_consent" role="status"
                         class="flex items-start gap-3 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm text-[#9a3412]">
                         <Icon name="ph:eye" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
@@ -353,8 +372,8 @@ watch(() => route.query.fmk_login, (status) => {
                     <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" @showDoseDispensing="doseDispensingOpen = true" />
                     <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @requestPrescription="requestFor = $event" @addToBasket="addToBasket" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
-                    <ModulesUserFmkBasketPanel ref="basketPanel" :citizenUuid="citizenUuid" :card="card.card" :canEdit="canEdit" />
-                    <ModulesUserFmkPrescriptionRequestsPanel ref="requestsPanel" :citizenUuid="citizenUuid" :medications="card.card.drug_medications" :canEdit="canEdit" />
+                    <ModulesUserFmkBasketPanel ref="basketPanel" :citizenUuid="citizenUuid" :card="card.card" :canEdit="canEdit" @cardChanged="cardChanged" />
+                    <ModulesUserFmkPrescriptionRequestsPanel ref="requestsPanel" :citizenUuid="citizenUuid" :medications="card.card.drug_medications" :canEdit="canEdit" :cardVersion="card.card.version" @cardChanged="cardChanged" />
                 </template>
             </div>
 
@@ -367,7 +386,7 @@ watch(() => route.query.fmk_login, (status) => {
                 </template>
             </Modal>
 
-            <ModulesUserFmkPrescriptionRequestDialog :show="requestFor !== null" :citizenUuid="citizenUuid" :medication="requestMedication" @close="requestFor = null" @sent="prescriptionRequested" />
+            <ModulesUserFmkPrescriptionRequestDialog :show="requestFor !== null" :citizenUuid="citizenUuid" :medication="requestMedication" :cardVersion="card?.card.version" @close="requestFor = null" @sent="prescriptionRequested" @cardChanged="cardChanged" />
 
             <ModulesUserFmkDoseDispensingCard :show="doseDispensingOpen" :citizenUuid="citizenUuid" @close="doseDispensingOpen = false" />
 
