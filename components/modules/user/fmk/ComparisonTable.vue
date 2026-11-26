@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, shallowRef, watch } from 'vue'
 import type { FmkRow, FmkRowStatus } from '@/types/fmk'
 import { fmkNeedsAction } from '@/utils/fmk'
 
@@ -14,7 +14,7 @@ import { fmkNeedsAction } from '@/utils/fmk'
  * colour (always with icon and text), so warnings stay orange only.
  */
 const props = defineProps<{ rows: FmkRow[], canEdit?: boolean, busyKey?: string | null, flashKey?: string | null }>()
-const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [] }>()
+const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null] }>()
 
 type Filter = 'action' | 'all' | 'draft' | FmkRowStatus
 
@@ -49,12 +49,41 @@ watch(visibleRows, (rows) => {
     if (rows.length === 0 && filter.value !== 'action' && filter.value !== 'all') filter.value = 'action'
 })
 
+// "Forrige / Næste": jump between the rows that need action, so long cards
+// can be worked through top to bottom without hunting.
+const actionKeys = computed(() => visibleRows.value.filter(fmkNeedsAction).map(r => r.key))
+const cursor = shallowRef(-1)
+const jumpedKey = shallowRef<string | null>(null)
+let jumpTimer: ReturnType<typeof setTimeout> | undefined
+watch(actionKeys, () => { cursor.value = -1 })
+onBeforeUnmount(() => clearTimeout(jumpTimer))
+
+function step(direction: 1 | -1) {
+    const keys = actionKeys.value
+    if (!keys.length) return
+    cursor.value = cursor.value < 0
+        ? (direction > 0 ? 0 : keys.length - 1)
+        : (cursor.value + direction + keys.length) % keys.length
+    const key = keys[cursor.value]
+    // Phones show cards, larger screens the table: take the one on screen.
+    const target = [...document.querySelectorAll<HTMLElement>('[data-fmk-row]')]
+        .find(el => el.dataset.fmkRow === key && el.offsetParent !== null)
+    if (!target) return
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' })
+    target.focus({ preventScroll: true })
+    clearTimeout(jumpTimer)
+    jumpedKey.value = key
+    jumpTimer = setTimeout(() => { jumpedKey.value = null }, 1800)
+}
+
+/** The row just changed or jumped to glows briefly. */
+function glowing(row: FmkRow): boolean {
+    return row.key === props.flashKey || row.key === jumpedKey.value
+}
+
 function rowClass(row: FmkRow): string[] {
-    return [
-        'border-l-4',
-        statusMeta[row.status].bar,
-        row.key === props.flashKey ? 'fmk-flash' : '',
-    ]
+    return ['border-l-4', statusMeta[row.status].bar, glowing(row) ? 'fmk-flash' : '']
 }
 </script>
 
@@ -93,7 +122,8 @@ function rowClass(row: FmkRow): string[] {
                 </div>
             </div>
 
-            <ul v-if="rows.length" class="mt-3 flex flex-wrap gap-2" :aria-label="$t('fmk.compare.kindsLabel')">
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <ul v-if="rows.length" class="flex flex-wrap gap-2" :aria-label="$t('fmk.compare.kindsLabel')">
                 <li v-for="c in counts" :key="c.status">
                     <button type="button" :aria-pressed="filter === c.status" @click="filter = filter === c.status ? 'action' : c.status"
                         class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]"
@@ -113,6 +143,21 @@ function rowClass(row: FmkRow): string[] {
                     </button>
                 </li>
             </ul>
+            <div v-if="actionKeys.length > 1" class="flex items-center gap-1" role="group" :aria-label="$t('fmk.compare.jumpLabel')">
+                <span class="mr-1 text-xs tabular-nums text-[#64748b]" aria-live="polite">
+                    {{ cursor >= 0 ? $t('fmk.compare.jumpPosition', { at: cursor + 1, count: actionKeys.length }) : '' }}
+                </span>
+                <button type="button" :aria-label="$t('fmk.compare.jumpPrevious')" :title="$t('fmk.compare.jumpPrevious')" @click="step(-1)"
+                    class="flex size-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#0f4c75] transition-colors hover:border-[#0f4c75] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                    <Icon name="ph:caret-up" class="size-4" aria-hidden="true" />
+                </button>
+                <button type="button" @click="step(1)"
+                    class="inline-flex h-8 items-center gap-1 rounded-lg border border-[#e2e8f0] bg-white px-2.5 text-xs font-semibold text-[#0f4c75] transition-colors hover:border-[#0f4c75] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                    {{ $t('fmk.compare.jumpNext') }}
+                    <Icon name="ph:caret-down" class="size-4" aria-hidden="true" />
+                </button>
+            </div>
+            </div>
         </div>
 
         <!-- Nothing left to do: say so warmly, and offer the full list. -->
@@ -132,7 +177,8 @@ function rowClass(row: FmkRow): string[] {
 
         <!-- Phones: one card per row, FMK first, each side labelled. -->
         <TransitionGroup v-if="visibleRows.length" tag="ul" name="fmk-row" class="divide-y divide-[#e2e8f0] md:hidden">
-            <li v-for="row in visibleRows" :key="row.key" class="space-y-3 px-4 py-4" :class="rowClass(row)">
+            <li v-for="row in visibleRows" :key="row.key" :data-fmk-row="row.key" tabindex="-1"
+                class="space-y-3 px-4 py-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#2dbab2]" :class="rowClass(row)">
                 <span class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold" :class="statusMeta[row.status].chip">
                     <Icon :name="statusMeta[row.status].icon" class="size-3.5" aria-hidden="true" />
                     {{ $t(`fmk.compare.status.${row.status}`) }}
@@ -145,7 +191,7 @@ function rowClass(row: FmkRow): string[] {
                     <template v-if="row.fmk">
                         <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                         <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal')" />
+                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" />
                     </template>
                     <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                         <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
@@ -154,7 +200,7 @@ function rowClass(row: FmkRow): string[] {
                 </div>
                 <div class="rounded-lg bg-[#f8fafc] px-3 py-2">
                     <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.compare.localColumn') }}</p>
-                    <ModulesUserFmkLocalSide :row="row" @openLocal="emit('openLocal')" />
+                    <ModulesUserFmkLocalSide :row="row" @openLocal="emit('openLocal', $event)" />
                 </div>
             </li>
         </TransitionGroup>
@@ -180,27 +226,28 @@ function rowClass(row: FmkRow): string[] {
                     </tr>
                 </thead>
                 <TransitionGroup tag="tbody" name="fmk-row" class="divide-y divide-[#e2e8f0]">
-                    <tr v-for="row in visibleRows" :key="row.key" class="align-top">
+                    <tr v-for="row in visibleRows" :key="row.key" :data-fmk-row="row.key" tabindex="-1"
+                        class="align-top focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#2dbab2]">
                         <td class="px-4 py-4 sm:px-6" :class="rowClass(row)">
                             <template v-if="row.fmk">
                                 <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                                 <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal')" />
+                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" />
                             </template>
                             <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                                 <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
                                 {{ $t('fmk.compare.notInFmk') }}
                             </p>
                         </td>
-                        <td class="px-2 py-4 text-center" :class="row.key === flashKey ? 'fmk-flash' : ''">
+                        <td class="px-2 py-4 text-center" :class="glowing(row) ? 'fmk-flash' : ''">
                             <span class="inline-flex flex-col items-center gap-1 rounded-xl border px-2 py-1.5 text-[11px] font-semibold leading-tight"
                                 :class="statusMeta[row.status].chip">
                                 <Icon :name="statusMeta[row.status].icon" class="size-4" aria-hidden="true" />
                                 {{ $t(`fmk.compare.status.${row.status}`) }}
                             </span>
                         </td>
-                        <td class="px-4 py-4 sm:px-6" :class="row.key === flashKey ? 'fmk-flash' : ''">
-                            <ModulesUserFmkLocalSide :row="row" @openLocal="emit('openLocal')" />
+                        <td class="px-4 py-4 sm:px-6" :class="glowing(row) ? 'fmk-flash' : ''">
+                            <ModulesUserFmkLocalSide :row="row" @openLocal="emit('openLocal', $event)" />
                         </td>
                     </tr>
                 </TransitionGroup>

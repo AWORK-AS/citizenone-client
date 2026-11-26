@@ -81,3 +81,51 @@ export function fmkDifferences(row: {
 
     return list
 }
+
+export type FmkHistoryField = 'drug' | 'strength' | 'form' | 'dosage' | 'paused'
+
+export interface FmkHistoryChange {
+    field: FmkHistoryField
+    before: string | null
+    after: string | null
+}
+
+interface HistoryPeriod {
+    version: string | null
+    drug_name: string | null
+    form: string | null
+    strength: string | null
+    dosage_free_text: string | null
+    dosage_type: string | null
+    dosage_by_local_schema: boolean
+    paused: { from: string | null, to: string | null } | null
+}
+
+/**
+ * What changed in FMK between the version CitizenOne is based on and the
+ * newest version. Falls back to the version before the newest when ours is
+ * not in the history. Dates in a pause stay YYYY-MM-DD for the UI to format.
+ */
+export function fmkHistoryChanges(periods: HistoryPeriod[], fromVersion: string | null): { from: string | null, to: string | null, changes: FmkHistoryChange[] } {
+    if (periods.length === 0) return { from: null, to: null, changes: [] }
+    const latest = periods[periods.length - 1]
+    const base = periods.find(p => p.version === fromVersion) ?? periods[periods.length - 2] ?? null
+    if (!base || base === latest) return { from: base?.version ?? null, to: latest.version, changes: [] }
+
+    const dosage = (p: HistoryPeriod) => (p.dosage_by_local_schema ? 'local-schema' : p.dosage_free_text ?? p.dosage_type ?? null)
+    const pause = (p: HistoryPeriod) => (p.paused ? `${p.paused.from ?? ''}|${p.paused.to ?? ''}` : null)
+    const same = (a: string | null, b: string | null) => (a ?? '').trim().toLowerCase() === (b ?? '').trim().toLowerCase()
+
+    const fields: [FmkHistoryField, (p: HistoryPeriod) => string | null][] = [
+        ['drug', p => p.drug_name],
+        ['strength', p => p.strength],
+        ['form', p => p.form],
+        ['dosage', dosage],
+        ['paused', pause],
+    ]
+    const changes = fields
+        .filter(([, read]) => !same(read(base), read(latest)))
+        .map(([field, read]) => ({ field, before: read(base), after: read(latest) }))
+
+    return { from: base.version, to: latest.version, changes }
+}

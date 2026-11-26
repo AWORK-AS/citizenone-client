@@ -1395,6 +1395,7 @@ onMounted(() => {
     fetchCitizenMedicines()
     fetchMedicineFormConfig()
     openRenewalFromQuery()
+    openEditFromQuery()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
 
@@ -1414,6 +1415,23 @@ async function openRenewalFromQuery() {
         }
     } catch {
         // Not allowed or gone: the page works as usual.
+    }
+}
+
+// "Ret i CitizenOne" / "Udfyld doseringsplan" on the FMK screen lands here with ?edit=<uuid>: that
+// medicine's edit dialog opens straight away (also for drafts, which the list may not show).
+async function openEditFromQuery() {
+    const medicineUuid = router.currentRoute.value.query?.edit
+    if (typeof medicineUuid !== 'string' || !medicineUuid) return
+    try {
+        const response = await medicineJournalService.getMedicine(medicineUuid)
+        const medicine = response?.data ?? response
+        if (medicine?.uuid) editMedicine(medicine)
+    } catch {
+        // Not allowed or gone: the page works as usual.
+    } finally {
+        const { edit: _edit, ...query } = router.currentRoute.value.query
+        router.replace({ query })
     }
 }
 

@@ -23637,7 +23637,8 @@
             "fetching": "Hämtar från FMK…",
             "sampleData": "Exempeldata",
             "testEnvironment": "Testmiljö ({environment})",
-            "about": "Om Fælles Medicinkort"
+            "about": "Om Fælles Medicinkort",
+            "fmkOnlineHint": "Ändringar i själva FMK, t.ex. paus eller ny dosering, görs i FMK-online."
         },
         "error": {
             "title": "FMK kunde inte nås",
@@ -23732,7 +23733,23 @@
             "changedBy": "ändrad av {by}",
             "takingOver": "Tar över …",
             "changedTitle": "Ändrat i FMK sedan senaste genomgång",
-            "editLocal": "Ändra i CitizenOne"
+            "editLocal": "Ändra i CitizenOne",
+            "historyShow": "Se vad som har ändrats",
+            "historyLoading": "Hämtar historik från FMK …",
+            "historyTitle": "Ändrat från version {from} till {to}",
+            "historyNow": "nu:",
+            "historyNoChanges": "Läkemedel, styrka, form, dosering och paus är desamma. Se alla uppgifter från FMK för resten.",
+            "historyFields": {
+                "drug": "Läkemedel",
+                "strength": "Styrka",
+                "form": "Form",
+                "dosage": "Dosering",
+                "paused": "Paus"
+            },
+            "jumpLabel": "Gå mellan rader som kräver åtgärd",
+            "jumpPrevious": "Föregående",
+            "jumpNext": "Nästa",
+            "jumpPosition": "{at} av {count}"
         },
         "details": {
             "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."

@@ -23722,7 +23722,8 @@
             "fetching": "Fetching from FMK…",
             "sampleData": "Sample data",
             "testEnvironment": "Test environment ({environment})",
-            "about": "About the Shared Medication Record"
+            "about": "About the Shared Medication Record",
+            "fmkOnlineHint": "Changes to FMK itself, e.g. a pause or new dosage, are made in FMK-online."
         },
         "error": {
             "title": "FMK could not be reached",
@@ -23817,7 +23818,23 @@
             "changedBy": "changed by {by}",
             "takingOver": "Taking over …",
             "changedTitle": "Changed in FMK since last review",
-            "editLocal": "Edit in CitizenOne"
+            "editLocal": "Edit in CitizenOne",
+            "historyShow": "See what changed",
+            "historyLoading": "Fetching history from FMK …",
+            "historyTitle": "Changed from version {from} to {to}",
+            "historyNow": "now:",
+            "historyNoChanges": "Drug, strength, form, dosage and pause are the same. See all information from FMK for the rest.",
+            "historyFields": {
+                "drug": "Drug",
+                "strength": "Strength",
+                "form": "Form",
+                "dosage": "Dosage",
+                "paused": "Pause"
+            },
+            "jumpLabel": "Move between lines that need action",
+            "jumpPrevious": "Previous",
+            "jumpNext": "Next",
+            "jumpPosition": "{at} of {count}"
         },
         "details": {
             "intro": "All information FMK sent about the drug medication, with FMK's own field names."

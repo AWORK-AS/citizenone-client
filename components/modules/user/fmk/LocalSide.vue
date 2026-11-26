@@ -11,7 +11,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * the way on for a draft taken over from FMK.
  */
 const props = defineProps<{ row: FmkRow }>()
-const emit = defineEmits<{ openLocal: [] }>()
+const emit = defineEmits<{ openLocal: [uuid: string] }>()
 
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -61,7 +61,7 @@ function shown(field: string, value: string | null): string {
             </dl>
         </div>
 
-        <button v-if="local.is_draft" type="button" @click="emit('openLocal')"
+        <button v-if="local.is_draft" type="button" @click="emit('openLocal', local.uuid)"
             class="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-[#fed7aa] bg-[#fff7ed] px-3 py-1.5 text-xs font-semibold text-[#c2410c] transition-colors hover:border-[#c2410c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
             <Icon name="ph:pencil-simple-line" class="size-4" aria-hidden="true" />
             {{ $t('fmk.compare.fillDosage') }}

@@ -82,3 +82,27 @@ describe('fmkDifferences', () => {
     test('decimal comma and point are the same strength', () => assert.deepEqual(fmkDifferences({ fmk: { ...fmk, strength: '2,5 mg' }, local: { ...local, strength: '2.5' } }), []))
     test('a row with only one side has no field differences', () => assert.deepEqual(fmkDifferences({ fmk, local: null }), []))
 })
+
+const { fmkHistoryChanges } = await import('../../utils/fmk.ts')
+
+describe('fmkHistoryChanges', () => {
+    const period = (version, over = {}) => ({ version, drug_name: 'Ibumetin', form: 'tabletter', strength: '400 mg', dosage_free_text: '1 tablet 2 gange dagligt', dosage_type: 'Fast', dosage_by_local_schema: false, paused: null, ...over })
+
+    test('dosage and pause changed since our version', () => {
+        const result = fmkHistoryChanges([period('1', { strength: '200 mg' }), period('2'), period('3', { dosage_free_text: '1 tablet 3 gange dagligt', paused: { from: '2026-11-24', to: '2026-12-01' } })], '2')
+        assert.deepEqual(result, {
+            from: '2', to: '3',
+            changes: [
+                { field: 'dosage', before: '1 tablet 2 gange dagligt', after: '1 tablet 3 gange dagligt' },
+                { field: 'paused', before: null, after: '2026-11-24|2026-12-01' },
+            ],
+        })
+    })
+    test('from an older version every change since is included', () => {
+        const result = fmkHistoryChanges([period('1', { strength: '200 mg' }), period('2'), period('3')], '1')
+        assert.deepEqual(result.changes, [{ field: 'strength', before: '200 mg', after: '400 mg' }])
+    })
+    test('unknown version compares the last two', () => assert.equal(fmkHistoryChanges([period('4'), period('5', { form: 'brusetabletter' })], '2').from, '4'))
+    test('only one version: nothing to compare', () => assert.deepEqual(fmkHistoryChanges([period('1')], '1').changes, []))
+    test('case and spacing are not changes', () => assert.deepEqual(fmkHistoryChanges([period('1'), period('2', { drug_name: ' ibumetin ' })], '1').changes, []))
+})

@@ -76,3 +76,17 @@ export interface FmkMedicineCardResponse {
     raw: Record<string, any>
     rows: FmkRow[]
 }
+
+/** One version of a drug medication in FMK (GET .../fmk/drug-medications/{id}/history). */
+export interface FmkHistoryPeriod {
+    version: string | null
+    from: string | null
+    to: string | null
+    drug_name: string | null
+    form: string | null
+    strength: string | null
+    dosage_free_text: string | null
+    dosage_type: string | null
+    dosage_by_local_schema: boolean
+    paused: { from: string | null, to: string | null } | null
+}

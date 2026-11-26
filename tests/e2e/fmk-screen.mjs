@@ -278,6 +278,41 @@ if (await takeOverButton.count()) {
 } else {
   console.log('  skip no row only in FMK')
 }
+
+console.log('10. What changed, jumping between rows, straight to the medicine')
+const historyButton = table.getByRole('button', { name: /Se hvad der er ændret|See what changed/ }).first()
+if (await historyButton.count()) {
+  const fetched = page.waitForResponse((r) => r.url().includes('/history'))
+  await historyButton.click()
+  check('history fetched when asked', (await fetched).status() === 200)
+  const title = table.getByText(/Ændret fra version|Changed from version/).first()
+  await title.waitFor()
+  check('changes listed', (await title.locator('xpath=..').innerText()).split('\n').length > 2)
+} else {
+  console.log('  skip no row changed in FMK')
+}
+const nextButton = page.getByRole('button', { name: /^(Næste|Next)$/ })
+if (await nextButton.count()) {
+  await nextButton.click()
+  await page.waitForTimeout(600)
+  check('"Næste" focuses a row that needs action', Boolean(await page.evaluate(() => document.activeElement?.dataset?.fmkRow)))
+} else {
+  console.log('  skip fewer than two rows need action')
+}
+const editButton = table.getByRole('button', { name: /Ret i CitizenOne|Edit in CitizenOne/ }).first()
+if (await editButton.count()) {
+  await editButton.click()
+  await page.waitForURL(/medicine-journals/)
+  await page.locator('[role=dialog][data-headlessui-state=open] [id^=headlessui-dialog-title]').first().waitFor()
+  check('"Ret i CitizenOne" opens that medicine for editing', true)
+  check('edit link not left in the URL', !page.url().includes('edit='), page.url())
+  await page.keyboard.press('Escape')
+  await go(`/citizens/${CITIZEN}/fmk`)
+  await table.waitFor()
+} else {
+  console.log('  skip no medicine to edit')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

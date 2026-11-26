@@ -43,6 +43,11 @@ function flash(key: string) {
 onBeforeUnmount(() => clearTimeout(flashTimer))
 const showIntro = shallowRef(false)
 
+/** "Ret i CitizenOne" / "Udfyld doseringsplan": straight to that medicine's edit dialog. */
+function openLocal(medicineUuid: string | null) {
+    navigateTo({ path: `/citizens/${citizenUuid}/medicine-journals`, query: medicineUuid ? { edit: medicineUuid } : {} })
+}
+
 /** Takes a drug medication over from FMK, as a draft to finish with a dosage plan. */
 async function takeOver(identifier: string) {
     busyKey.value = `fmk-${identifier}`
@@ -205,8 +210,9 @@ watch(() => route.query.fmk_login, (status) => {
                                 <Icon :name="pending ? 'ph:spinner' : 'ph:arrows-clockwise'" :class="['size-4', pending && 'motion-safe:animate-spin']" aria-hidden="true" />
                                 {{ pending ? $t('fmk.header.fetching') : $t('fmk.header.refresh') }}
                             </FormButton>
-                            <a href="https://fmk-online.dk/fmk" target="_blank" rel="noopener"
-                                class="inline-flex items-center gap-x-2 rounded-md border-1.5 border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 hover:border-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                            <!-- Changes to FMK itself are made in FMK-online, so it stays a quiet link. -->
+                            <a href="https://fmk-online.dk/fmk" target="_blank" rel="noopener" :title="$t('fmk.header.fmkOnlineHint')"
+                                class="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-sm font-semibold text-[#0f4c75] hover:text-[#1b6d8a] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
                                 <Icon name="ph:arrow-square-out" class="size-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </a>
@@ -265,7 +271,7 @@ watch(() => route.query.fmk_login, (status) => {
                 <template v-if="card">
                     <ModulesUserFmkCardStatus :card="card.card" />
                     <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
-                        @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="navigateTo(`/citizens/${citizenUuid}/medicine-journals`)" />
+                        @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
                 </template>
             </div>
 
