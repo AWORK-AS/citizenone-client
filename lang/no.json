@@ -23803,6 +23803,20 @@
                 "consent": "Privatmerkede legemidler vises fordi du har oppgitt brukerens samtykke. Det er registrert.",
                 "emergency": "Privatmerkede legemidler vises fordi du har oppgitt nødsituasjon (værdispring). Det er registrert."
             }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "ingen sluttdato",
+            "dosagePeriod": "Doseringsperiode",
+            "noDosage": "Periode uten dosering",
+            "showFull": "Vis hele doseringen",
+            "hideFull": "Skjul hele doseringen",
+            "notStarted": "Ingen aktuell dosering. Doseringen starter {date}.",
+            "ended": "Ingen aktuell dosering. Doseringen sluttet {date}.",
+            "laterPeriods": "{count} senere doseringsperiode | {count} senere doseringsperioder",
+            "vkaRepeats": "Ukeskjemaet gjentas",
+            "vkaNotSpecifiedAfter": "Merk: Dosering etter dette er ikke angitt",
+            "vkaEndPassed": "Sluttdatoen for doseringen er passert"
         }
     },
     "recordsExport": {

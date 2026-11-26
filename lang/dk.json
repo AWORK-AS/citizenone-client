@@ -23888,6 +23888,20 @@
                 "consent": "Privatmarkeret medicin vises, fordi du har angivet borgerens samtykke. Det er registreret.",
                 "emergency": "Privatmarkeret medicin vises, fordi du har angivet værdispring. Det er registreret."
             }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "ingen slutdato",
+            "dosagePeriod": "Doseringsperiode",
+            "noDosage": "Periode uden dosering",
+            "showFull": "Vis hele doseringen",
+            "hideFull": "Skjul hele doseringen",
+            "notStarted": "Ingen aktuel dosering. Doseringen starter {date}.",
+            "ended": "Ingen aktuel dosering. Doseringen sluttede {date}.",
+            "laterPeriods": "{count} senere doseringsperiode | {count} senere doseringsperioder",
+            "vkaRepeats": "Ugeskemaet gentages",
+            "vkaNotSpecifiedAfter": "Bemærk: Dosering herefter er ikke angivet",
+            "vkaEndPassed": "Doseringsslutdato er passeret"
         }
     },
     "recordsExport": {

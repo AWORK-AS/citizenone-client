@@ -23888,6 +23888,20 @@
                 "consent": "Privacy-marked medicine is shown because you stated the citizen's consent. This has been recorded.",
                 "emergency": "Privacy-marked medicine is shown because you stated an emergency (værdispring). This has been recorded."
             }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "no end date",
+            "dosagePeriod": "Dosage period",
+            "noDosage": "Period without dosage",
+            "showFull": "Show the full dosage",
+            "hideFull": "Hide the full dosage",
+            "notStarted": "No current dosage. The dosage starts {date}.",
+            "ended": "No current dosage. The dosage ended {date}.",
+            "laterPeriods": "{count} later dosage period | {count} later dosage periods",
+            "vkaRepeats": "The week schedule repeats",
+            "vkaNotSpecifiedAfter": "Note: Dosage after this is not given",
+            "vkaEndPassed": "Dosage end date has passed"
         }
     },
     "recordsExport": {

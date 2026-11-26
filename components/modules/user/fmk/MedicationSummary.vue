@@ -21,12 +21,6 @@ const today = fmkToday()
 
 const title = computed(() => [m.value.drug_name, m.value.strength, m.value.form].filter(Boolean).join(' '))
 
-const dosage = computed(() => {
-    if (m.value.dosage_by_local_schema) return t('fmk.medication.dosageWrittenInstructions')
-    if (m.value.dosage_free_text) return m.value.dosage_free_text
-    if (m.value.dosage_structures) return t('fmk.medication.dosageStructured')
-    return t('fmk.medication.noCurrentDosage')
-})
 
 const period = computed(() => {
     const start = m.value.treatment_start ? formatDateToReadable(m.value.treatment_start) : t('fmk.medication.startedPreviously')
@@ -92,8 +86,7 @@ const badgeClass = {
         <p class="font-semibold text-[#1a2332]" :class="m.withdrawn ? 'line-through decoration-1' : ''">
             {{ title || $t('fmk.medication.unnamed') }}
         </p>
-        <p class="mt-0.5 text-sm text-[#1a2332]"
-            :class="m.dosage_by_local_schema ? 'italic' : ''">{{ dosage }}</p>
+        <ModulesUserFmkDosageView :medication="m" />
         <p v-if="m.indication" class="text-sm text-[#64748b]">{{ m.indication }}</p>
         <p class="text-xs text-[#64748b]">{{ period }}</p>
 

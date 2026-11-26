@@ -125,3 +125,41 @@ describe('fmkRelation', () => {
         assert.deepEqual(fmkOrganisation({ Name: 'X', Identifier: '123' }), { name: 'X', identifier: '123', phone: null })
     })
 })
+
+const { fmkDosageNow, fmkVkaNotes } = await import('../../utils/fmk.ts')
+
+describe('fmkDosageNow', () => {
+    const p = (start, end, extra = {}) => ({ start, end, undetermined: end === null, iteration_days: 1, empty: false, ...extra })
+    const taper = [p('2026-11-01', '2026-11-30'), p('2026-12-01', '2026-12-14')]
+
+    test('the period that applies today, with the later ones findable', () => {
+        const r = fmkDosageNow(taper, '2026-11-26')
+        assert.equal(r.state, 'current')
+        assert.equal(r.current.start, '2026-11-01')
+        assert.deepEqual(r.later.map(x => x.start), ['2026-12-01'])
+    })
+    test('no current dosage yet: future, with its start', () => {
+        const r = fmkDosageNow(taper, '2026-10-15')
+        assert.equal(r.state, 'future')
+        assert.equal(r.nextStart, '2026-11-01')
+    })
+    test('no current dosage any more: ended, with its end', () => {
+        const r = fmkDosageNow(taper, '2026-12-20')
+        assert.equal(r.state, 'ended')
+        assert.equal(r.lastEnd, '2026-12-14')
+    })
+    test('an undetermined period applies from its start on', () => assert.equal(fmkDosageNow([p('2026-01-01', null)], '2030-01-01').state, 'current'))
+    test('a period without dosage can be the current one', () => assert.equal(fmkDosageNow([p('2026-11-01', '2026-12-01', { empty: true })], '2026-11-26').current.empty, true))
+    test('no periods at all', () => assert.equal(fmkDosageNow([], '2026-11-26').state, 'none'))
+})
+
+describe('fmkVkaNotes', () => {
+    const week = { start: '2026-11-02', end: null, undetermined: true, iteration_days: 7, empty: false }
+    const course = { start: '2026-11-20', end: '2026-11-29', undetermined: false, iteration_days: null, empty: false }
+
+    test('a week schedule repeats', () => assert.deepEqual(fmkVkaNotes([week], '2026-11-26', null), { repeats: true, notSpecifiedAfter: false, endPassed: false }))
+    test('not when treatment ends this week', () => assert.equal(fmkVkaNotes([week], '2026-11-26', '2026-11-28').repeats, false))
+    test('a start-up course without a schedule after it says dosage after is not given', () => assert.equal(fmkVkaNotes([course], '2026-11-26', null).notSpecifiedAfter, true))
+    test('a course followed by a repeating schedule does not', () => assert.equal(fmkVkaNotes([course, { ...week, start: '2026-11-30' }], '2026-11-26', null).notSpecifiedAfter, false))
+    test('a passed dosage end date is flagged', () => assert.equal(fmkVkaNotes([course], '2026-12-02', null).endPassed, true))
+})

@@ -23803,6 +23803,20 @@
                 "consent": "Privatmarkerade läkemedel visas eftersom du har angett klientens samtycke. Det har registrerats.",
                 "emergency": "Privatmarkerade läkemedel visas eftersom du har angett nödsituation (værdispring). Det har registrerats."
             }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "inget slutdatum",
+            "dosagePeriod": "Doseringsperiod",
+            "noDosage": "Period utan dosering",
+            "showFull": "Visa hela doseringen",
+            "hideFull": "Dölj hela doseringen",
+            "notStarted": "Ingen aktuell dosering. Doseringen börjar {date}.",
+            "ended": "Ingen aktuell dosering. Doseringen slutade {date}.",
+            "laterPeriods": "{count} senare doseringsperiod | {count} senare doseringsperioder",
+            "vkaRepeats": "Veckoschemat upprepas",
+            "vkaNotSpecifiedAfter": "Obs: Dosering därefter är inte angiven",
+            "vkaEndPassed": "Slutdatum för doseringen har passerat"
         }
     },
     "recordsExport": {

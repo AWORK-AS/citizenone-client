@@ -20,6 +20,12 @@ export interface FmkDrugMedication {
     dosage_free_text: string | null
     dosage_by_local_schema: boolean
     dosage_structures: FmkRaw | null
+    /** FMK's own wording of the whole structured dosage (GK 5). */
+    dosage_text: { short: string | null, long: string | null } | null
+    dosage_unit: string | null
+    dosage_periods: FmkDosagePeriod[]
+    /** Vitamin K antagonist (warfarin, phenprocoumon): GK 5.2.1. */
+    is_vka: boolean
     paused: Record<string, any> | null
     withdrawn: Record<string, any> | null
     follow_up_dates: FmkRaw | null
@@ -91,4 +97,19 @@ export interface FmkHistoryPeriod {
     dosage_type: string | null
     dosage_by_local_schema: boolean
     paused: { from: string | null, to: string | null } | null
+}
+
+/** One dosage period of a structured dosage, in FMK's wording. */
+export interface FmkDosagePeriod {
+    start: string | null
+    end: string | null
+    undetermined: boolean
+    /** Repeats every N days (7 = week schedule); null = not repeated. */
+    iteration_days: number | null
+    /** A period without dosage. */
+    empty: boolean
+    short: string | null
+    long: string | null
+    supplementary: string | null
+    days: { number: number, doses: unknown[] }[]
 }

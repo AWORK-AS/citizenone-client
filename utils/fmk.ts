@@ -160,3 +160,53 @@ export function fmkRelation(relation: any): { admitted: boolean, type: string | 
         organisation: fmkOrganisation(relation?.Organisation),
     }
 }
+
+interface DosagePeriodLike {
+    start: string | null
+    end: string | null
+    undetermined: boolean
+    iteration_days: number | null
+    empty: boolean
+}
+
+function periodIsCurrent(p: DosagePeriodLike, today: string): boolean {
+    return (p.start ?? '') <= today && (p.undetermined || !p.end || p.end >= today)
+}
+
+/**
+ * Which dosage period applies today (GK 5.3), the periods after it that must
+ * be findable (GK 5.4), and, when none applies, whether the dosage is in the
+ * future or has ended (GK 5.8).
+ */
+export function fmkDosageNow<P extends DosagePeriodLike>(periods: P[], today: string): {
+    state: 'current' | 'future' | 'ended' | 'none', current: P | null, later: P[], nextStart: string | null, lastEnd: string | null
+} {
+    const current = periods.find(p => periodIsCurrent(p, today)) ?? null
+    const later = periods.filter(p => (p.start ?? '') > today)
+    const ends = periods.map(p => p.end).filter((e): e is string => Boolean(e)).sort()
+    const state = current ? 'current' : later.length ? 'future' : periods.length ? 'ended' : 'none'
+    return { state, current, later, nextStart: later[0]?.start ?? null, lastEnd: ends[ends.length - 1] ?? null }
+}
+
+/** Monday of the ISO week of a YYYY-MM-DD date, as YYYY-MM-DD. */
+function weekStart(day: string): string {
+    const d = new Date(`${day}T12:00:00`)
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7))
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+/**
+ * GK 5.2.1 for vitamin K antagonists: say that a week schedule repeats (not
+ * when treatment ends this week), say "dosage after this is not given" after
+ * a start-up/adjustment course without a repeating schedule after it, and
+ * flag a dosage end date that has passed.
+ */
+export function fmkVkaNotes(periods: DosagePeriodLike[], today: string, treatmentEnd: string | null): { repeats: boolean, notSpecifiedAfter: boolean, endPassed: boolean } {
+    const { current } = fmkDosageNow(periods, today)
+    const endsThisWeek = Boolean(treatmentEnd) && weekStart(treatmentEnd!) === weekStart(today)
+    const repeats = Boolean(current && current.iteration_days === 7 && !endsThisWeek)
+    const last = periods[periods.length - 1]
+    const notSpecifiedAfter = Boolean(last && !last.undetermined && last.end && !last.iteration_days)
+    const endPassed = Boolean(last && !last.undetermined && last.end && last.end < today)
+    return { repeats, notSpecifiedAfter, endPassed }
+}
