@@ -9958,7 +9958,13 @@
         "scoreToggle": "Vis \"Nåværende nivå\" i journalskjemaet",
         "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det.",
         "wellbeingRulerToggle": "Vis trivselslinjal i @:terms.journalNotes{''}",
-        "wellbeingRulerDescription": "Når den er slått på, kan det gis en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn i saken. Scoren er valgfri og inngår i trivselsutviklingen og i statusrapportens trivselslinjal."
+        "wellbeingRulerDescription": "Når den er slått på, kan det gis en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn i saken. Scoren er valgfri og inngår i trivselsutviklingen og i statusrapportens trivselslinjal.",
+        "notifyColleaguesToggle": "Vis \"Varsle kolleger\" i journalskjemaet",
+        "notifyColleaguesDescription": "Når den er slått av, vises ikke feltet \"Varsle kolleger\" i journalens opprettings- og redigeringsskjemaer.",
+        "visitDateToggle": "Vis \"Besøksdato\" i journalskjemaet",
+        "visitDateDescription": "Når den er slått av, vises ikke besøksdato og tidspunkt fra/til i journalens opprettings- og redigeringsskjemaer. Besøk som allerede er lagret på notater, beholdes.",
+        "careHoursToggle": "Vis \"Innsatstimer\" i journalskjemaet",
+        "careHoursDescription": "Når den er slått av, vises ikke \"Registrer innsatstimer\" på nye notater og \"Innsatstimer på notatet\" på eksisterende notater. Timer som allerede er registrert, beholdes."
     },
     "journalNotes": {
         "removeFilter": "Fjern filter: {name}",
