@@ -76,6 +76,17 @@ const sections = computed<Section[]>(() => {
             </div>
         </section>
 
+        <!-- GK 6: the prescriptions on this drug medication. -->
+        <section v-if="medication.prescription_list?.length" aria-labelledby="fmk-details-prescriptions">
+            <h3 id="fmk-details-prescriptions" class="text-xs font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.details.sections.prescriptions') }}</h3>
+            <div class="mt-2"><ModulesUserFmkPrescriptionList :prescriptions="medication.prescription_list" /></div>
+        </section>
+        <!-- GK 3.16 / 13.3: what was given or dispensed. -->
+        <section v-if="medication.effectuation_list?.length" aria-labelledby="fmk-details-effectuations">
+            <h3 id="fmk-details-effectuations" class="text-xs font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.details.sections.effectuations') }}</h3>
+            <div class="mt-2"><ModulesUserFmkEffectuationList :effectuations="medication.effectuation_list" :more="medication.more_effectuations" /></div>
+        </section>
+
         <!-- GK 3.5: every field FMK returned, for what is not shown above. -->
         <section>
             <button type="button" :aria-expanded="showRaw" @click="showRaw = !showRaw"

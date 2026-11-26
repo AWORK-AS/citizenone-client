@@ -23758,7 +23758,7 @@
             "dosageWrittenInstructions": "Dosage according to written instructions",
             "dosageStructured": "Structured dosage – see details",
             "noCurrentDosage": "No current dosage",
-            "startedPreviously": "Started previously",
+            "startedPreviously": "Start date not given",
             "noEndDate": "no end date",
             "withdrawn": "Withdrawn – not current",
             "expired": "Expired – not current",
@@ -23771,9 +23771,10 @@
             "private": "Marked private",
             "doseDispensed": "Dose-dispensed",
             "prescriptions": "{count} prescription | {count} prescriptions",
-            "effectuations": "{count} dispensing | {count} dispensings",
+            "effectuations": "{count} dispensed/given | {count} dispensed/given",
             "markings": "Markings",
-            "showDetails": "Show all information from FMK"
+            "showDetails": "Show all information from FMK",
+            "openPrescriptions": "{count} open prescription | {count} open prescriptions"
         },
         "compare": {
             "label": "FMK and CitizenOne side by side",
@@ -23850,7 +23851,9 @@
             "sections": {
                 "drug": "Drug",
                 "treatment": "Treatment",
-                "record": "The drug medication"
+                "record": "The drug medication",
+                "prescriptions": "Prescriptions",
+                "effectuations": "Dispensed and given"
             },
             "name": "Name",
             "detailedText": "Drug text",
@@ -23934,6 +23937,42 @@
             "vkaRepeats": "The week schedule repeats",
             "vkaNotSpecifiedAfter": "Note: Dosage after this is not given",
             "vkaEndPassed": "Dosage end date has passed"
+        },
+        "effectuation": {
+            "methods": {
+                "given": "Given",
+                "handedOut": "Handed out",
+                "pharmacy": "Pharmacy dispensing",
+                "doseDispensed": "Dose-dispensed dispensing",
+                "unknown": "Registered"
+            },
+            "asOrdered": "As prescribed",
+            "packages": "{count} package | {count} packages",
+            "more": "There are more dispensings in FMK than shown here."
+        },
+        "prescription": {
+            "valid": "Valid",
+            "package": "Package",
+            "packageNumber": "item no. {number}",
+            "dispensing": "Dispensing",
+            "reiterated": "{number} dispensings at {interval} {unit} intervals",
+            "doseDispensed": "Dose dispensing {start} – {end}",
+            "single": "One dispensing",
+            "dosage": "Dosage",
+            "indication": "Treatment for",
+            "substitution": "Substitution",
+            "noSubstitution": "Must not be substituted (Ej S)",
+            "clause": "Clause",
+            "issuedBy": "Issued by",
+            "latestDispensing": "Latest dispensing",
+            "invalidationReason": "Reason for invalidation",
+            "supplementary": "Supplementary information",
+            "dispensings": "Dispensings on the prescription",
+            "validFrom": "Valid from {date}",
+            "futureBadge": "Prescription valid from {date}",
+            "showLoose": "Show loose prescriptions",
+            "looseTitle": "Loose prescriptions",
+            "looseIntro": "Prescriptions in FMK that do not belong to a drug medication."
         }
     },
     "recordsExport": {

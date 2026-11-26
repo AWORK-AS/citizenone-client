@@ -163,3 +163,11 @@ describe('fmkVkaNotes', () => {
     test('a course followed by a repeating schedule does not', () => assert.equal(fmkVkaNotes([course, { ...week, start: '2026-11-30' }], '2026-11-26', null).notSpecifiedAfter, false))
     test('a passed dosage end date is flagged', () => assert.equal(fmkVkaNotes([course], '2026-12-02', null).endPassed, true))
 })
+
+const { fmkPrescriptionState } = await import('../../utils/fmk.ts')
+
+describe('fmkPrescriptionState', () => {
+    test('partly dispensed can still be dispensed', () => assert.deepEqual(fmkPrescriptionState({ status: 'delvist udleveret', valid_from: '2026-11-01', valid_to: '2027-11-01' }, '2026-11-26'), { open: true, future: false, expired: false }))
+    test('an open prescription valid from a later date is a future one', () => assert.equal(fmkPrescriptionState({ status: 'åben', valid_from: '2026-12-01', valid_to: null }, '2026-11-26').future, true))
+    test('a closed one is never future', () => assert.deepEqual(fmkPrescriptionState({ status: 'afsluttet', valid_from: '2026-12-01', valid_to: '2026-11-01' }, '2026-11-26'), { open: false, future: false, expired: true }))
+})

@@ -40,6 +40,11 @@ export interface FmkDrugMedication {
     is_dose_dispensed: boolean
     effectuations: number
     prescriptions: number
+    /** Prescriptions that can still be dispensed (GK 3.16). */
+    open_prescriptions: number
+    prescription_list: FmkPrescription[]
+    effectuation_list: FmkEffectuation[]
+    more_effectuations: boolean
     created: Record<string, any> | null
     modified: Record<string, any> | null
 }
@@ -76,6 +81,7 @@ export interface FmkCardSummary {
     organisation_relations: Record<string, any>[]
     hidden_by_negative_consent: number
     loose_prescriptions: number
+    loose_prescription_list: FmkPrescription[]
     ordered_prescriptions_exist: boolean
     dose_dispensing: Record<string, any> | null
     /** Who last changed the card (GK 3.5.5-3.5.10). */
@@ -122,4 +128,50 @@ export interface FmkDosagePeriod {
     long: string | null
     supplementary: string | null
     days: { number: number, doses: unknown[] }[]
+}
+
+/** A dispensing or administration registered on FMK (GK 3.16, 6.2, 13.3). */
+export interface FmkEffectuation {
+    identifier: string | null
+    date_time: string | null
+    /** "indgivet", "udleveret", "en- eller flergangs apoteksudlevering", "dosisdispenseret apoteksudlevering" */
+    method: string | null
+    created: Record<string, any> | null
+    reported_by: Record<string, any> | null
+    dose_quantity: string | null
+    dose_unit: string | null
+    package_quantity: number | null
+    package_number: string | null
+    package_size: string | null
+    drug_name: string | null
+    according_to_drug_medication: boolean
+}
+
+/** A prescription with what GK 6 asks to be shown. */
+export interface FmkPrescription {
+    identifier: string | null
+    status: string | null
+    valid_from: string | null
+    valid_to: string | null
+    authorised_at: string | null
+    created: Record<string, any> | null
+    terminated_at: string | null
+    latest_effectuation_at: string | null
+    drug_name: string | null
+    form: string | null
+    strength: string | null
+    package_number: string | null
+    package_size_text: string | null
+    package_quantity: number | null
+    dosage_text: string | null
+    reiteration: { number: number, interval: number, unit: string | null } | null
+    dose_dispensed: { start: string | null, end: string | null } | null
+    substitution_allowed: boolean
+    reimbursement_clause: string | null
+    indication: string | null
+    supplementary: string | null
+    invalidation_reason: string | null
+    deprecated_at: string | null
+    is_private: boolean
+    effectuations: FmkEffectuation[]
 }

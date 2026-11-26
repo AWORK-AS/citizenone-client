@@ -47,6 +47,8 @@ const showIntro = shallowRef(false)
 
 // GK 4.3: privacy-marked medication, only with a stated reason.
 const consentOpen = shallowRef(false)
+// GK 3.1.6 / 6.1: loose prescriptions (not tied to a drug medication).
+const looseOpen = shallowRef(false)
 async function showPrivate(reason: 'consent' | 'emergency') {
     await fetchCard(reason)
     if (!error.value) consentOpen.value = false
@@ -305,11 +307,20 @@ watch(() => route.query.fmk_login, (status) => {
                         <Icon name="ph:eye" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
                         <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
                     </p>
-                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" />
+                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" />
                     <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
                 </template>
             </div>
+
+            <Modal :show="looseOpen" :title="$t('fmk.prescription.looseTitle')" size="xl" @close="looseOpen = false">
+                <template #modal-body>
+                    <p class="mb-4 text-sm text-[#64748b]">{{ $t('fmk.prescription.looseIntro') }}</p>
+                    <div class="max-h-[65vh] overflow-y-auto pr-2">
+                        <ModulesUserFmkPrescriptionList v-if="card" :prescriptions="card.card.loose_prescription_list ?? []" />
+                    </div>
+                </template>
+            </Modal>
 
             <ModulesUserFmkNegativeConsentDialog :show="consentOpen" :pending="pending" @close="consentOpen = false" @confirm="showPrivate" />
 

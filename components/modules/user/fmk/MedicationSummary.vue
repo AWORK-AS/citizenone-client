@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkDrugMedication } from '@/types/fmk'
-import { fmkText, fmkToday } from '@/utils/fmk'
+import { fmkPrescriptionState, fmkText, fmkToday } from '@/utils/fmk'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -63,11 +63,17 @@ const badges = computed<Badge[]>(() => {
     if (med.is_dose_dispensed) {
         list.push({ key: 'dose-dispensed', tone: 'info', text: t('fmk.medication.doseDispensed') })
     }
-    if (med.prescriptions > 0) {
-        list.push({ key: 'prescriptions', tone: 'neutral', text: t('fmk.medication.prescriptions', { count: med.prescriptions }) })
+    // GK 3.16: open prescriptions that can still be dispensed; GK 6.4: future ones stand out.
+    const future = (med.prescription_list ?? []).filter(p => fmkPrescriptionState(p, today).future)
+    if (future.length) {
+        const first = future.map(p => p.valid_from!).sort()[0]
+        list.push({ key: 'future-prescription', tone: 'warning', text: t('fmk.prescription.futureBadge', { date: formatDateToReadable(first) }) })
+    }
+    if ((med.open_prescriptions ?? 0) > 0) {
+        list.push({ key: 'prescriptions', tone: 'neutral', text: t('fmk.medication.openPrescriptions', { count: med.open_prescriptions }, med.open_prescriptions) })
     }
     if (med.effectuations > 0) {
-        list.push({ key: 'effectuations', tone: 'neutral', text: t('fmk.medication.effectuations', { count: med.effectuations }) })
+        list.push({ key: 'effectuations', tone: 'neutral', text: t('fmk.medication.effectuations', { count: med.effectuations }, med.effectuations) })
     }
 
     return list

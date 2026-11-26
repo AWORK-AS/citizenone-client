@@ -23673,7 +23673,7 @@
             "dosageWrittenInstructions": "Dosering enligt skriftlig anvisning",
             "dosageStructured": "Strukturerad dosering – se detaljer",
             "noCurrentDosage": "Ingen aktuell dosering",
-            "startedPreviously": "Påbörjad tidigare",
+            "startedPreviously": "Startdatum inte angivet",
             "noEndDate": "inget slutdatum",
             "withdrawn": "Utsatt – inte aktuell",
             "expired": "Utgånget – inte aktuell",
@@ -23686,9 +23686,10 @@
             "private": "Privatmarkerad",
             "doseDispensed": "Dosdispenserad",
             "prescriptions": "{count} recept | {count} recept",
-            "effectuations": "{count} utlämning | {count} utlämningar",
+            "effectuations": "{count} utlämnat/givet | {count} utlämnat/givet",
             "markings": "Markeringar",
-            "showDetails": "Visa alla uppgifter från FMK"
+            "showDetails": "Visa alla uppgifter från FMK",
+            "openPrescriptions": "{count} öppet recept | {count} öppna recept"
         },
         "compare": {
             "label": "FMK och CitizenOne sida vid sida",
@@ -23765,7 +23766,9 @@
             "sections": {
                 "drug": "Läkemedel",
                 "treatment": "Behandling",
-                "record": "Ordinationen"
+                "record": "Ordinationen",
+                "prescriptions": "Recept",
+                "effectuations": "Utlämnat och givet"
             },
             "name": "Namn",
             "detailedText": "Läkemedelstext",
@@ -23849,6 +23852,42 @@
             "vkaRepeats": "Veckoschemat upprepas",
             "vkaNotSpecifiedAfter": "Obs: Dosering därefter är inte angiven",
             "vkaEndPassed": "Slutdatum för doseringen har passerat"
+        },
+        "effectuation": {
+            "methods": {
+                "given": "Givet",
+                "handedOut": "Utlämnat",
+                "pharmacy": "Apoteksuttag",
+                "doseDispensed": "Dosdispenserat uttag",
+                "unknown": "Registrerat"
+            },
+            "asOrdered": "Enligt ordination",
+            "packages": "{count} förpackning | {count} förpackningar",
+            "more": "Det finns fler uttag i FMK än vad som visas här."
+        },
+        "prescription": {
+            "valid": "Giltigt",
+            "package": "Förpackning",
+            "packageNumber": "varunr. {number}",
+            "dispensing": "Uttag",
+            "reiterated": "{number} uttag med {interval} {unit} intervall",
+            "doseDispensed": "Dosdispensering {start} – {end}",
+            "single": "Ett uttag",
+            "dosage": "Dosering",
+            "indication": "Behandling mot",
+            "substitution": "Utbyte",
+            "noSubstitution": "Får inte bytas ut (Ej S)",
+            "clause": "Klausul",
+            "issuedBy": "Utfärdat av",
+            "latestDispensing": "Senaste uttag",
+            "invalidationReason": "Orsak till ogiltigförklaring",
+            "supplementary": "Kompletterande uppgifter",
+            "dispensings": "Uttag på receptet",
+            "validFrom": "Giltigt från {date}",
+            "futureBadge": "Recept giltigt från {date}",
+            "showLoose": "Visa lösa recept",
+            "looseTitle": "Lösa recept",
+            "looseIntro": "Recept i FMK som inte hör till en läkemedelsordination."
         }
     },
     "recordsExport": {

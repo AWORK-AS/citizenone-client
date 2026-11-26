@@ -10,13 +10,13 @@ import { useFmkModifier } from '@/composables/useFmkModifier'
  * 3.17, 4.1, 7.1). Each notice says what it means and who set it.
  */
 const props = defineProps<{ card: FmkCardSummary }>()
-const emit = defineEmits<{ showPrivate: [] }>()
+const emit = defineEmits<{ showPrivate: [], showLoose: [] }>()
 
 const { t } = useI18n()
 const { by, organisationLine } = useFmkModifier()
 
 type Tone = 'danger' | 'warning' | 'info'
-interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string }
+interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string, event?: 'showPrivate' | 'showLoose' }
 
 const notices = computed<Notice[]>(() => {
     const c = props.card
@@ -32,10 +32,10 @@ const notices = computed<Notice[]>(() => {
         list.push({ key: 'never-reviewed', tone: 'warning', icon: 'ph:warning', title: t('fmk.status.neverReviewedTitle'), text: t('fmk.status.neverReviewedText') })
     }
     if (c.hidden_by_negative_consent > 0) {
-        list.push({ key: 'private', tone: 'warning', icon: 'ph:eye-slash', title: t('fmk.status.privateTitle', { count: c.hidden_by_negative_consent }, c.hidden_by_negative_consent), text: t('fmk.status.privateText'), action: t('fmk.consent.open') })
+        list.push({ key: 'private', tone: 'warning', icon: 'ph:eye-slash', title: t('fmk.status.privateTitle', { count: c.hidden_by_negative_consent }, c.hidden_by_negative_consent), text: t('fmk.status.privateText'), action: t('fmk.consent.open'), event: 'showPrivate' })
     }
     if (c.loose_prescriptions > 0) {
-        list.push({ key: 'loose', tone: 'warning', icon: 'ph:receipt', title: t('fmk.status.loosePrescriptions', { count: c.loose_prescriptions }) })
+        list.push({ key: 'loose', tone: 'warning', icon: 'ph:receipt', title: t('fmk.status.loosePrescriptions', { count: c.loose_prescriptions }, c.loose_prescriptions), action: c.loose_prescription_list?.length ? t('fmk.prescription.showLoose') : undefined, event: 'showLoose' })
     }
     if (c.ordered_prescriptions_exist) {
         list.push({ key: 'ordered', tone: 'info', icon: 'ph:hourglass-medium', title: t('fmk.status.orderedPrescriptions') })
@@ -95,7 +95,7 @@ const iconClass: Record<Tone, string> = {
                 <p class="min-w-0 text-sm">
                     <span class="font-semibold">{{ notice.title }}</span>
                     <span v-if="notice.text" class="block opacity-90 lg:ml-1.5 lg:inline">{{ notice.text }}</span>
-                    <button v-if="notice.action" type="button" @click="emit('showPrivate')"
+                    <button v-if="notice.action" type="button" @click="notice.event === 'showLoose' ? emit('showLoose') : emit('showPrivate')"
                         class="mt-1.5 inline-flex items-center gap-1.5 rounded-md border border-current/30 bg-white px-2.5 py-1 text-xs font-semibold hover:bg-[#fff7ed] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] lg:ml-2 lg:mt-0">
                         <Icon name="ph:eye" class="size-3.5" aria-hidden="true" />
                         {{ notice.action }}

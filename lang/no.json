@@ -23673,7 +23673,7 @@
             "dosageWrittenInstructions": "Dosering etter skriftlig anvisning",
             "dosageStructured": "Strukturert dosering – se detaljer",
             "noCurrentDosage": "Ingen aktuell dosering",
-            "startedPreviously": "Startet tidligere",
+            "startedPreviously": "Startdato ikke angitt",
             "noEndDate": "ingen sluttdato",
             "withdrawn": "Seponert – ikke aktuell",
             "expired": "Utløpt – ikke aktuell",
@@ -23686,9 +23686,10 @@
             "private": "Privatmerket",
             "doseDispensed": "Multidose",
             "prescriptions": "{count} resept | {count} resepter",
-            "effectuations": "{count} utlevering | {count} utleveringer",
+            "effectuations": "{count} utlevert/gitt | {count} utlevert/gitt",
             "markings": "Markeringer",
-            "showDetails": "Vis alle opplysninger fra FMK"
+            "showDetails": "Vis alle opplysninger fra FMK",
+            "openPrescriptions": "{count} åpen resept | {count} åpne resepter"
         },
         "compare": {
             "label": "FMK og CitizenOne side om side",
@@ -23765,7 +23766,9 @@
             "sections": {
                 "drug": "Legemiddel",
                 "treatment": "Behandling",
-                "record": "Ordinasjonen"
+                "record": "Ordinasjonen",
+                "prescriptions": "Resepter",
+                "effectuations": "Utlevert og gitt"
             },
             "name": "Navn",
             "detailedText": "Legemiddeltekst",
@@ -23849,6 +23852,42 @@
             "vkaRepeats": "Ukeskjemaet gjentas",
             "vkaNotSpecifiedAfter": "Merk: Dosering etter dette er ikke angitt",
             "vkaEndPassed": "Sluttdatoen for doseringen er passert"
+        },
+        "effectuation": {
+            "methods": {
+                "given": "Gitt",
+                "handedOut": "Utlevert",
+                "pharmacy": "Apotekutlevering",
+                "doseDispensed": "Dosedispensert utlevering",
+                "unknown": "Registrert"
+            },
+            "asOrdered": "Som forskrevet",
+            "packages": "{count} pakning | {count} pakninger",
+            "more": "Det er flere utleveringer i FMK enn det som vises her."
+        },
+        "prescription": {
+            "valid": "Gyldig",
+            "package": "Pakning",
+            "packageNumber": "varenr. {number}",
+            "dispensing": "Utlevering",
+            "reiterated": "{number} utleveringer med {interval} {unit} intervall",
+            "doseDispensed": "Dosedispensering {start} – {end}",
+            "single": "Én utlevering",
+            "dosage": "Dosering",
+            "indication": "Behandling mot",
+            "substitution": "Bytte",
+            "noSubstitution": "Må ikke byttes (Ej S)",
+            "clause": "Klausul",
+            "issuedBy": "Utstedt av",
+            "latestDispensing": "Siste utlevering",
+            "invalidationReason": "Årsak til ugyldiggjøring",
+            "supplementary": "Tilleggsopplysninger",
+            "dispensings": "Utleveringer på resepten",
+            "validFrom": "Gyldig fra {date}",
+            "futureBadge": "Resept gyldig fra {date}",
+            "showLoose": "Vis løse resepter",
+            "looseTitle": "Løse resepter",
+            "looseIntro": "Resepter i FMK som ikke hører til en legemiddelordinasjon."
         }
     },
     "recordsExport": {

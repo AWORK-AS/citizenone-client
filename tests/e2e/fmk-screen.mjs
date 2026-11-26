@@ -344,6 +344,36 @@ if (await privateButton.count()) {
   console.log('  skip no privacy-marked medicine on this card')
 }
 
+console.log('12. Prescriptions and dispensings (GK 6, 3.16)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const ibuRow = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first()
+if (await ibuRow.count()) {
+  check('open prescriptions counted on the row', /åben recept|open prescription/.test(await ibuRow.innerText()))
+  await ibuRow.getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).click()
+  const dlg = page.getByRole('dialog')
+  await dlg.getByText(/^(Recepter|Prescriptions)$/).first().waitFor()
+  const text = await dlg.innerText()
+  check('prescription status shown', /delvist udleveret/i.test(text))
+  check('iterations shown', /3 udleveringer med 2 uger|3 dispensings at 2 uger/.test(text))
+  check('no substitution shown as Ej S', text.includes('Ej S'))
+  check('given and pharmacy dispensing told apart', /Indgivet|Given/.test(text) && /Apoteksudlevering|Pharmacy dispensing/.test(text))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-prescriptions.png') })
+  await page.keyboard.press('Escape')
+  await dlg.getByText(/^(Recepter|Prescriptions)$/).first().waitFor({ state: 'hidden' })
+}
+const predRow = table.locator('tr').filter({ hasText: 'Prednisolon' }).first()
+if (await predRow.count()) check('future prescription stands out', /Recept gyldig fra|Prescription valid from/.test(await predRow.innerText()))
+const looseButton = page.getByRole('button', { name: /Vis løse recepter|Show loose prescriptions/ })
+if (await looseButton.count()) {
+  await looseButton.click()
+  const brentan = page.getByRole('dialog').getByText(/Brentan/).first()
+  await brentan.waitFor()
+  check('loose prescriptions can be opened', await brentan.isVisible())
+  await page.keyboard.press('Escape')
+  await brentan.waitFor({ state: 'hidden' })
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

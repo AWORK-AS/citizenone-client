@@ -210,3 +210,18 @@ export function fmkVkaNotes(periods: DosagePeriodLike[], today: string, treatmen
     const endPassed = Boolean(last && !last.undetermined && last.end && last.end < today)
     return { repeats, notSpecifiedAfter, endPassed }
 }
+
+const OPEN_PRESCRIPTION_STATUSES = ['åben', 'delvist udleveret', 'under behandling', 'web ekspederet']
+
+/**
+ * GK 6.3/6.4: whether a prescription can still be dispensed, and whether it
+ * is a future one (open, valid from a later date), which must stand out.
+ */
+export function fmkPrescriptionState(p: { status: string | null, valid_from: string | null, valid_to: string | null }, today: string): { open: boolean, future: boolean, expired: boolean } {
+    const open = OPEN_PRESCRIPTION_STATUSES.includes((p.status ?? '').toLowerCase())
+    return {
+        open,
+        future: open && Boolean(p.valid_from) && p.valid_from! > today,
+        expired: Boolean(p.valid_to) && p.valid_to! < today,
+    }
+}
