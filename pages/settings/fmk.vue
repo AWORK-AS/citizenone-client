@@ -136,7 +136,7 @@ onMounted(load)
                                 <div>
                                     <FormLabel for="fmk-id" :label="idRequired ? $t('settings.fmk.idRequired') : $t('settings.fmk.idOptional')" />
                                     <FormTextField id="fmk-id" name="fmk-id" v-model="form.organisation_id" :maxLength="50"
-                                        :placeholder="form.organisation_id_type === 'cvr' ? (loaded.company.cvr || '12345678') : ''" />
+                                        :placeholder="form.organisation_id_type === 'cvr' && loaded.company.cvr ? loaded.company.cvr : $t('settings.fmk.idPlaceholder')" />
                                     <FormError v-if="fieldErrors.organisation_id" :error="fieldErrors.organisation_id[0]" />
                                 </div>
                                 <div class="sm:col-span-2">
@@ -155,11 +155,11 @@ onMounted(load)
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <FormLabel for="fmk-phone" :label="$t('settings.fmk.phone')" />
-                                    <FormTextField id="fmk-phone" name="tel" v-model="form.contact_phone" :maxLength="30" placeholder="70 20 30 40" />
+                                    <FormTextField id="fmk-phone" name="tel" v-model="form.contact_phone" :maxLength="30" :placeholder="$t('settings.fmk.phonePlaceholder')" />
                                 </div>
                                 <div>
                                     <FormLabel for="fmk-email" :label="$t('settings.fmk.email')" />
-                                    <FormTextField id="fmk-email" name="email" v-model="form.contact_email" :maxLength="150" placeholder="medicin@bosted.dk" />
+                                    <FormTextField id="fmk-email" name="email" v-model="form.contact_email" :maxLength="150" :placeholder="$t('settings.fmk.emailPlaceholder')" />
                                     <FormError v-if="fieldErrors.contact_email" :error="fieldErrors.contact_email[0]" />
                                 </div>
                             </div>

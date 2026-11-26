@@ -13806,7 +13806,10 @@
                 "search": "Søg efter medarbejder",
                 "toggle": "Adgang til FMK for {name}",
                 "noStaff": "Ingen medarbejdere fundet."
-            }
+            },
+            "idPlaceholder": "fx 8 cifre",
+            "phonePlaceholder": "fx 70 20 30 40",
+            "emailPlaceholder": "fx medicin@jeres-tilbud.dk"
         }
     },
     "supportAccess": {

@@ -13801,7 +13801,10 @@
                 "search": "Søk etter ansatt",
                 "toggle": "Tilgang til FMK for {name}",
                 "noStaff": "Ingen ansatte funnet."
-            }
+            },
+            "idPlaceholder": "f.eks. 8 sifre",
+            "phonePlaceholder": "f.eks. 70 20 30 40",
+            "emailPlaceholder": "f.eks. medisin@tilbudet.dk"
         }
     },
     "supportAccess": {
