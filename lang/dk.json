@@ -24091,6 +24091,12 @@
             "paused": "Pauseret {from} – {to}",
             "none": "FMK har ingen tidligere versioner."
         },
+        "sundhedDk": {
+            "open": "Åbn sundhed.dk",
+            "hint": "Åbner sundhed.dk logget ind som dig, med dit FMK-login",
+            "title": "sundhed.dk",
+            "sample": "Prøvedata: sundhed.dk åbnes først, når I er koblet på NSP."
+        },
         "pdf": {
             "print": "Udskriv (PDF)",
             "hint": "Medicinkortet som PDF fra FMK, til visning og udskrift"

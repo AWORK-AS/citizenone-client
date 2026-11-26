@@ -477,6 +477,14 @@ check('PDF fetched from FMK', pdfRes.status() === 200 && (pdfRes.headers()['cont
 const pdfTab = await popup
 check('PDF opened in a new tab', Boolean(pdfTab))
 await pdfTab.close().catch(() => {})
+
+// Sikker browseropstart to sundhed.dk: in sample mode STS is never asked and staff are told why.
+const sbo = page.waitForResponse((r) => r.url().includes('/fmk-sundhed-dk') && r.request().method() === 'POST')
+await page.getByRole('button', { name: /Åbn sundhed\.dk|Open sundhed\.dk/ }).click()
+const sboRes = await sbo
+check('sundhed.dk asked for a ticket', sboRes.status() === 200 && (await sboRes.json()).data?.sample === true)
+await page.getByText(/sundhed\.dk åbnes først|sundhed\.dk opens once/).first().waitFor()
+check('sample mode says sundhed.dk opens once connected', true)
 await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
 await page.waitForTimeout(400)
 await table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first().getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).click()

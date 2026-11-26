@@ -60,6 +60,11 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/basket/order`, 'POST', payload)
     }
 
+    /** Sikker browseropstart: login URL and form fields that sign the staff member in to sundhed.dk. */
+    async openSundhedDk(): Promise<any> {
+        return await this.request('/user/fmk-sundhed-dk', 'POST')
+    }
+
     /** GK 12.6: FMK's PDF print of the card ("læge" or "borger"). */
     async getMedicineCardPdf(citizenUuid: string, type: 'læge' | 'borger' = 'læge'): Promise<Blob | null> {
         return await this.requestBlob(`/user/citizens/${citizenUuid}/fmk/medicine-card/pdf${type === 'borger' ? '?type=borger' : ''}`, 'GET')

@@ -29,7 +29,7 @@ const { card, pending, error, loginRequired, includeWithdrawn, fetchCard, toggle
 const fmkLogin = useFmkLogin()
 const router = useRouter()
 const { isAtLeast, can } = usePermissions()
-const { successAlert, errorAlert } = useAlert()
+const { successAlert, errorAlert, warningAlert } = useAlert()
 
 // Same rule as "Ny medicin" on the medicine page.
 const canEdit = computed(() => isAtLeast('Admin') || can('create_citizen_medicine'))
@@ -72,6 +72,43 @@ async function openPdf(type: 'læge' | 'borger') {
         errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         pdfPending.value = false
+    }
+}
+
+// Sikker browseropstart: sundhed.dk opens already signed in as this staff
+// member (their own FMK login), on a ticket made only now.
+const sundhedDkPending = shallowRef(false)
+async function openSundhedDk() {
+    // Name the tab while still in the click, so pop-up blockers allow it.
+    const tab = window.open('about:blank', 'citizenone-sundhed-dk')
+    sundhedDkPending.value = true
+    try {
+        const response = await fMKService.openSundhedDk()
+        const data = response?.data ?? response
+        if (data?.sample || !data?.url) {
+            tab?.close()
+            warningAlert(t('fmk.sundhedDk.title'), t('fmk.sundhedDk.sample'))
+            return
+        }
+        const form = document.createElement('form')
+        form.method = 'POST'
+        form.action = data.url
+        form.target = tab ? 'citizenone-sundhed-dk' : '_self'
+        for (const [name, value] of Object.entries(data.fields ?? {})) {
+            const input = document.createElement('input')
+            input.type = 'hidden'
+            input.name = name
+            input.value = String(value)
+            form.appendChild(input)
+        }
+        document.body.appendChild(form)
+        form.submit()
+        form.remove()
+    } catch (cause: any) {
+        tab?.close()
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        sundhedDkPending.value = false
     }
 }
 
@@ -296,6 +333,11 @@ watch(() => route.query.fmk_login, (status) => {
                                 class="inline-flex items-center gap-1.5 rounded-md border border-[#e2e8f0] bg-white px-3 py-2 text-sm font-semibold text-[#0f4c75] hover:border-[#0f4c75] disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
                                 <Icon :name="pdfPending ? 'ph:spinner' : 'ph:printer'" :class="['size-4', pdfPending && 'motion-safe:animate-spin']" aria-hidden="true" />
                                 {{ $t('fmk.pdf.print') }}
+                            </button>
+                            <button v-if="loggedIn || card?.environment === 'sample'" type="button" :disabled="sundhedDkPending" :title="$t('fmk.sundhedDk.hint')" @click="openSundhedDk"
+                                class="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-sm font-semibold text-[#0f4c75] hover:text-[#1b6d8a] hover:underline disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                                <Icon :name="sundhedDkPending ? 'ph:spinner' : 'ph:heartbeat'" :class="['size-4', sundhedDkPending && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                {{ $t('fmk.sundhedDk.open') }}
                             </button>
                             <!-- Changes to FMK itself are made in FMK-online, so it stays a quiet link. -->
                             <a href="https://fmk-online.dk/fmk" target="_blank" rel="noopener" :title="$t('fmk.header.fmkOnlineHint')"

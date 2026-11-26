@@ -24006,6 +24006,12 @@
             "paused": "Pausad {from} – {to}",
             "none": "FMK har inga tidigare versioner."
         },
+        "sundhedDk": {
+            "open": "Öppna sundhed.dk",
+            "hint": "Öppnar sundhed.dk inloggad som dig, med din FMK-inloggning",
+            "title": "sundhed.dk",
+            "sample": "Testdata: sundhed.dk öppnas först när ni är anslutna till NSP."
+        },
         "pdf": {
             "print": "Skriv ut (PDF)",
             "hint": "Läkemedelskortet som PDF från FMK, för visning och utskrift"

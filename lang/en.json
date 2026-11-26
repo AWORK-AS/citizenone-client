@@ -24091,6 +24091,12 @@
             "paused": "Paused {from} – {to}",
             "none": "FMK has no earlier versions."
         },
+        "sundhedDk": {
+            "open": "Open sundhed.dk",
+            "hint": "Opens sundhed.dk signed in as you, with your FMK login",
+            "title": "sundhed.dk",
+            "sample": "Sample data: sundhed.dk opens once you are connected to NSP."
+        },
         "pdf": {
             "print": "Print (PDF)",
             "hint": "The medicine card as a PDF from FMK, to view and print"
