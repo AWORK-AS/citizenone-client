@@ -41,6 +41,15 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    // Roadmap #499: a free spot in the units overview - this start ('YYYY-MM-DD HH:mm') and this unit.
+    presetStart: {
+        type: String,
+        default: '',
+    },
+    presetUnitUuid: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
 
@@ -53,6 +62,12 @@ watch(() => props.isModalOpen, (open: boolean) => {
         return
     }
     if (!open) return
+    state.formSchedule.unit_uuid = props.presetUnitUuid || ''
+    if (props.presetStart) {
+        state.formSchedule.date_time_start = moment(props.presetStart, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm')
+        state.formSchedule.date_time_end = moment(props.presetStart, 'YYYY-MM-DD HH:mm').add(1, 'hour').format('YYYY-MM-DD HH:mm')
+        return
+    }
     const baseDate = props.selectedDate || moment().format('YYYY-MM-DD')
     state.formSchedule.date_time_start = moment(baseDate).startOf('day').format('YYYY-MM-DD HH:mm')
     state.formSchedule.date_time_end = moment(baseDate).startOf('day').add(1, 'hour').format('YYYY-MM-DD HH:mm')

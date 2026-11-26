@@ -189,6 +189,9 @@
                                                     myCalendarEvent?.type === 'my_self' && 'bg-primary',
                                                 ],
                                             ]"></span>
+                                            <!-- Roadmap #499: the unit's colour, when the event booked one. -->
+                                            <span v-if="myCalendarEvent?.unit?.color" data-testid="event-unit-dot" class="h-2 w-2 flex-none rounded-sm"
+                                                :style="{ backgroundColor: myCalendarEvent.unit.color }" :title="myCalendarEvent.unit.name"></span>
                                             <span class="min-w-0 flex-1 truncate text-[11px] font-medium"
                                                 :class="['completed', 'cancelled'].includes(myCalendarEvent?.completion_status) ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
                                                 {{ myCalendarEvent?.title }}
