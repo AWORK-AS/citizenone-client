@@ -205,6 +205,10 @@ onMounted(load)
                             </FormButton>
                         </div>
                     </form>
+
+                    <!-- Who may use FMK (one licence per staff member). Kept outside the
+                         v-if/v-else-if chain above. -->
+                    <ModulesUserFmkLicencePanel v-if="loaded && loaded.app_active" />
                 </div>
             </LoadingSpinner>
         </NuxtLayout>

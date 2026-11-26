@@ -13778,7 +13778,17 @@
             "cvrMatchHint": "Recommended. Staff then cannot sign in to FMK with a MitID Erhverv from another workplace.",
             "effectiveTitle": "What we send to FMK",
             "save": "Save",
-            "saved": "The FMK settings are saved."
+            "saved": "The FMK settings are saved.",
+            "licences": {
+                "title": "Who has access to FMK",
+                "hint": "Each staff member who needs to see FMK uses one licence. Removing access also signs the staff member out of FMK.",
+                "used": "{used} of {total} licences in use",
+                "buyMore": "Buy more licences",
+                "noneFree": "All licences are in use. Buy more, or remove access from a staff member who does not use FMK.",
+                "search": "Search for a staff member",
+                "toggle": "FMK access for {name}",
+                "noStaff": "No staff found."
+            }
         }
     },
     "supportAccess": {

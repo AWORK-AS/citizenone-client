@@ -13773,7 +13773,17 @@
             "cvrMatchHint": "Anbefales. Da kan en ansatt ikke logge inn på FMK med MitID Erhverv fra en annen arbeidsplass.",
             "effectiveTitle": "Dette sender vi til FMK",
             "save": "Lagre",
-            "saved": "FMK-innstillingene er lagret."
+            "saved": "FMK-innstillingene er lagret.",
+            "licences": {
+                "title": "Hvem har tilgang til FMK",
+                "hint": "Hver ansatt som skal se FMK, bruker én lisens. Fjerner du tilgangen, blir den ansatte også logget ut av FMK.",
+                "used": "{used} av {total} lisenser i bruk",
+                "buyMore": "Kjøp flere lisenser",
+                "noneFree": "Alle lisenser er i bruk. Kjøp flere, eller fjern tilgangen fra en ansatt som ikke bruker FMK.",
+                "search": "Søk etter ansatt",
+                "toggle": "Tilgang til FMK for {name}",
+                "noStaff": "Ingen ansatte funnet."
+            }
         }
     },
     "supportAccess": {

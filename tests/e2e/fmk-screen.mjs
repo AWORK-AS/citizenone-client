@@ -226,6 +226,11 @@ const gotIt = page.locator('#headlessui-portal-root').getByRole('button', { name
 if (await gotIt.count()) { await gotIt.first().click(); await page.waitForTimeout(800) }
 const saveButton = page.getByRole('button', { name: /^(Gem|Save|Lagre|Spara)$/ })
 await saveButton.waitFor()
+const licenceTitle = page.getByText(/Hvem har adgang til FMK|Who has access to FMK/)
+await licenceTitle.waitFor()
+check('licence panel shows seats in use', await page.getByText(/licenser i brug|licences in use/).first().isVisible())
+const switches = page.getByRole('switch')
+check('one switch per staff member', (await switches.count()) > 0)
 const typeSelect = page.locator('#fmk-id-type').locator('xpath=ancestor::div[contains(@class,"multiselect")][1]')
 await typeSelect.click()
 await page.getByRole('option', { name: /SOR/ }).first().click()
