@@ -23792,7 +23792,7 @@
             "takeOver": "Take over into CitizenOne",
             "takenOver": "The medicine is taken over as a draft. Fill in the dosage plan on the medicine card before it is given.",
             "acknowledge": "Mark as reviewed",
-            "acknowledgeHint": "Update the medicine in CitizenOne if the change applies, then mark it as reviewed.",
+            "acknowledgeHint": "If the change should be included, edit the medicine in CitizenOne first. Then mark it as reviewed.",
             "acknowledged": "The change in FMK is marked as reviewed.",
             "draft": "Draft – no dosage plan yet",
             "actionTitle": "Nothing needs action | {count} line needs action | {count} lines need action",
@@ -23813,9 +23813,11 @@
             "noValue": "none",
             "inFmk": "in FMK:",
             "fillDosage": "Fill in dosage plan",
-            "changedVersion": "New version in FMK ({fmk}), CitizenOne is based on version {local}",
+            "changedVersion": "Version {fmk} in FMK · CitizenOne is based on version {local}",
             "changedBy": "changed by {by}",
-            "takingOver": "Taking over …"
+            "takingOver": "Taking over …",
+            "changedTitle": "Changed in FMK since last review",
+            "editLocal": "Edit in CitizenOne"
         },
         "details": {
             "intro": "All information FMK sent about the drug medication, with FMK's own field names."

@@ -23707,7 +23707,7 @@
             "takeOver": "Ta över till CitizenOne",
             "takenOver": "Läkemedlet har tagits över som utkast. Fyll i doseringsplanen i läkemedelskortet innan det ges.",
             "acknowledge": "Markera som granskad",
-            "acknowledgeHint": "Ändra läkemedlet i CitizenOne om ändringen ska gälla och markera det sedan som granskat.",
+            "acknowledgeHint": "Ska ändringen med, ändra läkemedlet i CitizenOne först. Markera det sedan som genomgånget.",
             "acknowledged": "Ändringen i FMK är markerad som granskad.",
             "draft": "Utkast – saknar doseringsplan",
             "actionTitle": "Inget kräver åtgärd | {count} rad kräver åtgärd | {count} rader kräver åtgärd",
@@ -23728,9 +23728,11 @@
             "noValue": "ingen",
             "inFmk": "i FMK:",
             "fillDosage": "Fyll i doseringsplan",
-            "changedVersion": "Ny version i FMK ({fmk}), CitizenOne bygger på version {local}",
+            "changedVersion": "Version {fmk} i FMK · CitizenOne bygger på version {local}",
             "changedBy": "ändrad av {by}",
-            "takingOver": "Tar över …"
+            "takingOver": "Tar över …",
+            "changedTitle": "Ändrat i FMK sedan senaste genomgång",
+            "editLocal": "Ändra i CitizenOne"
         },
         "details": {
             "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."

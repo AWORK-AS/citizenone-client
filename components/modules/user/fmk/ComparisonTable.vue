@@ -145,7 +145,7 @@ function rowClass(row: FmkRow): string[] {
                     <template v-if="row.fmk">
                         <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                         <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" />
+                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal')" />
                     </template>
                     <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                         <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
@@ -185,7 +185,7 @@ function rowClass(row: FmkRow): string[] {
                             <template v-if="row.fmk">
                                 <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                                 <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" />
+                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal')" />
                             </template>
                             <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                                 <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
