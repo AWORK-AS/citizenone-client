@@ -214,3 +214,17 @@ describe('fmkPharmacySuggestions', () => {
         assert.deepEqual(fmkPharmacySuggestions(card), [])
     })
 })
+
+const { fmkWithOwnGp } = await import('../../utils/fmk.ts')
+
+describe('fmkWithOwnGp', () => {
+    const fromCard = [{ name: 'Lægehuset Test', type: 'Yder', id_source: 'Yder', id: '12345' }, { name: 'AUH', type: 'Sygehus', id_source: 'SKS', id: '6620' }]
+    test('own GP comes first and is not listed twice', () => {
+        const list = fmkWithOwnGp({ yder: '012345', name: 'Lægehuset Test' }, fromCard)
+        assert.deepEqual(list.map(s => [s.id_source, s.id, 'own' in s]), [['Yder', '012345', true], ['SKS', '6620', false]])
+    })
+    test('without a GP the card suggestions are unchanged', () => {
+        assert.equal(fmkWithOwnGp(null, fromCard), fromCard)
+        assert.equal(fmkWithOwnGp({ yder: null, name: 'X' }, fromCard), fromCard)
+    })
+})

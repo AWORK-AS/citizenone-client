@@ -424,6 +424,8 @@ if (await requestButton.count()) {
   const reqDialog = page.getByRole('dialog')
   await reqDialog.getByText(/Lægehuset Test/).first().waitFor()
   check('receiver suggested from the card', await reqDialog.getByRole('radio', { name: /Lægehuset Test/ }).isChecked())
+  await reqDialog.getByText(/Egen læge|Own GP/).first().waitFor()
+  check('own GP from CPR first and not listed twice', await reqDialog.getByRole('radio', { name: /Egen læge|Own GP/ }).isChecked() && await reqDialog.getByRole('radio', { name: /Lægehuset Test/ }).count() === 1)
   check('same package as last time offered', await reqDialog.getByRole('radio', { name: /Samme pakning|Same package/ }).isChecked())
   const posted = page.waitForResponse((r) => r.url().includes('/fmk/prescription-requests') && r.request().method() === 'POST')
   await reqDialog.getByRole('button', { name: /Send anmodning|Send request/ }).click()

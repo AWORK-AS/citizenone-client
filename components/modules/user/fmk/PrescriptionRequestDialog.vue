@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { FmkAddressee, FmkDrugMedication } from '@/types/fmk'
-import { fmkAddresseeSuggestions } from '@/utils/fmk'
+import type { FmkAddressee, FmkDrugMedication, FmkGeneralPractitioner } from '@/types/fmk'
+import { fmkAddresseeSuggestions, fmkWithOwnGp } from '@/utils/fmk'
 import { fMKService } from '@/components/api/user/FMKService'
 
 /**
@@ -17,7 +17,24 @@ const emit = defineEmits<{ close: [], sent: [], cardChanged: [] }>()
 
 const { t } = useI18n()
 
-const suggestions = computed(() => (props.medication ? fmkAddresseeSuggestions(props.medication) : []))
+// The citizen's own GP from the CPR register, asked once per citizen when the dialog first opens.
+const gp = shallowRef<FmkGeneralPractitioner | null>(null)
+const gpFor = shallowRef<string | null>(null)
+async function loadGp() {
+    if (gpFor.value === props.citizenUuid) return
+    gpFor.value = props.citizenUuid
+    gp.value = null
+    try {
+        const response = await fMKService.getCprPerson(props.citizenUuid)
+        gp.value = (response?.data ?? response)?.general_practitioner ?? null
+        // Suggest the own GP unless staff already typed another receiver.
+        if (props.show && gp.value?.yder && !form.other.name && !form.other.id) form.receiver = '0'
+    } catch {
+        // No CPR lookup (no access or NSP down): the suggestions from the card still work.
+    }
+}
+
+const suggestions = computed(() => fmkWithOwnGp(gp.value, props.medication ? fmkAddresseeSuggestions(props.medication) : []))
 /** The package of the latest prescription, if any: "same as last time". */
 const lastPackage = computed(() => props.medication?.prescription_list?.find(p => p.package_number)?.package_number ?? null)
 
@@ -35,6 +52,7 @@ const fieldErrors = shallowRef<Record<string, string[]>>({})
 
 watch(() => props.show, (open) => {
     if (!open) return
+    loadGp()
     form.receiver = suggestions.value.length ? '0' : 'other'
     form.other = { name: '', type: 'Yder', id_source: 'Yder', id: '' }
     form.packageChoice = lastPackage.value ? 'same' : 'doctor'
@@ -44,7 +62,11 @@ watch(() => props.show, (open) => {
     fieldErrors.value = {}
 })
 
-const addressee = computed<FmkAddressee | null>(() => (form.receiver === 'other' ? form.other : suggestions.value[Number(form.receiver)] ?? null))
+const addressee = computed<FmkAddressee | null>(() => {
+    if (form.receiver === 'other') return form.other
+    const s = suggestions.value[Number(form.receiver)]
+    return s ? { name: s.name, type: s.type, id_source: s.id_source, id: s.id } as FmkAddressee : null
+})
 const canSend = computed(() => Boolean(addressee.value?.name && addressee.value?.id) && !sending.value)
 
 async function send() {
@@ -90,7 +112,10 @@ const inputClass = 'w-full rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm 
                         class="flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm"
                         :class="form.receiver === String(i) ? 'border-[#0f4c75] bg-[#f0faf9]' : 'border-[#e2e8f0]'">
                         <input v-model="form.receiver" type="radio" name="fmk-receiver" :value="String(i)" class="size-4 accent-[#0f4c75]" />
-                        <span><span class="font-semibold text-[#1a2332]">{{ s.name }}</span> <span class="text-[#64748b]">({{ s.id_source }} {{ s.id }})</span></span>
+                        <span class="min-w-0">
+                            <span v-if="'own' in s" class="mr-1.5 inline-block rounded-full bg-[#0f4c75] px-2 py-0.5 align-[1px] text-[11px] font-semibold text-white" :title="$t('fmk.request.ownGpSource')">{{ $t('fmk.request.ownGp') }}</span>
+                            <span class="font-semibold text-[#1a2332]">{{ s.name }}</span> <span class="text-[#64748b]">({{ s.id_source }} {{ s.id }})</span>
+                        </span>
                     </label>
                     <label class="flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm"
                         :class="form.receiver === 'other' ? 'border-[#0f4c75] bg-[#f0faf9]' : 'border-[#e2e8f0]'">

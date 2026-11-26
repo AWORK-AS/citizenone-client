@@ -244,6 +244,16 @@ export function fmkFollowUp(dates: string[], today: string): { overdue: string |
  * issued its prescriptions, when FMK gave their identifier (yder number, SOR
  * or SKS). Staff can always type another one.
  */
+/**
+ * The citizen's own GP first (from the CPR register), then who created the
+ * medication or its prescriptions; the GP is not listed twice.
+ */
+export function fmkWithOwnGp<T extends { id_source: string, id: string }>(gp: { yder: string | null, name: string | null } | null | undefined, list: T[]): (T | { name: string, type: 'Yder', id_source: 'Yder', id: string, own: true })[] {
+    if (!gp?.yder || !gp.name) return list
+    const yder = gp.yder.replace(/^0+/, '')
+    return [{ name: gp.name, type: 'Yder', id_source: 'Yder', id: gp.yder, own: true }, ...list.filter(s => !(s.id_source === 'Yder' && s.id.replace(/^0+/, '') === yder))]
+}
+
 export function fmkAddresseeSuggestions(medication: { created: any, prescription_list?: { created: any }[] }): { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }[] {
     const sources = [medication.created, ...(medication.prescription_list ?? []).map(p => p.created)]
     const seen = new Set<string>()

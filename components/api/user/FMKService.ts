@@ -22,6 +22,11 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/dose-dispensing-card`, 'GET')
     }
 
+    /** The citizen in the CPR register with their own GP (Det Gode CPR-opslag via NSP). */
+    async getCprPerson(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/cpr-person`, 'GET')
+    }
+
     /** GK 16.3: prescription requests sent for the citizen. */
     async getPrescriptionRequests(citizenUuid: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests`, 'GET')

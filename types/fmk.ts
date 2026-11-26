@@ -243,6 +243,9 @@ export interface FmkPrescriptionRequest {
 /** Who a prescription request goes to. */
 export interface FmkAddressee { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }
 
+/** The citizen's own GP from the CPR register (Det Gode CPR-opslag). */
+export interface FmkGeneralPractitioner { yder: string | null, name: string | null, address: string | null, post_code: string | null, city: string | null, phone: string | null, email: string | null }
+
 /** One item in the FMK order basket (GK 16.5). ready: an open prescription can be dispensed now. */
 export interface FmkBasketItem {
     uuid: string

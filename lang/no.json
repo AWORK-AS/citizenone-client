@@ -23926,6 +23926,8 @@
             "intro": "Forespørselen sendes gjennom FMK til legen eller organisasjonen du velger. Legen avgjør om det utstedes en ny resept.",
             "receiver": "Mottaker",
             "otherReceiver": "Annen mottaker",
+            "ownGp": "Fastlege",
+            "ownGpSource": "Fra CPR-registeret",
             "name": "Navn",
             "namePlaceholder": "f.eks. Legekontoret Østergade",
             "idType": "Nummertype",

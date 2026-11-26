@@ -24011,6 +24011,8 @@
             "intro": "Anmodningen sendes gennem FMK til den læge eller organisation, du vælger. Lægen beslutter, om der udstedes en ny recept.",
             "receiver": "Modtager",
             "otherReceiver": "Anden modtager",
+            "ownGp": "Egen læge",
+            "ownGpSource": "Fra CPR-registret",
             "name": "Navn",
             "namePlaceholder": "fx Lægehuset Østergade",
             "idType": "Nummer type",

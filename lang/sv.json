@@ -23926,6 +23926,8 @@
             "intro": "Begäran skickas via FMK till den läkare eller organisation du väljer. Läkaren beslutar om ett nytt recept utfärdas.",
             "receiver": "Mottagare",
             "otherReceiver": "Annan mottagare",
+            "ownGp": "Egen läkare",
+            "ownGpSource": "Från CPR-registret",
             "name": "Namn",
             "namePlaceholder": "t.ex. Läkarhuset Østergade",
             "idType": "Nummertyp",

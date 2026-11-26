@@ -24011,6 +24011,8 @@
             "intro": "The request is sent through FMK to the doctor or organisation you choose. The doctor decides whether a new prescription is issued.",
             "receiver": "Receiver",
             "otherReceiver": "Other receiver",
+            "ownGp": "Own GP",
+            "ownGpSource": "From the CPR register",
             "name": "Name",
             "namePlaceholder": "e.g. Østergade Medical Centre",
             "idType": "Number type",
