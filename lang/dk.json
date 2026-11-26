@@ -2284,7 +2284,8 @@
             "bookings": "Bookinger",
             "treatments": "Behandlinger",
             "events": "Begivenheder",
-            "appointments": "Bookede tider"
+            "appointments": "Bookede tider",
+            "units": "Enheder"
         },
         "today": "I dag",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Aflyst",
             "movedTo": "Flyttet til {time}",
             "movedFrom": "Flyttet hertil fra {time}"
+        },
+        "filter": {
+            "units": "Enhed"
         }
     },
     "calendarTags": {
@@ -10266,7 +10270,9 @@
             "reenterCode": "Indtast den selvvalgte kode igen",
             "send": "Send",
             "subject": "Emne",
-            "to": "Til"
+            "to": "Til",
+            "trustedNoCode": "Alle modtagere er betroede samarbejdspartnere. De får et personligt link og skal ikke bruge en adgangskode.",
+            "trustedSomeNoCode": "Modtagere på betroede partnerdomæner får et link uden adgangskode. De andre skal bruge adgangskoden."
         },
         "forward": "Videre",
         "inbox": "Indbakke",
@@ -10561,7 +10567,10 @@
             "chatPinned": "Chat fastgjort",
             "chatUnpinned": "Fastgørelse fjernet",
             "messageSuccessfullyDeleted": "Besked slettet med succes",
-            "messageSuccessfullyUpdated": "Besked opdateret med succes"
+            "messageSuccessfullyUpdated": "Besked opdateret med succes",
+            "messagePinned": "Besked fastgjort",
+            "messageUnpinned": "Fastgørelse fjernet",
+            "pinLimitReached": "Du kan fastgøre op til 3 beskeder i en chat. Fjern en fastgørelse først."
         },
         "allChats": "Alle chats",
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
@@ -10576,6 +10585,15 @@
         "pinChat": "Fastgør chat",
         "pinnedChats": "Fastgjorte",
         "unpinChat": "Fjern fastgørelse",
+        "pinMessage": "Fastgør besked",
+        "unpinMessage": "Fjern fastgørelse",
+        "pinnedMessage": "Fastgjort besked",
+        "pinnedOfCount": "{current} af {total}",
+        "nextPinnedMessage": "Vis næste fastgjorte besked",
+        "goToMessage": "Gå til besked",
+        "pinnedAttachment": "Vedhæftet fil",
+        "pinnedNoText": "Ingen tekst",
+        "pinnedMessageNotFound": "Den fastgjorte besked findes ikke længere i samtalen.",
         "directMessage": "Direkte besked",
         "editMessage": "Rediger besked",
         "openInNewWindow": "Åbn i nyt vindue",
@@ -18017,7 +18035,8 @@
                 "unitSuccessfullyUpdated": "Enhed opdateret med succes"
             },
             "doYouWantToReserveAUnit": "Vil du reservere en enhed",
-            "name": "Navn"
+            "name": "Navn",
+            "color": "Farve"
         },
         "newUnit": "Ny enhed",
         "table": {
@@ -18031,7 +18050,23 @@
             "name": "Navn"
         },
         "unit": "Enhed",
-        "units": "Enheder"
+        "units": "Enheder",
+        "overview": {
+            "title": "Enheder – oversigt",
+            "onlyFree": "Kun ledige enheder",
+            "booked": "Optaget",
+            "free": "Ledig",
+            "noUnits": "Ingen enheder endnu",
+            "noUnitsHint": "Opret biler, lokaler eller udstyr under Indstillinger → Enheder.",
+            "goToSettings": "Gå til enheder",
+            "noneFree": "Ingen enhed er ledig på det tidspunkt.",
+            "allUnits": "Alle enheder",
+            "freeFrom": "Fra",
+            "freeTo": "Til",
+            "newEventHere": "Ny aftale her",
+            "previous": "Forrige",
+            "next": "Næste"
+        }
     },
     "update": "Opdater",
     "updates": {
@@ -23773,5 +23808,39 @@
                 "sts": "FMK kunne ikke udstede dit ID-kort. Prøv igen om lidt."
             }
         }
+    },
+    "recordsExport": {
+        "export": "Eksportér",
+        "titleUseOfForce": "Eksportér magtanvendelser",
+        "titleIncidents": "Eksportér hændelser",
+        "from": "Fra",
+        "to": "Til",
+        "department": "Afdeling",
+        "allDepartments": "Alle afdelinger",
+        "format": "Format",
+        "includeDrafts": "Medtag kladder",
+        "download": "Download",
+        "downloading": "Laver filen…",
+        "personalData": "Filen indeholder følsomme personoplysninger. Opbevar den sikkert, og slet den, når du ikke længere har brug for den. Downloadet bliver logget.",
+        "error": "Filen kunne ikke laves. Prøv igen.",
+        "toBeforeFrom": "Til-datoen skal være samme dag som eller efter fra-datoen.",
+        "tooLong": "Perioden må højst være {years} år."
+    },
+    "trustedMailDomains": {
+        "title": "Betroede partnerdomæner",
+        "intro": "Sikker mail til disse domæner kræver ingen adgangskode. Hver modtager får et personligt link, der virker i 30 dage. Selve beskeden bliver i CitizenOne og står aldrig i mailen. Tilføj kun et domæne, når tvungen TLS er sat op til det i jeres eget mailsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Send sikker mail til kommuner, regioner og andre samarbejdspartnere uden adgangskode, når tvungen TLS er sat op med dem.",
+        "manage": "Administrer betroede domæner",
+        "domain": "Domæne",
+        "domainPlaceholder": "fx aarhus.dk",
+        "confirmForcedTls": "Jeg bekræfter, at tvungen TLS er sat op til dette domæne i vores mailsystem.",
+        "add": "Tilføj domæne",
+        "added": "Domænet er tilføjet",
+        "remove": "Fjern",
+        "removed": "Domænet er fjernet",
+        "confirmRemove": "Fjern {domain}? Links, der allerede er sendt til domænet, holder op med at virke.",
+        "confirmedBy": "Tvungen TLS bekræftet af {name} den {date}",
+        "empty": "Ingen betroede domæner endnu. Sikker mail beder altid om en adgangskode.",
+        "loading": "Indlæser…"
     }
 }

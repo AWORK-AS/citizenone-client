@@ -24,6 +24,11 @@ class UnitService extends BaseAPIService {
     async getAllUnits(): Promise<any> {
         return await this.request(`/user/units/all/list`, 'GET')
     }
+
+    // Roadmap #499: every unit and its bookings from-to (and only the free ones, with only_free_from/to).
+    async getUnitBookings(params: object): Promise<any> {
+        return await this.request(`/user/units/overview/bookings`, 'GET', params)
+    }
 }
 
 export const unitService = new UnitService()

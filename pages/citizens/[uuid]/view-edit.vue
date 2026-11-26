@@ -60,6 +60,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { buildCitizenUpdateFormData } from '@/utils/citizenUpdateFormData'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -89,6 +90,9 @@ const state = reactive({
         email: '',
         social_security_number: '',
         case_number: '',
+        reporting_frequency: '',
+        reporting_starts_on: '',
+        report_draft_days_before: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -99,6 +103,8 @@ const state = reactive({
         municipality_uuid: '',
         city: '',
         post_code: '',
+        latitude: '',
+        longitude: '',
         origin: '',
         spoken_languages: [],
         primary_spoken_language: '',
@@ -114,6 +120,7 @@ const state = reactive({
         pricing: '',
         pricing_start_date: '',
         primary_case_worker_uuid: '',
+        secondary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -165,6 +172,40 @@ const state = reactive({
             personal_guardianship: false,
             financial_guardianship: false,
         },
+        employmentData: {
+            employment_case_type_uuid: '',
+            employment_status_type_uuid: '',
+            financial_support_basis: '',
+            primary_consultant_uuid: '',
+            secondary_consultant_uuid: '',
+            referrer_name: '',
+            referrer_phone: '',
+            referrer_email: '',
+            referrer_organization: '',
+            referral_date: '',
+            case_start_date: '',
+            case_end_date: '',
+            total_weeks: '',
+            weeks_used: '',
+            reporting_requirements: '',
+            activation_deadline: '',
+            referral_reason: '',
+            internship_company: '',
+        },
+        dentalData: {
+            is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
+            sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
+            patient_number: '',
+            municipal_subsidy: '',
+            last_checkup_date: '',
+            checkup_interval_months: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
     carriedFieldCount: 0,
@@ -191,6 +232,11 @@ async function fetchCitizen() {
                 email: response?.data?.email ?? '',
                 social_security_number: response?.data?.social_security_number ?? '',
                 case_number: response?.data?.case_number ?? '',
+                // Sent on every save (clearing the frequency lifts the reporting
+                // requirement), so it must be loaded or each save cleared it.
+                reporting_frequency: response?.data?.reporting_frequency ?? '',
+                reporting_starts_on: response?.data?.reporting_starts_on ?? '',
+                report_draft_days_before: response?.data?.report_draft_days_before ?? '',
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],
@@ -201,6 +247,10 @@ async function fetchCitizen() {
                 municipality_uuid: response?.data?.address?.municipality?.uuid?.toString() ?? '',
                 city: response?.data?.address?.city ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
+                // Everything sent on save is loaded here first, the way edit.vue
+                // does, or an untouched field would go out empty and clear it.
+                latitude: response?.data?.address?.latitude ?? '',
+                longitude: response?.data?.address?.longitude ?? '',
                 origin: response?.data?.origin?.uuid?.toString() ?? '',
                 spoken_languages: [],
                 primary_spoken_language: '',
@@ -218,6 +268,7 @@ async function fetchCitizen() {
                 hidden_fields: response?.data?.hidden_fields ?? [],
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
                 primary_case_worker_uuid: response?.data?.primary_case_worker?.uuid?.toString() ?? '',
+                secondary_case_worker_uuid: response?.data?.secondary_case_worker?.uuid?.toString() ?? '',
                 paying_municipality: response?.data?.paying_municipality?.uuid?.toString() ?? '',
                 assessment_municipality: response?.data?.assessment_municipality?.uuid?.toString() ?? '',
                 responsible_municipality: response?.data?.responsible_municipality?.uuid?.toString() ?? '',
@@ -269,6 +320,40 @@ async function fetchCitizen() {
                     personal_guardianship: response?.data?.stay_data?.personal_guardianship ?? false,
                     financial_guardianship: response?.data?.stay_data?.financial_guardianship ?? false,
                 },
+                employmentData: {
+                    employment_case_type_uuid: response?.data?.employment_profile?.case_type?.uuid || '',
+                    employment_status_type_uuid: response?.data?.employment_profile?.status_type?.uuid || '',
+                    financial_support_basis: response?.data?.employment_profile?.financial_support_basis || '',
+                    primary_consultant_uuid: response?.data?.employment_profile?.primary_consultant?.uuid || '',
+                    secondary_consultant_uuid: response?.data?.employment_profile?.secondary_consultant?.uuid || '',
+                    referrer_name: response?.data?.employment_profile?.referrer_name || '',
+                    referrer_phone: response?.data?.employment_profile?.referrer_phone || '',
+                    referrer_email: response?.data?.employment_profile?.referrer_email || '',
+                    referrer_organization: response?.data?.employment_profile?.referrer_organization || '',
+                    referral_date: response?.data?.employment_profile?.referral_date || '',
+                    case_start_date: response?.data?.employment_profile?.case_start_date || '',
+                    case_end_date: response?.data?.employment_profile?.case_end_date || '',
+                    total_weeks: response?.data?.employment_profile?.total_weeks || '',
+                    weeks_used: response?.data?.employment_profile?.weeks_used || '',
+                    reporting_requirements: response?.data?.employment_profile?.reporting_requirements || '',
+                    activation_deadline: response?.data?.employment_profile?.activation_deadline || '',
+                    referral_reason: response?.data?.employment_profile?.referral_reason || '',
+                    internship_company: response?.data?.employment_profile?.internship_company || '',
+                } as any,
+                dentalData: {
+                    is_member_of_sygeforsikring_danmark: response?.data?.dental_profile?.is_member_of_sygeforsikring_danmark ?? false,
+                    danmark_group: response?.data?.dental_profile?.danmark_group || '',
+                    sygesikring_group: response?.data?.dental_profile?.sygesikring_group || '',
+                    is_foreign_patient: response?.data?.dental_profile?.is_foreign_patient ?? false,
+                    risk_profile: response?.data?.dental_profile?.risk_profile || '',
+                    risk_profile_note: response?.data?.dental_profile?.risk_profile_note || '',
+                    recall_channel: response?.data?.dental_profile?.recall_channel || '',
+                    auto_reminder: response?.data?.dental_profile?.auto_reminder ?? true,
+                    patient_number: response?.data?.dental_profile?.patient_number || '',
+                    municipal_subsidy: response?.data?.dental_profile?.municipal_subsidy || '',
+                    last_checkup_date: response?.data?.dental_profile?.last_checkup_date || '',
+                    checkup_interval_months: response?.data?.dental_profile?.checkup_interval_months || '',
+                } as any,
             }
             response?.data?.departments?.forEach((department: any) => {
                 state.formCitizen.departments.push(department?.uuid)
@@ -309,104 +394,15 @@ async function updateCitizen(citizenDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = new FormData()
-        params.append('image', citizenDetails.image)
-        params.append('firstname', citizenDetails.firstname)
-        params.append('lastname', citizenDetails.lastname)
-        params.append('gender', citizenDetails.gender)
-        params.append('email', citizenDetails.email)
-        params.append('social_security_number', citizenDetails.social_security_number)
-        params.append('case_number', citizenDetails.case_number ?? '')
-        // Sent even when empty: clearing the frequency is how a reporting
-        // requirement is lifted, and the reminder goes with it.
-        params.append('reporting_frequency', citizenDetails.reporting_frequency ?? '')
-        params.append('reporting_starts_on', citizenDetails.reporting_starts_on ?? '')
-        // Only meaningful with a frequency; cleared with it.
-        params.append('report_draft_days_before', citizenDetails.reporting_frequency ? (citizenDetails.report_draft_days_before ?? '') : '')
-        params.append('birthday', citizenDetails.birthday)
-        params.append('phone', citizenDetails.phone)
-        params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
-        if (citizenDetails.rooms) {
-            params.append('room_uuid', JSON.stringify(citizenDetails.rooms))
-        }
-        params.append('street', citizenDetails.street)
-        if (citizenDetails.region) {
-            params.append('region_uuid', citizenDetails.region)
-        } else {
-            params.append('region_uuid', '')
-        }
-        if (citizenDetails.municipality) {
-            params.append('municipality_uuid', citizenDetails.municipality)
-        } else {
-            params.append('municipality_uuid', '')
-        }
-        params.append('city', citizenDetails.city)
-        params.append('post_code', citizenDetails.post_code)
-        if (citizenDetails.is_foreign_city) {
-            params.append('foreign_city_uuid', citizenDetails.foreign_city)
-        } else {
-            params.append('origin_uuid', citizenDetails.origin)
-        }
-        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
-        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
-        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
-        params.append('has_special_language', citizenDetails.has_special_language ? 'true' : 'false')
-        params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
-        params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
-        params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
-        params.append('date_admitted', citizenDetails.date_admitted != 'Invalid date' ? citizenDetails.date_admitted : '')
-        params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
-        params.append('is_discharge_reminded', citizenDetails.is_discharge_reminded)
-        params.append('section', citizenDetails.section)
-        params.append('pricing', citizenDetails.pricing ? parseLocaleNumber(language.locale.value, citizenDetails.pricing) : citizenDetails.pricing)
-        params.append('pricing_start_date', citizenDetails.pricing_start_date)
-        params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
-        params.append('paying_municipality', citizenDetails.paying_municipality)
-        params.append('assessment_municipality', citizenDetails.assessment_municipality)
-        params.append('responsible_municipality', citizenDetails.responsible_municipality)
-        params.append('ean_number', citizenDetails.ean_number)
-        params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
-        params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
-        params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
-        params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
-        params.append('note', citizenDetails.note)
-        params.append('green', citizenDetails.green)
-        params.append('yellow', citizenDetails.yellow)
-        params.append('red', citizenDetails.red)
-        params.append('has_system_access', citizenDetails.has_system_access)
-        params.append('has_chat_access', citizenDetails.has_chat_access)
-        params.append('has_patient_journal_access', citizenDetails.has_patient_journal_access ?? false)
-        params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
-        params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
-        params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
-        params.append('inquirer_name', citizenDetails.inquiryData.inquirer_name)
-        params.append('outcome', citizenDetails.inquiryData.outcome)
-        params.append('purpose', citizenDetails.inquiryData.purpose)
-        params.append('conversation_summary', citizenDetails.inquiryData.conversation_summary)
-        params.append('end_date', citizenDetails.stayData.accommodation_end_date)
-        params.append('start_date', citizenDetails.stayData.accommodation_start_date)
-        params.append('journal_number', citizenDetails.stayData.journal_number)
-        params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
-        params.append('contract_hours', citizenDetails.stayData.contract_hours ?? '')
-        params.append('contract_hours_interval', citizenDetails.stayData.contract_hours_interval ?? '')
-        params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
-        params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
-        if (citizenDetails.stayData.residence_before_uuid) {
-            params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
-        }
-        if (citizenDetails.stayData.residence_after_uuid) {
-            params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
-        }
-        params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
-        params.append('discharge_reason_uuid', citizenDetails.stayData.discharge_reason_uuid ?? '')
-        params.append('consent_declarations', JSON.stringify(citizenDetails.stayData.consent_declarations))
-        params.append('photo', citizenDetails.stayData.photo)
-        params.append('parent_collaboration', citizenDetails.stayData.parent_collaboration)
-        params.append('student_collaboration', citizenDetails.stayData.student_collaboration)
-        params.append('general_consent', citizenDetails.stayData.general_consent)
-        params.append('personal_guardianship', citizenDetails.stayData.personal_guardianship)
-        params.append('financial_guardianship', citizenDetails.stayData.financial_guardianship)
+        // The same fields as the citizen list's pencil (edit.vue): this page
+        // used to leave out 33 of them, and the backend keeps the stored value
+        // of a field that isn't sent, so changes to them were lost (TKT-000138).
+        // An emptied price is still sent empty here, as before.
+        const params = buildCitizenUpdateFormData(citizenDetails, {
+            locale: language.locale.value,
+            parseLocaleNumber,
+            sendEmptyPricing: true,
+        })
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyUpdate')}.`)

@@ -1,9 +1,18 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <h3 class="text-primary text-base font-medium py-2">
-            {{ $t('overview.incidentStatistics.incidentStatistics') }}
-            ({{ state.total_citizen_incidents_statistics }})
-        </h3>
+        <div class="flex items-center justify-between gap-x-2">
+            <h3 class="text-primary text-base font-medium py-2">
+                {{ $t('overview.incidentStatistics.incidentStatistics') }}
+                ({{ state.total_citizen_incidents_statistics }})
+            </h3>
+            <!-- Roadmap #396: every citizen you can see, as Excel/CSV. -->
+            <button type="button" data-testid="incident-statistics-export"
+                class="inline-flex items-center gap-x-1.5 rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 mr-1"
+                @click="state.isExportOpen = true">
+                <Icon name="ph:download-simple" class="h-4 w-4" aria-hidden="true" />
+                {{ $t('recordsExport.export') }}
+            </button>
+        </div>
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -37,6 +46,8 @@
             </div>
 
         </div>
+        <ModulesUserCitizenExportModal kind="incidents" :dateRange="props.dateRange"
+            :isModalOpen="state.isExportOpen" @close="state.isExportOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -59,6 +70,7 @@ const state = reactive({
     isPageLoading: false,
     citizen_incidents_statistics: [] as any,
     total_citizen_incidents_statistics: 0,
+    isExportOpen: false,
 })
 
 watch(() => props.dateRange, () => {

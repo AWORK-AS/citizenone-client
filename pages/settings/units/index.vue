@@ -29,7 +29,10 @@
                             <template #body v-if="!(state.isTableLoading || (state.units?.data?.length === 0))">
                                 <tr v-for="(unit, index) in state.units?.data" :key="index">
                                     <td width="70%">
-                                        <span>{{ unit?.name }}</span>
+                                        <span class="flex items-center gap-x-2">
+                                            <span class="h-2.5 w-2.5 flex-none rounded-full" :style="{ backgroundColor: unit?.color || '#CBD5E1' }" data-testid="unit-color-dot"></span>
+                                            {{ unit?.name }}
+                                        </span>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">

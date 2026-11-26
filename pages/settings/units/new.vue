@@ -60,6 +60,7 @@ async function saveUnit(unitDetails: any) {
     try {
         const params = {
             name: unitDetails.name,
+            color: unitDetails.color,
         }
         const response = await unitService.saveUnit(params)
         if (response.data) {

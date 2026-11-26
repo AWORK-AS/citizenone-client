@@ -2284,7 +2284,8 @@
             "bookings": "Bokningar",
             "treatments": "Behandlingar",
             "events": "Händelser",
-            "appointments": "Bokade tider"
+            "appointments": "Bokade tider",
+            "units": "Enheter"
         },
         "today": "Idag",
         "view": {
@@ -2356,6 +2357,9 @@
             "cancelled": "Inställd",
             "movedTo": "Flyttad till {time}",
             "movedFrom": "Flyttad hit från {time}"
+        },
+        "filter": {
+            "units": "Enhet"
         }
     },
     "calendarTags": {
@@ -10266,7 +10270,9 @@
             "reenterCode": "Ange den selvvalgte kod igen",
             "send": "Skicka",
             "subject": "Emne",
-            "to": "Till"
+            "to": "Till",
+            "trustedNoCode": "Alla mottagare är betrodda samarbetspartner. De får en personlig länk och behöver inget lösenord.",
+            "trustedSomeNoCode": "Mottagare på betrodda partnerdomäner får en länk utan lösenord. De andra behöver lösenordet."
         },
         "forward": "Vidare",
         "inbox": "Indbakke",
@@ -10561,7 +10567,10 @@
             "chatPinned": "Chatt fäst",
             "chatUnpinned": "Fästning borttagen",
             "messageSuccessfullyDeleted": "Meddelande raderad",
-            "messageSuccessfullyUpdated": "Meddelande uppdaterad"
+            "messageSuccessfullyUpdated": "Meddelande uppdaterad",
+            "messagePinned": "Meddelande fäst",
+            "messageUnpinned": "Fästning borttagen",
+            "pinLimitReached": "Du kan fästa upp till 3 meddelanden i en chatt. Ta bort en fästning först."
         },
         "allChats": "Alla chattar",
         "allMessagesAreLoaded": "Alla meddelanden är indläst",
@@ -10576,6 +10585,15 @@
         "pinChat": "Fäst chatt",
         "pinnedChats": "Fästa",
         "unpinChat": "Ta bort fästning",
+        "pinMessage": "Fäst meddelande",
+        "unpinMessage": "Ta bort fästning",
+        "pinnedMessage": "Fäst meddelande",
+        "pinnedOfCount": "{current} av {total}",
+        "nextPinnedMessage": "Visa nästa fästa meddelande",
+        "goToMessage": "Gå till meddelande",
+        "pinnedAttachment": "Bilaga",
+        "pinnedNoText": "Ingen text",
+        "pinnedMessageNotFound": "Det fästa meddelandet finns inte längre i konversationen.",
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
         "openInNewWindow": "Öppna i nytt fönster",
@@ -17932,7 +17950,8 @@
                 "unitSuccessfullyUpdated": "Enhet uppdaterad"
             },
             "doYouWantToReserveAUnit": "Vill du reservere en enhet",
-            "name": "Namn"
+            "name": "Namn",
+            "color": "Färg"
         },
         "newUnit": "Ny enhet",
         "table": {
@@ -17946,7 +17965,23 @@
             "name": "Namn"
         },
         "unit": "Enhet",
-        "units": "Enheter"
+        "units": "Enheter",
+        "overview": {
+            "title": "Enheter – översikt",
+            "onlyFree": "Endast lediga enheter",
+            "booked": "Upptagen",
+            "free": "Ledig",
+            "noUnits": "Inga enheter ännu",
+            "noUnitsHint": "Lägg till bilar, rum eller utrustning under Inställningar → Enheter.",
+            "goToSettings": "Gå till enheter",
+            "noneFree": "Ingen enhet är ledig vid den tiden.",
+            "allUnits": "Alla enheter",
+            "freeFrom": "Från",
+            "freeTo": "Till",
+            "newEventHere": "Ny händelse här",
+            "previous": "Föregående",
+            "next": "Nästa"
+        }
     },
     "update": "Uppdatera",
     "updates": {
@@ -23688,5 +23723,39 @@
                 "sts": "FMK kunde inte utfärda ditt ID-kort. Försök igen om en stund."
             }
         }
+    },
+    "recordsExport": {
+        "export": "Exportera",
+        "titleUseOfForce": "Exportera tvångsåtgärder",
+        "titleIncidents": "Exportera händelser",
+        "from": "Från",
+        "to": "Till",
+        "department": "Avdelning",
+        "allDepartments": "Alla avdelningar",
+        "format": "Format",
+        "includeDrafts": "Ta med utkast",
+        "download": "Ladda ner",
+        "downloading": "Skapar filen…",
+        "personalData": "Filen innehåller känsliga personuppgifter. Förvara den säkert och radera den när du inte längre behöver den. Nedladdningen loggas.",
+        "error": "Filen kunde inte skapas. Försök igen.",
+        "toBeforeFrom": "Till-datumet måste vara samma dag som eller efter från-datumet.",
+        "tooLong": "Perioden får vara högst {years} år."
+    },
+    "trustedMailDomains": {
+        "title": "Betrodda partnerdomäner",
+        "intro": "Säker post till dessa domäner kräver inget lösenord. Varje mottagare får en personlig länk som fungerar i 30 dagar. Själva meddelandet stannar i CitizenOne och står aldrig i e-postmeddelandet. Lägg bara till en domän när tvingad TLS är uppsatt mot den i ert eget e-postsystem (i Microsoft 365 en connector i Exchange).",
+        "settingsHint": "Skicka säker post till kommuner, regioner och andra samarbetspartner utan lösenord, när tvingad TLS är uppsatt mot dem.",
+        "manage": "Hantera betrodda domäner",
+        "domain": "Domän",
+        "domainPlaceholder": "t.ex. stockholm.se",
+        "confirmForcedTls": "Jag bekräftar att tvingad TLS är uppsatt mot den här domänen i vårt e-postsystem.",
+        "add": "Lägg till domän",
+        "added": "Domänen har lagts till",
+        "remove": "Ta bort",
+        "removed": "Domänen har tagits bort",
+        "confirmRemove": "Ta bort {domain}? Länkar som redan skickats till domänen slutar fungera.",
+        "confirmedBy": "Tvingad TLS bekräftad av {name} den {date}",
+        "empty": "Inga betrodda domäner ännu. Säker post ber alltid om ett lösenord.",
+        "loading": "Laddar…"
     }
 }
