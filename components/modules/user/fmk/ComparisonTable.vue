@@ -87,7 +87,7 @@ function localPeriod(row: FmkRow): string {
                         </FormButton>
                         <p v-if="row.status === 'changed_in_fmk'" class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.acknowledgeHint') }}</p>
                     </div>
-                    <p v-else class="text-sm text-[#64748b]">{{ $t('fmk.compare.notInFmk') }}</p>
+                    <p v-if="!row.fmk" class="text-sm text-[#64748b]">{{ $t('fmk.compare.notInFmk') }}</p>
                 </div>
                 <div class="rounded-lg bg-[#f8fafc] px-3 py-2">
                     <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-[#64748b]">{{ $t('fmk.compare.localColumn') }}</p>
@@ -145,7 +145,7 @@ function localPeriod(row: FmkRow): string {
                                 </FormButton>
                                 <p v-if="row.status === 'changed_in_fmk'" class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.acknowledgeHint') }}</p>
                             </div>
-                            <p v-else class="rounded-lg border border-dashed border-[#e2e8f0] px-3 py-4 text-sm text-[#64748b]">
+                            <p v-if="!row.fmk" class="rounded-lg border border-dashed border-[#e2e8f0] px-3 py-4 text-sm text-[#64748b]">
                                 {{ $t('fmk.compare.notInFmk') }}
                             </p>
                         </td>

@@ -55,7 +55,7 @@ onMounted(load)
                 <h2 class="font-semibold text-[#1a2332]">{{ $t('settings.fmk.licences.title') }}</h2>
                 <p class="mt-1 text-sm text-[#64748b]">{{ $t('settings.fmk.licences.hint') }}</p>
             </div>
-            <div v-if="state" class="text-right">
+            <div v-if="state" class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <p class="text-sm font-semibold text-[#1a2332]" aria-live="polite">{{ $t('settings.fmk.licences.used', { used: state.used, total: state.total }) }}</p>
                 <NuxtLink to="/apps/fmk" class="text-xs font-semibold text-[#0f4c75] hover:text-[#1b6d8a]">{{ $t('settings.fmk.licences.buyMore') }}</NuxtLink>
             </div>
