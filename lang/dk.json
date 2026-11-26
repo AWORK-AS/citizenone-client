@@ -23723,7 +23723,9 @@
             "sampleData": "Eksempeldata",
             "testEnvironment": "Testmiljø ({environment})",
             "about": "Om Fælles Medicinkort",
-            "fmkOnlineHint": "Ændringer i selve FMK, fx pause eller ny dosering, laves i FMK-online."
+            "fmkOnlineHint": "Ændringer i selve FMK, fx pause eller ny dosering, laves i FMK-online.",
+            "patient": "Medicinkort for {name}",
+            "lastChanged": "Senest ændret af {by}"
         },
         "error": {
             "title": "FMK kunne ikke nås",
@@ -23744,14 +23746,19 @@
             "loosePrescriptions": "Der er {count} løs recept, som ikke hører til en ordination | Der er {count} løse recepter, som ikke hører til en ordination",
             "orderedPrescriptions": "Der er receptanmodninger, som lægen ikke har behandlet endnu",
             "administrationTitle": "Tilknyttet medicinadministration",
-            "doseDispensing": "Borgeren får dosisdispenseret medicin"
+            "doseDispensing": "Borgeren får dosisdispenseret medicin",
+            "phone": "tlf. {phone}",
+            "withAuthorisation": "{name} (aut. {code})",
+            "registeredBy": "registreret af {by}",
+            "admittedTitle": "Borgeren er indlagt",
+            "relationTitle": "Tilknyttet: {type}"
         },
         "medication": {
             "unnamed": "Lægemiddel uden navn",
             "dosageWrittenInstructions": "Dosering efter skriftlig anvisning",
             "dosageStructured": "Struktureret dosering – se detaljer",
             "noCurrentDosage": "Ingen aktuel dosering",
-            "startedPreviously": "Startet tidligere",
+            "startedPreviously": "Startdato ikke angivet",
             "noEndDate": "ingen slutdato",
             "withdrawn": "Seponeret – ikke aktuel",
             "expired": "Udløbet – ikke aktuel",
@@ -23764,9 +23771,12 @@
             "private": "Privatmarkeret",
             "doseDispensed": "Dosisdispenseret",
             "prescriptions": "{count} recept | {count} recepter",
-            "effectuations": "{count} udlevering | {count} udleveringer",
+            "effectuations": "{count} udleveret/indgivet | {count} udleveret/indgivet",
             "markings": "Markeringer",
-            "showDetails": "Vis alle oplysninger fra FMK"
+            "showDetails": "Vis alle oplysninger fra FMK",
+            "openPrescriptions": "{count} åben recept | {count} åbne recepter",
+            "followUpOverdue": "Kontroldato overskredet ({date})",
+            "followUpNext": "Kontroldato {date}"
         },
         "compare": {
             "label": "FMK og CitizenOne side om side",
@@ -23788,7 +23798,8 @@
                 "changed_in_fmk": "Ændret i FMK",
                 "only_fmk": "Kun i FMK",
                 "only_local": "Kun i CitizenOne",
-                "missing_in_fmk": "Ikke længere i FMK"
+                "missing_in_fmk": "Ikke længere i FMK",
+                "withdrawn_in_fmk": "Seponeret i FMK"
             },
             "takeOver": "Overtag til CitizenOne",
             "takenOver": "Medicinen er overtaget som kladde. Udfyld doseringsplanen i medicinkortet, før den gives.",
@@ -23834,10 +23845,47 @@
             "jumpLabel": "Gå mellem linjer, der kræver handling",
             "jumpPrevious": "Forrige",
             "jumpNext": "Næste",
-            "jumpPosition": "{at} af {count}"
+            "jumpPosition": "{at} af {count}",
+            "showWithdrawn": "Vis seponerede",
+            "withdrawnBy": "Seponeret i FMK af {by}",
+            "withdrawnHint": "Står medicinen stadig aktiv i CitizenOne, så stop den her også."
         },
         "details": {
-            "intro": "Alle oplysninger, FMK har sendt om ordinationen, med FMK's egne feltnavne."
+            "intro": "Oplysningerne om ordinationen fra FMK. Koder står i parentes.",
+            "allFields": "Vis alle felter fra FMK",
+            "dosage": "Dosering",
+            "sections": {
+                "drug": "Lægemiddel",
+                "treatment": "Behandling",
+                "record": "Ordinationen",
+                "prescriptions": "Recepter",
+                "effectuations": "Udleveret og indgivet"
+            },
+            "name": "Navn",
+            "detailedText": "Lægemiddeltekst",
+            "form": "Form",
+            "strength": "Styrke",
+            "substances": "Aktive stoffer",
+            "atc": "ATC",
+            "drugId": "Lægemiddel-id",
+            "indication": "Behandling mod",
+            "route": "Administrationsvej",
+            "treatmentStart": "Behandlingsstart",
+            "treatmentStartMissing": "Behandlingsstartdato er ikke angivet",
+            "treatmentEnd": "Behandlingsslut",
+            "dosageType": "Doseringstype",
+            "paused": "Pauseret",
+            "type": "Type",
+            "identifier": "Ordinations-id",
+            "version": "version {version}",
+            "created": "Oprettet",
+            "modified": "Senest ændret",
+            "reportedBy": "Indberettet af",
+            "modifiedNonclinical": "Ikke-klinisk ændring",
+            "prescriptions": "Recepter",
+            "effectuations": "Udleveringer",
+            "withdrawn": "Seponeret",
+            "followUp": "Kontroldatoer"
         },
         "open": "Fælles Medicinkort (FMK)",
         "openShort": "Hent fra FMK",
@@ -23862,6 +23910,201 @@
                 "organisation": "Dit MitID Erhverv hører til en anden organisation end denne. Log ind med MitID Erhverv for dette tilbud.",
                 "sts": "FMK kunne ikke udstede dit ID-kort. Prøv igen om lidt."
             }
+        },
+        "consent": {
+            "open": "Vis privatmarkeret medicin",
+            "title": "Vis privatmarkeret medicin",
+            "intro": "Borgeren har skjult noget medicin i FMK. Du må kun se det, hvis borgeren har givet samtykke, eller hvis det er en værdispringssituation.",
+            "legend": "Hvorfor skal du se den privatmarkerede medicin?",
+            "consent": {
+                "title": "Borgeren har givet samtykke",
+                "text": "Borgeren har i dag sagt ja til, at du ser den skjulte medicin."
+            },
+            "emergency": {
+                "title": "Værdispring",
+                "text": "Det er nødvendigt for at beskytte borgerens liv eller helbred, og samtykke kan ikke indhentes."
+            },
+            "logged": "Dit valg sendes til FMK og registreres med dit navn. Borgeren kan se det på sundhed.dk.",
+            "cancel": "Annuller",
+            "confirm": "Vis medicinen",
+            "shown": {
+                "consent": "Privatmarkeret medicin vises, fordi du har angivet borgerens samtykke. Det er registreret.",
+                "emergency": "Privatmarkeret medicin vises, fordi du har angivet værdispring. Det er registreret."
+            }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "ingen slutdato",
+            "dosagePeriod": "Doseringsperiode",
+            "noDosage": "Periode uden dosering",
+            "showFull": "Vis hele doseringen",
+            "hideFull": "Skjul hele doseringen",
+            "notStarted": "Ingen aktuel dosering. Doseringen starter {date}.",
+            "ended": "Ingen aktuel dosering. Doseringen sluttede {date}.",
+            "laterPeriods": "{count} senere doseringsperiode | {count} senere doseringsperioder",
+            "vkaRepeats": "Ugeskemaet gentages",
+            "vkaNotSpecifiedAfter": "Bemærk: Dosering herefter er ikke angivet",
+            "vkaEndPassed": "Doseringsslutdato er passeret"
+        },
+        "effectuation": {
+            "methods": {
+                "given": "Indgivet",
+                "handedOut": "Udleveret",
+                "pharmacy": "Apoteksudlevering",
+                "doseDispensed": "Dosisdispenseret udlevering",
+                "unknown": "Registreret"
+            },
+            "asOrdered": "Som ordineret",
+            "packages": "{count} pakning | {count} pakninger",
+            "more": "Der er flere udleveringer i FMK, end der vises her."
+        },
+        "prescription": {
+            "valid": "Gyldig",
+            "package": "Pakning",
+            "packageNumber": "varenr. {number}",
+            "dispensing": "Udlevering",
+            "reiterated": "{number} udleveringer med {interval} {unit} interval",
+            "doseDispensed": "Dosisdispensering {start} – {end}",
+            "single": "Én udlevering",
+            "dosage": "Dosering",
+            "indication": "Behandling mod",
+            "substitution": "Substitution",
+            "noSubstitution": "Må ikke substitueres (Ej S)",
+            "clause": "Klausul",
+            "issuedBy": "Udstedt af",
+            "latestDispensing": "Seneste udlevering",
+            "invalidationReason": "Årsag til ugyldiggørelse",
+            "supplementary": "Supplerende oplysninger",
+            "dispensings": "Udleveringer på recepten",
+            "validFrom": "Gyldig fra {date}",
+            "futureBadge": "Recept gyldig fra {date}",
+            "showLoose": "Vis løse recepter",
+            "looseTitle": "Løse recepter",
+            "looseIntro": "Recepter i FMK, som ikke hører til en lægemiddelordination."
+        },
+        "doseDispensing": {
+            "title": "Dosisdispenseringskort",
+            "fetching": "Henter dosisdispenseringskortet fra FMK …",
+            "none": "FMK har intet dosisdispenseringskort for borgeren.",
+            "show": "Vis dosisdispenseringskort",
+            "onHold": "Dosisdispensering er sat i bero",
+            "latest": "Seneste dosisudlevering: {by}",
+            "currentRoll": "Aktuel rulle {start} – {end}",
+            "openPrescriptions": "Der findes åbne recepter med dosisdispensering",
+            "orderedAt": "Udleveringsapotek",
+            "packedAt": "Pakkeapotek",
+            "packingGroup": "Pakkegruppe",
+            "periodLength": "Periodelængde",
+            "days": "{count} dage",
+            "current": "Aktuel periode",
+            "coming": "Kommende perioder",
+            "roll": "Rulle {start} – {end}",
+            "deadline": "Deadline for ændringer",
+            "expectedDelivery": "Forventet levering",
+            "dispensedOn": "Udleveret",
+            "quantity": "I alt {quantity} {unit}",
+            "private": "{count} privatmarkeret lægemiddel vises ikke | {count} privatmarkerede lægemidler vises ikke"
+        },
+        "request": {
+            "open": "Anmod om ny recept",
+            "title": "Anmod om ny recept: {drug}",
+            "intro": "Anmodningen sendes gennem FMK til den læge eller organisation, du vælger. Lægen beslutter, om der udstedes en ny recept.",
+            "receiver": "Modtager",
+            "otherReceiver": "Anden modtager",
+            "ownGp": "Egen læge",
+            "ownGpSource": "Fra CPR-registret",
+            "name": "Navn",
+            "namePlaceholder": "fx Lægehuset Østergade",
+            "idType": "Nummer type",
+            "idTypes": {
+                "Yder": "Ydernummer (praktiserende læge)",
+                "SOR": "SOR-kode",
+                "SKS": "SKS-kode (sygehus)"
+            },
+            "number": "Nummer",
+            "package": "Pakning",
+            "doctorChooses": "Lad lægen vælge pakning",
+            "samePackage": "Samme pakning som sidste recept (varenr. {number})",
+            "quantity": "Antal pakninger",
+            "reiterate": "Flere udleveringer",
+            "reiterations": "Antal udleveringer",
+            "reiterationsEvery": "udleveringer, med",
+            "interval": "Interval",
+            "intervalUnit": "Enhed",
+            "units": {
+                "dage": "dages interval",
+                "uger": "ugers interval",
+                "måneder": "måneders interval"
+            },
+            "send": "Send anmodning",
+            "sent": "Anmodningen er sendt til lægen gennem FMK.",
+            "panelTitle": "Receptanmodninger",
+            "load": "Vis receptanmodninger",
+            "none": "Der er ingen receptanmodninger for borgeren.",
+            "status": {
+                "unhandled": "Afventer lægen",
+                "prescribed": "Recept udstedt",
+                "cancelled": "Afvist eller fortrudt"
+            },
+            "sentTo": "Sendt til {to}",
+            "asked": "Ønsket: {quantity} × varenr. {number}",
+            "reason": "Årsag: {reason}",
+            "cancel": "Fortryd",
+            "cancelled": "Anmodningen er fortrudt.",
+            "drugMedication": "Ordination {id}"
+        },
+        "basket": {
+            "title": "Bestil fra apotek",
+            "open": "Vis kurven",
+            "empty": "Kurven er tom. Brug \"Læg i kurv\" ved en ordination.",
+            "add": "Læg i kurv",
+            "added": "Lagt i kurven.",
+            "remove": "Fjern {drug} fra kurven",
+            "states": {
+                "ready": "Klar til bestilling",
+                "waiting": "Afventer ny recept"
+            },
+            "pharmacy": "Apotek",
+            "otherPharmacy": "Andet apotek",
+            "pharmacyName": "Apotekets navn",
+            "delivery": "Levering",
+            "pickup": "Hentes på apoteket",
+            "street": "Adresse",
+            "postCode": "Postnr.",
+            "contact": "Kontaktperson",
+            "instruction": "Besked til apoteket (valgfrit)",
+            "waitingNote": "Venter på en ny recept fra lægen: {drugs}. Kommer ikke med i denne bestilling og bliver i kurven, til recepten er udstedt.",
+            "order": "Kurven har intet, der kan bestilles | Send bestilling ({count}) | Send bestilling ({count})",
+            "ordered": "Bestillingen er sendt til apoteket: {drugs}.",
+            "priorities": {
+                "0": "Send til anden adresse samme dag",
+                "1": "Send til anden adresse med posten",
+                "2": "Send til borgerens adresse samme dag",
+                "3": "Send til borgerens adresse med posten"
+            }
+        },
+        "history": {
+            "title": "Historik i FMK",
+            "load": "Hent historik fra FMK",
+            "current": "Aktuel",
+            "now": "nu",
+            "paused": "Pauseret {from} – {to}",
+            "none": "FMK har ingen tidligere versioner."
+        },
+        "sundhedDk": {
+            "open": "Åbn sundhed.dk",
+            "hint": "Åbner sundhed.dk logget ind som dig, med dit FMK-login",
+            "title": "sundhed.dk",
+            "sample": "Prøvedata: sundhed.dk åbnes først, når I er koblet på NSP."
+        },
+        "pdf": {
+            "print": "Udskriv (PDF)",
+            "hint": "Medicinkortet som PDF fra FMK, til visning og udskrift"
+        },
+        "changed": {
+            "title": "Medicinkortet er ændret i FMK, siden du hentede det.",
+            "text": "Intet er gemt eller sendt. Medicinkortet er hentet igen. Se ændringen, og prøv igen.",
+            "dismiss": "Luk beskeden"
         }
     },
     "recordsExport": {

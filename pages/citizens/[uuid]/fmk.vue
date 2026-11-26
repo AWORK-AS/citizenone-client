@@ -7,6 +7,8 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { fMKService } from '@/components/api/user/FMKService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useFmkModifier } from '@/composables/useFmkModifier'
+import { fmkText } from '@/utils/fmk'
 
 /**
  * FMK (Fælles Medicinkort) for one citizen. Opening this page is the staff
@@ -23,15 +25,24 @@ const { t } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const citizenUuid = route.params.uuid as string
-const { card, pending, error, loginRequired, fetchCard } = useFmkMedicineCard(citizenUuid)
+const { card, pending, error, loginRequired, includeWithdrawn, fetchCard, toggleWithdrawn } = useFmkMedicineCard(citizenUuid)
 const fmkLogin = useFmkLogin()
 const router = useRouter()
 const { isAtLeast, can } = usePermissions()
-const { successAlert, errorAlert } = useAlert()
+const { successAlert, errorAlert, warningAlert } = useAlert()
 
 // Same rule as "Ny medicin" on the medicine page.
 const canEdit = computed(() => isAtLeast('Admin') || can('create_citizen_medicine'))
 const busyKey = shallowRef<string | null>(null)
+
+// GK 1.5: FMK changed since the card staff saw. Nothing was done; fetch the
+// card again and tell them, so they look at the change before trying again.
+const cardChangedNotice = shallowRef(false)
+async function cardChanged() {
+    requestFor.value = null
+    cardChangedNotice.value = true
+    await fetchCard(card.value?.negative_consent ?? undefined)
+}
 // The row that just changed glows briefly, so the eye finds it after the refetch.
 const flashKey = shallowRef<string | null>(null)
 let flashTimer: ReturnType<typeof setTimeout> | undefined
@@ -43,6 +54,90 @@ function flash(key: string) {
 onBeforeUnmount(() => clearTimeout(flashTimer))
 const showIntro = shallowRef(false)
 
+// GK 12.6: FMK's own PDF print, opened in a new tab to view and print.
+const pdfPending = shallowRef(false)
+async function openPdf(type: 'læge' | 'borger') {
+    // Open the tab while still in the click, so pop-up blockers allow it.
+    const tab = window.open('about:blank', '_blank')
+    pdfPending.value = true
+    try {
+        const blob = await fMKService.getMedicineCardPdf(citizenUuid, type)
+        if (!blob) throw new Error(t('fmk.error.title'))
+        const url = URL.createObjectURL(blob)
+        if (tab) tab.location.href = url
+        else window.location.assign(url)
+        setTimeout(() => URL.revokeObjectURL(url), 60_000)
+    } catch (cause: any) {
+        tab?.close()
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        pdfPending.value = false
+    }
+}
+
+// Sikker browseropstart: sundhed.dk opens already signed in as this staff
+// member (their own FMK login), on a ticket made only now.
+const sundhedDkPending = shallowRef(false)
+async function openSundhedDk() {
+    // Name the tab while still in the click, so pop-up blockers allow it.
+    const tab = window.open('about:blank', 'citizenone-sundhed-dk')
+    sundhedDkPending.value = true
+    try {
+        const response = await fMKService.openSundhedDk()
+        const data = response?.data ?? response
+        if (data?.sample || !data?.url) {
+            tab?.close()
+            warningAlert(t('fmk.sundhedDk.title'), t('fmk.sundhedDk.sample'))
+            return
+        }
+        const form = document.createElement('form')
+        form.method = 'POST'
+        form.action = data.url
+        form.target = tab ? 'citizenone-sundhed-dk' : '_self'
+        for (const [name, value] of Object.entries(data.fields ?? {})) {
+            const input = document.createElement('input')
+            input.type = 'hidden'
+            input.name = name
+            input.value = String(value)
+            form.appendChild(input)
+        }
+        document.body.appendChild(form)
+        form.submit()
+        form.remove()
+    } catch (cause: any) {
+        tab?.close()
+        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+    } finally {
+        sundhedDkPending.value = false
+    }
+}
+
+// GK 4.3: privacy-marked medication, only with a stated reason.
+const consentOpen = shallowRef(false)
+// GK 3.1.6 / 6.1: loose prescriptions (not tied to a drug medication).
+const looseOpen = shallowRef(false)
+// GK 7.3: the dose dispensing card, fetched when opened.
+const doseDispensingOpen = shallowRef(false)
+// GK 16: prescription requests to the doctor through FMK.
+const requestFor = shallowRef<string | null>(null)
+const requestMedication = computed(() => card.value?.card.drug_medications.find(m => m.identifier === requestFor.value) ?? null)
+const requestsPanel = shallowRef<{ load: () => Promise<void> } | null>(null)
+// GK 16.2/16.5: the order basket.
+const basketPanel = shallowRef<{ load: () => Promise<void>, add: (id: string) => Promise<void> } | null>(null)
+async function addToBasket(identifier: string) {
+    await basketPanel.value?.add(identifier)
+    successAlert(`${t('alert.success')}!`, t('fmk.basket.added'))
+}
+async function prescriptionRequested() {
+    requestFor.value = null
+    successAlert(`${t('alert.success')}!`, t('fmk.request.sent'))
+    await requestsPanel.value?.load()
+}
+async function showPrivate(reason: 'consent' | 'emergency') {
+    await fetchCard(reason)
+    if (!error.value) consentOpen.value = false
+}
+
 /** "Ret i CitizenOne" / "Udfyld doseringsplan": straight to that medicine's edit dialog. */
 function openLocal(medicineUuid: string | null) {
     navigateTo({ path: `/citizens/${citizenUuid}/medicine-journals`, query: medicineUuid ? { edit: medicineUuid } : {} })
@@ -52,12 +147,13 @@ function openLocal(medicineUuid: string | null) {
 async function takeOver(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
-        await fMKService.takeOver(citizenUuid, identifier)
-        await fetchCard()
+        await fMKService.takeOver(citizenUuid, identifier, card.value?.card.version)
+        await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.takenOver'))
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') await cardChanged()
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         busyKey.value = null
     }
@@ -66,12 +162,13 @@ async function takeOver(identifier: string) {
 async function acknowledge(identifier: string) {
     busyKey.value = `fmk-${identifier}`
     try {
-        await fMKService.acknowledge(citizenUuid, identifier)
-        await fetchCard()
+        await fMKService.acknowledge(citizenUuid, identifier, card.value?.card.version)
+        await fetchCard(card.value?.negative_consent ?? undefined)
         flash(`fmk-${identifier}`)
         successAlert(`${t('alert.success')}!`, t('fmk.compare.acknowledged'))
     } catch (cause: any) {
-        errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
+        if (cause?.code === 'fmk_card_changed') await cardChanged()
+        else errorAlert(`${t('alert.somethingWentWrong')}!`, cause?.message ?? '')
     } finally {
         busyKey.value = null
     }
@@ -123,10 +220,24 @@ const detailsRaw = computed(() => {
     const list = card.value.raw?.DrugMedication ?? []
     return list.find((m: any) => String(m?.Identifier) === detailsFor.value) ?? null
 })
+const detailsMedication = computed(() => card.value?.card.drug_medications.find(m => m.identifier === detailsFor.value) ?? null)
 const detailsTitle = computed(() => {
     const med = card.value?.card.drug_medications.find(m => m.identifier === detailsFor.value)
     return [med?.drug_name, med?.strength].filter(Boolean).join(' ') || t('fmk.title')
 })
+
+const { by: modifiedBy } = useFmkModifier()
+
+/** GK 3.5.1-3.5.3: the citizen as FMK knows them, so staff see it is the right card. */
+const fmkPatient = computed(() => {
+    const person = (card.value?.card.patient as any)?.Person
+    if (!person) return null
+    const name = [fmkText(person.Name?.GivenName), fmkText(person.Name?.Surname)].filter(Boolean).join(' ')
+    const cpr = fmkText(person.PersonIdentifier)
+    return { name, cpr: cpr && cpr.length === 10 ? `${cpr.slice(0, 6)}-${cpr.slice(6)}` : cpr }
+})
+/** GK 3.5.5-3.5.10: who last changed the card. */
+const lastChanged = computed(() => (card.value?.card.modified ? modifiedBy(card.value.card.modified) : null))
 
 const fetchedAt = computed(() => (card.value ? formatDateTimeToReadable(card.value.fetched_at) : ''))
 const environmentLabel = computed(() => {
@@ -178,7 +289,7 @@ watch(() => route.query.fmk_login, (status) => {
                 <!-- GK 1.1: it must be obvious that this is FMK, not CitizenOne's own card. -->
                 <header class="rounded-2xl border border-[#e2e8f0] bg-white px-4 py-4 sm:px-6">
                     <div class="flex flex-wrap items-start justify-between gap-4">
-                        <div class="min-w-0">
+                        <div class="min-w-0 flex-1 basis-80">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="rounded-full bg-[#0f4c75] px-2.5 py-0.5 text-[11px] font-semibold text-white" translate="no">FMK</span>
                                 <h1 class="text-xl font-light text-[#1a2332]">{{ $t('fmk.title') }}</h1>
@@ -197,6 +308,14 @@ watch(() => route.query.fmk_login, (status) => {
                                 {{ $t('fmk.header.fetchedAt', { time: fetchedAt }) }}
                                 <span v-if="card.card.version">· {{ $t('fmk.header.version', { version: card.card.version }) }}</span>
                             </p>
+                            <p v-if="card && fmkPatient" class="mt-1 flex items-center gap-x-1.5 text-xs text-[#64748b]">
+                                <Icon name="ph:user" class="size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ $t('fmk.header.patient', { name: fmkPatient.name }) }}<template v-if="fmkPatient.cpr"> · <span translate="no">{{ fmkPatient.cpr }}</span></template></span>
+                            </p>
+                            <p v-if="card && lastChanged" class="mt-1 flex items-start gap-x-1.5 text-xs text-[#64748b]">
+                                <Icon name="ph:pencil-simple-line" class="mt-px size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ $t('fmk.header.lastChanged', { by: lastChanged }) }}</span>
+                            </p>
                             <p v-if="showIntro" id="fmk-intro" class="mt-2 max-w-2xl rounded-lg bg-[#f8fafc] px-3 py-2 text-sm text-[#64748b]">{{ $t('fmk.header.intro') }}</p>
                             <p v-if="loggedIn" class="mt-2 flex flex-wrap items-center gap-x-2 text-xs text-[#1a2332]">
                                 <Icon name="ph:identification-badge" class="size-4 text-[#2dbab2]" aria-hidden="true" />
@@ -205,11 +324,21 @@ watch(() => route.query.fmk_login, (status) => {
                             </p>
                             <p v-else-if="card && card.environment !== 'sample'" class="mt-2 text-xs text-[#c2410c]">{{ $t('fmk.login.systemCard') }}</p>
                         </div>
-                        <div class="flex shrink-0 items-center gap-2">
-                            <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard">
+                        <div class="flex flex-wrap items-center gap-2 sm:shrink-0">
+                            <FormButton buttonStyle="primary" class="rounded-md" :disabled="pending" @click="fetchCard()">
                                 <Icon :name="pending ? 'ph:spinner' : 'ph:arrows-clockwise'" :class="['size-4', pending && 'motion-safe:animate-spin']" aria-hidden="true" />
                                 {{ pending ? $t('fmk.header.fetching') : $t('fmk.header.refresh') }}
                             </FormButton>
+                            <button type="button" :disabled="pdfPending" :title="$t('fmk.pdf.hint')" @click="openPdf('læge')"
+                                class="inline-flex items-center gap-1.5 rounded-md border border-[#e2e8f0] bg-white px-3 py-2 text-sm font-semibold text-[#0f4c75] hover:border-[#0f4c75] disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                                <Icon :name="pdfPending ? 'ph:spinner' : 'ph:printer'" :class="['size-4', pdfPending && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                {{ $t('fmk.pdf.print') }}
+                            </button>
+                            <button v-if="loggedIn || card?.environment === 'sample'" type="button" :disabled="sundhedDkPending" :title="$t('fmk.sundhedDk.hint')" @click="openSundhedDk"
+                                class="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-sm font-semibold text-[#0f4c75] hover:text-[#1b6d8a] hover:underline disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+                                <Icon :name="sundhedDkPending ? 'ph:spinner' : 'ph:heartbeat'" :class="['size-4', sundhedDkPending && 'motion-safe:animate-spin']" aria-hidden="true" />
+                                {{ $t('fmk.sundhedDk.open') }}
+                            </button>
                             <!-- Changes to FMK itself are made in FMK-online, so it stays a quiet link. -->
                             <a href="https://fmk-online.dk/fmk" target="_blank" rel="noopener" :title="$t('fmk.header.fmkOnlineHint')"
                                 class="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-sm font-semibold text-[#0f4c75] hover:text-[#1b6d8a] hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
@@ -269,18 +398,48 @@ watch(() => route.query.fmk_login, (status) => {
                 </div>
 
                 <template v-if="card">
-                    <ModulesUserFmkCardStatus :card="card.card" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" @details="detailsFor = $event"
+                    <div v-if="cardChangedNotice" role="alert"
+                        class="flex items-start gap-3 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm text-[#9a3412]">
+                        <Icon name="ph:arrows-clockwise" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
+                        <p class="flex-1"><strong>{{ $t('fmk.changed.title') }}</strong> {{ $t('fmk.changed.text') }}</p>
+                        <button type="button" :aria-label="$t('fmk.changed.dismiss')" class="rounded p-0.5 hover:bg-[#fed7aa]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]" @click="cardChangedNotice = false">
+                            <Icon name="ph:x" class="size-4" aria-hidden="true" />
+                        </button>
+                    </div>
+                    <p v-if="card.negative_consent" role="status"
+                        class="flex items-start gap-3 rounded-xl border border-[#fed7aa] bg-[#fff7ed] px-4 py-3 text-sm text-[#9a3412]">
+                        <Icon name="ph:eye" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
+                        <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
+                    </p>
+                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" @showDoseDispensing="doseDispensingOpen = true" />
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @requestPrescription="requestFor = $event" @addToBasket="addToBasket" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
+                    <ModulesUserFmkBasketPanel ref="basketPanel" :citizenUuid="citizenUuid" :card="card.card" :canEdit="canEdit" @cardChanged="cardChanged" />
+                    <ModulesUserFmkPrescriptionRequestsPanel ref="requestsPanel" :citizenUuid="citizenUuid" :medications="card.card.drug_medications" :canEdit="canEdit" :cardVersion="card.card.version" @cardChanged="cardChanged" />
                 </template>
             </div>
+
+            <Modal :show="looseOpen" :title="$t('fmk.prescription.looseTitle')" size="xl" @close="looseOpen = false">
+                <template #modal-body>
+                    <p class="mb-4 text-sm text-[#64748b]">{{ $t('fmk.prescription.looseIntro') }}</p>
+                    <div class="max-h-[65vh] overflow-y-auto pr-2">
+                        <ModulesUserFmkPrescriptionList v-if="card" :prescriptions="card.card.loose_prescription_list ?? []" />
+                    </div>
+                </template>
+            </Modal>
+
+            <ModulesUserFmkPrescriptionRequestDialog :show="requestFor !== null" :citizenUuid="citizenUuid" :medication="requestMedication" :cardVersion="card?.card.version" @close="requestFor = null" @sent="prescriptionRequested" @cardChanged="cardChanged" />
+
+            <ModulesUserFmkDoseDispensingCard :show="doseDispensingOpen" :citizenUuid="citizenUuid" @close="doseDispensingOpen = false" />
+
+            <ModulesUserFmkNegativeConsentDialog :show="consentOpen" :pending="pending" @close="consentOpen = false" @confirm="showPrivate" />
 
             <!-- GK 3.5: every field FMK returned for the drug medication. -->
             <Modal :show="detailsFor !== null" :title="detailsTitle" size="xl" @close="detailsFor = null">
                 <template #modal-body>
                     <p class="mb-4 text-sm text-[#64748b]">{{ $t('fmk.details.intro') }}</p>
                     <div class="max-h-[65vh] overflow-y-auto pr-2">
-                        <ModulesUserFmkFieldTree v-if="detailsRaw" :value="detailsRaw" />
+                        <ModulesUserFmkDetailsView v-if="detailsMedication" :medication="detailsMedication" :raw="detailsRaw" :citizenUuid="citizenUuid" />
                     </div>
                 </template>
             </Modal>

@@ -2,7 +2,8 @@
 import { computed, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkHistoryPeriod, FmkRow } from '@/types/fmk'
-import { fmkHistoryChanges, fmkModificator, fmkText } from '@/utils/fmk'
+import { fmkHistoryChanges } from '@/utils/fmk'
+import { useFmkModifier } from '@/composables/useFmkModifier'
 import type { FmkHistoryChange } from '@/utils/fmk'
 import { fMKService } from '@/components/api/user/FMKService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -13,21 +14,15 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * action on the screen, so it is the one filled button.
  */
 const props = defineProps<{ row: FmkRow, canEdit?: boolean, busy?: boolean }>()
-const emit = defineEmits<{ takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null] }>()
+const emit = defineEmits<{ takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null], requestPrescription: [identifier: string], addToBasket: [identifier: string] }>()
 
 const { t } = useI18n()
-const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const route = useRoute()
 
 /** Who changed it in FMK and when (GK 3.6), for "Ændret i FMK". */
-const changedBy = computed(() => {
-    const modified = props.row.fmk?.modified
-    if (!modified) return null
-    const m = fmkModificator(modified.By)
-    const who = m.isPatient ? t('fmk.status.byPatient') : [m.who, m.organisation].filter(Boolean).join(', ')
-    const when = modified.DateTime ? formatDateTimeToReadable(fmkText(modified.DateTime) ?? '') : ''
-    return [who, when].filter(Boolean).join(' · ') || null
-})
+const { by } = useFmkModifier()
+const changedBy = computed(() => (props.row.fmk?.modified ? by(props.row.fmk.modified) || null : null))
 
 // "Se hvad der er ændret": FMK's version history, fetched only when asked (GK 1.2).
 const history = shallowRef<{ from: string | null, to: string | null, changes: FmkHistoryChange[] } | null>(null)
@@ -115,6 +110,22 @@ function shown(change: FmkHistoryChange, value: string | null): string {
         </div>
     </div>
 
+    <!-- GK 3.9: withdrawn in FMK, with who and when; stop it here too if CitizenOne still has it. -->
+    <div v-else-if="row.fmk && row.status === 'withdrawn_in_fmk'" class="mt-3 rounded-xl border border-[#cbd5e1] bg-[#f8fafc] p-3">
+        <p class="flex items-start gap-2 text-sm font-semibold text-[#334155]">
+            <Icon name="ph:prohibit" class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+            {{ row.fmk.withdrawn ? $t('fmk.compare.withdrawnBy', { by: by(row.fmk.withdrawn) }) : $t('fmk.compare.status.withdrawn_in_fmk') }}
+        </p>
+        <template v-if="row.local && canEdit">
+            <p class="mt-1 text-xs text-[#64748b]">{{ $t('fmk.compare.withdrawnHint') }}</p>
+            <button type="button" @click="emit('openLocal', row.local.uuid)"
+                class="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#0f4c75] transition-colors hover:border-[#0f4c75] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] focus-visible:ring-offset-2">
+                <Icon name="ph:pencil-simple" class="size-4" aria-hidden="true" />
+                {{ $t('fmk.compare.editLocal') }}
+            </button>
+        </template>
+    </div>
+
     <div v-else-if="row.fmk && row.status === 'only_fmk' && canEdit" class="mt-3">
         <button type="button" :disabled="busy" @click="emit('takeOver', row.fmk.identifier)"
             class="inline-flex items-center gap-2 rounded-lg bg-[#2dbab2] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1b6d8a] disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] focus-visible:ring-offset-2">
@@ -122,4 +133,17 @@ function shown(change: FmkHistoryChange, value: string | null): string {
             {{ busy ? $t('fmk.compare.takingOver') : $t('fmk.compare.takeOver') }}
         </button>
     </div>
+
+    <!-- GK 16.1: ask the doctor for a new prescription. -->
+    <button v-if="canEdit && row.fmk && row.status !== 'withdrawn_in_fmk'" type="button" @click="emit('requestPrescription', row.fmk.identifier)"
+        class="mt-2 inline-flex items-center gap-1 rounded text-xs font-semibold text-[#0f4c75] hover:text-[#1b6d8a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+        <Icon name="ph:prescription" class="size-4" aria-hidden="true" />
+        {{ $t('fmk.request.open') }}
+    </button>
+    <!-- GK 16.2/16.5: order dispensing at a pharmacy, through the basket. -->
+    <button v-if="canEdit && row.fmk && row.status !== 'withdrawn_in_fmk'" type="button" @click="emit('addToBasket', row.fmk.identifier)"
+        class="ml-3 mt-2 inline-flex items-center gap-1 rounded text-xs font-semibold text-[#0f4c75] hover:text-[#1b6d8a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+        <Icon name="ph:shopping-cart-simple" class="size-4" aria-hidden="true" />
+        {{ $t('fmk.basket.add') }}
+    </button>
 </template>

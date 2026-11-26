@@ -23638,7 +23638,9 @@
             "sampleData": "Exempeldata",
             "testEnvironment": "Testmiljö ({environment})",
             "about": "Om Fælles Medicinkort",
-            "fmkOnlineHint": "Ändringar i själva FMK, t.ex. paus eller ny dosering, görs i FMK-online."
+            "fmkOnlineHint": "Ändringar i själva FMK, t.ex. paus eller ny dosering, görs i FMK-online.",
+            "patient": "Läkemedelskort för {name}",
+            "lastChanged": "Senast ändrat av {by}"
         },
         "error": {
             "title": "FMK kunde inte nås",
@@ -23659,14 +23661,19 @@
             "loosePrescriptions": "Det finns {count} recept som inte hör till en ordination | Det finns {count} recept som inte hör till en ordination",
             "orderedPrescriptions": "Det finns receptförfrågningar som läkaren inte har behandlat än",
             "administrationTitle": "Kopplad till läkemedelsadministration",
-            "doseDispensing": "Klienten får dosdispenserade läkemedel"
+            "doseDispensing": "Klienten får dosdispenserade läkemedel",
+            "phone": "tfn {phone}",
+            "withAuthorisation": "{name} (leg. {code})",
+            "registeredBy": "registrerad av {by}",
+            "admittedTitle": "Klienten är inlagd på sjukhus",
+            "relationTitle": "Kopplad: {type}"
         },
         "medication": {
             "unnamed": "Läkemedel utan namn",
             "dosageWrittenInstructions": "Dosering enligt skriftlig anvisning",
             "dosageStructured": "Strukturerad dosering – se detaljer",
             "noCurrentDosage": "Ingen aktuell dosering",
-            "startedPreviously": "Påbörjad tidigare",
+            "startedPreviously": "Startdatum inte angivet",
             "noEndDate": "inget slutdatum",
             "withdrawn": "Utsatt – inte aktuell",
             "expired": "Utgånget – inte aktuell",
@@ -23679,9 +23686,12 @@
             "private": "Privatmarkerad",
             "doseDispensed": "Dosdispenserad",
             "prescriptions": "{count} recept | {count} recept",
-            "effectuations": "{count} utlämning | {count} utlämningar",
+            "effectuations": "{count} utlämnat/givet | {count} utlämnat/givet",
             "markings": "Markeringar",
-            "showDetails": "Visa alla uppgifter från FMK"
+            "showDetails": "Visa alla uppgifter från FMK",
+            "openPrescriptions": "{count} öppet recept | {count} öppna recept",
+            "followUpOverdue": "Kontrolldatum passerat ({date})",
+            "followUpNext": "Kontrolldatum {date}"
         },
         "compare": {
             "label": "FMK och CitizenOne sida vid sida",
@@ -23703,7 +23713,8 @@
                 "changed_in_fmk": "Ändrat i FMK",
                 "only_fmk": "Bara i FMK",
                 "only_local": "Bara i CitizenOne",
-                "missing_in_fmk": "Inte längre i FMK"
+                "missing_in_fmk": "Inte längre i FMK",
+                "withdrawn_in_fmk": "Utsatt i FMK"
             },
             "takeOver": "Ta över till CitizenOne",
             "takenOver": "Läkemedlet har tagits över som utkast. Fyll i doseringsplanen i läkemedelskortet innan det ges.",
@@ -23749,10 +23760,47 @@
             "jumpLabel": "Gå mellan rader som kräver åtgärd",
             "jumpPrevious": "Föregående",
             "jumpNext": "Nästa",
-            "jumpPosition": "{at} av {count}"
+            "jumpPosition": "{at} av {count}",
+            "showWithdrawn": "Visa utsatta",
+            "withdrawnBy": "Utsatt i FMK av {by}",
+            "withdrawnHint": "Om läkemedlet fortfarande är aktivt i CitizenOne, sätt ut det här också."
         },
         "details": {
-            "intro": "Alla uppgifter FMK har skickat om ordinationen, med FMK:s egna fältnamn."
+            "intro": "Uppgifterna om ordinationen från FMK. Koder står inom parentes.",
+            "allFields": "Visa alla fält från FMK",
+            "dosage": "Dosering",
+            "sections": {
+                "drug": "Läkemedel",
+                "treatment": "Behandling",
+                "record": "Ordinationen",
+                "prescriptions": "Recept",
+                "effectuations": "Utlämnat och givet"
+            },
+            "name": "Namn",
+            "detailedText": "Läkemedelstext",
+            "form": "Form",
+            "strength": "Styrka",
+            "substances": "Aktiva substanser",
+            "atc": "ATC",
+            "drugId": "Läkemedels-id",
+            "indication": "Behandling mot",
+            "route": "Administrationsväg",
+            "treatmentStart": "Behandlingsstart",
+            "treatmentStartMissing": "Startdatum för behandlingen är inte angivet",
+            "treatmentEnd": "Behandlingsslut",
+            "dosageType": "Doseringstyp",
+            "paused": "Pausad",
+            "type": "Typ",
+            "identifier": "Ordinations-id",
+            "version": "version {version}",
+            "created": "Skapad",
+            "modified": "Senast ändrad",
+            "reportedBy": "Rapporterad av",
+            "modifiedNonclinical": "Icke-klinisk ändring",
+            "prescriptions": "Recept",
+            "effectuations": "Uttag",
+            "withdrawn": "Utsatt",
+            "followUp": "Kontrolldatum"
         },
         "open": "Gemensamt läkemedelskort (FMK)",
         "openShort": "Hämta från FMK",
@@ -23777,6 +23825,201 @@
                 "organisation": "Ditt MitID Erhverv hör till en annan organisation. Logga in med MitID Erhverv för den här verksamheten.",
                 "sts": "FMK kunde inte utfärda ditt ID-kort. Försök igen om en stund."
             }
+        },
+        "consent": {
+            "open": "Visa privatmarkerade läkemedel",
+            "title": "Visa privatmarkerade läkemedel",
+            "intro": "Klienten har dolt vissa läkemedel i FMK. Du får bara se dem om klienten har gett sitt samtycke, eller om det är en nödsituation (værdispring).",
+            "legend": "Varför behöver du se de privatmarkerade läkemedlen?",
+            "consent": {
+                "title": "Klienten har gett samtycke",
+                "text": "Klienten har i dag sagt ja till att du ser de dolda läkemedlen."
+            },
+            "emergency": {
+                "title": "Nödsituation (værdispring)",
+                "text": "Det är nödvändigt för att skydda klientens liv eller hälsa, och samtycke kan inte inhämtas."
+            },
+            "logged": "Ditt val skickas till FMK och registreras med ditt namn. Klienten kan se det på sundhed.dk.",
+            "cancel": "Avbryt",
+            "confirm": "Visa läkemedlen",
+            "shown": {
+                "consent": "Privatmarkerade läkemedel visas eftersom du har angett klientens samtycke. Det har registrerats.",
+                "emergency": "Privatmarkerade läkemedel visas eftersom du har angett nödsituation (værdispring). Det har registrerats."
+            }
+        },
+        "dosage": {
+            "period": "{start} – {end}",
+            "noEnd": "inget slutdatum",
+            "dosagePeriod": "Doseringsperiod",
+            "noDosage": "Period utan dosering",
+            "showFull": "Visa hela doseringen",
+            "hideFull": "Dölj hela doseringen",
+            "notStarted": "Ingen aktuell dosering. Doseringen börjar {date}.",
+            "ended": "Ingen aktuell dosering. Doseringen slutade {date}.",
+            "laterPeriods": "{count} senare doseringsperiod | {count} senare doseringsperioder",
+            "vkaRepeats": "Veckoschemat upprepas",
+            "vkaNotSpecifiedAfter": "Obs: Dosering därefter är inte angiven",
+            "vkaEndPassed": "Slutdatum för doseringen har passerat"
+        },
+        "effectuation": {
+            "methods": {
+                "given": "Givet",
+                "handedOut": "Utlämnat",
+                "pharmacy": "Apoteksuttag",
+                "doseDispensed": "Dosdispenserat uttag",
+                "unknown": "Registrerat"
+            },
+            "asOrdered": "Enligt ordination",
+            "packages": "{count} förpackning | {count} förpackningar",
+            "more": "Det finns fler uttag i FMK än vad som visas här."
+        },
+        "prescription": {
+            "valid": "Giltigt",
+            "package": "Förpackning",
+            "packageNumber": "varunr. {number}",
+            "dispensing": "Uttag",
+            "reiterated": "{number} uttag med {interval} {unit} intervall",
+            "doseDispensed": "Dosdispensering {start} – {end}",
+            "single": "Ett uttag",
+            "dosage": "Dosering",
+            "indication": "Behandling mot",
+            "substitution": "Utbyte",
+            "noSubstitution": "Får inte bytas ut (Ej S)",
+            "clause": "Klausul",
+            "issuedBy": "Utfärdat av",
+            "latestDispensing": "Senaste uttag",
+            "invalidationReason": "Orsak till ogiltigförklaring",
+            "supplementary": "Kompletterande uppgifter",
+            "dispensings": "Uttag på receptet",
+            "validFrom": "Giltigt från {date}",
+            "futureBadge": "Recept giltigt från {date}",
+            "showLoose": "Visa lösa recept",
+            "looseTitle": "Lösa recept",
+            "looseIntro": "Recept i FMK som inte hör till en läkemedelsordination."
+        },
+        "doseDispensing": {
+            "title": "Dosdispenseringskort",
+            "fetching": "Hämtar dosdispenseringskortet från FMK …",
+            "none": "FMK har inget dosdispenseringskort för klienten.",
+            "show": "Visa dosdispenseringskort",
+            "onHold": "Dosdispenseringen är vilande",
+            "latest": "Senaste dosuttag: {by}",
+            "currentRoll": "Aktuell rulle {start} – {end}",
+            "openPrescriptions": "Det finns öppna recept med dosdispensering",
+            "orderedAt": "Utlämnande apotek",
+            "packedAt": "Packande apotek",
+            "packingGroup": "Packgrupp",
+            "periodLength": "Periodlängd",
+            "days": "{count} dagar",
+            "current": "Aktuell period",
+            "coming": "Kommande perioder",
+            "roll": "Rulle {start} – {end}",
+            "deadline": "Sista dag för ändringar",
+            "expectedDelivery": "Förväntad leverans",
+            "dispensedOn": "Utlämnat",
+            "quantity": "Totalt {quantity} {unit}",
+            "private": "{count} privatmarkerat läkemedel visas inte | {count} privatmarkerade läkemedel visas inte"
+        },
+        "request": {
+            "open": "Begär nytt recept",
+            "title": "Begär nytt recept: {drug}",
+            "intro": "Begäran skickas via FMK till den läkare eller organisation du väljer. Läkaren beslutar om ett nytt recept utfärdas.",
+            "receiver": "Mottagare",
+            "otherReceiver": "Annan mottagare",
+            "ownGp": "Egen läkare",
+            "ownGpSource": "Från CPR-registret",
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Läkarhuset Østergade",
+            "idType": "Nummertyp",
+            "idTypes": {
+                "Yder": "Ydernummer (husläkare)",
+                "SOR": "SOR-kod",
+                "SKS": "SKS-kod (sjukhus)"
+            },
+            "number": "Nummer",
+            "package": "Förpackning",
+            "doctorChooses": "Låt läkaren välja förpackning",
+            "samePackage": "Samma förpackning som senaste receptet (varunr. {number})",
+            "quantity": "Antal förpackningar",
+            "reiterate": "Flera uttag",
+            "reiterations": "Antal uttag",
+            "reiterationsEvery": "uttag, med",
+            "interval": "Intervall",
+            "intervalUnit": "Enhet",
+            "units": {
+                "dage": "dagars intervall",
+                "uger": "veckors intervall",
+                "måneder": "månaders intervall"
+            },
+            "send": "Skicka begäran",
+            "sent": "Begäran har skickats till läkaren via FMK.",
+            "panelTitle": "Receptbegäranden",
+            "load": "Visa receptbegäranden",
+            "none": "Det finns inga receptbegäranden för klienten.",
+            "status": {
+                "unhandled": "Väntar på läkaren",
+                "prescribed": "Recept utfärdat",
+                "cancelled": "Avvisad eller ångrad"
+            },
+            "sentTo": "Skickad till {to}",
+            "asked": "Önskat: {quantity} × varunr. {number}",
+            "reason": "Orsak: {reason}",
+            "cancel": "Ångra",
+            "cancelled": "Begäran har ångrats.",
+            "drugMedication": "Ordination {id}"
+        },
+        "basket": {
+            "title": "Beställ från apotek",
+            "open": "Visa korgen",
+            "empty": "Korgen är tom. Använd \"Lägg i korg\" vid en ordination.",
+            "add": "Lägg i korg",
+            "added": "Lagt i korgen.",
+            "remove": "Ta bort {drug} från korgen",
+            "states": {
+                "ready": "Klar att beställa",
+                "waiting": "Väntar på nytt recept"
+            },
+            "pharmacy": "Apotek",
+            "otherPharmacy": "Annat apotek",
+            "pharmacyName": "Apotekets namn",
+            "delivery": "Leverans",
+            "pickup": "Hämtas på apoteket",
+            "street": "Adress",
+            "postCode": "Postnr",
+            "contact": "Kontaktperson",
+            "instruction": "Meddelande till apoteket (valfritt)",
+            "waitingNote": "Väntar på ett nytt recept från läkaren: {drugs}. Ingår inte i den här beställningen och stannar i korgen tills receptet är utfärdat.",
+            "order": "Inget i korgen kan beställas | Skicka beställning ({count}) | Skicka beställning ({count})",
+            "ordered": "Beställningen har skickats till apoteket: {drugs}.",
+            "priorities": {
+                "0": "Skicka till annan adress samma dag",
+                "1": "Skicka till annan adress med posten",
+                "2": "Skicka till klientens adress samma dag",
+                "3": "Skicka till klientens adress med posten"
+            }
+        },
+        "history": {
+            "title": "Historik i FMK",
+            "load": "Hämta historik från FMK",
+            "current": "Aktuell",
+            "now": "nu",
+            "paused": "Pausad {from} – {to}",
+            "none": "FMK har inga tidigare versioner."
+        },
+        "sundhedDk": {
+            "open": "Öppna sundhed.dk",
+            "hint": "Öppnar sundhed.dk inloggad som dig, med din FMK-inloggning",
+            "title": "sundhed.dk",
+            "sample": "Testdata: sundhed.dk öppnas först när ni är anslutna till NSP."
+        },
+        "pdf": {
+            "print": "Skriv ut (PDF)",
+            "hint": "Läkemedelskortet som PDF från FMK, för visning och utskrift"
+        },
+        "changed": {
+            "title": "Läkemedelskortet har ändrats i FMK sedan du hämtade det.",
+            "text": "Inget har sparats eller skickats. Läkemedelskortet har hämtats igen. Titta på ändringen och försök igen.",
+            "dismiss": "Stäng meddelandet"
         }
     },
     "recordsExport": {

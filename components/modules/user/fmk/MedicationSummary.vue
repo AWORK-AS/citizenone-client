@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkDrugMedication } from '@/types/fmk'
-import { fmkText, fmkToday } from '@/utils/fmk'
+import { fmkFollowUp, fmkPrescriptionState, fmkText, fmkToday } from '@/utils/fmk'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 
 /**
@@ -21,12 +21,6 @@ const today = fmkToday()
 
 const title = computed(() => [m.value.drug_name, m.value.strength, m.value.form].filter(Boolean).join(' '))
 
-const dosage = computed(() => {
-    if (m.value.dosage_by_local_schema) return t('fmk.medication.dosageWrittenInstructions')
-    if (m.value.dosage_free_text) return m.value.dosage_free_text
-    if (m.value.dosage_structures) return t('fmk.medication.dosageStructured')
-    return t('fmk.medication.noCurrentDosage')
-})
 
 const period = computed(() => {
     const start = m.value.treatment_start ? formatDateToReadable(m.value.treatment_start) : t('fmk.medication.startedPreviously')
@@ -60,7 +54,14 @@ const badges = computed<Badge[]>(() => {
     if (med.treatment_start && med.treatment_start > today) {
         list.push({ key: 'future', tone: 'warning', text: t('fmk.medication.notStartedYet', { date: formatDateToReadable(med.treatment_start) }) })
     }
-    if (med.follow_up_dates) {
+    // GK 3.15: a passed follow-up date stands out; the next one is shown.
+    const followUp = fmkFollowUp(med.follow_up ?? [], today)
+    if (followUp.overdue) {
+        list.push({ key: 'follow-up-overdue', tone: 'danger', text: t('fmk.medication.followUpOverdue', { date: formatDateToReadable(followUp.overdue) }) })
+    }
+    if (followUp.next) {
+        list.push({ key: 'follow-up', tone: 'info', text: t('fmk.medication.followUpNext', { date: formatDateToReadable(followUp.next) }) })
+    } else if (med.follow_up_dates && !followUp.overdue) {
         list.push({ key: 'follow-up', tone: 'info', text: t('fmk.medication.followUpDates') })
     }
     if (med.has_negative_consent) {
@@ -69,11 +70,17 @@ const badges = computed<Badge[]>(() => {
     if (med.is_dose_dispensed) {
         list.push({ key: 'dose-dispensed', tone: 'info', text: t('fmk.medication.doseDispensed') })
     }
-    if (med.prescriptions > 0) {
-        list.push({ key: 'prescriptions', tone: 'neutral', text: t('fmk.medication.prescriptions', { count: med.prescriptions }) })
+    // GK 3.16: open prescriptions that can still be dispensed; GK 6.4: future ones stand out.
+    const future = (med.prescription_list ?? []).filter(p => fmkPrescriptionState(p, today).future)
+    if (future.length) {
+        const first = future.map(p => p.valid_from!).sort()[0]
+        list.push({ key: 'future-prescription', tone: 'warning', text: t('fmk.prescription.futureBadge', { date: formatDateToReadable(first) }) })
+    }
+    if ((med.open_prescriptions ?? 0) > 0) {
+        list.push({ key: 'prescriptions', tone: 'neutral', text: t('fmk.medication.openPrescriptions', { count: med.open_prescriptions }, med.open_prescriptions) })
     }
     if (med.effectuations > 0) {
-        list.push({ key: 'effectuations', tone: 'neutral', text: t('fmk.medication.effectuations', { count: med.effectuations }) })
+        list.push({ key: 'effectuations', tone: 'neutral', text: t('fmk.medication.effectuations', { count: med.effectuations }, med.effectuations) })
     }
 
     return list
@@ -92,8 +99,7 @@ const badgeClass = {
         <p class="font-semibold text-[#1a2332]" :class="m.withdrawn ? 'line-through decoration-1' : ''">
             {{ title || $t('fmk.medication.unnamed') }}
         </p>
-        <p class="mt-0.5 text-sm text-[#1a2332]"
-            :class="m.dosage_by_local_schema ? 'italic' : ''">{{ dosage }}</p>
+        <ModulesUserFmkDosageView :medication="m" />
         <p v-if="m.indication" class="text-sm text-[#64748b]">{{ m.indication }}</p>
         <p class="text-xs text-[#64748b]">{{ period }}</p>
 

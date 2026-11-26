@@ -13,14 +13,15 @@ import { fmkNeedsAction } from '@/utils/fmk'
  * need action, with one clickable count per kind. Each kind has its own
  * colour (always with icon and text), so warnings stay orange only.
  */
-const props = defineProps<{ rows: FmkRow[], canEdit?: boolean, busyKey?: string | null, flashKey?: string | null }>()
-const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null] }>()
+const props = defineProps<{ rows: FmkRow[], canEdit?: boolean, busyKey?: string | null, flashKey?: string | null, includeWithdrawn?: boolean, withdrawnPending?: boolean }>()
+const emit = defineEmits<{ details: [identifier: string], takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null], toggleWithdrawn: [], requestPrescription: [identifier: string], addToBasket: [identifier: string] }>()
 
 type Filter = 'action' | 'all' | 'draft' | FmkRowStatus
 
 const statusMeta: Record<FmkRowStatus, { icon: string, chip: string, bar: string, dot: string }> = {
     changed_in_fmk: { icon: 'ph:arrows-clockwise', chip: 'bg-[#fefce8] text-[#854d0e] border-[#fde68a]', bar: 'border-l-[#eab308]', dot: 'bg-[#eab308]' },
     only_fmk: { icon: 'ph:arrow-left', chip: 'bg-[#eef4f9] text-[#0f4c75] border-[#bcd3e4]', bar: 'border-l-[#0f4c75]', dot: 'bg-[#0f4c75]' },
+    withdrawn_in_fmk: { icon: 'ph:prohibit', chip: 'bg-[#f1f5f9] text-[#334155] border-[#cbd5e1]', bar: 'border-l-[#475569]', dot: 'bg-[#475569]' },
     missing_in_fmk: { icon: 'ph:warning', chip: 'bg-[#fef2f2] text-[#b91c1c] border-[#fecaca]', bar: 'border-l-[#dc2626]', dot: 'bg-[#dc2626]' },
     only_local: { icon: 'ph:arrow-right', chip: 'bg-[#f8fafc] text-[#475569] border-[#e2e8f0]', bar: 'border-l-[#94a3b8]', dot: 'bg-[#94a3b8]' },
     same: { icon: 'ph:check', chip: 'bg-[#f0faf9] text-[#1b6d8a] border-[#2dbab2]/40', bar: 'border-l-transparent', dot: 'bg-[#2dbab2]' },
@@ -43,6 +44,10 @@ const visibleRows = computed(() => {
     if (f === 'draft') return props.rows.filter(r => r.local?.is_draft)
     return props.rows.filter(r => r.status === f)
 })
+
+// Turning on withdrawn ones shows them: they rarely need action, so "Kræver
+// handling" would hide them and the button would seem to do nothing.
+watch(() => props.includeWithdrawn, (on) => { if (on) filter.value = 'all' })
 
 // A kind filter that has emptied (e.g. the last row taken over) goes back to "needs action".
 watch(visibleRows, (rows) => {
@@ -112,6 +117,14 @@ function rowClass(row: FmkRow): string[] {
                         </p>
                     </div>
                 </div>
+                <div class="flex flex-wrap items-center gap-2">
+                <!-- GK 3.9: withdrawn and expired drug medications on request. -->
+                <button type="button" :aria-pressed="includeWithdrawn === true" :disabled="withdrawnPending" @click="emit('toggleWithdrawn')"
+                    class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] disabled:opacity-60"
+                    :class="includeWithdrawn ? 'border-[#475569] bg-[#f1f5f9] text-[#334155]' : 'border-[#e2e8f0] bg-white text-[#64748b] hover:text-[#1a2332]'">
+                    <Icon :name="includeWithdrawn ? 'ph:check-square' : 'ph:square'" class="size-4" aria-hidden="true" />
+                    {{ $t('fmk.compare.showWithdrawn') }}
+                </button>
                 <div class="flex rounded-lg bg-[#f8fafc] p-1" role="group" :aria-label="$t('fmk.compare.filterLabel')">
                     <button v-for="f in (['action', 'all'] as const)" :key="f" type="button" :aria-pressed="filter === f"
                         class="rounded-md px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]"
@@ -119,6 +132,7 @@ function rowClass(row: FmkRow): string[] {
                         @click="filter = f">
                         {{ f === 'action' ? $t('fmk.compare.needsAction', { count: actionCount }) : $t('fmk.compare.all', { count: rows.length }) }}
                     </button>
+                </div>
                 </div>
             </div>
 
@@ -191,7 +205,7 @@ function rowClass(row: FmkRow): string[] {
                     <template v-if="row.fmk">
                         <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                         <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" />
+                            @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" @addToBasket="emit('addToBasket', $event)" />
                     </template>
                     <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                         <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />
@@ -232,7 +246,7 @@ function rowClass(row: FmkRow): string[] {
                             <template v-if="row.fmk">
                                 <ModulesUserFmkMedicationSummary :medication="row.fmk" @details="emit('details', row.fmk.identifier)" />
                                 <ModulesUserFmkRowActions :row="row" :canEdit="canEdit" :busy="busyKey === row.key"
-                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" />
+                                    @takeOver="emit('takeOver', $event)" @acknowledge="emit('acknowledge', $event)" @openLocal="emit('openLocal', $event)" @requestPrescription="emit('requestPrescription', $event)" @addToBasket="emit('addToBasket', $event)" />
                             </template>
                             <p v-else class="flex items-center gap-1.5 text-sm text-[#94a3b8]">
                                 <Icon name="ph:minus-circle" class="size-4" aria-hidden="true" />

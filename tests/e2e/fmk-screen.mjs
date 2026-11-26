@@ -107,11 +107,18 @@ await page.screenshot({ path: path.join(SHOT, 'fmk-screen-desktop.png'), fullPag
 console.log('3. All FMK fields')
 await page.getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).first().click()
 // Headless UI's dialog root has no box of its own; wait for its content.
-const field = page.getByRole('dialog').getByText('Identifier').first()
+const dialog = page.getByRole('dialog')
+const route = dialog.getByText(/^(Administrationsvej|Route of administration)$/).first()
+await route.waitFor()
+check('details in plain words (route of administration, ATC)', await route.isVisible() && await dialog.getByText(/^ATC$/).first().isVisible())
+check('who created it, with authorisation code', /aut\.|auth\./.test(await dialog.innerText()))
+await dialog.getByRole('button', { name: /Vis alle felter fra FMK|Show all fields from FMK/ }).click()
+const field = dialog.getByText('Identifier').first()
 await field.waitFor()
-check('details show FMK field names', await field.isVisible())
+check('every FMK field still available', await field.isVisible())
+await page.screenshot({ path: path.join(SHOT, 'fmk-details.png') })
 await page.keyboard.press('Escape')
-await field.waitFor({ state: 'hidden' })
+await route.waitFor({ state: 'hidden' })
 
 console.log('4. FMK unavailable on refresh')
 await page.route('**/fmk/medicine-card', (route) => route.fulfill({
@@ -311,6 +318,208 @@ if (await editButton.count()) {
   await table.waitFor()
 } else {
   console.log('  skip no medicine to edit')
+}
+
+console.log('11. Privacy-marked medicine (GK 4.3)')
+const privateButton = page.getByRole('button', { name: /Vis privatmarkeret medicin|Show privacy-marked medicine/ }).first()
+if (await privateButton.count()) {
+  await privateButton.click()
+  const confirm = page.getByRole('button', { name: /Vis medicinen|Show the medicine/ })
+  await confirm.waitFor()
+  check('no reason chosen: cannot confirm', await confirm.isDisabled())
+  await page.getByRole('radio', { name: /Værdispring|Emergency/ }).check()
+  const sent = page.waitForResponse((r) => r.url().includes('/negative-consent'))
+  await confirm.click()
+  const res = await sent
+  check('reason sent to the backend', res.status() === 200 && JSON.parse(res.request().postData() || '{}').reason === 'emergency')
+  await page.getByText(/Privatmarkeret medicin vises|Privacy-marked medicine is shown/).first().waitFor()
+  check('says why the medicine is shown', true)
+  await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+  await page.waitForTimeout(500)
+  const marked = table.locator('tr').filter({ hasText: 'Cipramil' })
+  check('hidden medicine now listed', await marked.count() === 1)
+  check('it is marked as privacy-marked', /Privatmarkeret|Privacy-marked|Private/i.test(await marked.first().innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-private.png'), fullPage: true })
+} else {
+  console.log('  skip no privacy-marked medicine on this card')
+}
+
+console.log('12. Prescriptions and dispensings (GK 6, 3.16)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const ibuRow = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first()
+if (await ibuRow.count()) {
+  check('open prescriptions counted on the row', /åben recept|open prescription/.test(await ibuRow.innerText()))
+  await ibuRow.getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).click()
+  const dlg = page.getByRole('dialog')
+  await dlg.getByText(/^(Recepter|Prescriptions)$/).first().waitFor()
+  const text = await dlg.innerText()
+  check('prescription status shown', /delvist udleveret/i.test(text))
+  check('iterations shown', /3 udleveringer med 2 uger|3 dispensings at 2 uger/.test(text))
+  check('no substitution shown as Ej S', text.includes('Ej S'))
+  check('given and pharmacy dispensing told apart', /Indgivet|Given/.test(text) && /Apoteksudlevering|Pharmacy dispensing/.test(text))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-prescriptions.png') })
+  await page.keyboard.press('Escape')
+  await dlg.getByText(/^(Recepter|Prescriptions)$/).first().waitFor({ state: 'hidden' })
+}
+const predRow = table.locator('tr').filter({ hasText: 'Prednisolon' }).first()
+if (await predRow.count()) check('future prescription stands out', /Recept gyldig fra|Prescription valid from/.test(await predRow.innerText()))
+const looseButton = page.getByRole('button', { name: /Vis løse recepter|Show loose prescriptions/ })
+if (await looseButton.count()) {
+  await looseButton.click()
+  const brentan = page.getByRole('dialog').getByText(/Brentan/).first()
+  await brentan.waitFor()
+  check('loose prescriptions can be opened', await brentan.isVisible())
+  await page.keyboard.press('Escape')
+  await brentan.waitFor({ state: 'hidden' })
+}
+
+console.log('13. Withdrawn drug medications and follow-up dates (GK 3.9, 3.15)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+check('withdrawn ones are not fetched by default', await table.locator('tr').filter({ hasText: 'Selo-Zok' }).count() === 0)
+const withdrawnToggle = page.getByRole('button', { name: /Vis seponerede|Show withdrawn/ })
+const asked = page.waitForRequest((r) => r.url().includes('/fmk/medicine-card') && r.url().includes('include_withdrawn=1'))
+await withdrawnToggle.click()
+await asked
+const seloRow = table.locator('tr').filter({ hasText: 'Selo-Zok' }).first()
+await seloRow.waitFor()
+check('withdrawn one shown on request with who and when', /Seponeret i FMK af Læge Test|Withdrawn in FMK by Læge Test/.test(await seloRow.innerText()))
+const marevanRow = table.locator('tr').filter({ hasText: 'Marevan' }).first()
+if (await marevanRow.count()) check('passed follow-up date stands out', /Kontroldato overskredet|Follow-up date passed/.test(await marevanRow.innerText()))
+await withdrawnToggle.click()
+await seloRow.waitFor({ state: 'detached' })
+check('withdrawn ones hidden again', true)
+
+console.log('14. Dose dispensing (GK 7.1, 7.3)')
+const ddNotice = page.locator('[role=status]').filter({ hasText: /dosisdispenseret medicin|dose-dispensed medicine/ }).first()
+if (await ddNotice.count()) {
+  const noticeText = await ddNotice.innerText()
+  check('latest dose dispensing with pharmacy stands out', /Seneste dosisudlevering: Dosisapoteket Test|Latest dose dispensing: Dosisapoteket Test/.test(noticeText))
+  check('open dose dispensing prescriptions told', /åbne recepter med dosisdispensering|open prescriptions with dose dispensing/.test(noticeText))
+  const fetched = page.waitForResponse((r) => r.url().includes('/fmk/dose-dispensing-card'))
+  await ddNotice.getByRole('button', { name: /Vis dosisdispenseringskort|Show dose dispensing card/ }).click()
+  check('card fetched only when opened', (await fetched).status() === 200)
+  const ddDialog = page.getByRole('dialog')
+  await ddDialog.getByText(/^(Aktuel periode|Current period)$/).first().waitFor()
+  const ddText = await ddDialog.innerText()
+  check('current and coming periods split', /Kommende perioder|Coming periods/i.test(ddText))
+  check('deadline and pharmacies shown', /Deadline for ændringer|Deadline for changes/.test(ddText) && /Pakkeapotek|Packing pharmacy/.test(ddText) && ddText.includes('Dosisapoteket Test'))
+  check("FMK's warnings shown", ddText.includes('Styrken er ændret fra 5 mg til 10 mg.') && ddText.includes('Der er ændringer efter deadline'))
+  check('medicines with name, strength and dosage', ddText.includes('Felodipin 10 mg') && ddText.includes('1 tablet morgen'))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-dose-dispensing.png') })
+  await page.keyboard.press('Escape')
+  await ddDialog.getByText(/^(Aktuel periode|Current period)$/).first().waitFor({ state: 'hidden' })
+} else {
+  console.log('  skip no dose dispensing on this card')
+}
+
+console.log('15. Prescription requests (GK 16.1, 16.3, 16.4)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const ibuForRequest = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first()
+const requestButton = ibuForRequest.getByRole('button', { name: /Anmod om ny recept|Request a new prescription/ })
+if (await requestButton.count()) {
+  await requestButton.click()
+  const reqDialog = page.getByRole('dialog')
+  await reqDialog.getByText(/Lægehuset Test/).first().waitFor()
+  check('receiver suggested from the card', await reqDialog.getByRole('radio', { name: /Lægehuset Test/ }).isChecked())
+  await reqDialog.getByText(/Egen læge|Own GP/).first().waitFor()
+  check('own GP from CPR first and not listed twice', await reqDialog.getByRole('radio', { name: /Egen læge|Own GP/ }).isChecked() && await reqDialog.getByRole('radio', { name: /Lægehuset Test/ }).count() === 1)
+  check('same package as last time offered', await reqDialog.getByRole('radio', { name: /Samme pakning|Same package/ }).isChecked())
+  const posted = page.waitForResponse((r) => r.url().includes('/fmk/prescription-requests') && r.request().method() === 'POST')
+  await reqDialog.getByRole('button', { name: /Send anmodning|Send request/ }).click()
+  const postRes = await posted
+  const sentBody = JSON.parse(postRes.request().postData() || '{}')
+  check('request sent with receiver and package', postRes.status() === 201 && sentBody.organisation?.id === '012345' && sentBody.dispensing?.package_number === '028100')
+  const panel = page.locator('section').filter({ has: page.getByRole('heading', { name: /Receptanmodninger|Prescription requests/ }) })
+  const waiting = panel.locator('li').filter({ hasText: /Afventer lægen|Awaiting the doctor/ }).first()
+  await waiting.waitFor()
+  check('request listed as awaiting the doctor', true)
+  check('rejected request shows the reason', /Årsag: Receptfornyelsen kræver konsultation|Reason: Receptfornyelsen kræver konsultation/.test(await panel.innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-requests.png'), fullPage: true })
+  const cancelled = page.waitForResponse((r) => r.url().includes('/fmk/prescription-requests/') && r.request().method() === 'DELETE')
+  await waiting.getByRole('button', { name: /Fortryd|Cancel/ }).click()
+  check('own request can be cancelled', (await cancelled).status() === 200)
+} else {
+  console.log('  skip staff may not request prescriptions')
+}
+
+console.log('16. Order basket (GK 16.2, 16.5)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const basketSection = page.locator('section').filter({ has: page.getByRole('heading', { name: /Bestil fra apotek|Order from pharmacy/ }) })
+const addIbu = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first().getByRole('button', { name: /Læg i kurv|Add to basket/ })
+if (await addIbu.count()) {
+  await addIbu.click()
+  await basketSection.getByText(/Klar til bestilling|Ready to order/).first().waitFor()
+  await table.locator('tr').filter({ hasText: 'Magnesia' }).first().getByRole('button', { name: /Læg i kurv|Add to basket/ }).click()
+  await basketSection.getByText(/Afventer ny recept|Awaiting a new prescription/).first().waitFor()
+  check('ready and waiting items told apart', true)
+  check('pharmacy suggested from the card', await basketSection.getByRole('radio').first().isChecked())
+  check('waiting items are said not to be in this order', /Venter på en ny recept fra lægen|Waiting for a new prescription/.test(await basketSection.innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-basket.png'), fullPage: true })
+  const ordered = page.waitForResponse((r) => r.url().includes('/fmk/basket/order'))
+  await basketSection.getByRole('button', { name: /Send bestilling|Send order/ }).click()
+  check('one order sent', (await ordered).status() === 200)
+  await basketSection.getByText(/Klar til bestilling|Ready to order/).first().waitFor({ state: 'detached' })
+  check('waiting item stays in the basket', await basketSection.getByText(/Afventer ny recept|Awaiting a new prescription/).count() === 1)
+} else {
+  console.log('  skip staff may not order')
+}
+
+console.log('17. Medicine card as PDF and full history (GK 12.6, 3.11)')
+const pdfResponse = page.waitForResponse((r) => r.url().includes('/fmk/medicine-card/pdf'))
+const popup = page.waitForEvent('popup')
+await page.getByRole('button', { name: /Udskriv \(PDF\)|Print \(PDF\)/ }).click()
+const pdfRes = await pdfResponse
+check('PDF fetched from FMK', pdfRes.status() === 200 && (pdfRes.headers()['content-type'] ?? '').includes('application/pdf'))
+const pdfTab = await popup
+check('PDF opened in a new tab', Boolean(pdfTab))
+await pdfTab.close().catch(() => {})
+
+// Sikker browseropstart to sundhed.dk: in sample mode STS is never asked and staff are told why.
+const sbo = page.waitForResponse((r) => r.url().includes('/fmk-sundhed-dk') && r.request().method() === 'POST')
+await page.getByRole('button', { name: /Åbn sundhed\.dk|Open sundhed\.dk/ }).click()
+const sboRes = await sbo
+check('sundhed.dk asked for a ticket', sboRes.status() === 200 && (await sboRes.json()).data?.sample === true)
+await page.getByText(/sundhed\.dk åbnes først|sundhed\.dk opens once/).first().waitFor()
+check('sample mode says sundhed.dk opens once connected', true)
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+await table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first().getByRole('button', { name: /Vis alle oplysninger fra FMK|Show all information from FMK/ }).click()
+const histDialog = page.getByRole('dialog')
+await histDialog.getByRole('button', { name: /Hent historik fra FMK|Fetch history from FMK/ }).click()
+await histDialog.getByText(/^(Aktuel|Current)$/).first().waitFor()
+const histText = await histDialog.innerText()
+check('every version listed, newest first', histText.indexOf('version 3') < histText.indexOf('version 2') && histText.includes('version 1'))
+check('each version with its dosage', histText.includes('1 tablet 2 gange dagligt') && histText.includes('1 tablet 3 gange dagligt'))
+await page.keyboard.press('Escape')
+await histDialog.getByText(/^(Aktuel|Current)$/).first().waitFor({ state: 'hidden' })
+
+console.log('18. Card changed in FMK since it was fetched (GK 1.5)')
+// The browser is shown an older version than FMK has now.
+await page.route('**/fmk/medicine-card', async (route) => {
+  const res = await route.fetch(); const body = await res.json()
+  body.data.card.version = '4700'
+  await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })
+})
+await page.getByRole('button', { name: /^(Hent igen|Fetch again)$/ }).first().click()
+await page.waitForTimeout(1500)
+await page.unroute('**/fmk/medicine-card')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const staleTakeOver = table.getByRole('button', { name: /Overtag til CitizenOne|Take over into CitizenOne/ }).first()
+if (await staleTakeOver.count()) {
+  const refused = page.waitForResponse((r) => r.url().includes('/fmk/take-over'))
+  const refetched = page.waitForResponse((r) => r.url().includes('/fmk/medicine-card') && r.request().method() === 'GET')
+  await staleTakeOver.click()
+  check('action on an older card refused', (await refused).status() === 409)
+  await page.getByText(/Medicinkortet er ændret i FMK, siden du hentede det|The medicine card has changed in FMK since you fetched it/).first().waitFor()
+  check('staff told the card changed', true)
+  check('card fetched again', (await refetched).status() === 200)
+} else {
+  console.log('  skip nothing to take over')
 }
 
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
