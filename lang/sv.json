@@ -23919,6 +23919,52 @@
             "dispensedOn": "Utlämnat",
             "quantity": "Totalt {quantity} {unit}",
             "private": "{count} privatmarkerat läkemedel visas inte | {count} privatmarkerade läkemedel visas inte"
+        },
+        "request": {
+            "open": "Begär nytt recept",
+            "title": "Begär nytt recept: {drug}",
+            "intro": "Begäran skickas via FMK till den läkare eller organisation du väljer. Läkaren beslutar om ett nytt recept utfärdas.",
+            "receiver": "Mottagare",
+            "otherReceiver": "Annan mottagare",
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Läkarhuset Østergade",
+            "idType": "Nummertyp",
+            "idTypes": {
+                "Yder": "Ydernummer (husläkare)",
+                "SOR": "SOR-kod",
+                "SKS": "SKS-kod (sjukhus)"
+            },
+            "number": "Nummer",
+            "package": "Förpackning",
+            "doctorChooses": "Låt läkaren välja förpackning",
+            "samePackage": "Samma förpackning som senaste receptet (varunr. {number})",
+            "quantity": "Antal förpackningar",
+            "reiterate": "Flera uttag",
+            "reiterations": "Antal uttag",
+            "reiterationsEvery": "uttag, med",
+            "interval": "Intervall",
+            "intervalUnit": "Enhet",
+            "units": {
+                "dage": "dagars intervall",
+                "uger": "veckors intervall",
+                "måneder": "månaders intervall"
+            },
+            "send": "Skicka begäran",
+            "sent": "Begäran har skickats till läkaren via FMK.",
+            "panelTitle": "Receptbegäranden",
+            "load": "Visa receptbegäranden",
+            "none": "Det finns inga receptbegäranden för klienten.",
+            "status": {
+                "unhandled": "Väntar på läkaren",
+                "prescribed": "Recept utfärdat",
+                "cancelled": "Avvisad eller ångrad"
+            },
+            "sentTo": "Skickad till {to}",
+            "asked": "Önskat: {quantity} × varunr. {number}",
+            "reason": "Orsak: {reason}",
+            "cancel": "Ångra",
+            "cancelled": "Begäran har ångrats.",
+            "drugMedication": "Ordination {id}"
         }
     },
     "recordsExport": {

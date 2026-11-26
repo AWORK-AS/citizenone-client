@@ -14,7 +14,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
  * action on the screen, so it is the one filled button.
  */
 const props = defineProps<{ row: FmkRow, canEdit?: boolean, busy?: boolean }>()
-const emit = defineEmits<{ takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null] }>()
+const emit = defineEmits<{ takeOver: [identifier: string], acknowledge: [identifier: string], openLocal: [uuid: string | null], requestPrescription: [identifier: string] }>()
 
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -133,4 +133,11 @@ function shown(change: FmkHistoryChange, value: string | null): string {
             {{ busy ? $t('fmk.compare.takingOver') : $t('fmk.compare.takeOver') }}
         </button>
     </div>
+
+    <!-- GK 16.1: ask the doctor for a new prescription. -->
+    <button v-if="canEdit && row.fmk && row.status !== 'withdrawn_in_fmk'" type="button" @click="emit('requestPrescription', row.fmk.identifier)"
+        class="mt-2 inline-flex items-center gap-1 rounded text-xs font-semibold text-[#0f4c75] hover:text-[#1b6d8a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2]">
+        <Icon name="ph:prescription" class="size-4" aria-hidden="true" />
+        {{ $t('fmk.request.open') }}
+    </button>
 </template>

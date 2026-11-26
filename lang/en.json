@@ -24004,6 +24004,52 @@
             "dispensedOn": "Dispensed",
             "quantity": "In total {quantity} {unit}",
             "private": "{count} privacy-marked medicine is not shown | {count} privacy-marked medicines are not shown"
+        },
+        "request": {
+            "open": "Request a new prescription",
+            "title": "Request a new prescription: {drug}",
+            "intro": "The request is sent through FMK to the doctor or organisation you choose. The doctor decides whether a new prescription is issued.",
+            "receiver": "Receiver",
+            "otherReceiver": "Other receiver",
+            "name": "Name",
+            "namePlaceholder": "e.g. Østergade Medical Centre",
+            "idType": "Number type",
+            "idTypes": {
+                "Yder": "Yder number (GP)",
+                "SOR": "SOR code",
+                "SKS": "SKS code (hospital)"
+            },
+            "number": "Number",
+            "package": "Package",
+            "doctorChooses": "Let the doctor choose the package",
+            "samePackage": "Same package as the last prescription (item no. {number})",
+            "quantity": "Number of packages",
+            "reiterate": "Several dispensings",
+            "reiterations": "Number of dispensings",
+            "reiterationsEvery": "dispensings, at",
+            "interval": "Interval",
+            "intervalUnit": "Unit",
+            "units": {
+                "dage": "day intervals",
+                "uger": "week intervals",
+                "måneder": "month intervals"
+            },
+            "send": "Send request",
+            "sent": "The request has been sent to the doctor through FMK.",
+            "panelTitle": "Prescription requests",
+            "load": "Show prescription requests",
+            "none": "There are no prescription requests for the citizen.",
+            "status": {
+                "unhandled": "Awaiting the doctor",
+                "prescribed": "Prescription issued",
+                "cancelled": "Rejected or cancelled"
+            },
+            "sentTo": "Sent to {to}",
+            "asked": "Asked for: {quantity} × item no. {number}",
+            "reason": "Reason: {reason}",
+            "cancel": "Cancel",
+            "cancelled": "The request has been cancelled.",
+            "drugMedication": "Drug medication {id}"
         }
     },
     "recordsExport": {

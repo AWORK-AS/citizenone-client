@@ -51,6 +51,15 @@ const consentOpen = shallowRef(false)
 const looseOpen = shallowRef(false)
 // GK 7.3: the dose dispensing card, fetched when opened.
 const doseDispensingOpen = shallowRef(false)
+// GK 16: prescription requests to the doctor through FMK.
+const requestFor = shallowRef<string | null>(null)
+const requestMedication = computed(() => card.value?.card.drug_medications.find(m => m.identifier === requestFor.value) ?? null)
+const requestsPanel = shallowRef<{ load: () => Promise<void> } | null>(null)
+async function prescriptionRequested() {
+    requestFor.value = null
+    successAlert(`${t('alert.success')}!`, t('fmk.request.sent'))
+    await requestsPanel.value?.load()
+}
 async function showPrivate(reason: 'consent' | 'emergency') {
     await fetchCard(reason)
     if (!error.value) consentOpen.value = false
@@ -310,8 +319,9 @@ watch(() => route.query.fmk_login, (status) => {
                         <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
                     </p>
                     <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" @showDoseDispensing="doseDispensingOpen = true" />
-                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @details="detailsFor = $event"
+                    <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @requestPrescription="requestFor = $event" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
+                    <ModulesUserFmkPrescriptionRequestsPanel ref="requestsPanel" :citizenUuid="citizenUuid" :medications="card.card.drug_medications" :canEdit="canEdit" />
                 </template>
             </div>
 
@@ -323,6 +333,8 @@ watch(() => route.query.fmk_login, (status) => {
                     </div>
                 </template>
             </Modal>
+
+            <ModulesUserFmkPrescriptionRequestDialog :show="requestFor !== null" :citizenUuid="citizenUuid" :medication="requestMedication" @close="requestFor = null" @sent="prescriptionRequested" />
 
             <ModulesUserFmkDoseDispensingCard :show="doseDispensingOpen" :citizenUuid="citizenUuid" @close="doseDispensingOpen = false" />
 

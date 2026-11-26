@@ -236,3 +236,29 @@ export function fmkFollowUp(dates: string[], today: string): { overdue: string |
     const past = dates.filter(d => d < today)
     return { overdue: past[past.length - 1] ?? null, next: dates.find(d => d >= today) ?? null }
 }
+
+/**
+ * GK 16.1: suggested receivers for a prescription request, taken from the
+ * card: the organisation that created the drug medication and those that
+ * issued its prescriptions, when FMK gave their identifier (yder number, SOR
+ * or SKS). Staff can always type another one.
+ */
+export function fmkAddresseeSuggestions(medication: { created: any, prescription_list?: { created: any }[] }): { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }[] {
+    const sources = [medication.created, ...(medication.prescription_list ?? []).map(p => p.created)]
+    const seen = new Set<string>()
+    const list: { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }[] = []
+    for (const entry of sources) {
+        const by = entry?.By
+        const org = by?.Organisation ?? by?.AuthorisedHealthcareProfessional?.Organisation
+        const id = org?.Identifier
+        const value = fmkText(id)
+        const source = id && typeof id === 'object' ? id['@source'] : null
+        const name = fmkText(org?.Name)
+        if (!name || !value || !['Yder', 'SOR', 'SKS'].includes(source)) continue
+        const key = `${source}:${value}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        list.push({ name, type: source === 'SKS' ? 'Sygehus' : 'Yder', id_source: source, id: value })
+    }
+    return list
+}

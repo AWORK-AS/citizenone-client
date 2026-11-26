@@ -24004,6 +24004,52 @@
             "dispensedOn": "Udleveret",
             "quantity": "I alt {quantity} {unit}",
             "private": "{count} privatmarkeret lægemiddel vises ikke | {count} privatmarkerede lægemidler vises ikke"
+        },
+        "request": {
+            "open": "Anmod om ny recept",
+            "title": "Anmod om ny recept: {drug}",
+            "intro": "Anmodningen sendes gennem FMK til den læge eller organisation, du vælger. Lægen beslutter, om der udstedes en ny recept.",
+            "receiver": "Modtager",
+            "otherReceiver": "Anden modtager",
+            "name": "Navn",
+            "namePlaceholder": "fx Lægehuset Østergade",
+            "idType": "Nummer type",
+            "idTypes": {
+                "Yder": "Ydernummer (praktiserende læge)",
+                "SOR": "SOR-kode",
+                "SKS": "SKS-kode (sygehus)"
+            },
+            "number": "Nummer",
+            "package": "Pakning",
+            "doctorChooses": "Lad lægen vælge pakning",
+            "samePackage": "Samme pakning som sidste recept (varenr. {number})",
+            "quantity": "Antal pakninger",
+            "reiterate": "Flere udleveringer",
+            "reiterations": "Antal udleveringer",
+            "reiterationsEvery": "udleveringer, med",
+            "interval": "Interval",
+            "intervalUnit": "Enhed",
+            "units": {
+                "dage": "dages interval",
+                "uger": "ugers interval",
+                "måneder": "måneders interval"
+            },
+            "send": "Send anmodning",
+            "sent": "Anmodningen er sendt til lægen gennem FMK.",
+            "panelTitle": "Receptanmodninger",
+            "load": "Vis receptanmodninger",
+            "none": "Der er ingen receptanmodninger for borgeren.",
+            "status": {
+                "unhandled": "Afventer lægen",
+                "prescribed": "Recept udstedt",
+                "cancelled": "Afvist eller fortrudt"
+            },
+            "sentTo": "Sendt til {to}",
+            "asked": "Ønsket: {quantity} × varenr. {number}",
+            "reason": "Årsag: {reason}",
+            "cancel": "Fortryd",
+            "cancelled": "Anmodningen er fortrudt.",
+            "drugMedication": "Ordination {id}"
         }
     },
     "recordsExport": {

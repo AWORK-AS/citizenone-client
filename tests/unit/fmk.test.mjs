@@ -183,3 +183,17 @@ describe('withdrawn in FMK and follow-up dates', () => {
     test('only future dates', () => assert.deepEqual(fmkFollowUp(['2027-01-15'], '2026-11-26'), { overdue: null, next: '2027-01-15' }))
     test('no dates', () => assert.deepEqual(fmkFollowUp([], '2026-11-26'), { overdue: null, next: null }))
 })
+
+const { fmkAddresseeSuggestions } = await import('../../utils/fmk.ts')
+
+describe('fmkAddresseeSuggestions', () => {
+    const doctor = { By: { AuthorisedHealthcareProfessional: { Name: 'Læge Test', Organisation: { Name: 'Lægehuset Test', Identifier: { '#text': '012345', '@source': 'Yder' } } } } }
+    test('the practice that created it, once even when it also issued the prescription', () => {
+        assert.deepEqual(fmkAddresseeSuggestions({ created: doctor, prescription_list: [{ created: doctor }] }), [{ name: 'Lægehuset Test', type: 'Yder', id_source: 'Yder', id: '012345' }])
+    })
+    test('a hospital by SKS code', () => {
+        const hospital = { By: { Organisation: { Name: 'Testsygehus', Identifier: { '#text': '1301011', '@source': 'SKS' } } } }
+        assert.deepEqual(fmkAddresseeSuggestions({ created: hospital }), [{ name: 'Testsygehus', type: 'Sygehus', id_source: 'SKS', id: '1301011' }])
+    })
+    test('no identifier, no suggestion', () => assert.deepEqual(fmkAddresseeSuggestions({ created: { By: { AuthorisedHealthcareProfessional: { Name: 'Læge Test' } } } }), []))
+})

@@ -414,6 +414,35 @@ if (await ddNotice.count()) {
   console.log('  skip no dose dispensing on this card')
 }
 
+console.log('15. Prescription requests (GK 16.1, 16.3, 16.4)')
+await page.getByRole('button', { name: /^(Alle|All) \(/ }).click()
+await page.waitForTimeout(400)
+const ibuForRequest = table.locator('tr').filter({ hasText: 'Ibumetin 400 mg tabletter' }).first()
+const requestButton = ibuForRequest.getByRole('button', { name: /Anmod om ny recept|Request a new prescription/ })
+if (await requestButton.count()) {
+  await requestButton.click()
+  const reqDialog = page.getByRole('dialog')
+  await reqDialog.getByText(/Lægehuset Test/).first().waitFor()
+  check('receiver suggested from the card', await reqDialog.getByRole('radio', { name: /Lægehuset Test/ }).isChecked())
+  check('same package as last time offered', await reqDialog.getByRole('radio', { name: /Samme pakning|Same package/ }).isChecked())
+  const posted = page.waitForResponse((r) => r.url().includes('/fmk/prescription-requests') && r.request().method() === 'POST')
+  await reqDialog.getByRole('button', { name: /Send anmodning|Send request/ }).click()
+  const postRes = await posted
+  const sentBody = JSON.parse(postRes.request().postData() || '{}')
+  check('request sent with receiver and package', postRes.status() === 201 && sentBody.organisation?.id === '012345' && sentBody.dispensing?.package_number === '028100')
+  const panel = page.locator('section').filter({ has: page.getByRole('heading', { name: /Receptanmodninger|Prescription requests/ }) })
+  const waiting = panel.locator('li').filter({ hasText: /Afventer lægen|Awaiting the doctor/ }).first()
+  await waiting.waitFor()
+  check('request listed as awaiting the doctor', true)
+  check('rejected request shows the reason', /Årsag: Receptfornyelsen kræver konsultation|Reason: Receptfornyelsen kræver konsultation/.test(await panel.innerText()))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-requests.png'), fullPage: true })
+  const cancelled = page.waitForResponse((r) => r.url().includes('/fmk/prescription-requests/') && r.request().method() === 'DELETE')
+  await waiting.getByRole('button', { name: /Fortryd|Cancel/ }).click()
+  check('own request can be cancelled', (await cancelled).status() === 200)
+} else {
+  console.log('  skip staff may not request prescriptions')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

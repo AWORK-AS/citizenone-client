@@ -22,6 +22,21 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/dose-dispensing-card`, 'GET')
     }
 
+    /** GK 16.3: prescription requests sent for the citizen. */
+    async getPrescriptionRequests(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests`, 'GET')
+    }
+
+    /** GK 16.1: ask a doctor for a new prescription for one drug medication. */
+    async requestPrescription(citizenUuid: string, payload: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests`, 'POST', payload)
+    }
+
+    /** GK 16.4: cancel an own request ("Receptanmodning fortrudt"). */
+    async cancelPrescriptionRequest(citizenUuid: string, requestId: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/prescription-requests/${requestId}`, 'DELETE')
+    }
+
     async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
     }

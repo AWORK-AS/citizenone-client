@@ -223,3 +223,21 @@ export interface FmkDoseDispensingCardResponse {
         }[]
     }[]
 }
+
+/** A prescription request through FMK (GK 16). status: unhandled, prescribed or cancelled. */
+export interface FmkPrescriptionRequest {
+    identifier: string | null
+    drug_medication_id: string | null
+    status: 'unhandled' | 'prescribed' | 'cancelled' | string | null
+    created: Record<string, any> | null
+    organisations: Record<string, any>[]
+    package_number: string | null
+    package_quantity: number | null
+    reiteration: { number: number, interval: number, unit: string | null } | null
+    prescription_id: string | null
+    cancelled_by: Record<string, any> | null
+    cancellation_reason: string | null
+}
+
+/** Who a prescription request goes to. */
+export interface FmkAddressee { name: string, type: 'Yder' | 'Sygehus' | 'Kommune', id_source: 'Yder' | 'SOR' | 'SKS', id: string }
