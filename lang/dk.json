@@ -23981,6 +23981,29 @@
             "showLoose": "Vis løse recepter",
             "looseTitle": "Løse recepter",
             "looseIntro": "Recepter i FMK, som ikke hører til en lægemiddelordination."
+        },
+        "doseDispensing": {
+            "title": "Dosisdispenseringskort",
+            "fetching": "Henter dosisdispenseringskortet fra FMK …",
+            "none": "FMK har intet dosisdispenseringskort for borgeren.",
+            "show": "Vis dosisdispenseringskort",
+            "onHold": "Dosisdispensering er sat i bero",
+            "latest": "Seneste dosisudlevering: {by}",
+            "currentRoll": "Aktuel rulle {start} – {end}",
+            "openPrescriptions": "Der findes åbne recepter med dosisdispensering",
+            "orderedAt": "Udleveringsapotek",
+            "packedAt": "Pakkeapotek",
+            "packingGroup": "Pakkegruppe",
+            "periodLength": "Periodelængde",
+            "days": "{count} dage",
+            "current": "Aktuel periode",
+            "coming": "Kommende perioder",
+            "roll": "Rulle {start} – {end}",
+            "deadline": "Deadline for ændringer",
+            "expectedDelivery": "Forventet levering",
+            "dispensedOn": "Udleveret",
+            "quantity": "I alt {quantity} {unit}",
+            "private": "{count} privatmarkeret lægemiddel vises ikke | {count} privatmarkerede lægemidler vises ikke"
         }
     },
     "recordsExport": {

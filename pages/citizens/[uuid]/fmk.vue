@@ -49,6 +49,8 @@ const showIntro = shallowRef(false)
 const consentOpen = shallowRef(false)
 // GK 3.1.6 / 6.1: loose prescriptions (not tied to a drug medication).
 const looseOpen = shallowRef(false)
+// GK 7.3: the dose dispensing card, fetched when opened.
+const doseDispensingOpen = shallowRef(false)
 async function showPrivate(reason: 'consent' | 'emergency') {
     await fetchCard(reason)
     if (!error.value) consentOpen.value = false
@@ -307,7 +309,7 @@ watch(() => route.query.fmk_login, (status) => {
                         <Icon name="ph:eye" class="mt-0.5 size-5 shrink-0 text-[#c2410c]" aria-hidden="true" />
                         <span>{{ $t(`fmk.consent.shown.${card.negative_consent}`) }}</span>
                     </p>
-                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" />
+                    <ModulesUserFmkCardStatus :card="card.card" @showPrivate="consentOpen = true" @showLoose="looseOpen = true" @showDoseDispensing="doseDispensingOpen = true" />
                     <ModulesUserFmkComparisonTable :rows="card.rows" :canEdit="canEdit" :busyKey="busyKey" :flashKey="flashKey" :includeWithdrawn="includeWithdrawn" :withdrawnPending="pending" @toggleWithdrawn="toggleWithdrawn" @details="detailsFor = $event"
                         @takeOver="takeOver" @acknowledge="acknowledge" @openLocal="openLocal" />
                 </template>
@@ -321,6 +323,8 @@ watch(() => route.query.fmk_login, (status) => {
                     </div>
                 </template>
             </Modal>
+
+            <ModulesUserFmkDoseDispensingCard :show="doseDispensingOpen" :citizenUuid="citizenUuid" @close="doseDispensingOpen = false" />
 
             <ModulesUserFmkNegativeConsentDialog :show="consentOpen" :pending="pending" @close="consentOpen = false" @confirm="showPrivate" />
 

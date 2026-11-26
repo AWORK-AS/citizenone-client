@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FmkCardSummary } from '@/types/fmk'
-import { fmkRelation } from '@/utils/fmk'
+import { fmkRelation, fmkText, fmkToday } from '@/utils/fmk'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useFmkModifier } from '@/composables/useFmkModifier'
 
 /**
@@ -10,13 +11,15 @@ import { useFmkModifier } from '@/composables/useFmkModifier'
  * 3.17, 4.1, 7.1). Each notice says what it means and who set it.
  */
 const props = defineProps<{ card: FmkCardSummary }>()
-const emit = defineEmits<{ showPrivate: [], showLoose: [] }>()
+const emit = defineEmits<{ showPrivate: [], showLoose: [], showDoseDispensing: [] }>()
 
 const { t } = useI18n()
 const { by, organisationLine } = useFmkModifier()
+const { formatDateToReadable } = useDatetimeFormatter()
+const threeMonthsAgo = (() => { const d = new Date(`${fmkToday()}T12:00:00`); d.setMonth(d.getMonth() - 3); return d.toISOString().slice(0, 10) })()
 
 type Tone = 'danger' | 'warning' | 'info'
-interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string, event?: 'showPrivate' | 'showLoose' }
+interface Notice { key: string, tone: Tone, icon: string, title: string, text?: string, action?: string, event?: 'showPrivate' | 'showLoose' | 'showDoseDispensing' }
 
 const notices = computed<Notice[]>(() => {
     const c = props.card
@@ -53,8 +56,22 @@ const notices = computed<Notice[]>(() => {
             list.push({ key: `relation-${index}`, tone: 'info', icon: 'ph:hand-heart', title: r.type ? t('fmk.status.relationTitle', { type: r.type }) : t('fmk.status.administrationTitle'), text })
         }
     })
+    // GK 7.1/7.2: when and from which pharmacy the latest dose-dispensed
+    // dispensing came (within 3 months it stands out), open DD prescriptions,
+    // and dose dispensing on hold.
+    const dd = c.dose_dispensing_summary
+    if (dd?.on_hold) {
+        list.push({ key: 'dose-on-hold', tone: 'warning', icon: 'ph:pause-circle', title: t('fmk.doseDispensing.onHold'), action: t('fmk.doseDispensing.show'), event: 'showDoseDispensing' })
+    }
     if (c.dose_dispensing) {
-        list.push({ key: 'dose-dispensing', tone: 'info', icon: 'ph:package', title: t('fmk.status.doseDispensing') })
+        const latestAt = fmkText(dd?.latest_effectuation?.DateTime) ?? ''
+        const recent = latestAt !== '' && latestAt.slice(0, 10) >= threeMonthsAgo
+        const parts = [
+            recent ? t('fmk.doseDispensing.latest', { by: by(dd!.latest_effectuation) }) : '',
+            dd?.start ? t('fmk.doseDispensing.currentRoll', { start: formatDateToReadable(dd.start), end: dd.end ? formatDateToReadable(dd.end) : '–' }) : '',
+            dd?.has_open_prescriptions ? t('fmk.doseDispensing.openPrescriptions') : '',
+        ].filter(Boolean)
+        list.push({ key: 'dose-dispensing', tone: recent ? 'warning' : 'info', icon: 'ph:package', title: t('fmk.status.doseDispensing'), text: parts.join(' · '), action: dd?.on_hold ? undefined : t('fmk.doseDispensing.show'), event: 'showDoseDispensing' })
     }
 
     // An admission to hospital is the most important marking after "invalid".
@@ -95,7 +112,7 @@ const iconClass: Record<Tone, string> = {
                 <p class="min-w-0 text-sm">
                     <span class="font-semibold">{{ notice.title }}</span>
                     <span v-if="notice.text" class="block opacity-90 lg:ml-1.5 lg:inline">{{ notice.text }}</span>
-                    <button v-if="notice.action" type="button" @click="notice.event === 'showLoose' ? emit('showLoose') : emit('showPrivate')"
+                    <button v-if="notice.action" type="button" @click="notice.event === 'showLoose' ? emit('showLoose') : notice.event === 'showDoseDispensing' ? emit('showDoseDispensing') : emit('showPrivate')"
                         class="mt-1.5 inline-flex items-center gap-1.5 rounded-md border border-current/30 bg-white px-2.5 py-1 text-xs font-semibold hover:bg-[#fff7ed] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2dbab2] lg:ml-2 lg:mt-0">
                         <Icon name="ph:eye" class="size-3.5" aria-hidden="true" />
                         {{ notice.action }}

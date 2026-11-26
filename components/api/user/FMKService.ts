@@ -17,6 +17,11 @@ class FMKService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/medicine-card/negative-consent`, 'POST', { reason })
     }
 
+    /** GK 7.3: the dose dispensing card, current and coming periods (only when staff ask). */
+    async getDoseDispensingCard(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/fmk/dose-dispensing-card`, 'GET')
+    }
+
     async takeOver(citizenUuid: string, fmkDrugMedicationId: string): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/fmk/take-over`, 'POST', { fmk_drug_medication_id: fmkDrugMedicationId })
     }

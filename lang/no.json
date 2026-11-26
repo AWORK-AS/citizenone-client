@@ -23896,6 +23896,29 @@
             "showLoose": "Vis løse resepter",
             "looseTitle": "Løse resepter",
             "looseIntro": "Resepter i FMK som ikke hører til en legemiddelordinasjon."
+        },
+        "doseDispensing": {
+            "title": "Dosedispenseringskort",
+            "fetching": "Henter dosedispenseringskortet fra FMK …",
+            "none": "FMK har ikke noe dosedispenseringskort for brukeren.",
+            "show": "Vis dosedispenseringskort",
+            "onHold": "Dosedispensering er satt på vent",
+            "latest": "Siste doseutlevering: {by}",
+            "currentRoll": "Aktuell rull {start} – {end}",
+            "openPrescriptions": "Det finnes åpne resepter med dosedispensering",
+            "orderedAt": "Utleveringsapotek",
+            "packedAt": "Pakkeapotek",
+            "packingGroup": "Pakkegruppe",
+            "periodLength": "Periodelengde",
+            "days": "{count} dager",
+            "current": "Aktuell periode",
+            "coming": "Kommende perioder",
+            "roll": "Rull {start} – {end}",
+            "deadline": "Frist for endringer",
+            "expectedDelivery": "Forventet levering",
+            "dispensedOn": "Utlevert",
+            "quantity": "Totalt {quantity} {unit}",
+            "private": "{count} privatmerket legemiddel vises ikke | {count} privatmerkede legemidler vises ikke"
         }
     },
     "recordsExport": {

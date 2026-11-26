@@ -86,6 +86,14 @@ export interface FmkCardSummary {
     loose_prescription_list: FmkPrescription[]
     ordered_prescriptions_exist: boolean
     dose_dispensing: Record<string, any> | null
+    /** GK 7.1/7.2 */
+    dose_dispensing_summary: {
+        start: string | null, end: string | null, deadline: string | null
+        latest_effectuation: Record<string, any> | null
+        has_open_prescriptions: boolean
+        ordered_at_pharmacy: Record<string, any> | null
+        on_hold: boolean
+    } | null
     /** Who last changed the card (GK 3.5.5-3.5.10). */
     modified: Record<string, any> | null
     reported_by: Record<string, any> | null
@@ -178,4 +186,40 @@ export interface FmkPrescription {
     deprecated_at: string | null
     is_private: boolean
     effectuations: FmkEffectuation[]
+}
+
+export interface FmkDoseDispensingWarning { code: string | null, text: string | null, severity: string | null }
+
+/** GET .../fmk/dose-dispensing-card (GK 7.3). */
+export interface FmkDoseDispensingCardResponse {
+    on_hold: Record<string, any> | null
+    cards: {
+        identifier: string | null
+        description: string | null
+        is_invalid: boolean
+        warnings: FmkDoseDispensingWarning[]
+        ordered_at_pharmacy: Record<string, any> | null
+        packed_at: Record<string, any> | null
+        packing_group: string | null
+        normal_period_days: number | null
+        unit_label: string | null
+        periods: {
+            status: string | null
+            start: string | null
+            end: string | null
+            deadline: string | null
+            effectuation_date: string | null
+            expected_delivery: string | null
+            private_medications: number
+            medications: {
+                short_name: string | null
+                description: string | null
+                administration_instruction: string | null
+                total_quantity: string | null
+                end_date: string | null
+                warnings: FmkDoseDispensingWarning[]
+                drug_medication: FmkDrugMedication | null
+            }[]
+        }[]
+    }[]
 }

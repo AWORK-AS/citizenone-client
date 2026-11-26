@@ -23981,6 +23981,29 @@
             "showLoose": "Show loose prescriptions",
             "looseTitle": "Loose prescriptions",
             "looseIntro": "Prescriptions in FMK that do not belong to a drug medication."
+        },
+        "doseDispensing": {
+            "title": "Dose dispensing card",
+            "fetching": "Fetching the dose dispensing card from FMK …",
+            "none": "FMK has no dose dispensing card for the citizen.",
+            "show": "Show dose dispensing card",
+            "onHold": "Dose dispensing is on hold",
+            "latest": "Latest dose dispensing: {by}",
+            "currentRoll": "Current roll {start} – {end}",
+            "openPrescriptions": "There are open prescriptions with dose dispensing",
+            "orderedAt": "Dispensing pharmacy",
+            "packedAt": "Packing pharmacy",
+            "packingGroup": "Packing group",
+            "periodLength": "Period length",
+            "days": "{count} days",
+            "current": "Current period",
+            "coming": "Coming periods",
+            "roll": "Roll {start} – {end}",
+            "deadline": "Deadline for changes",
+            "expectedDelivery": "Expected delivery",
+            "dispensedOn": "Dispensed",
+            "quantity": "In total {quantity} {unit}",
+            "private": "{count} privacy-marked medicine is not shown | {count} privacy-marked medicines are not shown"
         }
     },
     "recordsExport": {

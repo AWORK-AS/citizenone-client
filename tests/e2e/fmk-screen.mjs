@@ -391,6 +391,29 @@ await withdrawnToggle.click()
 await seloRow.waitFor({ state: 'detached' })
 check('withdrawn ones hidden again', true)
 
+console.log('14. Dose dispensing (GK 7.1, 7.3)')
+const ddNotice = page.locator('[role=status]').filter({ hasText: /dosisdispenseret medicin|dose-dispensed medicine/ }).first()
+if (await ddNotice.count()) {
+  const noticeText = await ddNotice.innerText()
+  check('latest dose dispensing with pharmacy stands out', /Seneste dosisudlevering: Dosisapoteket Test|Latest dose dispensing: Dosisapoteket Test/.test(noticeText))
+  check('open dose dispensing prescriptions told', /åbne recepter med dosisdispensering|open prescriptions with dose dispensing/.test(noticeText))
+  const fetched = page.waitForResponse((r) => r.url().includes('/fmk/dose-dispensing-card'))
+  await ddNotice.getByRole('button', { name: /Vis dosisdispenseringskort|Show dose dispensing card/ }).click()
+  check('card fetched only when opened', (await fetched).status() === 200)
+  const ddDialog = page.getByRole('dialog')
+  await ddDialog.getByText(/^(Aktuel periode|Current period)$/).first().waitFor()
+  const ddText = await ddDialog.innerText()
+  check('current and coming periods split', /Kommende perioder|Coming periods/i.test(ddText))
+  check('deadline and pharmacies shown', /Deadline for ændringer|Deadline for changes/.test(ddText) && /Pakkeapotek|Packing pharmacy/.test(ddText) && ddText.includes('Dosisapoteket Test'))
+  check("FMK's warnings shown", ddText.includes('Styrken er ændret fra 5 mg til 10 mg.') && ddText.includes('Der er ændringer efter deadline'))
+  check('medicines with name, strength and dosage', ddText.includes('Felodipin 10 mg') && ddText.includes('1 tablet morgen'))
+  await page.screenshot({ path: path.join(SHOT, 'fmk-dose-dispensing.png') })
+  await page.keyboard.press('Escape')
+  await ddDialog.getByText(/^(Aktuel periode|Current period)$/).first().waitFor({ state: 'hidden' })
+} else {
+  console.log('  skip no dose dispensing on this card')
+}
+
 const ackButton = table.getByRole('button', { name: /Markér som gennemgået|Mark as reviewed/ }).first()
 if (await ackButton.count()) {
   const acked = page.waitForResponse((r) => r.url().includes('/fmk/acknowledge'))

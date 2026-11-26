@@ -23896,6 +23896,29 @@
             "showLoose": "Visa lösa recept",
             "looseTitle": "Lösa recept",
             "looseIntro": "Recept i FMK som inte hör till en läkemedelsordination."
+        },
+        "doseDispensing": {
+            "title": "Dosdispenseringskort",
+            "fetching": "Hämtar dosdispenseringskortet från FMK …",
+            "none": "FMK har inget dosdispenseringskort för klienten.",
+            "show": "Visa dosdispenseringskort",
+            "onHold": "Dosdispenseringen är vilande",
+            "latest": "Senaste dosuttag: {by}",
+            "currentRoll": "Aktuell rulle {start} – {end}",
+            "openPrescriptions": "Det finns öppna recept med dosdispensering",
+            "orderedAt": "Utlämnande apotek",
+            "packedAt": "Packande apotek",
+            "packingGroup": "Packgrupp",
+            "periodLength": "Periodlängd",
+            "days": "{count} dagar",
+            "current": "Aktuell period",
+            "coming": "Kommande perioder",
+            "roll": "Rulle {start} – {end}",
+            "deadline": "Sista dag för ändringar",
+            "expectedDelivery": "Förväntad leverans",
+            "dispensedOn": "Utlämnat",
+            "quantity": "Totalt {quantity} {unit}",
+            "private": "{count} privatmarkerat läkemedel visas inte | {count} privatmarkerade läkemedel visas inte"
         }
     },
     "recordsExport": {
