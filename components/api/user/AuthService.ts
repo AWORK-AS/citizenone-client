@@ -11,6 +11,34 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/sso/microsoft`, 'GET', client ? { email, client } : { email })
     }
 
+    // MitID for citizens and relatives, through a MitID broker. The callback
+    // returns ?mitid_code=, spent with mitidExchange for the same answer as
+    // the emailed code (token and user).
+    async mitidStatus(): Promise<any> {
+        return await this.request(`/auth/mitid/status`, 'GET')
+    }
+
+    async mitidStart(client?: 'desktop'): Promise<any> {
+        return await this.request(`/auth/mitid`, 'GET', client ? { client } : {})
+    }
+
+    async mitidExchange(code: string): Promise<any> {
+        return await this.request(`/auth/mitid/exchange`, 'POST', { code })
+    }
+
+    // A signed-in citizen or relative links or unlinks their own MitID.
+    async portalMitId(): Promise<any> {
+        return await this.request(`/portal/mitid`, 'GET')
+    }
+
+    async portalMitIdLink(returnPath: string, client?: 'desktop'): Promise<any> {
+        return await this.request(`/portal/mitid/link`, 'POST', client ? { return_path: returnPath, client } : { return_path: returnPath })
+    }
+
+    async portalMitIdUnlink(): Promise<any> {
+        return await this.request(`/portal/mitid`, 'DELETE')
+    }
+
     // The one-time code the SSO callback hands back, for a login token.
     async ssoExchange(code: string): Promise<any> {
         return await this.request(`/auth/sso/exchange`, 'POST', { code })

@@ -182,6 +182,13 @@
 					</a>
 				</div>
 
+				<!-- MitID for citizens and relatives, when a MitID broker is set up. -->
+				<button v-if="state.mitidEnabled" class="btn-provider btn-mitid" type="button" :disabled="state.isPageLoading"
+					data-testid="login-mitid" @click="loginWithMitId">
+					{{ state.isMitIdRedirecting ? $t('login.mitid.redirecting') : $t('login.mitid.button') }}
+				</button>
+				<p v-if="state.mitidEnabled" class="ms-hint mitid-hint">{{ $t('login.mitid.hint') }}</p>
+
 				<div class="or-row">
 					<div class="or-line"></div><span class="or-txt">
 						{{ $t('login.form.or') }}
@@ -342,6 +349,8 @@ const state = reactive({
 	showPassword: false,
 	isSsoRedirecting: false,
 	ssoNeedsEmail: false,
+	mitidEnabled: false,
+	isMitIdRedirecting: false,
 	// Sign-in with a code mailed to a portal user.
 	code: {
 		step: false,
@@ -393,6 +402,14 @@ onMounted(() => {
 		}
 		localStorage.setItem('_token', impersonateToken)
 		navigateTo('/overview')
+		return
+	}
+
+	authService.mitidStatus().then((r: any) => { state.mitidEnabled = r?.data?.enabled === true }).catch(() => {})
+
+	const mitidCode = route.query.mitid_code
+	if (typeof mitidCode === 'string' && mitidCode.length > 0) {
+		completeMitId(mitidCode)
 		return
 	}
 
@@ -731,6 +748,38 @@ async function loginWithMicrosoft() {
 	}
 	state.isPageLoading = false
 	state.isSsoRedirecting = false
+}
+
+async function loginWithMitId() {
+	state.error = {}
+	state.isPageLoading = true
+	state.isMitIdRedirecting = true
+	try {
+		const response = await authService.mitidStart(useIsDesktopApp() ? 'desktop' : undefined)
+		if (response?.data?.url) {
+			window.location.href = response.data.url
+			return
+		}
+	} catch (error: any) {
+		state.error = error
+	}
+	state.isPageLoading = false
+	state.isMitIdRedirecting = false
+}
+
+/** MitID sends the browser back with a one-time code; it signs in like the emailed code. */
+async function completeMitId(code: string) {
+	state.isPageLoading = true
+	try {
+		await navigateTo({ query: {} }, { replace: true })
+		const response = await authService.mitidExchange(code)
+		if (!response?.data?.token) throw response
+		await finishLogin(response.data)
+		return
+	} catch (error: any) {
+		state.error = error?.message ? error : { message: t('login.sso.failed') } as Error
+	}
+	state.isPageLoading = false
 }
 
 /**
@@ -1410,6 +1459,22 @@ async function loginWithGoogle() {
 .btn-provider:focus-visible {
 	outline: 2px solid #0F4C75;
 	outline-offset: 2px;
+}
+
+.mitid-hint {
+	margin-bottom: 18px;
+}
+
+/* MitID: MitID's own blue, text only (no MitID mark without their artwork). */
+.btn-mitid,
+.btn-mitid:hover {
+	background: #0060e6;
+	color: #fff;
+	border-color: #0060e6;
+}
+
+.btn-mitid:hover {
+	background: #004fbd;
 }
 
 .btn-apple,

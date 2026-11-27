@@ -10147,6 +10147,11 @@
         "signinToYourAccount": "Log ind på din konto",
         "tagline": "Journalsystem til social- og sundhedssektoren",
         "welcomeBack": "Velkommen tilbage",
+        "mitid": {
+            "button": "Log ind med MitID",
+            "redirecting": "Sender dig til MitID…",
+            "hint": "For borgere og pårørende."
+        },
         "sso": {
             "microsoft": "Log ind med Microsoft",
             "hint": "Brug din organisations Microsoft-konto. Skriv din arbejds-e-mail ovenfor først.",
@@ -10154,6 +10159,13 @@
             "failed": "Login med Microsoft lykkedes ikke. Prøv igen.",
             "redirecting": "Sender dig til Microsoft…"
         }
+    },
+    "portalMitId": {
+        "link": "Tilknyt MitID",
+        "unlink": "Fjern MitID",
+        "linked": "MitID er tilknyttet. Næste gang kan du logge ind med MitID.",
+        "unlinked": "MitID er ikke længere tilknyttet din bruger.",
+        "unlinkConfirm": "Vil du fjerne MitID fra din bruger? Du kan stadig logge ind med en kode på mail."
     },
     "companySso": {
         "title": "Single sign-on (Microsoft)",

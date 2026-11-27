@@ -10147,6 +10147,11 @@
         "signinToYourAccount": "Logg inn på din konto",
         "tagline": "Socialområdet · Plejesektoren · Helse",
         "welcomeBack": "Velkommen tilbake",
+        "mitid": {
+            "button": "Logg inn med MitID",
+            "redirecting": "Sender deg til MitID…",
+            "hint": "For brukere og pårørende."
+        },
         "sso": {
             "microsoft": "Logg inn med Microsoft",
             "hint": "Bruk organisasjonens Microsoft-konto. Skriv jobb-e-posten over først.",
@@ -10154,6 +10159,13 @@
             "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen.",
             "redirecting": "Sender deg til Microsoft…"
         }
+    },
+    "portalMitId": {
+        "link": "Koble til MitID",
+        "unlink": "Fjern MitID",
+        "linked": "MitID er koblet til. Neste gang kan du logge inn med MitID.",
+        "unlinked": "MitID er ikke lenger koblet til brukeren din.",
+        "unlinkConfirm": "Vil du fjerne MitID fra brukeren din? Du kan fortsatt logge inn med en kode på e-post."
     },
     "companySso": {
         "title": "Single sign-on (Microsoft)",
