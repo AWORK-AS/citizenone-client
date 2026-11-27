@@ -209,6 +209,7 @@
                                             </div>
                                         </div>
                                     </MenuItem>
+                                    <ModulesPortalMitIdMenuItem />
                                     <MenuItem>
                                         <div @click="logout()"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
@@ -252,6 +253,7 @@
                 </main>
             </div>
         </div>
+        <ModulesPortalMitIdNotice />
         <ModulesRelativeLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesRelativeSupportSlideOver :isOpen="state.slideOver.isSupportOpen"

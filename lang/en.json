@@ -10147,6 +10147,11 @@
         "signinToYourAccount": "Sign in to your account",
         "tagline": "Social sector · Care sector · Healthcare",
         "welcomeBack": "Welcome back",
+        "mitid": {
+            "button": "Sign in with MitID",
+            "redirecting": "Taking you to MitID…",
+            "hint": "For citizens and relatives."
+        },
         "sso": {
             "microsoft": "Sign in with Microsoft",
             "hint": "Use your organisation's Microsoft account. Type your work email above first.",
@@ -10154,6 +10159,13 @@
             "failed": "Signing in with Microsoft did not work. Try again.",
             "redirecting": "Taking you to Microsoft…"
         }
+    },
+    "portalMitId": {
+        "link": "Link MitID",
+        "unlink": "Remove MitID",
+        "linked": "MitID is linked. Next time you can sign in with MitID.",
+        "unlinked": "MitID is no longer linked to your user.",
+        "unlinkConfirm": "Remove MitID from your user? You can still sign in with a code by email."
     },
     "companySso": {
         "title": "Single sign-on (Microsoft)",
