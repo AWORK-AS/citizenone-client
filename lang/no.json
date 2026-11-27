@@ -5978,7 +5978,12 @@
             "allSkipped": "Den ansatte har allerede de samme vaktene denne uken.",
             "sourceEmpty": "Det er ingen vakter i uken du kopierte.",
             "dayAllSkipped": "Den ansatte har allerede de samme vaktene den dagen.",
-            "daySourceEmpty": "Det er ingen vakter på dagen du kopierte."
+            "daySourceEmpty": "Det er ingen vakter på dagen du kopierte.",
+            "skippedMany": "{count} vakt hoppet over fordi den ansatte allerede har den samme vakten. | {count} vakter hoppet over fordi de ansatte allerede har de samme vaktene.",
+            "manyAllSkippedDay": "De ansatte har allerede de samme vaktene den dagen.",
+            "manyAllSkippedWeek": "De ansatte har allerede de samme vaktene i uken.",
+            "manyAllSkippedMonth": "De ansatte har allerede de samme vaktene i måneden.",
+            "monthSourceEmpty": "Det er ingen vakter i måneden du kopierte."
         },
         "custom": "Brugerdefineret",
         "date": "Vakt dato",

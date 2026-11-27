@@ -1657,6 +1657,8 @@ import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useScheduleCopyAnnounce } from '@/composables/useScheduleCopyAnnounce'
+import { addCopyResult, emptyCopyTotals } from '@/utils/scheduleCopyResult'
 import type { Error } from '@/types'
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter', 'openDayActivityLog'])
@@ -1684,7 +1686,8 @@ const carryOverEnabled = computed(() => !!userStore.getUser?.company?.transfer_n
 const departmentStore = useDepartmentStore()
 const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { errorAlert, successAlert, warningAlert } = useAlert()
+const { errorAlert } = useAlert()
+const { announceCopyResult } = useScheduleCopyAnnounce()
 const currentDate = ref(moment())
 const teleportReady = ref(false)
 const route = useRoute()
@@ -3089,29 +3092,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
 
 // Says what a paste did. Shifts the target already has at the same times are
 // skipped, so without this a paste of an identical week or day showed nothing at all.
-function announceEmployeeCopyResult(response: any, scope: 'week' | 'day' = 'week') {
-    const meta = response?.meta
-    const created = Number(meta?.created ?? response?.data?.length ?? 0)
-    const skipped = Number(meta?.skipped_duplicates ?? 0)
-    const sourceCount = meta?.source_count
-
-    if (created > 0) {
-        const text = [language.t('dutySchedules.copyPaste.created', { count: created }, created)]
-        if (skipped > 0) {
-            text.push(language.t('dutySchedules.copyPaste.skipped', { count: skipped }, skipped))
-        }
-        successAlert(language.t('dutySchedules.copyPaste.resultTitle'), text.join('. '))
-        return
-    }
-
-    // Older backends send no meta; an empty result then has no known reason.
-    const isDay = scope === 'day'
-    const reason = sourceCount === 0
-        ? language.t(isDay ? 'dutySchedules.copyPaste.daySourceEmpty' : 'dutySchedules.copyPaste.sourceEmpty')
-        : skipped > 0
-            ? language.t(isDay ? 'dutySchedules.copyPaste.dayAllSkipped' : 'dutySchedules.copyPaste.allSkipped')
-            : ''
-    warningAlert(language.t('dutySchedules.copyPaste.noneCreatedTitle'), reason)
+function announceEmployeeCopyResult(response: any, scope: 'week' | 'day' = 'week', many = false) {
+    announceCopyResult(addCopyResult(emptyCopyTotals(), response), scope, many)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {
@@ -3158,12 +3140,15 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
             fetchDutySchedule()
+            announceEmployeeCopyResult(response, 'week', true)
         }
     } catch (error: any) {
         state.error = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        // The Alert at the top is out of view once the list is scrolled.
+        errorAlert(language.t('alert.error'), error?.data?.message || error?.message || '')
     } finally {
         state.isPasting = false
     }

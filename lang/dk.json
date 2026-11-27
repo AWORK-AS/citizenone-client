@@ -6033,7 +6033,12 @@
             "allSkipped": "Medarbejderen har allerede de samme vagter i ugen.",
             "sourceEmpty": "Der er ingen vagter i den uge, du kopierede.",
             "dayAllSkipped": "Medarbejderen har allerede de samme vagter den dag.",
-            "daySourceEmpty": "Der er ingen vagter på den dag, du kopierede."
+            "daySourceEmpty": "Der er ingen vagter på den dag, du kopierede.",
+            "skippedMany": "{count} vagt sprunget over, fordi medarbejderen allerede har den samme vagt. | {count} vagter sprunget over, fordi medarbejderne allerede har de samme vagter.",
+            "manyAllSkippedDay": "Medarbejderne har allerede de samme vagter den dag.",
+            "manyAllSkippedWeek": "Medarbejderne har allerede de samme vagter i ugen.",
+            "manyAllSkippedMonth": "Medarbejderne har allerede de samme vagter i måneden.",
+            "monthSourceEmpty": "Der er ingen vagter i den måned, du kopierede."
         },
         "custom": "Brugerdefineret",
         "date": "Vagt dato",
