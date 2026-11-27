@@ -597,6 +597,7 @@
                         <!-- Compact day row: alle vagter paa tvaers af medarbejdere -->
                         <div class="grid grid-cols-7 border-b border-gray-100">
                             <div v-for="(day, dayIndex) in week.days" :key="'compact-' + weekIndex + '-' + dayIndex"
+                                :data-date="day !== null ? moment(day).format('YYYY-MM-DD') : undefined"
                                 :class="[
                                     day === null && 'bg-gray-50/50',
                                     day !== null && isToday(day) && 'bg-blue-50/30',
@@ -1078,12 +1079,15 @@ import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from 'vue-i18n'
+import { useScheduleCopyAnnounce } from '@/composables/useScheduleCopyAnnounce'
+import { addCopyError, addCopyResult, emptyCopyTotals, type CopyScope, type CopyTotals } from '@/utils/scheduleCopyResult'
 import type { Error } from '@/types'
 
 const { formatLocalized } = useDatetimeFormatter()
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
 const language = useI18n()
+const { announceCopyResult } = useScheduleCopyAnnounce()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
@@ -1141,6 +1145,7 @@ const state = reactive({
         selectedMonth: null as any, // { weeks, year, month }
     } as any,
     copyShiftError: {} as Error,
+    isPasting: false,
     customWeekLabel: 'month',
     dataFilter: {
         search: '',
@@ -1616,6 +1621,10 @@ function copyWeek(week: any) {
 
 async function pasteWeek(targetWeek: any) {
     if (!state.copy.selectedWeek) return
+    await runPaste('week', totals => pasteWeekInto(targetWeek, totals))
+}
+
+async function pasteWeekInto(targetWeek: any, totals: CopyTotals) {
     const srcDays = state.copy.selectedWeek.days
     const dstDays = targetWeek.days.filter((d: any) => d !== null)
     const empSnap = state.copy.selectedWeek.employeeSnapshot || []
@@ -1633,10 +1642,9 @@ async function pasteWeek(targetWeek: any) {
                 user_uuid_destination: emp.uuid,
                 date_source: srcDate,
                 date_destination: dstDate,
-            })
+            }, totals)
         }
     }
-    fetchDutySchedule()
 }
 
 function copyMonth() {
@@ -1654,6 +1662,10 @@ function copyMonth() {
 
 async function pasteMonth(targetWeeks: any[]) {
     if (!state.copy.selectedMonth) return
+    await runPaste('month', totals => pasteMonthInto(targetWeeks, totals))
+}
+
+async function pasteMonthInto(targetWeeks: any[], totals: CopyTotals) {
     const srcWeeks = state.copy.selectedMonth.weeks
     const empSnap = state.copy.selectedMonth.employeeSnapshot || []
     // Match weeks 1:1 — if the months have a different number of weeks, use the minimum
@@ -1675,11 +1687,10 @@ async function pasteMonth(targetWeeks: any[]) {
                     user_uuid_destination: emp.uuid,
                     date_source: srcDate,
                     date_destination: dstDate,
-                })
+                }, totals)
             }
         }
     }
-    fetchDutySchedule()
 }
 
 function onMonthDragStart(e: DragEvent, emp: any, day: any, sh: any) {
@@ -1745,20 +1756,21 @@ async function pasteDayAllEmployees(day: any) {
     const dateSource = state.copy.selectedEmployeeDailySchedule?.date
     const dateDestination = moment(day).format('YYYY-MM-DD')
     if (!dateSource || dateSource === dateDestination) return
-    // Kopier vagter for HVER medarbejder der HAR vagter paa source-dag
-    for (let i = 0; i < (state.monthlySchedules?.data?.length || 0); i++) {
-        const emp = state.monthlySchedules?.data?.[i]
-        if (!emp) continue
-        const shifts = emp?.days?.[dateSource]?.shifts || []
-        if (shifts.length === 0) continue // spring over hvis ingen vagter
-        await copyDutySchedule({
-            user_uuid_source: emp.uuid,
-            user_uuid_destination: emp.uuid,
-            date_source: dateSource,
-            date_destination: dateDestination,
-        })
-    }
-    fetchDutySchedule()
+    await runPaste('day', async (totals) => {
+        // Kopier vagter for HVER medarbejder der HAR vagter paa source-dag
+        for (let i = 0; i < (state.monthlySchedules?.data?.length || 0); i++) {
+            const emp = state.monthlySchedules?.data?.[i]
+            if (!emp) continue
+            const shifts = emp?.days?.[dateSource]?.shifts || []
+            if (shifts.length === 0) continue // spring over hvis ingen vagter
+            await copyDutySchedule({
+                user_uuid_source: emp.uuid,
+                user_uuid_destination: emp.uuid,
+                date_source: dateSource,
+                date_destination: dateDestination,
+            }, totals)
+        }
+    })
 }
 
 
@@ -1967,8 +1979,28 @@ async function pasteEmployeeDailySchedule(employeeIndex: number, day: any) {
     copyDutySchedule(params)
 }
 
-async function copyDutySchedule(params: object) {
+// Runs a paste of one or more copy requests and says once, at the end, what it
+// did. Shifts the employee already has at the same times are skipped, so
+// without this a paste of something already there showed nothing at all
+// (TKT-000138), and a refused one only showed the Alert at the top of the page.
+async function runPaste(scope: CopyScope, collect: (totals: CopyTotals) => Promise<void>) {
+    if (state.isPasting) return
+    state.isPasting = true
     state.copyShiftError = {}
+    const totals = emptyCopyTotals()
+    try {
+        await collect(totals)
+    } finally {
+        state.isPasting = false
+    }
+    fetchDutySchedule()
+    announceCopyResult(totals, scope, true)
+}
+
+// With `totals` it is one request of a larger paste: the result is added
+// there, and runPaste refreshes and announces once at the end.
+async function copyDutySchedule(params: object, totals?: CopyTotals) {
+    if (!totals) state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1978,14 +2010,19 @@ async function copyDutySchedule(params: object) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
-            fetchDutySchedule()
             state.modal.isAddShiftOpen = false
+            if (totals) {
+                addCopyResult(totals, response)
+            } else {
+                fetchDutySchedule()
+            }
         }
     } catch (error: any) {
         state.copyShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        if (totals) addCopyError(totals, error)
     }
 }
 
