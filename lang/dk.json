@@ -23575,7 +23575,19 @@
             "confirmHideTitle": "Stop visning for alle {citizens}?",
             "confirmHide": "\"{name}\" vises ikke længere for alle {citizens}. Der bliver ikke slettet noget.",
             "shown": "Vises nu for alle {citizens}",
-            "hidden": "Vises ikke længere for alle {citizens}"
+            "hidden": "Vises ikke længere for alle {citizens}",
+            "manage": "Hvem kan se det",
+            "audienceTitle": "Vis for {citizens}",
+            "audienceAll": "Alle {citizens}",
+            "audienceAllHint": "Antal {citizens}, der vil kunne se det: {count}.",
+            "audienceSelected": "Udvalgte {citizens}",
+            "audienceSelectedHint": "Kun de valgte {citizens} kan se det.",
+            "audienceNote": "Det er skrivebeskyttet i portalen og appen. En mappe viser alle filer i den, også filer, der tilføjes senere.",
+            "pickRequired": "Vælg mindst én.",
+            "save": "Gem",
+            "stop": "Stop visning",
+            "shownSelected": "Vises nu for de valgte {citizens}",
+            "badgeSelected": "{count} valgte"
         }
     },
     "treatmentPhotosSettings": {

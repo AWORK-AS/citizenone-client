@@ -261,10 +261,10 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
-                                                <span v-if="document?.is_patient_standard"
-                                                    class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
-                                                    data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
+                                                <!-- The badge flows after the name, so a longer one (chosen citizens) never squeezes it. -->
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}<span v-if="document?.is_patient_standard"
+                                                    class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sky-100 px-2 py-0.5 align-middle text-xs font-medium text-sky-800"
+                                                    data-testid="standard-document-badge">{{ standardBadge(document) }}</span></span>
                                             </div>
                                             <div v-else class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 @click="viewDirectory(document)">
@@ -273,10 +273,10 @@
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
-                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}</span>
-                                                <span v-if="document?.is_patient_standard"
-                                                    class="shrink-0 rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800"
-                                                    data-testid="standard-document-badge">{{ $t('standardDocuments.badge') }}</span>
+                                                <!-- The badge flows after the name, so a longer one (chosen citizens) never squeezes it. -->
+                                                <span class="min-w-0 [overflow-wrap:anywhere]">{{ document?.name }}<span v-if="document?.is_patient_standard"
+                                                    class="ml-1.5 inline-block whitespace-nowrap rounded-full bg-sky-100 px-2 py-0.5 align-middle text-xs font-medium text-sky-800"
+                                                    data-testid="standard-document-badge">{{ standardBadge(document) }}</span></span>
                                             </div>
                                             <p v-if="document?.folder_path !== undefined"
                                                 class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
@@ -495,9 +495,9 @@
 
 
                     <!-- Unified dialog/modal block for all modes (local, Google Drive, OneDrive) -->
-                    <DialogConfirmation :isModalOpen="state.modal.isPatientStandardOpen"
-                        :title="patientStandardConfirmTitle" :message="patientStandardConfirmMessage"
-                        @close="state.modal.isPatientStandardOpen = false" @confirm="savePatientStandard" />
+                    <ModulesUserDocumentModalPatientStandard :isModalOpen="state.modal.isPatientStandardOpen"
+                        :selectedDocument="state.selectedDocument"
+                        @close="state.modal.isPatientStandardOpen = false" @saved="fetchDocuments" />
                     <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                         :message="$t('drive.confirmation.archiveConfirmation') + '?'"
                         @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
@@ -577,7 +577,6 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { documentService } from '@/components/api/user/DocumentService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
-import { standardDocumentService } from '@/components/api/user/StandardDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
@@ -1872,65 +1871,26 @@ function openSendToCitizen(document: any) {
     state.modal.isSendToCitizenOpen = true
 }
 
-// Standard documents: an Admin shows a company file or folder to every patient
-// (read-only). Turning it on says how many patients will see it first.
+// Standard documents: an Admin shows a company file or folder to every patient, or to chosen ones
+// (AW-2026-11011), read-only. The dialog also changes who sees it, or stops it.
 const canSetPatientStandard = computed(() => isAtLeast('Admin'))
-const patientStandardCount = ref<number | null>(null)
 
 function patientStandardLabel(document: any): string {
     return document?.is_patient_standard
-        ? tt('standardDocuments.drive.hide')
-        : tt('standardDocuments.drive.show')
+        ? tt('standardDocuments.drive.manage')
+        : tt('standardDocuments.drive.audienceTitle')
 }
 
-const patientStandardConfirmTitle = computed(() =>
-    state.selectedDocument?.is_patient_standard
-        ? tt('standardDocuments.drive.confirmHideTitle')
-        : tt('standardDocuments.drive.confirmShowTitle'))
+function standardBadge(document: any): string {
+    const chosen = document?.patient_citizens?.length ?? 0
+    return chosen > 0
+        ? `${t('standardDocuments.badge')} · ${tt('standardDocuments.drive.badgeSelected', { count: chosen })}`
+        : t('standardDocuments.badge')
+}
 
-const patientStandardConfirmMessage = computed(() => {
-    const name = state.selectedDocument?.name ?? ''
-    if (state.selectedDocument?.is_patient_standard) {
-        return tt('standardDocuments.drive.confirmHide', { name })
-    }
-    return patientStandardCount.value === null
-        ? tt('standardDocuments.drive.confirmShowNoCount', { name })
-        : tt('standardDocuments.drive.confirmShow', { name, count: patientStandardCount.value })
-})
-
-async function confirmPatientStandard(document: any) {
+function confirmPatientStandard(document: any) {
     state.selectedDocument = document
-    patientStandardCount.value = null
-    if (!document?.is_patient_standard) {
-        try {
-            const response: any = await standardDocumentService.getPatientStandardCount()
-            const count = Number(response?.data?.count)
-            patientStandardCount.value = Number.isFinite(count) ? count : null
-        } catch {
-            // The question still has to be asked; it just cannot name a number.
-            patientStandardCount.value = null
-        }
-    }
     state.modal.isPatientStandardOpen = true
-}
-
-async function savePatientStandard() {
-    const document = state.selectedDocument
-    if (!document?.uuid) return
-    const turnOn = !document.is_patient_standard
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        await standardDocumentService.setPatientStandard(document.uuid, turnOn)
-        successAlert(
-            `${t('alert.success')}!`,
-            tt(turnOn ? 'standardDocuments.drive.shown' : 'standardDocuments.drive.hidden') + '.',
-        )
-        await fetchDocuments()
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
 }
 
 function viewDocumentAccess(document: any) {

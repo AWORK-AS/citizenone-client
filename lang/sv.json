@@ -23490,7 +23490,19 @@
             "confirmHideTitle": "Sluta visa för alla {citizens}?",
             "confirmHide": "\"{name}\" visas inte längre för alla {citizens}. Ingenting raderas.",
             "shown": "Visas nu för alla {citizens}",
-            "hidden": "Visas inte längre för alla {citizens}"
+            "hidden": "Visas inte längre för alla {citizens}",
+            "manage": "Vem kan se det",
+            "audienceTitle": "Visa för {citizens}",
+            "audienceAll": "Alla {citizens}",
+            "audienceAllHint": "Antal {citizens} som kommer att kunna se det: {count}.",
+            "audienceSelected": "Utvalda {citizens}",
+            "audienceSelectedHint": "Bara de valda {citizens} kan se det.",
+            "audienceNote": "Det är skrivskyddat i portalen och appen. En mapp visar alla filer i den, även filer som läggs till senare.",
+            "pickRequired": "Välj minst en.",
+            "save": "Spara",
+            "stop": "Sluta visa",
+            "shownSelected": "Visas nu för de valda {citizens}",
+            "badgeSelected": "{count} valda"
         }
     },
     "treatmentPhotosSettings": {

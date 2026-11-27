@@ -8,9 +8,11 @@ import BaseAPIService from '@/components/api/BaseAPIService'
  */
 class StandardDocumentService extends BaseAPIService {
     // Drive (Admin only). `uuid` is a company file or folder.
-    async setPatientStandard(uuid: string, isPatientStandard: boolean): Promise<any> {
+    // `citizenUuids` limits it to those patients (AW-2026-11011); none or empty is every patient.
+    async setPatientStandard(uuid: string, isPatientStandard: boolean, citizenUuids: string[] = []): Promise<any> {
         return await this.request(`/user/company-file-folders/${uuid}/patient-standard`, 'PATCH', {
             is_patient_standard: isPatientStandard,
+            citizen_uuids: isPatientStandard ? citizenUuids : [],
         })
     }
 

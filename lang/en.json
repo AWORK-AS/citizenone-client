@@ -23575,7 +23575,19 @@
             "confirmHideTitle": "Stop showing to all {citizens}?",
             "confirmHide": "\"{name}\" will no longer be shown to all {citizens}. Nothing is deleted.",
             "shown": "Now shown to all {citizens}",
-            "hidden": "No longer shown to all {citizens}"
+            "hidden": "No longer shown to all {citizens}",
+            "manage": "Who can see it",
+            "audienceTitle": "Show to {citizens}",
+            "audienceAll": "All {citizens}",
+            "audienceAllHint": "Number of {citizens} who will see it: {count}.",
+            "audienceSelected": "Chosen {citizens}",
+            "audienceSelectedHint": "Only the chosen {citizens} can see it.",
+            "audienceNote": "It is read-only in the portal and the app. A folder shows every file inside it, including files added later.",
+            "pickRequired": "Choose at least one.",
+            "save": "Save",
+            "stop": "Stop showing",
+            "shownSelected": "Now shown to the chosen {citizens}",
+            "badgeSelected": "{count} chosen"
         }
     },
     "treatmentPhotosSettings": {
