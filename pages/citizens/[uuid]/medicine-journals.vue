@@ -204,11 +204,10 @@
                                 <Icon name="ph:package" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md shrink-0"
-                                @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
-                                v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
+                            <FormButton buttonStyle="action" class="rounded-md shrink-0" v-if="hasFmkLicence"
+                                @click="navigateTo(`/citizens/${citizenUuid}/fmk`)">
+                                <Icon name="ph:pill" class="h-4 w-4" />
+                                {{ $t('fmk.openShort') }}
                             </FormButton>
                         </div>
                         <!-- Secondary actions overflow -->
@@ -245,6 +244,15 @@
                                             {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                                         </button>
                                         </MenuItem>
+                                        <MenuItem v-if="hasFmkLicence" v-slot="{ active }">
+                                        <button type="button" @click="navigateTo(`/citizens/${citizenUuid}/fmk`)"
+                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
+                                            <Icon name="ph:pill" class="size-4" />
+                                            {{ $t('fmk.open') }}
+                                        </button>
+                                        </MenuItem>
+                                    </div>
+                                    <div class="py-1">
                                         <MenuItem v-if="isAtLeast('Admin') || can('update_citizen_medicine')"
                                             v-slot="{ active }">
                                         <button type="button"
@@ -254,8 +262,6 @@
                                             {{ $t('citizens.medicineJournals.openFmkOnline') }}
                                         </button>
                                         </MenuItem>
-                                    </div>
-                                    <div class="py-1">
                                         <MenuItem
                                             v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine')"
                                             v-slot="{ active }">
@@ -1296,6 +1302,9 @@ async function downloadCurrentMedicineList() {
 }
 let currentTablePage = 1
 
+// FMK is per staff member: only those with an FMK licence see the way in.
+const hasFmkLicence = computed(() => !!userStore.getUser?.has_fmk_licence)
+
 const breadcrumbLinks = [
     { name: 'citizens.tabs.medicineCard', translate: true, href: `/citizens/${citizenUuid}/medicine-journals` },
 ]
@@ -1386,6 +1395,7 @@ onMounted(() => {
     fetchCitizenMedicines()
     fetchMedicineFormConfig()
     openRenewalFromQuery()
+    openEditFromQuery()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
 
@@ -1405,6 +1415,23 @@ async function openRenewalFromQuery() {
         }
     } catch {
         // Not allowed or gone: the page works as usual.
+    }
+}
+
+// "Ret i CitizenOne" / "Udfyld doseringsplan" on the FMK screen lands here with ?edit=<uuid>: that
+// medicine's edit dialog opens straight away (also for drafts, which the list may not show).
+async function openEditFromQuery() {
+    const medicineUuid = router.currentRoute.value.query?.edit
+    if (typeof medicineUuid !== 'string' || !medicineUuid) return
+    try {
+        const response = await medicineJournalService.getMedicine(medicineUuid)
+        const medicine = response?.data ?? response
+        if (medicine?.uuid) editMedicine(medicine)
+    } catch {
+        // Not allowed or gone: the page works as usual.
+    } finally {
+        const { edit: _edit, ...query } = router.currentRoute.value.query
+        router.replace({ query })
     }
 }
 
@@ -1441,6 +1468,7 @@ const paletteCommands = computed(() => {
     }
     cmds.push({ id: 'focus-search', group: A, icon: 'ph:magnifying-glass', hint: '/', label: t('search'), run: () => focusSearch() })
     if (isAtLeast('Admin') || can('update_citizen_medicine')) {
+        if (hasFmkLicence.value) cmds.push({ id: 'fmk-card', group: A, icon: 'ph:pill', label: t('fmk.open'), run: () => navigateTo(`/citizens/${citizenUuid}/fmk`) })
         cmds.push({ id: 'fmk', group: A, icon: 'ph:arrow-square-out', label: t('citizens.medicineJournals.openFmkOnline'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
     }
     cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
